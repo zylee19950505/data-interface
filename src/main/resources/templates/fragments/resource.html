@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+
+<body>
+<div th:fragment="head" th:remove="tag">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/AdminLTE.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/skins/_all-skins.min.css"/>
+    <link rel="stylesheet" href="/lib/iCheck/flat/blue.css"/>
+    <link rel="stylesheet" href="/lib/morris/morris.css"/>
+    <link rel="stylesheet" href="/lib/datepicker/datepicker3.css"/>
+    <link rel="stylesheet" href="/lib/daterangepicker/daterangepicker.css"/>
+    <link rel="stylesheet" href="/lib/datatables/dataTables.bootstrap.css"/>
+    <link rel="stylesheet" href="/lib/zTree/zTreeStyle/zTreeStyle.css"/>
+    <link rel="stylesheet" href="/lib/select2/css/select2.min.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
+    <!--<link rel="stylesheet" href="/css/taxPrint.css"/>-->
+
+    <!--[if lt IE 9]>
+    <script src="/lib/adminLTE/js/html5shiv.min.js"></script>
+    <script src="/lib/adminLTE/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="/lib/jquery/jquery-3.1.1.min.js"></script>
+</div>
+
+<div th:fragment="head-login" th:remove="tag">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/ionicons.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/AdminLTE.min.css"/>
+    <link rel="stylesheet" href="/lib/adminLTE/css/skins/_all-skins.min.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
+
+    <!--[if lt IE 9]>
+    <script src="/lib/adminLTE/js/html5shiv.min.js"></script>
+    <script src="/lib/adminLTE/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="/lib/jquery/jquery-3.1.1.min.js"></script>
+</div>
+
+<div th:fragment="scripts" th:remove="tag">
+    <script src="/lib/jQueryUI/jquery-ui.js"></script>
+    <script src="/lib/jquery/jquery-3.1.1.min.js"></script>
+    <script src="/lib/zTree/jquery.ztree.all.min.js" type="text/javascript"></script>
+    <script src="/lib/jquery/jquery-form.js"></script>
+    <script src="/lib/jquery/jquery.blockUI.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/lib/moment/moment.min.js"></script>
+    <script src="/lib/daterangepicker/daterangepicker.js"></script>
+    <script src="/lib/datepicker/bootstrap-datepicker.js"></script>
+    <script src="/lib/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="/lib/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/lib/fastclick/fastclick.js"></script>
+    <script src="/lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="/lib/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="/lib/adminLTE/js/app.js"></script>
+    <script src="/lib/select2/js/select2.js"></script>
+    <script src="/lib/select2/js/i18n/zh.js"></script>
+    <script src="/lib/dispicker/distpicker.data.js"></script>
+    <script src="/lib/dispicker/distpicker.js"></script>
+    <script src="/js/single-window.js" type="text/javascript"></script>
+    <script src="/js/head.js" type="text/javascript"></script>
+    <script src="/js/password.js" type="text/javascript"></script>
+
+
+
+    <!--<script src="/js/serviceMenu/coordinationQuery.js" type="text/javascript"></script>-->
+
+
+
+
+    <script src="/js/sysmanage/user.js" type="text/javascript"></script>
+    <script src="/js/sysmanage/role.js" type="text/javascript"></script>
+    <script src="/js/sysmanage/syslog.js" type="text/javascript"></script>
+
+    <script src="http://127.0.0.1:9381/js/agent.js" type="text/javascript"></script>
+
+</div>
+
+<div th:fragment="scripts-login" th:remove="tag">
+    <script src="/lib/jQueryUI/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/single-window.js" type="text/javascript"></script>
+    <script src="/js/login.js" type="text/javascript"></script>
+</div>
+
+</body>
+</html>

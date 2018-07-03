@@ -1,0 +1,83 @@
+  # 日志配置
+logging:
+  level:
+    org.springframework: info
+    com.springboot: debug
+    com.xaeport: debug
+  config: classpath:config/logback-spring.xml
+
+
+appConfig:
+  systemName: 跨境查询系统
+#  domain: localhost
+  entryDocu: false
+
+# 数据源配置
+spring:
+
+    datasource:
+        name: testSQL
+        url: jdbc:oracle:thin:@10.100.140.160:1521:orcl
+        username: xaeportdb
+        password: "xaeportdb"
+        type: com.alibaba.druid.pool.DruidDataSource
+        platform: oracle
+        driverClassName: oracle.jdbc.driver.OracleDriver
+        initialSize: 1
+        minIdle: 1
+        maxActive: 30
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        dbType: oracle
+        poolPreparedStatements: false
+        maxPoolPreparedStatementPerConnectionSize: 0
+        filters: stat,wall,slf4j
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+    thymeleaf:
+        cache: false
+
+    main:
+      # 禁用Banner
+      banner-mode: 0
+mybatis:
+  configuration:
+    callSettersOnNulls: true
+
+management:
+  port: 5210
+  security:
+    enabled: false
+
+server:
+  port: 8000
+  session:
+      timeout: 7200
+      cookie:
+        name: HACK
+#        domain: localhost
+#        domain: test.alacky
+        http-only: true
+  ssl:
+    enabled: false
+    key-store: cert/kstore2
+    key-password: alacky
+    key-store-password: alacky
+    key-alias: jetty
+    trust-store: cert/kstore2
+  compression:
+    enabled: true
+#security:
+#  basic:
+#    enabled: false
+#  ignored: /**
+
+
+
+#  management:
+#    address: 127.0.0.1

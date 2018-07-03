@@ -1,0 +1,77 @@
+<div class="panel  panel-info">
+
+    <form id="ws-host" role="form" class="panel-body">
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</span>
+                <input type="text" class="form-control" id="menusnoId" name="menuSno" placeholder="序号" maxlength="20"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">菜单名称：</span>
+                <input type="text" class="form-control" id="menunameId" name="menuName" placeholder="菜单名称"
+                       maxlength="20"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">菜单URL：</span>
+                <input type="text" class="form-control" id="menuurlId" name="menuUrl" placeholder="菜单URL"
+                       maxlength="20"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">菜单图标：</span>
+                <input type="text" class="form-control" id="menuiconId" name="menuIcon" placeholder="菜单图标"
+                       maxlength="20"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">业务类型：</span>
+                <input type="text" class="form-control" id="menutypeId" name="menuType" placeholder="业务类型"
+                       maxlength="20"/>
+            </div>
+        </div>
+        <!--<div class="form-group form-inline">-->
+            <!--<div class="input-group">-->
+                <!--<span class="input-group-addon">进 出 口 ：</span>-->
+                <!--<select class="form-control" name="menuIe">-->
+                    <!--<option value="I">进口</option>-->
+                    <!--<option value="E">出口</option>-->
+                    <!--<option value="IE">进出口</option>-->
+                <!--</select>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="form-group pull-right">
+            <button class="btn btn-sm btn-success" type="button" id="ws-page-apply" data-toggle="tooltip-disabled"
+                    title="提交保存">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
+                    title="放弃并返回">
+                <i class="fa fa-reply"></i>
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+
+    <div id="ws-work" class="panel-body row hide">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div id="ws-workflow" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div id="ws-property" class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

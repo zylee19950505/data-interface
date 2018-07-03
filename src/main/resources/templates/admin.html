@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <base th:href="${basePath}"/>
+    <title th:text="${pageName}"></title>
+    <meta th:include="fragments/resource :: head" th:remove="tag"/>
+
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini">
+<div class="wrapper">
+    <div th:replace="fragments/head :: header"></div>
+    <div th:replace="fragments/side :: sidebar"></div>
+    <div class="content-wrapper" style="overflow:scroll;word-break:break-all;" id="content">
+        <div class="box content-header">
+            <div id="ws-nothing"></div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/resource :: scripts"></div>
+<div th:replace="fragments/dialogs :: dialog-alert"></div>
+<div th:replace="fragments/dialogs :: dialog-confirm"></div>
+<div th:replace="fragments/dialogs :: dialog-popup"></div>
+<div th:replace="fragments/dialogs :: dialog-icCheck"></div>
+<div th:replace="fragments/dialogs :: dialog-checkinfo"></div>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    sw.user = /*[[${user}]]*/;
+    sw.serverHost =/*[[${serverHost}]]*/;
+    sw.serverPort =/*[[${serverPort}]]*/;
+    /*]]>*/
+
+
+</script>
+</body>
+</html>

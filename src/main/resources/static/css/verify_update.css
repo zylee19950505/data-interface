@@ -1,0 +1,59 @@
+.input-group-verify {
+    position: relative;
+    /*display: table;*/
+    border-collapse: separate
+}
+
+#entryHead tr {
+    height: 28px;
+}
+
+#entryList tr {
+    height: 28px;
+}
+
+.entryTitle {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#entryList th {
+    text-align: center;
+}
+
+#entryList td {
+    text-align: center;
+}
+
+.headTitle {
+    text-align: center;
+}
+
+.headContent {
+    padding-left: 5px;
+}
+.disBlock{display: block!important;position:relative}
+.tishiInfor{position: absolute;top: 18%;  left: 59%;}
+
+.modal-dialog{
+    padding-left: 300px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

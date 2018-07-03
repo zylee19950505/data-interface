@@ -1,0 +1,57 @@
+<div class="panel  panel-info">
+
+    <form id="ws-host" role="form" class="panel-body">
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">用户姓名：</span>
+                <input type="text" class="form-control" name="username" disabled="disabled" placeholder="用户姓名"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">登陆帐号：</span>
+                <input type="text" class="form-control" name="account" disabled="disabled" placeholder="登陆帐号"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">当前权限：</span>
+                <input type="text" class="form-control" name="role" disabled="disabled" placeholder="权限组"/>
+            </div>
+        </div>
+        <div class="form-group form-inline">
+            <div class="input-group">
+                <span class="input-group-addon">授予权限：</span>
+                <select class="form-control" id="authSelect"></select>
+            </div>
+        </div>
+
+        <div class="form-group pull-right">
+            <button class="btn btn-sm btn-success" type="button" id="ws-page-apply" data-toggle="tooltip-disabled"
+                    title="提交保存">
+                <i class="fa fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
+                    title="放弃并返回">
+                <i class="fa fa-reply"></i>
+            </button>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+
+    <div id="ws-work" class="panel-body row hide">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div id="ws-workflow" class="panel-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div id="ws-property" class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

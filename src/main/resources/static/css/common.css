@@ -1,0 +1,155 @@
+.hide {
+    display: none;
+}
+
+textarea {
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+
+#ws-nothing {
+    min-height: 500px;
+}
+
+table thead tr th {
+    text-align: center;
+    border-bottom: 1px solid #ccc !important;
+    background-color: #AFD7ED;
+}
+
+.table {
+    background-color: #E0FFFF !important;
+    text-align: center;
+}
+
+.dropdown-menu {
+    border: 1px solid #CCC9A8;
+}
+
+.box-body .form-group {
+    margin-bottom: 5px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background: white;
+}
+
+.dataTables_wrapper {
+    text-align: left;
+}
+
+.tooltip-inner {
+    white-space: nowrap;
+}
+
+.datepicker table tr td.disabled, .datepicker table tr td.disabled:hover {
+    background: #cccccc;
+    color: #666;
+}
+.margin_b{margin-bottom:15px!important;}
+
+.input-daterange .input-group-addon {
+    background-color: #fff;
+    border: solid 1px #D2D6DE;
+    border-right: 0px;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-blue {
+    color: blue;
+}
+
+.import_in {
+    width: 154px !important;
+}
+
+.importBox {
+    width: 35% !important;
+}
+
+.import_input {
+    width: 100% !important;
+}
+
+.borderNone {
+    border: none;
+    border-right: 1px solid #e2e2e2 !important;
+}
+
+.importBorder {
+    border: 1px solid #e2e2e2;
+    height: 34px;
+}
+
+#file {
+    padding-top: 3px;
+    width: 100%;
+    padding-left: 16px;
+}
+.eportW{width:100%;}
+.hLineHeight{line-height:25px;font-size: 15px;}
+#query-user-table>tbody>tr>td, #query-user-table>tbody>tr>th, #query-user-table>tfoot>tr>td, #query-user-table>tfoot>tr>th, #query-user-table>thead>tr>td, #query-user-table>thead>tr>th{
+    vertical-align: middle!important;
+}
+.btnPadding{padding-bottom: 15px;}
+.newPasswordPadding{padding:6px 5px;}
+
+@media (max-width: 414px) {
+    .importBox {
+        width: 100% !important;
+    }
+}
+
+#previewId td{ padding:1px;}
+
+.authCode{ padding:0;}
+
+
+/*分单详情*/
+.detailPage table {
+    width: 100%;
+    border: solid 1px black;
+}
+
+.detailPage .headDetail td{
+    height: 26px;
+}
+.detailPage .headDetail .headTitle {
+    text-align: center;
+}
+
+.detailPage .entryTitle {
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.detailPage .listDetail tr {
+    height: 28px;
+}
+
+.detailPage .listDetail th {
+    text-align: center;
+}
+
+.detailPage .listDetail td {
+    text-align: center;
+}
+
+.detailPage .headContent {
+    padding-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

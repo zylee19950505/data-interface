@@ -1,0 +1,154 @@
+body, table td {
+    font-size: 12px;
+    margin: 0;
+    padding: 15px;
+}
+
+ul {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    padding: 0;
+}
+
+#taxPaper {
+    float: left;
+    width: 850px;
+    height: 500px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 黑体;
+    overflow: hidden;
+}
+
+#taxImage {
+    position: absolute;
+    float: left;
+    width: 800px;
+    height: 550px;
+    background: url(../image/taxPrintBackground.png) -87px -30px no-repeat;
+    -webkit-transform: scale(0.92);
+    -moz-transform: scale(0.92);
+    -o-transform: scale(0.92);
+    -ms-transform: scale(0.92);
+    transform: scale(0.92);
+}
+
+#taxPaper .free {
+    position: absolute;
+}
+
+#customsCode {
+    left: 628px;
+    top: 21px;
+}
+
+#recipientName {
+    left: 202px;
+    top: 134px;
+}
+
+#goodsList {
+    left: 49px;
+    top: 217px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#goodsList li {
+    list-style: none;
+    clear:both;
+    margin: 0;
+    padding: 0;
+}
+
+#goodsList li div {
+    float: left;
+    position: relative;
+    margin: 0 0 0px 0;
+    height: 35px;
+}
+
+.sn {
+    width: 2em;
+    text-align: center;
+}
+
+.goodsName {
+    width: 16em;
+    left: 10px;
+}
+
+.goodsCount {
+    width: 3em;
+    left: 20px;
+}
+
+.totalPrice {
+    width: 4.5em;
+    left: 30px;
+}
+
+.taxRate {
+    width: 3em;
+    left: 35px;
+}
+
+.tax {
+    width: 5em;
+    left: 45px;
+}
+
+#totalPriceBig {
+    left: 289px;
+    top: 440px;
+}
+
+#datetime {
+    left: 153px;
+    top: 494px;
+}
+
+#controlPanel {
+    float: right;
+    width: 200px;
+}
+
+#controlPanel h2 {
+    font-size: 2em;
+    border-bottom: 1px solid #ccc;
+}
+
+#controlPanel .item {
+    padding: 4px;
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+#controlPanel button {
+    font-size: 14px;
+    padding: 5px 10px;
+    margin: 5px 0;
+    display: block;
+    width: 100%;
+}
+
+.slider {
+    background: #82bee6;
+    margin: 5px 0;
+}
+
+@media print {
+
+    #taxPaper {
+        background: none;
+    }
+
+    #controlPanel {
+        display: none;
+    }
+}
