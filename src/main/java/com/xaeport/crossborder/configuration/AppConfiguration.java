@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
 
 /**
  * 应用配置
@@ -30,6 +31,141 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     private ServletContext servletContext;
     private String systemName;
     private String downloadFolder;
+    private String domain;
+    private boolean entryDocu;
+    private Map<String, String> modelFolder;
+    private String agentExeFolder;
+    private Map<String, String> xmlPath;
+    private String receiptFolder;
+    private String backupFolder;
+    private String errorFolder;
+    private String senderId;
+    private String receiverId;
+    private String inputCompanyName;
+    private String inputCompanyCo;
+    private String inputno;
+    private String account;
+    private String password;
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public boolean isEntryDocu() {
+        return entryDocu;
+    }
+
+    public void setEntryDocu(boolean entryDocu) {
+        this.entryDocu = entryDocu;
+    }
+
+    public Map<String, String> getModelFolder() {
+        return modelFolder;
+    }
+
+    public void setModelFolder(Map<String, String> modelFolder) {
+        this.modelFolder = modelFolder;
+    }
+
+    public String getAgentExeFolder() {
+        return agentExeFolder;
+    }
+
+    public void setAgentExeFolder(String agentExeFolder) {
+        this.agentExeFolder = agentExeFolder;
+    }
+
+    public Map<String, String> getXmlPath() {
+        return xmlPath;
+    }
+
+    public void setXmlPath(Map<String, String> xmlPath) {
+        this.xmlPath = xmlPath;
+    }
+
+    public String getReceiptFolder() {
+        return receiptFolder;
+    }
+
+    public void setReceiptFolder(String receiptFolder) {
+        this.receiptFolder = receiptFolder;
+    }
+
+    public String getBackupFolder() {
+        return backupFolder;
+    }
+
+    public void setBackupFolder(String backupFolder) {
+        this.backupFolder = backupFolder;
+    }
+
+    public String getErrorFolder() {
+        return errorFolder;
+    }
+
+    public void setErrorFolder(String errorFolder) {
+        this.errorFolder = errorFolder;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public String getInputCompanyName() {
+        return inputCompanyName;
+    }
+
+    public void setInputCompanyName(String inputCompanyName) {
+        this.inputCompanyName = inputCompanyName;
+    }
+
+    public String getInputCompanyCo() {
+        return inputCompanyCo;
+    }
+
+    public void setInputCompanyCo(String inputCompanyCo) {
+        this.inputCompanyCo = inputCompanyCo;
+    }
+
+    public String getInputno() {
+        return inputno;
+    }
+
+    public void setInputno(String inputno) {
+        this.inputno = inputno;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getDownloadFolder() {
         return downloadFolder;

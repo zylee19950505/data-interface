@@ -8,7 +8,7 @@ logging:
 
 
 appConfig:
-  systemName: 跨境查询系统
+  systemName: 跨境通关辅助系统
 #  domain: localhost
   entryDocu: false
 
@@ -18,8 +18,8 @@ spring:
     datasource:
         name: testSQL
         url: jdbc:oracle:thin:@10.100.140.160:1521:orcl
-        username: xaeportdb
-        password: "xaeportdb"
+        username: kj
+        password: "123456"
         type: com.alibaba.druid.pool.DruidDataSource
         platform: oracle
         driverClassName: oracle.jdbc.driver.OracleDriver

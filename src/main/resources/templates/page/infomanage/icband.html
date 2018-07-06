@@ -1,0 +1,101 @@
+<section class="content">
+    <div id="waringAlert" class="alert alert-warning alert-dismissible hidden" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <strong>注意！</strong> <span id="alertMsg"></span>
+    </div>
+    <div class="row hidden" id="bandCardInfo">
+        <div class="col-md-12">
+            <div class="box box-primary ws-query">
+                <div class="box-header with-border">
+                    <i class="fa fa-credit-card"></i>
+                    <h3 class="box-title">IC卡绑定操作说明</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <h3 class="lead" style="font-size: 18px;">请先下载<a target="_blank" href="api/downloadDrivers" style="font-weight: bold;">驱动程序控件</a>，然后根据您使用的身份校验介质按照下面的说明操作</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="timeline">
+                            <li>
+                                <i class="fa fa-credit-card bg-aqua"></i>
+                                <div class="timeline-item">
+                                    <h4 class="timeline-header">方法一</h4>
+                                    <div class="timeline-body  text-left">
+                                        <h5 class="hLineHeight">请将读卡器通过USB接口连接到当前电脑，将IC卡插入读卡器，并点击“下一步</h5>
+                                        <img src="image/iccard/iccard_a3.png" alt="A-3" class="img-responsive"/>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="timeline">
+                            <li>
+                                <i class="fa fa-code-fork bg-aqua"></i>
+                                <div class="timeline-item">
+                                    <h4 class="timeline-header">方法二</h4>
+                                    <div class="timeline-body  text-left">
+                                        <h5 class="hLineHeight">请将UKey通过USB接口连接到当前电脑，并点击“下一步”</h5>
+                                        <img src="image/iccard/iccard_b2.png" alt="B-2" class="img-responsive"/>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-sm btn-primary" type="button" ws-nextStep=""
+                                data-toggle="tooltip-disabled">下一步
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row hidden" id="bandICCard">
+        <div class="col-md-12">
+            <div class="box box-primary ws-query">
+                <div class="box-header with-border">
+                    <i class="fa fa-plane"></i>
+                    <h3 class="box-title">IC卡绑定</h3>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <form class="form-inline" role="form" id="icBandFrom">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">&nbsp;IC&nbsp;卡&nbsp;号&nbsp;</span>
+                                                <input type="text" class="form-control" readonly="readonly"
+                                                       name="iccard_no" id="iccard_no"/>
+                                            </div>
+                                            <button class="btn btn-sm btn-primary" type="button" ws-reloadIc=""
+                                                    data-toggle="tooltip-disabled">读取
+                                            </button>
+                                            <h6>若IC卡号没有自动识别读入，请尝试 <span class="text-success">重新插拔读卡器</span> 或 <span
+                                                    class="text-success">更换USB接口</span> 或 <span
+                                                    class="text-success">重新安装读卡器<a target="_blank" href="api/downloadDrivers">驱动程序</a></span></h6>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">IC卡密码</span>
+                                                <input type="password" class="form-control" maxlength="8"
+                                                       name="iccard_pwd" id="iccard_pwd"/>
+                                            </div>
+                                            <button class="btn btn-sm btn-primary" type="button" ws-changePwd=""
+                                                    data-toggle="tooltip-disabled">完成
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="overlay hidden" id="loadingDiv">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

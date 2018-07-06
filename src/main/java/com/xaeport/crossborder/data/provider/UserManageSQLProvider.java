@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 /**
- * Created by lzy on 2018/4/27.
+ * Created by lzy on 2018/7/4.
  */
 public class UserManageSQLProvider extends BaseSQLProvider {
 
@@ -25,7 +25,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT("id,ic,loginName,userType,state,phone,email");
-                FROM("cpo_userinfo");
+                FROM("t_users");
                 if(!StringUtils.isEmpty(id)){
                     WHERE("id = #{id}");
                 }
@@ -49,8 +49,8 @@ public class UserManageSQLProvider extends BaseSQLProvider {
                 SELECT("t1.password");
                 SELECT("t1.userType");
                 SELECT("t2.roleid");
-                FROM("cpo_userinfo t1");
-                FROM("cpo_user_role t2");
+                FROM("t_users t1");
+                FROM("t_user_role t2");
                 WHERE("t1.id = t2.userinfoid");
                 WHERE("t1.id = #{id}");
             }
@@ -71,9 +71,9 @@ public class UserManageSQLProvider extends BaseSQLProvider {
                 SELECT("t1.password");
                 SELECT("t2.roleId");
                 SELECT("t3.r_name");
-                FROM("cpo_userinfo t1");
-                FROM("cpo_user_role t2");
-                FROM("cpo_role t3");
+                FROM("t_users t1");
+                FROM("t_user_role t2");
+                FROM("t_role t3");
                 WHERE("t1.id = #{id}");
                 WHERE("t1.id = t2.userinfoid");
                 WHERE("t2.roleId = t3.r_id");
@@ -85,7 +85,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
     public String updatePwById(@Param("id") String id,@Param("password") String password)throws Exception{
         return new SQL(){
             {
-                UPDATE("cpo_userinfo t");
+                UPDATE("t_users t");
                 WHERE("t.id = #{id}");
                 SET("t.password = #{password}");
                 SET("t.updatetime = sysdate");
@@ -97,7 +97,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
     public String insertUser(@Param("users") Users users)throws Exception{
         return new SQL(){
             {
-                INSERT_INTO("cpo_userinfo");
+                INSERT_INTO("t_users");
                 if(!StringUtils.isEmpty(users.getId())){
                     VALUES("id","#{users.id}");
                 }
@@ -144,7 +144,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
     public String insertUserRole(@Param("userRole") UserRole userRole)throws Exception{
         return new SQL(){
             {
-                INSERT_INTO("cpo_user_role");
+                INSERT_INTO("t_user_role");
                 if(!StringUtils.isEmpty(userRole.getId())){
                     VALUES("id","#{userRole.id}");
                 }
@@ -178,7 +178,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
     public String updateUser(@Param("users") Users users)throws Exception{
         return new SQL(){
             {
-                UPDATE("cpo_userinfo t");
+                UPDATE("t_users t");
                 WHERE("t.id = #{users.id}");
                 SET("t.ic = #{users.ic}");
                 SET("t.loginName = #{users.loginName}");
@@ -195,7 +195,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
     public String updateUserRole(@Param("userRole") UserRole userRole)throws Exception{
         return new SQL(){
             {
-                UPDATE("cpo_user_role t");
+                UPDATE("t_user_role t");
                 WHERE("t.userInfoId = #{userRole.userInfoId}");
                 SET("t.roleId = #{userRole.roleId}");
                 SET("t.updateTime = #{userRole.updateTime}");
@@ -209,7 +209,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
             {
                 SELECT("r.r_id");
                 SELECT("r.r_name");
-                FROM("cpo_role r");
+                FROM("t_role r");
                 ORDER_BY("r.createTime ASC");
             }
         }.toString();

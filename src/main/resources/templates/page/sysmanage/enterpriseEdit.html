@@ -1,0 +1,107 @@
+<div class="box box-default" id="sw-entInfo">
+    <div class="box-header with-border">
+        <h3 class="box-title">企业信息</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 企业名称</label>
+                    <input type="text" class="form-control input-sm" name="enterprise_name"
+                           maxlength="30" placeholder="请填写企业名称，至少3个字符"/>
+                    <input type="hidden" name="ent_id"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 组织机构代码</label>
+                    <input type="text" class="form-control input-sm" name="organization_code"
+                           maxlength="18" placeholder="请填写组织机构代码或三证合一号，至少3个字符"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label>企业类别</label>
+                    <select class="form-control input-sm" id="business_category"
+                            name="business_category"  placeholder="企业类别"></select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 主管海关</label>
+                    <select class="form-control input-sm" id="competent_customs"
+                            name="competent_customs" ></select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label>企业分类</label>
+                    <select class="form-control input-sm" id="enterprise_classification"
+                            name="enterprise_classification" ></select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label>证件类型</label>
+                    <input type="text" class="form-control input-sm" name="certificate_type"
+                           placeholder="请填写证件类型"
+                           maxlength="20"/>
+                    <small class="help-block hidden"></small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 工商营业执照号</label>
+                    <input type="text" class="form-control input-sm" name="business_license"
+                           placeholder="请填写工商营业执照号或三证合一号，至少3个字符"
+                           maxlength="18"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 税务登记代码</label>
+                    <input type="text" class="form-control input-sm" name="tax_registration_code"
+                           placeholder="请填写税务登记代码或三证合一号，至少3个字符"
+                           maxlength="18"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 企业性质</label>
+                    <select class="form-control input-sm" id="enterprise_nature"
+                            name="enterprise_nature" ></select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 企业海关代码</label>
+                    <input type="text" class="form-control input-sm" name="corporate_customs_code"
+                           placeholder="请填写海关10位企业代码"
+                           maxlength="10"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label>派驻企业情况</label>
+                    <input type="text" class="form-control input-sm" name="corporate_presence"
+                           placeholder="请填写派驻企业情况"
+                           maxlength="40"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label>证件号</label>
+                    <input type="text" class="form-control input-sm" name="certificate_no"
+                           placeholder="请填写证件号码"
+                           maxlength="20"/>
+                    <small class="help-block hidden"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red hidden" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center btnPadding">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="放弃并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

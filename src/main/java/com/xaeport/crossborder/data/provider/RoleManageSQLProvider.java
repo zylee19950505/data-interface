@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 /**
- * Created by lzy on 2018/4/27.
+ * Created by lzy on 2018/7/4.
  */
 public class RoleManageSQLProvider extends BaseSQLProvider {
 
@@ -22,7 +22,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
         return new SQL(){
             {
                 SELECT("r_id,r_name,remark");
-                FROM("cpo_role");
+                FROM("t_role");
                 if(!StringUtils.isEmpty(r_name)){
                     WHERE("r_name = #{r_name}");
                 }
@@ -42,9 +42,9 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
                 SELECT("t.m_Status");
                 SELECT("t.m_Sort");
                 SELECT("to_char(t.createTime,'yyyy-MM-dd hh24:mi:ss') as createTime");
-                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from cpo_menu tt where tt.pId = t.m_Id) as isparent");
-                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from cpo_role_menu tt where tt.m_Id = t.m_Id and tt.r_Id = #{r_Id}) as ischecked");
-                FROM("cpo_menu t");
+                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from t_menu tt where tt.pId = t.m_Id) as isparent");
+                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from t_role_menu tt where tt.m_Id = t.m_Id and tt.r_Id = #{r_Id}) as ischecked");
+                FROM("t_menu t");
                 WHERE("t.m_Status = '1'");
                 WHERE("t.pId = #{pId}");
                 ORDER_BY("t.pId asc,t.m_Sort asc");
@@ -64,8 +64,8 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
                 SELECT("t.m_Status");
                 SELECT("t.m_Sort");
                 SELECT("to_char(t.createTime,'yyyy-MM-dd hh24:mi:ss') as createTime");
-                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from cpo_menu tt where tt.pId = t.m_Id) as isparent");
-                FROM("cpo_menu t");
+                SELECT("(select case when count(1) > 0 then 'true' else  'false' end from t_menu tt where tt.pId = t.m_Id) as isparent");
+                FROM("t_menu t");
                 WHERE("t.m_Status = '1'");
                 WHERE("t.pId = #{pId}");
                 ORDER_BY("t.pId asc,t.m_Sort asc");
@@ -79,7 +79,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT("count(1)");
-                FROM("cpo_role t");
+                FROM("t_role t");
                 WHERE("t.r_Name = #{r_Name}");
                 if ("0".equals(hasAdmin)) {
                     WHERE("t.r_id != 'admin' ");
@@ -93,7 +93,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
         return new SQL(){
             {
 
-                INSERT_INTO("cpo_role");
+                INSERT_INTO("t_role");
                 if(!StringUtils.isEmpty(role.getR_Id())){
                     VALUES("r_Id","#{role.r_Id}");
                 }
@@ -118,7 +118,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
     public String insertRoleMenu(@Param("roleMenu") RoleMenu roleMenu)throws Exception{
         return new SQL(){
             {
-                INSERT_INTO("cpo_role_menu");
+                INSERT_INTO("t_role_menu");
                 if(!StringUtils.isEmpty(roleMenu.getId())){
                     VALUES("id","#{roleMenu.id}");
                 }
@@ -143,7 +143,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
     public String updateRole(@Param("role") Role role)throws Exception{
         return new SQL(){
             {
-                UPDATE("cpo_role");
+                UPDATE("t_role");
                 WHERE("r_Id = #{role.r_Id}");
                 SET("r_name = #{role.r_Name}");
                 SET("remark = #{role.remark}");
@@ -159,7 +159,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
                 SELECT("r_Id");
                 SELECT("r_Name");
                 SELECT("remark");
-                FROM("cpo_role");
+                FROM("t_role");
                 WHERE("r_Id = #{r_Id}");
             }
         }.toString();
@@ -169,7 +169,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
     public String roleDelete(@Param("r_Id") String r_Id)throws Exception{
         return new SQL(){
             {
-                DELETE_FROM("cpo_role");
+                DELETE_FROM("t_role");
                 WHERE("r_Id = #{r_Id}");
                 WHERE("r_id != 'admin'");
             }
@@ -180,7 +180,7 @@ public class RoleManageSQLProvider extends BaseSQLProvider {
     public String roleMenuDelete(@Param("r_Id") String r_Id)throws Exception{
         return new SQL(){
             {
-                DELETE_FROM("cpo_role_menu");
+                DELETE_FROM("t_role_menu");
                 WHERE("r_Id = #{r_Id}");
             }
         }.toString();

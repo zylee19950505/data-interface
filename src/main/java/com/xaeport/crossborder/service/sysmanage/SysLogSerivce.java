@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.service.sysmanage;
 
 import com.xaeport.crossborder.data.entity.SysLog;
-import com.xaeport.crossborder.data.mapper.SysLogMapper;
+import com.xaeport.crossborder.data.mapper.EntManageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 public class SysLogSerivce {
 
     @Autowired
-    SysLogMapper sysLogMapper;
+    EntManageMapper sysLogMapper;
 
     /*
      * 查看系统日志

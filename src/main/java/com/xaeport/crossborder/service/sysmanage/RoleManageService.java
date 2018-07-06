@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 /**
- * Created by lzy on 2018/4/27.
+ * Created by lzy on 2018/7/4.
  */
 @Service
 public class RoleManageService extends BaseSQLProvider{

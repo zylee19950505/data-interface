@@ -1,0 +1,115 @@
+<section class="content-header">
+    <h1>企业基本信息</h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i>信息管理</a></li>
+        <li class="active">企业基本信息</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-info"></i>
+                    <h3 class="box-title">企业基本信息</h3>
+                </div>
+                <div class="box-body" id="enterpriseId">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业名称</label>
+                                <input type="text" class="form-control"
+                                       name="enterprise_name"/>
+                                <input type="hidden" name="ent_id"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>组织机构代码</label>
+                                <input type="text" class="form-control"
+                                       name="organization_code"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业类别</label>
+                                <select class="form-control" id="business_category"
+                                        name="business_category"></select>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>主管海关</label>
+                                <select class="form-control" id="competent_customs"
+                                        name="competent_customs"></select>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业分类</label>
+                                <select class="form-control"
+                                        id="enterprise_classification"
+                                        name="enterprise_classification"></select>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>证件类型</label>
+                                <input type="text" class="form-control"
+                                       name="certificate_type"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>工商营业执照号</label>
+                                <input type="text" class="form-control "
+                                       name="business_license"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>税务登记代码</label>
+                                <input type="text" class="form-control"
+                                       name="tax_registration_code"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业性质</label>
+                                <select class="form-control input-sm" id="enterprise_nature"
+                                        name="enterprise_nature" ></select>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业海关代码</label>
+                                <input type="text" class="form-control"
+                                       name="corporate_customs_code"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>派驻企业情况</label>
+                                <input type="text" class="form-control"
+                                       name="corporate_presence"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>证件号</label>
+                                <input type="text" class="form-control"
+                                       name="certificate_no"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="box-footer">-->
+                    <!--<div class="form-group">-->
+                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                                <!--style="margin-right:10px;"-->
+                                <!--id="cancelId"-->
+                                <!--data-toggle="tooltip-disabled"-->
+                                <!--onclick="sw.pageModule('information/enterprise_info').cancelEnterprise()">-->
+                            <!--取消-->
+                        <!--</button>-->
+                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                                <!--style="margin-right:10px;"-->
+                                <!--id="saveId"-->
+                                <!--data-toggle="tooltip-disabled"-->
+                                <!--onclick="sw.pageModule('information/enterprise_info').saveEnterprise()">-->
+                            <!--保存-->
+                        <!--</button>-->
+                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                                <!--style="margin-right:10px;"-->
+                                <!--id="editId"-->
+                                <!--data-toggle="tooltip-disabled"-->
+                                <!--onclick="sw.pageModule('information/enterprise_info').editEnterprise()">-->
+                            <!--修改-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</section>
