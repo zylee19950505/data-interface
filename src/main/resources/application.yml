@@ -12,6 +12,35 @@ appConfig:
 #  domain: localhost
   entryDocu: false
 
+#  uploadPath: D:\upload\
+#    httpClinetUrl: http://localhost:8088
+  #  httpClinetUrl: http://10.100.140.153:8088/
+
+  modelFolder:
+   Order: "model/跨境电子商务进口订单模板.xlsx"
+  agentExeFolder: "model/xaeport_agent.exe"
+
+#    #录入单位名称
+#    inputCompanyName: "陕西中海经贸服务部"
+#    #录入单位代码
+#    inputCompanyCo: "6101999063"
+#    #录入人
+#    inputno: "9200000003043"
+#    senderId: "DXPENT0000015276"
+#    receiverId: "DXPEDC0000000001"
+#    xmlPath:
+#      sendPath: "sw/send"
+#      sendBakPath: "sw/sendBak"
+
+#    #下载文件夹
+#    downloadFolder: d:/app/download
+#    #回执文件夹
+#    receiptFolder: d:/app/receive
+#    #回执备份文件
+#    backupFolder: d:/app/backup
+#     # 错误目录，可以使用相对路径和绝对路径
+#    errorFolder: d:/app/error
+
 # 数据源配置
 spring:
 

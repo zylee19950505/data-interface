@@ -54,7 +54,7 @@ sw.page.modules["ordermanage/orderImport"] = sw.page.modules["ordermanage/orderI
 
     //模板下载
     downLoad: function () {
-        var type = "order";
+        var type = "Order";
         window.location.href = "/import/downloadFile?type=" + type;
     }
 };

@@ -33,7 +33,7 @@ public class OrderImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createOrderForm(Map<String, Object> excelMap , String importTime , Users user) {
+    public int createOrderForm(Map<String, Object> excelMap, String importTime, Users user) {
         int flag;
         try {
             String id = user.getId();
@@ -46,33 +46,67 @@ public class OrderImportService {
         return flag;
     }
 
-    private int createImpOrderHead(Map<String, Object> excelMap, String declareTime, Users user) throws Exception {
+    /*
+     * 创建ImpOrderHead信息
+     */
+    private int createImpOrderHead(Map<String, Object> excelMap, String importTime, Users user) throws Exception {
         int flag = 0;
-        List<ImpOrderHead> eIntlMailList = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
-        for (ImpOrderHead anEIntlMailList : eIntlMailList) {
-            ImpOrderHead impOrderHead = this.impOrderHeadData(declareTime, anEIntlMailList, user);
-            this.orderImportMapper.insertImpOrderHead(impOrderHead);//插入EntryHead数据
-            this.createImpOrderList(excelMap, impOrderHead, user);
+        List<ImpOrderHead> impOrderHeadList = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
+        for (ImpOrderHead anImpOrderHeadList : impOrderHeadList) {
+            ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user);
+            flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
+            if (flag > 0) {
+                return 0;
+            }
+            this.orderImportMapper.insertImpOrderHead(impOrderHead);//查询无订单号则插入ImpOrderHead数据
+            this.createImpOrderList(excelMap, impOrderHead, user);//插入ImpOrderGoodsList
         }
         return flag;
     }
 
+    /*
+     * 创建ImpOrderList信息
+     */
     private void createImpOrderList(Map<String, Object> excelMap, ImpOrderHead impOrderHead, Users user) throws Exception {
         List<ImpOrderGoodsList> list = (List<ImpOrderGoodsList>) excelMap.get("ImpOrderList");
         int count = 1;
-        String headOrder_no = impOrderHead.getOrder_No();//EntryHead中的分单号
-        String headGuid = impOrderHead.getGuid();//EntryHead的主键
+        String headOrder_no = impOrderHead.getOrder_No();//ImpOrderHead中的订单号
+        String headGuid = impOrderHead.getGuid();//ImpOrderHead的主键
         for (int i = 0, len = list.size(); i < len; i++) {
             ImpOrderGoodsList impOrderGoodsList = list.get(i);
             String listOrder_no = impOrderGoodsList.getOrder_No();
             if (headOrder_no.equals(listOrder_no)) {
-                impOrderGoodsList = this.entryListData(impOrderGoodsList, headGuid, user);
+                impOrderGoodsList = this.impOrderGoodsListData(impOrderGoodsList, headGuid, user);
                 impOrderGoodsList.setG_num(count);//商品序号
                 count++;
                 this.orderImportMapper.insertImpOrderGoodsList(impOrderGoodsList);//插入EntryList数据
-                //this.createEntryDocu(excelMap, entryList, i);
+//                Integer gNum = orderImportMapper.queryMaxG_num(listOrder_no);
+//                int g_num = StringUtils.isEmpty(gNum) ? 0 : gNum;
+//                if (g_num == 0) {
+//                    impOrderGoodsList.setG_num(count);//商品序号
+//                } else if (g_num != 0) {
+//                    impOrderGoodsList.setG_num(g_num + 1);//商品序号
+//                }
+//                String HeadGuid = this.orderImportMapper.queryHeadGuidByOrderNo(listOrder_no);
+
             }
         }
+    }
+
+    /*
+     * 查询有无重复订单号
+     */
+    public int getOrderNoCount(Map<String, Object> excelMap) throws Exception{
+        int flag = 0;
+        List<ImpOrderHead> list = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
+        for(int i=0;i<list.size();i++){
+            ImpOrderHead impOrderHead = list.get(i);
+            flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
+            if (flag > 0) {
+                return 1;
+            }
+        }
+        return flag;
     }
 
     /**
@@ -84,12 +118,12 @@ public class OrderImportService {
         impOrderHead.setApp_Time("");//企业报送时间。格式:YYYYMMDDhhmmss。
         impOrderHead.setApp_Status("2");//业务状态:1-暂存,2-申报,默认为2。
         impOrderHead.setOrder_Type("I");//电子订单类型：I进口
-        impOrderHead.setCurrency("142");
-        impOrderHead.setCrt_id(StringUtils.isEmpty(user.getId())?"":user.getId());//创建人
+        impOrderHead.setBuyer_Id_Type("1");//订购人证件类型
+        impOrderHead.setCurrency("142");//币制
+        impOrderHead.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impOrderHead.setCrt_tm(new Date());//创建时间
-        impOrderHead.setUpd_id(StringUtils.isEmpty(user.getId())?"":user.getId());//更新人
+        impOrderHead.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impOrderHead.setUpd_tm(new Date());//更新时间
-
         return impOrderHead;
     }
 
@@ -97,16 +131,11 @@ public class OrderImportService {
     /**
      * 表体自生成信息
      */
-    private ImpOrderGoodsList entryListData(ImpOrderGoodsList impOrderGoodsList, String headGuid, Users currentUsers) throws Exception {
-        impOrderGoodsList.setHead_guid(headGuid);//分单头信息ID
-        impOrderGoodsList.setOrder_No(IdUtils.getUUId());//主键ID
+    private ImpOrderGoodsList impOrderGoodsListData(ImpOrderGoodsList impOrderGoodsList, String headGuid, Users user) throws Exception {
+        impOrderGoodsList.setHead_guid(headGuid);//
         impOrderGoodsList.setCurrency("142");//币制
         return impOrderGoodsList;
     }
-
-
-
-
 
 
 }

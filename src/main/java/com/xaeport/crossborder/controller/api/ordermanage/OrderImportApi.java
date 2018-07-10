@@ -32,7 +32,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/import")
-public class OrderImportApi extends BaseApi{
+public class OrderImportApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
@@ -42,11 +42,11 @@ public class OrderImportApi extends BaseApi{
     /**
      * 新快件上传
      *
-     * @param importTime   //进口时间
-     * @param file      // 上传的文件
+     * @param importTime //进口时间
+     * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "importTime",required = false) String importTime,//申报时间
+    public ResponseData MultipartFile(@RequestParam(value = "importTime", required = false) String importTime,//申报时间
                                       @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
                                       HttpServletRequest request
     ) {
@@ -86,11 +86,18 @@ public class OrderImportApi extends BaseApi{
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject();
                 excelMap = excelData.getExcelData(excelDataList);
 
+                int orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
+                if (orderNoCount > 0) {
+                    httpSession.removeAttribute("importTime");
+                    return new ResponseData("订单号不能重复");
+                }
+
+
                 flag = this.orderImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");
-                    return new ResponseData(String.format("出口国际邮件导入成功！"));
+                    return new ResponseData(String.format("跨境电子商务进口订单导入成功！"));
                 } else {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("入库失败");
@@ -109,7 +116,7 @@ public class OrderImportApi extends BaseApi{
     }
 
     /**
-     * excel 模板下载
+     * excel 跨境电子商务进口订单模板下载
      */
     @RequestMapping(value = "/downloadFile")
     public void excelModelDownload(HttpServletResponse response,
@@ -124,7 +131,7 @@ public class OrderImportApi extends BaseApi{
         return str.hashCode();
     }
 
-    //用于判断同一批主单号、运输时间、航班号，企业在导入时发生重复
+    //用于判断同一批订单号、进口时间，企业在导入时发生重复
     private boolean isRepeatSubmit(Object preValue, int curValue) {
         boolean flag;
         if (StringUtils.isEmpty(preValue)) {

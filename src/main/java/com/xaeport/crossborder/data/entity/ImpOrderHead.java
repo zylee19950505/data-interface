@@ -12,7 +12,7 @@ public class ImpOrderHead {
     private String ebp_Code;//电商平台的海关注册登记编号；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台标识编号为准。
     private String ebp_Name;//电商平台的海关注册登记名称；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台名称为准。
     private String ebc_Code;//电商企业的海关注册登记编号。
-    private String ebcName;//电商企业的海关注册登记名称。
+    private String ebc_Name;//电商企业的海关注册登记名称。
     private String goods_Value;//商品实际成交价，含非现金抵扣金额。
     private String freight;//不包含在商品价格中的运杂费，无则填写"0"。
     private String discount;//使用积分、虚拟货币、代金券等非现金支付金额，无则填写"0"。
@@ -110,12 +110,12 @@ public class ImpOrderHead {
         this.ebc_Code = ebc_Code;
     }
 
-    public String getEbcName() {
-        return ebcName;
+    public String getEbc_Name() {
+        return ebc_Name;
     }
 
-    public void setEbcName(String ebcName) {
-        this.ebcName = ebcName;
+    public void setEbc_Name(String ebc_Name) {
+        this.ebc_Name = ebc_Name;
     }
 
     public String getGoods_Value() {
