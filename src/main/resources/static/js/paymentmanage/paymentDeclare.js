@@ -39,25 +39,23 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                                 + row.BILL_NO + '" />';
                         }
                     },
-                    {data: "BILL_NO", label: "订单编号"},
-                    {data: "VOYAGE_NO", label: "电商企业名称"},
-                    {data: "FLIGHT_TIMES", label: "电商平台名称"},
-                    {data: "STARTINGPOINT", label: "商品名称"},
+                    {data: "BILL_NO", label: "支付交易编号"},
+                    {data: "VOYAGE_NO", label: "订单编号"},
+                    {data: "FLIGHT_TIMES", label: "支付企业名称"},
+                    {data: "STARTINGPOINT", label: "电商平台名称"},
                     {
-                      label:"总价"  ,render: function (data, type, row) {
-                        return '<div style="font-weight:bold;color:red;">'+row.ASSCOUNT+'<div>';
+                      label:"支付人"  ,render: function (data, type, row) {
+                        return row.ASSCOUNT;
                     }
                     },
                     {
-                        label: "订购人", render: function (data, type, row) {
-                        var gross_wt = parseFloat(row.GROSS_WT);
-                        if (isNaN(gross_wt))return 0;
-                        return gross_wt.toFixed(2);
+                        label:"支付金额（元）"  ,render: function (data, type, row) {
+                        return row.ASSCOUNT;
                     }
                     },
                     {data: "MANIFEST_STATUS_STR", label: "业务状态"},
-                    {data: "DECLARE_RESULT", label: "入库结果"},
-                    {data: "DECLARE_RESULT", label: "申报结果"}
+                    {data: "DECLARE_RESULT", label: "支付时间"},
+                    {data: "DECLARE_RESULT", label: "入库结果"}
                 ]
             });
         },

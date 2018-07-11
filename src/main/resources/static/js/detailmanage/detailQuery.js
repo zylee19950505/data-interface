@@ -2,7 +2,7 @@
  * 预览打印
  * Created by Administrator on 2017/7/20.
  */
-sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/paymentQuery"] || {
+sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/detailQuery"] || {
         init: function () {
             $("[name='startFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
             $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
@@ -54,28 +54,33 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
             sw.billNo = "";
 
             // 数据表
-            sw.datatable("#query-paymentQuery-table", {
+            sw.datatable("#query-detailQuery-table", {
                 ajax: sw.resolve("api", url),
                 lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
                 searching: false,
                 columns: [
-                    {data: "BILL_NO", label: "支付交易编号"},
-                    {data: "VOYAGE_NO", label: "订单编号"},
-                    {data: "FLIGHT_TIMES", label: "支付企业名称"},
-                    {data: "STARTINGPOINT", label: "电商平台名称"},
+                    {data: "ORDER_NO", label: "订单编号"},//订单编号要点击查看订单详情
+                    {data: "ORDER_NO", label: "物流运单编号"},//订单编号要点击查看订单详情
+                    {data: "EBP_NAME", label: "电商企业名称"},
+                    {data: "EBC_NAME", label: "支付企业名称"},
+                    {data: "ORDER_NO", label: "物流企业名称"},
+                    {data: "ITEM_NAME", label: "商品名称"},
+                    /* {
+                         label:"总价"  ,render: function (data, type, row) {
+                         return '<div style="font-weight:bold;color:red;">'+row.TOTAL_PRICE+'<div>';
+                         }
+                     },*/
+                    // {data: "TOTAL_PRICE", label: "总价"},
+                    // {data: "BUYER_NAME", label: "订购人"},
+                    {data: "APPSTATUS", label: "业务状态"},
+                    {data: "NOTE", label: "入库结果"},//入库结果需要确认字段
                     {
-                        label:"支付人"  ,render: function (data, type, row) {
-                        return row.ASSCOUNT;
+                        label: "申报时间", render: function (data, type, row) {
+                        var grossWt = parseFloat(row.grossWt);
+                        if (isNaN(grossWt)) return 0;
+                        return grossWt.toFixed(2);
                     }
-                    },
-                    {
-                        label:"支付金额（元）"  ,render: function (data, type, row) {
-                        return row.ASSCOUNT;
                     }
-                    },
-                    {data: "MANIFEST_STATUS_STR", label: "业务状态"},
-                    {data: "DECLARE_RESULT", label: "支付时间"},
-                    {data: "DECLARE_RESULT", label: "入库结果"}
                 ]
             });
         },

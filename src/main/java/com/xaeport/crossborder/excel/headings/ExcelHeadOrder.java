@@ -38,7 +38,7 @@ public class ExcelHeadOrder {
     public final static String consignee = "收货人姓名";//head
     public final static String consignee_Telephone = "收货人电话";//head
     public final static String consignee_Address = "收件地址";//head//QING
-    public final static String goodsValue = "商品价格";//head
+//    public final static String goodsValue = "商品价格";//head
     public final static String freight = "运杂费";//head//QING
     public final static String discount = "非现金抵扣金额";//head
     public final static String tax_Total = "代扣税款";//head
@@ -84,7 +84,7 @@ public class ExcelHeadOrder {
         orderList.add("收货人姓名");
         orderList.add("收货人电话");
         orderList.add("收件地址");
-        orderList.add("商品价格");
+//        orderList.add("商品价格");
         orderList.add("运杂费");
         orderList.add("非现金抵扣金额");
         orderList.add("代扣税款");

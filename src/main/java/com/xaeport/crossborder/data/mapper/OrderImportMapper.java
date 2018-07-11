@@ -1,6 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.ImpOrderGoodsList;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.provider.OrderImportSQLProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -20,8 +20,8 @@ public interface OrderImportMapper {
     /*
      * 导入插入insertImpOrderGoodsList表体数据
      */
-    @InsertProvider(type= OrderImportSQLProvider.class,method = "insertImpOrderGoodsList")
-    boolean insertImpOrderGoodsList(@Param("impOrderGoodsList") ImpOrderGoodsList impOrderGoodsList) throws Exception;
+    @InsertProvider(type= OrderImportSQLProvider.class,method = "insertImpOrderBody")
+    boolean insertImpOrderBody(@Param("impOrderBody") ImpOrderBody impOrderBody) throws Exception;
 
     /*
      * 查询有无重复订单号表头信息

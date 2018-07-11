@@ -1,11 +1,10 @@
 package com.xaeport.crossborder.service.ordermanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.data.entity.ImpOrderGoodsList;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.OrderImportMapper;
-import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -68,24 +67,24 @@ public class OrderImportService {
      * 创建ImpOrderList信息
      */
     private void createImpOrderList(Map<String, Object> excelMap, ImpOrderHead impOrderHead, Users user) throws Exception {
-        List<ImpOrderGoodsList> list = (List<ImpOrderGoodsList>) excelMap.get("ImpOrderList");
+        List<ImpOrderBody> list = (List<ImpOrderBody>) excelMap.get("ImpOrderBody");
         int count = 1;
         String headOrder_no = impOrderHead.getOrder_No();//ImpOrderHead中的订单号
         String headGuid = impOrderHead.getGuid();//ImpOrderHead的主键
         for (int i = 0, len = list.size(); i < len; i++) {
-            ImpOrderGoodsList impOrderGoodsList = list.get(i);
-            String listOrder_no = impOrderGoodsList.getOrder_No();
+            ImpOrderBody impOrderBody = list.get(i);
+            String listOrder_no = impOrderBody.getOrder_No();
             if (headOrder_no.equals(listOrder_no)) {
-                impOrderGoodsList = this.impOrderGoodsListData(impOrderGoodsList, headGuid, user);
-                impOrderGoodsList.setG_num(count);//商品序号
+                impOrderBody = this.impOrderGoodsListData(impOrderBody, headGuid, user);
+                impOrderBody.setG_num(count);//商品序号
                 count++;
-                this.orderImportMapper.insertImpOrderGoodsList(impOrderGoodsList);//插入EntryList数据
+                this.orderImportMapper.insertImpOrderBody(impOrderBody);//插入EntryList数据
 //                Integer gNum = orderImportMapper.queryMaxG_num(listOrder_no);
 //                int g_num = StringUtils.isEmpty(gNum) ? 0 : gNum;
 //                if (g_num == 0) {
-//                    impOrderGoodsList.setG_num(count);//商品序号
+//                    impOrderBody.setG_num(count);//商品序号
 //                } else if (g_num != 0) {
-//                    impOrderGoodsList.setG_num(g_num + 1);//商品序号
+//                    impOrderBody.setG_num(g_num + 1);//商品序号
 //                }
 //                String HeadGuid = this.orderImportMapper.queryHeadGuidByOrderNo(listOrder_no);
 
@@ -131,10 +130,10 @@ public class OrderImportService {
     /**
      * 表体自生成信息
      */
-    private ImpOrderGoodsList impOrderGoodsListData(ImpOrderGoodsList impOrderGoodsList, String headGuid, Users user) throws Exception {
-        impOrderGoodsList.setHead_guid(headGuid);//
-        impOrderGoodsList.setCurrency("142");//币制
-        return impOrderGoodsList;
+    private ImpOrderBody impOrderGoodsListData(ImpOrderBody impOrderBody, String headGuid, Users user) throws Exception {
+        impOrderBody.setHead_guid(headGuid);//
+        impOrderBody.setCurrency("142");//币制
+        return impOrderBody;
     }
 
 

@@ -60,41 +60,29 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                 searching: false,
                 columns: [
                     {
-                        label: "订单编号", render: function (data, type, row) {
+                        label: "物流运单编号", render: function (data, type, row) {
                         if (sw.billNo == row.billNo) return "";
                         return row.flightTimes;
                     }
                     },
                     {
-                        label: "电商企业名称", render: function (data, type, row) {
+                        label: "物流企业名称", render: function (data, type, row) {
                         if (sw.billNo == row.billNo) return "";
                         return row.flightNo;
                     }
                     },
                     {
-                        label: "电商平台名称", render: function (data, type, row) {
+                        label: "收货人姓名", render: function (data, type, row) {
                         if (sw.billNo == row.billNo) return "";
                         var startingPointName = sw.dict.port[row.startingPoint];
                         if (typeof(startingPointName) == "undefined" || null == startingPointName || "" == startingPointName) return row.startingPoint;
                         return startingPointName;
                     }
                     },
-                    {
-                        label: "商品名称", render: function (data, type, row) {
-                        var flag = 1;
-                        var item;
-                        if (sw.billNo == row.billNo) return "";
-                        sw.billNo = row.billNo;
-                        item = '<button class="btn btn-sm btn-primary" title="下载" onclick="' + "javascript:sw.page.modules['express/import_b/bill_inquiry'].download('" + row.flightNo + "', '" + row.flightTimes + "', '" + row.billNo + "', '" + row.statusCode + "', '" + flag + "')" + '"><i class="fa fa-download"></i> </button> ' +
-                            '<button class="btn btn-sm btn-info" title="查看" onclick="' + "javascript:sw.pageModule('express/import_b/bill_inquiry').seeAssBillNoDetail('" + row.flightNo + "', '" + row.flightTimes + "', '" + row.billNo + "', '" + row.statusCode + "', '" + flag + "')" + '"><i class="fa fa-eye"></i> </button> ';
-                        var result = "<span class='pull-left'>" + sw.billNo + "</span>" + "<span class='pull-right'>" + item + "</span>";
-                        return result;
-                    }
-                    },
-                    {data: "assBillCount", label: "总价"},
+                    {data: "assBillCount", label: "收货人电话"},
                     /*    {data: "packNo", label: "件数"},*/
                     {
-                        label: "订购人", render: function (data, type, row) {
+                        label: "收货地址", render: function (data, type, row) {
                         var taxEstimate = parseFloat(row.taxEstimate);
                         if (isNaN(taxEstimate)) return 0;
                         taxEstimate = parseFloat(taxEstimate.toFixed(4));
@@ -110,7 +98,14 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     }
                     },
                     {
-                        label: "申报时间", render: function (data, type, row) {
+                        label: "申报日期", render: function (data, type, row) {
+                        var grossWt = parseFloat(row.grossWt);
+                        if (isNaN(grossWt)) return 0;
+                        return grossWt.toFixed(2);
+                    }
+                    },
+                    {
+                        label: "物流状态时间", render: function (data, type, row) {
                         var grossWt = parseFloat(row.grossWt);
                         if (isNaN(grossWt)) return 0;
                         return grossWt.toFixed(2);

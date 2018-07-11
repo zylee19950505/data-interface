@@ -1,6 +1,6 @@
 package com.xaeport.crossborder.excel.data.impl;
 
-import com.xaeport.crossborder.data.entity.ImpOrderGoodsList;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadOrder;
@@ -45,7 +45,7 @@ public class ExcelDataOrder implements ExcelData {
     private int consigneeIndex; //收货人姓名";//head
     private int consignee_TelephoneIndex; //收货人电话";//head
     private int consignee_AddressIndex; //收货地址";//head//QING
-    private int goodsValueIndex; //商品价格";//head
+//    private int goodsValueIndex; //商品价格";//head
     private int freightIndex; //运杂费";//head//QING
     private int discountIndex; //非现金抵扣金额";//head
     private int tax_TotalIndex; //代扣税款";//head
@@ -64,21 +64,20 @@ public class ExcelDataOrder implements ExcelData {
     public Map<String, Object> getExcelData(List<List<String>> excelData) throws Exception {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
-        List<ImpOrderGoodsList> entryListData = new ArrayList<>();
-        Map<String, List<String>> eIntlMailMap = new LinkedHashMap<>();
-
-        ImpOrderGoodsList impOrderGoodsList;
-
+        List<ImpOrderBody> impOrderBodyList = new ArrayList<>();
+        Map<String, List<String>> impOrderHeadMap = new LinkedHashMap<>();
+        ImpOrderBody impOrderBody;
+        Map<String, String> temporary = new HashMap<>();//用于存放临时计算值
         this.getIndexValue(excelData.get(0));//初始化表头索引
         for (int i = 1, length = excelData.size(); i < length; i++) {
-            impOrderGoodsList = new ImpOrderGoodsList();
-//            entryHeadMap = this.getMergeData(excelData.get(i), entryHeadMap, temporary);
-            entryListData = this.impOrderGoodsData(excelData.get(i), impOrderGoodsList, entryListData);
+            impOrderBody = new ImpOrderBody();
+            impOrderHeadMap = this.getMergeData(excelData.get(i), impOrderHeadMap);
+            impOrderBodyList = this.impOrderBodyData(excelData.get(i), impOrderBody, impOrderBodyList);
         }
 
-        List<ImpOrderHead> orderList = this.getEIntlMailData(excelData);
-        map.put("ImpOrderHead", orderList);
-        map.put("ImpOrderList", entryListData);
+        List<ImpOrderHead> impOrderHeadList = this.getOrderHeadData(impOrderHeadMap);
+        map.put("ImpOrderHead", impOrderHeadList);
+        map.put("ImpOrderBody", impOrderBodyList);
         this.log.debug("封装数据耗时" + (System.currentTimeMillis() - start));
         return map;
     }
@@ -86,41 +85,43 @@ public class ExcelDataOrder implements ExcelData {
     /**
      * 封装ImpOrderHead方法
      */
-    public List<ImpOrderHead> getEIntlMailData(List<List<String>> excelData) {
+    public List<ImpOrderHead> getOrderHeadData(Map<String, List<String>> data) {
         List<ImpOrderHead> listData = new ArrayList<>();
         ImpOrderHead impOrderHead;
         DecimalFormat df = new DecimalFormat("0.00000");
-        for (int i = 1; i < excelData.size(); i++) {
+        for (Map.Entry<String, List<String>> entry : data.entrySet()) {
             impOrderHead = new ImpOrderHead();
-            impOrderHead.setOrder_No(excelData.get(i).get(orderNoIndex));//订单编号
-            impOrderHead.setEbp_Code(excelData.get(i).get(ebp_CodeIndex));//电商平台代码
-            impOrderHead.setEbp_Name(excelData.get(i).get(ebp_NameIndex));//电商平台名称
-            impOrderHead.setEbc_Code(excelData.get(i).get(ebc_CodeIndex));//电商企业代码
-            impOrderHead.setEbc_Name(excelData.get(i).get(ebc_NameIndex));//电商企业名称
-            impOrderHead.setBuyer_Reg_No(excelData.get(i).get(buyer_Reg_NoIndex));//订购人注册号
-            impOrderHead.setBuyer_Id_Number(excelData.get(i).get(buyer_Id_NumberIndex));//订购人证件号码
-            impOrderHead.setBuyer_Name(excelData.get(i).get(buyer_NameIndex));//订购人姓名
-            impOrderHead.setConsignee(excelData.get(i).get(consigneeIndex));//收货人姓名
-            impOrderHead.setConsignee_Telephone(excelData.get(i).get(consignee_TelephoneIndex));//收货人电话
-            impOrderHead.setConsignee_Address(excelData.get(i).get(consignee_AddressIndex));//收件地址
-            impOrderHead.setNote(excelData.get(i).get(noteIndex));//备注
+            List<String> value = entry.getValue();
 
-            String goodsValue = excelData.get(i).get(goodsValueIndex);
+            impOrderHead.setOrder_No(value.get(orderNoIndex));//订单编号
+            impOrderHead.setEbp_Code(value.get(ebp_CodeIndex));//电商平台代码
+            impOrderHead.setEbp_Name(value.get(ebp_NameIndex));//电商平台名称
+            impOrderHead.setEbc_Code(value.get(ebc_CodeIndex));//电商企业代码
+            impOrderHead.setEbc_Name(value.get(ebc_NameIndex));//电商企业名称
+            impOrderHead.setBuyer_Reg_No(value.get(buyer_Reg_NoIndex));//订购人注册号
+            impOrderHead.setBuyer_Id_Number(value.get(buyer_Id_NumberIndex));//订购人证件号码
+            impOrderHead.setBuyer_Name(value.get(buyer_NameIndex));//订购人姓名
+            impOrderHead.setConsignee(value.get(consigneeIndex));//收货人姓名
+            impOrderHead.setConsignee_Telephone(value.get(consignee_TelephoneIndex));//收货人电话
+            impOrderHead.setConsignee_Address(value.get(consignee_AddressIndex));//收件地址
+//            impOrderHead.setNote(excelData.get(i).get(noteIndex));//备注
+
+            String goodsValue = value.get(total_PriceIndex);
             if (!StringUtils.isEmpty(goodsValue)) {
                 goodsValue = df.format(Double.parseDouble(goodsValue));
                 impOrderHead.setGoods_Value(goodsValue);//商品价格
             }
-            String freight = excelData.get(i).get(freightIndex);
+            String freight = value.get(freightIndex);
             if (!StringUtils.isEmpty(freight)) {
                 freight = df.format(Double.parseDouble(freight));
                 impOrderHead.setFreight(freight);//运杂费
             }
-            String discount = excelData.get(i).get(discountIndex);
+            String discount = value.get(discountIndex);
             if (!StringUtils.isEmpty(discount)) {
                 discount = df.format(Double.parseDouble(discount));
                 impOrderHead.setDiscount(discount);//非现金抵扣金额
             }
-            String tax_Total = excelData.get(i).get(tax_TotalIndex);
+            String tax_Total = value.get(tax_TotalIndex);
             if (!StringUtils.isEmpty(tax_Total)) {
                 tax_Total = df.format(Double.parseDouble(tax_Total));
                 impOrderHead.setTax_Total(tax_Total);//代扣税款
@@ -138,38 +139,61 @@ public class ExcelDataOrder implements ExcelData {
     }
 
     /**
+     * 合并excel中属于EntryHead的数据
+     *
+     * @param orderHeadLists
+     * @param impOrderHeadMap
+     * @return
+     */
+    public Map<String, List<String>> getMergeData(List<String> orderHeadLists, Map<String, List<String>> impOrderHeadMap) throws Exception {
+        String orderNo = orderHeadLists.get(orderNoIndex);
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (impOrderHeadMap.containsKey(orderNo)) {
+            List<String> list = impOrderHeadMap.get(orderNo);//存放每次合并的结果
+            double total_value_Total = Double.parseDouble(list.get(total_PriceIndex)) + Double.parseDouble(orderHeadLists.get(total_PriceIndex));//合并所有表体的总价
+
+            list.set(total_PriceIndex, df.format(total_value_Total));//商品价格
+            impOrderHeadMap.put(orderNo, list);
+        } else {
+            impOrderHeadMap.put(orderNo, orderHeadLists);
+        }
+        return impOrderHeadMap;
+    }
+
+    /**
      * 封装ImpOrderGoodsList数据
      *
      * @param entryLists
-     * @param impOrderGoodsList
-     * @param impOrderGoodsListData
+     * @param impOrderBody
+     * @param impOrderBodyData
      * @return
      */
-    public List<ImpOrderGoodsList> impOrderGoodsData(List<String> entryLists, ImpOrderGoodsList impOrderGoodsList, List<ImpOrderGoodsList> impOrderGoodsListData) {
+    public List<ImpOrderBody> impOrderBodyData(List<String> entryLists, ImpOrderBody impOrderBody, List<ImpOrderBody> impOrderBodyData) {
         DecimalFormat df = new DecimalFormat("0.00000");
-        impOrderGoodsList.setOrder_No(entryLists.get(orderNoIndex));//订单编号
-        impOrderGoodsList.setItem_Name(entryLists.get(itemNameIndex));//商品名称
-        impOrderGoodsList.setCountry(entryLists.get(originCountryIndex));//原产国
-        impOrderGoodsList.setUnit(entryLists.get(unitIndex));//计量单位
+        impOrderBody.setOrder_No(entryLists.get(orderNoIndex));//订单编号
+        impOrderBody.setItem_Name(entryLists.get(itemNameIndex));//商品名称
+        impOrderBody.setCountry(entryLists.get(originCountryIndex));//原产国
+        impOrderBody.setUnit(entryLists.get(unitIndex));//计量单位
+        impOrderBody.setNote(entryLists.get(noteIndex));//备注
 
         String qty = entryLists.get(qtyIndex);
         if (!StringUtils.isEmpty(qty)) {
             qty = df.format(Double.parseDouble(qty));
-            impOrderGoodsList.setQty(qty);//数量
+            impOrderBody.setQty(qty);//数量
         }
         String total_Price = entryLists.get(total_PriceIndex);
         if (!StringUtils.isEmpty(total_Price)) {
             total_Price = df.format(Double.parseDouble(total_Price));
-            impOrderGoodsList.setTotal_Price(total_Price);//总价
+            impOrderBody.setTotal_Price(total_Price);//总价
         }
         double Price = Double.parseDouble(total_Price)/Double.parseDouble(qty);
         if(!StringUtils.isEmpty(Price)){
             String price = df.format(Price);
-            impOrderGoodsList.setPrice(price);//单价
+            impOrderBody.setPrice(price);//单价
         }
 
-        impOrderGoodsListData.add(impOrderGoodsList);
-        return impOrderGoodsListData;
+        impOrderBodyData.add(impOrderBody);
+        return impOrderBodyData;
     }
 
     /**
@@ -206,7 +230,7 @@ public class ExcelDataOrder implements ExcelData {
         consigneeIndex = orderLists.indexOf(ExcelHeadOrder.consignee);//收货人姓名
         consignee_TelephoneIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Telephone);//收货人电话
         consignee_AddressIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Address);//收货地址
-        goodsValueIndex = orderLists.indexOf(ExcelHeadOrder.goodsValue);//商品价格
+//        goodsValueIndex = orderLists.indexOf(ExcelHeadOrder.goodsValue);//商品价格
         freightIndex = orderLists.indexOf(ExcelHeadOrder.freight);//运杂费
         discountIndex = orderLists.indexOf(ExcelHeadOrder.discount);//非现金抵扣金额
         tax_TotalIndex = orderLists.indexOf(ExcelHeadOrder.tax_Total);//代扣税款

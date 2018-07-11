@@ -91,7 +91,7 @@ public class ValidateOrder extends ValidateBase {
         consigneeIndex = list.indexOf(ExcelHeadOrder.consignee);//收货人姓名
         consignee_TelephoneIndex = list.indexOf(ExcelHeadOrder.consignee_Telephone);//收货人电话
         consignee_AddressIndex = list.indexOf(ExcelHeadOrder.consignee_Address);//收货地址
-        goodsValueIndex = list.indexOf(ExcelHeadOrder.goodsValue);//商品价格
+//        goodsValueIndex = list.indexOf(ExcelHeadOrder.goodsValue);//商品价格
         freightIndex = list.indexOf(ExcelHeadOrder.freight);//运杂费
         discountIndex = list.indexOf(ExcelHeadOrder.discount);//非现金抵扣金额
         tax_TotalIndex = list.indexOf(ExcelHeadOrder.tax_Total);//代扣税款
@@ -138,7 +138,7 @@ public class ValidateOrder extends ValidateBase {
         indexMap.put(consigneeIndex, "收货人姓名,100");
         indexMap.put(consignee_TelephoneIndex, "收货人电话,50");
         indexMap.put(consignee_AddressIndex, "收货地址,200");
-        indexMap.put(goodsValueIndex, "商品价格,19");//double
+//        indexMap.put(goodsValueIndex, "商品价格,19");//double
         indexMap.put(freightIndex, "运杂费,19");//double
         indexMap.put(discountIndex, "非现金抵扣金额,19");//double
         indexMap.put(tax_TotalIndex, "代扣税款,19");//double

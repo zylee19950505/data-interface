@@ -42,25 +42,58 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                                 + row.BILL_NO + '" />';
                         }
                     },
-                    {data: "BILL_NO", label: "订单编号"},
-                    {data: "VOYAGE_NO", label: "电商企业名称"},
-                    {data: "FLIGHT_TIMES", label: "电商平台名称"},
-                    {data: "STARTINGPOINT", label: "商品名称"},
                     {
-                      label:"总价"  ,render: function (data, type, row) {
-                        return '<div style="font-weight:bold;color:red;">'+row.ASSCOUNT+'<div>';
+                        label: "物流运单编号", render: function (data, type, row) {
+                        if (sw.billNo == row.billNo) return "";
+                        return row.flightTimes;
                     }
                     },
                     {
-                        label: "订购人", render: function (data, type, row) {
-                        var gross_wt = parseFloat(row.GROSS_WT);
-                        if (isNaN(gross_wt))return 0;
-                        return gross_wt.toFixed(2);
+                        label: "物流企业名称", render: function (data, type, row) {
+                        if (sw.billNo == row.billNo) return "";
+                        return row.flightNo;
                     }
                     },
-                    {data: "MANIFEST_STATUS_STR", label: "业务状态"},
-                    {data: "DECLARE_RESULT", label: "入库结果"},
-                    {data: "DECLARE_RESULT", label: "申报结果"}
+                    {
+                        label: "收货人姓名", render: function (data, type, row) {
+                        if (sw.billNo == row.billNo) return "";
+                        var startingPointName = sw.dict.port[row.startingPoint];
+                        if (typeof(startingPointName) == "undefined" || null == startingPointName || "" == startingPointName) return row.startingPoint;
+                        return startingPointName;
+                    }
+                    },
+                    {data: "assBillCount", label: "收货人电话"},
+                    /*    {data: "packNo", label: "件数"},*/
+                    {
+                        label: "收货地址", render: function (data, type, row) {
+                        var taxEstimate = parseFloat(row.taxEstimate);
+                        if (isNaN(taxEstimate)) return 0;
+                        taxEstimate = parseFloat(taxEstimate.toFixed(4));
+                        return taxEstimate.toFixed(2);
+                    }
+                    },
+                    {data: "realNcad", label: "业务状态"},
+                    {
+                        label: "入库结果", render: function (data, type, row) {
+                        var grossWt = parseFloat(row.grossWt);
+                        if (isNaN(grossWt)) return 0;
+                        return grossWt.toFixed(2);
+                    }
+                    },
+                    {
+                        label: "申报日期", render: function (data, type, row) {
+                        var grossWt = parseFloat(row.grossWt);
+                        if (isNaN(grossWt)) return 0;
+                        return grossWt.toFixed(2);
+                    }
+                    },
+                    {
+                        label: "物流状态时间", render: function (data, type, row) {
+                        var grossWt = parseFloat(row.grossWt);
+                        if (isNaN(grossWt)) return 0;
+                        return grossWt.toFixed(2);
+                    }
+                    }
                 ]
             });
         },

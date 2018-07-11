@@ -1,6 +1,6 @@
 package com.xaeport.crossborder.data.entity;
 
-public class ImpOrderGoodsList {
+public class ImpOrderBody {
     private int g_num;//从1开始的递增序号。
     private String head_guid;//出口电子订单表头系统唯一序号
     private String order_No;//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。

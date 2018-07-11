@@ -1,6 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
-import com.xaeport.crossborder.data.entity.ImpOrderGoodsList;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
@@ -125,51 +125,51 @@ public class OrderImportSQLProvider {
     /*
      * 导入插入insertImpOrderGoodsList表体数据
      */
-    public String insertImpOrderGoodsList(@Param("impOrderGoodsList") ImpOrderGoodsList impOrderGoodsList) throws Exception {
+    public String insertImpOrderBody(@Param("impOrderBody") ImpOrderBody impOrderBody) throws Exception {
         return new SQL() {
             {
-                INSERT_INTO("T_IMP_ORDER_GOODS_LIST");
-                if (!StringUtils.isEmpty(impOrderGoodsList.getG_num())) {
-                    VALUES("g_num", "#{impOrderGoodsList.g_num}");
+                INSERT_INTO("T_IMP_ORDER_BODY");
+                if (!StringUtils.isEmpty(impOrderBody.getG_num())) {
+                    VALUES("g_num", "#{impOrderBody.g_num}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getHead_guid())) {
-                    VALUES("head_guid", "#{impOrderGoodsList.head_guid}");
+                if (!StringUtils.isEmpty(impOrderBody.getHead_guid())) {
+                    VALUES("head_guid", "#{impOrderBody.head_guid}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getOrder_No())) {
-                    VALUES("order_No", "#{impOrderGoodsList.order_No}");
+                if (!StringUtils.isEmpty(impOrderBody.getOrder_No())) {
+                    VALUES("order_No", "#{impOrderBody.order_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getItem_No())) {
-                    VALUES("item_No", "#{impOrderGoodsList.item_No}");
+                if (!StringUtils.isEmpty(impOrderBody.getItem_No())) {
+                    VALUES("item_No", "#{impOrderBody.item_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getItem_Name())) {
-                    VALUES("item_Name", "#{impOrderGoodsList.item_Name}");
+                if (!StringUtils.isEmpty(impOrderBody.getItem_Name())) {
+                    VALUES("item_Name", "#{impOrderBody.item_Name}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getItem_Describe())) {
-                    VALUES("item_Describe", "#{impOrderGoodsList.item_Describe}");
+                if (!StringUtils.isEmpty(impOrderBody.getItem_Describe())) {
+                    VALUES("item_Describe", "#{impOrderBody.item_Describe}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getBar_Code())) {
-                    VALUES("bar_Code", "#{impOrderGoodsList.bar_Code}");
+                if (!StringUtils.isEmpty(impOrderBody.getBar_Code())) {
+                    VALUES("bar_Code", "#{impOrderBody.bar_Code}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getUnit())) {
-                    VALUES("unit", "#{impOrderGoodsList.unit}");
+                if (!StringUtils.isEmpty(impOrderBody.getUnit())) {
+                    VALUES("unit", "#{impOrderBody.unit}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getQty())) {
-                    VALUES("qty", "#{impOrderGoodsList.qty}");
+                if (!StringUtils.isEmpty(impOrderBody.getQty())) {
+                    VALUES("qty", "#{impOrderBody.qty}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getPrice())) {
-                    VALUES("price", "#{impOrderGoodsList.price}");
+                if (!StringUtils.isEmpty(impOrderBody.getPrice())) {
+                    VALUES("price", "#{impOrderBody.price}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getTotal_Price())) {
-                    VALUES("total_Price", "#{impOrderGoodsList.total_Price}");
+                if (!StringUtils.isEmpty(impOrderBody.getTotal_Price())) {
+                    VALUES("total_Price", "#{impOrderBody.total_Price}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getCurrency())) {
-                    VALUES("currency", "#{impOrderGoodsList.currency}");
+                if (!StringUtils.isEmpty(impOrderBody.getCurrency())) {
+                    VALUES("currency", "#{impOrderBody.currency}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getCountry())) {
-                    VALUES("country", "#{impOrderGoodsList.country}");
+                if (!StringUtils.isEmpty(impOrderBody.getCountry())) {
+                    VALUES("country", "#{impOrderBody.country}");
                 }
-                if (!StringUtils.isEmpty(impOrderGoodsList.getNote())) {
-                    VALUES("note", "#{impOrderGoodsList.note}");
+                if (!StringUtils.isEmpty(impOrderBody.getNote())) {
+                    VALUES("note", "#{impOrderBody.note}");
                 }
 
             }
@@ -203,13 +203,13 @@ public class OrderImportSQLProvider {
     }
 
     /*
-     * 根据订单号查询表体最大商品编码 码
+     * 根据订单号查询表体最大商品编码
      */
     public String queryMaxG_num(String listOrder_no) throws Exception {
         return new SQL() {
             {
                 SELECT("max(t.G_NUM)");
-                FROM("T_IMP_ORDER_GOODS_LIST t");
+                FROM("T_IMP_ORDER_BODY t");
                 WHERE("t.ORDER_NO = #{listOrder_no}");
             }
         }.toString();
