@@ -12,7 +12,7 @@ sw.page.modules["parametermanage/productCode"] = sw.page.modules["parametermanag
             });
 
             // 数据表
-            sw.datatable("#query-conveyance-table", {
+            sw.datatable("#query-product-table", {
                 ajax: url,
                 searching: false,
                 columns: [

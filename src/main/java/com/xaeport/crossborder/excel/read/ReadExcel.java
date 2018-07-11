@@ -79,6 +79,7 @@ public class ReadExcel {
      */
     private Map<String, Object> getSheetData(Sheet sheet) {
         ValidateBase excelCheck = ValidateInstance.getValidateObject();
+        excelCheck.initUnitCode();//初始化申报计量单位参数
         Map<String, Object> map = new HashMap<>();
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0, len = sheet.getPhysicalNumberOfRows(); i < len; i++) {
@@ -108,6 +109,13 @@ public class ReadExcel {
                     if (i > 0) {
                         int amount = excelCheck.CheckRowError(cell, map, i, z);
                         if (amount < 0) {
+                            return map;
+                        }
+                    }
+
+                    if (i > 0) {
+                        int flag = excelCheck.getUnitCode(cell, map, i, z);
+                        if (flag < 0) {
                             return map;
                         }
                     }

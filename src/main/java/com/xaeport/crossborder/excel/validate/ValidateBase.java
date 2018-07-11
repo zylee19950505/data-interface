@@ -1,7 +1,11 @@
 package com.xaeport.crossborder.excel.validate;
 
+import com.xaeport.crossborder.data.entity.UnitCode;
+import com.xaeport.crossborder.data.mapper.SystemToolMapper;
+import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +15,8 @@ import java.util.Map;
  */
 public abstract class ValidateBase {
 
+    protected Map<String, String> unitMap = new HashMap<>();
+
     //校验导出数据
     public abstract int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num);
 
@@ -19,6 +25,9 @@ public abstract class ValidateBase {
 
     //初始化校验字段索引
     public abstract void initMap();
+
+    //申报计量单位转化
+    public abstract int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num);
 
     //非空和长度判断
     protected boolean CheckedEmptyAndLen(Map<Integer, String> indexMap, Map<String, Object> error_num, Cell cell, int rowNum, int cell_num) {
@@ -65,5 +74,14 @@ public abstract class ValidateBase {
         return true;
     }
 
+    //初始化申报计量单位参数
+    public void initUnitCode() {
+        SystemToolMapper systemToolMapper = SpringUtils.getBean(SystemToolMapper.class);
+        List<UnitCode> unitCode = systemToolMapper.queryUnitCode();
+        if (unitCode.isEmpty()) return;
+        for (UnitCode uc : unitCode) {
+            unitMap.put(uc.getUnit_name(), uc.getUnit_code());
+        }
+    }
 
 }

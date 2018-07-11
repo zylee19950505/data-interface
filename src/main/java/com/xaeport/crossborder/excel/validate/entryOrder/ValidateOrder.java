@@ -159,7 +159,7 @@ public class ValidateOrder extends ValidateBase {
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
 
         //导入excel模板非空和长度判断
-        if (cell_num != noteIndex || cell_num != ieDateIndex || cell_num != qty2Index || cell_num != unit2Index) {
+        if (cell_num != noteIndex || cell_num != ieDateIndex ) {
             boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
             if (!isEmpty) {
                 return -1;
@@ -179,6 +179,31 @@ public class ValidateOrder extends ValidateBase {
         }
 
         return 0;
+    }
+
+    public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
+        int flag = 0;
+        String unitValue = cell.toString().replace(" ", "");
+        if (cell_num == unit2Index) {
+            if (!unitMap.containsKey(unitValue)) {
+                cell.setCellValue("");
+            } else {
+                String unitCode = unitMap.get(unitValue);
+                cell.setCellValue(unitCode);
+            }
+        }
+        if (cell_num == unit1Index || cell_num == unitIndex) {
+            String message = indexMap.get(cell_num).split(",")[0];
+            if (!unitMap.containsKey(unitValue)) {
+                error_num.put("error", String.format(String.format("导入失败请修改后重新导入，第%%d行第%%d列。<%s>数据格式不对！", message), rowNum + 1, cell_num + 1));
+                flag = -1;
+            } else {
+                String unitCode = unitMap.get(unitValue);
+                cell.setCellValue(unitCode);
+                flag = 1;
+            }
+        }
+        return flag;
     }
 
 
