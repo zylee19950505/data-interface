@@ -18,6 +18,7 @@ appConfig:
 
   modelFolder:
    Order: "model/跨境电子商务进口订单模板.xlsx"
+   Payment: "model/跨境电子商务进口支付单模板.xlsx"
   agentExeFolder: "model/xaeport_agent.exe"
 
 #    #录入单位名称

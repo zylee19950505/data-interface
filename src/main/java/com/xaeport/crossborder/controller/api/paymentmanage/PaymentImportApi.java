@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.ordermanage;
+package com.xaeport.crossborder.controller.api.paymentmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
@@ -10,7 +10,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.data.ExcelDataInstance;
 import com.xaeport.crossborder.excel.read.ReadExcel;
-import com.xaeport.crossborder.service.ordermanage.OrderImportService;
+import com.xaeport.crossborder.service.parametermanage.PaymentImportService;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/import")
-public class OrderImportApi extends BaseApi {
+@RequestMapping("/payimport")
+public class PaymentImportApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
     @Autowired
-    OrderImportService orderImportService;
+    PaymentImportService paymentImportService;
 
     /**
      * 新快件上传
@@ -53,15 +53,16 @@ public class OrderImportApi extends BaseApi {
         HttpSession httpSession = request.getSession();
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
-
+        //获取文件名称
         String fileName = file.getOriginalFilename();
+
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
 
         //获取企业信息
         Users user = this.getCurrentUsers();
-
+        //获取时间和用户id的哈希值
         int curValue = this.getHashingValue(String.format("%s%s", importTime, user.getId()));
         if (this.isRepeatSubmit(httpSession.getAttribute("importTime"), curValue)) return new ResponseData("不允许重复提交");
         httpSession.setAttribute("importTime", this.getHashingValue(String.format("%s%s", importTime, user.getId())));
@@ -73,8 +74,9 @@ public class OrderImportApi extends BaseApi {
         long startTime = System.currentTimeMillis();
         try {
             inputStream = file.getInputStream();
-            String type = "order";
+            String type = "payment";
             map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
+
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
                 httpSession.removeAttribute("importTime");
@@ -87,14 +89,14 @@ public class OrderImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
+                int orderNoCount = this.paymentImportService.getOrderNoCount(excelMap);
                 if (orderNoCount > 0) {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("订单号不能重复");
                 }
 
 
-                flag = this.orderImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
+                flag = this.paymentImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");
@@ -117,11 +119,12 @@ public class OrderImportApi extends BaseApi {
     }
 
     /**
-     * excel 跨境电子商务进口订单模板下载
+     * excel 跨境电子商务支付单模板下载
      */
     @RequestMapping(value = "/downloadFile")
     public void excelModelDownload(HttpServletResponse response,
                                    @RequestParam(value = "type") String type) {
+        System.err.println("进入下载");
         Map<String, String> map = appConfiguration.getModelFolder();
         String filePath = map.get(type);
         File file = new File(filePath);
