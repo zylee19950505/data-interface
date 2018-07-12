@@ -50,7 +50,7 @@ public class ValidatePayment extends ValidateBase {
         indexMap.put(orderNoIndex, "订单编号,36");
         indexMap.put(payCodeIndex, "支付企业代码,18");
         indexMap.put(payNameIndex, "支付企业名称,100");
-        indexMap.put(payTransactionIdIndex, "支付交易编号,60");
+        indexMap.put(payTransactionIdIndex, "支付交易编码,60");
         indexMap.put(ebpCodeIndex, "电商平台代码,50");
         indexMap.put(epbNameIndex, "电商平台名称,100");
         indexMap.put(amountPaidIndex, "支付金额,19");//double

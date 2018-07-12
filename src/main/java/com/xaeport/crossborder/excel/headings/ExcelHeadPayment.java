@@ -13,7 +13,7 @@ public class ExcelHeadPayment {
     public final static String orderNo = "订单编号";//head //list
     public final static String payCode = "支付企业代码";//QING
     public final static String payName = "支付企业名称";//QING
-    public final static String payTransactionId = "支付交易编号";//list
+    public final static String payTransactionId = "支付交易编码";//list
     public final static String ebpCode = "电商平台代码";//QING
     public final static String epbName = "电商平台名称";//QING
     public final static String amountPaid = "支付金额";//list
@@ -27,7 +27,7 @@ public class ExcelHeadPayment {
         orderList.add("订单编号");
         orderList.add("支付企业代码");
         orderList.add("支付企业名称");
-        orderList.add("支付交易编号");
+        orderList.add("支付交易编码");
         orderList.add("电商平台代码");
         orderList.add("电商平台名称");
         orderList.add("支付金额");

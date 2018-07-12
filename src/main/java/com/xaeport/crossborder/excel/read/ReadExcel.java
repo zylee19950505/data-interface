@@ -128,7 +128,7 @@ public class ReadExcel {
                 if (i == 0) {
                     boolean listSame;
                     switch (type){
-                        case "order":
+                            case "order":
                                 listSame = excelCheck.isListSame(rowList, ExcelHeadOrder.getList(), map);
                                 if (!listSame) {
                                     return map;
