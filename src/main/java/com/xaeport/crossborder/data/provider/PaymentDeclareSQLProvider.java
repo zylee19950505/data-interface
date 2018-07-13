@@ -9,7 +9,7 @@ import java.util.Map;
 public class PaymentDeclareSQLProvider extends BaseSQLProvider {
 
     /*
-     * 订单申报数据查询
+     * 支付单申报数据查询
 	 */
     public String queryPaymentDeclareList(Map<String, Object> paramMap) throws Exception {
         final String orderNo = paramMap.get("orderNo").toString();
@@ -49,7 +49,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     }
 
     /*
-     * 订单申报总数查询
+     * 支付单申报总数查询
      */
     public String queryPaymentDeclareCount(Map<String, Object> paramMap) throws Exception {
 

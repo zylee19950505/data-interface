@@ -1,9 +1,10 @@
 /**
  * Created on 2017-7-23.
- * 订单申报
+ * zwf
+ * 支付单申报
  */
 sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage/paymentDeclare"] || {
-    // 订单申报列表查询
+    // 支付单申报列表查询
     query: function () {
         // 获取查询表单参数
         var orderNo = $("[name='orderNo']").val();//订单编号
@@ -61,7 +62,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 {data: "ORDER_NO", label: "订单编号"},
                 {data: "PAY_NAME", label: "支付企业名称"},
                 {data: "EBP_NAME", label: "电商平台名称"},
-                                    {data: "PAYER_NAME", label: "支付人"},
+                {data: "PAYER_NAME", label: "支付人"},
                  {
                             label:"支付金额（元）"  ,render: function (data, type, row) {
                         return row.AMOUNT_PAID;
