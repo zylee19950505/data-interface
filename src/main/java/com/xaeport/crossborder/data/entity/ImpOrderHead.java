@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.data.entity;
 
 import java.util.Date;
-
+//进口订单表体
 public class ImpOrderHead {
     private String guid;//企业系统生成36 位唯一序号（英文字母大写）
     private String app_Type;//企业报送类型。1-新增2-变更3-删除。默认为1。

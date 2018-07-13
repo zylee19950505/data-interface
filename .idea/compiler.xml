@@ -9,5 +9,8 @@
         <module name="springboot_crossborder" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="springboot_crossborder" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

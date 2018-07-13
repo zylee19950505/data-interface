@@ -4,8 +4,6 @@
  */
 sw.page.modules["waybillmanage/waybillImport"] = sw.page.modules["waybillmanage/waybillImport"] || {
     init: function () {
-        //初始化时间
-        $("[name='importTime']").val(moment(new Date()).format("YYYYMMDD"));
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -19,13 +17,8 @@ sw.page.modules["waybillmanage/waybillImport"] = sw.page.modules["waybillmanage/
     //导入运单
     orderImport: function () {
 
-        var importTime = $("[name='importTime']").val();
         var file = $("#file").val();
 
-        if (isEmpty(importTime)) {
-            sw.alert("请选择进口时间", "提示", "", "modal-info");
-            return false;
-        }
         if (isEmpty(file)) {
             sw.alert("请选择要导入的文件", "提示", "", "modal-info");
             return false;

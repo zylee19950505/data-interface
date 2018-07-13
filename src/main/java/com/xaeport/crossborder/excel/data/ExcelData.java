@@ -15,11 +15,11 @@ public interface ExcelData {
     //获取最终封装数据
     Map<String, Object> getExcelData(List<List<String>> excelData) throws Exception;
 
-    //封装订单表头数据
-    List<ImpOrderHead> getOrderHeadData(Map<String, List<String>> data);
-
-    //封装订单表体数据
-    List<ImpOrderBody> impOrderBodyData(List<String> entryLists, ImpOrderBody impOrderBody, List<ImpOrderBody> impOrderBodyData);
+//    //封装订单表头数据
+//    List<ImpOrderHead> getOrderHeadData(Map<String, List<String>> data);
+//
+//    //封装订单表体数据
+//    List<ImpOrderBody> impOrderBodyData(List<String> entryLists, ImpOrderBody impOrderBody, List<ImpOrderBody> impOrderBodyData);
 
     //初始化索引值
     void getIndexValue(List<String> entryLists);

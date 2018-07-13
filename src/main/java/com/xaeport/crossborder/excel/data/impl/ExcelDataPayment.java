@@ -47,16 +47,6 @@ public class ExcelDataPayment implements ExcelData {
         return map;
     }
 
-    @Override
-    public List<ImpOrderHead> getOrderHeadData(Map<String, List<String>> data) {
-        return null;
-    }
-
-    @Override
-    public List<ImpOrderBody> impOrderBodyData(List<String> entryLists, ImpOrderBody impOrderBody, List<ImpOrderBody> impOrderBodyData) {
-        return null;
-    }
-
     /**
      * 封装ImpOrderHead方法
      */
