@@ -79,7 +79,7 @@ public class ReadExcel {
      * @param sheet
      */
     private Map<String, Object> getSheetData(Sheet sheet,String type) {
-        ValidateBase excelCheck = ValidateInstance.getValidateObject();
+        ValidateBase excelCheck = ValidateInstance.getValidateObject(type);
         excelCheck.initUnitCode();//初始化申报计量单位参数
         Map<String, Object> map = new HashMap<>();
         List<List<String>> dataList = new ArrayList<>();
