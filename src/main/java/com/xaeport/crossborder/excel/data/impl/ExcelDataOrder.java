@@ -139,7 +139,7 @@ public class ExcelDataOrder implements ExcelData {
     }
 
     /**
-     * 封装ImpOrderGoodsList数据
+     * 封装ImpOrderBody数据
      *
      * @param entryLists
      * @param impOrderBody

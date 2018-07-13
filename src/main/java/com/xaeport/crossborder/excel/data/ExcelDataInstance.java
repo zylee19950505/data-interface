@@ -1,8 +1,7 @@
 package com.xaeport.crossborder.excel.data;
 
 
-import com.xaeport.crossborder.excel.data.impl.ExcelDataOrder;
-import com.xaeport.crossborder.excel.data.impl.ExcelDataPayment;
+import com.xaeport.crossborder.excel.data.impl.*;
 
 /*
  * Created by lzy on 2018/06/27
@@ -19,6 +18,19 @@ public class ExcelDataInstance {
                 excelData = new ExcelDataPayment();
                 break;
             }
+            case "waybill": {
+                excelData = new ExcelDataWaybill();
+                break;
+            }
+            case "waybillStatus": {
+                excelData = new ExcelDataWaybillStatus();
+                break;
+            }
+            case "detail": {
+                excelData = new ExcelDataDetail();
+                break;
+            }
+
         }
         return excelData;
     }
