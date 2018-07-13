@@ -69,7 +69,14 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 }
                 },
                 {data: "APPSTATUS", label: "业务状态"},
-                {data: "PAY_TIME", label: "支付时间"},
+                {
+                    label: "支付时间", render: function (data, type, row) {
+                        if (!isEmpty(row.PAY_TIME)) {
+                            return moment(row.PAY_TIME).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
+                },
                 {data: "NOTE", label: "入库结果"}
             ]
          });
