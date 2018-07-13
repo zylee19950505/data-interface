@@ -3,7 +3,7 @@ package com.xaeport.crossborder.data.entity;
 import java.util.Date;
 
 /*
-* 支付单管理实体类
+* 进口支付单管理实体类
 * 创建时间：07/10
 * 创建人：赵文枫
 * */

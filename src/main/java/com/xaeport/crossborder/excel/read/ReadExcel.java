@@ -127,19 +127,37 @@ public class ReadExcel {
                 //用于校验模板是否正确
                 if (i == 0) {
                     boolean listSame;
-                    switch (type){
-                            case "order":
-                                listSame = excelCheck.isListSame(rowList, ExcelHeadOrder.getList(), map);
-                                if (!listSame) {
-                                    return map;
-                                }
-                                break;
-                            case "payment":
-                                listSame = excelCheck.isListSame(rowList, ExcelHeadPayment.getList(), map);
-                                if (!listSame) {
-                                    return map;
-                                }
-                                break;
+                    switch (type) {
+                        case "order":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadOrder.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
+                        case "payment":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadPayment.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
+                        case "waybill":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadPayment.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
+                        case "detail":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadPayment.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
+                        case "waybillstatus":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadPayment.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
                     }
 
                 }

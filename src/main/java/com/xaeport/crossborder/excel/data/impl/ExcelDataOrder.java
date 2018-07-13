@@ -18,47 +18,25 @@ import java.util.*;
 public class ExcelDataOrder implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //订单编号";//head //list
-    private int copNoIndex ; //企业内部编号";//QING
-    private int logisticsNoIndex; //物流运单编号";//QING
-    private int itemNameIndex; //商品名称";//list//QING
-    private int gcodeIndex; //商品编码";//QING
-    private int gmodelIndex; //商品规格型号";//QING
+    private int itemNameIndex; //商品名称";//list
     private int qtyIndex; //数量";//list
     private int unitIndex; //计量单位";//list
-    private int qty1Index; //第一法定数量";//list
-    private int unit1Index; //第一法定单位";//list
-    private int qty2Index; //第二法定数量";//list
-    private int unit2Index; //第二法定单位";//list
     private int total_PriceIndex; //总价";//list
-    private int ebp_CodeIndex; //电商平台代码";//head//QING
-    private int ebp_NameIndex; //电商平台名称";//head//QING
-    private int ebc_CodeIndex; //电商企业代码";//head//QING
-    private int ebc_NameIndex; //电商企业名称";//head//QING
-    private int assureCodeIndex; //担保企业编号";//QING
-    private int customsCodeIndex; //申报海关代码";//QING
-    private int portCodeIndex; //口岸海关代码";//QING
-    private int ieDateIndex; //进口日期";//
+    private int ebp_CodeIndex; //电商平台代码";//head
+    private int ebp_NameIndex; //电商平台名称";//head
+    private int ebc_CodeIndex; //电商企业代码";//head
+    private int ebc_NameIndex; //电商企业名称";//head
     private int buyer_Reg_NoIndex; //订购人注册号";//head
     private int buyer_Id_NumberIndex; //订购人证件号码";//head
     private int buyer_NameIndex; //订购人姓名";//head
-    private int buyerTelephoneIndex; //订购人电话";//QING
     private int consigneeIndex; //收货人姓名";//head
     private int consignee_TelephoneIndex; //收货人电话";//head
-    private int consignee_AddressIndex; //收货地址";//head//QING
-//    private int goodsValueIndex; //商品价格";//head
-    private int freightIndex; //运杂费";//head//QING
+    private int consignee_AddressIndex; //收货地址";//head
+    private int freightIndex; //运杂费";//head
     private int discountIndex; //非现金抵扣金额";//head
     private int tax_TotalIndex; //代扣税款";//head
-    private int agentCodeIndex; //申报企业代码";//QING
-    private int agentNameIndex; //申报企业名称";//QING
-    private int trafModeIndex; //运输方式"; //QING
-    private int trafNoIndex; //运输工具编号"; //QING
-    private int flightVoyageIndex; //航班航次号";//QING
-    private int billNoIndex; //提运单号 //QING
-    private int originCountryIndex; //原产国";//list//QING
-    private int startCountryIndex; //起运国";//QING
-    private int netWeightIndex; //净重";//QING
-    private int noteIndex; //备注";//head
+    private int originCountryIndex; //原产国";//list
+    private int noteIndex; //备注";//list
 
 
     public Map<String, Object> getExcelData(List<List<String>> excelData) throws Exception {
@@ -161,7 +139,7 @@ public class ExcelDataOrder implements ExcelData {
     }
 
     /**
-     * 封装ImpOrderGoodsList数据
+     * 封装ImpOrderBody数据
      *
      * @param entryLists
      * @param impOrderBody
@@ -203,46 +181,24 @@ public class ExcelDataOrder implements ExcelData {
      */
     public void getIndexValue(List<String> orderLists) {
         orderNoIndex = orderLists.indexOf(ExcelHeadOrder.orderNo);//订单编号
-        copNoIndex = orderLists.indexOf(ExcelHeadOrder.copNo);//企业内部编号
-        logisticsNoIndex = orderLists.indexOf(ExcelHeadOrder.logisticsNo);//物流运单编号
         itemNameIndex = orderLists.indexOf(ExcelHeadOrder.itemName);//商品名称
-        gcodeIndex = orderLists.indexOf(ExcelHeadOrder.gcode);//商品编码
-        gmodelIndex = orderLists.indexOf(ExcelHeadOrder.gmodel);//商品规格型号
         qtyIndex = orderLists.indexOf(ExcelHeadOrder.qty);//数量
         unitIndex = orderLists.indexOf(ExcelHeadOrder.unit);//计量单位
-        qty1Index = orderLists.indexOf(ExcelHeadOrder.qty1);//第一法定数量
-        unit1Index = orderLists.indexOf(ExcelHeadOrder.unit1);//第一法定单位
-        qty2Index = orderLists.indexOf(ExcelHeadOrder.qty2);//第二法定数量
-        unit2Index = orderLists.indexOf(ExcelHeadOrder.unit2);//第二法定单位
         total_PriceIndex = orderLists.indexOf(ExcelHeadOrder.total_Price);//总价
         ebp_CodeIndex = orderLists.indexOf(ExcelHeadOrder.ebp_Code);//电商平台代码
         ebp_NameIndex = orderLists.indexOf(ExcelHeadOrder.ebp_Name);//电商平台名称
         ebc_CodeIndex = orderLists.indexOf(ExcelHeadOrder.ebc_Code);//电商企业代码
         ebc_NameIndex = orderLists.indexOf(ExcelHeadOrder.ebc_Name);//电商企业名称
-        assureCodeIndex = orderLists.indexOf(ExcelHeadOrder.assureCode);//担保企业编号
-        customsCodeIndex = orderLists.indexOf(ExcelHeadOrder.customsCode);//申报海关代码
-        portCodeIndex = orderLists.indexOf(ExcelHeadOrder.portCode);//口岸海关代码
-        ieDateIndex = orderLists.indexOf(ExcelHeadOrder.ieDate);//进口日期
         buyer_Reg_NoIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Reg_No);//订购人注册号
         buyer_Id_NumberIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Id_Number);//订购人证件号码
         buyer_NameIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Name);//订购人姓名
-        buyerTelephoneIndex = orderLists.indexOf(ExcelHeadOrder.buyerTelephone);//订购人电话
         consigneeIndex = orderLists.indexOf(ExcelHeadOrder.consignee);//收货人姓名
         consignee_TelephoneIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Telephone);//收货人电话
         consignee_AddressIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Address);//收货地址
-//        goodsValueIndex = orderLists.indexOf(ExcelHeadOrder.goodsValue);//商品价格
         freightIndex = orderLists.indexOf(ExcelHeadOrder.freight);//运杂费
         discountIndex = orderLists.indexOf(ExcelHeadOrder.discount);//非现金抵扣金额
         tax_TotalIndex = orderLists.indexOf(ExcelHeadOrder.tax_Total);//代扣税款
-        agentCodeIndex = orderLists.indexOf(ExcelHeadOrder.agentCode);//申报企业代码
-        agentNameIndex = orderLists.indexOf(ExcelHeadOrder.agentName);//申报企业名称
-        trafModeIndex = orderLists.indexOf(ExcelHeadOrder.trafMode);//运输方式
-        trafNoIndex = orderLists.indexOf(ExcelHeadOrder.trafNo);//运输工具编号
-        flightVoyageIndex = orderLists.indexOf(ExcelHeadOrder.flightVoyage);//航班航次号
-        billNoIndex = orderLists.indexOf(ExcelHeadOrder.billNo); //提运单号
         originCountryIndex = orderLists.indexOf(ExcelHeadOrder.originCountry);//原产国
-        startCountryIndex = orderLists.indexOf(ExcelHeadOrder.startCountry);//起运国
-        netWeightIndex = orderLists.indexOf(ExcelHeadOrder.netWeight);//净重
         noteIndex = orderLists.indexOf(ExcelHeadOrder.note);//备注
 
     }

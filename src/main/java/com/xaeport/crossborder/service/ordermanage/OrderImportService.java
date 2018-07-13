@@ -114,7 +114,6 @@ public class OrderImportService {
     private ImpOrderHead impOrderHeadData(String declareTime, ImpOrderHead impOrderHead, Users user) throws Exception {
         impOrderHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impOrderHead.setApp_Type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
-        impOrderHead.setApp_Time("");//企业报送时间。格式:YYYYMMDDhhmmss。
         impOrderHead.setApp_Status("2");//业务状态:1-暂存,2-申报,默认为2。
         impOrderHead.setOrder_Type("I");//电子订单类型：I进口
         impOrderHead.setBuyer_Id_Type("1");//订购人证件类型

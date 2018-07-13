@@ -14,7 +14,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <i class="fa fa-map-o"></i>
-                    <h3 class="box-title">订单导入</h3>
+                    <h3 class="box-title">运单导入</h3>
                     <div class="box-tools pull-right">
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="form-group" style="margin-top: 20px">
-                            <button class="btn btn-sm btn-primary" type="button" id="orderImport">导入订单</button>
+                            <button class="btn btn-sm btn-primary" type="button" id="waybillImport">导入运单</button>
                         </div>
 
                     </form>
@@ -39,7 +39,42 @@
     </div>
     <div class="box-footer">
         <label>模板下载：
-            <a type="button" onclick="sw.pageModule('ordermanage/orderImport').downLoad()">跨境电子商务运单模板.xls</a>
+            <a type="button" onclick="sw.pageModule('waybillmanage/waybillImport').downLoad()">跨境电子商务运单模板.xls</a>
         </label>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-map-o"></i>
+                    <h3 class="box-title">运单状态导入</h3>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form role="form" class="panel-body" id="importStatus">
+
+                        <div class="form-group form-inline">
+                            <div class="input-group importBox importBorder">
+                                <span class="input-group-addon import_in borderNone">导入Excel文件：</span>
+                                <input type="file" name="statusFile" id="statusFile"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px">
+                            <button class="btn btn-sm btn-primary" type="button" id="waybillStatusImport">导入运单状态</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <label>模板下载：
+            <a type="button" onclick="sw.pageModule('waybillmanage/waybillImport').statusDownLoad()">跨境电子商务运单状态模板.xls</a>
+        </label>
+    </div>
+
 </section>

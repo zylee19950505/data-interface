@@ -13,11 +13,11 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
             format: "yyyymmdd",
             autoclose: true
         });
-        $("#orderImport").unbind("click").click(this.orderImport);
+        $("#detailImport").unbind("click").click(this.detailImport);
     },
 
     //导入运单
-    orderImport: function () {
+    detailImport: function () {
 
         var importTime = $("[name='importTime']").val();
         var file = $("#file").val();
@@ -32,7 +32,7 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
         }
 
         var options = {
-            url: "/import/uploadFile",
+            url: "/detailImport/uploadFile",
             type: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -54,7 +54,7 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
 
     //模板下载
     downLoad: function () {
-        var type = "Order";
-        window.location.href = "/import/downloadFile?type=" + type;
+        var type = "Detail";
+        window.location.href = "/detailImport/downloadFile?type=" + type;
     }
 };

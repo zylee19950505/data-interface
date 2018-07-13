@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.paymentmanage;
+package com.xaeport.crossborder.controller.api.parametermanage;
 
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
