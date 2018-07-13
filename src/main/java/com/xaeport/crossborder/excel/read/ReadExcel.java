@@ -59,14 +59,14 @@ public class ReadExcel {
      * @param fileName    excel文件名称
      * @return
      */
-    public Map<String, Object> readExcelData(InputStream inputStream, String fileName, String type) throws IOException {
+    public Map<String, Object> readExcelData(InputStream inputStream, String fileName,String type) throws IOException {
         Map<String, Object> map = new HashMap<>();
         Sheet sheet;
         try (Workbook workbook = this.getWorkbook(inputStream, fileName)) {
             //根据需求文档只读sheet1中的数据
             sheet = workbook.getSheetAt(0);
             if (sheet == null) return map;
-            map = this.getSheetData(sheet, type);
+            map = this.getSheetData(sheet,type);
         } catch (IOException e) {
             this.log.error(String.format("读取excel失败%s", fileName), e);
         }
@@ -78,7 +78,7 @@ public class ReadExcel {
      *
      * @param sheet
      */
-    private Map<String, Object> getSheetData(Sheet sheet, String type) {
+    private Map<String, Object> getSheetData(Sheet sheet,String type) {
         ValidateBase excelCheck = ValidateInstance.getValidateObject();
         excelCheck.initUnitCode();//初始化申报计量单位参数
         Map<String, Object> map = new HashMap<>();
