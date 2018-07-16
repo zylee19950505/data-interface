@@ -6,20 +6,20 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
         // 订单申报列表查询
         query: function () {
             // 获取查询表单参数
-            var idCardValidate = $("[name='idCardValidate']").val();
+            var idCardValidate = $("[name='idCardValidate']").val();//身份验证
            /* var flightTimes = $("[name='flightTimes']").val();//初始时只选择一个时间.现在条件变为两个*/
-            var startFlightTimes = $("[name='startFlightTimes']").val();
-            var endFlightTimes = $("[name='endFlightTimes']").val();
-            var orderNo = $("[name='orderNo']").val();
+            var startFlightTimes = $("[name='startFlightTimes']").val();//开始时间
+            var endFlightTimes = $("[name='endFlightTimes']").val();//结束时间
+            var orderNo = $("[name='orderNo']").val();//订单编号
 
             // 拼接URL及参数
             var url = sw.serializeObjectToURL("api/orderManage/queryOrderDeclare", {
-              /*  ieFlag: sw.ie,//进出口
-                entryType: sw.type,//申报类型*/
+                ieFlag: sw.ie,//进出口
+                entryType: sw.type,//申报类型
                 idCardValidate: idCardValidate,//身份验证通过
                 startFlightTimes: startFlightTimes,//申报开始时间
                 endFlightTimes: endFlightTimes,//申报结束时间
-                orderNo: orderNo
+                orderNo: orderNo//订单编号
             });
 
             // 数据表
@@ -53,14 +53,19 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         }
                     });
                 },
-                lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+                lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "所有"]],
                 searching: false,//开启本地搜索
                 columns: [
+                    //还需判断下状态
                     {
                         label: '<input type="checkbox" name="cb-check-all"/>',
                         orderable: false,
                         data: null,
                         render: function (data, type, row) {
+                            //订单已经申报时,不提交
+                            if (row.OP_STATUS == "CBDS21") {
+                                return "";
+                            }
                             return '<input type="checkbox" class="submitKey" value="'+ row.ORDER_NO +'" />';
                         }
                     },
@@ -68,11 +73,6 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     {data: "EBP_NAME", label: "电商企业名称"},
                     {data: "EBC_NAME", label: "电商平台名称"},
                     {data: "ITEM_NAME", label: "商品名称"},
-                   /* {
-                        label:"总价"  ,render: function (data, type, row) {
-                        return '<div style="font-weight:bold;color:red;">'+row.TOTAL_PRICE+'<div>';
-                        }
-                    },*/
                     {data: "TOTAL_PRICE", label: "总价"},
                     {data: "BUYER_NAME", label: "订购人"},
                     {data: "APPSTATUS", label: "业务状态"},
@@ -103,7 +103,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
             sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
 
-                var idCardValidate = $("[name='idCardValidate']").val();
+                var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
                 sw.blockPage();
 
                 var postData = {
@@ -115,12 +115,12 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
                 $("#submitManifestBtn").prop("disabled", true);
 
-                sw.ajax("api/manifest/submitCustom", "POST", postData, function (rsp) {
+                sw.ajax("api/ordermanage/submitCustom", "POST", postData, function (rsp) {
                     if (rsp.data.result == "true") {
                         sw.alert("提交海关成功", "提示", function () {
                         }, "modal-success");
                         $("#submitManifestBtn").prop("disabled", false);
-                        sw.page.modules["express/import_b/declaration/manifest_declaration"].query();
+                        sw.page.modules["ordermanage/orderDeclare"].query();
                     } else {
                         sw.alert(rsp.data.msg);
                     }

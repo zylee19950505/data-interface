@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.provider;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -78,4 +79,100 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         return " select COUNT(*) count FROM t_imp_order_body tl, t_imp_order_head th where 1=1 and th.ORDER_NO =tl.ORDER_NO " + startTimesStr + endTimesStr;
 
     }
+
+    /*
+    * 订单申报--提交海关updateSubmitCustom
+    * */
+    public String updateSubmitCustom(Map<String, String> paramMap) {
+        final String submitKeys = paramMap.get("submitKeys");
+        final String opStatusWhere = paramMap.get("opStatusWhere");
+        final String entryType = paramMap.get("entryType");//申报类型
+        final String idCardValidate = paramMap.get("idCardValidate");//身份证验证通过
+        final String ieFlag = paramMap.get("ieFlag");//进出口
+        return new SQL(){
+            {
+                UPDATE("T_IMP_ORDER_HEAD th");
+                WHERE(splitJointIn("th.ORDER_NO", submitKeys));
+                WHERE(splitJointIn("th.DATA_STATUS", opStatusWhere));
+                //身份证验证通过?
+                //进出口?电子订单类型
+                //申报类型?
+                SET("th.data_status=#{opStatus}");
+                SET("th.crt_tm=sysdate");
+                SET("th.upd_tm=sysdate");
+                SET("th.upd_id=#{currentUserId}");
+
+            }
+        }.toString();
+    }
+
+    /*
+    * 根据订单状态查找数据
+    * findWaitGenerated
+    * */
+    public String findWaitGenerated(Map<String,String> paramMap){
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL(){
+                {
+                    SELECT("GUID");
+                    SELECT("APP_TYPE");
+                    SELECT("to_char(APP_TIME,'YYYYMMDDhhmmss') as app_time");
+                    SELECT("APP_STATUS");
+                    SELECT("ORDER_TYPE");
+                    SELECT("ORDER_NO");
+                    SELECT("EBP_CODE");
+                    SELECT("EBP_NAME");
+                    SELECT("EBC_CODE");
+                    SELECT("EBC_NAME");
+                    SELECT("to_char(GOODS_VALUE) as goods_value");
+                    SELECT("to_char(FREIGHT) as freight");
+                    SELECT("to_char(DISCOUNT) as discount");
+                    SELECT("to_char(TAX_TOTAL) as tax_total");
+                    SELECT("to_char(ACTURAL_PAID) as actural_paid");
+                    SELECT("CURRENCY");
+                    SELECT("BUYER_REG_NO");
+                    SELECT("BUYER_NAME");
+                    SELECT("BUYER_ID_TYPE");
+                    SELECT("BUYER_ID_NUMBER");
+                    SELECT("PAY_CODE");
+                    SELECT("PAYNAME");
+                    SELECT("PAY_TRANSACTION_ID");
+                    SELECT("BATCH_NUMBERS");
+                    SELECT("CONSIGNEE");
+                    SELECT("CONSIGNEE_TELEPHONE");
+                    SELECT("CONSIGNEE_ADDRESS");
+                    SELECT("CONSIGNEE_DITRICT");
+                    SELECT("NOTE");
+                    SELECT("DATA_STATUS");
+                    SELECT("CRT_ID");
+                    SELECT("to_char(CRT_TM,'YYYYMMDDhhmmss') as crt_tm");
+                    SELECT("UPD_ID");
+                    SELECT("to_char(UPD_TM,'YYYYMMDDhhmmss') as upd_tm");
+                    SELECT("RETURN_STATUS");
+                    FROM("T_IMP_ORDER_HEAD toh");
+                    WHERE("1=1");
+                    if(!StringUtils.isEmpty(dataStatus)){
+                        WHERE("toh.DATA_STATUS = #{dataStatus}");
+                        ORDER_BY("toh.CRT_TM asc");
+                        ORDER_BY("toh.GUID asc");
+                        ORDER_BY("toh.ORDER_NO asc");
+                    }
+            }
+        }.toString();
+    }
+    /*
+    * 根据id查找
+    * queryOrderListByGuid
+    * */
+    public String queryOrderListByGuid(@Param("headGuid")String headGuid){
+
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("T_IMP_ORDER_BODY tob");
+                WHERE("tob.HEAD_GUID = #{headGuid}");
+            }
+        }.toString();
+    }
 }
+

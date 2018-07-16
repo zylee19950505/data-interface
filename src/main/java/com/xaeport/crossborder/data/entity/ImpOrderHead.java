@@ -37,6 +37,15 @@ public class ImpOrderHead {
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
     private String data_status;//数据状态
+    private String return_status;//回执状态
+
+    public String getReturn_status() {
+        return return_status;
+    }
+
+    public void setReturn_status(String return_status) {
+        this.return_status = return_status;
+    }
 
     public String getGuid() {
         return guid;

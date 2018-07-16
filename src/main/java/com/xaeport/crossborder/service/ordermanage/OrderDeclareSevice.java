@@ -1,6 +1,8 @@
 package com.xaeport.crossborder.service.ordermanage;
 
 
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ public class OrderDeclareSevice {
 	@Autowired
 	OrderDeclareMapper orderDeclareMapper;
 
+	private Log logger = LogFactory.getLog(this.getClass());
+
 	/*
      * 查询订单申报数据
      */
@@ -29,5 +33,18 @@ public class OrderDeclareSevice {
 	public Integer queryOrderDeclareCount(Map<String, Object> paramMap) {
 
 		return orderDeclareMapper.queryOrderDeclareCount(paramMap);
+	}
+
+	public boolean updateSubmitCustom(Map<String, String> paramMap) {
+		boolean flag;
+		try {
+			orderDeclareMapper.updateSubmitCustom(paramMap);
+			flag = true;
+		} catch (Exception e) {
+			flag = false;
+			String exceptionMsg = String.format("处理订单单[orderNo: %s]时发生异常", paramMap.get("submitKeys"));
+			logger.error(exceptionMsg, e);
+		}
+		return flag;
 	}
 }
