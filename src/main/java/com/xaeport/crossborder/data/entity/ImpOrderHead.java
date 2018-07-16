@@ -1,11 +1,11 @@
 package com.xaeport.crossborder.data.entity;
 
 import java.util.Date;
-
+//进口订单表体
 public class ImpOrderHead {
     private String guid;//企业系统生成36 位唯一序号（英文字母大写）
     private String app_Type;//企业报送类型。1-新增2-变更3-删除。默认为1。
-    private String app_Time;//企业报送时间。格式:YYYYMMDDhhmmss。
+    private Date app_Time;//企业报送时间。格式:YYYYMMDDhhmmss。
     private String app_Status;//业务状态:1-暂存,2-申报,默认为2。
     private String order_Type;//电子订单类型：I进口
     private String order_No;//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
@@ -63,11 +63,11 @@ public class ImpOrderHead {
         this.app_Type = app_Type;
     }
 
-    public String getApp_Time() {
+    public Date getApp_Time() {
         return app_Time;
     }
 
-    public void setApp_Time(String app_Time) {
+    public void setApp_Time(Date app_Time) {
         this.app_Time = app_Time;
     }
 

@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.ordermanage;
+package com.xaeport.crossborder.controller.api.detaillistmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/import")
-public class OrderImportApi extends BaseApi {
+@RequestMapping("/detailImport")
+public class DetailImportApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
@@ -73,7 +73,7 @@ public class OrderImportApi extends BaseApi {
         long startTime = System.currentTimeMillis();
         try {
             inputStream = file.getInputStream();
-            String type = "order";
+            String type = "detail";
             map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {

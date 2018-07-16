@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.entity;
 
+//进口订单表头
 public class ImpOrderBody {
     private int g_num;//从1开始的递增序号。
     private String head_guid;//出口电子订单表头系统唯一序号

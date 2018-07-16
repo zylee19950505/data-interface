@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.ordermanage;
+package com.xaeport.crossborder.controller.api.waybillmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
@@ -10,7 +10,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.data.ExcelDataInstance;
 import com.xaeport.crossborder.excel.read.ReadExcel;
-import com.xaeport.crossborder.service.ordermanage.OrderImportService;
+import com.xaeport.crossborder.service.waybillmanage.WaybillImportService;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -31,27 +31,24 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/import")
-public class OrderImportApi extends BaseApi {
+@RequestMapping("/waybillImport")
+public class WaybillImportApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
     @Autowired
-    OrderImportService orderImportService;
+    WaybillImportService waybillImportService;
 
     /**
      * 新快件上传
      *
-     * @param importTime //进口时间
      * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "importTime", required = false) String importTime,//申报时间
-                                      @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+    public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
                                       HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-        if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
 
         String fileName = file.getOriginalFilename();
@@ -62,9 +59,9 @@ public class OrderImportApi extends BaseApi {
         //获取企业信息
         Users user = this.getCurrentUsers();
 
-        int curValue = this.getHashingValue(String.format("%s%s", importTime, user.getId()));
-        if (this.isRepeatSubmit(httpSession.getAttribute("importTime"), curValue)) return new ResponseData("不允许重复提交");
-        httpSession.setAttribute("importTime", this.getHashingValue(String.format("%s%s", importTime, user.getId())));
+        int curValue = this.getHashingValue(String.format("%s", user.getId()));
+        if (this.isRepeatSubmit(httpSession.getAttribute("userIdCode"), curValue)) return new ResponseData("不允许重复提交");
+        httpSession.setAttribute("userIdCode", this.getHashingValue(String.format("%s", user.getId())));
 
         InputStream inputStream;
         ReadExcel readExcel = new ReadExcel();
@@ -73,11 +70,11 @@ public class OrderImportApi extends BaseApi {
         long startTime = System.currentTimeMillis();
         try {
             inputStream = file.getInputStream();
-            String type = "order";
+            String type = "waybill";
             map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
-                httpSession.removeAttribute("importTime");
+                httpSession.removeAttribute("userIdCode");
                 return new ResponseData(map.get("error"));//返回excel校验的错误信息
             } else {
                 List<List<String>> excelDataList = (List<List<String>>) map.get("excelData");//返回excel的正确数据
@@ -87,30 +84,30 @@ public class OrderImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
-                if (orderNoCount > 0) {
-                    httpSession.removeAttribute("importTime");
-                    return new ResponseData("订单号不能重复");
+                int logisticsNoCount = this.waybillImportService.getLogisticsNoCount(excelMap);
+                if (logisticsNoCount > 0) {
+                    httpSession.removeAttribute("userIdCode");
+                    return new ResponseData("物流运单编号不能重复");
                 }
 
 
-                flag = this.orderImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
+                flag = this.waybillImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
-                    httpSession.removeAttribute("importTime");
-                    return new ResponseData(String.format("跨境电子商务进口订单导入成功！"));
+                    httpSession.removeAttribute("userIdCode");
+                    return new ResponseData(String.format("跨境电子商务运单导入成功！"));
                 } else {
-                    httpSession.removeAttribute("importTime");
+                    httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }
             }
         } catch (IOException e) {
             this.log.error(String.format("导入文件模板错误，文件名:%s", fileName), e);
-            httpSession.removeAttribute("importTime");
+            httpSession.removeAttribute("userIdCode");
             return new ResponseData("导入文件模板错误");
         } catch (Exception r) {
             this.log.error(String.format("导入文件失败，文件名:%s", fileName), r);
-            httpSession.removeAttribute("importTime");
+            httpSession.removeAttribute("userIdCode");
             return new ResponseData("入库失败");
         }
 

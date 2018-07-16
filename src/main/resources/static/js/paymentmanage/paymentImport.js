@@ -1,8 +1,8 @@
 /**
- * 邮件导入
- * Created by lzy on 2018/6/27.
+ * 支付单导入
+ * Created by zwf on 2018/7/10.
  */
-sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/detailImport"] || {
+sw.page.modules["paymentmanage/paymentImport"] = sw.page.modules["paymentmanage/paymentImport"] || {
     init: function () {
         //初始化时间
         $("[name='importTime']").val(moment(new Date()).format("YYYYMMDD"));
@@ -13,11 +13,11 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
             format: "yyyymmdd",
             autoclose: true
         });
-        $("#detailImport").unbind("click").click(this.detailImport);
+        $("#orderImport").unbind("click").click(this.orderImport);
     },
 
     //导入运单
-    detailImport: function () {
+    orderImport: function () {
 
         var importTime = $("[name='importTime']").val();
         var file = $("#file").val();
@@ -32,7 +32,7 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
         }
 
         var options = {
-            url: "/detailImport/uploadFile",
+            url: "/payimport/uploadFile",
             type: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -54,7 +54,7 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
 
     //模板下载
     downLoad: function () {
-        var type = "Detail";
-        window.location.href = "/detailImport/downloadFile?type=" + type;
+        var type = "Payment";
+        window.location.href = "/payimport/downloadFile?type=" + type;
     }
 };
