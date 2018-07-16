@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.service.parametermanage;
+package com.xaeport.crossborder.service.paymentmanage;
 
 
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;

@@ -12,17 +12,16 @@ import java.util.*;
 
 public class ExcelDataWaybill implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
-    private int  logisticsNoIndex; //物流运单编号";//head
-    private int  logisticsCodeIndex; //物流企业代码";//head
-    private int  logisticsNameIndex; //物流企业名称";//head
-    private int  consigneeIndex; //收货人姓名";//head
-    private int  consigneeTelephoneIndex; //收货人电话";//head
-    private int  consigneeAddressIndex; //收件地址";//head
-    private int  freightIndex; //运费";//head
-    private int  insuredFeeIndex; //保价费";//head
-    private int  grossWeightIndex; //毛重";//head
-    private int  noteIndex; //备注";//head
-
+    private int logisticsNoIndex; //物流运单编号";//head
+    private int logisticsCodeIndex; //物流企业代码";//head
+    private int logisticsNameIndex; //物流企业名称";//head
+    private int consigneeIndex; //收货人姓名";//head
+    private int consigneeTelephoneIndex; //收货人电话";//head
+    private int consigneeAddressIndex; //收件地址";//head
+    private int freightIndex; //运费";//head
+    private int insuredFeeIndex; //保价费";//head
+    private int grossWeightIndex; //毛重";//head
+    private int noteIndex; //备注";//head
 
 
     public Map<String, Object> getExcelData(List<List<String>> excelData) throws Exception {
@@ -36,7 +35,7 @@ public class ExcelDataWaybill implements ExcelData {
     }
 
     /**
-     * 封装ImpOrderHead方法
+     * 封装ImpLogistics方法
      */
     public List<ImpLogistics> getImpLogisticsData(List<List<String>> excelData) {
         List<ImpLogistics> listData = new ArrayList<>();
@@ -53,18 +52,18 @@ public class ExcelDataWaybill implements ExcelData {
             impLogistics.setNote(excelData.get(i).get(noteIndex));//备注
 
             String freight = excelData.get(i).get(freightIndex);
-            if(!StringUtils.isEmpty(freight)){
+            if (!StringUtils.isEmpty(freight)) {
                 freight = df.format(Double.parseDouble(freight));
                 impLogistics.setFreight(freight);//运费
             }
             String insuredFee = excelData.get(i).get(insuredFeeIndex);
-            if(!StringUtils.isEmpty(insuredFee)){
+            if (!StringUtils.isEmpty(insuredFee)) {
                 insuredFee = df.format(Double.parseDouble(insuredFee));
                 impLogistics.setInsured_fee(insuredFee);//保价费
             }
 
             String grossWeight = excelData.get(i).get(grossWeightIndex);
-            if(!StringUtils.isEmpty(grossWeight)){
+            if (!StringUtils.isEmpty(grossWeight)) {
                 grossWeight = df.format(Double.parseDouble(grossWeight));
                 impLogistics.setWeight(grossWeight);//毛重
             }

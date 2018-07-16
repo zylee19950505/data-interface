@@ -10,7 +10,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.data.ExcelDataInstance;
 import com.xaeport.crossborder.excel.read.ReadExcel;
-import com.xaeport.crossborder.service.waybillmanage.WaybillImportService;
+import com.xaeport.crossborder.service.waybillmanage.StatusImportService;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -31,30 +31,30 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/waybillImport")
-public class WaybillImportApi extends BaseApi {
+@RequestMapping("/statusImport")
+public class StatusImportApi extends BaseApi{
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
     @Autowired
-    WaybillImportService waybillImportService;
+    StatusImportService statusImportService;
 
     /**
      * 新快件上传
      *
-     * @param file       // 上传的文件
+     * @param statusFile       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+    public ResponseData MultipartFile(@RequestParam(value = "statusFile", required = false) MultipartFile statusFile,//出口国际邮件模板
                                       HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-        if (file == null) return new ResponseData("请选择要导入的文件");
+        if (statusFile == null) return new ResponseData("请选择要导入的文件");
 
-        String fileName = file.getOriginalFilename();
+        String fileName = statusFile.getOriginalFilename();
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
-        if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
+        if (statusFile.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
 
         //获取企业信息
         Users user = this.getCurrentUsers();
@@ -69,8 +69,8 @@ public class WaybillImportApi extends BaseApi {
         int flag;
         long startTime = System.currentTimeMillis();
         try {
-            inputStream = file.getInputStream();
-            String type = "waybill";
+            inputStream = statusFile.getInputStream();
+            String type = "waybillStatus";
             map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
@@ -84,18 +84,18 @@ public class WaybillImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int logisticsNoCount = this.waybillImportService.getLogisticsNoCount(excelMap);
+                int logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
                 if (logisticsNoCount > 0) {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号不能重复");
                 }
 
 
-                flag = this.waybillImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
+                flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData(String.format("跨境电子商务运单导入成功！"));
+                    return new ResponseData(String.format("跨境电子商务运单状态导入成功！"));
                 } else if (flag == 1){
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("同一批物流运单编号不可重复！");
@@ -143,6 +143,5 @@ public class WaybillImportApi extends BaseApi {
         flag = value == curValue;
         return flag;
     }
-
 
 }

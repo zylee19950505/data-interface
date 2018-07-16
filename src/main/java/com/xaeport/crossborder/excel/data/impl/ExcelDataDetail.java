@@ -103,7 +103,7 @@ public class ExcelDataDetail implements ExcelData {
         startCountryIndex = detailLists.indexOf(ExcelHeadDetail.startCountry);
         netWeightIndex = detailLists.indexOf(ExcelHeadDetail.netWeight);
         noteIndex = detailLists.indexOf(ExcelHeadDetail.note);
-
-
     }
+
+
 }

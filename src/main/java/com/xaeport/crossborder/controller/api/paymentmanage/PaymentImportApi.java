@@ -10,7 +10,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.data.ExcelDataInstance;
 import com.xaeport.crossborder.excel.read.ReadExcel;
-import com.xaeport.crossborder.service.parametermanage.PaymentImportService;
+import com.xaeport.crossborder.service.paymentmanage.PaymentImportService;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;

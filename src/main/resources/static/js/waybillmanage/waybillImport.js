@@ -46,16 +46,14 @@ sw.page.modules["waybillmanage/waybillImport"] = sw.page.modules["waybillmanage/
 
     //导入运单
     waybillStatusImport: function () {
-
         var statusFile = $("#statusFile").val();
-
         if (isEmpty(statusFile)) {
             sw.alert("请选择要导入的文件", "提示", "", "modal-info");
             return false;
         }
 
-        var options = {
-            // url: "/import/uploadFile",
+        var option = {
+            url: "/statusImport/uploadFile",
             type: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -65,14 +63,14 @@ sw.page.modules["waybillmanage/waybillImport"] = sw.page.modules["waybillmanage/
                 $.unblockUI();
                 if (rsp.status === 200) {
                     sw.alert(rsp.data, "提示", "", "modal-info");
-                    $("#importStatus").find("input[name='importStatus']").val("");
+                    $("#importStatus").find("input[name='statusFile']").val("");
                 }
             },
             error: function (xhr, status, error) {
                 sw.showErrorMessage(xhr, status, error, "");
             }
         };
-        $("#importStatus").ajaxSubmit(options);
+        $("#importStatus").ajaxSubmit(option);
     },
 
     //模板下载

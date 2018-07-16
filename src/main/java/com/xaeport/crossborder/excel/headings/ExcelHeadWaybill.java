@@ -16,7 +16,7 @@ public class ExcelHeadWaybill {
     public final static String grossWeight = "毛重";//head
     public final static String note = "备注";//head
 
-    //订单Excel模板表头所有字段名
+    //运单Excel模板表头所有字段名
     public static List<String> getList() {
         List<String> wayBillList = new ArrayList<>();
         wayBillList.add("物流运单编号");
