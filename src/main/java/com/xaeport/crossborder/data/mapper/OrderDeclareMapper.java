@@ -20,7 +20,8 @@ import java.util.Map;
 public interface OrderDeclareMapper {
 
 	/*
-	 * 查询订单申报数据
+	 *
+	  *  查询订单申报数据
 	 */
 	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryOrderDeclareList")
 	List<Map<String,String>> queryOrderDeclareList(Map<String, Object> paramMap);
