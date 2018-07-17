@@ -1,7 +1,6 @@
 package com.xaeport.crossborder.tools;
 
-import com.xaeport.crossborder.data.entity.EnvelopInfo;
-import com.xaeport.crossborder.data.entity.SignedData;
+import com.xaeport.crossborder.data.entity.CEB311Message;
 import com.xaeport.crossborder.data.mapper.SystemToolMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,67 +43,32 @@ public class MessageUtils {
         return message_id;
     }
 
-    /**
-     * 报单申报 EXP301 SignedData对象生成方法
-     *
-     * @param senderId   发送方ID
-     * @param receiverId 接收方ID
-     * @return SignedData对象
-     */
-    public SignedData getEXP301SigneData(String senderId, String receiverId) {
-        logger.debug("开始生成EXP301 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
+/*
+* 订单报文申报
+*
+* */
+	public CEB311Message getCEB311Message(String senderId, String receiverId) {
+        logger.debug("开始生成CEB311 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
         String messageId = generateMessageID(senderId, receiverId);
 
         // 拼装SingData 以便生成XML
-        SignedData signedData = new SignedData();
-        signedData.setBzType("EXP301");
+        CEB311Message ceb311Message = new CEB311Message();
+        //ceb311Message.setBzType("CEB311");
         // 报文头信息
-        EnvelopInfo envelopInfo = new EnvelopInfo();
+       /* EnvelopInfo envelopInfo = new EnvelopInfo();
         envelopInfo.setVersion("1.0");
         envelopInfo.setMessage_id(messageId);
         envelopInfo.setFile_name(messageId + ".EXP");
-        envelopInfo.setMessage_type("EXP301");
+        envelopInfo.setMessage_type("CEB311");
         envelopInfo.setSender_id(senderId);
-        envelopInfo.setReceiver_id(receiverId);
-        SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        envelopInfo.setReceiver_id(receiverId);*/
+     /*   SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String dateStr = dateFmt.format(new Date());
         logger.debug("SignedData.EnvelopInfo生成发送时间[{}]", dateStr);
-        envelopInfo.setSend_time(dateStr);
+        ceb311Message.setSend_time(dateStr);
         // 装载报文头信息
-        signedData.setEnvelopInfo(envelopInfo);
-        logger.debug("完成生成EXP301 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
-        return signedData;
-    }
-
-    /**
-     * 舱单申报 Exp311 SignedData对象生成方法
-     *
-     * @param senderId   发送方ID
-     * @param receiverId 接收方ID
-     * @return SignedData对象
-     */
-    public SignedData getEXP311SigneData(String senderId, String receiverId) {
-        logger.debug("开始生成EXP311 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
-        String messageId = generateMessageID(senderId, receiverId);
-
-        // 拼装SingData 以便生成XML
-        SignedData signedData = new SignedData();
-        signedData.setBzType("EXP311");
-        // 报文头信息
-        EnvelopInfo envelopInfo = new EnvelopInfo();
-        envelopInfo.setVersion("1.0");
-        envelopInfo.setMessage_id(messageId);
-        envelopInfo.setFile_name(messageId + ".EXP");
-        envelopInfo.setMessage_type("EXP311");
-        envelopInfo.setSender_id(senderId);
-        envelopInfo.setReceiver_id(receiverId);
-        SimpleDateFormat dateFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String dateStr = dateFmt.format(new Date());
-        logger.debug("SignedData.EnvelopInfo生成发送时间[{}]", dateStr);
-        envelopInfo.setSend_time(dateStr);
-        // 装载报文头信息
-        signedData.setEnvelopInfo(envelopInfo);
-        logger.debug("完成生成EXP311 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
-        return signedData;
-    }
+        ceb311Message.setEnvelopInfo(envelopInfo);
+        logger.debug("完成生成CEB311 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);*/
+        return ceb311Message;
+	}
 }
