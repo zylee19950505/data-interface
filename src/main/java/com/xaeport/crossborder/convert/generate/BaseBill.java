@@ -2,8 +2,7 @@ package com.xaeport.crossborder.convert.generate;
 
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.data.entity.EnvelopInfo;
-import com.xaeport.crossborder.data.entity.SignedData;
+import com.xaeport.crossborder.data.entity.CEB311Message;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,8 @@ import java.io.ByteArrayOutputStream;
 @Component
 public class BaseBill {
     private Log log = LogFactory.getLog(this.getClass());
-    //@Autowired
-   // Waybill waybill;
+    @Autowired
+    Waybill waybill;
     @Autowired
     AppConfiguration appConfiguration;
    /* @Autowired
@@ -57,16 +56,19 @@ public class BaseBill {
     /**
      * 创建clientDxp数据报文
      *
-     * @param signedData
+     * @param ceb311Message
      */
-    public byte[] createXML(SignedData signedData, String flag) throws TransformerException {
+    public byte[] createXML(CEB311Message ceb311Message, String flag) throws TransformerException {
         Document document = this.getDocument();
-        Element rootElement = document.createElement("Package");
-        EnvelopInfo envelopInfo = signedData.getEnvelopInfo();
-        if (envelopInfo != null) {
-            rootElement.appendChild(this.getEnvelopInfo(document, envelopInfo));
-        }
-        rootElement.appendChild(this.getDataInfo(document, signedData, flag));
+        /*
+        <ceb:CEB311Message guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0"
+        xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        */
+        Element rootElement = document.createElement("ceb:CEB311Message");
+        rootElement.setAttribute("guid","");
+        rootElement.setAttribute("version","1.0");
+        rootElement.setAttribute("xmlns:ceb","http://www.chinaport.gov.cn/ceb");
+        rootElement.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -77,94 +79,33 @@ public class BaseBill {
         return os.toByteArray();
     }
 
-    /**
-     * 创建EnvelopInfo 节点
-     *
-     * @param document
-     * @param envelopInfo
-     * @return
-     */
-    public Element getEnvelopInfo(Document document, EnvelopInfo envelopInfo) {
-        Element envelopInfoElement = document.createElement("EnvelopInfo");
-
-        Element version = document.createElement("version");
-        version.setTextContent(envelopInfo.getVersion());
-
-        Element messageId = document.createElement("message_id");
-        messageId.setTextContent(envelopInfo.getMessage_id());
-
-        Element fileName = document.createElement("file_name");
-        fileName.setTextContent(envelopInfo.getFile_name());
-
-        Element messageType = document.createElement("message_type");
-        messageType.setTextContent(envelopInfo.getMessage_type());
-
-        Element senderId = document.createElement("sender_id");
-        senderId.setTextContent(envelopInfo.getSender_id());
-
-        Element receiverId = document.createElement("receiver_id");
-        receiverId.setTextContent(envelopInfo.getReceiver_id());
-
-        Element sendTime = document.createElement("send_time");
-        sendTime.setTextContent(envelopInfo.getSend_time());
-
-        envelopInfoElement.appendChild(version);
-        envelopInfoElement.appendChild(messageId);
-        envelopInfoElement.appendChild(fileName);
-        envelopInfoElement.appendChild(messageType);
-        envelopInfoElement.appendChild(senderId);
-        envelopInfoElement.appendChild(receiverId);
-        envelopInfoElement.appendChild(sendTime);
-
-        return envelopInfoElement;
-    }
-
 
     /**
-     * 构建DataInfo 节点
+     * 构建ceb:Order节点
      *
      * @param document
-     * @param signedData
+     * @param ceb311Message
      * @return
      */
-    public Element getDataInfo(Document document, SignedData signedData, String flag) {
-        Element dataInfo = document.createElement("DataInfo");
-        Element signedDataElement = document.createElement("SignedData");
-        signedDataElement.appendChild(this.getData(document, signedData, flag));
-        String sign = signedData.getHashSign();
-        if (sign != null) {
-            Element hashSign = document.createElement("HashSign");
-            hashSign.setTextContent(sign);
-            signedDataElement.appendChild(hashSign);
-        }
-
-        String signInfo = signedData.getSignerInfo();
-        if (signInfo != null) {
-            Element signerInfo = document.createElement("SignerInfo");
-            signerInfo.setTextContent(sign);
-            signedDataElement.appendChild(signerInfo);
-        }
-
-        dataInfo.appendChild(signedDataElement);
-
-        return dataInfo;
+    public Element getDataInfo(Document document, CEB311Message ceb311Message, String flag) {
+        Element ceborderElement = document.createElement("ceb:Order");
+        ceborderElement.appendChild(this.getData(document, ceb311Message, flag));
+        return ceborderElement;
     }
 
     /**
-     * 构建Data 节点
+     * 构建OrderHead 节点
      *
-     * @param signedData
+     * @param ceb311Message
      * @return
      */
-    public Element getData(Document document, SignedData signedData, String flag) {
-        Element Data = document.createElement("Data");
-        Element bzTypeElement = document.createElement(signedData.getBzType());
-        bzTypeElement.setAttribute("xmlns", "http://www.chinaport.gov.cn/Exp");
+    public Element getData(Document document, CEB311Message ceb311Message, String flag) {
+        Element ceborderheadEl = document.createElement("ceb:OrderHead");
         switch (flag) {
-            //生成新快件 xml
-            case "wayBill": {
-              //  bzTypeElement.appendChild(this.waybill.getEntryHead(document, signedData));
-               // this.waybill.getEntryList(document, bzTypeElement, signedData);
+            //生成订单 .xml
+            case "orderDeclare": {
+                ceborderheadEl.appendChild(this.waybill.getEntryHead(document, ceb311Message));
+                this.waybill.getEntryList(document, ceborderheadEl, ceb311Message);
                 //是否将EntryDocu节点组装
                 if (appConfiguration.isEntryDocu()) {
                //     bzTypeElement.appendChild(this.waybill.getEntryDocu(document, signedData));
@@ -178,7 +119,6 @@ public class BaseBill {
                 break;*/
             }
         }
-        Data.appendChild(bzTypeElement);
-        return Data;
+        return ceborderheadEl;
     }
 }

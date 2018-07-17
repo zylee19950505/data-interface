@@ -46,4 +46,11 @@ public interface OrderDeclareMapper {
 	* */
 	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryOrderListByGuid")
 	List<ImpOrderBody> queryOrderListByGuid(@Param("headGuid") String headGuid);
+
+
+	/*
+	* 修改申报状态
+	* */
+	@UpdateProvider(type = OrderDeclareSQLProvider.class,method = "updateEntryHeadOrderStatus")
+	void updateEntryHeadOrderStatus(@Param("headGuid") String headGuid,@Param("ddysb") String ddysb);
 }

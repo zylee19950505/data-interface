@@ -168,9 +168,38 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
 
         return new SQL(){
             {
-                SELECT("*");
+                SELECT("G_NUM");
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_NO");
+                SELECT("ITEM_NAME");
+                SELECT("ITEM_DESCRIBE");
+                SELECT("BAR_CODE");
+                SELECT("UNIT");
+                SELECT("QTY");
+                SELECT("PRICE");
+                SELECT("TOTAL_PRICE");
+                SELECT("CURRENCY");
+                SELECT("COUNTRY");
+                SELECT("NOTE");
                 FROM("T_IMP_ORDER_BODY tob");
                 WHERE("tob.HEAD_GUID = #{headGuid}");
+            }
+        }.toString();
+    }
+
+    /*
+    * 修改订单状态
+    * updateEntryHeadOrderStatus
+    * */
+    public String updateEntryHeadOrderStatus(@Param("headGuid") String headGuid,@Param("ddysb") String ddysb){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_ORDER_HEAD toh");
+                WHERE("toh.GUID = #{headGuid}");
+                SET("toh.DATA_STATUS = #{ddysb}");
+                SET("toh.crt_tm=sysdate");
+                SET("toh.upd_tm=sysdate");
             }
         }.toString();
     }
