@@ -31,7 +31,15 @@ public class ImpPayment {
     private Date crt_tm;//创建时间
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
+    private String return_status;//回执信息
 
+    public String getReturn_status() {
+        return return_status;
+    }
+
+    public void setReturn_status(String return_status) {
+        this.return_status = return_status;
+    }
 
     public String getGuid() {
         return guid;

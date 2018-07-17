@@ -18,10 +18,11 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
 
         // 数据表
         sw.datatable("#query-paymentDeclare-table", {
+            sLoadingRecords: true,
             ordering: false,
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
-            // pagingType: 'simple_numbers',
+            pagingType: 'simple_numbers',
             ajax: function (data, callback, setting) {
                 $.ajax({
                     type: 'GET',
@@ -55,32 +56,58 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        return '<input type="checkbox" class="submitKey" value="'+ row.ORDER_NO +'" />';
+                        if(row.data_status == "CBDS1"){
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.order_no + '" />';
+                        }else {
+                            return "";
+                        }
                     }
                 },
-                {data: "PAY_TRANSACTION_ID", label: "支付交易编号"},
-                {data: "ORDER_NO", label: "订单编号"},
-                {data: "PAY_NAME", label: "支付企业名称"},
-                {data: "EBP_NAME", label: "电商平台名称"},
-                {data: "PAYER_NAME", label: "支付人"},
-                 {
-                            label:"支付金额（元）"  ,render: function (data, type, row) {
-                        return row.AMOUNT_PAID;
+                {data: "pay_transaction_id", label: "支付交易编号"},
+                {data: "order_no", label: "订单编号"},
+                {data: "pay_name", label: "支付企业名称"},
+                {data: "ebp_name", label: "电商平台名称"},
+                {data: "payer_name", label: "支付人"},
+                {
+                    label: "支付金额（元）", render: function (data, type, row) {
+                    return row.amount_paid;
                 }
                 },
-                {data: "APPSTATUS", label: "业务状态"},
+                {
+                    data: "data_status", label: "业务状态",render:function(data,type,row){
+                        switch (row.data_status){
+                            case "CBDS1"://待申报
+                                textColor="text-yellow";
+                                break;
+                            case "CBDS3"://支付单待申报
+                                textColor="text-yellow";
+                                break;
+                            case "CBDS30"://支付单申报中
+                                textColor="text-yellow";
+                                break;
+                            case "CBDS32"://支付单申报成功
+                                textColor="text-yellow";
+                                break;
+                            case "CBDS33"://支付单重报
+                                textColor="text-yellow";
+                                break;
+                        }
+                        return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                }
+                },
                 {
                     label: "支付时间", render: function (data, type, row) {
-                        if (!isEmpty(row.PAY_TIME)) {
-                            return moment(row.PAY_TIME).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
+                    if (!isEmpty(row.pay_time)) {
+                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
                     }
+                    return "";
+                }
                 },
-                {data: "NOTE", label: "入库结果"}
+                {data: "return_status", label: "入库结果"}
             ]
-         });
-},
+        });
+    },
     /*// 提交海关
     submitCustom: function () {
         var submitKeys = "";

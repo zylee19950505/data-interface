@@ -21,7 +21,7 @@ public class PaymentImportSQLProvider {
             {
                 INSERT_INTO("T_IMP_PAYMENT");
                 if (!StringUtils.isEmpty(impPayment.getGuid())) {
-                    VALUES("guid", "#{impPayment.guid}");
+                    VALUES("GUID", "#{impPayment.guid}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getApp_type())) {
                     VALUES("APP_TYPE", "#{impPayment.app_type}");
@@ -92,8 +92,9 @@ public class PaymentImportSQLProvider {
             }
         }.toString();
     }
+
     /*
-     * 查询有无重复支付单号信息
+     * 查询有无重复订单号
      */
     public String isRepeatOrderNo(@Param("impPayment") ImpPayment impPayment) throws Exception {
         return new SQL() {
@@ -105,30 +106,5 @@ public class PaymentImportSQLProvider {
         }.toString();
     }
 
-   /* *//*
-     * 根据订单号查询表头Id 码
-     *//*
-    public String queryHeadGuidByOrderNo(String listOrder_no) throws Exception {
-        return new SQL() {
-            {
-                SELECT("t.GUID");
-                FROM("T_IMP_ORDER_HEAD t");
-                WHERE("t.ORDER_NO = #{listOrder_no}");
-            }
-        }.toString();
-    }
-
-    *//*
-     * 根据订单号查询表体最大商品编码 码
-     *//*
-    public String queryMaxG_num(String listOrder_no) throws Exception {
-        return new SQL() {
-            {
-                SELECT("max(t.G_NUM)");
-                FROM("T_IMP_ORDER_GOODS_LIST t");
-                WHERE("t.ORDER_NO = #{listOrder_no}");
-            }
-        }.toString();
-    }*/
 
 }

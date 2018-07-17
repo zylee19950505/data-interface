@@ -11,17 +11,17 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     /*
      * 支付单申报数据查询
 	 */
-    public String queryPaymentDeclareList(Map<String, Object> paramMap) throws Exception {
-        final String orderNo = paramMap.get("orderNo").toString();
-        final String payTransactionId = paramMap.get("payTransactionId").toString();
-        final String start = paramMap.get("start").toString();
-        final String length = paramMap.get("length").toString();
+    public String queryPaymentDeclareList(Map<String, String> paramMap) throws Exception {
+
+        final String orderNo = paramMap.get("orderNo");
+        final String payTransactionId = paramMap.get("payTransactionId");
+        final String end = paramMap.get("end");
 
         return new SQL() {
             {
                 SELECT(
-                        " * from ( select w.*, ROWNUM AS rn from ( " +
-                        "SELECT" +
+                        " * from ( select rownum rn, f.* from ( " +
+                        " SELECT " +
                         "    t.PAY_TRANSACTION_ID," +
                         "    t.ORDER_NO," +
                         "    t.PAY_NAME," +
@@ -30,19 +30,19 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                         "    t.AMOUNT_PAID," +
                         "    t.PAY_TIME," +
                         "    t.NOTE," +
-                        "    DECODE(t.APP_STATUS,'1','暂存','2','申报')as appStatus" +
-                        "  FROM T_IMP_PAYMENT t");
-                WHERE("1=1");
+                        "    t.RETURN_STATUS,"+
+                        "    t.DATA_STATUS");
+                FROM ("T_IMP_PAYMENT t");
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
                 }
-                if (!"-1".equals(length)) {
-                    ORDER_BY("t.upd_tm desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
+                if (!"-1".equals(end)) {
+                    ORDER_BY("t.upd_tm desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
-                    ORDER_BY("t.upd_tm desc ) w  )   WHERE rn >= #{start}");
+                    ORDER_BY("t.upd_tm desc ) f  )  WHERE rn >= #{start}");
                 }
             }
         }.toString();
@@ -51,17 +51,17 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     /*
      * 支付单申报总数查询
      */
-    public String queryPaymentDeclareCount(Map<String, Object> paramMap) throws Exception {
+    public String queryPaymentDeclareCount(Map<String,String> paramMap) throws Exception {
 
-        final String orderNo = paramMap.get("orderNo").toString();
-        final String payTransactionId = paramMap.get("payTransactionId").toString();
+        final String orderNo = paramMap.get("orderNo");
+        final String payTransactionId = paramMap.get("payTransactionId");
 
         return new SQL() {
             {
-                SELECT(" COUNT(*)  FROM T_IMP_PAYMENT t");
-                WHERE("1=1");
+                SELECT("COUNT(1)");
+                FROM("T_IMP_PAYMENT t");
                 if (!StringUtils.isEmpty(orderNo)) {
-                    WHERE("t.order_no = #{orderNo}");
+                    WHERE("t.ORDER_NO = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");

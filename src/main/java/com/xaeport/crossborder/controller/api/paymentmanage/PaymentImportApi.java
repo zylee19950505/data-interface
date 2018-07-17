@@ -42,16 +42,13 @@ public class PaymentImportApi extends BaseApi {
     /**
      * 新快件上传
      *
-     * @param importTime //进口时间
      * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "importTime", required = false) String importTime,//申报时间
-                                      @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+    public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
                                       HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-        if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
         //获取文件名称
         String fileName = file.getOriginalFilename();
@@ -63,9 +60,9 @@ public class PaymentImportApi extends BaseApi {
         //获取企业信息
         Users user = this.getCurrentUsers();
         //获取时间和用户id的哈希值
-        int curValue = this.getHashingValue(String.format("%s%s", importTime, user.getId()));
-        if (this.isRepeatSubmit(httpSession.getAttribute("importTime"), curValue)) return new ResponseData("不允许重复提交");
-        httpSession.setAttribute("importTime", this.getHashingValue(String.format("%s%s", importTime, user.getId())));
+        int curValue = this.getHashingValue(String.format("%s", user.getId()));
+        if (this.isRepeatSubmit(httpSession.getAttribute("userId"), curValue)) return new ResponseData("不允许重复提交");
+        httpSession.setAttribute("userId", this.getHashingValue(String.format("%s", user.getId())));
 
         InputStream inputStream;
         ReadExcel readExcel = new ReadExcel();
@@ -79,7 +76,7 @@ public class PaymentImportApi extends BaseApi {
 
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
-                httpSession.removeAttribute("importTime");
+                httpSession.removeAttribute("userId");
                 return new ResponseData(map.get("error"));//返回excel校验的错误信息
             } else {
                 List<List<String>> excelDataList = (List<List<String>>) map.get("excelData");//返回excel的正确数据
@@ -91,31 +88,31 @@ public class PaymentImportApi extends BaseApi {
 
                 int orderNoCount = this.paymentImportService.getOrderNoCount(excelMap);
                 if (orderNoCount > 0) {
-                    httpSession.removeAttribute("importTime");
+                    httpSession.removeAttribute("userId");
                     return new ResponseData("订单号不能重复");
                 }
 
 
-                flag = this.paymentImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
+                flag = this.paymentImportService.createOrderForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
-                    httpSession.removeAttribute("importTime");
+                    httpSession.removeAttribute("userId");
                     return new ResponseData(String.format("跨境电子商务进口订单导入成功！"));
                 } else if (flag == 1){
-                    httpSession.removeAttribute("importTime");
+                    httpSession.removeAttribute("userId");
                     return new ResponseData("同一批订单号不有可重复！");
                 }else {
-                    httpSession.removeAttribute("importTime");
+                    httpSession.removeAttribute("userId");
                     return new ResponseData("入库失败");
                 }
             }
         } catch (IOException e) {
             this.log.error(String.format("导入文件模板错误，文件名:%s", fileName), e);
-            httpSession.removeAttribute("importTime");
+            httpSession.removeAttribute("userId");
             return new ResponseData("导入文件模板错误");
         } catch (Exception r) {
             this.log.error(String.format("导入文件失败，文件名:%s", fileName), r);
-            httpSession.removeAttribute("importTime");
+            httpSession.removeAttribute("userId");
             return new ResponseData("入库失败");
         }
 

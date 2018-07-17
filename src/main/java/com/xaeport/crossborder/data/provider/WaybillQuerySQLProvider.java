@@ -12,6 +12,7 @@ public class WaybillQuerySQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String logisticsStatus = paramMap.get("logisticsStatus");
+        final String end = paramMap.get("end");
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
@@ -35,8 +36,11 @@ public class WaybillQuerySQLProvider {
                 if(!StringUtils.isEmpty(endFlightTimes)){
                     WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                ORDER_BY("t.app_time desc ) f ) where rn between #{start} and #{end} ");
-
+                if (!"-1".equals(end)) {
+                    ORDER_BY("t.app_time desc ) f  ) WHERE rn between #{start} and #{end}");
+                } else {
+                    ORDER_BY("t.app_time desc ) f  ) WHERE rn >= #{start}");
+                }
             }
         }.toString();
     }
@@ -48,7 +52,7 @@ public class WaybillQuerySQLProvider {
         final String logisticsStatus = paramMap.get("logisticsStatus");
         return new SQL(){
             {
-                SELECT("count(1) from ( select t.LOGISTICS_NO");
+                SELECT("count(1)");
                 FROM("T_IMP_LOGISTICS t");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
@@ -62,7 +66,6 @@ public class WaybillQuerySQLProvider {
                 if(!StringUtils.isEmpty(endFlightTimes)){
                     WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                ORDER_BY("t.app_time desc )");
             }
         }.toString();
 

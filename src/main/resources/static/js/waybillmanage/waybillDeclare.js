@@ -58,7 +58,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        return '<input type="checkbox" class="submitKey" value="'+ row.LOGISTICS_NO +'" />';
+                        return '<input type="checkbox" class="submitKey" value="'+ row.logistics_no +'" />';
                     }
                 },
                 {data: "logistics_no", label: "物流运单编号"},//订单编号要点击查看订单详情
@@ -71,7 +71,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if(!isEmpty(row.app_time)){
-                        return moment(row.APP_TIME).format("YYYY-MM-DD HH:mm:ss");
+                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
                 }
@@ -79,7 +79,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {
                     label: "物流状态时间", render: function (data, type, row) {
                     if(!isEmpty(row.app_time)){
-                        return moment(row.APP_TIME).format("YYYY-MM-DD HH:mm:ss");
+                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
                 }

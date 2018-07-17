@@ -5,12 +5,15 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
+import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.service.paymentmanage.PaymentDeclareSevice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +28,6 @@ import java.util.Map;
 @RequestMapping("/api/paymentManage")
 public class PaymentDeclareApi extends BaseApi {
 
-
     private Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
@@ -37,34 +39,46 @@ public class PaymentDeclareApi extends BaseApi {
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String payTransactionId,
-            @RequestParam(required = false) String start,
-            @RequestParam(required = false) String length,
-            @RequestParam(required = false) String draw
+            HttpServletRequest request
+
     ) {
         System.err.println("进入控制层。 获取数据为："+orderNo+"-------"+payTransactionId);
-        this.logger.debug(String.format("查询邮件申报条件参数:[orderNo:%s,payTransactionId:%s,start:%s,length:%s]", orderNo, payTransactionId,start, length));
+        this.logger.debug(String.format("查询邮件申报条件参数:[orderNo:%s,payTransactionId:%s]", orderNo, payTransactionId));
 
-        Map<String, Object> paramMap = new HashMap<String, Object>();
-        DataList<List<Map<String, String>>> dataList = new DataList<List<Map<String, String>>>();
+        Map<String, String> paramMap = new HashMap<String, String>();
+
+        String startStr = request.getParameter("start");
+        String length = request.getParameter("length");
+        String extra_search = request.getParameter("extra_search");
+        String draw = request.getParameter("draw");
+        String start = String.valueOf((Integer.parseInt(startStr) + 1));
+        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+
         paramMap.put("orderNo", orderNo);
         paramMap.put("payTransactionId", payTransactionId);
+
         paramMap.put("start", start);
         paramMap.put("length", length);
-        List<Map<String, String>> resultList = new ArrayList<Map<String, String>>();
+        paramMap.put("end", end);
+        paramMap.put("extra_search", extra_search);
+
+        DataList<ImpPayment> dataList = null;
+        List<ImpPayment> resultList = null;
         try {
             //查询支付单列表
-            resultList = paymentDeclareSevice.queryPaymentDeclareList(paramMap);
+            resultList = this.paymentDeclareSevice.queryPaymentDeclareList(paramMap);
             //查询支付单总数
-            Integer count = paymentDeclareSevice.queryPaymentDeclareCount(paramMap);
+            Integer count = this.paymentDeclareSevice.queryPaymentDeclareCount(paramMap);
+            dataList = new DataList<>();
             dataList.setDraw(draw);
-//            dataList.setData(resultList);
+            dataList.setData(resultList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
-            return new ResponseData(dataList);
         } catch (Exception e) {
             this.logger.error("查询支付单申报数据失败", e);
-            return new ResponseData(dataList);
+            return new ResponseData("获取支付单申报数据错误", HttpStatus.BAD_REQUEST);
         }
+        return new ResponseData(dataList);
     }
 
 

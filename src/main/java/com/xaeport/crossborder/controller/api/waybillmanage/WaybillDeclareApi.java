@@ -42,6 +42,7 @@ public class WaybillDeclareApi extends BaseApi{
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, logisticsStatus));
+
         Map<String, String> map = new HashMap<String,String>();
 
         String startStr = request.getParameter("start");
