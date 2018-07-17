@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.excel.validate.entryOrder;
+package com.xaeport.crossborder.excel.validate.entryPayment;
 
 import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadPayment;
@@ -60,10 +60,6 @@ public class ValidatePayment extends ValidateBase {
 
     }
 
-    @Override
-    public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
-        return 0;
-    }
 
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
         //导入excel模板非空和长度判断
@@ -83,5 +79,10 @@ public class ValidatePayment extends ValidateBase {
         return 0;
     }
 
+
+    @Override
+    public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
+        return 0;
+    }
 
 }

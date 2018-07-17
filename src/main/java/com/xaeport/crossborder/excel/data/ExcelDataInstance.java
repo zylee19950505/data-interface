@@ -8,7 +8,7 @@ import com.xaeport.crossborder.excel.data.impl.*;
  */
 public class ExcelDataInstance {
     public static ExcelData getExcelDataObject(String type) {
-        ExcelData excelData =null;
+        ExcelData excelData = null;
         switch (type) {
             case "order": {
                 excelData = new ExcelDataOrder();

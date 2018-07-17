@@ -41,8 +41,7 @@ public class DataList<T> {
         return data;
     }
 
-    public void setData(List<Map<String, String>> data) {
-        this.data = (List<T>) data;
+    public void setData(List<T> data) {
+        this.data = data;
     }
-
 }

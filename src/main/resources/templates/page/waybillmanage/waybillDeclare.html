@@ -37,14 +37,14 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">物流运单编号：</span>
-                                    <input type="text" class="form-control" name="orderNo" placeholder="请输入物流运单编号" />
+                                    <input type="text" class="form-control" name="logisticsNo" placeholder="请输入物流运单编号" />
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">运单申报状态：</span>
-                                    <select class="form-control" name="declareStatus">
+                                    <select class="form-control" name="logisticsStatus">
                                         <option value="" >未申报</option>
                                     </select>
                                 </div>
@@ -70,9 +70,13 @@
                     <i class="fa fa-file-archive-o"></i>
                     <h3 class="box-title">运单申报</h3>
                     <div class="box-tools pull-right">
-                        <button class="btn btn-sm btn-primary pull-right" type="button" ws-submit="" id="submitManifestBtn"
-                                    data-toggle="tooltip-disabled">运单申报
+                        <button class="btn btn-sm btn-primary pull-right" type="button" ws-submit="" id="submitStatusBtn"
+                                data-toggle="tooltip-disabled">运单状态申报
                         </button>
+                        <button class="btn btn-sm btn-primary pull-right" type="button" ws-submit="" id="submitWaybillBtn"
+                                    data-toggle="tooltip-disabled" style="margin-right: 10px">运单申报
+                        </button>
+
                     </div>
                 </div>
                 <div class="box-body">

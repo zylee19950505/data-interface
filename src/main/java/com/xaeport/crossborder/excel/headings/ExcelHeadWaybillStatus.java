@@ -15,7 +15,7 @@ public class ExcelHeadWaybillStatus {
     public final static String logisticsTime = "物流状态时间";//head
     public final static String note = "备注";//head
 
-    //订单Excel模板表头所有字段名
+    //运单状态Excel模板表头所有字段名
     public static List<String> getList() {
         List<String> wayBillStatusList = new ArrayList<>();
         wayBillStatusList.add("物流运单编号");

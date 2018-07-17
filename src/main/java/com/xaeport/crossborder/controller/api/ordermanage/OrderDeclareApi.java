@@ -78,7 +78,7 @@ public class OrderDeclareApi extends BaseApi {
             //查询总数
             Integer count = orderDeclareService.queryOrderDeclareCount(paramMap);
             dataList.setDraw(draw);
-            dataList.setData(resultList);
+//            dataList.setData(resultList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
             return new ResponseData(dataList);

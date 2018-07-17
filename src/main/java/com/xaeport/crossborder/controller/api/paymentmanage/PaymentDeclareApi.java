@@ -5,7 +5,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.service.parametermanage.PaymentDeclareSevice;
+import com.xaeport.crossborder.service.paymentmanage.PaymentDeclareSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,7 +57,7 @@ public class PaymentDeclareApi extends BaseApi {
             //查询支付单总数
             Integer count = paymentDeclareSevice.queryPaymentDeclareCount(paramMap);
             dataList.setDraw(draw);
-            dataList.setData(resultList);
+//            dataList.setData(resultList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
             return new ResponseData(dataList);
