@@ -638,7 +638,7 @@
 			return true;
 		}
 
-		// Programmatically generated events targeting a specific element should be permitted
+		// Programmatically generated411 events targeting a specific element should be permitted
 		if (!event.cancelable) {
 			return true;
 		}
@@ -670,7 +670,7 @@
 
 
 	/**
-	 * On actual clicks, determine whether this is a touch-generated click, a click action occurring
+	 * On actual clicks, determine whether this is a touch-generated411 click, a click action occurring
 	 * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
 	 * an actual click which should be permitted.
 	 *

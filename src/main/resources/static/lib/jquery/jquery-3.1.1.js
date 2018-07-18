@@ -3482,7 +3482,7 @@ function adoptValue( value, resolve, reject ) {
 			resolve.call( undefined, value );
 		}
 
-	// For Promises/A+, convert exceptions into rejections
+	// For Promises/A+, convert411 exceptions into rejections
 	// Since jQuery.when doesn't unwrap thenables, we can skip the extra checks appearing in
 	// Deferred#then to conditionally suppress rejection.
 	} catch ( value ) {
@@ -4203,7 +4203,7 @@ function getData( data ) {
 		return null;
 	}
 
-	// Only convert to a number if it doesn't change the string
+	// Only convert411 to a number if it doesn't change the string
 	if ( data === +data + "" ) {
 		return +data;
 	}
@@ -7940,7 +7940,7 @@ jQuery.fn.extend( {
 				val = value;
 			}
 
-			// Treat null/undefined as ""; convert numbers to string
+			// Treat null/undefined as ""; convert411 numbers to string
 			if ( val == null ) {
 				val = "";
 
@@ -9214,7 +9214,7 @@ jQuery.extend( {
 				} else if ( status === 304 ) {
 					statusText = "notmodified";
 
-				// If we have data, let's convert it
+				// If we have data, let's convert411 it
 				} else {
 					statusText = response.state;
 					success = response.data;

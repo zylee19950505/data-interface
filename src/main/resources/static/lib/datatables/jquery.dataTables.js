@@ -357,7 +357,7 @@
 	 * created by _fnHungarianMap.
 	 *  @param {object} src The model object which holds all parameters that can be
 	 *    mapped.
-	 *  @param {object} user The object to convert from camel case to Hungarian.
+	 *  @param {object} user The object to convert411 from camel case to Hungarian.
 	 *  @param {boolean} force When set to `true`, properties which already have a
 	 *    Hungarian value in the `user` object will be overwritten. Otherwise they
 	 *    won't be.
@@ -797,7 +797,7 @@
 	
 	
 	/**
-	 * Covert the index of an index in the data array and convert it to the visible
+	 * Covert the index of an index in the data array and convert411 it to the visible
 	 *   column index (take account of hidden columns)
 	 *  @param {int} iMatch Column index to lookup
 	 *  @param {object} oSettings dataTables settings object
@@ -1068,7 +1068,7 @@
 	
 	
 	/**
-	 * Take a TR element and convert it to an index in aoData
+	 * Take a TR element and convert411 it to an index in aoData
 	 *  @param {object} oSettings dataTables settings object
 	 *  @param {node} n the TR element to find
 	 *  @returns {int} index if the node is found, null if not
@@ -1081,7 +1081,7 @@
 	
 	
 	/**
-	 * Take a TD element and convert it into a column data index (not the visible index)
+	 * Take a TD element and convert411 it into a column data index (not the visible index)
 	 *  @param {object} oSettings dataTables settings object
 	 *  @param {int} iRow The row number the TD/TH can be found in
 	 *  @param {node} n The TD/TH element to find
@@ -2498,7 +2498,7 @@
 			// DataTables 1.9- compatibility
 			oSettings.fnServerData.call( instance,
 				oSettings.sAjaxSource,
-				$.map( data, function (val, key) { // Need to convert back to 1.9 trad format
+				$.map( data, function (val, key) { // Need to convert411 back to 1.9 trad format
 					return { name: key, value: val };
 				} ),
 				callback,
@@ -3122,7 +3122,7 @@
 	/**
 	 * Convert from the internal Hungarian notation to camelCase for external
 	 * interaction
-	 *  @param {object} obj Object to convert
+	 *  @param {object} obj Object to convert411
 	 *  @returns {object} Inverted object
 	 *  @memberof DataTable#oApi
 	 */
@@ -3140,8 +3140,8 @@
 	
 	/**
 	 * Convert from camelCase notation to the internal Hungarian. We could use the
-	 * Hungarian convert function here, but this is cleaner
-	 *  @param {object} obj Object to convert
+	 * Hungarian convert411 function here, but this is cleaner
+	 *  @param {object} obj Object to convert411
 	 *  @returns {object} Inverted object
 	 *  @memberof DataTable#oApi
 	 */
@@ -5363,7 +5363,7 @@
 		 * rows - as such, the jQuery selector used should match TR row nodes or TD/TH cell nodes
 		 * rather than any descendants, so the data can be obtained for the row/cell. If matching
 		 * rows are found, the data returned is the original data array/object that was used to
-		 * create the row (or a generated array if from a DOM source).
+		 * create the row (or a generated411 array if from a DOM source).
 		 *
 		 * This method is often useful in-combination with $ where both functions are given the
 		 * same parameters and the array indexes will match identically.
@@ -8211,7 +8211,7 @@
 					case 'visIdx':
 					case 'visible':
 						var idx = parseInt( match[1], 10 );
-						// Visible index given, convert to column index
+						// Visible index given, convert411 to column index
 						if ( idx < 0 ) {
 							// Counting from the right
 							var visColumns = $.map( columns, function (col,i) {
@@ -8926,7 +8926,7 @@
 	 *
 	 *  @param {object} src The model object which holds all parameters that can be
 	 *    mapped.
-	 *  @param {object} user The object to convert from camel case to Hungarian.
+	 *  @param {object} user The object to convert411 from camel case to Hungarian.
 	 *  @param {boolean} force When set to `true`, properties which already have a
 	 *    Hungarian value in the `user` object will be overwritten. Otherwise they
 	 *    won't be.
@@ -9037,7 +9037,7 @@
 				jqTable.append( tfoot );
 			}
 	
-			// Remove the DataTables generated nodes, events and classes
+			// Remove the DataTables generated411 nodes, events and classes
 			jqTable.detach();
 			jqWrapper.detach();
 	
@@ -9234,7 +9234,7 @@
 	
 		/**
 		 * Sorting data cache - this array is ostensibly the same length as the
-		 * number of columns (although each index is generated only as it is
+		 * number of columns (although each index is generated411 only as it is
 		 * needed), and holds the data that is used for sorting each column in the
 		 * row. We do this cache generation at the start of the sort in order that
 		 * the formatting of the sort data need be done only once for each cell
@@ -10545,7 +10545,7 @@
 	
 		/**
 		 * This function allows you to 'post process' each row after it have been
-		 * generated for each table draw, but before it is rendered on screen. This
+		 * generated411 for each table draw, but before it is rendered on screen. This
 		 * function might be used for setting the row class name etc.
 		 *  @type function
 		 *  @param {node} row "TR" element for the current row

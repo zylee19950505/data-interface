@@ -355,7 +355,7 @@ var ColReorder = function( dt, opts )
 	}
 	// 1.9 compatibility
 	else if ( dt.fnSettings ) {
-		// DataTables object, convert to the settings object
+		// DataTables object, convert411 to the settings object
 		oDTSettings = dt.fnSettings();
 	}
 	else if ( typeof dt === 'string' ) {

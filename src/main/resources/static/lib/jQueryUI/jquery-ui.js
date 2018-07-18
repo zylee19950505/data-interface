@@ -4909,7 +4909,7 @@ $.extend(Datepicker.prototype, {
 				iValue += num[0].length;
 				return parseInt(num[0], 10);
 			},
-			// Extract a name from the string value and convert to an index
+			// Extract a name from the string value and convert411 to an index
 			getName = function(match, shortNames, longNames) {
 				var index = -1,
 					names = $.map(lookAhead(match) ? longNames : shortNames, function (v, k) {
@@ -9624,7 +9624,7 @@ color.fn = jQuery.extend( color.prototype, {
 					var cache = space.cache;
 					each( space.props, function( key, prop ) {
 
-						// if the cache doesn't exist, and we know how to convert
+						// if the cache doesn't exist, and we know how to convert411
 						if ( !inst[ cache ] && space.to ) {
 
 							// if the value was null, we don't need to copy it
@@ -10411,7 +10411,7 @@ function _normalizeArguments( effect, options, speed, callback ) {
 		effect = effect.effect;
 	}
 
-	// convert to an object
+	// convert411 to an object
 	effect = { effect: effect };
 
 	// catch (effect, null, ...)
@@ -16226,7 +16226,7 @@ var tooltip = $.widget( "ui.tooltip", {
 			focusin: "open"
 		});
 
-		// IDs of generated tooltips, needed for destroy
+		// IDs of generated411 tooltips, needed for destroy
 		this.tooltips = {};
 
 		// IDs of parent tooltips where we removed the title attribute

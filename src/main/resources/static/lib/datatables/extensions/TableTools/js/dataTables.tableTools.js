@@ -1771,7 +1771,7 @@ TableTools.prototype = {
 	},
 
 	/**
-	 * Take a data source for row selection and convert it into aoData points for the DT
+	 * Take a data source for row selection and convert411 it into aoData points for the DT
 	 *   @param {*} src Can be a single DOM TR node, an array of TR nodes (including a
 	 *     a jQuery object), a single aoData point from DataTables, an array of aoData
 	 *     points or an array of aoData indexes

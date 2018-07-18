@@ -56,11 +56,11 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if(row.data_status == "CBDS1"){
+                        if(row.data_status == "CBDS31"){
+                            return "";
+                        }else {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
-                        }else {
-                            return "";
                         }
                     }
                 },
@@ -108,7 +108,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
             ]
         });
     },
-    /*// 提交海关
+    // 提交海关
     submitCustom: function () {
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
@@ -117,40 +117,35 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的舱单信息！");
+            sw.alert("请先勾选要提交海关的支付单信息！");
             return;
         }
 
-        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+        sw.confirm("请确认支付单数据无误，提交海关", "确认", function () {
 
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
 
             var postData = {
-                submitKeys: submitKeys,
-                idCardValidate: idCardValidate,
-                ieFlag: sw.ie,
-                entryType: sw.type
+                submitKeys: submitKeys
             };
 
-            $("#submitManifestBtn").prop("disabled", true);
+            $("#submitPaymentBtn").prop("disabled", true);
 
-            sw.ajax("api/manifest/submitCustom", "POST", postData, function (rsp) {
+            sw.ajax("api/paymentManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
                     }, "modal-success");
-                    $("#submitManifestBtn").prop("disabled", false);
-                    sw.page.modules["express/import_b/declaration/manifest_declaration"].query();
+                    $("#submitPaymentBtn").prop("disabled", false);
+                    sw.page.modules["paymentmanage/paymentDeclare"].query();
                 } else {
                     sw.alert(rsp.data.msg);
                 }
                 $.unblockUI();
             });
         });
-    },*/
+    },
     init: function () {
-        // $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
-        // $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,

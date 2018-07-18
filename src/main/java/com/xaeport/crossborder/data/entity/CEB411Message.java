@@ -4,10 +4,28 @@ import java.util.List;
 
 public class CEB411Message {
 
+    private ImpPayment impPayment;
     private List<ImpPayment> impPaymentList;
     private BaseTransfer411 baseTransfer411;
     private List<Payment> paymentList;
     private Signature411 signature411;
+    private List<PaymentHead> paymentHeadList;
+
+    public List<PaymentHead> getPaymentHeadList() {
+        return paymentHeadList;
+    }
+
+    public void setPaymentHeadList(List<PaymentHead> paymentHeadList) {
+        this.paymentHeadList = paymentHeadList;
+    }
+
+    public ImpPayment getImpPayment() {
+        return impPayment;
+    }
+
+    public void setImpPayment(ImpPayment impPayment) {
+        this.impPayment = impPayment;
+    }
 
     public List<ImpPayment> getImpPaymentList() {
         return impPaymentList;

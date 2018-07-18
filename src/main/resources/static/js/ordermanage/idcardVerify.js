@@ -15,7 +15,7 @@ sw.page.modules["ordermanage/idcardVerify"] = sw.page.modules["ordermanage/idcar
         $("[ws-submit]").unbind("click").click(this.submitPolice);
         $("[ws-delete]").unbind("click").click(this.deleteVerify);
         $("[ws-refresh]").unbind("click").click(this.refreshVerify);
-        $("[ws-convert]").unbind("click").click(this.convertVerify);
+        $("[ws-convert411]").unbind("click").click(this.convertVerify);
         $("[ws-download]").unbind("click").click(this.download);
 
         $table = $("#query-idCardVerify-table");
@@ -94,7 +94,7 @@ sw.page.modules["ordermanage/idcardVerify"] = sw.page.modules["ordermanage/idcar
         // 显示Loading图标
         //$("#loadingDiv").removeClass("hidden");
         sw.blockPage();
-        sw.ajax("api/verify/idCard/convert", "POST", postData, function (rsp) {
+        sw.ajax("api/verify/idCard/convert411", "POST", postData, function (rsp) {
             sw.pageModule("express/import_b/verify_idcard").query();
             // 移除Loading图标
             //$("#loadingDiv").addClass("hidden");

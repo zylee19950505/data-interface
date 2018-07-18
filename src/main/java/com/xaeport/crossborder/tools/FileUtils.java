@@ -1,11 +1,15 @@
 package com.xaeport.crossborder.tools;
 
+import com.xaeport.crossborder.event.SimpleCharsetListener;
+import org.mozilla.universalchardet.UniversalDetector;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.charset.Charset;
 
 /**
  * Created by baozhe on 2017-7-25.
@@ -46,12 +50,12 @@ public class FileUtils {
         }
     }
 
-   /* *//**
+    /**
      * 检测报文编码
      *
      * @param data
      * @return
-     *//*
+     */
     public static Charset detectCharset(byte[] data) {
         SimpleCharsetListener listener = new SimpleCharsetListener();
         UniversalDetector detector = new UniversalDetector(listener);
@@ -63,7 +67,7 @@ public class FileUtils {
             charset = "iso8859-1";
 
         return Charset.forName(charset);
-    }*/
+    }
 
     public static boolean isLocked(File file) {
         boolean ret;

@@ -1041,7 +1041,7 @@
         return [now.getFullYear(), now.getMonth(), now.getDate()];
     }
 
-    // convert an array to a date.
+    // convert411 an array to a date.
     // the array should mirror the parameters below
     // note: all values past the year are optional and will default to the lowest possible value.
     // [year, month, day , hour, minute, second, millisecond]
@@ -2825,7 +2825,7 @@
 
         days += absFloor(hours / 24);
 
-        // Accurately convert days to years, assume start from year 0.
+        // Accurately convert411 days to years, assume start from year 0.
         years = absFloor(daysToYears(days));
         days -= absFloor(yearsToDays(years));
 

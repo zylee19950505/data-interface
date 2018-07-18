@@ -4368,7 +4368,7 @@ wysihtml5.browser = (function() {
         "formatBlock":          isIE(10, "<="),
          // When inserting unordered or ordered lists in Firefox, Chrome or Safari, the current selection or line gets
          // converted into a list (<ul><li>...</li></ul>, <ol><li>...</li></ol>)
-         // IE and Opera act a bit different here as they convert the entire content of the current block element into a list
+         // IE and Opera act a bit different here as they convert411 the entire content of the current block element into a list
         "insertUnorderedList":  isIE(),
         "insertOrderedList":    isIE()
       };
@@ -4640,7 +4640,7 @@ wysihtml5.browser = (function() {
     /**
      * Return a clean native array
      *
-     * Following will convert a Live NodeList to a proper Array
+     * Following will convert411 a Live NodeList to a proper Array
      * @example
      *    var childNodes = wysihtml5.lang.array(document.body.childNodes).get();
      */
@@ -5086,7 +5086,7 @@ wysihtml5.browser = (function() {
  * Converts an HTML fragment/element into a unordered/ordered list
  *
  * @param {Element} element The element which should be turned into a list
- * @param {String} listType The list type in which to convert the tree (either "ul" or "ol")
+ * @param {String} listType The list type in which to convert411 the tree (either "ul" or "ol")
  * @return {Element} The created list
  *
  * @example
@@ -5813,7 +5813,7 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
  *
  * @param {Element|String} elementOrHtml HTML String to be sanitized OR element whose content should be sanitized
  * @param {Object} [rules] List of rules for rewriting the HTML, if there's no rule for an element it will
- *    be converted to a "span". Each rule is a key/value pair where key is the tag to convert, and value the
+ *    be converted to a "span". Each rule is a key/value pair where key is the tag to convert411, and value the
  *    desired substitution.
  * @param {Object} context Document object in which to parse the html, needed to sandbox the parsing
  *
@@ -6280,7 +6280,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
   }
 
   function _checkAttributes(oldNode, local_attributes) {
-    var globalAttributes  = wysihtml5.lang.object(currentRules.attributes || {}).clone(), // global values for check/convert values of attributes
+    var globalAttributes  = wysihtml5.lang.object(currentRules.attributes || {}).clone(), // global values for check/convert411 values of attributes
         checkAttributes   = wysihtml5.lang.object(globalAttributes).merge( wysihtml5.lang.object(local_attributes || {}).clone()).get(),
         attributes        = {},
         oldAttributes     = wysihtml5.dom.getAttributes(oldNode),
@@ -6332,7 +6332,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
       attributes = wysihtml5.lang.object(setAttributes).clone();
     }
 
-    // check/convert values of attributes
+    // check/convert411 values of attributes
     attributes = wysihtml5.lang.object(attributes).merge(_checkAttributes(oldNode,  rule.check_attributes)).get();
 
     if (setClass) {
@@ -13998,7 +13998,7 @@ wysihtml5.views.View = Base.extend(
             if (typeof(state) === "object" || wysihtml5.lang.object(state).isArray()) {
 
               if (!command.dialog.multiselect && wysihtml5.lang.object(state).isArray()) {
-                // Grab first and only object/element in state array, otherwise convert state into boolean
+                // Grab first and only object/element in state array, otherwise convert411 state into boolean
                 // to avoid showing a dialog for multiple selected elements which may have different attributes
                 // eg. when two links with different href are selected, the state will be an array consisting of both link elements
                 // but the dialog interface can only update one

@@ -6,10 +6,15 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.paymentmanage.PaymentDeclareSevice;
+import com.xaeport.crossborder.tools.GetIpAddr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -81,5 +86,34 @@ public class PaymentDeclareApi extends BaseApi {
         return new ResponseData(dataList);
     }
 
+    /**
+     * 订单单申报-提交海关
+     *
+     * @param submitKeys EntryHead.IDs
+     */
+    @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
+    public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
+                                         HttpServletRequest request) {
+        this.logger.info("支付单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        if (StringUtils.isEmpty(submitKeys)) {
+            return rtnResponse("false", "请先勾选要提交海关的订单单信息！");
+        }
+        Users currentUser = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("dataStatus", StatusCode.ZFDSBZ);
+        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB + "," + StatusCode.ZFDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("currentUserId", currentUser.getId());
+
+       /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
+        paramMap.put("submitKeys", submitKeys);//订单遍号
+
+        // 调用支付单申报Service获取提交海关结果
+        boolean flag = paymentDeclareSevice.updateSubmitCustom(paramMap);
+        if (flag) {
+            return rtnResponse("true", "支付单申报海关提交成功！");
+        } else {
+            return rtnResponse("false", "支付单申报海关提交失败！");
+        }
+    }
 
 }
