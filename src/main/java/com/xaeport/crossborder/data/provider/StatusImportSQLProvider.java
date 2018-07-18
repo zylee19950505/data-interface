@@ -4,6 +4,7 @@ import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
+import sun.awt.SunHints;
 
 public class StatusImportSQLProvider {
 
@@ -59,7 +60,6 @@ public class StatusImportSQLProvider {
                 if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
                     VALUES("upd_tm", "#{impLogisticsStatus.upd_tm}");
                 }
-
             }
         }.toString();
     }

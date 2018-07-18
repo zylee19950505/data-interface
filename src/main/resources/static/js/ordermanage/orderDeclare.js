@@ -63,24 +63,25 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         data: null,
                         render: function (data, type, row) {
                             //订单已经申报时,不提交
-                            if (row.OP_STATUS == "CBDS21") {
+                            if (row.data_status == "CBDS21") {
                                 return "";
                             }
-                            return '<input type="checkbox" class="submitKey" value="'+ row.ORDER_NO +'" />';
+                            return '<input type="checkbox" class="submitKey" value="'+ row.order_No +'" />';
                         }
                     },
-                    {data: "ORDER_NO", label: "订单编号"},//订单编号要点击查看订单详情
-                    {data: "EBP_NAME", label: "电商企业名称"},
-                    {data: "EBC_NAME", label: "电商平台名称"},
-                    {data: "ITEM_NAME", label: "商品名称"},
-                    {data: "TOTAL_PRICE", label: "总价"},
-                    {data: "BUYER_NAME", label: "订购人"},
-                    {data: "APPSTATUS", label: "业务状态"},
-                    {data: "NOTE", label: "入库结果"},//入库结果需要确认字段
+                    {data: "order_No", label: "订单编号"},//订单编号要点击查看订单详情
+                    {data: "ebp_Name", label: "电商企业名称"},
+                    {data: "ebc_Name", label: "电商平台名称"},
+                  /*  {data: "item_Name", label: "商品名称"},*/
+                    {data: "goods_Value", label: "总价"},
+                    {data: "buyer_Name", label: "订购人"},
+                    //要区分开
+                    {data: "data_status", label: "业务状态"},
+                    {data: "note", label: "入库结果"},//入库结果需要确认字段
                     {
                         label: "申报日期", render: function (data, type, row) {
-                        if(!isEmpty(row.APP_TIME)){
-                            return moment(row.APP_TIME).format("YYYY-MM-DD HH:mm:ss");
+                        if(!isEmpty(row.app_Time)){
+                            return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
                         }
                         return "";
                     }
@@ -115,7 +116,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
                 $("#submitManifestBtn").prop("disabled", true);
 
-                sw.ajax("api/ordermanage/submitCustom", "POST", postData, function (rsp) {
+                sw.ajax("api/orderManage/submitCustom", "POST", postData, function (rsp) {
                     if (rsp.data.result == "true") {
                         sw.alert("提交海关成功", "提示", function () {
                         }, "modal-success");

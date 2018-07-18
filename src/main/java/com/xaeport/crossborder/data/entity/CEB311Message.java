@@ -13,14 +13,6 @@ public class CEB311Message {
 	private BaseTransfer baseTransfer;
 	private Signature signature;
 
-	public Signature getSignature() {
-		return signature;
-	}
-
-	public void setSignature(Signature signature) {
-		this.signature = signature;
-	}
-
 	public ImpOrderHead getOrderHead() {
 		return orderHead;
 	}
@@ -43,5 +35,13 @@ public class CEB311Message {
 
 	public void setBaseTransfer(BaseTransfer baseTransfer) {
 		this.baseTransfer = baseTransfer;
+	}
+
+	public Signature getSignature() {
+		return signature;
+	}
+
+	public void setSignature(Signature signature) {
+		this.signature = signature;
 	}
 }

@@ -22,21 +22,8 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
-                        "SELECT" +
-                        "    tl.order_no," +
-                        "    th.ebp_name," +
-                        "    th.ebc_name," +
-                        "    tl.item_name," +
-                        "    tl.total_price," +
-                        "    th.buyer_name," +
-                        "    DECODE(th.APP_STATUS,'1','暂存','2','申报')as appStatus," +
-                        "    th.APP_TIME," +
-                        "    th.NOTE" +
-                        "  FROM" +
-                        "    t_imp_order_body tl," +
-                        "    t_imp_order_head th");
+                        " select * from T_IMP_ORDER_HEAD th ");
                 WHERE("1=1");
-                WHERE("th.order_no = tl.order_no");
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("th.order_no = #{orderNo}");
                 }
@@ -76,7 +63,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         if (!StringUtils.isEmpty(endFlightTimes)) {
             endTimesStr = " AND th.upd_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')";
         }
-        return " select COUNT(*) count FROM t_imp_order_body tl, t_imp_order_head th where 1=1 and th.ORDER_NO =tl.ORDER_NO " + startTimesStr + endTimesStr;
+        return " select COUNT(*) count FROM t_imp_order_head th where 1=1 " + startTimesStr + endTimesStr;
 
     }
 
