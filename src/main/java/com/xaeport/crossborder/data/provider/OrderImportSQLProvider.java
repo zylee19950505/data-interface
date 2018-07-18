@@ -117,7 +117,6 @@ public class OrderImportSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
                     VALUES("data_status", "#{impOrderHead.data_status}");
                 }
-
             }
         }.toString();
     }

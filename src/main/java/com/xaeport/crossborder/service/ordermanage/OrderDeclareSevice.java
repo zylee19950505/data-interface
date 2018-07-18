@@ -3,6 +3,7 @@ package com.xaeport.crossborder.service.ordermanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.data.entity.OrderHeadAndList;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class OrderDeclareSevice {
 	/*
      * 查询订单申报数据
      */
-	public List<Map<String,String>> queryOrderDeclareList(Map<String, Object> paramMap) {
+	public List<OrderHeadAndList> queryOrderDeclareList(Map<String, Object> paramMap) {
 		return  orderDeclareMapper.queryOrderDeclareList(paramMap);
 	}
 

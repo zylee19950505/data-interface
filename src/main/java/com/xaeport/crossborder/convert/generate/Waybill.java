@@ -2,6 +2,7 @@ package com.xaeport.crossborder.convert.generate;
 
 
 import com.xaeport.crossborder.data.entity.CEB311Message;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,7 @@ public class Waybill {
     private Log log = LogFactory.getLog(this.getClass());
 
     public Element getEntryHead(Document document, CEB311Message ceb311Message) {
-        Element entryHead = document.createElement("EntryHead");
+        Element entryHead = document.createElement("ceb:OrderHead");
         ImpOrderHead orderHead = ceb311Message.getOrderHead();
         List<Element> list = new ArrayList<>();
         if (orderHead != null) {
@@ -38,7 +39,6 @@ public class Waybill {
      * 构建EntryHead 节点
      */
     public void getEntryHeadChildren(Document document, CEB311Message ceb311Message, List<Element> list) {
-        //未写
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
         //<ceb:guid>
@@ -164,7 +164,73 @@ public class Waybill {
      */
     public void getEntryList(Document document, Element ceborderheadEl, CEB311Message ceb311Message) {
        //未写
+        List<ImpOrderBody> orderBodyList = ceb311Message.getOrderBodyList();
+        ImpOrderHead orderHead = ceb311Message.getOrderHead();
+        Element orderBodyElement ;
+        Element gnum ;
+        Element itemNo ;
+        Element itemName ;
+        Element itemDescribe ;
+        Element barCode ;
+        Element unit ;
+        Element qty ;
+        Element price ;
+        Element totalPrice ;
+        Element currency ;
+        Element country ;
+        Element note ;
+        for (int i = 0; i <orderBodyList.size() ; i++) {
+            orderBodyElement = document.createElement("ceb:OrderList");
+
+            gnum = document.createElement("ceb:gnum");
+            gnum.setTextContent(String.valueOf(orderBodyList.get(i).getG_num()));
+
+            itemNo = document.createElement("ceb:itemNo");
+            itemNo.setTextContent(orderBodyList.get(i).getItem_No());
+
+            itemName = document.createElement("ceb:itemName");
+            itemName.setTextContent(orderBodyList.get(i).getItem_Name());
+
+            itemDescribe = document.createElement("ceb:itemDescribe");
+            itemDescribe.setTextContent(orderBodyList.get(i).getItem_Describe());
+
+            barCode = document.createElement("ceb:barCode");
+            barCode.setTextContent(orderBodyList.get(i).getBar_Code());
+
+            unit = document.createElement("ceb:unit");
+            unit.setTextContent(orderBodyList.get(i).getUnit());
+
+            qty = document.createElement("ceb:qty");
+            qty.setTextContent(orderBodyList.get(i).getQty());
+
+            price = document.createElement("ceb:price");
+            price.setTextContent(orderBodyList.get(i).getPrice());
+
+            totalPrice = document.createElement("ceb:totalPrice");
+            totalPrice.setTextContent(orderBodyList.get(i).getTotal_Price());
+
+            currency = document.createElement("ceb:currency");
+            currency.setTextContent(orderBodyList.get(i).getCurrency());
+
+            country = document.createElement("ceb:country");
+            country.setTextContent(orderBodyList.get(i).getCountry());
+
+            note = document.createElement("ceb:note");
+            note.setTextContent(orderBodyList.get(i).getNote());
+
+            orderBodyElement.appendChild(gnum);
+            orderBodyElement.appendChild(itemNo);
+            orderBodyElement.appendChild(itemName);
+            orderBodyElement.appendChild(itemDescribe);
+            orderBodyElement.appendChild(barCode);
+            orderBodyElement.appendChild(unit);
+            orderBodyElement.appendChild(qty);
+            orderBodyElement.appendChild(price);
+            orderBodyElement.appendChild(totalPrice);
+            orderBodyElement.appendChild(currency);
+            orderBodyElement.appendChild(country);
+            orderBodyElement.appendChild(note);
+            ceborderheadEl.appendChild(orderBodyElement);
+        }
     }
-
-
 }

@@ -26,6 +26,7 @@ public class ManifestGenMsgThread implements Runnable {
     private OrderDeclareMapper orderDeclareMapper = SpringUtils.getBean(OrderDeclareMapper.class);
     private MessageUtils messageUtils;
     private BaseBill baseBill;
+    private static ManifestGenMsgThread manifestGenMsgThread;
 
     public ManifestGenMsgThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, MessageUtils messageUtils, BaseBill baseBill) {
         this.orderDeclareMapper = orderDeclareMapper;
@@ -33,12 +34,22 @@ public class ManifestGenMsgThread implements Runnable {
         this.messageUtils = messageUtils;
         this.baseBill = baseBill;
     }
+    private ManifestGenMsgThread() {
+        super();
+    }
+
+    public static ManifestGenMsgThread getInstance() {
+        if (manifestGenMsgThread == null) {
+            manifestGenMsgThread = new ManifestGenMsgThread();
+        }
+        return manifestGenMsgThread;
+    }
 
 
     @Override
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("dataStatus", StatusCode.DDYSB);//订单已申报
+        paramMap.put("dataStatus", StatusCode.DDSBZ);//订单申报中
 
         String senderId = this.appConfiguration.getSenderId();// 发送方ID
         String receiverId = this.appConfiguration.getReceiverId();// 接收方ID
@@ -100,7 +111,7 @@ public class ManifestGenMsgThread implements Runnable {
     private void entryProcess(CEB311Message ceb311Message, String headGuid, String orderNo) throws TransformerException, IOException {
         try {
             this.orderDeclareMapper.updateEntryHeadOrderStatus(headGuid, StatusCode.DDYSB);
-            this.logger.debug(String.format("更新订单[entryhead_id: %s]状态为: %s", headGuid, StatusCode.DDYSB));
+            this.logger.debug(String.format("更新订单[head_id: %s]状态为: %s", headGuid, StatusCode.DDYSB));
             // 更新状态变化记录表
 
 
