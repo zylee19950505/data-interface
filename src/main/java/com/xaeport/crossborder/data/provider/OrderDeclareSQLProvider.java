@@ -103,7 +103,8 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 {
                     SELECT("GUID");
                     SELECT("APP_TYPE");
-                    SELECT("to_char(APP_TIME,'YYYYMMDDhhmmss') as app_time");
+                    /*SELECT("to_char(APP_TIME,'YYYYMMDDhhmmss') as app_time");*/
+                    SELECT("APP_TIME");
                     SELECT("APP_STATUS");
                     SELECT("ORDER_TYPE");
                     SELECT("ORDER_NO");
@@ -132,9 +133,11 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                     SELECT("NOTE");
                     SELECT("DATA_STATUS");
                     SELECT("CRT_ID");
-                    SELECT("to_char(CRT_TM,'YYYYMMDDhhmmss') as crt_tm");
+                    /*SELECT("to_char(CRT_TM,'YYYYMMDDhhmmss') as crt_tm");*/
+                    SELECT("CRT_TM");
                     SELECT("UPD_ID");
-                    SELECT("to_char(UPD_TM,'YYYYMMDDhhmmss') as upd_tm");
+                   /* SELECT("to_char(UPD_TM,'YYYYMMDDhhmmss') as upd_tm");*/
+                    SELECT("UPD_TM");
                     SELECT("RETURN_STATUS");
                     FROM("T_IMP_ORDER_HEAD toh");
                     WHERE("1=1");

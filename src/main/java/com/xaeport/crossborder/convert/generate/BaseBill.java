@@ -65,10 +65,12 @@ public class BaseBill {
         xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         */
         Element rootElement = document.createElement("ceb:CEB311Message");
-        rootElement.setAttribute("guid","");
+        rootElement.setAttribute("guid",ceb311Message.getOrderHead().getGuid());
         rootElement.setAttribute("version","1.0");
         rootElement.setAttribute("xmlns:ceb","http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+
+        rootElement.appendChild(this.getData(document, ceb311Message, flag));
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -87,6 +89,7 @@ public class BaseBill {
      * @param ceb311Message
      * @return
      */
+    /*此节点未使用,*/
     public Element getDataInfo(Document document, CEB311Message ceb311Message, String flag) {
         Element ceborderElement = document.createElement("ceb:Order");
         ceborderElement.appendChild(this.getData(document, ceb311Message, flag));
@@ -100,7 +103,7 @@ public class BaseBill {
      * @return
      */
     public Element getData(Document document, CEB311Message ceb311Message, String flag) {
-        Element ceborderheadEl = document.createElement("ceb:OrderHead");
+        Element ceborderheadEl = document.createElement("ceb:Order");
         switch (flag) {
             //生成订单 .xml
             case "orderDeclare": {
