@@ -4,6 +4,7 @@ package com.xaeport.crossborder.service.paymentmanage;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.Payment;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class PaymentDeclareSevice {
 		return paymentDeclareMapper.queryPaymentDeclareCount(paramMap);
 	}
 
+	public ImpPayment queryPaymentById(String paytransactionid) throws Exception {
+		return paymentDeclareMapper.queryPaymentById(paytransactionid);
+	}
 
 	/**
 	 * 更新舱单申报状态

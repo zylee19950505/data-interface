@@ -6,6 +6,7 @@ package com.xaeport.crossborder.data.mapper;
  */
 
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.Payment;
 import com.xaeport.crossborder.data.provider.PaymentDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -49,5 +50,6 @@ public interface PaymentDeclareMapper {
     @UpdateProvider(type = PaymentDeclareSQLProvider.class, method = "updateImpPaymentStatus")
     void updateImpPaymentStatus(@Param("headGuid") String headGuid, @Param("CBDS31") String CBDS31) throws Exception;
 
-
+    @SelectProvider(type = PaymentDeclareSQLProvider.class, method = "queryPaymentById")
+    ImpPayment queryPaymentById(@Param("paytransactionid") String paytransactionid);
 }

@@ -6,6 +6,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.Payment;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.paymentmanage.PaymentDeclareSevice;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 
 /*
- * 支付单申报
+ * 支付单模块
  */
 
 @RestController
@@ -38,16 +39,19 @@ public class PaymentDeclareApi extends BaseApi {
     @Autowired
     PaymentDeclareSevice paymentDeclareSevice;
     /*
-     * 支付单申报查询
+     * 支付单申报查询和支付单查询共用一个方法。
+     *支付单申报查询：条件 没有 时间
+     * 支付单查询：条件 有 时间
      */
     @RequestMapping("/queryPaymentDeclare")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String payTransactionId,
+            @RequestParam(required = false) String startFlightTimes,
+            @RequestParam(required = false) String endFlightTimes,
             HttpServletRequest request
 
     ) {
-        System.err.println("进入控制层。 获取数据为："+orderNo+"-------"+payTransactionId);
         this.logger.debug(String.format("查询邮件申报条件参数:[orderNo:%s,payTransactionId:%s]", orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -61,6 +65,9 @@ public class PaymentDeclareApi extends BaseApi {
 
         paramMap.put("orderNo", orderNo);
         paramMap.put("payTransactionId", payTransactionId);
+
+        paramMap.put("startFlightTimes", startFlightTimes);
+        paramMap.put("endFlightTimes", endFlightTimes);
 
         paramMap.put("start", start);
         paramMap.put("length", length);
@@ -80,6 +87,13 @@ public class PaymentDeclareApi extends BaseApi {
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {
+            //如果时间有参数那么， 查询的就是支付单查询模块。 则返回支付单查询模块错误提示。
+            if (paramMap.get("startFlightTimes") != ""||paramMap.get("startFlightTimes") != null||
+                paramMap.get("endFlightTimes") != ""||paramMap.get("endFlightTimes") != null
+                ){
+                this.logger.error("查询支付单数据失败", e);
+                return new ResponseData("获取支付单数据错误", HttpStatus.BAD_REQUEST);
+            }
             this.logger.error("查询支付单申报数据失败", e);
             return new ResponseData("获取支付单申报数据错误", HttpStatus.BAD_REQUEST);
         }
@@ -114,6 +128,23 @@ public class PaymentDeclareApi extends BaseApi {
         } else {
             return rtnResponse("false", "支付单申报海关提交失败！");
         }
+    }
+
+    /**
+     * 查询单条数据。
+     * @param request
+     * @return 返回的是一个实体对象。页面方便接收。
+     */
+    @RequestMapping(value = "/queryPaymentById", method = RequestMethod.POST)
+    public ImpPayment queryPaymentById(HttpServletRequest request) {
+        String paytransactionid = request.getParameter("paytransactionid");
+        ImpPayment impPayment = null;
+        try {
+            impPayment = paymentDeclareSevice.queryPaymentById(paytransactionid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return impPayment;
     }
 
 }
