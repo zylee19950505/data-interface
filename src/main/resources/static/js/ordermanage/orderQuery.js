@@ -1,4 +1,4 @@
-// 报关单状态统计
+// 订单查询
 sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQuery"] || {
     query: function () {
 
