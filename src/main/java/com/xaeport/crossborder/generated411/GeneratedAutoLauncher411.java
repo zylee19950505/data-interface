@@ -29,11 +29,9 @@ public class GeneratedAutoLauncher411 implements ApplicationListener<Application
     PaymentDeclareMapper paymentDeclareMapper;
     @Autowired
     AppConfiguration appConfiguration;
-//    @Autowired
-//    MessageUtils411 messageUtils;
+
     @Autowired
     BaseXml baseXml;
-
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {

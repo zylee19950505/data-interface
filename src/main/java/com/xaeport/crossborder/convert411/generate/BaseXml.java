@@ -60,11 +60,13 @@ public class BaseXml {
     public byte[] createXML(CEB411Message ceb411Message, String flag,String xmlHeadGuid) throws TransformerException {
         Document document = this.getDocument();
         Element rootElement = document.createElement("ceb:CEB411Message");
+
         rootElement.setAttribute("guid", xmlHeadGuid);
         rootElement.setAttribute("version", "1.0");
         rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
+        ceb411Message.setBaseTransfer411(this.baseTransfer411());
         this.getPayment(document, ceb411Message, flag, rootElement);
 
         BaseTransfer411 baseTransfer411 = ceb411Message.getBaseTransfer411();
@@ -80,13 +82,14 @@ public class BaseXml {
     }
 
     /**
-     * 创建EnvelopInfo 节点
+     * 构建 BaseTransfer4 节点
      *
      * @param document
      * @param baseTransfer411
      * @return
      */
     public Element getBaseTransfer(Document document, BaseTransfer411 baseTransfer411) {
+
         Element baseTransfer411Element = document.createElement("ceb:BaseTransfer");
 
         Element copCode = document.createElement("ceb:copCode");
@@ -130,5 +133,15 @@ public class BaseXml {
             }
         }
         return rootElement;
+    }
+
+    public BaseTransfer411 baseTransfer411(){
+        BaseTransfer411 baseTransfer411 = new BaseTransfer411();
+        baseTransfer411.setCopCode("1101180326");
+        baseTransfer411.setCopName("物流企业");
+        baseTransfer411.setDxpId("EXP2016522002580001");
+        baseTransfer411.setDxpMode("DXP");
+        baseTransfer411.setNote("test");
+        return baseTransfer411;
     }
 }
