@@ -47,7 +47,7 @@ public interface PaymentDeclareMapper {
      * 修改支付单申报状态
      */
     @UpdateProvider(type = PaymentDeclareSQLProvider.class, method = "updateImpPaymentStatus")
-    void updateImpPaymentStatus(@Param("headGuid") String headGuid, @Param("CBDS31") String CBDS31) throws Exception;
+    void updateImpPaymentStatus(@Param("guid") String guid, @Param("CBDS31") String CBDS31) throws Exception;
 
 
 }

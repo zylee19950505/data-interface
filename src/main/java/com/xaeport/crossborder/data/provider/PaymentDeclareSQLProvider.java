@@ -84,7 +84,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 WHERE(splitJointIn("t.ORDER_NO", submitKeys));
                 WHERE(splitJointIn("t.DATA_STATUS", dataStatusWhere));
                 SET("t.data_status = #{dataStatus}");
-//                SET("t.crt_tm = sysdate");
+                SET("t.APP_TIME = sysdate");
                 SET("t.upd_tm = sysdate");
                 SET("t.upd_id = #{currentUserId}");
             }
@@ -112,12 +112,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     /*
      * 修改支付单状态为支付单已申报
      */
-    public String updateImpPaymentStatus(@Param("headGuid") String headGuid,@Param("CBDS31") String CBDS31){
+    public String updateImpPaymentStatus(@Param("guid") String guid,@Param("CBDS31") String CBDS31){
         return new SQL(){
             {
                 UPDATE("T_IMP_PAYMENT t");
-                WHERE("t.GUID = #{headGuid}");
-                SET("t.DATA_STATUS = #{CBDS31}");
+                WHERE("t.GUID = #{guid}");
+                SET("t.DATA_STATUS = 'CBDS31'");
                 SET("t.upd_tm = sysdate");
             }
         }.toString();

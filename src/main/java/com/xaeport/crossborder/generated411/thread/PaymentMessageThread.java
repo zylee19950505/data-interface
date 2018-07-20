@@ -14,6 +14,7 @@
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 //import org.springframework.util.CollectionUtils;
+//import org.springframework.util.StringUtils;
 //
 //import javax.xml.transform.TransformerException;
 //import java.io.File;
@@ -43,11 +44,12 @@
 //        Map<String, String> paramMap = new HashMap<String, String>();
 //        paramMap.put("dataStatus", StatusCode.ZFDSBZ);
 //
-//        CEB411Message ceb411Message = null;
+//        CEB411Message ceb411Message = new CEB411Message();
 //        List<PaymentHead> paymentHeadLists;
 //        PaymentHead paymentHead;
 //        List<ImpPayment> impPaymentList;
 //        ImpPayment impPayment;
+//        String guid;
 //
 //        List<ImpPayment> impPaymentLists;
 //
@@ -67,14 +69,20 @@
 //                    continue;
 //                }
 //                paymentHeadLists = new ArrayList<>();
+//                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+//                String xmlHeadGuid = null;
+//                String nameOrderNo = null;
 //
 //                for (int i = 0; i < impPaymentLists.size(); i++) {
 //                    impPayment = impPaymentLists.get(i);
-//                    String paymentGuid = impPayment.getGuid();
+//                    xmlHeadGuid = impPaymentLists.get(0).getGuid();
+//                    nameOrderNo = impPaymentLists.get(0).getOrder_no();
+//                    guid = impPayment.getGuid();
 //                    paymentHead = new PaymentHead();
-//                    paymentHead.setGuid(impPayment.getGuid());
+//                    paymentHead.setGuid(guid);
 //                    paymentHead.setAppType(impPayment.getApp_type());
-//                    paymentHead.setAppTime(impPayment.getApp_status());
+//                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
+//                    paymentHead.setAppStatus(impPayment.getApp_status());
 //                    paymentHead.setPayCode(impPayment.getPay_code());
 //                    paymentHead.setPayName(impPayment.getPay_name());
 //                    paymentHead.setPayTransactionId(impPayment.getPay_transaction_id());
@@ -83,25 +91,27 @@
 //                    paymentHead.setEbpName(impPayment.getEbp_name());
 //                    paymentHead.setPayerIdType(impPayment.getPayer_id_type());
 //                    paymentHead.setPayerIdNumber(impPayment.getPayer_id_number());
-//                    paymentHead.setPayName(impPayment.getPay_name());
-//                    paymentHead.setTelephone(impPayment.getTelephone());
+//                    paymentHead.setPayerName(impPayment.getPayer_name());
+//                    paymentHead.setTelephone(StringUtils.isEmpty(impPayment.getTelephone())?"":impPayment.getTelephone());
 //                    paymentHead.setAmountPaid(impPayment.getAmount_paid());
 //                    paymentHead.setCurrency(impPayment.getCurrency());
-////                    paymentHead.setPayTime(impPayment.getPay_time());
-//                    paymentHead.setNote(impPayment.getNote());
-//
+//                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
+//                    paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote())?"":impPayment.getNote());
+//                    try{
+//                        // 更新支付单状态
+//                        this.paymentDeclareMapper.updateImpPaymentStatus(guid, StatusCode.ZFDYSB);
+//                        this.logger.debug(String.format("更新支付单为已申报[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
+//                    }catch (Exception e){
+//                        String exceptionMsg = String.format("处理支付单[headGuid: %s]时发生异常", paymentHead.getGuid());
+//                        this.logger.error(exceptionMsg, e);
+//                    }
 //                    paymentHeadLists.add(paymentHead);
 //                }
-//
-//
-//                //获取head表的id
-////                String orderNo = impPayment.getOrder_no();//订单号,用于报文头信息
-//                //设置表头
 //
 //                ceb411Message.setPaymentHeadList(paymentHeadLists);
 //                List<ImpPayment> paymentLists = new ArrayList<ImpPayment>();
 //                //开始生成报文
-////                this.entryProcess(ceb411Message, paymentGuid, orderNo);
+//                this.entryProcess(ceb411Message, nameOrderNo,xmlHeadGuid);
 //
 //            } catch (Exception e) {
 //                try {
@@ -114,20 +124,16 @@
 //        }
 //    }
 //
-//    private void entryProcess(CEB411Message ceb411Message, String headGuid, String orderNo) throws TransformerException, IOException {
+//    private void entryProcess(CEB411Message ceb411Message, String nameOrderNo,String xmlHeadGuid) throws TransformerException, IOException {
 //        try {
-//            // 更新支付单状态
-//            this.paymentDeclareMapper.updateImpPaymentStatus(headGuid, StatusCode.ZFDYSB);
-//            this.logger.debug(String.format("更新支付单[headGuid: %s]状态为: %s", headGuid, StatusCode.ZFDYSB));
-//
 //            // 生成支付单申报报文
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-//            String fileName = "CEB411Message_" + orderNo + "_" + sdf.format(new Date()) + ".xml";
-//            byte[] xmlByte = this.baseXml.createXML(ceb411Message, "payment");//flag 原来是wayBill
+//            String fileName = "CEB411Message_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
+//            byte[] xmlByte = this.baseXml.createXML(ceb411Message, "payment",xmlHeadGuid);
 //            saveXmlFile(fileName, xmlByte);
 //            this.logger.debug(String.format("完成生成支付单申报报文[fileName: %s]", fileName));
 //        } catch (Exception e) {
-//            String exceptionMsg = String.format("处理支付单[headGuid: %s]时发生异常", headGuid);
+//            String exceptionMsg = String.format("生成支付单报文时发生异常");
 //            this.logger.error(exceptionMsg, e);
 //        }
 //    }

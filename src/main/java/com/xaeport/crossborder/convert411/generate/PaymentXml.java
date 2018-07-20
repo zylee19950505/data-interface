@@ -3,6 +3,7 @@ package com.xaeport.crossborder.convert411.generate;
 
 import com.xaeport.crossborder.data.entity.CEB411Message;
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.PaymentHead;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
@@ -27,9 +28,8 @@ public class PaymentXml {
     public void getPaymentList(Document document, Element rootElement, CEB411Message ceb411Message) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        List<PaymentHead> paymentHeadList = ceb411Message.getPaymentHeadList();
 
-        List<ImpPayment> impPaymentList = ceb411Message.getImpPaymentList();
-        ImpPayment impPayment = ceb411Message.getImpPayment();
         Element Payment;
         Element PaymentHead;
         Element guid;
@@ -51,65 +51,63 @@ public class PaymentXml {
         Element payTime;
         Element note;
 
-        for (int i = 0; i < impPaymentList.size(); i++) {
+        for (int i = 0; i < paymentHeadList.size(); i++) {
             Payment = document.createElement("ceb:Payment");
             PaymentHead = document.createElement("ceb:PaymentHead");
 
-            Payment.appendChild(PaymentHead);
-
             guid = document.createElement("ceb:guid");
-            guid.setTextContent(impPaymentList.get(i).getGuid());
+            guid.setTextContent(paymentHeadList.get(i).getGuid());
 
             appType = document.createElement("ceb:appType");
-            appType.setTextContent(impPaymentList.get(i).getApp_type());
+            appType.setTextContent(paymentHeadList.get(i).getAppType());
 
             appTime = document.createElement("ceb:appTime");
-            appTime.setTextContent(sdf.format(impPaymentList.get(i).getApp_time()));
+            appTime.setTextContent(paymentHeadList.get(i).getAppTime());
 
             appStatus = document.createElement("ceb:appStatus");
-            appStatus.setTextContent(impPaymentList.get(i).getApp_status());
+            appStatus.setTextContent(paymentHeadList.get(i).getAppStatus());
 
             payCode = document.createElement("ceb:payCode");
-            payCode.setTextContent(impPaymentList.get(i).getPay_code());
+            payCode.setTextContent(paymentHeadList.get(i).getPayCode());
 
             payName = document.createElement("ceb:payName");
-            payName.setTextContent(impPaymentList.get(i).getPay_name());
+            payName.setTextContent(paymentHeadList.get(i).getPayName());
 
             payTransactionId = document.createElement("ceb:payTransactionId");
-            payTransactionId.setTextContent(impPaymentList.get(i).getPay_transaction_id());
+            payTransactionId.setTextContent(paymentHeadList.get(i).getPayTransactionId());
 
             orderNo = document.createElement("ceb:orderNo");
-            orderNo.setTextContent(impPaymentList.get(i).getOrder_no());
+            orderNo.setTextContent(paymentHeadList.get(i).getOrderNo());
 
             ebpCode = document.createElement("ceb:ebpCode");
-            ebpCode.setTextContent(impPaymentList.get(i).getEbp_code());
+            ebpCode.setTextContent(paymentHeadList.get(i).getEbpCode());
 
             ebpName = document.createElement("ceb:ebpName");
-            ebpName.setTextContent(impPaymentList.get(i).getEbp_name());
+            ebpName.setTextContent(paymentHeadList.get(i).getEbpName());
 
             payerIdType = document.createElement("ceb:payerIdType");
-            payerIdType.setTextContent(impPaymentList.get(i).getPayer_id_type());
+            payerIdType.setTextContent(paymentHeadList.get(i).getPayerIdType());
 
             payerIdNumber = document.createElement("ceb:payerIdNumber");
-            payerIdNumber.setTextContent(impPaymentList.get(i).getPayer_id_number());
+            payerIdNumber.setTextContent(paymentHeadList.get(i).getPayerIdNumber());
 
             payerName = document.createElement("ceb:payerName");
-            payerName.setTextContent(impPaymentList.get(i).getPay_name());
+            payerName.setTextContent(paymentHeadList.get(i).getPayerName());
 
             telephone = document.createElement("ceb:telephone");
-            telephone.setTextContent(impPaymentList.get(i).getTelephone());
+            telephone.setTextContent(paymentHeadList.get(i).getTelephone());
 
             amountPaid = document.createElement("ceb:amountPaid");
-            amountPaid.setTextContent(impPaymentList.get(i).getAmount_paid());
+            amountPaid.setTextContent(paymentHeadList.get(i).getAmountPaid());
 
             currency = document.createElement("ceb:currency");
-            currency.setTextContent(impPaymentList.get(i).getCurrency());
+            currency.setTextContent(paymentHeadList.get(i).getCurrency());
 
             payTime = document.createElement("ceb:payTime");
-            payTime.setTextContent(sdf.format(impPaymentList.get(i).getPay_time()));
+            payTime.setTextContent(paymentHeadList.get(i).getPayTime());
 
             note = document.createElement("ceb:note");
-            note.setTextContent(impPaymentList.get(i).getNote());
+            note.setTextContent(paymentHeadList.get(i).getNote());
 
             PaymentHead.appendChild(guid);
             PaymentHead.appendChild(appType);
@@ -129,6 +127,7 @@ public class PaymentXml {
             PaymentHead.appendChild(currency);
             PaymentHead.appendChild(payTime);
             PaymentHead.appendChild(note);
+            Payment.appendChild(PaymentHead);
 
             rootElement.appendChild(Payment);
 

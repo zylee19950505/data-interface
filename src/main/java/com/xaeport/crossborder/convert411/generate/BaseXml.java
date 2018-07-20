@@ -57,10 +57,10 @@ public class BaseXml {
      *
      * @param ceb411Message
      */
-    public byte[] createXML(CEB411Message ceb411Message, String flag) throws TransformerException {
+    public byte[] createXML(CEB411Message ceb411Message, String flag,String xmlHeadGuid) throws TransformerException {
         Document document = this.getDocument();
         Element rootElement = document.createElement("ceb:CEB411Message");
-        rootElement.setAttribute("guid", "");
+        rootElement.setAttribute("guid", xmlHeadGuid);
         rootElement.setAttribute("version", "1.0");
         rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -68,9 +68,7 @@ public class BaseXml {
         this.getPayment(document, ceb411Message, flag, rootElement);
 
         BaseTransfer411 baseTransfer411 = ceb411Message.getBaseTransfer411();
-        if (baseTransfer411 != null) {
-            rootElement.appendChild(this.getBaseTransfer(document, baseTransfer411));
-        }
+        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer411));
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
