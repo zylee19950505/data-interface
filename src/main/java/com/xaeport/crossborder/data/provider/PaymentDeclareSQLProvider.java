@@ -17,6 +17,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
         final String end = paramMap.get("end");
+        final String startFlightTimes = paramMap.get("startFlightTimes");
+        final String endFlightTimes = paramMap.get("endFlightTimes");
 
         return new SQL() {
             {
@@ -40,6 +42,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
                 }
+                if (!StringUtils.isEmpty(startFlightTimes)) {
+                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(endFlightTimes)) {
+                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                }
                 if (!"-1".equals(end)) {
                     ORDER_BY("t.upd_tm desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
@@ -56,6 +64,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
 
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
+        final String startFlightTimes = paramMap.get("startFlightTimes");
+        final String endFlightTimes = paramMap.get("endFlightTimes");
 
         return new SQL() {
             {
@@ -66,6 +76,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
+                }
+                if (!StringUtils.isEmpty(startFlightTimes)) {
+                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(endFlightTimes)) {
+                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
             }
         }.toString();
@@ -122,6 +138,29 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+    public String queryPaymentById(@Param("paytransactionid") String paytransactionid) throws Exception {
 
+        return new SQL() {
+            {
+                SELECT( "" +
+                        "    t.PAY_TRANSACTION_ID," +
+                        "    t.ORDER_NO," +
+                        "    t.PAY_CODE," +
+                        "    t.PAY_NAME," +
+                        "    t.EBP_CODE," +
+                        "    t.EBP_NAME," +
+                        "    t.AMOUNT_PAID," +
+                        "    t.PAYER_ID_TYPE," +
+                        "    t.PAYER_ID_NUMBER," +
+                        "    t.PAYER_NAME," +
+                        "    t.PAY_TIME," +
+                        "    t.NOTE");
+                FROM("T_IMP_PAYMENT t");
+                if (!StringUtils.isEmpty(paytransactionid)) {
+                    WHERE("t.PAY_TRANSACTION_ID = #{paytransactionid}");
+                }
+            }
+        }.toString();
+    }
 
 }

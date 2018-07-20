@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -51,7 +52,9 @@ public class Waybill {
         list.add(appType);
         //<ceb:appTime>
         Element appTime = document.createElement("ceb:appTime");
-        appTime.setTextContent(sdfSfm.format(ceb311Message.getOrderHead().getApp_Time()));
+        if (!StringUtils.isEmpty(ceb311Message.getOrderHead().getApp_Time())){
+            appTime.setTextContent(sdfSfm.format(ceb311Message.getOrderHead().getApp_Time()));
+        }
         list.add(appTime);
         //<ceb:appStatus>
         Element appStatus = document.createElement("ceb:appStatus");

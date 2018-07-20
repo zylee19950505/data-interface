@@ -49,7 +49,7 @@ public class MessageUtils {
 * */
 	public CEB311Message getCEB311Message(String senderId, String receiverId) {
         logger.debug("开始生成CEB311 SignedData对象[senderId: {}; receiverId: {}]", senderId, receiverId);
-        String messageId = generateMessageID(senderId, receiverId);
+        //String messageId = generateMessageID(senderId, receiverId);
 
         // 拼装SingData 以便生成XML
         CEB311Message ceb311Message = new CEB311Message();

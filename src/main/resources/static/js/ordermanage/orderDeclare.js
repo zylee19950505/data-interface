@@ -76,7 +76,37 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     {data: "goods_Value", label: "总价"},
                     {data: "buyer_Name", label: "订购人"},
                     //要区分开
-                    {data: "data_status", label: "业务状态"},
+                   /* {data: "data_status", label: "业务状态"},*/
+                    {
+                        label: "业务状态", render: function (data, type, row) {
+                        var textColor = "";
+                        var value = "";
+                        switch (row.data_status) {
+                            case "CBDS2":
+                                textColor = "text-yellow";
+                                value = "订单待申报";
+                                break;
+                            case "CBDS20":
+                                textColor = "text-green";
+                                value = "订单申报中";
+                                break;
+                            case "CBDS21":
+                                textColor = "text-muted";
+                                value = "订单已申报";
+                                break;
+                            case "CBDS22":
+                                textColor = "text-red";
+                                value = "订单重报";
+                                break;
+                            default:
+                                textColor = "";
+                                value = "";
+                        }
+
+                        return "<span class='" + textColor + "'>" + value + "</span>";
+                        }
+                    },
+
                     {data: "note", label: "入库结果"},//入库结果需要确认字段
                     {
                         label: "申报日期", render: function (data, type, row) {

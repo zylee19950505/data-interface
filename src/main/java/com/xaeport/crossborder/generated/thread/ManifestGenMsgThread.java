@@ -2,7 +2,9 @@ package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert.generate.BaseBill;
-import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.entity.CEB311Message;
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
+import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.FileUtils;
@@ -15,7 +17,6 @@ import org.springframework.util.CollectionUtils;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,8 +25,8 @@ public class ManifestGenMsgThread implements Runnable {
     private Log logger = LogFactory.getLog(this.getClass());
     private AppConfiguration appConfiguration = SpringUtils.getBean(AppConfiguration.class);
     private OrderDeclareMapper orderDeclareMapper = SpringUtils.getBean(OrderDeclareMapper.class);
-    private MessageUtils messageUtils;
-    private BaseBill baseBill;
+    private MessageUtils messageUtils = SpringUtils.getBean(MessageUtils.class);
+    private BaseBill baseBill = SpringUtils.getBean(BaseBill.class);
     private static ManifestGenMsgThread manifestGenMsgThread;
 
     public ManifestGenMsgThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, MessageUtils messageUtils, BaseBill baseBill) {
@@ -55,16 +56,6 @@ public class ManifestGenMsgThread implements Runnable {
         String receiverId = this.appConfiguration.getReceiverId();// 接收方ID
 
         CEB311Message ceb311Message;
-        String entryHeadId;
-        ExpMftHead expMftHead;
-        ExpMftList expMftList;
-        List<ImpOrderHead> entryHeads;
-        List<ExpMftList> expMftLists;
-        int packNoTotal = 0;
-        BigDecimal grossWtTotal;
-        double gross_wt;
-        String commitUserId;
-        Users commitUser = null;
 
         List<ImpOrderHead> entryHeadList;
 
@@ -85,7 +76,8 @@ public class ManifestGenMsgThread implements Runnable {
                     //获取head表的id
                     String headGuid = entryHead.getGuid();
                     try {
-                        ceb311Message = this.messageUtils.getCEB311Message(senderId,receiverId);
+                       // ceb311Message = this.messageUtils.getCEB311Message(senderId,receiverId);
+                        ceb311Message = new CEB311Message();
                         String orderNo = entryHead.getOrder_No();//订单号,用于报文头信息
                         //设置表头
                         ceb311Message.setOrderHead(entryHead);
@@ -118,7 +110,7 @@ public class ManifestGenMsgThread implements Runnable {
             // 生成报单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB311_" + orderNo + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.baseBill.createXML(ceb311Message, "orderDeclare");//flag 原来是wayBill
+            byte[] xmlByte = this.baseBill.createXML(ceb311Message, "orderDeclare");//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成订单申报报文[fileName: %s]", fileName));
         } catch (Exception e) {
@@ -129,7 +121,7 @@ public class ManifestGenMsgThread implements Runnable {
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "customs" + File.separator + sdf.format(new Date()) + File.separator + fileName;
-        this.logger.debug(String.format("订单申报报文发送备份文件[backFilePath: %s]", backFilePath));
+       this.logger.debug(String.format("订单申报报文发送备份文件[backFilePath: %s]", backFilePath));
 
         String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
         this.logger.debug(String.format("订单申报报文发送文件[sendFilePath: %s]", sendFilePath));
