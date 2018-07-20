@@ -1,147 +1,95 @@
 <section class="content-header">
-    <h1>订单查询</h1>
+    <h1>
+        订单查询
+    </h1>
     <ol class="breadcrumb">
         <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i>订单管理</a></li>
         <li class="active">订单查询</li>
     </ol>
+    <link rel="stylesheet" href="/css/detail_control.css"/>
 </section>
 
-
 <section class="content">
-    <div id="bill">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="box box-primary ws-query">
-                    <div class="box-header with-border">
-                        <i class="fa fa-search"></i>
-                        <h3 class="box-title">检索</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-sm btn-box-tool" data-widget="collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary ws-query">
+                <div class="box-header with-border">
+                    <i class="fa fa-search"></i>
+                    <h3 class="box-title">检索</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
                     </div>
-                    <div class="box-body">
-                        <form class="form-inline" role="form">
+                </div>
+                <div class="box-body">
+                    <form class="form-inline" role="form">
+                        <div class="col-md-12">
+                            <!--<div class="form-group hide">
+                                <div class="input-group">
+                                    <span class="input-group-addon">身份证校验状态</span>
+                                    <select class="form-control" name="idCardValidate" >
+                                        <option selected="selected" value="Y">已通过</option>
+                                    </select>
+                                </div>
+                            </div>-->
                             <div class="form-group">
                                 <div class="input-group input-daterange">
-                                    <span class="input-group-addon" style="border-width: 1px;">申报时间：</span>
-                                    <input class="form-control" type="text" name="startFlightTimes"/>
+                                    <span class="input-group-addon"
+                                          style="border-width: 1px;">申报日期：</span>
+                                    <input class="form-control" type="text" name="startDeclareTime"/>
                                 </div>
                                 到
                                 <div class="input-group input-daterange">
-                                    <input class="form-control" type="text" name="endFlightTimes"/>
+                                    <input class="form-control" type="text" name="endDeclareTime"/>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">订单编号：</span>
-                                    <input type="text" name="orderNo" class="form-control" placeholder="请输入订单编号"/>
+                                    <span class="input-group-addon">订单编号</span>
+                                    <input type="text" class="form-control" name="orderNo" placeholder="请输入订单编号" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-sm btn-primary" type="button" ws-search="bill"
+                                <button class="btn btn-sm btn-primary" type="button" ws-search=""
                                         data-toggle="tooltip-disabled"
                                         title="查询"><i class="fa fa-search"></i></button>
+
                             </div>
-                            <div class="form-group">
-                                <button class="btn btn-sm btn-primary" type="button" ws-download="bill"
-                                        data-toggle="tooltip-disabled"
-                                        title="下载"><i class="fa fa-download"></i></button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <i class="fa fa-file-pdf-o"></i>
-                        <h3 class="box-title">订单查询</h3>
-                        <div class="box-tools pull-right">
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div style="text-align: center">
-                            <table id="query-orderQuery-table" align="center"
-                                   class="table table-striped table-bordered table-hover table-condensed"
-                                   width="100%">
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="overlay hidden" id="loadingDiv">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
-        </div>
-
     </div>
-    <!-- 报单预览 打印-->
-    <div class="row">
-        <div class="info-box" id="preview" style="display: none;">
-            <div class="box-header with-border hidden-print">
-                <i class="fa fa-desktop"></i>
-                <h3 class="box-title" id="ws-preview-title">报单预览</h3>
-            </div>
-            <div class="box-body" id="ws-preview">
-                <div class="box-tools pull-right">
-                    <button class="btn btn-sm btn-primary pull-right margin hidden-print" type="button" ws-back=""
-                            data-toggle="tooltip-disabled"><i class="fa fa-undo"></i> 返回
-                    </button>
 
-                    <button class="btn btn-sm btn-primary pull-right margin hidden-print" type="button" ws-print=""
-                            data-toggle="tooltip-disabled"><i class="fa fa-print"></i> 打印
-                    </button>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <i class="fa fa-user"></i>
+                    <h3 class="box-title">查询结果</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-                <div id="previewBox" style="margin-top:3% ">
-                    <table id="previewHead" border="solid 1px black" width="100%">
-                        <tr style="height: 35px">
-                            <th colspan="15" style="font-size:25px;font-weight: 500;text-align: center">
-                                中华人民共和国海关进境Ｂ类快件报关单（清单）
-                            </th>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td colspan="2"> &nbsp; 总运单号 &nbsp; <span id="bill_no"></span></td>
-                            <td> &nbsp; 进境日期 &nbsp; <span id="enter_date"></span></td>
-                            <td> &nbsp; 申报日期 &nbsp; <span id="del_date"></span></td>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td> &nbsp; 进口口岸 &nbsp; <span id="import_port"></span></td>
-                            <td> &nbsp; 申报口岸 &nbsp; <span id="del_port"></span></td>
-                            <td> &nbsp; 运输方式 &nbsp; <span id="transport_mode"></span></td>
-                            <td> &nbsp; 运输工具名称 &nbsp; <span id="transport_name"></span></td>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td colspan="2"> &nbsp; 起运国（地区） &nbsp; <span id="origin_country"></span></td>
-                            <td> &nbsp; 件数 &nbsp; <span id="pack_no"></span></td>
-                            <td> &nbsp; 重量（千克） &nbsp; <span id="weight"></span></td>
-                        </tr>
-                    </table>
-                    <table id="previewId" width="100%" border="solid 1px black" style="border-top:none">
-                        <tr style="height: 22px">
-                            <th class="text-center">序号</th>
-                            <th class="text-center">报关单号</th>
-                            <th class="text-center">分运单号</th>
-                            <th class="text-center">税号</th>
-                            <th class="text-center">物品名称</th>
-                            <th class="text-center">件数</th>
-                            <th class="text-center">重量(千克)</th>
-                            <th class="text-center">税率</th>
-                            <th class="text-center">完税价格</th>
-                            <th class="text-center">税额</th>
-                            <th class="text-center">原产国</th>
-                            <th class="text-center">发件人</th>
-                            <th class="text-center">贸易国别</th>
-                            <th class="text-center">收件人</th>
-                            <th class="text-center">海关回执信息</th>
-                        </tr>
-                    </table>
+                <div class="box-body">
+                    <div style="text-align: center">
+                        <table id="query-orderHead-table"
+                               class="table table-striped table-bordered table-hover table-condensed"
+                               width="100%">
+                        </table>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="overlay hidden" id="loadingDiv">
+            <i class="fa fa-refresh fa-spin"></i>
         </div>
     </div>
 

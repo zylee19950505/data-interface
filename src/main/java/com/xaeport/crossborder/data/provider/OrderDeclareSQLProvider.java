@@ -87,6 +87,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SET("th.data_status=#{opStatus}");
                 SET("th.crt_tm=sysdate");
                 SET("th.upd_tm=sysdate");
+                SET("th.APP_TIME=sysdate");
                 SET("th.upd_id=#{currentUserId}");
 
             }

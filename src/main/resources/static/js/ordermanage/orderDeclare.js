@@ -87,11 +87,11 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                                 value = "订单待申报";
                                 break;
                             case "CBDS20":
-                                textColor = "text-green";
+                                textColor = "text-muted";
                                 value = "订单申报中";
                                 break;
                             case "CBDS21":
-                                textColor = "text-muted";
+                                textColor = "text-green";
                                 value = "订单已申报";
                                 break;
                             case "CBDS22":
