@@ -56,6 +56,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
+                        ////支付单已申报CBDS31  那就不用再点击申报
                         if(row.data_status == "CBDS31"){
                             return "";
                         }else {
@@ -84,13 +85,19 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                                 textColor="text-yellow";
                                 break;
                             case "CBDS30"://支付单申报中
-                                textColor="text-yellow";
+                                textColor="text-green";
                                 break;
                             case "CBDS32"://支付单申报成功
-                                textColor="text-yellow";
+                                textColor="text-green";
+                                break;
+                            case "CBDS31"://支付单已申报
+                                textColor="text-green";
+                                break;
+                            case "CBDS34"://支付单申报失败
+                                textColor="text-red";
                                 break;
                             case "CBDS33"://支付单重报
-                                textColor="text-yellow";
+                                textColor="text-red";
                                 break;
                         }
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";

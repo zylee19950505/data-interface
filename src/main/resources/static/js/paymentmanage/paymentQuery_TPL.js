@@ -53,7 +53,6 @@ sw.page.modules["paymentmanage/paymentQuery_TPL"] = sw.page.modules["paymentmana
                 $("#note").attr("value",note);
                 $("#amount_paid").attr("value",amount_paid);
                 $("#pay_time").attr("value",pay_time);
-
             }
         });
 
