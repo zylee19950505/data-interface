@@ -147,4 +147,31 @@ public class PaymentDeclareApi extends BaseApi {
         return impPayment;
     }
 
+    /**
+     * 支付单修改功能因还没有确定需求。暂存。
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/submitUpdata", method = RequestMethod.POST)
+    public boolean submitUpdata(
+            @RequestParam String GUID,
+            @RequestParam String order_no,
+            @RequestParam String pay_code,
+            @RequestParam String pay_transaction_id,
+            @RequestParam String pay_name,
+            @RequestParam String ebp_code,
+            @RequestParam String ebp_name,
+            @RequestParam String payer_id_type,
+            @RequestParam String payer_name,
+            @RequestParam String note,
+            @RequestParam String amount_paid,
+            @RequestParam String payer_id_number,
+            @RequestParam String pay_time,
+            @RequestParam String data_status
+    ) {
+        System.err.println("进入api。。。。执行修改方法。");
+        System.err.println("GUID:"+GUID);
+        return true;
+    }
+
 }

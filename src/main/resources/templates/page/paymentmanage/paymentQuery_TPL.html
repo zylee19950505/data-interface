@@ -16,67 +16,71 @@
 <div>
     <div class="box-body" style="padding:20px;text-align: center">
 
-        <form class="form-inline" align="left">
+        <form class="form-inline" align="left" id = "save">
             <div id="editDeclareInfo">
 
                 <div class="form-group disBlock" style="display:block;" >
                     <div class="input-group">
                         <div  class="input-group-addon" style="width: 180px">订&nbsp;单&nbsp;编&nbsp;号：</div>
-                        <input class="form-control" type="text" id="order_no" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="order_no" name="order_no" />
+                        <!--<input class="form-control" type="text" id="order_no" name="" readonly="readonly"/>  只读-->
+                        <!--申报状态-->
+                        <input  type="hidden" id="data_status" name="data_status" readonly="readonly"/>
+                        <input  type="hidden" id="GUID" name="GUID" readonly="readonly"/>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;企&nbsp;业&nbsp;代&nbsp;码：</span>
-                        <input class="form-control" type="text" id="pay_code" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="pay_code" name="pay_code" />
                     </div>
                 </div>
                 <div class="form-group disBlock" style="display:block">
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;企&nbsp;业&nbsp;名&nbsp;称：</span>
-                        <input class="form-control" type="text" id="pay_name" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="pay_name" name="pay_name" />
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;交&nbsp;易&nbsp;编&nbsp;号：</span>
-                        <input class="form-control" type="text" id="pay_transaction_id" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="pay_transaction_id" name="pay_transaction_id"/>
                     </div>
                 </div>
                 <div class="form-group disBlock" style="display:block">
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">电&nbsp;商&nbsp;平&nbsp;台&nbsp;代&nbsp;码：</span>
-                        <input class="form-control" type="text" id="ebp_code" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="ebp_code" name="ebp_code"/>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">电&nbsp;商&nbsp;平&nbsp;台&nbsp;名&nbsp;称：</span>
-                        <input class="form-control" type="text" id="ebp_name" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="ebp_name" name="ebp_name" />
                     </div>
                 </div>
                 <div class="form-group disBlock" style="display:block">
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;金&nbsp;额：</span>
-                        <input class="form-control" type="text" id="amount_paid" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="amount_paid" name="amount_paid" />
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;证&nbsp;件&nbsp;类&nbsp;型：</span>
-                        <input class="form-control" type="text" id="payer_id_type" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="payer_id_type" name="payer_id_type" />
                     </div>
                 </div>
                 <div class="form-group disBlock" style="display:block">
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;证&nbsp;件&nbsp;号&nbsp;码：</span>
-                        <input class="form-control" type="text" id="payer_id_number" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="payer_id_number" name="payer_id_number"/>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;姓&nbsp;名：</span>
-                        <input class="form-control" type="text" id="payer_name" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="payer_name" name="payer_name" />
                     </div>
                 </div>
                 <div class="form-group disBlock" style="display:block">
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;时&nbsp;间：</span>
-                        <input class="form-control" type="text" id="pay_time" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="pay_time" name="pay_time"/>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" style="width: 180px">备&nbsp;注：</span>
-                        <input class="form-control" type="text" id="note" name="" readonly="readonly"/>
+                        <input class="form-control" type="text" id="note" name="note" />
                     </div>
                 </div>
             </div>
