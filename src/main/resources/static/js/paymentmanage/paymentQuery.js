@@ -129,23 +129,36 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                         return row.amount_paid;
                     }
                 },
-                {
+               {
                     data: "data_status", label: "业务状态",render:function(data,type,row){
                         switch (row.data_status){
                             case "CBDS1"://待申报
                                 textColor="text-yellow";
+                                row.data_status="待申报";
                                 break;
                             case "CBDS3"://支付单待申报
                                 textColor="text-yellow";
+                                row.data_status="支付单待申报";
                                 break;
                             case "CBDS30"://支付单申报中
-                                textColor="text-yellow";
+                                textColor="text-green";
+                                row.data_status="支付单申报中";
                                 break;
                             case "CBDS32"://支付单申报成功
-                                textColor="text-yellow";
+                                textColor="text-green";
+                                row.data_status="支付单申报成功";
+                                break;
+                            case "CBDS31"://支付单已申报
+                                textColor="text-green";
+                                row.data_status="支付单已申报";
+                                break;
+                            case "CBDS34"://支付单申报失败
+                                textColor="text-red";
+                                row.data_status="支付单申报失败";
                                 break;
                             case "CBDS33"://支付单重报
-                                textColor="text-yellow";
+                                textColor="text-red";
+                                row.data_status="支付单重报";
                                 break;
                         }
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";

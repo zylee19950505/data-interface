@@ -56,6 +56,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
+                        ////支付单已申报CBDS31  那就不用再点击申报
                         if(row.data_status == "CBDS31"){
                             return "";
                         }else {
@@ -79,18 +80,31 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                         switch (row.data_status){
                             case "CBDS1"://待申报
                                 textColor="text-yellow";
+                                row.data_status="待申报";
                                 break;
                             case "CBDS3"://支付单待申报
                                 textColor="text-yellow";
+                                row.data_status="支付单待申报";
                                 break;
                             case "CBDS30"://支付单申报中
-                                textColor="text-yellow";
+                                textColor="text-green";
+                                row.data_status="支付单申报中";
                                 break;
                             case "CBDS32"://支付单申报成功
-                                textColor="text-yellow";
+                                textColor="text-green";
+                                row.data_status="支付单申报成功";
+                                break;
+                            case "CBDS31"://支付单已申报
+                                textColor="text-green";
+                                row.data_status="支付单已申报";
+                                break;
+                            case "CBDS34"://支付单申报失败
+                                textColor="text-red";
+                                row.data_status="支付单申报失败";
                                 break;
                             case "CBDS33"://支付单重报
-                                textColor="text-yellow";
+                                textColor="text-red";
+                                row.data_status="支付单重报";
                                 break;
                         }
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";
