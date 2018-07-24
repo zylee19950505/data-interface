@@ -26,12 +26,12 @@ public interface WaybillDeclareMapper {
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateSubmitWaybill")
     void updateSubmitWaybill(Map<String, String> paramMap) throws Exception;
     /*
-     * 生产支付单报文数据查询
+     * 生产运单报文数据查询
      */
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGenerated")
     List<ImpLogistics> findWaitGenerated(Map<String, String> paramMap) throws Exception;
     /*
-     * 修改支付单申报状态
+     * 修改运单申报状态
      */
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateImpLogisticsStatus")
     void updateImpLogisticsStatus(@Param("guid") String guid, @Param("CBDS41") String CBDS41) throws Exception;

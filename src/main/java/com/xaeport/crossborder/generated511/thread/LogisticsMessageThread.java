@@ -125,6 +125,7 @@ public class LogisticsMessageThread implements Runnable {
                     logger.error("支付单报文生成器暂停时发生异常", ie);
                 }
             }
+
         }
     }
 

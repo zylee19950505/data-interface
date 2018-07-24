@@ -100,6 +100,7 @@ public class WaybillDeclareApi extends BaseApi{
             paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.YDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
             paramMap.put("currentUserId", currentUser.getId());
 
+
             /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
             paramMap.put("submitKeys", submitKeys);//订单遍号
 

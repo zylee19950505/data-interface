@@ -21,6 +21,7 @@ public class LogisticsHead {
     private String note;//备注
 
 
+    
     public String getGuid() {
         return guid;
     }

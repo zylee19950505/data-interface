@@ -156,6 +156,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
             alert("运单编号为："+submitKeys);
             $("#submitManifestBtn").prop("disabled", true);
 
+
             sw.ajax("api/waybillManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {

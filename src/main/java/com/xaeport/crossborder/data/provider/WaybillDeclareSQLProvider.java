@@ -118,6 +118,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 WHERE("data_Status = #{dataStatus}");
                 WHERE("rownum<=100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
+
             }
         }.toString();
     }

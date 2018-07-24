@@ -7,6 +7,7 @@ public class Logistics {
         return logisticsHead;
     }
 
+
     public void setLogisticsHead(LogisticsHead logisticsHead) {
         this.logisticsHead = logisticsHead;
     }

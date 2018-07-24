@@ -35,6 +35,7 @@ public class CEB511Message {
         this.baseTransfer411 = baseTransfer411;
     }
 
+
     public Signature411 getSignature411() {
         return signature411;
     }
