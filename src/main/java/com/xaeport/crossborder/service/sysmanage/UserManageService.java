@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.sysmanage;
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.UserRole;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.UserManageMapper;
@@ -78,8 +79,11 @@ public class UserManageService {
         String pwd = users.getPassword();
         String encrypt = passwordEncoder.encode(pwd);// 密码加密
 
-//        users.setId(id);
         String id = securityUsers.getId();
+        String entId = users.getEnt_Id();
+        Enterprise enterprise = this.getEnterpriseById(entId);
+
+        users.setEnt_Name(enterprise.getEnt_name());
         users.setCreatorId(id);
         users.setUpdatorId(id);
         users.setPassword(encrypt);
@@ -104,10 +108,17 @@ public class UserManageService {
      * 用户管理—用户信息修改
      */
     public boolean userEdit(Users securityUsers, Users users,UserRole userRole) {
+        String entId = users.getEnt_Id();
+        Enterprise enterprise = this.getEnterpriseById(entId);
+        this.log.debug(String.format("用户[userId: %s]信息修改选择的企业信息为[entId: %s]", users.getId(), enterprise.getId()));
+
+        users.setEnt_Name(enterprise.getEnt_name());
         users.setUpdateTime(new Date());
         int insCount = this.userMaMapper.updateUser(users);
+
         userRole.setUpdateTime(new Date());
         int insCount1 = this.userMaMapper.updateUserRole(userRole);
+
         this.log.debug(String.format("用户信息[id: %s]修改结果为: %s", users.getId(),userRole.getUserInfoId() ,(insCount + insCount1 > 0)));
         return insCount + insCount1 > 0;
     }
@@ -117,6 +128,23 @@ public class UserManageService {
      */
     public List<Map<String, String>> roleSelectList() {
         return this.userMaMapper.roleSelectList();
+    }
+
+    /**
+     * 获取企业信息下拉选框数据
+     */
+    public List<Map<String, String>> entSelectList() {
+        return this.userMaMapper.entSelectList();
+    }
+
+    /**
+     * 根据企业ID获取企业信息
+     *
+     * @param entId 企业ID
+     * @return 企业信息对象
+     */
+    public Enterprise getEnterpriseById(String entId) {
+        return this.userMaMapper.getEnterpriseById(entId);
     }
 
     /**

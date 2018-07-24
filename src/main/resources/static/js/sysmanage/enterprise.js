@@ -9,7 +9,7 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
             var entInfo = $("[name='entInfo']").val();
 
             // 拼接URL及参数
-            var url = sw.serializeObjectToURL("api/auth/enterprise", {
+            var url = sw.serializeObjectToURL("/entManage/allEntInfo", {
                 entInfo: entInfo
             });
 
@@ -17,130 +17,48 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                 ajax: url,
                 searching: false,
                 columns: [
-                    {data: "ENTERPRISE_NAME", label: "企业名称"},
-                    {data: "COMPETENT_CUSTOMS_STR", label: "主管海关"},
-                    {data: "CORPORATE_CUSTOMS_CODE", label: "企业海关代码"},
-                    {data: "ENT_STATUS_STR", label: "企业状态"},
+                    {data: "ent_name", label: "企业名称"},
+                    {data: "port", label: "主管海关"},
+                    {data: "customs_code", label: "企业海关代码"},
+                    {data: "ent_status", label: "企业状态"},
                     {
                         label: "创建时间",
                         render: function (data, type, row) {
-                            return moment(row.CREATE_TIME).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                    },
-                    {
-                        label: "身份证校验",
-                        render: function (data, type, row) {
-                            var pay = "isPay", Class, Color, title;
-                            var value = row.VALIDATETIMES;
-                            if (row.ISPAY === "Y") {
-                                Class = 'fa fa-toggle-on';
-                                Color = 'green';
-                                title = "已缴费";
-                            } else {
-                                Class = 'fa fa-toggle-off';
-                                Color = 'red';
-                                title = "未交费";
-                            }
-                            var isPay;
-                            var code;
-                            var vaidateTimes = sw.page.modules['sysmanage/enterprise'].validateTimes(row.ENT_ID, row.ISPAY, row.ENT_STATUS, value);
-                            if (row.ENT_STATUS == "0") {
-                                isPay = '<button class="btn btn-sm" title="' + title + '" disabled onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].isEnablement('" + row.ENT_ID + "','" + row.ISPAY + "','" + pay + "');" + '">' +
-                                    '<i class="' + Class + '" style="color:' + Color + '"></i></button> ';
-
-                                code = ' <button class="btn btn-sm btn-primary" title="保存" disabled  onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].saveValidateTimes('" + row.ENT_ID + "')" + '"><i class="fa fa-check"></i> </button> ';
-                            } else {
-                                isPay = '<button class="btn btn-sm" title="' + title + '" onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].isEnablement('" + row.ENT_ID + "','" + row.ISPAY + "','" + pay + "');" + '">' +
-                                    '<i class="' + Class + '" style="color:' + Color + '"></i></button> ';
-
-                                code = ' <button class="btn btn-sm btn-primary" title="保存" onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].saveValidateTimes('" + row.ENT_ID + "')" + '"><i class="fa fa-check"></i> </button> ';
-                            }
-                            return isPay + vaidateTimes + code;
+                            return moment(row.crt_tm).format("YYYY-MM-DD HH:mm:ss");
                         }
                     },
                     {
                         label: "操作",
                         render: function (data, type, row) {
-                            var validate = "isValidate";
                             var code =
                                 '<button class="btn btn-sm btn-primary" title="信息修改" onclick="'
-                                + "javascript:sw.loadWorkspace('sysmanage/enterpriseEdit?eId=" + row.ENT_ID
+                                + "javascript:sw.loadWorkspace('sysmanage/entEdit?eId=" + row.id
                                 + "');" + '"><i class="fa fa-edit"></i> </button> ';
-                            if (row.ENT_STATUS == "1") {
+                            if (row.status == "1") {
                                 code += '<button class="btn btn-sm btn-danger" title="冻结" onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].changeStatus('" + row.ENT_ID
-                                    + "', '" + row.ENTERPRISE_NAME + "', '" + row.ENT_STATUS + "')"
+                                    + "javascript:sw.page.modules['sysmanage/enterprise'].changeStatus('" + row.id
+                                    + "', '" + row.ent_name + "', '" + row.status + "')"
                                     + '"><i class="fa fa-ban"></i> </button> ';
                             } else {
                                 code += '<button class="btn btn-sm btn-success" title="激活" onclick="'
-                                    + "javascript:sw.page.modules['sysmanage/enterprise'].changeStatus('" + row.ENT_ID
-                                    + "', '" + row.ENTERPRISE_NAME + "', '" + row.ENT_STATUS + "')"
+                                    + "javascript:sw.page.modules['sysmanage/enterprise'].changeStatus('" + row.id
+                                    + "', '" + row.ent_name + "', '" + row.status + "')"
                                     + '"><i class="fa fa-check-circle-o"></i> </button> ';
                             }
-                            var icon, alt;
-                            if (row.ISVALIDATE === "Y") {
-                                alt = "已启用设为校验按钮";
-                                icon = "fa  fa-unlock-alt";
-                            } else {
-                                alt = "未启用设为校验按钮";
-                                icon = "fa fa-lock";
-                            }
-                            var isValidate = '<button class="btn btn-sm btn-info" title="' + alt + '"  onclick="'
-                                + "javascript:sw.page.modules['sysmanage/enterprise'].isEnablement('" + row.ENT_ID + "','" + row.ISVALIDATE + "','" + validate + "');" + '"><i class="' + icon + '" aria-hidden="true"></i></button> ';
-
-                            return isValidate + code;
+                            return code;
                         }
                     }
                 ]
             });
         },
-        changeStatus: function (eId, entName, status) {
-            var statusStr = status == "1" ? "已冻结" : "已激活";
-            sw.confirm("确定变更企业 \"" + entName + "\"状态为：" + statusStr, "确认", function () {
-                sw.ajax("api/auth/enterprise/" + eId, "GET", {}, function (rsp) {
+        changeStatus: function (ent_Id, ent_Name, status) {
+            var statusStr = status == "1"?"已冻结":"已激活";
+            sw.confirm("确定变更企业 \"" + ent_Name + "\"状态为：" + statusStr, "确认", function () {
+                sw.ajax("/entManage/editEnterprise/" + ent_Id, "GET", {}, function (rsp) {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                     sw.page.modules['sysmanage/enterprise'].query();
                 });
             });
-        },
-        //设置按钮的值
-        isEnablement: function (enId, value, type) {
-            var status;
-            if (value === "null" || value === "N") {
-                status = "Y";
-            } else {
-                status = "N";
-            }
-            sw.ajax("enterprise/isEnablement/" + enId, "PUT", {value: status, type: type}, function (rsp) {
-                sw.page.modules['sysmanage/enterprise'].query();
-            });
-        },
-        //保存总校验次数
-        saveValidateTimes: function (enId) {
-            var times = $("#validateTimes_" + enId).val();
-            sw.ajax("enterprise/validateTimes/" + enId, "PUT", {value: times}, function (rsp) {
-                if (rsp.status === 200) {
-                    sw.alert(rsp.data, "提示", "", "modal-info");
-                    sw.page.modules['sysmanage/enterprise'].query();
-                }
-            });
-        },
-        //设置校验次数输入框的状态
-        validateTimes: function (ent_id, isPayStatus, entStatus, value) {
-            var code;
-            var id = "validateTimes_" + ent_id;
-            //身份证校验开关关闭、企业冻结
-            if (isPayStatus === "N" || entStatus === "0") {
-                code = '<input type="text"  id="' + id + '" value="' + value + '" disabled>';
-            }
-            else {
-                code = '<input type="text" value="' + value + '" id="' + id + '">';
-            }
-            return code;
         },
 
         init: function () {
@@ -150,84 +68,124 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
 
 
 // 用户 新增用户，修改用户
-sw.page.modules["sysmanage/enterpriseEdit"] = sw.page.modules["sysmanage/enterpriseEdit"] || {
+sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
         back: function () {
             sw.showPageQuery();
         },
         loadEntInfo: function (eId) {
-            sw.ajax("enterprise/load/" + eId, "", "GET", function (rsp) {
+            sw.ajax("entManage/load/" + eId, "", "GET", function (rsp) {
                 var data = rsp.data;
                 console.log(data);
                 if (data !== null) {
-                    $("input[name='ent_id']").val(data.ent_id);
-                    $("input[name='enterprise_name']").val(data.enterprise_name);
-                    $("input[name='business_license']").val(data.business_license);
-                    $("input[name='organization_code']").val(data.organization_code);
-                    $("input[name='tax_registration_code']").val(data.tax_registration_code);
-                    $("select[name='business_category']").val(data.business_category);
-                    $("select[name='enterprise_nature']").val(data.enterprise_nature);
-                    $("select[name='competent_customs']").val(data.competent_customs);
-                    $("input[name='corporate_customs_code']").val(data.corporate_customs_code);
-                    $("select[name='enterprise_classification']").val(data.enterprise_classification);
-                    $("input[name='corporate_presence']").val(data.corporate_presence);
-                    $("input[name='certificate_type']").val(data.certificate_type);
-                    $("input[name='certificate_no']").val(data.certificate_no);
+                    $("input[name='id']").val(data.id);
 
-                    $("input[name='business_license']").attr("disabled", "disabled");
-                    $("input[name='organization_code']").attr("disabled", "disabled");
-                    $("input[name='tax_registration_code']").attr("disabled", "disabled");
-                    $("input[name='corporate_customs_code']").attr("disabled", "disabled");
+                    $("input[name='ent_name']").val(data.ent_name);
+                    $("input[name='ent_code']").val(data.ent_code);
+                    $("input[name='ent_legal']").val(data.ent_legal);
+                    $("input[name='ent_phone']").val(data.ent_phone);
+                    $("input[name='ent_unique_code']").val(data.ent_unique_code);
+                    $("input[name='org_code']").val(data.org_code);
+                    $("input[name='business_code']").val(data.business_code);
+
+                    $("input[name='tax_code']").val(data.tax_code);
+                    $("input[name='credit_code']").val(data.credit_code);
+                    $("select[name='ent_type']").val(data.ent_type);
+                    $("select[name='ent_nature']").val(data.ent_nature);
+                    $("select[name='port']").val(data.port);
+                    $("input[name='customs_code']").val(data.customs_code);
+                    $("select[name='ent_classify']").val(data.ent_classify);
+
+                    // $("input[name='business_license']").attr("disabled", "disabled");
+                    // $("input[name='organization_code']").attr("disabled", "disabled");
+                    // $("input[name='tax_registration_code']").attr("disabled", "disabled");
+                    // $("input[name='corporate_customs_code']").attr("disabled", "disabled");
                 }
             });
         },
         validateEntForm: function () {
-            var enterprise_name = $("input[name='enterprise_name']").val();
-            var business_license = $("input[name='business_license']").val();
-            var organization_code = $("input[name='organization_code']").val();
-            var tax_registration_code = $("input[name='tax_registration_code']").val();
-            var competent_customs = $("select[name='competent_customs']").val();
-            var corporate_customs_code = $("input[name='corporate_customs_code']").val();
-            var enterprise_nature = $("select[name='enterprise_nature']").val();
+            var ent_name = $("input[name='ent_name']").val();
+            var ent_code = $("input[name='ent_code']").val();
+            var ent_legal = $("input[name='ent_legal']").val();
+            var ent_phone = $("input[name='ent_phone']").val();
+            var ent_unique_code = $("input[name='ent_unique_code']").val();
+            var org_code = $("input[name='org_code']").val();
+            var business_code = $("input[name='business_code']").val();
 
-            if (isEmpty(enterprise_name) || enterprise_name.length < 3) {
-                hasErrorEnterprise("input[name='enterprise_name'", "企业名称不能为空或小于3个字符");
+            var tax_code = $("input[name='tax_code']").val();
+            var credit_code = $("input[name='credit_code']").val();
+            var customs_code = $("input[name='customs_code']").val();
+            var ent_type = $("select[name='ent_type']").val();
+            var ent_nature = $("select[name='ent_nature']").val();
+            var ent_classify = $("select[name='ent_classify']").val();
+            var port = $("select[name='port']").val();
+
+            if (isEmpty(ent_name) || ent_name.length < 3) {
+                hasErrorEnterprise("input[name='ent_name'", "企业名称不能为空或小于3个字符");
                 return false;
             }
-            if (isEmpty(business_license) || business_license.length < 3) {
-                hasErrorEnterprise("input[name='business_license'", "工商营业执照号不能为空或小于3个字符");
+            if (isEmpty(ent_code)) {
+                hasErrorEnterprise("input[name='ent_code'", "企业代码不能为空");
                 return false;
             }
-            if (isEmpty(organization_code) || organization_code.length < 3) {
-                hasErrorEnterprise("input[name='organization_code'", "组织机构代码不能为空或小于3个字符");
+            if (isEmpty(ent_legal)) {
+                hasErrorEnterprise("input[name='ent_legal'", "企业法人不能为空");
                 return false;
             }
-            if (isEmpty(tax_registration_code) || tax_registration_code.length < 3) {
-                hasErrorEnterprise("input[name='tax_registration_code'", "税务登记代码不能为空或小于3个字符");
+            if (isEmpty(ent_phone)) {
+                hasErrorEnterprise("input[name='ent_phone'", "企业电话不能为空");
                 return false;
             }
-            if (isEmpty(enterprise_nature)) {
-                hasErrorEnterprise("select[name='enterprise_nature'", "请选择企业性质");
+            if (isEmpty(ent_unique_code)) {
+                hasErrorEnterprise("input[name='ent_unique_code'", "企业唯一编号不能为空");
                 return false;
             }
-            if (isEmpty(competent_customs)) {
-                hasErrorEnterprise("select[name='competent_customs'", "请选择主管海关");
+            if (isEmpty(credit_code)) {
+                hasErrorEnterprise("input[name='credit_code'", "企业统一社会信用代码不能为空");
                 return false;
             }
-            if (isEmpty(corporate_customs_code) || corporate_customs_code.length != 10) {
-                hasErrorEnterprise("input[name='corporate_customs_code'", "请填写海关10位企业代码")
+            if (isEmpty(business_code) || business_code.length < 3) {
+                hasErrorEnterprise("input[name='business_code'", "工商营业执照号不能为空或小于3个字符");
+                return false;
+            }
+            if (isEmpty(org_code) || org_code.length < 3) {
+                hasErrorEnterprise("input[name='org_code'", "组织机构代码不能为空或小于3个字符");
+                return false;
+            }
+            if (isEmpty(tax_code) || tax_code.length < 3) {
+                hasErrorEnterprise("input[name='tax_code'", "税务登记代码不能为空或小于3个字符");
+                return false;
+            }
+            if (isEmpty(customs_code) || customs_code.length != 10) {
+                hasErrorEnterprise("input[name='customs_code'", "请填写海关10位企业代码")
+                return false;
+            }
+            if (isEmpty(ent_nature)) {
+                hasErrorEnterprise("select[name='ent_nature'", "请选择企业性质");
+                return false;
+            }
+            if (isEmpty(port)) {
+                hasErrorEnterprise("select[name='port'", "请选择主管海关");
+                return false;
+            }
+            if (isEmpty(ent_type)) {
+                hasErrorEnterprise("select[name='ent_type'", "企业类别不能为空");
+                return false;
+            }
+            if (isEmpty(ent_classify)) {
+                hasErrorEnterprise("select[name='ent_classify'", "企业分类不能为空");
                 return false;
             }
             return true;
         },
         entCreate: function () {
-            var entData = sw.serialize("#sw-entInfo");
-            if (!sw.page.modules["sysmanage/enterpriseEdit"].validateEntForm()) {
+            var entData = sw.serialize("#enterpriseInfo");
+            if (!sw.page.modules["sysmanage/entEdit"].validateEntForm()) {
                 return;
             }
-            sw.ajax("api/auth/enterprise", "POST", entData, function (rsp) {
+            sw.ajax("/entManage/createEntInfo", "POST", entData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
-                    sw.pageModule("sysmanage/enterpriseEdit").back();
+                    sw.pageModule("sysmanage/entEdit").back();
                     sw.page.modules['sysmanage/enterprise'].query();
                     sw.page.modules['sysmanage/enterprise'].clearEntInfo();
                 } else {
@@ -240,15 +198,15 @@ sw.page.modules["sysmanage/enterpriseEdit"] = sw.page.modules["sysmanage/enterpr
             });
         },
         entUpdate: function () {
-            var params = sw.getPageParams("sysmanage/enterpriseEdit");
-            var entData = sw.serialize("#sw-entInfo");
-            if (!sw.page.modules["sysmanage/enterpriseEdit"].validateEntForm()) {
+            var params = sw.getPageParams("sysmanage/entEdit");
+            var entData = sw.serialize("#enterpriseInfo");
+            if (!sw.page.modules["sysmanage/entEdit"].validateEntForm()) {
                 return;
             }
-            sw.ajax("api/auth/enterprise/" + params.uId, "PUT", entData, function (rsp) {
+            sw.ajax("/entManage/enterprise/" + params.uId, "PUT", entData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
-                    sw.pageModule("sysmanage/enterpriseEdit").back();
+                    sw.pageModule("sysmanage/entEdit").back();
                     sw.page.modules['sysmanage/enterprise'].query();
                     sw.page.modules['sysmanage/enterprise'].clearEntInfo();
                 } else {
@@ -260,29 +218,33 @@ sw.page.modules["sysmanage/enterpriseEdit"] = sw.page.modules["sysmanage/enterpr
             });
         },
         clearEntInfo: function () {
-            $("input[name='ent_id']").val("");
-            $("input[name='enterprise_name']").val("");
-            $("input[name='business_license']").val("");
-            $("input[name='organization_code']").val("");
-            $("input[name='tax_registration_code']").val("");
-            $("select[name='business_category']").val("");
-            $("select[name='enterprise_nature']").val("");
-            $("select[name='competent_customs']").val("");
-            $("input[name='corporate_customs_code']").val("");
-            $("select[name='enterprise_classification']").val("");
-            $("input[name='corporate_presence']").val("");
-            $("input[name='certificate_type']").val("");
-            $("input[name='certificate_no']").val("");
+            $("input[name='id']").val("");
+
+            $("input[name='ent_name']").val("");
+            $("input[name='ent_code']").val("");
+            $("input[name='ent_legal']").val("");
+            $("input[name='ent_phone']").val("");
+            $("input[name='ent_unique_code']").val("");
+            $("input[name='org_code']").val("");
+            $("input[name='business_code']").val("");
+
+            $("input[name='tax_code']").val("");
+            $("input[name='credit_code']").val("");
+            $("select[name='ent_type']").val("");
+            $("select[name='ent_nature']").val("");
+            $("select[name='port']").val("");
+            $("input[name='customs_code']").val("");
+            $("select[name='ent_classify']").val("");
         },
         loadSelectCode: function () {
-            sw.selectOptionByType("enterprise_classification", "AGENT_CODE");
-            sw.selectOptionByType("business_category", "AGENT_TYPE");
-            sw.selectOptionByType("competent_customs", "CUSTOMS_CODE");
-            sw.selectOptionByType("enterprise_nature", "AGENT_NATURE");
+            sw.selectOptionByType("ent_classify", "AGENT_CODE");
+            sw.selectOptionByType("ent_type", "AGENT_TYPE");
+            sw.selectOptionByType("port", "CUSTOMS_CODE");
+            sw.selectOptionByType("ent_nature", "AGENT_NATURE");
 
         },
         init: function () {
-            var params = sw.getPageParams("sysmanage/enterpriseEdit");
+            var params = sw.getPageParams("sysmanage/entEdit");
             this.loadSelectCode();
             if (!params) {
                 $("#ws-work-title").text("新增企业");
@@ -293,7 +255,7 @@ sw.page.modules["sysmanage/enterpriseEdit"] = sw.page.modules["sysmanage/enterpr
                 $("#ws-page-apply").unbind("click").click(this.entUpdate);
                 // 等待0.5秒，以便下拉菜单加载完毕
                 setTimeout(function () {
-                    sw.page.modules["sysmanage/enterpriseEdit"].loadEntInfo(params.eId)
+                    sw.page.modules["sysmanage/entEdit"].loadEntInfo(params.eId)
                 }, 500);
             }
             $("input,select").change(function () {
@@ -305,6 +267,8 @@ sw.page.modules["sysmanage/enterpriseEdit"] = sw.page.modules["sysmanage/enterpr
             $("#ws-page-back").click(this.back);
         }
     }
+
+
 function hasErrorEnterprise(selecter, errorMsg) {
     $(selecter).parent().addClass("has-error");
     $(selecter).parent().find(".help-block").removeClass("hidden").html(errorMsg);

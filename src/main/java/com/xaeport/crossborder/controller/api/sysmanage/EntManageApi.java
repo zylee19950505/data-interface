@@ -3,16 +3,19 @@ package com.xaeport.crossborder.controller.api.sysmanage;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
+import com.xaeport.crossborder.data.entity.Enterprise;
+import com.xaeport.crossborder.data.mapper.EntManageMapper;
+import com.xaeport.crossborder.service.sysmanage.EntManageSerivce;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,55 +25,213 @@ import java.util.Map;
  */
 
 @RestController
+@RequestMapping(value = "/entManage")
 public class EntManageApi extends BaseApi{
     private Log logger = LogFactory.getLog(this.getClass());
+    @Autowired
+    EntManageSerivce entManageSerivce;
 
-    //系统日志—查询数据
-    @RequestMapping(value = "/syslog",method = RequestMethod.GET)
-    public ResponseData querySysLog(
-            @RequestParam String startFlightTimes,
-            @RequestParam String endFlightTimes,
-            @RequestParam String module,
-            HttpServletRequest request
+    //企业所有信息数据
+    @RequestMapping(value = "/allEntInfo",method = RequestMethod.GET)
+    public ResponseData queryAllEntInfo(
+            @RequestParam(required = false) String entInfo
     ){
-        this.logger.debug(String.format("开始进行系统日志数据查询"));
+        this.logger.debug(String.format("企业列表查询及条件检索条件[entInfo: %s]", entInfo));
+
         Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("entInfo",entInfo);
 
-        String startStr = request.getParameter("start");
-        String length = request.getParameter("length");
-        String extra_search = request.getParameter("extra_search");
-        String draw = request.getParameter("draw");
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+        List<Enterprise> allEntInfo = this.entManageSerivce.queryAllEntInfo(paramMap);
+        return new ResponseData(allEntInfo);
 
-        paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-        paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-        paramMap.put("module",module);
-
-        paramMap.put("start", start);
-        paramMap.put("length", length);
-        paramMap.put("end", end);
-        paramMap.put("extra_search", extra_search);
-
-        DataList<Map<String, String>> dataList = null;
-        List<Map<String, String>> sysLogList = null;
-
-        try{
-//            List<SysLog> sysLogList = this.sysLogSerivce.querySysLog(paramMap);
-//            return new ResponseData(sysLogList);
-          /*  sysLogList = this.sysLogSerivce.querySysLog(paramMap);
-            int count = this.sysLogSerivce.querySysLogCount(paramMap);*/
-            dataList = new DataList<>();
-            dataList.setDraw(draw);
-            dataList.setData(sysLogList);
-           /* dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);*/
-        }catch (Exception e){
-            this.logger.debug("获取系统日志数据时发生异常",e);
-            return new ResponseData("获取系统日志数据错误", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseData(dataList);
     }
+
+    /**
+     * 企业信息状态变更
+     *
+     * @param ent_Id 企业ID
+     */
+    @RequestMapping(value = "/editEnterprise/{ent_Id}", method = RequestMethod.GET)
+    public ResponseData changeEntStatus(@PathVariable(value = "ent_Id") String ent_Id){
+        if (StringUtils.isEmpty(ent_Id)) {
+            return new ResponseData("企业ID不可为空", HttpStatus.FORBIDDEN);
+        }
+        Map<String,String> patramMap = this.entManageSerivce.changeEntStatus(ent_Id);
+        if ("true".equals(patramMap.get("result"))) {
+            return rtnResponse("true", "企业信息状态变更成功");
+        }
+        return rtnResponse("false", "企业信息状态变更失败");
+    }
+
+    /**
+     * 获取下拉菜单选项
+     *
+     * @param codeType 代码类型
+     * @return 下拉菜单选项Map集合
+     */
+    @RequestMapping(value = "/getCode", method = RequestMethod.GET)
+    public ResponseData getCodeSelectOption(@RequestParam String codeType) {
+        List<Map<String, String>> selectOptionList = this.entManageSerivce.getCodeSelectOption(codeType);
+        if (CollectionUtils.isEmpty(selectOptionList)) {
+            return rtnResponse("false", "获取下拉菜单选项失败");
+        }
+        return new ResponseData(selectOptionList);
+    }
+
+    /**
+     * 企业新增
+     *
+     * @param enterprise 企业信息
+     */
+    @RequestMapping(value = "/createEntInfo", method = RequestMethod.POST)
+    public ResponseData entCreate(
+            @ModelAttribute Enterprise enterprise
+    ) {
+        ResponseData responseData = checkEnterpriseData(enterprise,false);
+        if (responseData != null) {
+            return responseData;
+        }
+
+        String entId = entManageSerivce.createEnterprise(enterprise);
+        if (!StringUtils.isEmpty(entId)) {
+            return rtnResponse("true", "企业新增成功");
+        }
+
+        return rtnResponse("false", "企业新增失败");
+    }
+
+    private ResponseData checkEnterpriseData(Enterprise enterprise,boolean isUpdate) {
+        try {
+            if (StringUtils.isEmpty(enterprise.getEnt_name())) {
+                return rtnResponse("false", "企业名称不能为空！");
+            }
+
+            if (StringUtils.isEmpty(enterprise.getCustoms_code())) {
+                return rtnResponse("false", "企业海关代码不能为空！");
+            }
+
+            if (StringUtils.isEmpty(enterprise.getBusiness_code())) {
+                return rtnResponse("false", "工商营业执照号不能为空！");
+            }
+
+            if (StringUtils.isEmpty(enterprise.getOrg_code())) {
+                return rtnResponse("false", "组织机构代码不能为空！");
+            }
+
+            if (StringUtils.isEmpty(enterprise.getTax_code())) {
+                return rtnResponse("false", "税务登记代码不能为空！");
+            }
+
+            if (StringUtils.isEmpty(enterprise.getPort())) {
+                return rtnResponse("false", "主管海关不能为空！");
+            }
+
+//            if(!isUpdate) {
+//                String repeatCode = enterprise.getCUSTOMS_CODE();
+//                if (!customsCodeRepeat(repeatCode)) {
+//                    return rtnResponse("false", "企业海关代码已存在！");
+//                }
+//
+//                repeatCode = enterprise.getBUSINESS_CODE();
+//                if (!businessLicenseRepeat(repeatCode)) {
+//                    return rtnResponse("false", "工商营业执照号已存在");
+//                }
+//
+//                repeatCode = enterprise.getORG_CODE();
+//                if (!organizationCodeRepeat(repeatCode)) {
+//                    return rtnResponse("false", "组织机构代码已存在");
+//                }
+//
+//                repeatCode = enterprise.getTAX_CODE();
+//                if (!taxRegistrationCodeRepeat(repeatCode)) {
+//                    return rtnResponse("false", "税务登记代码已存在");
+//                }
+//            }
+        } catch (Exception e) {
+            logger.error(String.format("企业新增校验时发生异常导致失败[enterprise_name: %s]", enterprise.getEnt_name()), e);
+            return rtnResponse("false", "企业新增校验时发生异常导致失败");
+        }
+        return null;
+    }
+
+    /**
+     * 企业信息修改
+     *
+     * @param enterprise 企业信息
+     */
+    @RequestMapping(value = "/enterprise/{uId}", method = RequestMethod.PUT)
+    public ResponseData entEdit(
+            @ModelAttribute Enterprise enterprise
+    ) {
+
+        String id = enterprise.getId();
+        if(StringUtils.isEmpty(id)){
+            return rtnResponse("false","修改企业信息时企业信息ID不能为空");
+        }
+
+        ResponseData responseData = checkEnterpriseData(enterprise,true);
+        if (responseData != null) {
+            return responseData;
+        }
+
+        boolean updateFlag = entManageSerivce.updateEnterprise(enterprise);
+        if (updateFlag) {
+            return rtnResponse("true", "企业信息修改成功");
+        }
+
+        return rtnResponse("false", "企业信息修改失败");
+    }
+
+    /*
+     * 企业信息获取
+     */
+    @RequestMapping(value = "/load/{id}", method = RequestMethod.GET)
+    public ResponseData loadEnterprise(@PathVariable(name = "id") String enterpriseId) {
+        Enterprise enterprise = this.entManageSerivce.getEnterpriseDetail(enterpriseId);
+        return new ResponseData(enterprise);
+    }
+
+//    /**
+//     * 海关企业代码重复校验
+//     *
+//     * @param customsCode 用户账号
+//     */
+//    private boolean customsCodeRepeat(String customsCode) throws SQLException {
+//        boolean isRepeat = this.entManageSerivce.customsCodeRepeat(customsCode);
+//        return isRepeat;
+//    }
+//
+//    /**
+//     * 工商营业执照号重复校验
+//     *
+//     * @param businessLicense 用户账号
+//     */
+//    private boolean businessLicenseRepeat(String businessLicense) throws SQLException {
+//        boolean isRepeat = this.entManageSerivce.businessLicenseRepeat(businessLicense);
+//        return isRepeat;
+//    }
+//
+//    /**
+//     * 组织机构代码重复校验
+//     *
+//     * @param organizationCode 用户账号
+//     */
+//    private boolean organizationCodeRepeat(String organizationCode) throws SQLException {
+//        boolean isRepeat = this.entManageSerivce.organizationCodeRepeat(organizationCode);
+//        return isRepeat;
+//    }
+//
+//    /**
+//     * 税务登记代码重复校验
+//     *
+//     * @param taxRegistrationCode 用户账号
+//     */
+//    private boolean taxRegistrationCodeRepeat(String taxRegistrationCode) throws SQLException {
+//        boolean isRepeat = this.entManageSerivce.taxRegistrationCodeRepeat(taxRegistrationCode);
+//        return isRepeat;
+//    }
+
+
 
 
 }

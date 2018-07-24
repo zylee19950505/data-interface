@@ -23,10 +23,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/sysmanage")
 public class UserManageApi extends BaseApi{
-    private Log logger = LogFactory.getLog(this.getClass());
 
-   /* @Autowired
-    private SaveLog saveLog;*/
+    private Log logger = LogFactory.getLog(this.getClass());
 
     /**
      * 用户管理—用户列表查询及条件检索
@@ -57,8 +55,6 @@ public class UserManageApi extends BaseApi{
         } catch (Exception e) {
             this.logger.error(e,e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
-        } finally {
-           /* saveLog.saveSystemLog(SystemLogEnum.YHGL.getMenuCode(), SystemLogEnum.METHOD_SELECT);*/
         }
         return new ResponseData(userList);
     }
@@ -98,8 +94,6 @@ public class UserManageApi extends BaseApi{
         } catch (Exception e) {
             this.logger.debug(String.format("用户密码重置失败[id: %s, password: %s]", id, password));
         } finally {
-          /*  //保存日志
-            saveLog.saveSystemLog(SystemLogEnum.YHGL.getMenuCode(), SystemLogEnum.METHOD_UPDATE);*/
         }
         if (isChg) {
             return rtnResponse("true", "密码重置成功");
@@ -116,8 +110,6 @@ public class UserManageApi extends BaseApi{
             return new ResponseData("用户ID不可为空", HttpStatus.FORBIDDEN);
         }
         this.userMaService.userDelete(id);
-       /* //保存日志
-        saveLog.saveSystemLog(SystemLogEnum.YHGL.getMenuCode(), SystemLogEnum.METHOD_DELETE);*/
         return new ResponseData(1);
     }
 
@@ -131,7 +123,7 @@ public class UserManageApi extends BaseApi{
             @RequestParam String password,
             @RequestParam String role,
             @RequestParam String ic,
-            @RequestParam String userType,
+            @RequestParam String entSelect,
             @RequestParam int state,
             @RequestParam String phone,
             @RequestParam String email
@@ -148,8 +140,8 @@ public class UserManageApi extends BaseApi{
         if (StringUtils.isEmpty(state)) {
             return new ResponseData("用户状态不可为空", HttpStatus.FORBIDDEN);
         }
-        if (StringUtils.isEmpty(userType)) {
-            return new ResponseData("用户类型不可为空", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(entSelect)) {
+            return new ResponseData("授予企业信息不可为空", HttpStatus.FORBIDDEN);
         }
         if (StringUtils.isEmpty(role)) {
             return new ResponseData("授予角色不可为空", HttpStatus.FORBIDDEN);
@@ -167,7 +159,7 @@ public class UserManageApi extends BaseApi{
         users.setLoginName(loginName);
         users.setPassword(password);
         users.setIc(ic);
-        users.setUserType(userType);
+        users.setEnt_Id(entSelect);
         users.setState(state);
         users.setPhone(phone);
         users.setEmail(email);
@@ -183,8 +175,6 @@ public class UserManageApi extends BaseApi{
             isCreate = this.userMaService.userCreate(currentUsers, users,userRole);
         } catch (Exception e) {
             this.logger.debug(String.format("用户新增失败[id: %s]", id));
-        }finally {
-          /*  saveLog.saveSystemLog(SystemLogEnum.YHGL.getMenuCode(), SystemLogEnum.METHOD_SAVE);*/
         }
         if (isCreate) {
             return rtnResponse("true", "用户新增成功");
@@ -202,7 +192,7 @@ public class UserManageApi extends BaseApi{
             @RequestParam String password,
             @RequestParam String role,
             @RequestParam String ic,
-            @RequestParam String userType,
+            @RequestParam String entSelect,
             @RequestParam int state,
             @RequestParam String phone,
             @RequestParam String email
@@ -216,8 +206,8 @@ public class UserManageApi extends BaseApi{
         if (StringUtils.isEmpty(state)) {
             return new ResponseData("用户状态不可为空", HttpStatus.FORBIDDEN);
         }
-        if (StringUtils.isEmpty(userType)) {
-            return new ResponseData("用户类型不可为空", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(entSelect)) {
+            return new ResponseData("授予企业信息不可为空", HttpStatus.FORBIDDEN);
         }
         if (StringUtils.isEmpty(role)) {
             return new ResponseData("授予角色不可为空", HttpStatus.FORBIDDEN);
@@ -231,10 +221,10 @@ public class UserManageApi extends BaseApi{
         users.setPassword(password);
         users.setRoleId(role);
         users.setIc(ic);
-        users.setUserType(userType);
         users.setState(state);
         users.setPhone(phone);
         users.setEmail(email);
+        users.setEnt_Id(entSelect);
 
         UserRole userRole = new UserRole();
         userRole.setUserInfoId(id);
@@ -245,8 +235,6 @@ public class UserManageApi extends BaseApi{
             isEdit = this.userMaService.userEdit(currentUsers, users,userRole);
         } catch (Exception e) {
             this.logger.debug(String.format("用户修改失败[id: %s]", id));
-        } finally {
-       /*     saveLog.saveSystemLog(SystemLogEnum.YHGL.getMenuCode(), SystemLogEnum.METHOD_UPDATE);*/
         }
         if (isEdit) {
             return rtnResponse("true", "用户信息修改成功");
@@ -269,6 +257,15 @@ public class UserManageApi extends BaseApi{
     public ResponseData roleSelectList() {
         List<Map<String, String>> roleList = this.userMaService.roleSelectList();
         return new ResponseData(roleList);
+    }
+
+    /**
+     * 企业信息列表 select下拉框显示
+     */
+    @RequestMapping(value = "/entSelect", method = RequestMethod.GET)
+    public ResponseData entSelectList() {
+        List<Map<String, String>> entList = this.userMaService.entSelectList();
+        return new ResponseData(entList);
     }
 
 

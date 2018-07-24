@@ -7,20 +7,26 @@ import java.util.List;
  * Created by wx on 2018/3/14.
  */
 public class Users {
-    private String id;
-    private String ic;
-    private String loginName;
-    private String phone;
-    private String email;
-    private String password;
-    private int state;
-    private String creatorId;
-    private Date createTime;
-    private String updatorId;
-    private Date updateTime;
-    private String userType;
-    private String roleId;
-    private String roleName;
+    private String id;//用户账号
+    private String ic;//*ic卡
+    private String loginName;//用户昵称
+    private String phone;//电话
+    private String email;//邮箱
+    private String password;//密码
+    private int state;//数据状态（0：删除状态，1：正常状态，2锁定状态）
+    private String creatorId;//创建人
+    private Date createTime;//创建时间
+    private String updatorId;//修改人
+    private Date updateTime;//修改时间
+    private String userType;//用户类型（1：普通用户 2：设备编码）
+    private String roleId;//角色ID
+    private String roleName;//角色名称
+    private String ent_Id;//企业ID
+    private String ent_Name;//企业名称
+    private String ic_Card;//IC卡号
+    private String ic_Pwd;//IC卡密码
+    private List<Menu> subMenuList;//菜单表
+    private List<Menu> childMenuList;//子菜单表
 
     public String getRoleId() {
         return roleId;
@@ -37,9 +43,6 @@ public class Users {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-
-    private List<Menu> subMenuList;
-    private List<Menu> childMenuList;
 
     public String getId() {
         return id;
@@ -151,5 +154,37 @@ public class Users {
 
     public void setChildMenuList(List<Menu> childMenuList) {
         this.childMenuList = childMenuList;
+    }
+
+    public String getEnt_Id() {
+        return ent_Id;
+    }
+
+    public void setEnt_Id(String ent_Id) {
+        this.ent_Id = ent_Id;
+    }
+
+    public String getEnt_Name() {
+        return ent_Name;
+    }
+
+    public void setEnt_Name(String ent_Name) {
+        this.ent_Name = ent_Name;
+    }
+
+    public String getIc_Card() {
+        return ic_Card;
+    }
+
+    public void setIc_Card(String ic_Card) {
+        this.ic_Card = ic_Card;
+    }
+
+    public String getIc_Pwd() {
+        return ic_Pwd;
+    }
+
+    public void setIc_Pwd(String ic_Pwd) {
+        this.ic_Pwd = ic_Pwd;
     }
 }

@@ -11,6 +11,14 @@ public interface SystemConstants {
     String SYSTEM_DEFAULT_PWD = "888888";
     /** 数据字典 邮寄国代码父级节点ID */
     String SYSTEM_CODE_POST_COUNTRY_PARENT = "000001";
+
+    String CODE_TYPE_AGENT_CODE = "AGENT_CODE";
+    String CODE_TYPE_CUSTOMS_CODE = "CUSTOMS_CODE";
+    String CODE_TYPE_AGENT_TYPE = "AGENT_TYPE";
+    String CODE_TYPE_AGENT_NATURE = "AGENT_NATURE";
+    String CODE_TYPE_TRANS_MODE = "TRANS_MODE";
+    String CODE_TYPE_TRADE_MODE = "TRADE_MODE";
+
     /** 系统用户状态 已删除 */
     int SYSTEM_USER_STATUS_DEL = 0;
     /** 系统用户状态 正常 */
@@ -108,7 +116,7 @@ public interface SystemConstants {
     /*
     * 区别订单和支付单运单的
     * */
-    String  entryType_DD = "DD";//订单
+    String entryType_DD = "DD";//订单
     String entryType_QD = "QD";//清单
     String entryType_YD = "YD";//运单
 

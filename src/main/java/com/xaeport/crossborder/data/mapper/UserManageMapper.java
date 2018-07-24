@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.UserRole;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.UserManageSQLProvider;
@@ -19,36 +20,40 @@ public interface UserManageMapper {
     List<Map<String, String>> userList(Map<String, String> paramMap);
 
     //用户管理—查询用户信息，角色信息
-    @SelectProvider(type=UserManageSQLProvider.class,method = "findUsersById")
+    @SelectProvider(type = UserManageSQLProvider.class, method = "findUsersById")
     Users findUsersById(String id);
 
     //用户管理—查询用户信息
-    @SelectProvider(type=UserManageSQLProvider.class,method = "userDetail")
+    @SelectProvider(type = UserManageSQLProvider.class, method = "userDetail")
     Map<String, String> userDetail(@Param("id") String id);
 
     //用户管理—更改用户密码
-    @UpdateProvider(type=UserManageSQLProvider.class,method = "updatePwById")
+    @UpdateProvider(type = UserManageSQLProvider.class, method = "updatePwById")
     boolean updatePwById(@Param("id") String id, @Param("password") String password);
 
     //用户管理—增添用户信息
-    @InsertProvider(type=UserManageSQLProvider.class,method = "insertUser")
+    @InsertProvider(type = UserManageSQLProvider.class, method = "insertUser")
     int insertUser(@Param("users") Users users);
 
     //用户管理—增添用户角色信息表
-    @InsertProvider(type=UserManageSQLProvider.class,method = "insertUserRole")
+    @InsertProvider(type = UserManageSQLProvider.class, method = "insertUserRole")
     int insertUserRole(@Param("userRole") UserRole userRole);
 
     //用户管理—更改用户信息
-    @UpdateProvider(type=UserManageSQLProvider.class,method = "updateUser")
+    @UpdateProvider(type = UserManageSQLProvider.class, method = "updateUser")
     int updateUser(@Param("users") Users users);
 
     //用户管理—更改用户角色信息表
-    @UpdateProvider(type=UserManageSQLProvider.class,method = "updateUserRole")
+    @UpdateProvider(type = UserManageSQLProvider.class, method = "updateUserRole")
     int updateUserRole(@Param("userRole") UserRole userRole);
 
     //用户管理—获取角色下拉菜单
-    @SelectProvider(type=UserManageSQLProvider.class,method = "roleSelectList")
+    @SelectProvider(type = UserManageSQLProvider.class, method = "roleSelectList")
     List<Map<String, String>> roleSelectList();
+
+    //用户管理—获取企业信息下拉菜单
+    @SelectProvider(type = UserManageSQLProvider.class, method = "entSelectList")
+    List<Map<String, String>> entSelectList();
 
     //用户管理—用户表重复查询
     @Select("select count(1) from t_users t where t.id = #{id} ")
@@ -58,7 +63,8 @@ public interface UserManageMapper {
     @Delete("delete from t_users where id = #{id} ")
     void userDelete(String id);
 
-
-
+    //用户管理——根据ID查找企业信息
+    @Select("select * from T_ENTERPRISE e where e.id = #{entId}")
+    Enterprise getEnterpriseById(@Param("entId") String entId);
 
 }

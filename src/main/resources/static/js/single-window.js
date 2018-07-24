@@ -624,7 +624,7 @@ sw.containArr = function (arr, obj) {
 // };
 
 sw.selectOptionByType = function (selectId, codeType) {
-    sw.ajax("api/auth/getCode", "GET", {
+    sw.ajax("/entManage/getCode", "GET", {
         codeType: codeType
     }, function (rsp) {
         var selecter = $("#" + selectId);
