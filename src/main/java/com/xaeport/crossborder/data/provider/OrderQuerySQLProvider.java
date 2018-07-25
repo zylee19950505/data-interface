@@ -123,5 +123,28 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 		}.toString();
 	}
 
+/*点击查看邮件详情
+* queryOrderHead
+* */
+	public String queryOrderHead(Map<String,String> paramMap){
+		final String id = paramMap.get("id");
+		return  new SQL(){
+			{
+				SELECT("*");
+				FROM("T_IMP_ORDER_HEAD th");
+				WHERE("th.GUID = #{id}");
+			}
+		}.toString();
 
+	}
+	public String queryOrderBody(Map<String,String> paramMap){
+		final String id = paramMap.get("id");
+		return  new SQL(){
+			{
+				SELECT("*");
+				FROM("T_IMP_ORDER_BODY tb");
+				WHERE("tb.HEAD_GUID = #{id}");
+			}
+		}.toString();
+	}
 }
