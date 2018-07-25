@@ -14,16 +14,28 @@ public class UserSQLProvider extends BaseSQLProvider {
     public String getUserById(final String id) throws Exception {
         return new SQL() {
             {
-                SELECT("t1.id,t1.loginName,t1.password,t1.createTime,t1.updateTime");
-                SELECT("t1.phone,t1.email,t1.userType");
-                SELECT("t3.r_name,t3.remark");
-                FROM("t_users t1");
-                FROM("t_user_role t2");
-                FROM("t_role t3");
+                SELECT("t1.id");
+                SELECT("t1.loginName");
+                SELECT("t1.password");
+                SELECT("t1.createTime");
+                SELECT("t1.updateTime");
+                SELECT("t1.ent_Id");
+                SELECT("t1.ent_Name");
+                SELECT("t1.ic_Card");
+                SELECT("t1.ic_Pwd");
+                SELECT("t1.phone");
+                SELECT("t1.email");
+                SELECT("t1.userType");
+                SELECT("t3.r_name");
+                SELECT("t3.remark");
+                FROM("T_USERS t1");
+                FROM("T_USER_ROLE t2");
+                FROM("T_ROLE t3");
                 WHERE("t1.id = #{id}");
                 WHERE("t1.state = '1'");
                 WHERE("t1.id = t2.userInfoId");
-                WHERE("t2.roleId = t3.r_id");
+                WHERE("t2.roleId = t3.r_id AND " +
+                        "EXISTS(SELECT t.id FROM T_ENTERPRISE t where t.id = t1.ent_Id and t.status = '1')");
             }
         }.toString();
     }

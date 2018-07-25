@@ -18,30 +18,32 @@ public class UserManageSQLProvider extends BaseSQLProvider {
         final String id = paramMap.get("id");
         final String ic = paramMap.get("ic");
         final String loginName = paramMap.get("loginName");
-        final String userType = paramMap.get("userType");
-        final String state = paramMap.get("state");
         final String phone = paramMap.get("phone");
         final String email = paramMap.get("email");
         return new SQL() {
             {
-                SELECT("id");
-                SELECT("ic");
-                SELECT("loginName");
-                SELECT("phone");
-                SELECT("email");
-                SELECT("state");
-                SELECT("userType");
-                SELECT("ent_id");
-                SELECT("ent_name");
-                SELECT("ic_card");
-                SELECT("ic_pwd");
-                FROM("t_users");
+                SELECT("t1.id");
+                SELECT("t1.loginName");
+                SELECT("t1.phone");
+                SELECT("t1.email");
+                SELECT("t1.state");
+                SELECT("DECODE(t1.state,'1','解锁','0','锁定') AS user_state");
+                SELECT("t1.ent_id");
+                SELECT("t1.ent_name");
+                SELECT("t1.ic_card");
+                SELECT("t1.ic_pwd");
+                SELECT("t3.r_name");
+                FROM("T_USERS t1");
+                FROM("T_USER_ROLE t2");
+                FROM("T_ROLE t3");
+                WHERE("t1.ID = t2.USERINFOID");
+                WHERE("t2.ROLEID = t3.R_ID");
                 if (!StringUtils.isEmpty(id)) {
-                    WHERE("id = #{id}");
+                    WHERE("t1.ID like '%' || #{id} || '%'").OR().
+                    WHERE("t1.ID like '%' || #{loginName} || '%'").OR().
+                    WHERE("t1.ID like '%' || #{ent_name} || '%'");
                 }
-                if (!StringUtils.isEmpty(userType)) {
-                    WHERE("userType = #{userType}");
-                }
+                ORDER_BY("t1.CREATETIME desc");
             }
         }.toString();
 

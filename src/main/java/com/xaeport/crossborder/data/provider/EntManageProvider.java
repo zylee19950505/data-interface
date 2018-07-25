@@ -39,6 +39,7 @@ public class EntManageProvider extends BaseSQLProvider {
                 SELECT("t.UPD_ID");
                 SELECT("t.STATUS as STATUS");
                 SELECT("DECODE(STATUS,'1','已激活','0','已冻结','') as ENT_STATUS");
+                SELECT("(select CUSTOMS_FULL_NAME from T_CUSTOMS c where t.PORT = c.CUSTOMS_CODE ) as PORT_STR");
                 FROM("T_ENTERPRISE t");
                 if (!StringUtils.isEmpty(entInfo)) {
                     WHERE("t.ENT_NAME like '%'|| #{entInfo} || '%'").OR().

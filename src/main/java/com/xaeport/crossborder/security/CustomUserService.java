@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.security;
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.Menu;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.service.UserService;
@@ -31,7 +32,7 @@ public class CustomUserService implements UserDetailsService {
         Users users = this.authUserLogin(id);
 
         if (null == users) {
-            throw new SwAuthenticationServiceException("用户不存在");
+            throw new SwAuthenticationServiceException("用户不存在或企业信息被冻结");
         }
 
         //获取父级菜单信息
@@ -39,12 +40,14 @@ public class CustomUserService implements UserDetailsService {
         //获取子级菜单信息
         List<Menu> childMenuList = this.getChildMenuList(users.getId());
 
+        Enterprise enterprise = this.getUserEnterprise(users.getEnt_Id());
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         //用于添加用户的权限。要把用户权限添加到authorities。
         authorities.add(new SimpleGrantedAuthority(users.getLoginName()));
 
         users.setSubMenuList(subMenuList);
         users.setChildMenuList(childMenuList);
+        users.setEnterprise(enterprise);
 
 
         SecurityUsers securityUsers = new SecurityUsers(users);
@@ -55,6 +58,10 @@ public class CustomUserService implements UserDetailsService {
     // 获取登陆认证用户信息
     private Users authUserLogin(String id) {
         return this.userService.getUserById(id);
+    }
+
+    private Enterprise getUserEnterprise(String enterpriseId) {
+        return this.userService.getEnterpriseDetail(enterpriseId);
     }
 
     // 获取父级菜单列表

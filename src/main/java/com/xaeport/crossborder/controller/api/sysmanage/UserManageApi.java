@@ -34,21 +34,17 @@ public class UserManageApi extends BaseApi{
             @RequestParam(required = false) String id,
             @RequestParam(required = false) String ic,
             @RequestParam(required = false) String loginName,
-            @RequestParam(required = false) String userType,
-            @RequestParam(required = false) String state,
             @RequestParam(required = false) String phone,
             @RequestParam(required = false) String email
 
     ) {
-        this.logger.debug(String.format("用户列表查询及条件检索条件[id: %s, ic: %s, loginName: %s, userType: %s, state: %s, phone: %s, email: %s]", id, ic, loginName, userType, state, phone, email));
+        this.logger.debug(String.format("用户列表查询及条件检索条件[id: %s, ic: %s, loginName: %s, phone: %s, email: %s]", id, ic, loginName , phone, email));
         Map<String,String> paramMap = new HashMap<String,String>();
         List<Map<String, String>> userList = null;
         try {
             paramMap.put("id",id);
             paramMap.put("ic",ic);
             paramMap.put("loginName",loginName);
-            paramMap.put("userType",userType);
-            paramMap.put("state",state);
             paramMap.put("phone",phone);
             paramMap.put("email",email);
             userList = this.userMaService.userList(paramMap);

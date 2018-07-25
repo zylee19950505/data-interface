@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.mapper;
 
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.Menu;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.UserSQLProvider;
@@ -24,6 +25,10 @@ public interface UserMapper {
     //获取登录用户认证信息
     @SelectProvider(type= UserSQLProvider.class,method = "getUserById")
     Users getUserById(String id);
+
+    //获取用户企业信息
+    @Select("SELECT * FROM T_ENTERPRISE t where t.ID = #{enterpriseId}")
+    Enterprise getEnterpriseDetail(@Param("enterpriseId") String enterpriseId);
 
     //获取父级菜单列表
     @SelectProvider(type= UserSQLProvider.class,method = "getRoleParentMenu")

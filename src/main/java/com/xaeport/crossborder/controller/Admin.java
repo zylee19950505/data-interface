@@ -73,7 +73,7 @@ public class Admin extends BaseController {
         // 获取登陆认证用户信息
         Users users = userService.getUserById(securityUsers.getId());
         if (null == users) {
-            throw new SwAuthenticationServiceException("用户不存在啊");
+            throw new SwAuthenticationServiceException("用户不存在或企业信息被冻结");
         }
 
         ServletContext context = this.appConfiguration.getServletContext();

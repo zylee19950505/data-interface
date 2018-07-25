@@ -18,7 +18,7 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                 searching: false,
                 columns: [
                     {data: "ent_name", label: "企业名称"},
-                    {data: "port", label: "主管海关"},
+                    {data: "port_str", label: "主管海关"},
                     {data: "customs_code", label: "企业海关代码"},
                     {data: "ent_status", label: "企业状态"},
                     {

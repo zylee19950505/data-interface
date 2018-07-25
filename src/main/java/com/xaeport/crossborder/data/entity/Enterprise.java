@@ -25,6 +25,15 @@ public class Enterprise {
     private String status;//企业状态
     private String upd_id;//更新人
     private String ent_status;//企业状态（1 OR 0）
+    private String port_str;//主管海关
+
+    public String getPort_str() {
+        return port_str;
+    }
+
+    public void setPort_str(String port_str) {
+        this.port_str = port_str;
+    }
 
     public String getEnt_status() {
         return ent_status;

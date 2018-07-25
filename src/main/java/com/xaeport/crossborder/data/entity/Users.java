@@ -27,6 +27,15 @@ public class Users {
     private String ic_Pwd;//IC卡密码
     private List<Menu> subMenuList;//菜单表
     private List<Menu> childMenuList;//子菜单表
+    private Enterprise enterprise;//企业信息
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
 
     public String getRoleId() {
         return roleId;

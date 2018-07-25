@@ -7,11 +7,9 @@
 sw.page.modules["sysmanage/user"] = sw.page.modules["sysmanage/user"] || {
     query: function () {
         var id = $("[name='id']").val();
-        var userType = $("[name='userType']").val();
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/sysmanage/user", {
-            id: id,
-            userType: userType
+            id: id
         });
 
         sw.datatable("#query-user-table", {
@@ -24,10 +22,11 @@ sw.page.modules["sysmanage/user"] = sw.page.modules["sysmanage/user"] || {
                 }
                 },
                 {data: "ID", label: "用户帐号"},
-                {data: "IC", label: "Ukey"},
                 {data: "LOGINNAME", label: "用户名称"},
+                {data: "R_NAME", label:"角色名称"},
                 {data: "ENT_NAME", label: "企业名称"},
-                {data: "STATE", label: "用户状态"},
+                {data: "USER_STATE", label: "用户状态"},
+                {data: "IC_CARD", label: "Ukey"},
                 {data: "PHONE", label: "电话"},
                 {data: "EMAIL", label: "邮箱"},
                 {

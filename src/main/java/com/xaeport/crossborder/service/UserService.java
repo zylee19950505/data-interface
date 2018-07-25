@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service;
 
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.Menu;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.UserMapper;
@@ -29,6 +30,10 @@ public class UserService {
 
     public Users authUserLogin(String id,String loginName) {
         return this.userMapper.authUserLogin(id,loginName);
+    }
+
+    public Enterprise getEnterpriseDetail(String enterpriseId) {
+        return this.userMapper.getEnterpriseDetail(enterpriseId);
     }
 
     public Integer changePassword(String newPassword, Date updateTime, String userId) {
