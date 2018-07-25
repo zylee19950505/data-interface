@@ -24,7 +24,7 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
     //打开一个页面，并且用路径传递参数
     querypaymentbyid: function (pay_transaction_id) {
             var url = "paymentmanage/paymentQuery_TPL?paytransactionid=" + pay_transaction_id;
-            sw.modelPopup(url, "支付单详情信息", false, 800, 400);
+            sw.modelPopup(url, "支付单详情信息", false, 900, 400);
         },
 
         billDownLoad: function () {

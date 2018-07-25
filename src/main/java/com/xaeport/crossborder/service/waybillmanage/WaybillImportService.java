@@ -5,6 +5,7 @@ import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.WaybillImportMapper;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -87,6 +88,7 @@ public class WaybillImportService {
         impLogistics.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
         impLogistics.setCurrency("142");//币制
         impLogistics.setPack_no("1");//件数
+        impLogistics.setData_status(StatusCode.EXPORT);//设置为已导入CBDS1
         impLogistics.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impLogistics.setCrt_tm(new Date());//创建时间
         impLogistics.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人

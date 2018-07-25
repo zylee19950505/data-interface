@@ -143,6 +143,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT( "" +
+                        "    t.GUID," +
                         "    t.PAY_TRANSACTION_ID," +
                         "    t.ORDER_NO," +
                         "    t.PAY_CODE," +
@@ -154,6 +155,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                         "    t.PAYER_ID_NUMBER," +
                         "    t.PAYER_NAME," +
                         "    t.PAY_TIME," +
+                        "    t.DATA_STATUS," +
                         "    t.NOTE");
                 FROM("T_IMP_PAYMENT t");
                 if (!StringUtils.isEmpty(paytransactionid)) {

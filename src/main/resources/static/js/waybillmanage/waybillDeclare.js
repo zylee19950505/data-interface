@@ -58,7 +58,13 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        return '<input type="checkbox" class="submitKey" value="'+ row.logistics_no +'" />';
+                        ////运单已申报，申报中，申报成功 那就不用再点击申报
+                        if(row.data_status == "CBDS40"|| row.data_status == "CBDS41" || row.data_status == "CBDS42"){
+                            return "";
+                        }else {
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.logistics_no + '" />';
+                        }
                     }
                 },
                 {data: "logistics_no", label: "物流运单编号"},//订单编号要点击查看订单详情
@@ -67,6 +73,41 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {data: "consignee_telephone", label: "收货人电话"},
                 {data: "consignee_address", label: "收货地址"},
                 {data: "data_status", label: "业务状态"},
+                {
+                    data: "data_status", label: "业务状态", render: function (data, type, row) {
+                        switch (row.data_status) {
+                            case "CBDS1"://运单待申报 未导入
+                                textColor = "text-yellow";
+                                row.data_status = "运单待申报";
+                                break;
+                            case "CBDS4"://运单待申报
+                                textColor = "text-yellow";
+                                row.data_status = "运单待申报";
+                                break;
+                            case "CBDS40"://支付单申报中
+                                textColor = "text-green";
+                                row.data_status = "运单申报中";
+                                break;
+                            case "CBDS42"://支付单申报成功
+                                textColor = "text-green";
+                                row.data_status = "运单申报成功";
+                                break;
+                            case "CBDS41"://支付单已申报
+                                textColor = "text-green";
+                                row.data_status = "运单已申报";
+                                break;
+                            case "CBDS44"://支付单申报失败
+                                textColor = "text-red";
+                                row.data_status = "运单申报失败";
+                                break;
+                            case "CBDS43"://支付单重报
+                                textColor = "text-red";
+                                row.data_status = "运单重报";
+                                break;
+                        }
+                        return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                    }
+                },
                 {data: "data_status", label: "入库结果"},//入库结果需要确认字段
                 {
                     label: "申报日期", render: function (data, type, row) {
@@ -112,15 +153,16 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 ieFlag: sw.ie,
                 entryType: sw.type
             };
-
+            alert("运单编号为："+submitKeys);
             $("#submitManifestBtn").prop("disabled", true);
 
-            sw.ajax("api/manifest/submitCustom", "POST", postData, function (rsp) {
+
+            sw.ajax("api/waybillManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
                     }, "modal-success");
                     $("#submitManifestBtn").prop("disabled", false);
-                    sw.page.modules["express/import_b/declaration/manifest_declaration"].query();
+                    sw.page.modules["waybillmanage/waybillDeclare"].query();
                 } else {
                     sw.alert(rsp.data.msg);
                 }
@@ -153,7 +195,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         $("[ws-search]").unbind("click").click(this.query);
         $("[ws-submit]").unbind("click").click(this.submitCustom);
         this.query();
-        var $table = $("#query-conveyance-table");
+        var $table = $("#query-waybillDeclare-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {
                 //全选

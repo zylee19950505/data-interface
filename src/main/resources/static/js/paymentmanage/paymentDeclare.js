@@ -56,8 +56,9 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        ////支付单已申报CBDS31  那就不用再点击申报
-                        if(row.data_status == "CBDS31"){
+                        ////支付单已申报，申报中，申报成功CBDS31  那就不用再点击申报
+
+                        if(row.data_status == "CBDS31"|| row.data_status == "CBDS30" || row.data_status == "CBDS32"){
                             return "";
                         }else {
                             return '<input type="checkbox" class="submitKey" value="' +
@@ -131,11 +132,11 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的支付单信息！");
+            sw.alert("请先勾选要提交海关的运单信息！");
             return;
         }
 
-        sw.confirm("请确认支付单数据无误，提交海关", "确认", function () {
+        sw.confirm("请确认运单数据无误，提交海关", "确认", function () {
 
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
