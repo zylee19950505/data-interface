@@ -85,7 +85,6 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 //进出口?电子订单类型
                 //申报类型?
                 SET("th.data_status=#{opStatus}");
-                SET("th.crt_tm=sysdate");
                 SET("th.upd_tm=sysdate");
                 SET("th.APP_TIME=sysdate");
                 SET("th.upd_id=#{currentUserId}");
@@ -193,6 +192,37 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SET("toh.upd_tm=sysdate");
             }
         }.toString();
+    }
+
+    /*
+    * 根据创建人id查找企业id
+    * */
+    public String queryEntId(@Param("crt_id") String crt_id){
+        return new SQL(){
+            {
+                SELECT("t.ent_id");
+                FROM("T_USERS t");
+                WHERE("t.ID = #{crt_id}");
+            }
+        }.toString();
+    }
+
+    /*
+    * 根据企业id查找企业信息
+    * */
+    public String queryCompany(@Param("ent_id") String ent_id){
+        return new SQL(){
+            {
+                SELECT("t.CUSTOMS_CODE as copCode");
+                SELECT("t.ENT_NAME as copName");
+                SELECT("'DXP' as dxpMode");
+                SELECT("t.DXP_ID as dxpId");
+                SELECT("t.note as note");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.id = #{ent_id}");
+            }
+        }.toString();
+
     }
 }
 

@@ -5,6 +5,7 @@ package com.xaeport.crossborder.data.mapper;
  * 订单申报
  */
 
+import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.OrderHeadAndList;
@@ -54,4 +55,10 @@ public interface OrderDeclareMapper {
 	* */
 	@UpdateProvider(type = OrderDeclareSQLProvider.class,method = "updateEntryHeadOrderStatus")
 	void updateEntryHeadOrderStatus(@Param("headGuid") String headGuid,@Param("ddysb") String ddysb);
+
+	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryEntId")
+	String queryEntId(@Param("crt_id") String crt_id);
+
+	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryCompany")
+	BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 }
