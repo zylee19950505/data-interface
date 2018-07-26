@@ -517,11 +517,13 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         // 查询详情
         this.query();
 
+        //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
             sw.page.modules["detail/entry_b_detail"].saveEntryInfo(billNo, type, sw.ie);
         });
+        //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["detail/entry_b_detail"].cancel();
+            sw.page.modules["ordermanage/seeOrderDetail"].cancel();
         });
     }
 }
