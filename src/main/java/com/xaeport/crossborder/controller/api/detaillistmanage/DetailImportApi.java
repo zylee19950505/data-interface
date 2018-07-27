@@ -10,6 +10,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.data.ExcelDataInstance;
 import com.xaeport.crossborder.excel.read.ReadExcel;
+import com.xaeport.crossborder.service.detaillistmanage.DetailImportService;
 import com.xaeport.crossborder.service.ordermanage.OrderImportService;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class DetailImportApi extends BaseApi {
     @Autowired
     AppConfiguration appConfiguration;
     @Autowired
-    OrderImportService orderImportService;
+    DetailImportService detailImportService;
 
     /**
      * 新快件上传
@@ -87,18 +88,18 @@ public class DetailImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
+                int orderNoCount = this.detailImportService.getOrderNoCount(excelMap);
                 if (orderNoCount > 0) {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("订单号不能重复");
                 }
 
 
-                flag = this.orderImportService.createOrderForm(excelMap, importTime, user);//数据创建对应的数据
+                flag = this.detailImportService.createDetailForm(excelMap, importTime, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");
-                    return new ResponseData(String.format("跨境电子商务进口订单导入成功！"));
+                    return new ResponseData(String.format("跨境电子商务进口清单导入成功！"));
                 } else {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("入库失败");

@@ -14,7 +14,9 @@ public class ExcelHeadDetail {
     public final static String orderNo = "订单编号";//head //list
     public final static String copNo = "企业内部编号";//head
     public final static String logisticsNo = "物流运单编号";//head
-    public final static String itemName = "商品名称";//list
+    public final static String logisticsCode = "物流企业代码";//head
+    public final static String logisticsName = "物流企业名称";//head
+    public final static String gname = "商品名称";//list
     public final static String gcode = "商品编码";//list
     public final static String gmodel = "商品规格型号";//list
     public final static String qty = "数量";//list
@@ -37,6 +39,7 @@ public class ExcelHeadDetail {
     public final static String buyerTelephone = "订购人电话";//head
     public final static String consignee_Address = "收件地址";//head
     public final static String freight = "运费";//head
+    public final static String insuredFee = "保费";//head
     public final static String agentCode = "申报企业代码";//head
     public final static String agentName = "申报企业名称";//head
     public final static String trafMode = "运输方式";//head
@@ -45,6 +48,7 @@ public class ExcelHeadDetail {
     public final static String billNo = "提运单号";//head
     public final static String originCountry = "原产国";//list
     public final static String startCountry = "起运国";//head
+    public final static String grossWeight = "毛重";//head
     public final static String netWeight = "净重";//head
     public final static String note = "备注";//list
     //    public final static String buyer_Reg_No = "订购人注册号";//head
@@ -60,6 +64,8 @@ public class ExcelHeadDetail {
         detailList.add("订单编号");
         detailList.add("企业内部编号");
         detailList.add("物流运单编号");
+        detailList.add("物流企业代码");
+        detailList.add("物流企业名称");
         detailList.add("商品名称");
         detailList.add("商品编码");
         detailList.add("商品规格型号");
@@ -83,6 +89,7 @@ public class ExcelHeadDetail {
         detailList.add("订购人电话");
         detailList.add("收件地址");
         detailList.add("运费");
+        detailList.add("保费");
         detailList.add("申报企业代码");
         detailList.add("申报企业名称");
         detailList.add("运输方式");
@@ -91,6 +98,7 @@ public class ExcelHeadDetail {
         detailList.add("提运单号");
         detailList.add("原产国");
         detailList.add("起运国");
+        detailList.add("毛重");
         detailList.add("净重");
         detailList.add("备注");
         //        detailList.add("订购人注册号");

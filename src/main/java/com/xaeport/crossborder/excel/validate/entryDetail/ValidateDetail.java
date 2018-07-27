@@ -17,7 +17,9 @@ public class ValidateDetail extends ValidateBase{
     private int orderNoIndex; //"订单编号";//head //list
     private int copNoIndex; //"企业内部编号";//head
     private int logisticsNoIndex; //"物流运单编号";//head
-    private int itemNameIndex; //"商品名称";//list
+    private int logisticsCodeIndex; //"物流企业代码";//head
+    private int logisticsNameIndex; //"物流企业名称";//head
+    private int gnameIndex; //"商品名称";//list
     private int gcodeIndex; //"商品编码";//list
     private int gmodelIndex; //"商品规格型号";//list
     private int qtyIndex; //"数量";//list
@@ -40,6 +42,7 @@ public class ValidateDetail extends ValidateBase{
     private int buyerTelephoneIndex; //"订购人电话";//head
     private int consignee_AddressIndex; //"收件地址";//head
     private int freightIndex; //"运费";//head
+    private int insuredFeeIndex; //"保费";//head
     private int agentCodeIndex; //"申报企业代码";//head
     private int agentNameIndex; //"申报企业名称";//head
     private int trafModeIndex; //"运输方式";//head
@@ -48,6 +51,7 @@ public class ValidateDetail extends ValidateBase{
     private int billNoIndex; //"提运单号";//head
     private int originCountryIndex; //"原产国";//list
     private int startCountryIndex; //"起运国";//head
+    private int grossWeightIndex; //"毛重";//head
     private int netWeightIndex; //"净重";//head
     private int noteIndex; //"备注";//list
 
@@ -57,7 +61,9 @@ public class ValidateDetail extends ValidateBase{
         indexMap.put(orderNoIndex, "订单编号,60");
         indexMap.put(copNoIndex, "企业内部编号,20");
         indexMap.put(logisticsNoIndex, "物流运单编号,60");
-        indexMap.put(itemNameIndex, "商品名称,250");
+        indexMap.put(logisticsCodeIndex, "物流企业代码,18");
+        indexMap.put(logisticsNameIndex, "物流企业名称,100");
+        indexMap.put(gnameIndex, "商品名称,250");
         indexMap.put(gcodeIndex, "商品编码,20");
         indexMap.put(gmodelIndex, "商品规格型号,250");
         indexMap.put(qtyIndex, "数量,19");
@@ -79,7 +85,8 @@ public class ValidateDetail extends ValidateBase{
         indexMap.put(buyer_NameIndex, "订购人姓名,60");
         indexMap.put(buyerTelephoneIndex, "订购人电话,30");
         indexMap.put(consignee_AddressIndex, "收件地址,200");
-        indexMap.put(freightIndex, "运费,60");
+        indexMap.put(freightIndex, "运费,19");
+        indexMap.put(insuredFeeIndex, "运费,19");
         indexMap.put(agentCodeIndex, "申报企业代码,18");
         indexMap.put(agentNameIndex, "申报企业名称,100");
         indexMap.put(trafModeIndex, "运输方式,1");
@@ -88,6 +95,7 @@ public class ValidateDetail extends ValidateBase{
         indexMap.put(billNoIndex, "提运单号,37");
         indexMap.put(originCountryIndex, "原产国,3");
         indexMap.put(startCountryIndex, "起运国,3");
+        indexMap.put(grossWeightIndex, "毛重,19");
         indexMap.put(netWeightIndex, "净重,19");
 //        indexMap.put(noteIndex, "备注,1000");
 
@@ -105,7 +113,8 @@ public class ValidateDetail extends ValidateBase{
 
         // 导入数据double类型判断
         if (cell_num == qtyIndex || cell_num == qty1Index || cell_num == qty2Index ||
-                cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex) {
+                cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex
+                || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
             String message = indexMap.get(cell_num).split(",")[0];
             int flag = ValidateUtil.checkDoubleValue(cell);
             boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);
@@ -150,14 +159,16 @@ public class ValidateDetail extends ValidateBase{
         orderNoIndex = list.indexOf(ExcelHeadDetail.orderNo);
         copNoIndex = list.indexOf(ExcelHeadDetail.copNo);
         logisticsNoIndex = list.indexOf(ExcelHeadDetail.logisticsNo);
-        itemNameIndex = list.indexOf(ExcelHeadDetail.itemName);
+        logisticsCodeIndex = list.indexOf(ExcelHeadDetail.logisticsCode);
+        logisticsNameIndex = list.indexOf(ExcelHeadDetail.logisticsName);
+        gnameIndex = list.indexOf(ExcelHeadDetail.gname);
         gcodeIndex = list.indexOf(ExcelHeadDetail.gcode);
         gmodelIndex = list.indexOf(ExcelHeadDetail.gmodel);
         qtyIndex = list.indexOf(ExcelHeadDetail.qty);
         unitIndex = list.indexOf(ExcelHeadDetail.unit);
         qty1Index = list.indexOf(ExcelHeadDetail.qty1);
         unit1Index = list.indexOf(ExcelHeadDetail.unit1);
-        qty2Index = list.indexOf(ExcelHeadDetail.qty2);
+//        qty2Index = list.indexOf(ExcelHeadDetail.qty2);
         unit2Index = list.indexOf(ExcelHeadDetail.unit2);
         total_PriceIndex = list.indexOf(ExcelHeadDetail.total_Price);
         ebp_CodeIndex = list.indexOf(ExcelHeadDetail.ebp_Code);
@@ -173,6 +184,7 @@ public class ValidateDetail extends ValidateBase{
         buyerTelephoneIndex = list.indexOf(ExcelHeadDetail.buyerTelephone);
         consignee_AddressIndex = list.indexOf(ExcelHeadDetail.consignee_Address);
         freightIndex = list.indexOf(ExcelHeadDetail.freight);
+        insuredFeeIndex = list.indexOf(ExcelHeadDetail.insuredFee);
         agentCodeIndex = list.indexOf(ExcelHeadDetail.agentCode);
         agentNameIndex = list.indexOf(ExcelHeadDetail.agentName);
         trafModeIndex = list.indexOf(ExcelHeadDetail.trafMode);
@@ -181,8 +193,10 @@ public class ValidateDetail extends ValidateBase{
         billNoIndex = list.indexOf(ExcelHeadDetail.billNo);
         originCountryIndex = list.indexOf(ExcelHeadDetail.originCountry);
         startCountryIndex = list.indexOf(ExcelHeadDetail.startCountry);
+        grossWeightIndex = list.indexOf(ExcelHeadDetail.grossWeight);
         netWeightIndex = list.indexOf(ExcelHeadDetail.netWeight);
         noteIndex = list.indexOf(ExcelHeadDetail.note);
+        this.initMap();
     }
 
 }
