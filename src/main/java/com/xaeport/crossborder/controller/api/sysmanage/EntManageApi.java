@@ -105,6 +105,9 @@ public class EntManageApi extends BaseApi{
             if (StringUtils.isEmpty(enterprise.getEnt_name())) {
                 return rtnResponse("false", "企业名称不能为空！");
             }
+            if (StringUtils.isEmpty(enterprise.getDxp_id())) {
+                return rtnResponse("false", "企业DXPID不能为空！");
+            }
 
             if (StringUtils.isEmpty(enterprise.getCustoms_code())) {
                 return rtnResponse("false", "企业海关代码不能为空！");

@@ -1,105 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
-    <script src="/js/taxitem/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="/js/taxitem/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
-    <script src="/js/taxitem/pqgrid.dev.js" type="text/javascript"></script>
-    <script src="/js/taxitem/jquery.ztree.all.min.js" type="text/javascript"></script>
-    <script src="/js/taxitem/localize/pq-localize-zh.js" type="text/javascript"></script>
-    <script src="/js/taxitem/maildeclare_edit.js" type="text/javascript"></script>
-
-</head>
-<body>
-
-<div>
-    <div class="box-body" style="padding:20px;text-align: center">
-
-        <form class="form-inline" align="left" id = "save">
-            <div id="editDeclareInfo">
-
-                <div class="form-group disBlock" style="display:block;" >
-                    <div class="input-group">
-                        <div  class="input-group-addon" style="width: 180px">订&nbsp;单&nbsp;编&nbsp;号：</div>
-                        <input class="form-control" type="text" id="order_no" name="order_no" />
-                        <!--<input class="form-control" type="text" id="order_no" name="" readonly="readonly"/>  只读-->
-                        <!--申报状态-->
-                        <input  type="hidden" id="data_status" name="data_status" readonly="readonly"/>
-                        <input  type="hidden" id="GUID" name="GUID" readonly="readonly"/>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;企&nbsp;业&nbsp;代&nbsp;码：</span>
-                        <input class="form-control" type="text" id="pay_code" name="pay_code" />
-                    </div>
-                </div>
-                <div class="form-group disBlock" style="display:block">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;企&nbsp;业&nbsp;名&nbsp;称：</span>
-                        <input class="form-control" type="text" id="pay_name" name="pay_name" />
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;交&nbsp;易&nbsp;编&nbsp;号：</span>
-                        <input class="form-control" type="text" id="pay_transaction_id" name="pay_transaction_id"/>
-                    </div>
-                </div>
-                <div class="form-group disBlock" style="display:block">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">电&nbsp;商&nbsp;平&nbsp;台&nbsp;代&nbsp;码：</span>
-                        <input class="form-control" type="text" id="ebp_code" name="ebp_code"/>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">电&nbsp;商&nbsp;平&nbsp;台&nbsp;名&nbsp;称：</span>
-                        <input class="form-control" type="text" id="ebp_name" name="ebp_name" />
-                    </div>
-                </div>
-                <div class="form-group disBlock" style="display:block">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;金&nbsp;额：</span>
-                        <input class="form-control" type="text" id="amount_paid" name="amount_paid" />
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;证&nbsp;件&nbsp;类&nbsp;型：</span>
-                        <input class="form-control" type="text" id="payer_id_type" name="payer_id_type" />
-                    </div>
-                </div>
-                <div class="form-group disBlock" style="display:block">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;证&nbsp;件&nbsp;号&nbsp;码：</span>
-                        <input class="form-control" type="text" id="payer_id_number" name="payer_id_number"/>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;人&nbsp;姓&nbsp;名：</span>
-                        <input class="form-control" type="text" id="payer_name" name="payer_name" />
-                    </div>
-                </div>
-                <div class="form-group disBlock" style="display:block">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">支&nbsp;付&nbsp;时&nbsp;间：</span>
-                        <input class="form-control" type="text" id="pay_time" name="pay_time"/>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" style="width: 180px">备&nbsp;注：</span>
-                        <input class="form-control" type="text" id="note" name="note" />
-                    </div>
-                </div>
-            </div>
-        </form>
-
+<section class="content">
+<div class="paymantPage">
+    <div class="entryTitle">
+        <span>支付单详情</span>
     </div>
-    <div class="form-group" align="center" style="border-top:1px solid #ccc;padding-top:10px;" id="btnDiv">
-        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply" data-toggle="tooltip-disabled"
-                title="" value="提交保存">
-            <span>提交保存</span>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" content="content" align="center" border="1px solid balck">
+        <tr>
+            <td class="headTitle">订单编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="32" id="order_No"/>
+            </td>
+            <td class="headTitle">支付企业代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="pay_code"/>
+            </td>
+           <!-- <td class="headTitle">总价</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="goods_Value"/>
+            </td>-->
+        </tr>
+        <tr>
+            <td class="headTitle">支付企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="50" id="pay_name"/>
+            </td>
+            <td class="headTitle">支付交易编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="pay_transAction_id"/>
+            </td>
+            <!--<td class="headTitle">担保企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="tel"/>
+            </td>-->
+        </tr>
+        <tr>
+            <td class="headTitle">电商平台代码</td>
+            <!-- <td colspan="3">-->
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="ebp_code"/>
+            </td>
+            <td class="headTitle">电商平台名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="ebp_name"/>
+            </td>
+            <!--<td class="headTitle">口岸海关代码</td>
+            &lt;!&ndash;<td colspan="3">&ndash;&gt;
+            <td>
+                <input class="form-control input-sm" maxlength="50" id="kouan"/>
+            </td>-->
+        </tr>
+        <tr>
+            <td class="headTitle">支付金额</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="amount_Paid"/>
+            </td>
+            <td class="headTitle">支付人证件类型</td>
+            <td>
+                <input class="form-control input-sm" id="payer_Id_Type"/>
+            </td>
+           <!-- <td class="headTitle">订购人证件类型</td>
+            <td>
+                <input class="form-control input-sm" id="buyer_Id_Type" value = "身份证"/>
+            </td>-->
+        </tr>
+        <tr>
+            <td class="headTitle">支付人证件号码</td>
+            <td>
+                <input class="form-control input-sm" id="payer_Id_Number"/>
+            </td>
+            <td class="headTitle">支付人姓名</td>
+            <td>
+                <input class="form-control input-sm" maxlength="50" id="payer_Name"/>
+            </td>
+            <!--<td class="headTitle">订购人电话</td>
+            <td><input class="form-control input-sm" id="consignee_Telephone"/></td>-->
+        </tr>
+        <tr>
+            <td class="headTitle">支付时间</td>
+            <td id="fhrdz">
+                <input class="form-control input-sm" maxlength="50" id="pay_Time"/>
+            </td>
+            <td class="headTitle ieDate">备注</td>
+            <td class="ieDate">
+                <input class="form-control input-sm" maxlength="50" id="note"/>
+            </td>
+
+        </tr>
+       <!-- <tr id="bzTr" class="hide">
+            <td class="headTitle">备注</td>
+            <td id="bz" colspan="5">
+                <input class="form-control input-sm" maxlength="50" id="note_s"/>
+            </td>
+        </tr>-->
+    </table>
+
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
         </button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
-                title="放弃并返回" value="放弃并返回">
-            <span>放弃并返回</span>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
         </button>
     </div>
-
 </div>
-
-</body>
-</html>
+</section>

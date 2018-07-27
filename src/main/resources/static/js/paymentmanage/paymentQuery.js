@@ -22,8 +22,8 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
             $("#preview").hide();
         },
     //打开一个页面，并且用路径传递参数
-        querypaymentbyid: function (pay_transaction_id) {
-            var url = "paymentmanage/paymentQuery_TPL?paytransactionid=" + pay_transaction_id;
+        querypaymentbyid: function (pay_transaction_id,order_no) {
+            var url = "paymentmanage/paymentQuery_TPL?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id+"&orderNo="+order_no;
             sw.modelPopup(url, "支付单详情信息", false, 900, 400);
         },
 
@@ -98,7 +98,7 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                     //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
                     var result = '<a style="cursor:pointer" title="查看" ' +
                         'onclick="' + "javascript:sw.pageModule('paymentmanage/paymentQuery')" +
-                        ".querypaymentbyid('" + row.pay_transaction_id + "')" + '">' + row.pay_transaction_id + '</a>';
+                        ".querypaymentbyid('" + row.pay_transaction_id + "','"+row.order_no+"')" + '">' + row.pay_transaction_id + '</a>';
                     return result;
                 }
                 },

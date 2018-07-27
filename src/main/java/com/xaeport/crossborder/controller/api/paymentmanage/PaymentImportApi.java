@@ -85,11 +85,17 @@ public class PaymentImportApi extends BaseApi {
                 Map<String, Object> excelMap;
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
-
+                //校验订单号不能重复
                 int orderNoCount = this.paymentImportService.getOrderNoCount(excelMap);
                 if (orderNoCount > 0) {
                     httpSession.removeAttribute("userId");
                     return new ResponseData("订单号不能重复");
+                }
+                //校验支付单流水号不能重复
+                int payIDCount = this.paymentImportService.getPaytransIdCount(excelMap);
+                if (payIDCount > 0) {
+                    httpSession.removeAttribute("userId");
+                    return new ResponseData("支付单流水号重复");
                 }
 
 

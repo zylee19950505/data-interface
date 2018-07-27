@@ -94,6 +94,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
                     $("select[name='port']").val(data.port);
                     $("input[name='customs_code']").val(data.customs_code);
                     $("select[name='ent_classify']").val(data.ent_classify);
+                    $("input[name='dxp_id']").val(data.dxp_id);
 
                     // $("input[name='business_license']").attr("disabled", "disabled");
                     // $("input[name='organization_code']").attr("disabled", "disabled");
@@ -117,8 +118,13 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             var ent_type = $("select[name='ent_type']").val();
             var ent_nature = $("select[name='ent_nature']").val();
             var ent_classify = $("select[name='ent_classify']").val();
+            var dxp_id = $("input[name='dxp_id']").val();
             var port = $("select[name='port']").val();
 
+            if (isEmpty(dxp_id) || ent_name.length < 3) {
+                hasErrorEnterprise("input[name='dxp_id'", "企业DXPID不能为空或小于3个字符");
+                return false;
+            }
             if (isEmpty(ent_name) || ent_name.length < 3) {
                 hasErrorEnterprise("input[name='ent_name'", "企业名称不能为空或小于3个字符");
                 return false;
@@ -235,6 +241,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             $("select[name='port']").val("");
             $("input[name='customs_code']").val("");
             $("select[name='ent_classify']").val("");
+            $("input[name='dxp_id']").val("");
         },
         loadSelectCode: function () {
             sw.selectOptionByType("ent_classify", "AGENT_CODE");

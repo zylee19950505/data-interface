@@ -106,6 +106,9 @@ public class EntManageProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(enterprise.getUpd_tm())) {
                     SET("UPD_TM = sysdate");
                 }
+                if (!StringUtils.isEmpty(enterprise.getDxp_id())) {
+                    SET("DXP_ID = #{dxp_id}");
+                }
             }
         }.toString();
     }
@@ -165,6 +168,9 @@ public class EntManageProvider extends BaseSQLProvider {
                 }
                 if(!StringUtils.isEmpty(enterprise.getCrt_tm())){
                     VALUES("CRT_TM","#{crt_tm}");
+                }
+                if(!StringUtils.isEmpty(enterprise.getDxp_id())){
+                    VALUES("DXP_ID","#{dxp_id}");
                 }
 
             }

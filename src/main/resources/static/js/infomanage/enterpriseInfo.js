@@ -32,11 +32,64 @@ sw.page.modules["infomanage/enterpriseInfo"] = sw.page.modules["infomanage/enter
                     $("input[name='business_code']").val(data.business_code);
                     $("input[name='tax_code']").val(data.tax_code);
                     $("input[name='credit_code']").val(data.credit_code);
-                    $("input[name='ent_type']").val(data.ent_type);
-                    $("input[name='ent_nature']").val(data.ent_nature);
+                    switch (data.ent_type){
+                        case "0":{
+                            $("input[name='ent_type']").val("企业");
+                            break;
+                        }
+                        case "1":{
+                            $("input[name='ent_type']").val("自然人");
+                            break;
+                        }
+                        default :"未知";
+                    }
+                    /*$("input[name='ent_type']").val(data.ent_type);*/
+                    switch (data.ent_nature){
+                        case "1":{
+                            $("input[name='ent_nature']").val("国营");
+                            break;
+                        }
+                        case "2":{
+                            $("input[name='ent_nature']").val("合作");
+                            break;
+                        }
+                        case "3":{
+                            $("input[name='ent_nature']").val("合资");
+                            break;
+                        }
+                        case "4":{
+                            $("input[name='ent_nature']").val("独资");
+                            break;
+                        }
+                        case "5":{
+                            $("input[name='ent_nature']").val("集体");
+                            break;
+                        }
+                        case "6":{
+                            $("input[name='ent_nature']").val("私营");
+                            break;
+                        }
+                        case "7":{
+                            $("input[name='ent_nature']").val("个体");
+                            break;
+                        }
+                        case "8":{
+                            $("input[name='ent_nature']").val("报关");
+                            break;
+                        }
+                        case "9":{
+                            $("input[name='ent_nature']").val("其他");
+                            break;
+                        }
+                        default :"未知";
+                    }
+
+                   /* $("input[name='ent_nature']").val(data.ent_nature);*/
+
                     $("input[name='port']").val(data.port);
                     $("input[name='customs_code']").val(data.customs_code);
                     $("input[name='ent_classify']").val(data.ent_classify);
+                    $("input[name='dxp_id']").val(data.dxp_id);
                 }
             });
         }

@@ -105,6 +105,17 @@ public class PaymentImportSQLProvider {
             }
         }.toString();
     }
-
+/*
+* 查询支付单流水号是否唯一isRepeatPaytransId
+* */
+    public String isRepeatPaytransId(@Param("impPayment") ImpPayment impPayment) throws Exception {
+        return new SQL() {
+            {
+                SELECT("count(1)");
+                FROM("T_IMP_PAYMENT t");
+                WHERE("t.PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
+            }
+        }.toString();
+    }
 
 }
