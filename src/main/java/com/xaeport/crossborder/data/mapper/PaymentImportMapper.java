@@ -25,4 +25,6 @@ public interface PaymentImportMapper {
     @SelectProvider(type = PaymentImportSQLProvider.class,method = "isRepeatOrderNo")
     int isRepeatOrderNo(@Param("impPayment") ImpPayment impPayment) throws Exception;
 
+    @SelectProvider(type = PaymentImportSQLProvider.class,method = "isRepeatPaytransId")
+    int isRepeatPaytransId(@Param("impPayment") ImpPayment impPayment) throws Exception;
 }

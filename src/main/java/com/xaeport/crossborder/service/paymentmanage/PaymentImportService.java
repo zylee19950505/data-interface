@@ -85,6 +85,21 @@ public class PaymentImportService {
         }
         return flag;
     }
+    /*
+    * 查询支付单流水号是否重复
+    * */
+    public int getPaytransIdCount(Map<String, Object> excelMap) throws Exception {
+        int flag = 0;
+        List<ImpPayment> list = (List<ImpPayment>) excelMap.get("ImpPayment");
+        for(int i=0;i<list.size();i++){
+            ImpPayment impPayment = list.get(i);
+            flag = this.paymentImportMapper.isRepeatPaytransId(impPayment);
+            if (flag > 0) {
+                return 1;
+            }
+        }
+        return flag;
+    }
 
     /**
      * 表头自生成信息
@@ -103,4 +118,6 @@ public class PaymentImportService {
         impPayment.setUpd_tm(new Date());//更新时间
         return impPayment;
     }
+
+
 }
