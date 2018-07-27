@@ -219,8 +219,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
              $("#note_s").val(entryHead.note)
          }*/
     },
-    //加载表体信息
-    // 装载表体信息
+  /*  // 装载表体信息
     fillEntryListInfo: function (entryLists) {
         for (var i = 0; i < entryLists.length; i++) {
             var g_num = entryLists[i].g_num;
@@ -235,17 +234,17 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='note" + g_num + "' value='" + entryLists[i].note + "' /></td>" +//促销活动
 
 
-               /* "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='head_guid" + g_num + "' value='" + entryLists[i].head_guid + "' /></td>" +//订单表头唯一序号
+               /!* "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='head_guid" + g_num + "' value='" + entryLists[i].head_guid + "' /></td>" +//订单表头唯一序号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_No" + g_num + "' value='" + entryLists[i].item_No + "' /></td>" +//商品货号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='bar_Code" + g_num + "' value='" + entryLists[i].bar_Code + "' /></td>" +//条形码前缀
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='unit" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//海关标准参数代码
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"10\" id='currency" + g_num + "' /></td>" +//填写人民币
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//海关参数*/
+                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//海关参数*!/
                 "</tr>";
 
             $("#entryList").append(str);
         }
-    },
+    },*/
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
@@ -284,15 +283,15 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                     var entryModule = sw.page.modules["ordermanage/seeOrderDetail"];
 
                     var entryHead = data.data.impOrderHead;
-                    var entryLists = data.data.impOrderLists;
+                   // var entryLists = data.data.impOrderLists;
                     var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
-                    if (isNotEmpty(entryLists)) {
-                        entryModule.fillEntryListInfo(entryLists);
-                    }
+                  //  if (isNotEmpty(entryLists)) {
+                   //     entryModule.fillEntryListInfo(entryLists);
+                  //  }
                     // 根据错误字段中的值加高亮显示
                     if (entryModule.detailParam.isShowError) {
                         entryModule.errorMessageShow(vertify);
@@ -346,7 +345,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             /*   "i_e_date": "进出口时间"*/
         };
 
-        // 校验表体
+       /* // 校验表体
         var validataListField = {
             "g_num": "序号",
             "order_No": "订单编号",
@@ -361,7 +360,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "currency": "人民币",
             "country": "行政区",
             "note": "促销活动",
-        };
+        };*/
 
         var fieldId, fieldName, fieldVal;
         // 表头数据校验
