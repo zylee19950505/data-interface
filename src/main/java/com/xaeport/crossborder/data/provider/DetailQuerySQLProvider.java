@@ -61,4 +61,44 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
         }.toString();
     }
 
+
+    public String queryImpInventoryHead(Map<String,String> paramMap){
+        final String id = paramMap.get("id");
+        return  new SQL(){
+            {
+                SELECT("*");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.GUID = #{id}");
+            }
+        }.toString();
+
+    }
+    public String queryImpInventoryBodies(Map<String,String> paramMap){
+        final String id = paramMap.get("id");
+        return  new SQL(){
+            {
+                SELECT("*");
+                FROM("T_IMP_INVENTORY_BODY t");
+                WHERE("t.HEAD_GUID = #{id}");
+            }
+        }.toString();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

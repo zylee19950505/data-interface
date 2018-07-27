@@ -1,44 +1,5 @@
-/**
- * 预览打印
- * Created by Administrator on 2017/7/20.
- */
+//清单查询
 sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/detailQuery"] || {
-        init: function () {
-            $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
-            $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
-            $(".input-daterange").datepicker({
-                language: "zh-CN",
-                todayHighlight: true,
-                format: "yyyymmdd",
-                autoclose: true
-            });
-            $("[ws-search]").unbind("click").click(this.query);
-            $("[ws-download]").unbind("click").click(this.billDownLoad);
-            $("[ws-back]").unbind("click").click(this.back);
-            $(".btn[ws-search]").click();
-        },
-
-        back: function () {
-            $("#bill").show();
-            $("#preview").hide();
-        },
-
-        billDownLoad: function () {
-            sw.ajax("api/bill", "GET", {
-                ieFlag: sw.ie,
-                entryType: sw.type,
-                startFlightTimes: $("[name='startFlightTimes']").val(),
-                endFlightTimes: $("[name='endFlightTimes']").val(),
-                billNo: $("[name='billNo']").val(),
-                flag: "1"
-            }, function (rsp) {
-                if (rsp.status == 200) {
-                    var fileName = rsp.data;
-                    window.location.href = "/api/downloadFile?fileName=" + fileName;
-                }
-            });
-
-        },
 
     query: function () {
         // 获取查询表单参数
@@ -87,7 +48,12 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
+                // {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
+                {
+                    label: "订单编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeOrderNoDetail('" + row.guid + "','"+row.order_no+"')" + '">' + row.order_no + '</a>'
+                }
+                },
                 {data: "logistics_code", label: "物流运单编号"},
                 {data: "ebc_name", label: "电商企业名称"},
                 {data: "ebc_name", label: "支付企业名称"},
@@ -134,49 +100,26 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         });
     },
 
-        download: function (flightNo, flightTimes, billNo, statusCode, flag) {
-            sw.ajax("api/downloadBill", "GET", {
-                ieFlag: sw.ie,
-                entryType: sw.type,
-                flightNo: flightNo,
-                flightTimes: flightTimes,
-                billNo: billNo,
-                statusCode: statusCode,
-                flag: flag
-            }, function (rsp) {
-                if (rsp.status == 200) {
-                    var fileName = rsp.data;
-                    window.location.href = "/api/downloadFile?fileName=" + fileName;
-                }
-            });
-        },
+    init: function () {
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
+        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            todayHighlight: true,
+            format: "yyyymmdd",
+            autoclose: true
+        });
+        $("[ws-search]").unbind("click").click(this.query);
+        // $("[ws-download]").unbind("click").click(this.billDownLoad);
+        // $("[ws-back]").unbind("click").click(this.back);
+        $(".btn[ws-search]").click();
+    },
 
-        seeAssBillNoDetail: function (flightNo, flightTimes, billNo, statusCode, flag) {
-            $("#bill").hide();
-            $("#preview").show();
-            $("#previewId tr:not(:first)").remove();
-            var parameter = {
-                entryType: sw.type,
-                ieFlag: sw.ie,
-                flightNo: flightNo,
-                flightTimes: flightTimes,
-                billNo: billNo,
-                statusCode: statusCode,
-                flag: flag
-            };
-            sw.ajax("api/bill/preview", "GET", parameter, function (rsp) {
-                if (rsp.status == 200) {
-                    var d = rsp.data;
-                    if (d !== null) {
-                        sw.pageModule('express/import_b/bill_inquiry').setBillPreview(d);
-                    }
-                }
-            });
-
-
-            $("[ws-print]").unbind("click").attr("param-data", JSON.stringify(parameter)).click(this.printBill);
-
-        },
+    seeOrderNoDetail: function (guid,order_No) {
+        console.log(guid,order_No)
+        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid="+guid+"&orderNo="+order_No;
+        sw.modelPopup(url, "查看清单详情", false, 1000, 930);
+    }
 
 
 
@@ -193,6 +136,4 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
 
 
 
-
-
-    };
+};

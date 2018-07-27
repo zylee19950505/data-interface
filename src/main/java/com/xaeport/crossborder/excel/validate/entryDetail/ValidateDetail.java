@@ -112,10 +112,9 @@ public class ValidateDetail extends ValidateBase{
         }
 
         // 导入数据double类型判断
-        if (cell_num == qtyIndex || cell_num == qty1Index || cell_num == qty2Index ||
-                cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex
-                || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
-            String message = indexMap.get(cell_num).split(",")[0];
+//        if (cell_num == qtyIndex || cell_num == qty1Index || cell_num == qty2Index || cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
+        if (cell_num == qtyIndex || cell_num == qty1Index|| cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
+        String message = indexMap.get(cell_num).split(",")[0];
             int flag = ValidateUtil.checkDoubleValue(cell);
             boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);
             if (!checkNumberType) {

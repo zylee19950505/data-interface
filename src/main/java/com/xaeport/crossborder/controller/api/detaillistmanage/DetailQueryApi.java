@@ -6,10 +6,12 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpInventory;
+import com.xaeport.crossborder.data.entity.ImpInventoryDetail;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.detaillistmanage.DetailQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,5 +80,40 @@ public class DetailQueryApi extends BaseApi{
         }
         return new ResponseData(dataList);
     }
+
+    /*
+* 点击查看邮件详情
+* */
+    @RequestMapping("/seeOrderDetail")
+    public ResponseData seeOrderDetail(
+            @RequestParam(required = false) String guid
+    ) {
+        if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
+        this.logger.debug(String.format("查询邮件条件参数:[guid:%s]",guid));
+        ImpInventoryDetail impInventoryDetail;
+        try {
+            impInventoryDetail = detailQueryService.getImpInventoryDetail(guid);
+        } catch (Exception e) {
+            this.logger.error("查询分单信息失败，entryHeadId=" + guid, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(impInventoryDetail);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
