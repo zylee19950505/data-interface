@@ -120,7 +120,7 @@ public class OrderQueryApi extends BaseApi {
 		try {
 			order = orderQueryService.getOrderDetail(guid);
 		} catch (Exception e) {
-			this.logger.error("查询分单信息失败，entryHeadId=" + guid, e);
+			this.logger.error("查询订单信息失败，entryHeadId=" + guid, e);
 			return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseData(order);

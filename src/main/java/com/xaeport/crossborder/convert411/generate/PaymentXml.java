@@ -62,7 +62,7 @@ public class PaymentXml {
             appType.setTextContent(paymentHeadList.get(i).getAppType());
 
             appTime = document.createElement("ceb:appTime");
-            appTime.setTextContent(paymentHeadList.get(i).getAppTime());
+            appTime.setTextContent(paymentHeadList.get(i).getAppTime().toString());
 
             appStatus = document.createElement("ceb:appStatus");
             appStatus.setTextContent(paymentHeadList.get(i).getAppStatus());
@@ -104,7 +104,7 @@ public class PaymentXml {
             currency.setTextContent(paymentHeadList.get(i).getCurrency());
 
             payTime = document.createElement("ceb:payTime");
-            payTime.setTextContent(paymentHeadList.get(i).getPayTime());
+            payTime.setTextContent(paymentHeadList.get(i).getPayTime().toString());
 
             note = document.createElement("ceb:note");
             note.setTextContent(paymentHeadList.get(i).getNote());

@@ -1,9 +1,11 @@
 package com.xaeport.crossborder.data.entity;
 
+import java.util.Date;
+
 public class PaymentHead {
     private String guid;
     private String appType;
-    private String appTime;
+    private Date appTime;
     private String appStatus;
     private String payCode;
     private String payName;
@@ -17,8 +19,63 @@ public class PaymentHead {
     private String telephone;
     private String amountPaid;
     private String currency;
-    private String payTime;
+    private Date payTime;
     private String note;
+
+    private String dataStatus;
+    private String crtId;
+    private Date crtTm;
+    private String updId;
+    private Date updTm;
+    private String returnStatus;
+
+    public String getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(String dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
+    public String getCrtId() {
+        return crtId;
+    }
+
+    public void setCrtId(String crtId) {
+        this.crtId = crtId;
+    }
+
+    public Date getCrtTm() {
+        return crtTm;
+    }
+
+    public void setCrtTm(Date crtTm) {
+        this.crtTm = crtTm;
+    }
+
+    public String getUpdId() {
+        return updId;
+    }
+
+    public void setUpdId(String updId) {
+        this.updId = updId;
+    }
+
+    public Date getUpdTm() {
+        return updTm;
+    }
+
+    public void setUpdTm(Date updTm) {
+        this.updTm = updTm;
+    }
+
+    public String getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(String returnStatus) {
+        this.returnStatus = returnStatus;
+    }
 
     public String getGuid() {
         return guid;
@@ -36,11 +93,11 @@ public class PaymentHead {
         this.appType = appType;
     }
 
-    public String getAppTime() {
+    public Date getAppTime() {
         return appTime;
     }
 
-    public void setAppTime(String appTime) {
+    public void setAppTime(Date appTime) {
         this.appTime = appTime;
     }
 
@@ -148,11 +205,11 @@ public class PaymentHead {
         this.currency = currency;
     }
 
-    public String getPayTime() {
+    public Date getPayTime() {
         return payTime;
     }
 
-    public void setPayTime(String payTime) {
+    public void setPayTime(Date payTime) {
         this.payTime = payTime;
     }
 
