@@ -24,4 +24,12 @@ public interface OrderQueryMapper {
 
 	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderBodyListCount")
 	Integer queryOrderBodyListCount(Map<String, String> paramMap);
+
+/*点击查看邮件详情
+* */
+	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderHead")
+	ImpOrderHead queryOrderHead(Map<String, String> paramMap);
+
+	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderBody")
+	List<ImpOrderBody> queryOrderBody(Map<String, String> paramMap);
 }

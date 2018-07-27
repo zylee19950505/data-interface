@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.convert.generate;
 
 
+import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.CEB311Message;
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -236,4 +238,25 @@ public class Waybill {
             ceborderheadEl.appendChild(orderBodyElement);
         }
     }
+
+    //创建<ceb:BaseTransfer> 节点
+	public Element getBaseTransfer(Element baseTrElement, Document document, CEB311Message ceb311Message) {
+        BaseTransfer baseTransfer = ceb311Message.getBaseTransfer();
+        Element copCodElement = document.createElement("ceb:copCode");
+        copCodElement.setTextContent(baseTransfer.getCopCode());
+        baseTrElement.appendChild(copCodElement);
+        Element copNameElement = document.createElement("ceb:copName");
+        copNameElement.setTextContent(baseTransfer.getCopName());
+        baseTrElement.appendChild(copNameElement);
+        Element dxpModeElement = document.createElement("ceb:dxpMode");
+        dxpModeElement.setTextContent(baseTransfer.getDxpMode());
+        baseTrElement.appendChild(dxpModeElement);
+        Element dxpIdElement = document.createElement("ceb:dxpId");
+        dxpIdElement.setTextContent(baseTransfer.getDxpId());
+        baseTrElement.appendChild(dxpIdElement);
+        Element noteElement = document.createElement("ceb:note");
+        noteElement.setTextContent(baseTransfer.getNote());
+        baseTrElement.appendChild(noteElement);
+        return baseTrElement;
+	}
 }

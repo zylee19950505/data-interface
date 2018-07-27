@@ -71,6 +71,8 @@ public class BaseBill {
         rootElement.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 
         rootElement.appendChild(this.getData(document, ceb311Message, flag));
+        //添加<ceb:BaseTransfer>节点
+        rootElement.appendChild(this.getBaseTransfer(document, ceb311Message, flag));
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -79,6 +81,22 @@ public class BaseBill {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         transformer.transform(new DOMSource(document), new StreamResult(os));//暂时输出到控制台了
         return os.toByteArray();
+    }
+
+    //创建<ceb:BaseTransfer> 节点
+    private Element getBaseTransfer(Document document, CEB311Message ceb311Message, String flag) {
+        Element BaseTrElement = document.createElement("ceb:BaseTransfer");
+        switch (flag) {
+            //订单
+            case "orderDeclare":{
+                this.waybill.getBaseTransfer(BaseTrElement,document,ceb311Message);
+                break;
+            }
+            case "":{
+                break;
+            }
+        }
+        return BaseTrElement;
     }
 
 

@@ -4,12 +4,11 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-import com.xaeport.crossborder.data.entity.OrderHeadAndList;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.service.ordermanage.OrderQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -106,6 +105,25 @@ public class OrderQueryApi extends BaseApi {
 			this.logger.error("订单查询失败", e);
 			return new ResponseData(dataList);
 		}
+	}
+
+	/*
+	* 点击查看邮件详情
+	* */
+	@RequestMapping("/seeOrderDetail")
+	public ResponseData seeOrderDetail(
+			@RequestParam(required = false) String guid
+	) {
+		if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
+		this.logger.debug(String.format("查询邮件条件参数:[guid:%s]",guid));
+		Order order;
+		try {
+			order = orderQueryService.getOrderDetail(guid);
+		} catch (Exception e) {
+			this.logger.error("查询分单信息失败，entryHeadId=" + guid, e);
+			return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseData(order);
 	}
 }
 

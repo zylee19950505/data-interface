@@ -4,7 +4,7 @@
  */
 sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/waybillQuery"] || {
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
