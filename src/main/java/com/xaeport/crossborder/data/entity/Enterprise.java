@@ -26,6 +26,15 @@ public class Enterprise {
     private String upd_id;//更新人
     private String ent_status;//企业状态（1 OR 0）
     private String port_str;//主管海关
+    private String dxp_id;//企业dxp_id
+
+    public String getDxp_id() {
+        return dxp_id;
+    }
+
+    public void setDxp_id(String dxp_id) {
+        this.dxp_id = dxp_id;
+    }
 
     public String getPort_str() {
         return port_str;
