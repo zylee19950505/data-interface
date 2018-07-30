@@ -143,6 +143,4 @@ public class WaybillImportApi extends BaseApi {
         flag = value == curValue;
         return flag;
     }
-
-
 }

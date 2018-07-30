@@ -58,7 +58,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     render: function (data, type, row) {
                         ////支付单已申报，申报中，申报成功CBDS31  那就不用再点击申报
 
-                        if(row.data_status == "CBDS31"|| row.data_status == "CBDS30" || row.data_status == "CBDS32"){
+                        if(row.data_status == "CBDS31"){
                             return "";
                         }else {
                             return '<input type="checkbox" class="submitKey" value="' +

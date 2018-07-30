@@ -1,10 +1,10 @@
-package com.xaeport.crossborder.generated511;
+package com.xaeport.crossborder.generated513;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert511.generate.BaseLogisticsXml;
+import com.xaeport.crossborder.convert513.generate.BaseLogisticsStatusXml;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
-
-import com.xaeport.crossborder.generated511.thread.LogisticsMessageThread;
+import com.xaeport.crossborder.generated513.thread.LogisticsStatusMessageThread;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +16,17 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-
 /**
  * Created by zwf on 2018-7-24.
  * 报文生成启动器
  */
 @Component
-public class GeneratedAutoLauncher511  implements ApplicationListener<ApplicationReadyEvent> {
+public class GeneratedAutoLauncher513 implements ApplicationListener<ApplicationReadyEvent> {
 
     private Log logger = LogFactory.getLog(this.getClass());
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private LogisticsMessageThread logisticsMessageThread;
+    private LogisticsStatusMessageThread logisticsMessageThread;
 
     @Autowired
     WaybillDeclareMapper waybillDeclareMapper;
@@ -36,14 +35,14 @@ public class GeneratedAutoLauncher511  implements ApplicationListener<Applicatio
     AppConfiguration appConfiguration;
 
     @Autowired
-    BaseLogisticsXml baseLogisticsXml;
+    BaseLogisticsStatusXml baseLogisticsStatusXml;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        this.logger.debug("运单报文生成启动器初始化开始");
+        this.logger.debug("运单状态报文生成启动器初始化开始");
 
-        logisticsMessageThread = new LogisticsMessageThread(this.waybillDeclareMapper, this.appConfiguration, this.baseLogisticsXml);
+        logisticsMessageThread = new LogisticsStatusMessageThread(this.waybillDeclareMapper, this.appConfiguration, this.baseLogisticsStatusXml);
         executorService.execute(logisticsMessageThread);
 //        PaymentMessageThread paymentMessageThread = PaymentMessageThread.getInstance();
 //        try {

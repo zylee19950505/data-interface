@@ -27,6 +27,25 @@ public class ImpLogistics {
     private Date crt_tm;//创建时间
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
+    private String logistics_status;//物流签收状态，限定S
+    private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+
+
+    public String getLogistics_status() {
+        return logistics_status;
+    }
+
+    public void setLogistics_status(String logistics_status) {
+        this.logistics_status = logistics_status;
+    }
+
+    public Date getLogistics_time() {
+        return logistics_time;
+    }
+
+    public void setLogistics_time(Date logistics_time) {
+        this.logistics_time = logistics_time;
+    }
 
     public String getGuid() {
         return guid;

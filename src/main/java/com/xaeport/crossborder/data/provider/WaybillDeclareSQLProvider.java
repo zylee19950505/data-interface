@@ -23,8 +23,10 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                         " t.CONSIGNEE_TELEPHONE," +
                         " t.CONSIGNEE_ADDRESS," +
                         " t.DATA_STATUS," +
-                        " t.APP_TIME" );
-                FROM("T_IMP_LOGISTICS t");
+                        " t.APP_TIME," +
+                        " t1.LOGISTICS_STATUS," +
+                        " t1.LOGISTICS_TIME"  );
+                FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS t1  ON t.LOGISTICS_NO=t1.LOGISTICS_NO");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
@@ -54,7 +56,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         return new SQL(){
             {
                 SELECT("COUNT(1)");
-                FROM("T_IMP_LOGISTICS t");
+                FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS  ON t.LOGISTICS_NO=T_IMP_LOGISTICS_STATUS.LOGISTICS_NO");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.LOGISTICS_NO = #{logisticsNo}");
                 }
@@ -91,6 +93,26 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         }.toString();
     }
     /*
+     * 提交海关运单状态申报
+     */
+    public String updateSubmitWaybillToStatus(Map<String, String> paramMap) {
+        final String submitKeys = paramMap.get("submitKeys");
+        final String dataStatusWhere = paramMap.get("dataStatusWhere");
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                UPDATE("T_IMP_LOGISTICS_STATUS t");
+                WHERE(splitJointIn("t.LOGISTICS_NO", submitKeys));
+                WHERE(splitJointIn("t.DATA_STATUS", dataStatusWhere));
+                SET("t.LOGISTICS_STATUS = ''");
+                SET("t.data_status = #{dataStatus}");
+                SET("t.APP_TIME = sysdate");
+                SET("t.upd_tm = sysdate");
+                SET("t.upd_id = #{currentUserId}");
+            }
+        }.toString();
+    }
+    /*
      * 修改运单状态为支付单已申报
      */
     public String updateImpLogisticsStatus(@Param("guid") String guid, @Param("CBDS41") String CBDS41){
@@ -119,6 +141,35 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 WHERE("rownum<=100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
 
+            }
+        }.toString();
+    }
+    /*
+     * 运单状态报文数据查询
+     */
+    public String findWaitGeneratedToLogisticsStatus(final Map<String, String> paramMap) {
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_TIME,APP_STATUS,LOGISTICS_CODE,LOGISTICS_NAME,LOGISTICS_NO,LOGISTICS_STATUS,LOGISTICS_TIME");
+                SELECT("NOTE,DATA_STATUS,CRT_ID,CRT_TM,UPD_ID,UPD_TM");
+                FROM("T_IMP_LOGISTICS_STATUS t");
+                WHERE("data_Status = #{dataStatus}");
+                WHERE("rownum<=100");
+                ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
+            }
+        }.toString();
+    }
+    /*
+     * 修改运单状态为运单已申报
+     */
+    public String updateToLogisticsStatus(@Param("guid") String guid, @Param("CBDS51") String CBDS51){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS_STATUS t");
+                WHERE("t.GUID = #{guid}");
+                SET("t.DATA_STATUS = 'CBDS51'");
+                SET("t.upd_tm = sysdate");
             }
         }.toString();
     }
