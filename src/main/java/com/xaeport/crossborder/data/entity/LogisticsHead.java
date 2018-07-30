@@ -15,7 +15,7 @@ public class LogisticsHead {
     private String weight;//单位为千克。
     private String packNo;//单个运单下包裹数，限定为1。
     private String goodsInfo;//配送的商品信息，包括商品名称、数量等。
-    private String consignee;//收货人姓名。
+    private String consingee;//收货人姓名。
     private String consigneeAddress;//收货地址。
     private String consigneeTelephone;//收货人电话号码。
     private String note;//备注
@@ -134,12 +134,12 @@ public class LogisticsHead {
         this.goodsInfo = goodsInfo;
     }
 
-    public String getConsignee() {
-        return consignee;
+    public String getConsingee() {
+        return consingee;
     }
 
-    public void setConsignee(String consignee) {
-        this.consignee = consignee;
+    public void setConsingee(String consingee) {
+        this.consingee = consingee;
     }
 
     public String getConsigneeAddress() {

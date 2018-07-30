@@ -67,7 +67,15 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "logistics_no", label: "物流运单编号"},//订单编号要点击查看订单详情
+                {
+                    label: "物流运单编号", render: function (data, type, row) {
+                        //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
+                        var result = '<a style="cursor:pointer" title="查看" ' +
+                            'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery')" +
+                            ".queryWaybillbyid('" + row.guid + "','"+row.logistics_no+"')" + '">' + row.logistics_no + '</a>';
+                        return result;
+                    }
+                },
                 {data: "logistics_name", label: "物流企业名称"},
                 {data: "consingee", label: "收货人姓名"},
                 {data: "consignee_telephone", label: "收货人电话"},
@@ -99,7 +107,11 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         $("#bill").show();
         $("#preview").hide();
     },
-
+    //打开一个页面，并且用路径传递参数
+    queryWaybillbyid: function (guid,logistics_no) {
+        var url = "waybillmanage/waybillQuery_TPL?type=ZFDCX&isEdit=true&guid=" + guid+"&logistics_no="+logistics_no;
+        sw.modelPopup(url, "运单详情信息", false, 900, 400);
+    },
     billDownLoad: function () {
         sw.ajax("api/bill", "GET", {
             ieFlag: sw.ie,

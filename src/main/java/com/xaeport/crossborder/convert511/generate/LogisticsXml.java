@@ -97,7 +97,7 @@ public class LogisticsXml {
             goodsInfo.setTextContent(logisticsHeadsList.get(i).getGoodsInfo());
 
             consignee = document.createElement("ceb:consignee");
-            consignee.setTextContent(logisticsHeadsList.get(i).getConsignee());
+            consignee.setTextContent(logisticsHeadsList.get(i).getConsingee());
 
             consigneeAddress = document.createElement("ceb:consigneeAddress");
             consigneeAddress.setTextContent(logisticsHeadsList.get(i).getConsigneeAddress());

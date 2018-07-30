@@ -98,7 +98,7 @@ public class LogisticsMessageThread implements Runnable {
                     logisticsHead.setWeight(impLogistics.getWeight());//单位为千克。
                     logisticsHead.setPackNo(impLogistics.getPack_no());//单个运单下包裹数，限定为1。
                     logisticsHead.setGoodsInfo(impLogistics.getGoods_info());//配送的商品信息，包括商品名称、数量等。
-                    logisticsHead.setConsignee(impLogistics.getConsingee());//收货人姓名。
+                    logisticsHead.setConsingee(impLogistics.getConsingee());//收货人姓名。
                     logisticsHead.setConsigneeAddress(impLogistics.getConsignee_address());//收货地址。
                     logisticsHead.setConsigneeTelephone(impLogistics.getConsignee_telephone());//收货人电话号码。
                     logisticsHead.setNote(impLogistics.getNote());//备注
