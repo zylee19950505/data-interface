@@ -87,6 +87,69 @@ sw.page.modules["infomanage/enterpriseInfo"] = sw.page.modules["infomanage/enter
                    /* $("input[name='ent_nature']").val(data.ent_nature);*/
 
                     $("input[name='port']").val(data.port);
+                    switch(data.port){
+                        case "9003":{
+                            $("input[name='port']").val("宝鸡海关");
+                            break;
+                        }
+                        case "9008":{
+                            $("input[name='port']").val("高新综保区");
+                            break;
+                        }
+                        case "9005":{
+                            $("input[name='port']").val("加工A区");
+                            break;
+                        }
+                        case "9006":{
+                            $("input[name='port']").val("加工B区");
+                            break;
+                        }
+                        case "9009":{
+                        $("input[name='port']").val("高新综保口岸");
+                        break;
+                         }
+                        case "9000":{
+                            $("input[name='port']").val("西安关区");
+                            break;
+                        }
+                        case "9001":{
+                            $("input[name='port']").val("西安综保口岸");
+                            break;
+                        }
+                        case "9007":{
+                            $("input[name='port']").val("西安综保区");
+                            break;
+                        }
+                        case "9004":{
+                            $("input[name='port']").val("邮局办事处");
+                            break;
+                        }
+                        case "9002":{
+                            $("input[name='port']").val("咸阳机场");
+                            break;
+                        }
+                        case "9010":{
+                            $("input[name='port']").val("延安海关");
+                            break;
+                        }
+                        case "9011":{
+                            $("input[name='port']").val("渭南海关");
+                            break;
+                        }
+                        case "9012":{
+                            $("input[name='port']").val("榆林海关");
+                            break;
+                        }
+                        case "9013":{
+                            $("input[name='port']").val("西咸保B");
+                            break;
+                        }
+
+
+
+                        default :"未知";
+                    }
+
                     $("input[name='customs_code']").val(data.customs_code);
                     $("input[name='ent_classify']").val(data.ent_classify);
                     $("input[name='dxp_id']").val(data.dxp_id);
