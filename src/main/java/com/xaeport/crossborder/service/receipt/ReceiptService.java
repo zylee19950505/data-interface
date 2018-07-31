@@ -34,20 +34,12 @@ public class ReceiptService {
             String type = (String) map.get("type");
             Map<String, List<List<Map<String, String>>>> receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
             switch (type) {
-                case "EXP312"://舱单回执
-                    ImpRecPayment impRecPayment = this.createImpRecPayment(receipt, refileName);
-                    this.receiptMapper.createImpRecPayment(impRecPayment); //插入舱单数据表头
-                    this.updateImpPaymentStatus(impRecPayment);    //更新舱单状态
+                case "CEB412"://支付单回执代码
+                    this.createImpRecPayment(receipt, refileName);
+//                    ImpRecPayment impRecPayment = this.createImpRecPayment(receipt, refileName);
+//                    this.receiptMapper.createImpRecPayment(impRecPayment); //插入支付单状态表数据
+//                    this.updateImpPaymentStatus(impRecPayment);    //更新支付单表状态
                     break;
-//                case "EXP302"://报单回值
-//                    DeclareReceipt declareReceipt = this.createDeclareReceipt(receipt, refileName);
-//                    String dbOpTime = this.receiptMapper.getOpTime(declareReceipt.getBill_no(), declareReceipt.getAss_bill_no());//数据中的操作时间
-//                    //this.logger.debug("开始插入报关单回执");
-//                    this.receiptMapper.createDeclareReceipt(declareReceipt);//插入报关单回执
-//                    //this.logger.debug("完成插入报关单回执，开始插入更新状态");
-//                    this.updateDeclareStatus(declareReceipt, dbOpTime);//更新状态
-//                    //this.logger.debug("完成插入更新状态");
-//                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -60,38 +52,72 @@ public class ReceiptService {
     /**
      * 插入支付单的数据
      *
-     * @param receipt     回执数据
-     * @param refileName  回执文件名
+     * @param receipt    回执数据
+     * @param refileName 回执文件名
      * @throws Exception
      */
     @Transactional(rollbackFor = NullPointerException.class)
-    private ImpRecPayment createImpRecPayment(Map<String, List<List<Map<String, String>>>> receipt , String refileName) throws Exception {
-        List<Map<String, String>> list = receipt.get("PaymentReturn").get(0);
-        ImpRecPayment impRecPayment = new ImpRecPayment();
-        for (Map<String, String> map : list) {
-            impRecPayment.setId(IdUtils.getUUId());
-            if(map.containsKey("guid")){
-                impRecPayment.setGuid(map.get("guid"));
+    private void createImpRecPayment(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+//        List<Map<String, String>> list = receipt.get("PaymentReturn").get(0);
+        List<List<Map<String, String>>> list = receipt.get("PaymentReturn");
+        if (!StringUtils.isEmpty(list)) {
+            ImpRecPayment impRecPayment;
+            for (int i = 0; i < list.size(); i++) {
+                impRecPayment = new ImpRecPayment();
+                impRecPayment.setId(IdUtils.getUUId());
+                impRecPayment.setCrt_tm(new Date());
+                impRecPayment.setUpd_tm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("guid")) {
+                        impRecPayment.setGuid(map.get("guid"));
+                    }
+                    if (map.containsKey("payCode")) {
+                        impRecPayment.setPay_code(map.get("payCode"));
+                    }
+                    if (map.containsKey("payTransactionId")) {
+                        impRecPayment.setPay_transaction_id(map.get("payTransactionId"));
+                    }
+                    if (map.containsKey("returnStatus")) {
+                        impRecPayment.setReturn_status(map.get("returnStatus"));
+                    }
+                    if (map.containsKey("returnTime")) {
+                        impRecPayment.setReturn_time(map.get("returnTime"));
+                    }
+                    if (map.containsKey("returnInfo")) {
+                        impRecPayment.setReturn_info(map.get("returnInfo"));
+                    }
+                }
+                this.receiptMapper.createImpRecPayment(impRecPayment); //插入支付单状态表数据
+                this.updateImpPaymentStatus(impRecPayment);    //更新支付单表状态
             }
-            if (map.containsKey("payCode")) {
-                impRecPayment.setPay_code(map.get("payCode"));
-            }
-            if (map.containsKey("payTransactionId")) {
-                impRecPayment.setPay_transaction_id(map.get("payTransactionId"));
-            }
-            if (map.containsKey("returnStatus")) {
-                impRecPayment.setReturn_status(map.get("returnStatus"));
-            }
-            if (map.containsKey("returnTime")) {
-                impRecPayment.setReturn_time(map.get("returnTime"));
-            }
-            if (map.containsKey("returnInfo")) {
-                impRecPayment.setReturn_info(map.get("returnInfo"));
-            }
-            impRecPayment.setCrt_tm(new Date());
-            impRecPayment.setUpd_tm(new Date());
         }
-        return impRecPayment;
+//        ImpRecPayment impRecPayment = new ImpRecPayment();
+//        for (Map<String, String> map : list) {
+//            impRecPayment.setId(IdUtils.getUUId());
+//            if(map.containsKey("guid")){
+//                impRecPayment.setGuid(map.get("guid"));
+//            }
+//            if (map.containsKey("payCode")) {
+//                impRecPayment.setPay_code(map.get("payCode"));
+//            }
+//            if (map.containsKey("payTransactionId")) {
+//                impRecPayment.setPay_transaction_id(map.get("payTransactionId"));
+//            }
+//            if (map.containsKey("returnStatus")) {
+//                impRecPayment.setReturn_status(map.get("returnStatus"));
+//            }
+//            if (map.containsKey("returnTime")) {
+//                impRecPayment.setReturn_time(map.get("returnTime"));
+//            }
+//            if (map.containsKey("returnInfo")) {
+//                impRecPayment.setReturn_info(map.get("returnInfo"));
+//            }
+//            impRecPayment.setCrt_tm(new Date());
+//            impRecPayment.setUpd_tm(new Date());
+//        }
+//        return impRecPayment;
     }
 
     /**

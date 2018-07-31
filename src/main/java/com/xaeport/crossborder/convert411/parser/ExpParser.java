@@ -48,19 +48,19 @@ public class ExpParser {
         Map<String, List<List<Map<String, String>>>> map = null;
         switch (type) {
             case "CEB312"://订单回执报文
-                map = this.parserHolder.getParser("exp312").expParser(expPath, "OrderReturn");
+                map = this.parserHolder.getParser("ceb312").expParser(expPath, "OrderReturn");
                 break;
             case "CEB412"://支付单回执报文
-                map = this.parserHolder.getParser("exp412").expParser(expPath, "PaymentReturn");
+                map = this.parserHolder.getParser("ceb412").expParser(expPath, "PaymentReturn");
                 break;
             case "CEB512"://运单回执报文
-                map = this.parserHolder.getParser("exp512").expParser(expPath, "LogisticsReturn");
+                map = this.parserHolder.getParser("ceb512").expParser(expPath, "LogisticsReturn");
                 break;
             case "CEB514"://运单状态回执报文
-                map = this.parserHolder.getParser("exp514").expParser(expPath, "LogisticsStatusReturn");
+                map = this.parserHolder.getParser("ceb514").expParser(expPath, "LogisticsStatusReturn");
                 break;
             case "CEB622"://清单回执报文
-                map = this.parserHolder.getParser("exp622").expParser(expPath, "InventoryReturn");
+                map = this.parserHolder.getParser("ceb622").expParser(expPath, "InventoryReturn");
                 break;
         }
         mapData.put("Receipt", map);
