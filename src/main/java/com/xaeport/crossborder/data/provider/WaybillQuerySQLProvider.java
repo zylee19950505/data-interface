@@ -16,7 +16,9 @@ public class WaybillQuerySQLProvider {
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
-                        " select t.LOGISTICS_NO," +
+                        " select " +
+                        " t.GUID," +
+                        " t.LOGISTICS_NO," +
                         " t.LOGISTICS_NAME,"+
                         " t.CONSINGEE,"+
                         " t.CONSIGNEE_TELEPHONE," +
@@ -70,5 +72,43 @@ public class WaybillQuerySQLProvider {
         }.toString();
 
     }
+    public String waybillQueryById(Map<String,String> paramMap){
+        final String guid = paramMap.get("guid");
+        final String logisticsno = paramMap.get("logisticsno");
 
+        return new SQL(){
+            {
+                SELECT("t.GUID as guid");
+                SELECT("t.APP_TYPE as appType");
+                SELECT("t.APP_TIME as appTime");
+                SELECT("t.APP_STATUS as appStatus");
+                SELECT("t.LOGISTICS_CODE as logisticscode");
+                SELECT("t.LOGISTICS_NAME as logisticsname");
+                SELECT("t.LOGISTICS_NO as logisticsno");
+                SELECT("t.BILL_NO as billno");
+                SELECT("t.FREIGHT as freight");
+                SELECT("t.INSURED_FEE as insuredfee");
+                SELECT("t.CURRENCY as currency");
+                SELECT("t.WEIGHT as weight");
+                SELECT("t.PACK_NO as packno");
+                SELECT("t.GOODS_INFO as goodsinfo");
+                SELECT("t.CONSINGEE as consingee");
+                SELECT("t.CONSIGNEE_ADDRESS as consigneeaddress");
+                SELECT("t.CONSIGNEE_TELEPHONE as consigneetelephone");
+                SELECT("t.NOTE as note");
+                SELECT("t.DATA_STATUS as dataStatus");
+                SELECT("t.CRT_ID as crtId");
+                SELECT("t.CRT_TM as crtTm");
+                SELECT("t.UPD_ID as updId");
+                SELECT("t.UPD_TM as updTm");
+                FROM("T_IMP_LOGISTICS t");
+                if (!StringUtils.isEmpty(guid)){
+                    WHERE("t.GUID = #{guid}");
+                }
+               /* if (!StringUtils.isEmpty(logisticsno)){
+                    WHERE("t.ORDER_NO = #{logisticsno}");
+                }*/
+            }
+        }.toString();
+    }
 }

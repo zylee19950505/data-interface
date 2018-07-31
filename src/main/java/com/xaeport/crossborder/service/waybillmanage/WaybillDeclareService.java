@@ -54,5 +54,23 @@ public class WaybillDeclareService {
         }
         return flag;
     }
+    /**
+     * 更新运单状态申报状态
+     *
+     * @return
+     */
+    @Transactional
+    public boolean updateSubmitWaybillToStatus(Map<String, String> paramMap) {
+        boolean flag;
+        try {
+            this.waybillMapper.updateSubmitWaybillToStatus(paramMap);
+            flag = true;
+        } catch (Exception e) {
+            flag = false;
+            String exceptionMsg = String.format("处理运单状态申报[orderNo: %s]时发生异常", paramMap.get("submitKeys"));
+            logger.error(exceptionMsg, e);
+        }
+        return flag;
+    }
 
 }

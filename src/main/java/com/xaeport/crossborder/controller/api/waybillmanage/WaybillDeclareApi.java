@@ -90,7 +90,7 @@ public class WaybillDeclareApi extends BaseApi{
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
                                          HttpServletRequest request) {
-        this.logger.info("运申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        this.logger.info("运单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的运单信息！");
         }
@@ -99,8 +99,6 @@ public class WaybillDeclareApi extends BaseApi{
             paramMap.put("dataStatus", StatusCode.YDSBZ);
             paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.YDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
             paramMap.put("currentUserId", currentUser.getId());
-
-
             /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
             paramMap.put("submitKeys", submitKeys);//订单遍号
 
@@ -111,7 +109,33 @@ public class WaybillDeclareApi extends BaseApi{
             } else {
                 return rtnResponse("false", "运单申报海关提交失败！");
             }
-
     }
+    /**
+     * 运单状态申报-提交海关
+     *
+     * @param submitKeys EntryHead.IDs
+     */
+    @RequestMapping(value = "/submitCustomToStatus", method = RequestMethod.POST)
+    public ResponseData submitCustomToStatus(@RequestParam(required = false) String submitKeys,
+                                         HttpServletRequest request) {
+        this.logger.info("运单状态申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        if (StringUtils.isEmpty(submitKeys)) {
+            return rtnResponse("false", "请先勾选要提交海关的运单信息！");
+        }
+        Users currentUser = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("dataStatus", StatusCode.YDZTSBZ);
+        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB + "," + StatusCode.YDZTCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("currentUserId", currentUser.getId());
+        /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
+        paramMap.put("submitKeys", submitKeys);//运单编号
 
+        // 调用运单申报Service获取提交海关结果
+        boolean flag = waybillService.updateSubmitWaybillToStatus(paramMap);
+        if (flag) {
+            return rtnResponse("true", "运单状态申报海关提交成功！");
+        } else {
+            return rtnResponse("false", "运单状态申报海关提交失败！");
+        }
+    }
 }

@@ -5,6 +5,8 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.Logistics;
+import com.xaeport.crossborder.data.entity.LogisticsHead;
 import com.xaeport.crossborder.service.waybillmanage.WaybillQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,5 +78,29 @@ public class WaybillQueryApi {
         }
         return new ResponseData(dataList);
     }
+    /*
+     * 运单详情查询
+     */
+    @RequestMapping("/waybillQuery_TPL")
+    public ResponseData waybillQueryById(
+            @RequestParam(required = false) String guid,
+            @RequestParam(required = false) String logistics_no
+    ){
+        this.logger.debug(String.format("查询运单详情条件参数:[guid:%s,logistics_no:%s]",guid,logistics_no));
+        System.err.println("进入查询运单详情api、、、、、");
+        Map<String,String> paramMap = new HashMap<String,String>();
+        paramMap.put("guid",guid);
+        paramMap.put("logisticsno",logistics_no);
+        System.err.println("guid:"+guid);
+        System.err.println("logisticsno:"+logistics_no);
+        Logistics logistics;
+        try {
+            logistics = waybillService.waybillQueryById(paramMap);
+        } catch (Exception e) {
+            this.logger.error("查询支付单信息失败，logistics_no=" + logistics_no, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
 
+        return new ResponseData(logistics);
+    }
 }

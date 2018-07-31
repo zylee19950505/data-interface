@@ -59,7 +59,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     data: null,
                     render: function (data, type, row) {
                         ////运单已申报，申报中，申报成功 那就不用再点击申报
-                        if(row.data_status == "CBDS40"|| row.data_status == "CBDS41" || row.data_status == "CBDS42"){
+                        if(row.data_status == "CBDS41"){
                             return "";
                         }else {
                             return '<input type="checkbox" class="submitKey" value="' +
@@ -73,6 +73,15 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {data: "consignee_telephone", label: "收货人电话"},
                 {data: "consignee_address", label: "收货地址"},
                 {data: "data_status", label: "业务状态"},
+                {data: "logistics_status", label: "运单申报状态，状态"},
+                {
+                    label: "运单申报状态，时间", render: function (data, type, row) {
+                        if(!isEmpty(row.logistics_time)){
+                            return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
+                },
                 {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
                         switch (row.data_status) {
@@ -101,9 +110,9 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                                 row.data_status = "运单申报失败";
                                 break;
                             case "CBDS43"://支付单重报
-                                textColor = "text-red";
-                                row.data_status = "运单重报";
-                                break;
+                            textColor = "text-red";
+                            row.data_status = "运单重报";
+                            break;
                         }
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                     }
@@ -131,6 +140,9 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
     },
     // 提交海关
     submitCustom: function () {
+
+
+
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
             submitKeys += "," + $(this).val();
@@ -153,10 +165,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 ieFlag: sw.ie,
                 entryType: sw.type
             };
-            alert("运单编号为："+submitKeys);
             $("#submitManifestBtn").prop("disabled", true);
-
-
             sw.ajax("api/waybillManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
@@ -169,19 +178,48 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 $.unblockUI();
             });
         });
+    },
+    // 状态申报提交海关
+    submitCustomToStatus: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要提交海关的舱单信息！");
+            return;
+        }
 
-        sw.ajax("api/manifest/submitCustom", "POST", postData, function (rsp) {
-            if (rsp.data.result == "true") {
-                sw.alert("提交海关成功", "提示", function () {
-                }, "modal-success");
-                $("#submitManifestBtn").prop("disabled", false);
-                sw.page.modules["express/import_b/declaration/manifest_declaration"].query();
-            } else {
-                sw.alert(rsp.data.msg);
-            }
-            $.unblockUI();
+        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+
+            var idCardValidate = $("[name='idCardValidate']").val();
+            sw.blockPage();
+
+            var postData = {
+                submitKeys: submitKeys,
+                idCardValidate: idCardValidate,
+                ieFlag: sw.ie,
+                entryType: sw.type
+            };
+            $("#submitManifestBtn").prop("disabled", true);
+
+
+            sw.ajax("api/waybillManage/submitCustomToStatus", "POST", postData, function (rsp) {
+                if (rsp.data.result == "true") {
+                    sw.alert("提交海关成功", "提示", function () {
+                    }, "modal-success");
+                    $("#submitManifestBtn").prop("disabled", false);
+                    sw.page.modules["waybillmanage/waybillDeclare"].query();
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
         });
     },
+
     init: function () {
 
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
@@ -193,7 +231,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query);
-        $("[ws-submit]").unbind("click").click(this.submitCustom);
+        $("#submitWaybillBtn").unbind("click").click(this.submitCustom);
+        $("#submitStatusBtn").unbind("click").click(this.submitCustomToStatus);
         this.query();
         var $table = $("#query-waybillDeclare-table");
         $table.on("change", ":checkbox", function () {

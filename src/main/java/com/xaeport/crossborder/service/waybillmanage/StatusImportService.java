@@ -4,6 +4,7 @@ import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.StatusImportMapper;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -88,6 +89,8 @@ public class StatusImportService {
         impLogisticsStatus.setCrt_tm(new Date());//创建时间
         impLogisticsStatus.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impLogisticsStatus.setUpd_tm(new Date());//更新时间
+        impLogisticsStatus.setUpd_tm(new Date());
+        impLogisticsStatus.setData_status(StatusCode.EXPORT);//设置为已导入CBDS1
         return impLogisticsStatus;
     }
 

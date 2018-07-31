@@ -1,14 +1,11 @@
 package com.xaeport.crossborder.excel.data.impl;
 
-import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadWaybillStatus;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
-import org.springframework.util.StringUtils;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
