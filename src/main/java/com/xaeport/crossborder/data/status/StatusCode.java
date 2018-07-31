@@ -50,5 +50,22 @@ public class StatusCode {
 	public final static String QDCB = "CBDS63";//清单重报
 	public final static String QDSBSB = "CBDS64";//清单申报失败
 
+	public final static String DZKAYZC = "1";//电子口岸已暂存
+	public final static String DZKASBZ = "2";//电子口岸申报中
+	public final static String FWHGCG = "3";//发送海关成功
+	public final static String FWHGSB = "4";//发送海关失败
+	public final static String HGTD = "100";//海关退单
+	public final static String HGRK = "120";//海关入库
+	public final static String RGSH = "300";//人工审核
+	public final static String HGSJ = "399";//海关审结
+	public final static String FX = "800";//放行
+	public final static String JG = "899";//结关
+	public final static String CY = "500";//查验
+	public final static String KLYSTG = "501";//扣留移送通关
+	public final static String KLYSJS = "502";//扣留移送缉私
+	public final static String KLYSFG = "503";//扣留移送法规
+	public final static String QTKL = "599";//其他扣留
+	public final static String TY = "700";//退运
+
 
 }

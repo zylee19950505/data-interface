@@ -12,18 +12,14 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/7/18.
  */
-public class Exp302Parser extends BaseParser {
+public class Ceb622Parser extends BaseParser {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
-     * 解析exp302报文
-     *
-     * @param expPath
-     * @return
+     * 解析 Ceb622 报文数据
      */
-    public  Map<String, List<List<Map<String, String>>>> expParser(byte[]  expPath, String... nodes) throws DocumentException, IOException {
+    public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
         Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();
-        return this.Dom4JXml(expPath, map,nodes);
+        return this.Dom4JXml(expPath, map, nodes);
     }
-
 }

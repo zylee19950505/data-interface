@@ -29,15 +29,15 @@ public class ExpParser {
      * @param expPath 报文文件
      */
     private String getExpType(byte[] expPath) throws IOException, DocumentException {
-        String type = "";
-        Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser("exp310").expParser(expPath, "EnvelopInfo");
-        List<Map<String, String>> listEnvelopInfo = map.get("EnvelopInfo").get(0);
-        for (Map<String, String> maplist : listEnvelopInfo) {
-            if (maplist.containsKey("message_type")) {
-                type = maplist.get("message_type");
-                break;
-            }
-        }
+        String type = "CEB412";
+//        Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser("ceb412").expParser(expPath, "CEB412Message");
+//        List<Map<String, String>> listEnvelopInfo = map.get("CEB412Message").get(0);
+//        for (Map<String, String> maplist : listEnvelopInfo) {
+//            if (maplist.containsKey("message_type")) {
+//                type = maplist.get("message_type");
+//                break;
+//            }
+//        }
         return type;
     }
 
@@ -47,14 +47,20 @@ public class ExpParser {
         mapData.put("type", type);
         Map<String, List<List<Map<String, String>>>> map = null;
         switch (type) {
-            case "EXP310"://税费回执
-                map = this.parserHolder.getParser("exp310").expParser(expPath, "EnvelopInfo", "EntryDuty");
+            case "CEB312"://订单回执报文
+                map = this.parserHolder.getParser("exp312").expParser(expPath, "OrderReturn");
                 break;
-            case "EXP312"://舱单回执
-                map = this.parserHolder.getParser("exp312").expParser(expPath, "EnvelopInfo", "ExpMftHead", "ExpMftList");
+            case "CEB412"://支付单回执报文
+                map = this.parserHolder.getParser("exp412").expParser(expPath, "PaymentReturn");
                 break;
-            case "EXP302"://申报回值
-                map = this.parserHolder.getParser("exp302").expParser(expPath, "EnvelopInfo", "EntryHead");
+            case "CEB512"://运单回执报文
+                map = this.parserHolder.getParser("exp512").expParser(expPath, "LogisticsReturn");
+                break;
+            case "CEB514"://运单状态回执报文
+                map = this.parserHolder.getParser("exp514").expParser(expPath, "LogisticsStatusReturn");
+                break;
+            case "CEB622"://清单回执报文
+                map = this.parserHolder.getParser("exp622").expParser(expPath, "InventoryReturn");
                 break;
         }
         mapData.put("Receipt", map);

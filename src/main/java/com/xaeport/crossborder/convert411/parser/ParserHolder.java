@@ -17,9 +17,11 @@ public class ParserHolder {
     @PostConstruct
     public void initParser() {
         map = new HashMap<>();
-        map.put("exp302", new Exp302Parser());
-        map.put("exp310", new Exp310Parser());
-        map.put("exp312", new Exp312Parser());
+        map.put("ceb312", new Ceb312Parser());//订单回执报文
+        map.put("ceb412", new Ceb412Parser());//支付单回执报文
+        map.put("ceb512", new Ceb512Parser());//运单回执报文
+        map.put("ceb514", new Ceb514Parser());//运单状态回执报文
+        map.put("ceb622", new Ceb622Parser());//清单回执报文
     }
 
     public BaseParser getParser(String parserType) {

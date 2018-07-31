@@ -95,12 +95,12 @@ public class ParserFile extends ThreadBase implements Runnable, Closeable {
                 map = this.expParser.expParser(dataFile.getFileData());
                 byte[] data = Files.readAllBytes(file.toPath());
                 map = this.expParser.expParser(data);
-//                boolean flag = receiptService.createReceipt(map, refileName);//插入数据
-//                if (flag) {
-//                    this.appBackup(dataFile);//回执文件备份
-//                } else {
-//                    this.appErrorBackup(dataFile);//错误文件备份
-//                }
+                boolean flag = receiptService.createReceipt(map, refileName);//插入数据
+                if (flag) {
+                    this.appBackup(dataFile);//回执文件备份
+                } else {
+                    this.appErrorBackup(dataFile);//错误文件备份
+                }
             } catch (DocumentException e) {
                 this.appErrorBackup(dataFile);//错误文件备份
                 this.logger.error(String.format("回执解析失败[%s]", file.getName()), e);

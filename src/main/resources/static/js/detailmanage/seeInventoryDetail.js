@@ -1,4 +1,4 @@
-// 邮件查询--点击查看邮件详情
+// 非空判断
 function isNotEmpty(obj) {
     /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
@@ -20,7 +20,7 @@ function clearError() {
     /*]]>*/
 }
 // Select2初始化
-function selecterInitB(selectId, value, data) {
+function selecterInitDetail(selectId, value, data) {
     $("#" + selectId).select2({
         data: $.map(data, function (val, key) {
             var obj = {
@@ -35,6 +35,7 @@ function selecterInitB(selectId, value, data) {
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
+
 function inputChangeB(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
@@ -122,51 +123,53 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "app_Type",
-            "app_Time",
-            "app_Status",
-            "order_Type",
-            "order_No",
-            "ebp_Code",
-            "ebp_Name",
-            "ebc_Code",
-            "ebc_Name",
-            "goods_Value",
+            "order_no",
+            "cop_no",
+            "logistics_no",
+            "ebp_code",
+            "ebp_name",
+            "ebc_code",
+            "ebc_name",
+            "assure_code",
+            "customs_code",
+            "port_code",
+            "ie_date",
+            "buyer_id_number",
+            "buyer_name",
+            "buyer_telephone",
+            "consignee_address",
             "freight",
-            "discount",
-            "tax_Total",
-            "actural_Paid",
-            "currency",
-            "buyer_Reg_No",
-            "buyer_Name",
-            "buyer_Id_Type",
-            "buyer_Id_Number",
-            "pay_Code",
-            "payName",
-            "pay_Transaction_Id",
-            "batch_Numbers",
-            "consignee",
-            "consignee_Telephone",
-            "consignee_Address",
-            "consignee_Ditrict",
+            "agent_code",
+            "agent_name",
+            "traf_mode",
+            "traf_no",
+            "voyage_no",
+            "bill_no",
+            "country",
+            "gross_weight",
             "note",
-            "crt_id",
-            "crt_tm",
-            "upd_id",
-            "upd_tm",
-            "data_status",
-            "return_status"
+            "g_num",
+            "g_name",
+            "g_code",
+            "g_model",
+            "qty",
+            "unit",
+            "qty1",
+            "unit1",
+            "qty2",
+            "unit2",
+            "total_price"
         ]
     },
-    // // 保存成功时回调查询
-    // callBackQuery: function (billNo, status, type, ieFlag) {
-    //     if (type === "LJJY" && ieFlag === "I") {
-    //         //调到那个查询
-    //         sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
-    //     } else {
-    //         sw.page.modules[this.detailParam.callBackUrl].query();
-    //     }
-    // },
+    // 保存成功时回调查询
+    callBackQuery: function (billNo, status, type, ieFlag) {
+        if (type === "LJJY" && ieFlag === "I") {
+            //调到那个查询
+            sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
+        } else {
+            sw.page.modules[this.detailParam.callBackUrl].query();
+        }
+    },
     // 取消返回
     cancel: function () {
         $("#dialog-popup").modal("hide");
@@ -188,8 +191,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        $("#customs_code").val(entryHead.customs_code);
-        $("#port_code").val(entryHead.port_code);
+        // $("#customs_code").val(entryHead.customs_code);
+        selecterInitDetail("customs_code",entryHead.customs_code,sw.dict.customs)
+        // $("#port_code").val(entryHead.port_code);
+        selecterInitDetail("port_code",entryHead.port_code,sw.dict.customs)
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
@@ -198,11 +203,13 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        $("#traf_mode").val(entryHead.traf_mode);
+        // $("#traf_mode").val(entryHead.traf_mode);
+        selecterInitDetail("traf_mode",entryHead.traf_mode,sw.dict.trafMode)
         $("#traf_no").val(entryHead.traf_no);
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
-        $("#country").val(entryHead.country);
+        // $("#country").val(entryHead.country);
+        selecterInitDetail("country",entryHead.country,sw.dict.countryArea);
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#note").val(entryHead.note);
     },
@@ -216,15 +223,19 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_model" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"3\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"3\" id='unit" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='unit" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty1" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"3\" id='unit1" + g_num + "' value='" + entryLists[i].unit1 + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='unit1" + g_num + "' value='" + entryLists[i].unit1 + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty2" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"3\" id='unit2" + g_num + "' value='" + entryLists[i].unit2 + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td></tr>";
             $("#entryList").append(str);
+            selecterInitDetail("country"+g_num,entryLists[i].country,sw.dict.countryArea);
+            selecterInitDetail("unit"+g_num,entryLists[i].unit,sw.dict.unitCodes);
+            selecterInitDetail("unit1"+g_num,entryLists[i].unit1,sw.dict.unitCodes);
+            selecterInitDetail("unit2"+g_num,entryLists[i].unit2,sw.dict.unitCodes);
         }
     },
     // 标记问题字段

@@ -1,5 +1,7 @@
 package com.xaeport.crossborder.convert411.parser;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
 
 import java.io.IOException;
@@ -10,14 +12,13 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/7/18.
  */
-public class Exp310Parser extends BaseParser {
+public class Ceb412Parser extends BaseParser {
+    private final Log logger = LogFactory.getLog(this.getClass());
+
     /**
-     * 解析exp310报文数据
-     *
-     * @param expPath
-     * @return
+     * 解析 Ceb412 报文数据
      */
-    public  Map<String, List<List<Map<String, String>>>> expParser(byte[]  expPath, String... nodes) throws DocumentException, IOException {
+    public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
         Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();
         return this.Dom4JXml(expPath, map, nodes);
     }

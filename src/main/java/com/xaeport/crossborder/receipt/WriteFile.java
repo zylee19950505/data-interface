@@ -8,6 +8,7 @@ import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert411.parser.ExpParser;
 import com.xaeport.crossborder.service.receipt.ReceiptService;
 import com.xaeport.crossborder.tools.DateTools;
+import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
@@ -76,30 +77,30 @@ public class WriteFile extends ThreadBase implements Closeable {
 
         if (dataFile != null && dataFile.getFileData().length > 0) {
             String refileName = dataFile.getFileName();//回值文件名
-            //this.logger.debug(String.format("从队列中读取文件[fileName:%s]", refileName));
+            this.logger.debug(String.format("从队列中读取文件[fileName:%s]", refileName));
             Map map;
             try {
-//                map = this.expParser.expParser(dataFile.getFileData());
-//                boolean flag = this.receiptService.createReceipt(map, refileName);//插入数据
-//                if (flag) {
-//                    this.appBackup(dataFile);//回执文件备份
-//                } else {
-//                    this.appErrorBackup(dataFile);//错误文件备份
-//                }
+                map = this.expParser.expParser(dataFile.getFileData());
+                boolean flag = this.receiptService.createReceipt(map, refileName);//插入数据
+                if (flag) {
+                    this.appBackup(dataFile);//回执文件备份
+                } else {
+                    this.appErrorBackup(dataFile);//错误文件备份
+                }
             } catch (Exception e) {
                 this.appErrorBackup(dataFile);//错误文件备份
                 this.logger.error(String.format("回执解析失败[%s]", refileName), e);
             }
-            // logger.debug("开始删除文件,存在：" + dataFile.getRawFile().exists() + " 锁：" + FileUtils.isLocked(dataFile.getRawFile()));
+             logger.debug("开始删除文件,存在：" + dataFile.getRawFile().exists() + " 锁：" + FileUtils.isLocked(dataFile.getRawFile()));
 
             if (dataFile.getRawFile().exists()) dataFile.getRawFile().delete();
-            //logger.debug("文件删除完毕" + dataFile.getRawFile().exists());
+            logger.debug("文件删除完毕" + dataFile.getRawFile().exists());
             if (!dataFile.getRawFile().exists()) {
                 FileData.processingQueues.remove(dataFile.getRawFile());
             }
 
             dataProceed++;
-            // this.logger.debug("总耗时---------------->" + FileData.timeMap.get("time"));
+             this.logger.debug("总耗时---------------->" + FileData.timeMap.get("time"));
         }
         return dataProceed;
     }
