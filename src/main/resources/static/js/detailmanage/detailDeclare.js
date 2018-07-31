@@ -57,11 +57,11 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                         orderable: false,
                         data: null,
                         render: function (data, type, row) {
-                            //订单已经申报时,不提交
+                            //清单已经申报时,不提交
                             if (row.data_status == "CBDS61") {
                                 return "";
                             }
-                            return '<input type="checkbox" class="submitKey" value="'+ row.order_No +'" />';
+                            return '<input type="checkbox" class="submitKey" value="'+ row.order_no +'" />';
                         }
                     },
                     {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
@@ -138,7 +138,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
 
                 $("#submitManifestBtn").prop("disabled", true);
 
-                sw.ajax("api/detailmanage/submitCustom", "POST", postData, function (rsp) {
+                sw.ajax("api/detailManage/submitCustom", "POST", postData, function (rsp) {
                     if (rsp.data.result == "true") {
                         sw.alert("提交海关成功", "提示", function () {
                         }, "modal-success");
