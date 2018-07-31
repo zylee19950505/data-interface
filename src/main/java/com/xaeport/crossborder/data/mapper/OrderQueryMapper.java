@@ -6,7 +6,9 @@ import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.provider.OrderQuerySQLProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,4 +34,13 @@ public interface OrderQueryMapper {
 
 	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderBody")
 	List<ImpOrderBody> queryOrderBody(Map<String, String> paramMap);
+
+	/*
+	* 修改表头
+	* */
+	@UpdateProvider(type = OrderQuerySQLProvider.class,method = "updateOrderHead")
+	void updateOrderHead(LinkedHashMap<String, String> entryHead);
+
+	@UpdateProvider(type = OrderQuerySQLProvider.class,method = "updateOrderList")
+	void updateOrderList(LinkedHashMap<String, String> entryList);
 }
