@@ -221,7 +221,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#discount").val(entryHead.discount);
         $("#tax_Total").val(entryHead.tax_Total);
         $("#freight").val(entryHead.freight);
-        $("#consignee_Ditrict").val(entryHead.consignee_Ditrict);
+        selecterInitDetail("consignee_Ditrict",entryHead.country,sw.dict.countryArea);
+       /* $("#consignee_Ditrict").val(entryHead.consignee_Ditrict);*/
         $("#note").val(entryHead.note);
 
        /* $("#buyer_Id_Type").val(entryHead.buyer_Id_Type);
@@ -256,7 +257,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + entryLists[i].qty + "' /></td>" +//商品数量
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(2) + "' /></td>" +//商品单价
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='unit_" + g_num + "' value='" + parseFloat(entryLists[i].UNIT) + "' /></td>" +//商品单位
+                "<td ><select class=\"form-control input-sm\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(4) + "' /></td>" +//商品总价
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='note_" + g_num + "' value='" + entryLists[i].note + "' /></td>" +//促销活动
 
@@ -269,8 +270,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"10\" id='currency" + g_num + "' /></td>" +//填写人民币
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//海关参数*/
                 "</tr>";
-
             $("#entryList").append(str);
+            selecterInitDetail("unit_"+g_num,entryLists[i].unit,sw.dict.unitCodes);
         }
     },
     // 标记问题字段
