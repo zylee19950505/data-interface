@@ -1,5 +1,7 @@
 package com.xaeport.crossborder.data.entity;
 
+import java.util.Date;
+
 /*
 * 对应接收订单回执表
 * */
@@ -12,8 +14,8 @@ public class ImpRecOrder {
 	private String returnStatus;//操作结果（2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库）,若小于0 数字表示处理异常回执
 	private String returnTime;//操作时间(格式：yyyyMMddHHmmssfff)
 	private String returnInfo;//备注（如:退单原因）
-	private String crtTm;//创建时间
-	private String updTm;//更新时间
+	private Date crtTm;//创建时间
+	private Date updTm;//更新时间
 
 	public String getId() {
 		return id;
@@ -79,19 +81,22 @@ public class ImpRecOrder {
 		this.returnInfo = returnInfo;
 	}
 
-	public String getCrtTm() {
+	public Date getCrtTm() {
 		return crtTm;
 	}
 
-	public void setCrtTm(String crtTm) {
-		this.crtTm = crtTm;
-	}
-
-	public String getUpdTm() {
+	public Date getUpdTm() {
 		return updTm;
 	}
 
-	public void setUpdTm(String updTm) {
+	public void setUpdTm(Date updTm) {
 		this.updTm = updTm;
 	}
+
+	public void setCrtTm(Date crtTm) {
+		this.crtTm = crtTm;
+	}
+
+
+
 }

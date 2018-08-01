@@ -40,6 +40,10 @@ public class ReceiptService {
 //                    this.receiptMapper.createImpRecPayment(impRecPayment); //插入支付单状态表数据
 //                    this.updateImpPaymentStatus(impRecPayment);    //更新支付单表状态
                     break;
+                case "CEB312"://订单回执代码
+                    this.createImpRecorder(receipt,refileName);
+                    //插入订单状态表数据
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -48,6 +52,55 @@ public class ReceiptService {
         }
         return flag;
     }
+    /*
+    * 插入订单的数据
+    * @param receipt    回执数据
+    * @param refileName 回执文件名
+    * */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createImpRecorder(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String,String>>> list = receipt.get("OrderReturn");
+        if (!StringUtils.isEmpty(list)){
+            ImpRecOrder impRecOrder;
+            for (int i = 0; i <list.size() ; i++) {
+                impRecOrder = new ImpRecOrder();
+                impRecOrder.setId(IdUtils.getUUId());
+                impRecOrder.setCrtTm(new Date());
+                impRecOrder.setUpdTm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String,String> map:mapList) {
+                    if (map.containsKey("guid")){
+                        impRecOrder.setGuid(map.get("guid"));
+                    }
+                    if(map.containsKey("ebpCode")){
+                        impRecOrder.setEbpCode(map.get("ebpCode"));
+                    }
+                    if(map.containsKey("ebcCode")){
+                        impRecOrder.setEbcCode(map.get("ebcCode"));
+                    }
+                    if(map.containsKey("orderNo")){
+                        impRecOrder.setOrderNo(map.get("orderNo"));
+                    }
+                    if(map.containsKey("returnStatus")){
+                        impRecOrder.setReturnStatus(map.get("returnStatus"));
+                    }
+                    if(map.containsKey("returnTime")){
+                        impRecOrder.setReturnTime(map.get("returnTime"));
+                    }
+                    if(map.containsKey("returnInfo")){
+                        impRecOrder.setReturnInfo(map.get("returnInfo"));
+                    }
+
+                }
+                this.receiptMapper.createImpRecOrder(impRecOrder); //插入订单状态表数据
+                this.updateImpOrderStatus(impRecOrder);    //更新订单表状态
+
+            }
+
+        }
+    }
+
 
     /**
      * 插入支付单的数据
@@ -136,6 +189,23 @@ public class ReceiptService {
 
         this.receiptMapper.updateImpPayment(impPayment);  //更新支付单表中的回执状态
 
+    }
+
+    /*
+    * 根据订单回执更新订单状态
+    * */
+    private void updateImpOrderStatus(ImpRecOrder impRecOrder) throws Exception{
+
+        ImpOrderHead impOrderHead =  new ImpOrderHead();
+        impOrderHead.setGuid(impRecOrder.getGuid());
+        impOrderHead.setOrder_No(impRecOrder.getOrderNo());
+        impOrderHead.setEbc_Code(impRecOrder.getEbcCode());
+        impOrderHead.setEbp_Code(impRecOrder.getEbpCode());
+        impOrderHead.setReturn_status(impRecOrder.getReturnStatus());
+        impOrderHead.setReturn_time(impRecOrder.getReturnTime());
+        impOrderHead.setReturn_info(impRecOrder.getReturnInfo());
+
+        this.receiptMapper.updateImpOrder(impOrderHead);
     }
 
 }
