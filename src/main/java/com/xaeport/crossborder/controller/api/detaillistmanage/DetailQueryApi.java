@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.controller.api.detaillistmanage;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
@@ -9,6 +10,7 @@ import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryDetail;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.detaillistmanage.DetailQueryService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/detailManage")
@@ -100,6 +100,29 @@ public class DetailQueryApi extends BaseApi{
         return new ResponseData(impInventoryDetail);
     }
 
+    //保存清单信息
+    @RequestMapping("/saveInventoryDetail")
+    public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson){
+        //清单json信息
+        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        // 清单表头
+        LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
+
+        // 清单表体
+        ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
+
+        Map<String, String> rtnMap = new HashMap<>();
+        try {
+            // 保存详情信息
+            rtnMap = detailQueryService.saveInventoryDetail(entryHead, entryLists);
+        } catch (Exception e) {
+            logger.error("保存清单详细信息时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "保存清单详细信息时发生异常");
+        }
+        return new ResponseData(rtnMap);
+    }
 
 
 

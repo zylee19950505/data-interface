@@ -115,9 +115,9 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         $(".btn[ws-search]").click();
     },
 
-    seeOrderNoDetail: function (guid,order_No) {
-        console.log(guid,order_No)
-        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid="+guid+"&orderNo="+order_No;
+    seeOrderNoDetail: function (guid,order_no) {
+        console.log(guid,order_no)
+        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid="+guid+"&orderNo="+order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }
 
