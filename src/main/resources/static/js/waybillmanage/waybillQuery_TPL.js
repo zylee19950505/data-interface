@@ -1,9 +1,8 @@
 /**
  * Created on 2017-7-23.
  * zwf
- * 支付单单条数据查询
+ * 运单单条数据查询
  */
-
 function isNotEmpty(obj) {
     /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
@@ -40,6 +39,91 @@ function selecterInitB(selectId, value, data) {
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
+// 表头变化
+var headChangeKeyValB = {};
+// 表体变化
+var listChangeKeyValsB = {};
+// 表体ID匹配正则
+var patternB = /^.*_[0-9]+$/;
+function inputChangeBill(id){
+    $(".wayBillPage input,select").change(function () {
+        var key = $(this).attr("id");
+        var val = $(this).val();
+        if (!isNotEmpty(val)) {
+            return;
+        }
+       /* if (patternB.test(key)) {
+            //通过id的拼接和截取来获得g_num
+            var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
+            var keys = key.substring(0, key.lastIndexOf("_"));
+            var listChangeKeyVal;
+            if (listChangeKeyValsB[gno]) {
+                listChangeKeyVal = listChangeKeyValsB[gno];
+            } else {
+                listChangeKeyVal = {};
+            }
+            // 修改字段为单价
+            if (keys == "price") {// 商品价格
+                //var dVal = parseFloat(val).toFixed(4);
+                var dVal = parseFloat(val);
+                //var g_qty = parseFloat($("#g_qty_" + gno).val()).toFixed(4);
+                var g_qty = parseFloat($("#qty_" + gno).val());
+                sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal);
+
+                sumTotalPriceB();
+            } else if (keys == "qty") {// 商品数量
+                //var g_qty = parseFloat(val).toFixed(4);
+                var g_qty = parseFloat(val);
+                //var dVal = parseFloat($("#decl_price_" + gno).val()).toFixed(4);
+                var dVal = parseFloat($("#price_" + gno).val());
+                sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal);
+
+                sumTotalPriceB();
+            }
+            /!*else if (keys == "g_netwt") {// 商品净重
+                var g_grosswt = parseFloat($("#g_grosswt_" + gno).val()).toFixed(4);
+                var g_netwt = parseFloat(val).toFixed(4);
+                if (g_netwt > g_grosswt) {
+                    hasError("序号[" + gno + "][净重]不能大于毛重");
+                    return;
+                }
+                // 计算及更新总净重
+                var netWt = 0;
+                $(".detailPage input[id^=g_netwt]").each(function () {
+                    var gNetWt = $(this).val();
+                    netWt = parseFloat(netWt) + parseFloat(gNetWt);
+                });
+                $("#net_wt").val(parseFloat(netWt).toFixed(2));
+                headChangeKeyValB["net_wt"] = $("#net_wt").val();
+            } else if (keys == "g_grosswt") {// 商品毛重
+                var g_grosswt = parseFloat(val).toFixed(4);
+                var g_netwt = parseFloat($("#g_netwt_" + gno).val()).toFixed(4);
+                if (g_netwt > g_grosswt) {
+                    hasError("序号[" + gno + "][毛重]不能小于净重");
+                    return;
+                }
+                // 计算及更新总毛重
+                var gross_wt = 0;
+                $(".detailPage input[id^=g_grosswt]").each(function () {
+                    var g_grosswt = $(this).val();
+                    gross_wt = parseFloat(gross_wt) + parseFloat(g_grosswt);
+                });
+                $("#gross_wt").val(parseFloat(gross_wt).toFixed(2));
+                headChangeKeyValB["gross_wt"] = $("#gross_wt").val();
+            }*!/
+            // 记录变更信息
+            listChangeKeyVal[keys] = val;
+            listChangeKeyVal["g_no"] = gno;
+            listChangeKeyVal["entryhead_guid"] = id;
+            listChangeKeyValsB[gno] = listChangeKeyVal;
+        } else {*/
+        headChangeKeyValB[key] = val;
+        //console.log(headChangeKeyValB, listChangeKeyVal);
+    }).focus(function () {
+        clearError();
+    });
+}
+
 sw.page.modules["waybillmanage/waybillQuery_TPL"] = sw.page.modules["waybillmanage/waybillQuery_TPL"] || {
     detailParam: {
         url: "",
@@ -47,12 +131,12 @@ sw.page.modules["waybillmanage/waybillQuery_TPL"] = sw.page.modules["waybillmana
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "app_Type",//企业报送类型。1-新增2-变更3-删除。默认为1。
+            "logistics_no"//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
+          /*  "app_Type",//企业报送类型。1-新增2-变更3-删除。默认为1。
             "app_Time",//企业报送时间。格式:YYYYMMDDhhmmss。
             "app_Status",//业务状态:1-暂存,2-申报,默认为2。
             "logistics_code",//物流企业的海关注册登记编号。
             "logistics_name",//物流企业在海关注册登记的名称。
-            "logistics_no",//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
             "bill_no",//直购进口为海运提单、空运总单或汽车载货清单
             "freight",//商品运输费用，无则填0。
             "insured_fee",//商品保险费用，无则填0。
@@ -70,14 +154,14 @@ sw.page.modules["waybillmanage/waybillQuery_TPL"] = sw.page.modules["waybillmana
             "upd_id",//更新人ID
             "upd_tm",//更新时间
             "logistics_status",//物流签收状态，限定S
-            "logistics_time",//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+            "logistics_time",//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。*/
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (billNo, status, type, ieFlag) {
+    callBackQuery: function (logistics_no, status, type, ieFlag) {
         if (type === "LJJY" && ieFlag === "I") {
             //调到那个查询
-            sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
+            sw.page.modules[this.detailParam.callBackUrl].loadPreview(logistics_no, status);
         } else {
             sw.page.modules[this.detailParam.callBackUrl].query();
         }
@@ -90,13 +174,12 @@ sw.page.modules["waybillmanage/waybillQuery_TPL"] = sw.page.modules["waybillmana
     disabledFieldInput: function () {
         var disableField = sw.page.modules["waybillmanage/waybillQuery_TPL"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
-            $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
+            $(".wayBillPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
     },
     // 装载表头信息
 
-fillEntryHeadInfo: function (entryHead) {
-        alert("entryHead.logisticsno:"+entryHead.logisticsNo);
+        fillEntryHeadInfo: function (entryHead) {
         $("#logistics_no").val(entryHead.logisticsNo);
         $("#logistics_code").val(entryHead.logisticsCode);
         $("#logistics_name").val(entryHead.logisticsName);
@@ -106,13 +189,13 @@ fillEntryHeadInfo: function (entryHead) {
         $("#freight").val(entryHead.freight);
         $("#insured_fee").val(entryHead.insuredFee);
         $("#pack_no").val(entryHead.packNo);
-        $("#weight1").val(entryHead.weight);
+        /*$("#weight1").val(entryHead.weight);*/
         $("#weight").val(entryHead.weight);
         $("#note").val(entryHead.note);
-    // $("#weight").val(moment(entryHead.payTime).format("YYYY-MM-DD"));
-    /* if (sw.ie === "E") {
-         $("#note_s").val(entryHead.note)
-     }*/
+        // $("#weight").val(moment(entryHead.payTime).format("YYYY-MM-DD"));
+        /* if (sw.ie === "E") {
+             $("#note_s").val(entryHead.note)
+         }*/
     },
     // 标记问题字段
     errorMessageShow: function (vertify) {
@@ -130,6 +213,34 @@ fillEntryHeadInfo: function (entryHead) {
             }
         }
     },
+    // 保存订单编辑信息
+    saveEntryInfo: function (logistics_no, type, ieFlag) {
+        if (!this.valiField()) {
+            return;
+        }
+       // var entryLists = new Array();
+       // for (var key in listChangeKeyValsB) {
+        //    entryLists.push(listChangeKeyValsB[key]);
+      //  }
+
+        var entryData = {
+            entryHead: headChangeKeyValB
+           // entryList: entryLists
+        };
+        sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
+            if (rsp.data.result) {
+                sw.page.modules["ordermanage/seeOrderDetail"].cancel();
+                setTimeout(function () {
+                    sw.alert(rsp.data.msg, "提示", null, "modal-info");
+                }, 500);
+                sw.page.modules["waybillmanage/waybillQuery_TPL"].callBackQuery(logistics_no, "N", type, ieFlag);
+            } else {
+                hasError(rsp.data.msg);
+            }
+        }, function (status, err, xhr) {
+            hasError(xhr.data);
+        });
+    },
     // 查询订单详情
     query: function () {
         // 表头变化
@@ -141,7 +252,7 @@ fillEntryHeadInfo: function (entryHead) {
         var param = sw.getPageParams("waybillmanage/waybillQuery_TPL");
         var guid = param.guid;
         var data = {
-            guid : guid,
+            guid : guid
         };
         $.ajax({
             method: "GET",
@@ -149,11 +260,10 @@ fillEntryHeadInfo: function (entryHead) {
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    alert("进入success方法："+data.data.logisticsHead);
                     var entryModule = sw.page.modules["waybillmanage/waybillQuery_TPL"];
 
                     var entryHead = data.data.logisticsHead;
-                    //var vertify = data.data.verify;
+                        //var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
@@ -162,9 +272,9 @@ fillEntryHeadInfo: function (entryHead) {
                     if (entryModule.detailParam.isShowError) {
                         //entryModule.errorMessageShow(vertify);
                     }
-                    // headChangeKeyValB["entryhead_id"] = param.guid;
+                     headChangeKeyValB["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChangeB(param.guid);
+                    inputChangeBill(param.guid);
                     entryModule.disabledFieldInput();
                 }
             }
@@ -174,41 +284,17 @@ fillEntryHeadInfo: function (entryHead) {
     valiField: function () {
         // 校验表头
         var validataHeadField = {
-            "app_Type": "企业报送类型",
-            "app_Time": "企业报送时间",
-            "app_Status": "业务状态",
-            "order_Type": "电子订单类型",
-            "order_No": "订单编号",
-            "ebp_Code": "电商平台编号",
-            "ebp_Name": "电商平台名称",
-            "ebc_Code": "电商编号",
-            "ebc_Name": "电商名称",
-            "goods_Value": "实际成交价",
-            "freight": "运杂费",
-            "discount": "非现金支付金额",
-            "tax_Total": "税款金额",
-            "actural_Paid": "支付金额",
-            "currency": "币制",
-            "buyer_Reg_No": "平台注册号",
-            "buyer_Name": "注册人姓名",
-            "buyer_Id_Type": "身份证",
-            "buyer_Id_Number": "证件号码",
-            "pay_Code": "支付企业编号",
-            "payName": "支付企业名称",
-            "pay_Transaction_Id": "支付流水号",
-            "batch_Numbers": "商品批次号",
-            "consignee": "收货人姓名",
-            "consignee_Telephone": "收货人联系电话",
-            "consignee_Address": "收货地址",
-            "consignee_Ditrict": "行政区",
-            "note": "备注",
-            "crt_id": "创建人ID",
-            "crt_tm": "创建时间",
-            "upd_id": "更新人ID",
-            "upd_tm": "更新时间",
-            "data_status": "数据状态",
-            "return_status": "回执状态"
-            /*   "i_e_date": "进出口时间"*/
+            "logistics_no":"物流运单编号",
+            "logistics_code":"物流企业代码",
+            "logistics_name":"物流企业名称",
+            "consingee":"收货人姓名",
+            "consignee_telephone":"收货人电话",
+            "consignee_address":"收货地址",
+            "freight":"运费",
+            "insured_fee":"保价费",
+            "pack_no":"件数",
+            "weight":"毛重"
+           /* "note":"备注",*/
         };
 
         var fieldId, fieldName, fieldVal;
@@ -221,8 +307,8 @@ fillEntryHeadInfo: function (entryHead) {
                 hasError("[" + fieldName + "]不能为空");
                 return false;
             }
-
         }
+        return true;
     },
     init: function () {
         //从路径上获取参数
@@ -255,27 +341,13 @@ fillEntryHeadInfo: function (entryHead) {
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-/*
-                        "g_num",//从1开始的递增序号。
-                        "head_guid",//出口电子订单表头系统唯一序号
-                        "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
-                        "item_No",//电商企业自定义的商品货号（SKU）。
-                        "item_Name",//交易平台销售商品的中文名称。
-                        "item_Describe",//交易平台销售商品的描述信息。
-                        "bar_Code",//商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。
-                        "unit",//海关标准的参数代码海关标准的参数代码《JGS-20 海关业务代码集》- 计量单位代码
-                        "qty",//商品实际数量
-                        "price",//商品单价。赠品单价填写为 0。
-                        "total_Price",//商品总价，等于单价乘以数量。
-                        "currency",//限定为人民币，填写142。
-                        "country",//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 国家（地区）代码表。
-                        "note"*/
+                    "logistics_no"
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "api/entry/customs/save";
+                this.detailParam.url = "/api/waybillManage/saveBillDetail";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "express/import_b/declaration/customs_declaration";
+                this.detailParam.callBackUrl = "waybillmanage/waybillQuery";
                 this.detailParam.isShowError = false;
                 break;
             }
@@ -343,7 +415,7 @@ fillEntryHeadInfo: function (entryHead) {
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["detail/entry_b_detail"].saveEntryInfo(billNo, type, sw.ie);
+            sw.page.modules["waybillmanage/waybillQuery_TPL"].saveEntryInfo(logistics_no, type, sw.ie);
         });
         //点击取消
         $("#ws-page-back").click(function () {

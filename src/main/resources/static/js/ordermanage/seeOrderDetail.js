@@ -221,7 +221,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#discount").val(entryHead.discount);
         $("#tax_Total").val(entryHead.tax_Total);
         $("#freight").val(entryHead.freight);
-        selecterInitDetail("consignee_Ditrict",entryHead.country,sw.dict.countryArea);
+        selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
        /* $("#consignee_Ditrict").val(entryHead.consignee_Ditrict);*/
         $("#note").val(entryHead.note);
 
@@ -310,7 +310,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["ordermanage/seeOrderDetail"].callBackQuery(billNo, "N", type, ieFlag);
+                sw.page.modules["ordermanage/seeOrderDetail"].callBackQuery(orderNo, "N", type, ieFlag);
             } else {
                 hasError(rsp.data.msg);
             }
@@ -412,7 +412,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "price": "商品单价",
             "unit": "计量单位",
             "total_Price": "商品总价",
-            "note": "促销活动",
+           /* "note": "促销活动",*/
        /*     "currency": "人民币",
             "country": "行政区",
             "bar_Code": "条形码",

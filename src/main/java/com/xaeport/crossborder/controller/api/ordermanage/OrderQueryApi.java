@@ -142,7 +142,7 @@ public class OrderQueryApi extends BaseApi {
 
 		Map<String, String> rtnMap = new HashMap<>();
 		try {
-			// 保存分单详情信息
+			// 保存订单详情信息
 			rtnMap = orderQueryService.saveOrderDetail(entryHead, entryLists);
 		} catch (Exception e) {
 			logger.error("保存订单详细信息时发生异常", e);

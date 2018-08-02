@@ -222,6 +222,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 			{
 				UPDATE("T_IMP_ORDER_BODY t");
 				WHERE("t.HEAD_GUID = #{entryhead_guid}");
+				WHERE("t.G_NUM = #{g_no}");
 				if (!StringUtils.isEmpty(entryList.get("order_No"))){
 					SET("t.ORDER_NO = #{order_No}");
 				}
@@ -241,7 +242,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 					SET("t.TOTAL_PRICE = #{total_Price}");
 				}
 				if (!StringUtils.isEmpty(entryList.get("note"))){
-					SET("t.ORDER_NO = #{note}");
+					SET("t.NOTE = #{note}");
 				}
 			}
 		}.toString();
