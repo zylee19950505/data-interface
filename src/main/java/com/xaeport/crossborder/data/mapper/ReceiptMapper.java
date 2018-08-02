@@ -24,6 +24,18 @@ public interface ReceiptMapper {
 	@UpdateProvider(type = ReceiptSQLProvider.class,method = "updateImpOrder")
 	void updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead);
 
+	@InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogistics")
+	void createImpRecLogistics(@Param("impRecLogistics") ImpRecLogistics impRecLogistics);
+
+	@UpdateProvider(type =ReceiptSQLProvider.class,method = "updateImpLogistics")
+	void updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics);
+
+	@InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogisticsStatus")
+	void createImpRecLogisticsStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus);
+
+	@UpdateProvider(type =ReceiptSQLProvider.class,method = "updateImpLogisticsStatus")
+	void updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
+
 //    @Select("select declare_status from entryhead where bill_no=#{bill_no} and ass_bill_no=#{ass_bill_no}")
 //    String getEntryhead(@Param("bill_no") String bill_no, @Param("ass_bill_no") String ass_bill_no);
 //

@@ -30,7 +30,9 @@ public class ExpParser {
      */
     private String getExpType(byte[] expPath) throws IOException, DocumentException {
         //String type = "CEB412";
-        String type = "CEB312";
+        //String type = "CEB312";
+        //String type = "CEB512";
+        String type = "CEB514";
 //        Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser("ceb412").expParser(expPath, "CEB412Message");
 //        List<Map<String, String>> listEnvelopInfo = map.get("CEB412Message").get(0);
 //        for (Map<String, String> maplist : listEnvelopInfo) {

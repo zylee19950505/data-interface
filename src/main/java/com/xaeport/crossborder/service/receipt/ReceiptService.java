@@ -44,6 +44,12 @@ public class ReceiptService {
                     this.createImpRecorder(receipt,refileName);
                     //插入订单状态表数据
                     break;
+                case  "CEB512"://运单回执代码
+                    this.createImpRecLogistics(receipt,refileName);
+                    break;
+                case "CEB514"://运单状态回执代码
+                    this.createImpRecLogisticsStatus(receipt,refileName);
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -52,10 +58,98 @@ public class ReceiptService {
         }
         return flag;
     }
+
+    /*
+    * 插入运单状态数据
+    * */
+    private void createImpRecLogisticsStatus(Map<String, List<List<Map<String, String>>>> receipt, String refileName) {
+        List<List<Map<String,String>>> list = receipt.get("LogisticsStatusReturn");
+        if (!StringUtils.isEmpty(list)){
+            ImpRecLogisticsStatus impRecLogisticsStatus;
+            for (int i = 0; i < list.size(); i++) {
+                impRecLogisticsStatus = new ImpRecLogisticsStatus();
+                impRecLogisticsStatus.setId(IdUtils.getUUId());
+                impRecLogisticsStatus.setCrtTm(new Date());
+                impRecLogisticsStatus.setUpdTm(new Date());
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String,String> map:mapList) {
+                    if (map.containsKey("guid")){
+                        impRecLogisticsStatus.setGuid(map.get("guid"));
+                    }
+                    if (map.containsKey("logisticsCode")){
+                        impRecLogisticsStatus.setLogistics_Code(map.get("logisticsCode"));
+                    }
+                    if (map.containsKey("logisticsNo")){
+                        impRecLogisticsStatus.setLogistics_No(map.get("logisticsNo"));
+                    }
+                    if (map.containsKey("logisticsStatus")){
+                        impRecLogisticsStatus.setLogistics_Status(map.get("logisticsStatus"));
+                    }
+                    if (map.containsKey("returnStatus")){
+                        impRecLogisticsStatus.setReturn_Status(map.get("returnStatus"));
+                    }
+                    if (map.containsKey("returnTime")){
+                        impRecLogisticsStatus.setReturn_Time(map.get("returnTime"));
+                    }
+                    if (map.containsKey("returnInfo")){
+                        impRecLogisticsStatus.setReturn_Info(map.get("returnInfo"));
+                    }
+                }
+                this.receiptMapper.createImpRecLogisticsStatus(impRecLogisticsStatus); //插入运单状态表数据
+                this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单表状态
+            }
+        }
+    }
+
+    /*
+    * 插入运单的数据
+    * @param receipt    回执数据
+    * @param receipt    回执数据
+    * */
+    private void createImpRecLogistics(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String,String>>> list = receipt.get("LogisticsReturn");
+        if (!StringUtils.isEmpty(list)){
+            ImpRecLogistics impRecLogistics;
+            for (int i = 0; i <list.size() ; i++) {
+                impRecLogistics = new ImpRecLogistics();
+                impRecLogistics.setId(IdUtils.getUUId());
+                impRecLogistics.setCrtTm(new Date());
+                impRecLogistics.setUpdTm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String,String> map:mapList) {
+                    if (map.containsKey("guid")){
+                        impRecLogistics.setGuid(map.get("guid"));
+                    }
+                    if (map.containsKey("logisticsCode")){
+                        impRecLogistics.setLogistics_Code(map.get("logisticsCode"));
+                    }
+                    if (map.containsKey("logisticsNo")){
+                        impRecLogistics.setLogistics_No(map.get("logisticsNo"));
+                    }
+                    if (map.containsKey("returnStatus")){
+                        impRecLogistics.setReturn_Status(map.get("returnStatus"));
+                    }
+                    if (map.containsKey("returnTime")){
+                        impRecLogistics.setReturn_Time(map.get("returnTime"));
+                    }
+                    if (map.containsKey("returnInfo")){
+                        impRecLogistics.setReturn_Info(map.get("returnInfo"));
+                    }
+                }
+                this.receiptMapper.createImpRecLogistics(impRecLogistics); //插入运单状态表数据
+                this.updateImpLogistics(impRecLogistics);    //更新运单表状态
+            }
+        }
+
+    }
+
+
+
     /*
     * 插入订单的数据
     * @param receipt    回执数据
-    * @param refileName 回执文件名
+    * @param receipt    回执数据
     * */
     @Transactional(rollbackFor = NullPointerException.class)
     private void createImpRecorder(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
@@ -207,5 +301,36 @@ public class ReceiptService {
 
         this.receiptMapper.updateImpOrder(impOrderHead);
     }
+    /*
+    * 根据运单回执更新运单状态
+    * */
+    private void updateImpLogistics(ImpRecLogistics impRecLogistics) throws Exception{
+        ImpLogistics impLogistics = new ImpLogistics();
+        impLogistics.setGuid(impRecLogistics.getGuid());
+        impLogistics.setLogistics_no(impRecLogistics.getLogistics_No());
 
+        impLogistics.setLogistics_code(impRecLogistics.getLogistics_Code());
+        impLogistics.setReturn_status(impRecLogistics.getReturn_Status());
+        impLogistics.setReturn_time(impRecLogistics.getReturn_Time());
+        impLogistics.setReturn_info(impRecLogistics.getReturn_Info());
+
+        this.receiptMapper.updateImpLogistics(impLogistics);
+
+    }
+    /*
+    * 根据运单状态回执更新运单状态表
+    * */
+    private void updateImpLogisticsStatus(ImpRecLogisticsStatus impRecLogisticsStatus) {
+        ImpLogisticsStatus impLogisticsStatus = new ImpLogisticsStatus();
+        impLogisticsStatus.setGuid(impRecLogisticsStatus.getGuid());
+        impLogisticsStatus.setLogistics_no(impRecLogisticsStatus.getLogistics_No());
+
+        impLogisticsStatus.setLogistics_status(impRecLogisticsStatus.getLogistics_Status());
+        impLogisticsStatus.setLogistics_code(impRecLogisticsStatus.getLogistics_Code());
+        impLogisticsStatus.setReturn_status(impRecLogisticsStatus.getReturn_Status());
+        impLogisticsStatus.setReturn_time(impRecLogisticsStatus.getReturn_Time());
+        impLogisticsStatus.setReturn_info(impRecLogisticsStatus.getReturn_Info());
+
+        this.receiptMapper.updateImpLogisticsStatus(impLogisticsStatus);
+    }
 }
