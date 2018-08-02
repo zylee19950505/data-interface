@@ -128,6 +128,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())){
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())){
+                    SET("t.UPD_TM = #{impOrderHead.upd_tm}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getEbc_Code())){
                     SET("t.EBC_CODE = #{impOrderHead.ebc_Code}");
                 }
@@ -211,6 +214,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impLogistics.getReturn_info())){
                     SET("t.RETURNINFO = #{impLogistics.return_info}");
                 }
+                if (!StringUtils.isEmpty(impLogistics.getUpd_tm())){
+                    SET("t.UPD_TM = #{impLogistics.upd_tm}");
+                }
             }
         }.toString();
     }
@@ -278,6 +284,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())){
                     SET("t.RETURNTIME = #{impLogisticsStatus.return_time}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
+                    SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
                 }
             }
         }.toString();
