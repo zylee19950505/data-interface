@@ -29,19 +29,24 @@ public class ExpParser {
      * @param expPath 报文文件
      */
     private String getExpType(byte[] expPath) throws IOException, DocumentException {
-        //String type = "CEB412";
-        String type = "CEB312";
-//        Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser("ceb412").expParser(expPath, "CEB412Message");
-//        List<Map<String, String>> listEnvelopInfo = map.get("CEB412Message").get(0);
-//        for (Map<String, String> maplist : listEnvelopInfo) {
-//            if (maplist.containsKey("message_type")) {
-//                type = maplist.get("message_type");
-//                break;
-//            }
-//        }
+        String type = "";
+        String sample = new String(expPath, "UTF-8").trim();
+        //判断回执报文类型
+        if(sample.contains("<CEB312Message")){//订单回执
+            type = "CEB312";
+        }else if(sample.contains("<CEB412Message")){//支付单回执
+            type = "CEB412";
+        }else if(sample.contains("<CEB512Message")){//运单回执
+            type = "CEB512";
+        }else if(sample.contains("<CEB514Message")){//运单状态回执
+            type = "CEB514";
+        }else if(sample.contains("<CEB622Message")){//清单回执
+            type = "CEB622";
+        }
         return type;
     }
 
+    //生成报文类型，并解析报文节点
     public Map expParser(byte[] expPath) throws IOException, DocumentException {
         Map<String, Object> mapData = new HashMap<>();
         String type = this.getExpType(expPath);
