@@ -12,8 +12,7 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 format: "yyyymmdd",
                 autoclose: true
             });
-            $("[ws-search]").unbind("click").click(this.query);
-            $("[ws-download]").unbind("click").click(this.billDownLoad);
+            $("[ws-search]").unbind("click").click(this.query).click();
             $("[ws-back]").unbind("click").click(this.back);
             $(".btn[ws-search]").click();
         },
@@ -28,22 +27,6 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
             sw.modelPopup(url, "支付单详情信息", false, 900, 400);
         },
 
-        billDownLoad: function () {
-            sw.ajax("api/bill", "GET", {
-                ieFlag: sw.ie,
-                entryType: sw.type,
-                startFlightTimes: $("[name='startFlightTimes']").val(),
-                endFlightTimes: $("[name='endFlightTimes']").val(),
-                billNo: $("[name='billNo']").val(),
-                flag: "1"
-            }, function (rsp) {
-                if (rsp.status == 200) {
-                    var fileName = rsp.data;
-                    window.location.href = "/api/downloadFile?fileName=" + fileName;
-                }
-            });
-
-        },
         query: function () {
         // 获取查询表单参数
         var orderNo = $("[name='orderNo']").val();//订单编号
@@ -160,20 +143,4 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
             });
         },
 
-        download: function (flightNo, flightTimes, billNo, statusCode, flag) {
-            sw.ajax("api/downloadBill", "GET", {
-                ieFlag: sw.ie,
-                entryType: sw.type,
-                flightNo: flightNo,
-                flightTimes: flightTimes,
-                billNo: billNo,
-                statusCode: statusCode,
-                flag: flag
-            }, function (rsp) {
-                if (rsp.status == 200) {
-                    var fileName = rsp.data;
-                    window.location.href = "/api/downloadFile?fileName=" + fileName;
-                }
-            });
-        }
     };

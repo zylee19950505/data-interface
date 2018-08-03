@@ -39,17 +39,10 @@ public class GeneratedAutoLauncher621 implements ApplicationListener<Application
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        this.logger.debug("清单状态报文生成启动器初始化开始");
+        this.logger.debug("清单报文CEB521生成启动器初始化开始");
 
         detailDeclareMessageThread = new DetailDeclareMessageThread(this.detailDeclareMapper, this.appConfiguration, this.baseDetailDeclareXML);
         executorService.execute(detailDeclareMessageThread);
-//        PaymentMessageThread paymentMessageThread = PaymentMessageThread.getInstance();
-//        try {
-//            Thread thread = new Thread(paymentMessageThread);
-//            thread.start();
-//        } catch (Exception e) {
-//            this.logger.error("支付单单报文生成程序运行过程中发生异常", e);
-//        }
 
     }
 }

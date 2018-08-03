@@ -99,51 +99,46 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         isEdit: "true",
         disableField: [
             "order_no",
-            // "cop_no",
-            "logistics_no"
-            // "ebp_code",
-            // "ebp_name",
-            // "ebc_code",
-            // "ebc_name",
-            // "assure_code",
-            // "customs_code",
-            // "port_code",
-            // "ie_date",
-            // "buyer_id_number",
-            // "buyer_name",
-            // "buyer_telephone",
-            // "consignee_address",
-            // "freight",
-            // "agent_code",
-            // "agent_name",
-            // "traf_mode",
-            // "traf_no",
-            // "voyage_no",
-            // "bill_no",
-            // "country",
-            // "gross_weight",
-            // "note",
-            // "g_num",
-            // "g_name",
-            // "g_code",
-            // "g_model",
-            // "qty",
-            // "unit",
-            // "qty1",
-            // "unit1",
-            // "qty2",
-            // "unit2",
-            // "total_price"
+            "cop_no",
+            "logistics_no",
+            "ebp_code",
+            "ebp_name",
+            "ebc_code",
+            "ebc_name",
+            "assure_code",
+            "customs_code",
+            "port_code",
+            "ie_date",
+            "buyer_id_number",
+            "buyer_name",
+            "buyer_telephone",
+            "consignee_address",
+            "freight",
+            "agent_code",
+            "agent_name",
+            "traf_mode",
+            "traf_no",
+            "voyage_no",
+            "bill_no",
+            "country",
+            "gross_weight",
+            "note",
+            "g_num",
+            "g_name",
+            "g_code",
+            "g_model",
+            "qty",
+            "unit",
+            "qty1",
+            "unit1",
+            "qty2",
+            "unit2",
+            "total_price"
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (billNo, status, type, ieFlag) {
-        if (type === "LJJY" && ieFlag === "I") {
-            //调到那个查询
-            sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
-        } else {
-            sw.page.modules[this.detailParam.callBackUrl].query();
-        }
+    callBackQuery: function (orderNo) {
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
     cancel: function () {
@@ -251,7 +246,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["detailmanage/seeInventoryDetail"].callBackQuery(billNo, "N", type, ieFlag);
+                sw.page.modules["detailmanage/seeInventoryDetail"].callBackQuery(orderNo);
             } else {
                 hasError(rsp.data.msg);
             }

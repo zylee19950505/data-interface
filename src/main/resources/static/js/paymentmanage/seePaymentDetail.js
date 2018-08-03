@@ -44,8 +44,6 @@ function selecterInitPayment(selectId, value, data) {
             return obj;
         }),
         placeholder: value,
-        // allowClear: true,
-        // tags:false,
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
@@ -71,27 +69,22 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         isEdit: "true",
         disableField: [
             "order_no",
-            // "pay_code",
-            // "pay_name",
-            // "pay_transaction_id",
-            // "ebp_code",
-            // "ebp_name",
-            // "amount_paid",
-            // "payer_id_type",
-            // "payer_id_number",
-            // "payer_name",
-            // "pay_time",
-            // "note"
+            "pay_code",
+            "pay_name",
+            "pay_transaction_id",
+            "ebp_code",
+            "ebp_name",
+            "amount_paid",
+            "payer_id_type",
+            "payer_id_number",
+            "payer_name",
+            "pay_time",
+            "note"
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (billNo, status, type, ieFlag) {
-        if (type === "LJJY" && ieFlag === "I") {
-            //调到那个查询
-            sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
-        } else {
-            sw.page.modules[this.detailParam.callBackUrl].query();
-        }
+    callBackQuery: function (orderNo) {
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
     cancel: function () {
@@ -114,7 +107,6 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         $("#ebp_code").val(entryHead.ebp_code);
         $("#ebp_name").val(entryHead.ebp_name);
         $("#amount_paid").val(entryHead.amount_paid);
-        // $("#payer_id_type").val(entryHead.payer_id_type);
         selecterInitPayment("payer_id_type",entryHead.payer_id_type,sw.dict.certificateType)
         $("#payer_id_number").val(entryHead.payer_id_number);
         $("#payer_name").val(entryHead.payer_name);
@@ -154,7 +146,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["paymentmanage/seePaymentDetail"].callBackQuery(billNo, "N", type, ieFlag);
+                sw.page.modules["paymentmanage/seePaymentDetail"].callBackQuery(orderNo);
             } else {
                 hasError(rsp.data.msg);
             }

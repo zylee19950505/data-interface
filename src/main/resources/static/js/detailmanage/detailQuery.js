@@ -109,7 +109,7 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             format: "yyyymmdd",
             autoclose: true
         });
-        $("[ws-search]").unbind("click").click(this.query);
+        $("[ws-search]").unbind("click").click(this.query).click();
         $(".btn[ws-search]").click();
     },
 
