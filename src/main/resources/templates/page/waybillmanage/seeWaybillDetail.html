@@ -1,0 +1,87 @@
+
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>运单详情</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" content="content" align="center" border="1px solid balck">
+        <tr>
+            <td class="headTitle">物流运单编号</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="logistics_no"/>
+            </td>
+            <td class="headTitle">物流企业代码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="20" id="logistics_code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">物流企业名称</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="logistics_name"/>
+            </td>
+            <td class="headTitle">收货人姓名</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="20" id="consingee"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">收货人电话</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="consignee_telephone"/>
+            </td>
+            <td class="headTitle">收货地址</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="100" id="consignee_address"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="headTitle">运费</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="freight"/>
+            </td>
+            <td class="headTitle">保价费</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="insured_fee"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">件数</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="20" id="pack_no"/>
+            </td>
+            <td class="headTitle">毛重</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="weight"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle ieDate">备注</td>
+            <td class="ieDate" colspan="8">
+                <input class="form-control input-sm" maxlength="1000" id="note"/>
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

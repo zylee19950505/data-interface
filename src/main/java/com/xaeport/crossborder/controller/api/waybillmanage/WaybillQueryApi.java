@@ -81,7 +81,7 @@ public class WaybillQueryApi {
     /*
      * 运单详情查询
      */
-    @RequestMapping("/waybillQuery_TPL")
+    @RequestMapping("/seeWaybillDetail")
     public ResponseData waybillQueryById(
             @RequestParam(required = false) String guid,
             @RequestParam(required = false) String logistics_no
