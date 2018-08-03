@@ -233,7 +233,6 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
     // 保存订单编辑信息
     saveEntryInfo: function (orderNo, type, ieFlag) {
-        debugger;
         if (!this.valiField()) {
             return;
         }
@@ -449,11 +448,4 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
 
 
-
-
 }
-
-
-
-
-

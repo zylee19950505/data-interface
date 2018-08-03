@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-import com.xaeport.crossborder.data.entity.ImpPayment;
-import com.xaeport.crossborder.data.entity.ImpRecOrder;
-import com.xaeport.crossborder.data.entity.ImpRecPayment;
+import com.xaeport.crossborder.data.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.poi.util.StringUtil;
@@ -72,6 +69,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if(!StringUtils.isEmpty(impPayment.getReturn_time())){
                     SET("t.RETURN_TIME = #{impPayment.return_time}");
+                }
+                if(!StringUtils.isEmpty(impPayment.getUpd_tm())){
+                    SET("t.UPD_TM = #{impPayment.upd_tm}");
                 }
             }
         }.toString();
@@ -145,6 +145,84 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_info())){
                     SET("t.RETURNINFO = #{impOrderHead.return_info}");
+                }
+            }
+        }.toString();
+    }
+
+    public String createImpRecInventory(
+            @Param("impRecInventory") ImpRecInventory impRecInventory
+    ) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_IMP_REC_INVENTORY");
+                if (!StringUtils.isEmpty(impRecInventory.getId())) {
+                    VALUES("ID", "#{impRecInventory.id}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getGuid())) {
+                    VALUES("GUID", "#{impRecInventory.guid}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{impRecInventory.customs_code}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getEbp_code())) {
+                    VALUES("EBP_CODE", "#{impRecInventory.ebp_code}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getEbc_code())) {
+                    VALUES("EBC_CODE", "#{impRecInventory.ebc_code}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getAgent_code())) {
+                    VALUES("AGENT_CODE", "#{impRecInventory.agent_code}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getCop_no())) {
+                    VALUES("COP_NO", "#{impRecInventory.cop_no}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getPre_no())) {
+                    VALUES("PRE_NO", "#{impRecInventory.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getInvt_no())) {
+                    VALUES("INVT_NO", "#{impRecInventory.invt_no}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getReturn_status())) {
+                    VALUES("RETURN_STATUS", "#{impRecInventory.return_status}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getReturn_time())) {
+                    VALUES("RETURN_TIME", "#{impRecInventory.return_time}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getReturn_info())) {
+                    VALUES("RETURN_INFO", "#{impRecInventory.return_info}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{impRecInventory.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(impRecInventory.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{impRecInventory.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateImpInventory(
+            @Param("impInventoryHead") ImpInventoryHead impInventoryHead
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.DATA_STATUS = 'CBDS61'");
+                if(!StringUtils.isEmpty(impInventoryHead.getCop_no())){
+                    WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getReturn_status())){
+                    SET("t.RETURN_STATUS = #{impInventoryHead.return_status}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getReturn_info())){
+                    SET("t.RETURN_INFO = #{impInventoryHead.return_info}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getReturn_time())){
+                    SET("t.RETURN_TIME = #{impInventoryHead.return_time}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getUpd_tm())){
+                    SET("t.UPD_TM = #{impInventoryHead.upd_tm}");
                 }
             }
         }.toString();

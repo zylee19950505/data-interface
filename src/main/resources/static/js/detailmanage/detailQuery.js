@@ -110,8 +110,6 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query);
-        // $("[ws-download]").unbind("click").click(this.billDownLoad);
-        // $("[ws-back]").unbind("click").click(this.back);
         $(".btn[ws-search]").click();
     },
 

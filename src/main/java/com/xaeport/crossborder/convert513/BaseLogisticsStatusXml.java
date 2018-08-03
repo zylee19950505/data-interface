@@ -1,8 +1,7 @@
-package com.xaeport.crossborder.convert513.generate;
+package com.xaeport.crossborder.convert513;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.BaseTransfer411;
-import com.xaeport.crossborder.data.entity.CEB511Message;
 import com.xaeport.crossborder.data.entity.CEB513Message;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

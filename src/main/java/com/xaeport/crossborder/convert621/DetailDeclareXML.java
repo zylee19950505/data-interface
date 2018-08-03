@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert621.generate;
+package com.xaeport.crossborder.convert621;
 
 
 import com.xaeport.crossborder.data.entity.*;

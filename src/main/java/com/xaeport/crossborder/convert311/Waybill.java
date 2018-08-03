@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.generate;
+package com.xaeport.crossborder.convert311;
 
 
 import com.xaeport.crossborder.data.entity.BaseTransfer;

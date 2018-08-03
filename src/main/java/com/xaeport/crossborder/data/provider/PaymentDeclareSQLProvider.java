@@ -26,6 +26,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                         " * from ( select rownum rn, f.* from ( " +
                                 " SELECT " +
                                 "    t.PAY_TRANSACTION_ID," +
+                                "    t.GUID," +
                                 "    t.ORDER_NO," +
                                 "    t.PAY_NAME," +
                                 "    t.EBP_NAME," +

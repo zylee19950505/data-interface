@@ -1,0 +1,89 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>支付单详情</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" content="content" align="center" border="1px solid balck">
+        <tr>
+            <td class="headTitle">订单编号</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="order_no"/>
+            </td>
+            <td class="headTitle">支付企业代码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="18" id="pay_code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">支付企业名称</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="100" id="pay_name"/>
+            </td>
+            <td class="headTitle">支付交易编码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="20" id="pay_transaction_id"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">电商平台代码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="50" id="ebp_code"/>
+            </td>
+            <td class="headTitle">电商平台名称</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="100" id="ebp_name"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">支付金额</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="19" id="amount_paid"/>
+            </td>
+            <td class="headTitle">支付人证件类型</td>
+            <td colspan="2">
+                <select class="form-control input-sm" id="payer_id_type"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">支付人证件号码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="payer_id_number"/>
+            </td>
+            <td class="headTitle">支付人姓名</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="payer_name"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">支付时间</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="50" id="pay_time"/>
+            </td>
+            <td class="headTitle">备注</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="1000" id="note"/>
+            </td>
+
+        </tr>
+    </table>
+
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>
