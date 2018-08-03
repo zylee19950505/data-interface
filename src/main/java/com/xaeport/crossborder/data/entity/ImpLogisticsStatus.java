@@ -19,6 +19,33 @@ public class ImpLogisticsStatus {
     private Date crt_tm;//创建时间
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
+    private String return_status;   //回执状态
+    private String return_info;//回执备注原因
+    private String return_time;//回执时间
+
+    public String getReturn_status() {
+        return return_status;
+    }
+
+    public void setReturn_status(String return_status) {
+        this.return_status = return_status;
+    }
+
+    public String getReturn_info() {
+        return return_info;
+    }
+
+    public void setReturn_info(String return_info) {
+        this.return_info = return_info;
+    }
+
+    public String getReturn_time() {
+        return return_time;
+    }
+
+    public void setReturn_time(String return_time) {
+        this.return_time = return_time;
+    }
 
     public String getGuid() {
         return guid;

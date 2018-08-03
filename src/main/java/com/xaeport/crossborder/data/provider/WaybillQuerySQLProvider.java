@@ -3,6 +3,7 @@ package com.xaeport.crossborder.data.provider;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class WaybillQuerySQLProvider {
@@ -108,6 +109,45 @@ public class WaybillQuerySQLProvider {
                /* if (!StringUtils.isEmpty(logisticsno)){
                     WHERE("t.ORDER_NO = #{logisticsno}");
                 }*/
+            }
+        }.toString();
+    }
+
+    public String updateBillHead(LinkedHashMap<String, String> entryHead){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.GUID = #{entryhead_guid}");
+                if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
+                    SET("t.LOGISTICS_CODE = #{logistics_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_name"))){
+                    SET("t.LOGISTICS_NAME = #{logistics_name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consingee"))){
+                    SET("t.CONSINGEE = #{consingee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_telephone"))){
+                    SET("t.CONSIGNEE_TELEPHONE = #{consignee_telephone}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))){
+                    SET("t.CONSIGNEE_ADDRESS = #{consignee_address}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("freight"))){
+                    SET("t.FREIGHT = #{freight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("insured_fee"))){
+                    SET("t.INSURED_FEE = #{insured_fee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("pack_no"))){
+                    SET("t.PACK_NO = #{pack_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("weight"))){
+                    SET("t.WEIGHT = #{weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("note"))){
+                    SET("t.NOTE = #{note}");
+                }
             }
         }.toString();
     }

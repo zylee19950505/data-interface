@@ -131,6 +131,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())){
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())){
+                    SET("t.UPD_TM = #{impOrderHead.upd_tm}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getEbc_Code())){
                     SET("t.EBC_CODE = #{impOrderHead.ebc_Code}");
                 }
@@ -228,4 +231,145 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    /*
+    * 插入运单表回执表数据
+    * */
+    public String createImpRecLogistics(@Param("impRecLogistics") ImpRecLogistics impRecLogistics){
+        return new SQL(){
+            {
+                INSERT_INTO("T_IMP_REC_LOGISTICS");
+                if (!StringUtils.isEmpty(impRecLogistics.getId())){
+                  VALUES("ID","#{impRecLogistics.id}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getGuid())){
+                    VALUES("GUID","#{impRecLogistics.guid}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_Code())){
+                    VALUES("LOGISTICS_CODE","#{impRecLogistics.logistics_Code}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_No())){
+                    VALUES("LOGISTICS_NO","#{impRecLogistics.logistics_No}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Status())){
+                    VALUES("RETURN_STATUS","#{impRecLogistics.return_Status}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Info())){
+                    VALUES("RETURN_INFO","#{impRecLogistics.return_Info}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Time())){
+                    VALUES("RETURN_TIME","#{impRecLogistics.return_Time}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getCrtTm())){
+                    VALUES("CRT_TM","#{impRecLogistics.crtTm}");
+                }
+                if (!StringUtils.isEmpty(impRecLogistics.getUpdTm())){
+                    VALUES("UPD_TM","#{impRecLogistics.updTm}");
+                }
+
+            }
+        }.toString();
+    }
+    /*
+    * 根据云单回执状态更新运单信息
+    * */
+    public String updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics){
+        System.out.println(impLogistics.getGuid()+"__________"+impLogistics.getLogistics_no());
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                if (!StringUtils.isEmpty(impLogistics.getGuid())){
+                    WHERE("t.GUID = #{impLogistics.guid}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_no())){
+                    WHERE("t.LOGISTICS_NO = #{impLogistics.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_code())){
+                    SET("t.LOGISTICS_CODE = #{impLogistics.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_status())){
+                    SET("t.RETURNSTATUS = #{impLogistics.return_status}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_time())){
+                    SET("t.RETURNTIME = #{impLogistics.return_time}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_info())){
+                    SET("t.RETURNINFO = #{impLogistics.return_info}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getUpd_tm())){
+                    SET("t.UPD_TM = #{impLogistics.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    public String createImpRecLogisticsStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_IMP_REC_LOGISTICS_STATUS");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getId())){
+                    VALUES("ID","#{impRecLogisticsStatus.id}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getGuid())){
+                    VALUES("GUID","#{impRecLogisticsStatus.guid}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Code())){
+                    VALUES("LOGISTICS_CODE","#{impRecLogisticsStatus.logistics_Code}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_No())){
+                    VALUES("LOGISTICS_NO","#{impRecLogisticsStatus.logistics_No}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())){
+                    VALUES("LOGISTICS_STATUS","#{impRecLogisticsStatus.logistics_Status}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())){
+                    VALUES("RETURN_STATUS","#{impRecLogisticsStatus.return_Status}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Info())){
+                    VALUES("RETURN_INFO","#{impRecLogisticsStatus.return_Info}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Time())){
+                    VALUES("RETURN_TIME","#{impRecLogisticsStatus.return_Time}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getCrtTm())){
+                    VALUES("CRT_TM","#{impRecLogisticsStatus.crtTm}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getUpdTm())){
+                    VALUES("UPD_TM","#{impRecLogisticsStatus.updTm}");
+                }
+
+            }
+        }.toString();
+    }
+
+    public String updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS_STATUS t");
+                if (!StringUtils.isEmpty(impLogisticsStatus.getGuid())){
+                    WHERE("t.GUID = #{impLogisticsStatus.guid}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())){
+                    WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_status())){
+                    SET("t.LOGISTICS_STATUS = #{impLogisticsStatus.logistics_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_code())){
+                    SET("t.LOGISTICS_CODE = #{impLogisticsStatus.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_status())){
+                    SET("t.RETURNSTATUS = #{impLogisticsStatus.return_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_info())){
+                    SET("t.RETURNINFO = #{impLogisticsStatus.return_info}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())){
+                    SET("t.RETURNTIME = #{impLogisticsStatus.return_time}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
+                    SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
+                }
+            }
+        }.toString();
+    }
 }

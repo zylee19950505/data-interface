@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.controller.api.waybillmanage;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.ResponseData;
@@ -8,6 +9,7 @@ import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.Logistics;
 import com.xaeport.crossborder.data.entity.LogisticsHead;
 import com.xaeport.crossborder.service.waybillmanage.WaybillQueryService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/waybillManage")
@@ -87,12 +87,9 @@ public class WaybillQueryApi {
             @RequestParam(required = false) String logistics_no
     ){
         this.logger.debug(String.format("查询运单详情条件参数:[guid:%s,logistics_no:%s]",guid,logistics_no));
-        System.err.println("进入查询运单详情api、、、、、");
         Map<String,String> paramMap = new HashMap<String,String>();
         paramMap.put("guid",guid);
         paramMap.put("logisticsno",logistics_no);
-        System.err.println("guid:"+guid);
-        System.err.println("logisticsno:"+logistics_no);
         Logistics logistics;
         try {
             logistics = waybillService.waybillQueryById(paramMap);
@@ -103,4 +100,29 @@ public class WaybillQueryApi {
 
         return new ResponseData(logistics);
     }
+    /*
+    * 查询编辑运单详情
+    * */
+    @RequestMapping("/saveBillDetail")
+    public ResponseData saveBillDetail(@Param("entryJson") String entryJson){
+        //订单信息json信息
+        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        // 订单表头
+        LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
+        // 订单表体
+        ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
+        Map<String, String> rtnMap = new HashMap<>();
+        try {
+            // 保存订单详情信息
+            rtnMap = waybillService.saveBillDetail(entryHead, entryLists);
+        } catch (Exception e) {
+            logger.error("保存运单详细信息时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "保存运单详细信息时发生异常");
+        }
+        return new ResponseData(rtnMap);
+
+    }
+
 }
