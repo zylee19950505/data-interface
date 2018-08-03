@@ -103,7 +103,7 @@ public class PaymentImportApi extends BaseApi {
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("userId");
-                    return new ResponseData(String.format("跨境电子商务进口订单导入成功！"));
+                    return new ResponseData(String.format("跨境电子商务进口支付单导入成功！"));
                 } else if (flag == 1){
                     httpSession.removeAttribute("userId");
                     return new ResponseData("同一批订单号不有可重复！");

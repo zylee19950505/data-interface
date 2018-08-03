@@ -344,6 +344,13 @@ public class ReceiptService {
         ImpLogistics impLogistics = new ImpLogistics();
         impLogistics.setGuid(impRecLogistics.getGuid());
         impLogistics.setLogistics_no(impRecLogistics.getLogistics_No());
+        impLogistics.setLogistics_code(impRecLogistics.getLogistics_Code());
+        impLogistics.setReturn_status(impRecLogistics.getReturn_Status());
+        impLogistics.setReturn_time(impRecLogistics.getReturn_Time());
+        impLogistics.setReturn_info(impRecLogistics.getReturn_Info());
+
+        this.receiptMapper.updateImpLogistics(impLogistics);
+    }
 
     /**
      * 根据清单回执更新支付单的状态
@@ -368,14 +375,6 @@ public class ReceiptService {
 
     }
 
-        impLogistics.setLogistics_code(impRecLogistics.getLogistics_Code());
-        impLogistics.setReturn_status(impRecLogistics.getReturn_Status());
-        impLogistics.setReturn_time(impRecLogistics.getReturn_Time());
-        impLogistics.setReturn_info(impRecLogistics.getReturn_Info());
-
-        this.receiptMapper.updateImpLogistics(impLogistics);
-
-    }
     /*
     * 根据运单状态回执更新运单状态表
     * */
