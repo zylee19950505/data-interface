@@ -5,6 +5,8 @@ package com.xaeport.crossborder.data.mapper;
  * 支付单申报
  */
 
+import com.xaeport.crossborder.data.entity.BaseTransfer;
+import com.xaeport.crossborder.data.entity.BaseTransfer411;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.data.entity.Payment;
 import com.xaeport.crossborder.data.provider.PaymentDeclareSQLProvider;
@@ -52,4 +54,7 @@ public interface PaymentDeclareMapper {
 
     @SelectProvider(type = PaymentDeclareSQLProvider.class, method = "queryPaymentById")
     ImpPayment queryPaymentById(@Param("paytransactionid") String paytransactionid);
+
+    @SelectProvider(type = PaymentDeclareSQLProvider.class, method = "queryCompany")
+    BaseTransfer411 queryCompany(@Param("crtId") String crtId);
 }

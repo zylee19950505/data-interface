@@ -66,7 +66,8 @@ public class BaseXml {
         rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
-        ceb411Message.setBaseTransfer411(this.baseTransfer411());
+      /*  ceb411Message.setBaseTransfer411(this.baseTransfer411());*/
+        ceb411Message.setBaseTransfer411(ceb411Message.getBaseTransfer411());
         this.getPayment(document, ceb411Message, flag, rootElement);
 
         BaseTransfer411 baseTransfer411 = ceb411Message.getBaseTransfer411();
@@ -135,7 +136,7 @@ public class BaseXml {
         return rootElement;
     }
 
-    public BaseTransfer411 baseTransfer411(){
+    /*public BaseTransfer411 baseTransfer411(){
         BaseTransfer411 baseTransfer411 = new BaseTransfer411();
         baseTransfer411.setCopCode("1101180326");
         baseTransfer411.setCopName("物流企业");
@@ -143,5 +144,5 @@ public class BaseXml {
         baseTransfer411.setDxpMode("DXP");
         baseTransfer411.setNote("test");
         return baseTransfer411;
-    }
+    }*/
 }

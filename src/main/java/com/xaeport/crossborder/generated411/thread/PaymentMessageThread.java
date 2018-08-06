@@ -2,9 +2,7 @@ package com.xaeport.crossborder.generated411.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert411.generate.BaseXml;
-import com.xaeport.crossborder.data.entity.CEB411Message;
-import com.xaeport.crossborder.data.entity.ImpPayment;
-import com.xaeport.crossborder.data.entity.PaymentHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -43,11 +41,11 @@ public class PaymentMessageThread implements Runnable {
         CEB411Message ceb411Message = new CEB411Message();
 
         List<ImpPayment> impPaymentLists;
-        List<PaymentHead> paymentHeadLists;
+        List<PaymentHead> paymentHeadLists;///报文实体类
         PaymentHead paymentHead;
         ImpPayment impPayment;
         String guid;
-
+        String crtId = null;
 
         while (true) {
             try {
@@ -74,6 +72,7 @@ public class PaymentMessageThread implements Runnable {
                     xmlHeadGuid = impPaymentLists.get(0).getGuid();
                     nameOrderNo = impPaymentLists.get(0).getOrder_no();
                     guid = impPayment.getGuid();
+                    crtId = impPayment.getCrt_id();
                     paymentHead = new PaymentHead();
                     paymentHead.setGuid(guid);
                     paymentHead.setAppType(impPayment.getApp_type());
@@ -105,8 +104,13 @@ public class PaymentMessageThread implements Runnable {
                     }
                     paymentHeadLists.add(paymentHead);
                 }
-
                 ceb411Message.setPaymentHeadList(paymentHeadLists);
+                //设置baseTransfer411节点
+                BaseTransfer411 baseTransfer411 = new BaseTransfer411();
+                if (!StringUtils.isEmpty(crtId)) {
+                    baseTransfer411 = paymentDeclareMapper.queryCompany(crtId);
+                }
+                ceb411Message.setBaseTransfer411(baseTransfer411);
                 //开始生成报文
                 this.entryProcess(ceb411Message, nameOrderNo, xmlHeadGuid);
             } catch (Exception e) {
