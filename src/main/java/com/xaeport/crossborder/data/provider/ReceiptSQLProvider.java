@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    //插入支付单回执表数据
     public String createImpRecPayment(
             @Param("impRecPayment") ImpRecPayment impRecPayment
     ) {
@@ -48,6 +49,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //更新支付单表回执信息
     public String updateImpPayment(
             @Param("impPayment") ImpPayment impPayment
     ) {
@@ -57,9 +59,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 WHERE("t.DATA_STATUS = 'CBDS31'");
                 if(!StringUtils.isEmpty(impPayment.getPay_transaction_id())){
                     WHERE("t.PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
-                }
-                if(!StringUtils.isEmpty(impPayment.getPay_code())){
-                    WHERE("t.PAY_CODE = #{impPayment.pay_code}");
                 }
                 if(!StringUtils.isEmpty(impPayment.getReturn_status())){
                     SET("t.RETURN_STATUS = #{impPayment.return_status}");
@@ -77,9 +76,8 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    /*
-    * 插入订单状态表数据
-    * */
+
+    //插入清单回执表数据
     public String createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder){
         return new SQL(){
             {
@@ -117,17 +115,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-    /*
-    * 根据回执信息更新订单支付状态
-    * */
+
+    //更新订单表回执信息
     public String updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead){
         return new SQL(){
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
                 WHERE("t.DATA_STATUS = 'CBDS21'");
-                if (!StringUtils.isEmpty(impOrderHead.getGuid())){
-                    WHERE("t.GUID = #{impOrderHead.guid}");
-                }
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())){
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
@@ -153,6 +147,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //插入清单回执表数据
     public String createImpRecInventory(
             @Param("impRecInventory") ImpRecInventory impRecInventory
     ) {
@@ -205,6 +200,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //更新清单表回执信息
     public String updateImpInventory(
             @Param("impInventoryHead") ImpInventoryHead impInventoryHead
     ) {
@@ -231,10 +227,11 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    /*
-    * 插入运单表回执表数据
-    * */
-    public String createImpRecLogistics(@Param("impRecLogistics") ImpRecLogistics impRecLogistics){
+
+    //插入运单回执表信息
+    public String createImpRecLogistics(
+            @Param("impRecLogistics") ImpRecLogistics impRecLogistics
+    ){
         return new SQL(){
             {
                 INSERT_INTO("T_IMP_REC_LOGISTICS");
@@ -269,17 +266,14 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-    /*
-    * 根据云单回执状态更新运单信息
-    * */
-    public String updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics){
-        System.out.println(impLogistics.getGuid()+"__________"+impLogistics.getLogistics_no());
+
+    //更新运单表回执信息
+    public String updateImpLogistics(
+            @Param("impLogistics") ImpLogistics impLogistics
+    ){
         return new SQL(){
             {
                 UPDATE("T_IMP_LOGISTICS t");
-                if (!StringUtils.isEmpty(impLogistics.getGuid())){
-                    WHERE("t.GUID = #{impLogistics.guid}");
-                }
                 if (!StringUtils.isEmpty(impLogistics.getLogistics_no())){
                     WHERE("t.LOGISTICS_NO = #{impLogistics.logistics_no}");
                 }
@@ -302,7 +296,10 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String createImpRecLogisticsStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus) {
+    //插入运单状态回执表数据
+    public String createImpRecLogisticsStatus(
+            @Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus
+    ) {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_REC_LOGISTICS_STATUS");
@@ -341,13 +338,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+    //更新运单状态表回执信息
+    public String updateImpLogisticsStatus(
+            @Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus
+    ){
         return new SQL(){
             {
                 UPDATE("T_IMP_LOGISTICS_STATUS t");
-                if (!StringUtils.isEmpty(impLogisticsStatus.getGuid())){
-                    WHERE("t.GUID = #{impLogisticsStatus.guid}");
-                }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())){
                     WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
                 }

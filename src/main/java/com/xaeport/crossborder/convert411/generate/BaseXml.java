@@ -130,8 +130,6 @@ public class BaseXml {
                 this.paymentXml.getPaymentList(document, rootElement, ceb411Message);
                 break;
             }
-            case "shipingBill": {
-            }
         }
         return rootElement;
     }

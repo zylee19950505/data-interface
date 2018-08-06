@@ -36,18 +36,11 @@ public class GeneratedAutoLauncher411 implements ApplicationListener<Application
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        this.logger.debug("支付单报文生成启动器初始化开始");
+        this.logger.debug("支付单报文CEB411生成启动器初始化开始");
 
         paymentMessageThread = new PaymentMessageThread(this.paymentDeclareMapper, this.appConfiguration, this.baseXml);
         executorService.execute(paymentMessageThread);
 
-//        PaymentMessageThread paymentMessageThread = PaymentMessageThread.getInstance();
-//        try {
-//            Thread thread = new Thread(paymentMessageThread);
-//            thread.start();
-//        } catch (Exception e) {
-//            this.logger.error("支付单单报文生成程序运行过程中发生异常", e);
-//        }
 
     }
 }

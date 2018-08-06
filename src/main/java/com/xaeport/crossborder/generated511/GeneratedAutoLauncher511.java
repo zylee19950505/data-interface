@@ -41,17 +41,10 @@ public class GeneratedAutoLauncher511  implements ApplicationListener<Applicatio
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        this.logger.debug("运单报文生成启动器初始化开始");
+        this.logger.debug("运单报文CEB511生成启动器初始化开始");
 
         logisticsMessageThread = new LogisticsMessageThread(this.waybillDeclareMapper, this.appConfiguration, this.baseLogisticsXml);
         executorService.execute(logisticsMessageThread);
-//        PaymentMessageThread paymentMessageThread = PaymentMessageThread.getInstance();
-//        try {
-//            Thread thread = new Thread(paymentMessageThread);
-//            thread.start();
-//        } catch (Exception e) {
-//            this.logger.error("支付单单报文生成程序运行过程中发生异常", e);
-//        }
 
     }
 }

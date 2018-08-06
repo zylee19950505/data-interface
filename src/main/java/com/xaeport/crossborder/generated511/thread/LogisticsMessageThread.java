@@ -57,10 +57,6 @@ public class LogisticsMessageThread implements Runnable {
             try {
                 // 查找运单申报中的数据
                 impLogisticsLists = waybillDeclareMapper.findWaitGenerated(paramMap);
-
-
-
-
                 if (CollectionUtils.isEmpty(impLogisticsLists)) {
                     // 如无待生成数据，则等待3s后重新确认
                     try {
@@ -119,9 +115,9 @@ public class LogisticsMessageThread implements Runnable {
             } catch (Exception e) {
                 try {
                     Thread.sleep(5000);
-                    logger.error("生成支付单报文时发生异常，等待5秒重新开始获取数据", e);
+                    logger.error("生成运单511报文时发生异常，等待5秒重新开始获取数据", e);
                 } catch (InterruptedException ie) {
-                    logger.error("支付单报文生成器暂停时发生异常", ie);
+                    logger.error("运单511报文生成器暂停时发生异常", ie);
                 }
             }
 
@@ -144,26 +140,6 @@ public class LogisticsMessageThread implements Runnable {
         }
     }
 
-//    @Transactional(rollbackForClassName = "Exception")
-//    private boolean updateEntryHeadStatus(String entryHeadId, ImpPayment impPayment) {
-//        try {
-//            // 更新舱单信息表状态
-//            this.paymentDeclareMapper.updateEntryHeadOpStatus(entryHeadId, StatusCode.ZFDYSB);
-//            logger.debug(String.format("更新舱单分单[entryhead_id: %s]状态为:%s", entryHeadId, StatusCode.ZFDYSB));
-//
-//            // 更新状态变化记录表
-//            StatusRecord statusRecord = StatusCode.entryHeadRecord(impPayment.getAss_bill_no(), "舱单申报-提交海关申报-分单状态变更", StatusCode.ZFDYSB);
-//            this.paymentDeclareMapper.insertManifestStatus(statusRecord);
-//            logger.debug(String.format("记录舱单分单[entryhead_id: %s]状态变更信息[sr_id: %s]完毕", entryHeadId, statusRecord.getSr_id()));
-//        } catch (Exception e) {
-//            String exceptionMsg = String.format("更新舱单[entryHeadId: %s]状态时发生异常", entryHeadId);
-//            logger.error(exceptionMsg, e);
-//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-//            return false;
-//        }
-//        return true;
-//    }
-
     /**
      * 生成Xml文件
      *
@@ -173,29 +149,19 @@ public class LogisticsMessageThread implements Runnable {
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "logistics" + File.separator + sdf.format(new Date()) + File.separator + fileName;
-        this.logger.debug(String.format("支付单单申报报文发送备份文件[backFilePath: %s]", backFilePath));
+        this.logger.debug(String.format("运单511申报报文发送备份文件[backFilePath: %s]", backFilePath));
 
         String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
-        this.logger.debug(String.format("支付单申报报文发送文件[sendFilePath: %s]", sendFilePath));
+        this.logger.debug(String.format("运单511申报报文发送文件[sendFilePath: %s]", sendFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
-        this.logger.debug(String.format("支付单申报报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("运单511申报报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
 
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
-        this.logger.info("支付单发送完毕" + fileName);
-        this.logger.debug(String.format("支付单申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.info("运单511发送完毕" + fileName);
+        this.logger.debug(String.format("运单511申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
     }
 
-//    private PaymentMessageThread() {
-//        super();
-//    }
-//
-//    public static PaymentMessageThread getInstance() {
-//        if (paymentMessageThread == null) {
-//            paymentMessageThread = new PaymentMessageThread();
-//        }
-//        return paymentMessageThread;
-//    }
 }

@@ -65,7 +65,6 @@ public class DetailDeclareMessageThread implements Runnable {
                     //获取head表的id
                     String headGuid = entryHead.getGuid();
                     try {
-                        // ceb311Message = this.messageUtils.getCEB311Message(senderId,receiverId);
                         ceb621Message = new CEB621Message();
                         String orderNo = entryHead.getOrder_no();//订单号,用于报文头信息
                         //设置表头
@@ -105,7 +104,7 @@ public class DetailDeclareMessageThread implements Runnable {
             String fileName = "CEB621_" + orderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare");//flag
             saveXmlFile(fileName, xmlByte);
-            this.logger.debug(String.format("完成生成清单申报报文[fileName: %s]", fileName));
+            this.logger.debug(String.format("完成生成清单621申报报文[fileName: %s]", fileName));
         } catch (Exception e) {
             String exceptionMsg = String.format("处理清单[headGuid: %s]时发生异常", headGuid);
             this.logger.error(exceptionMsg, e);
@@ -114,18 +113,18 @@ public class DetailDeclareMessageThread implements Runnable {
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "inventory" + File.separator + sdf.format(new Date()) + File.separator + fileName;
-        this.logger.debug(String.format("清单申报报文发送备份文件[backFilePath: %s]", backFilePath));
+        this.logger.debug(String.format("清单621申报报文发送备份文件[backFilePath: %s]", backFilePath));
 
         String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
-        this.logger.debug(String.format("清单申报报文发送文件[sendFilePath: %s]", sendFilePath));
+        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
-        this.logger.debug(String.format("清单申报报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("清单621申报报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
 
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("清单发送完毕" + fileName);
-        this.logger.debug(String.format("清单申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("清单621申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
     }
 }

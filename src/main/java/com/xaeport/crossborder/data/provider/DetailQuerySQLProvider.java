@@ -176,6 +176,7 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
             {
                 UPDATE("T_IMP_INVENTORY_BODY t");
                 WHERE("t.HEAD_GUID = #{entryhead_guid}");
+                WHERE("t.G_NUM = #{g_no}");
                 if (!StringUtils.isEmpty(entryList.get("g_name"))){
                     SET("t.g_name = #{g_name}");
                 }
