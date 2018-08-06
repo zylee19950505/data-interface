@@ -53,7 +53,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         }
                     });
                 },
-                lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "所有"]],
+                lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
                 searching: false,//开启本地搜索
                 columns: [
                     //还需判断下状态
@@ -76,12 +76,23 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     {data: "goods_Value", label: "总价"},
                     {data: "buyer_Name", label: "订购人"},
                     //要区分开
-                   /* {data: "data_status", label: "业务状态"},*/
+                    {
+                        label: "申报日期", render: function (data, type, row) {
+                        if(!isEmpty(row.app_Time)){
+                            return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
+                    },
                     {
                         label: "业务状态", render: function (data, type, row) {
                         var textColor = "";
                         var value = "";
                         switch (row.data_status) {
+                            case "CBDS1":
+                                textColor = "text-yellow";
+                                value = "待申报";
+                                break;
                             case "CBDS2":
                                 textColor = "text-yellow";
                                 value = "订单待申报";
@@ -106,16 +117,8 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         return "<span class='" + textColor + "'>" + value + "</span>";
                         }
                     },
-
-                    {data: "note", label: "入库结果"},//入库结果需要确认字段
-                    {
-                        label: "申报日期", render: function (data, type, row) {
-                        if(!isEmpty(row.app_Time)){
-                            return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
-                    }
-                    }
+                    {data: "return_status", label: "回执状态"},
+                    {data: "return_info", label: "回执备注"}
                 ]
             });
         },

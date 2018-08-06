@@ -45,7 +45,7 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                     }
                 });
             },
-            lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "所有"]],
+            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
                 // {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
@@ -58,7 +58,15 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                 {data: "ebc_name", label: "电商企业名称"},
                 {data: "ebc_name", label: "支付企业名称"},
                 {data: "logistics_name", label: "物流企业名称"},
-                {data: "g_name", label: "商品名称"},
+                // {data: "g_name", label: "商品名称"},
+                {
+                    label: "申报日期", render: function (data, type, row) {
+                    if(!isEmpty(row.app_time)){
+                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
+                },
                 {
                     label: "业务状态", render: function (data, type, row) {
                     switch (row.data_status) {
@@ -87,15 +95,8 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                     return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
                 },
-                {data: "return_status", label: "入库结果"},//入库结果需要确认字段
-                {
-                    label: "申报日期", render: function (data, type, row) {
-                    if(!isEmpty(row.app_Time)){
-                        return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                }
-                }
+                {data: "return_status", label: "回执状态"},
+                {data: "return_info", label: "回执备注"}
             ]
         });
     },

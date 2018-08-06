@@ -48,7 +48,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                         }
                     });
                 },
-                lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "所有"]],
+                lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
                 searching: false,//开启本地搜索
                 columns: [
                     //还需判断下状态
@@ -69,7 +69,15 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     {data: "ebc_name", label: "电商企业名称"},
                     {data: "ebc_name", label: "支付企业名称"},
                     {data: "logistics_name", label: "物流企业名称"},
-                    {data: "g_name", label: "商品名称"},
+                    // {data: "g_name", label: "商品名称"},
+                    {
+                        label: "申报日期", render: function (data, type, row) {
+                        if(!isEmpty(row.app_time)){
+                            return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
+                    },
                     {
                         label: "业务状态", render: function (data, type, row) {
                         switch (row.data_status) {
@@ -98,16 +106,8 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                     }
                     },
-
-                    {data: "return_status", label: "入库结果"},//入库结果需要确认字段
-                    {
-                        label: "申报日期", render: function (data, type, row) {
-                        if(!isEmpty(row.app_Time)){
-                            return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
-                    }
-                    }
+                    {data: "return_status", label: "回执状态"},
+                    {data: "return_info", label: "回执备注"}
                 ]
             });
         },

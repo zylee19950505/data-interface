@@ -28,15 +28,15 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                     WHERE("th.order_no = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE(" th.upd_tm >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE(" th.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE(" th.upd_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE(" th.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!"-1".equals(length)) {
-                    ORDER_BY("th.upd_tm desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
+                    ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
                 } else {
-                    ORDER_BY("th.upd_tm desc ) w  )   WHERE rn >= #{start}");
+                    ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start}");
                 }
             }
         }.toString();
@@ -57,11 +57,11 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         }
         String startTimesStr = "";
         if (!StringUtils.isEmpty(startFlightTimes)) {
-            startTimesStr = " AND th.upd_tm >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')";
+            startTimesStr = " AND th.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')";
         }
         String endTimesStr = "";
         if (!StringUtils.isEmpty(endFlightTimes)) {
-            endTimesStr = " AND th.upd_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')";
+            endTimesStr = " AND th.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')";
         }
         return " select COUNT(*) count FROM t_imp_order_head th where 1=1 " + startTimesStr + endTimesStr;
 
@@ -188,7 +188,6 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_ORDER_HEAD toh");
                 WHERE("toh.GUID = #{headGuid}");
                 SET("toh.DATA_STATUS = #{ddysb}");
-                SET("toh.crt_tm=sysdate");
                 SET("toh.upd_tm=sysdate");
             }
         }.toString();

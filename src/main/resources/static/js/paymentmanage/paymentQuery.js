@@ -3,31 +3,8 @@
  * Created by zwf
  */
 sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/paymentQuery"] || {
-        init: function () {
-            $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
-            $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
-            $(".input-daterange").datepicker({
-                language: "zh-CN",
-                todayHighlight: true,
-                format: "yyyymmdd",
-                autoclose: true
-            });
-            $("[ws-search]").unbind("click").click(this.query).click();
-            $("[ws-back]").unbind("click").click(this.back);
-            $(".btn[ws-search]").click();
-        },
 
-        back: function () {
-            $("#bill").show();
-            $("#preview").hide();
-        },
-
-        seePaymentDetail: function (pay_transaction_id,order_no,guid) {
-            var url = "paymentmanage/seePaymentDetail?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id+"&orderNo="+order_no+"&guid="+guid;
-            sw.modelPopup(url, "支付单详情信息", false, 900, 400);
-        },
-
-        query: function () {
+    query: function () {
         // 获取查询表单参数
         var orderNo = $("[name='orderNo']").val();//订单编号
         var payTransactionId = $("[name='payTransactionId']").val();//支付交易编号
@@ -35,16 +12,15 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
         var endFlightTimes = $("[name='endFlightTimes']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/paymentManage/queryPaymentDeclare", {
+        var url = sw.serializeObjectToURL("api/paymentManage/querypayment/queryPaymentQuery", {
             orderNo: orderNo,
             payTransactionId: payTransactionId,
             startFlightTimes: startFlightTimes,
             endFlightTimes: endFlightTimes
-
         });
+
         // 数据表
         sw.datatable("#query-paymentQuery-table", {
-            sLoadingRecords: true,
             ordering: false,
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
@@ -96,6 +72,14 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 }
                 },
                 {
+                    label: "支付时间", render: function (data, type, row) {
+                    if (!isEmpty(row.pay_time)) {
+                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
+                },
+                {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
                     switch (row.data_status) {
                         case "CBDS1"://待申报
@@ -130,17 +114,28 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                     return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
                 },
-                {
-                    label: "支付时间", render: function (data, type, row) {
-                    if (!isEmpty(row.pay_time)) {
-                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                }
-                },
-                {data: "return_status", label: "入库结果"}
-                ]
+                {data: "return_status", label: "回执状态"},
+                {data: "return_info", label: "回执备注"}
+            ]
             });
         },
+
+    seePaymentDetail: function (pay_transaction_id,order_no,guid) {
+        var url = "paymentmanage/seePaymentDetail?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id+"&orderNo="+order_no+"&guid="+guid;
+        sw.modelPopup(url, "支付单详情信息", false, 900, 400);
+    },
+
+    init: function () {
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
+        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            todayHighlight: true,
+            format: "yyyymmdd",
+            autoclose: true
+        });
+        $("[ws-search]").unbind("click").click(this.query).click();
+        $(".btn[ws-search]").click();
+    }
 
     };

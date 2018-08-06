@@ -77,6 +77,14 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 }
                 },
                 {
+                    label: "支付时间", render: function (data, type, row) {
+                    if (!isEmpty(row.pay_time)) {
+                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
+                },
+                {
                     data: "data_status", label: "业务状态",render:function(data,type,row){
                         switch (row.data_status){
                             case "CBDS1"://待申报
@@ -111,15 +119,8 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                         return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
                 },
-                {
-                    label: "支付时间", render: function (data, type, row) {
-                    if (!isEmpty(row.pay_time)) {
-                        return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                }
-                },
-                {data: "return_status", label: "入库结果"}
+                {data: "return_status", label: "回执状态"},
+                {data: "return_info", label: "回执备注"}
             ]
         });
     },

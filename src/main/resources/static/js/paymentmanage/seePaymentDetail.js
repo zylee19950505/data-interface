@@ -132,7 +132,6 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
 
     // 保存订单编辑信息
     saveEntryInfo: function (orderNo, type, ieFlag) {
-        debugger;
 
         if (!this.valiField()) {
             return;
@@ -172,15 +171,13 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         };
         $.ajax({
             method: "GET",
-            url: "api/paymentmanage/querypayment/seePaymentDetail",
+            url: "api/paymentManage/querypayment/seePaymentDetail",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["paymentmanage/seePaymentDetail"];
-
                     var entryHead = data.data;
                     // var vertify = data.data.verify;
-
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
@@ -189,7 +186,6 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                     //     entryModule.errorMessageShow(vertify);
                     // }
                     headChangeKeyVal["entryhead_guid"] = param.guid;
-                    debugger;
                     // 添加输入框内容变更事件，捕获数据变更信息
                     inputChangePayment(param.guid);
                     entryModule.disabledFieldInput();
@@ -235,6 +231,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         var type = param.type;
         var orderNo = param.orderNo;
         var isEdit = param.isEdit;
+        var guid = param.guid;
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -255,7 +252,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/paymentmanage/querypayment/savePaymentDetail";
+                this.detailParam.url = "/api/paymentManage/querypayment/savePaymentDetail";
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "paymentmanage/paymentQuery";
                 this.detailParam.isShowError = false;

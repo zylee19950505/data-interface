@@ -24,15 +24,15 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
                     WHERE("t.order_no = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!"-1".equals(end)) {
-                    ORDER_BY("t.upd_tm desc ) f  )  WHERE rn between #{start} and #{end}");
+                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
-                    ORDER_BY("t.upd_tm desc ) f  )  WHERE rn >= #{start}");
+                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn >= #{start}");
                 }
             }
         }.toString();
@@ -51,10 +51,10 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
                     WHERE("t.ORDER_NO = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
             }
         }.toString();

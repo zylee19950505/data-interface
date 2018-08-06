@@ -15,6 +15,16 @@ public class PaymentQueryService {
 	@Autowired
 	PaymentQueryMapper paymentQueryMapper;
 
+	//查询支付单查询数据
+	public List<ImpPayment> queryPaymentQueryList(Map<String, String> paramMap) throws Exception{
+		return  paymentQueryMapper.queryPaymentQueryList(paramMap);
+	}
+
+	//查询支付单查询数据总数
+	public Integer queryPaymentQueryCount(Map<String, String> paramMap) throws Exception {
+		return paymentQueryMapper.queryPaymentQueryCount(paramMap);
+	}
+
 	public ImpPayment seePaymentDetail(Map<String, String> paramMap) {
 		return paymentQueryMapper.seePaymentDetail(paramMap);
 	}

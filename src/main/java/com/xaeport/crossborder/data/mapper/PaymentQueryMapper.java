@@ -7,10 +7,19 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Mapper
 public interface PaymentQueryMapper {
+
+	//查询支付单查询数据
+	@SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryList")
+	List<ImpPayment> queryPaymentQueryList(Map<String, String> paramMap) throws Exception;
+
+	//查询支付单查询数据总数
+	@SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryCount")
+	Integer queryPaymentQueryCount(Map<String, String> paramMap) throws Exception;
 
 	//查询支付单详情信息
 	@SelectProvider(type = PaymentQuerySQLProvider.class,method ="seePaymentDetail")

@@ -25,19 +25,15 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 					WHERE("th.order_no = #{orderNo}");
 				}
 				if (!StringUtils.isEmpty(startDeclareTime)) {
-					//现在改为upd_tm
-					//WHERE(" th.APP_TIME >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
-					WHERE(" th.upd_tm >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+					WHERE(" th.app_time >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
 				}
 				if (!StringUtils.isEmpty(endDeclareTimes)) {
-					//现在先改为upd_tm
-					//WHERE(" th.APP_TIME <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-					WHERE(" th.upd_tm <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+					WHERE(" th.app_time <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
 				}
 				if (!"-1".equals(length)) {
-					ORDER_BY("th.APP_TIME desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
+					ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
 				} else {
-					ORDER_BY("th.APP_TIME desc ) w  )   WHERE rn >= #{start}");
+					ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start}");
 				}
 			}
 		}.toString();
@@ -59,14 +55,10 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 					WHERE("th.order_no = #{orderNo}");
 				}
 				if (!StringUtils.isEmpty(startDeclareTime)) {
-					//现在改为upd_tm
-					//WHERE(" th.APP_TIME >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
-					WHERE(" th.upd_tm >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+					WHERE(" th.app_time >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
 				}
 				if (!StringUtils.isEmpty(endDeclareTimes)) {
-					//现在先改为upd_tm
-					//WHERE(" th.APP_TIME <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-					WHERE(" th.upd_tm <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+					WHERE(" th.app_time <= to_date(#{endDeclareTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
 				}
 			}
 		}.toString();

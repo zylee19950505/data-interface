@@ -45,8 +45,6 @@ public class PaymentDeclareApi extends BaseApi {
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String payTransactionId,
-            @RequestParam(required = false) String startFlightTimes,
-            @RequestParam(required = false) String endFlightTimes,
             HttpServletRequest request
 
     ) {
@@ -63,9 +61,6 @@ public class PaymentDeclareApi extends BaseApi {
 
         paramMap.put("orderNo", orderNo);
         paramMap.put("payTransactionId", payTransactionId);
-
-        paramMap.put("startFlightTimes", startFlightTimes);
-        paramMap.put("endFlightTimes", endFlightTimes);
 
         paramMap.put("start", start);
         paramMap.put("length", length);
@@ -85,13 +80,6 @@ public class PaymentDeclareApi extends BaseApi {
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {
-            //如果时间有参数那么， 查询的就是支付单查询模块。 则返回支付单查询模块错误提示。
-            if (paramMap.get("startFlightTimes") != ""||paramMap.get("startFlightTimes") != null||
-                paramMap.get("endFlightTimes") != ""||paramMap.get("endFlightTimes") != null
-                ){
-                this.logger.error("查询支付单数据失败", e);
-                return new ResponseData("获取支付单数据错误", HttpStatus.BAD_REQUEST);
-            }
             this.logger.error("查询支付单申报数据失败", e);
             return new ResponseData("获取支付单申报数据错误", HttpStatus.BAD_REQUEST);
         }

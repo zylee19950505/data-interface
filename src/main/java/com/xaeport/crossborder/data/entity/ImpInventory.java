@@ -56,7 +56,9 @@ public class ImpInventory {
     private Date crt_tm;//创建时间
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
-    private String return_status;//回执信息
+    private String return_status;//回执状态
+    private String return_info;//回执备注
+    private String return_time;//回执时间
 
     private int g_num;//序号: 从1开始连续序号，与关联的电子订单表体序号一一对应。
     private String head_guid;//表头编号: 企业系统生成36 位唯一序号（英文字母大写）
@@ -454,7 +456,21 @@ public class ImpInventory {
         this.net_weight = net_weight;
     }
 
+    public String getReturn_info() {
+        return return_info;
+    }
 
+    public void setReturn_info(String return_info) {
+        this.return_info = return_info;
+    }
+
+    public String getReturn_time() {
+        return return_time;
+    }
+
+    public void setReturn_time(String return_time) {
+        this.return_time = return_time;
+    }
 
     public String getData_status() {
         return data_status;
