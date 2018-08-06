@@ -51,6 +51,7 @@ public class LogisticsMessageThread implements Runnable {
         LogisticsHead logisticsHead;
         ImpLogistics impLogistics;
         String guid;
+        String crtId = null;
 
 
         while (true) {
@@ -77,6 +78,7 @@ public class LogisticsMessageThread implements Runnable {
                     xmlHeadGuid = impLogisticsLists.get(0).getGuid();
                     nameLogisticsNo = impLogisticsLists.get(0).getLogistics_no();
                     guid = impLogistics.getGuid();
+                    crtId = impLogistics.getCrt_id();
                     logisticsHead = new LogisticsHead();
 
                     logisticsHead.setGuid(guid);//企业系统生成36 位唯一序号（英文字母大写）
@@ -98,7 +100,7 @@ public class LogisticsMessageThread implements Runnable {
                     logisticsHead.setConsigneeTelephone(impLogistics.getConsignee_telephone());//收货人电话号码。
                     logisticsHead.setNote(impLogistics.getNote());//备注
                     try {
-                        // 更新支付单状态
+                        // 更新运单状态
                         this.waybillDeclareMapper.updateImpLogisticsStatus(guid, StatusCode.YDYSB);
                         this.logger.debug(String.format("更新运单为已申报[guid: %s]状态为: %s", guid, StatusCode.YDYSB));
                     } catch (Exception e) {
@@ -110,6 +112,11 @@ public class LogisticsMessageThread implements Runnable {
 
                 ceb511Message.setLogisticsHeadList(logisticsHeadsLists);
                 //开始生成报文
+                BaseTransfer baseTransfer = new BaseTransfer();
+                if (!StringUtils.isEmpty(crtId)) {
+                    baseTransfer = waybillDeclareMapper.queryCompany(crtId);
+                }
+                ceb511Message.setBaseTransfer(baseTransfer);
                 this.entryProcess(ceb511Message, nameLogisticsNo, xmlHeadGuid);
 
             } catch (Exception e) {
@@ -126,7 +133,7 @@ public class LogisticsMessageThread implements Runnable {
 
     private void entryProcess(CEB511Message ceb511Message, String nameLogisticsNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
-            // 生成支付单申报报文
+            // 生成运单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB511Message_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
 

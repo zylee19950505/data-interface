@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.data.provider.WaybillDeclareSQLProvider;
@@ -53,5 +54,6 @@ public interface WaybillDeclareMapper {
     void updateToLogisticsStatus(@Param("guid") String guid, @Param("CBDS51") String CBDS51) throws Exception;
 
 
-
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
+	BaseTransfer queryCompany(@Param("crtId") String crtId);
 }
