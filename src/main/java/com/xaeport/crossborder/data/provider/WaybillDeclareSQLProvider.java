@@ -173,4 +173,22 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
+
+    /*
+    *  queryCompany(@Param("queryCompany") String crtId)
+    *  获取企业id
+    * */
+    public String  queryCompany(@Param("crtId") String crtId){
+        return new SQL(){
+            {
+                SELECT("te.CUSTOMS_CODE as copCode");
+                SELECT("te.ENT_NAME as copName");
+                SELECT("'DXP' as dxpMode");
+                SELECT("te.DXP_ID as dxpId");
+                SELECT("te.note as note");
+                FROM("T_ENTERPRISE te,T_USERS tu");
+                WHERE("tu.id=#{crtId} and tu.ent_id = te.id");
+            }
+        }.toString();
+    }
 }

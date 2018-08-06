@@ -58,7 +58,7 @@ public class BaseBill {
      *
      * @param ceb311Message
      */
-    public byte[] createXML(CEB311Message ceb311Message, String flag) throws TransformerException {
+    public byte[]  createXML(CEB311Message ceb311Message, String flag) throws TransformerException {
         Document document = this.getDocument();
         /*
         <ceb:CEB311Message guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0"

@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.convert511;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.BaseTransfer411;
 import com.xaeport.crossborder.data.entity.CEB511Message;
 import org.apache.commons.logging.Log;
@@ -66,11 +67,10 @@ public class BaseLogisticsXml {
         rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
-        ceb511Message.setBaseTransfer411(this.baseTransfer411());
         this.getLogistics(document, ceb511Message, flag, rootElement);
 
-        BaseTransfer411 baseTransfer411 = ceb511Message.getBaseTransfer411();//创建<ceb:BaseTransfer>节点。
-        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer411));//在<ceb:BaseTransfer>节点下添加内容
+        BaseTransfer baseTransfer = ceb511Message.getBaseTransfer();//创建<ceb:BaseTransfer>节点。
+        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer));//在<ceb:BaseTransfer>节点下添加内容
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -86,34 +86,34 @@ public class BaseLogisticsXml {
      * 构建 BaseTransfer4 节点
      *
      * @param document
-     * @param baseTransfer411
+     * @param baseTransfer
      * @return
      */
-    public Element getBaseTransfer(Document document, BaseTransfer411 baseTransfer411) {
+    public Element getBaseTransfer(Document document, BaseTransfer baseTransfer) {
 
-        Element baseTransfer411Element = document.createElement("ceb:BaseTransfer");
+        Element baseTransfer511Element = document.createElement("ceb:BaseTransfer");
 
         Element copCode = document.createElement("ceb:copCode");
-        copCode.setTextContent(baseTransfer411.getCopCode());
+        copCode.setTextContent(baseTransfer.getCopCode());
 
         Element copName = document.createElement("ceb:copName");
-        copName.setTextContent(baseTransfer411.getCopName());
+        copName.setTextContent(baseTransfer.getCopName());
 
         Element dxpMode = document.createElement("ceb:dxpMode");
-        dxpMode.setTextContent(baseTransfer411.getDxpMode());
+        dxpMode.setTextContent(baseTransfer.getDxpMode());
 
         Element dxpId = document.createElement("ceb:dxpId");
-        dxpId.setTextContent(baseTransfer411.getDxpId());
+        dxpId.setTextContent(baseTransfer.getDxpId());
 
         Element note = document.createElement("ceb:note");
-        note.setTextContent(baseTransfer411.getNote());
+        note.setTextContent(baseTransfer.getNote());
 
-        baseTransfer411Element.appendChild(copCode);
-        baseTransfer411Element.appendChild(copName);
-        baseTransfer411Element.appendChild(dxpMode);
-        baseTransfer411Element.appendChild(dxpId);
-        baseTransfer411Element.appendChild(note);
-        return baseTransfer411Element;
+        baseTransfer511Element.appendChild(copCode);
+        baseTransfer511Element.appendChild(copName);
+        baseTransfer511Element.appendChild(dxpMode);
+        baseTransfer511Element.appendChild(dxpId);
+        baseTransfer511Element.appendChild(note);
+        return baseTransfer511Element;
     }
 
     /**
@@ -136,7 +136,7 @@ public class BaseLogisticsXml {
         return rootElement;
     }
 
-    public BaseTransfer411 baseTransfer411(){
+  /*  public BaseTransfer411 baseTransfer411(){
         BaseTransfer411 baseTransfer411 = new BaseTransfer411();
         baseTransfer411.setCopCode("1101180326");
         baseTransfer411.setCopName("物流企业");
@@ -144,5 +144,5 @@ public class BaseLogisticsXml {
         baseTransfer411.setDxpMode("DXP");
         baseTransfer411.setNote("test");
         return baseTransfer411;
-    }
+    }*/
 }

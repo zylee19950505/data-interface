@@ -152,5 +152,23 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+    /*
+    * queryCompany(@Param("crtId") String crtId)
+    * 根据用户id查找企业id,根据企业id查找企业信息
+    * */
+    public String queryCompany(@Param("crtId") String crtId){
+        return new SQL(){
+            {
+                SELECT("te.CUSTOMS_CODE as copCode");
+                SELECT("te.ENT_NAME as copName");
+                SELECT("'DXP' as dxpMode");
+                SELECT("te.DXP_ID as dxpId");
+                SELECT("te.note as note");
+                FROM("T_ENTERPRISE te,T_USERS tu");
+                WHERE("tu.id=#{crtId} and tu.ent_id = te.id");
+            }
+        }.toString();
+
+    }
 
 }
