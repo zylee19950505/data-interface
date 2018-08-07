@@ -18,12 +18,17 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes").toString();
         final String start = paramMap.get("start").toString();
         final String length = paramMap.get("length").toString();
+        final String entId = paramMap.get("entId").toString();
+        final String roleId = paramMap.get("roleId").toString();
 
         return new SQL() {
             {
                 SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
                         " select * from T_IMP_ORDER_HEAD th ");
                 WHERE("1=1");
+                if(!roleId.equals("admin")){
+                    WHERE("th.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("th.order_no = #{orderNo}");
                 }
@@ -50,20 +55,29 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
         final String orderNo = paramMap.get("orderNo").toString();
         final String startFlightTimes = paramMap.get("startFlightTimes").toString();
         final String endFlightTimes = paramMap.get("endFlightTimes").toString();
+        final String entId = paramMap.get("entId").toString();
+        final String roleId = paramMap.get("roleId").toString();
 
-        String orderNoStr = "";
-        if (!StringUtils.isEmpty(orderNo)) {
-            orderNoStr = " AND th.order_no = #{orderNo}";
-        }
-        String startTimesStr = "";
-        if (!StringUtils.isEmpty(startFlightTimes)) {
-            startTimesStr = " AND th.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')";
-        }
-        String endTimesStr = "";
-        if (!StringUtils.isEmpty(endFlightTimes)) {
-            endTimesStr = " AND th.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')";
-        }
-        return " select COUNT(*) count FROM t_imp_order_head th where 1=1 " + startTimesStr + endTimesStr;
+
+        return new SQL() {
+            {
+                SELECT("COUNT(1)");
+                FROM("T_IMP_ORDER_HEAD th");
+                WHERE("1=1");
+                if(!roleId.equals("admin")){
+                    WHERE("th.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(orderNo)) {
+                    WHERE("th.order_no = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(startFlightTimes)) {
+                    WHERE(" th.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(endFlightTimes)) {
+                    WHERE(" th.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                }
+            }
+        }.toString();
 
     }
 

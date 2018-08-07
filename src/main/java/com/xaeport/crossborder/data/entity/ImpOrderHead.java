@@ -40,6 +40,9 @@ public class ImpOrderHead {
     private String return_status;//回执状态
     private String return_time;//回执时间
     private String return_info;//回执备注信息
+    private String ent_id;//导入企业ID码
+    private String ent_name;//导入企业名称
+    private String ent_customs_code;//导入企业海关十位
 
     public String getReturn_info() {
         return return_info;
@@ -335,5 +338,29 @@ public class ImpOrderHead {
 
     public void setData_status(String data_status) {
         this.data_status = data_status;
+    }
+
+    public String getEnt_id() {
+        return ent_id;
+    }
+
+    public void setEnt_id(String ent_id) {
+        this.ent_id = ent_id;
+    }
+
+    public String getEnt_name() {
+        return ent_name;
+    }
+
+    public void setEnt_name(String ent_name) {
+        this.ent_name = ent_name;
+    }
+
+    public String getEnt_customs_code() {
+        return ent_customs_code;
+    }
+
+    public void setEnt_customs_code(String ent_customs_code) {
+        this.ent_customs_code = ent_customs_code;
     }
 }

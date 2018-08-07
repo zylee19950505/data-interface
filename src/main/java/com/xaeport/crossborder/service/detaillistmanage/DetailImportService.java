@@ -1,10 +1,12 @@
 package com.xaeport.crossborder.service.detaillistmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.DetailImportMapper;
+import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -28,6 +30,8 @@ public class DetailImportService {
     AppConfiguration appConfiguration;
     @Autowired
     DetailImportMapper detailImportMapper;
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     /*
      * 清单导入
@@ -52,9 +56,10 @@ public class DetailImportService {
  */
     private int createImpInventoryHead(Map<String, Object> excelMap, String importTime, Users user) throws Exception {
         int flag = 0;
+        Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpInventoryHead> impInventoryHeadList = (List<ImpInventoryHead>) excelMap.get("ImpInventoryHead");
         for (ImpInventoryHead anImpInventoryHeadList : impInventoryHeadList) {
-            ImpInventoryHead impInventoryHead = this.impInventoryHeadData(importTime, anImpInventoryHeadList, user);
+            ImpInventoryHead impInventoryHead = this.impInventoryHeadData(importTime, anImpInventoryHeadList, user,enterprise);
             flag = this.detailImportMapper.isRepeatOrderNo(impInventoryHead);
             if (flag > 0) {
                 return 0;
@@ -106,7 +111,7 @@ public class DetailImportService {
     /**
      * 表头自生成信息
      */
-    private ImpInventoryHead impInventoryHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user) throws Exception {
+    private ImpInventoryHead impInventoryHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user,Enterprise enterprise) throws Exception {
         impInventoryHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impInventoryHead.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impInventoryHead.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
@@ -121,6 +126,9 @@ public class DetailImportService {
         impInventoryHead.setCrt_tm(new Date());//创建时间
         impInventoryHead.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impInventoryHead.setUpd_tm(new Date());//更新时间
+        impInventoryHead.setEnt_id(enterprise.getId());
+        impInventoryHead.setEnt_name(enterprise.getEnt_name());
+        impInventoryHead.setEnt_customs_code(enterprise.getCustoms_code());
         return impInventoryHead;
     }
 

@@ -17,6 +17,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
         final String end = paramMap.get("end");
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
 
         return new SQL() {
             {
@@ -37,6 +39,9 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                                 "    t.RETURN_TIME," +
                                 "    t.DATA_STATUS");
                 FROM("T_IMP_PAYMENT t");
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
                 }
@@ -59,11 +64,16 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
 
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
 
         return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_PAYMENT t");
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");
                 }

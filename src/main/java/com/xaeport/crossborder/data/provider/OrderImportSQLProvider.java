@@ -117,6 +117,15 @@ public class OrderImportSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
                     VALUES("data_status", "#{impOrderHead.data_status}");
                 }
+                if(!StringUtils.isEmpty(impOrderHead.getEnt_id())){
+                    VALUES("ent_id","#{impOrderHead.ent_id}");
+                }
+                if(!StringUtils.isEmpty(impOrderHead.getEnt_name())){
+                    VALUES("ent_name","#{impOrderHead.ent_name}");
+                }
+                if(!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())){
+                    VALUES("ent_customs_code","#{impOrderHead.ent_customs_code}");
+                }
             }
         }.toString();
     }

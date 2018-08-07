@@ -51,6 +51,26 @@ public class BaseApi {
         return currentUsers;
     }
 
+    /**
+     * 获取当前用户的企业ID
+     *
+     * @return
+     */
+    protected String getCurrentUserEntId() {
+        Users currentUsers = this.getCurrentUsers();
+        return currentUsers.getEnt_Id();
+    }
+
+    /**
+     * 获取当前用户的角色Id
+     *
+     * @return
+     */
+    protected String getCurrentUserRoleId() {
+        Users currentUsers = this.getCurrentUsers();
+        return currentUsers.getRoleId();
+    }
+
 
 
 

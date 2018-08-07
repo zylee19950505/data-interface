@@ -14,6 +14,8 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
 
         return new SQL() {
             {
@@ -21,6 +23,9 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                         " * from ( select rownum rn, f.* from ( " +
                                 " SELECT * ");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
                 }
@@ -44,11 +49,16 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String orderNo = paramMap.get("orderNo");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
 
         return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");
                 }

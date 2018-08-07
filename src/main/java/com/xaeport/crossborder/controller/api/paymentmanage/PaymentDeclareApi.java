@@ -67,6 +67,9 @@ public class PaymentDeclareApi extends BaseApi {
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
 
+        paramMap.put("entId",this.getCurrentUserEntId());
+        paramMap.put("roleId",this.getCurrentUserRoleId());
+
         DataList<ImpPayment> dataList = null;
         List<ImpPayment> resultList = null;
         try {

@@ -62,6 +62,9 @@ public class DetailDeclareApi extends BaseApi{
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
+
+        paramMap.put("entId",this.getCurrentUserEntId());
+        paramMap.put("roleId",this.getCurrentUserRoleId());
         //类型参数
         paramMap.put("dsStatus", String.format("%s,%s,%s", StatusCode.QDDSB, StatusCode.QDYSB, StatusCode.QDCB));
 

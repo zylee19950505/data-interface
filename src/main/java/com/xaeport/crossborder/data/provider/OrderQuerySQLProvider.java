@@ -15,12 +15,17 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String start = paramMap.get("start");
 		final String length = paramMap.get("length");
+		final String entId = paramMap.get("entId");
+		final String roleId = paramMap.get("roleId");
 
 		return new SQL() {
 			{
 				SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
 						" select * from T_IMP_ORDER_HEAD th ");
 				WHERE("1=1");
+				if(!roleId.equals("admin")){
+					WHERE("th.ent_id = #{entId}");
+				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
 				}
@@ -46,11 +51,16 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 		final String orderNo = paramMap.get("orderNo");
 		final String startDeclareTime = paramMap.get("startDeclareTime");
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
+		final String entId = paramMap.get("entId");
+		final String roleId = paramMap.get("roleId");
 
 		return new SQL() {
 			{
 				SELECT(" count(*) count from T_IMP_ORDER_HEAD th ");
 				WHERE("1=1");
+				if(!roleId.equals("admin")){
+					WHERE("th.ent_id = #{entId}");
+				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
 				}

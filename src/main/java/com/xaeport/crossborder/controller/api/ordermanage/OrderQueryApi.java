@@ -54,6 +54,9 @@ public class OrderQueryApi extends BaseApi {
 		paramMap.put("orderNo",orderNo);
 		paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
 		paramMap.put("length",length);
+		paramMap.put("entId",this.getCurrentUserEntId());
+		paramMap.put("roleId",this.getCurrentUserRoleId());
+
 		List<ImpOrderHead> resultList = new ArrayList<ImpOrderHead>();
 		try {
 			resultList = orderQueryService.queryOrderHeadList(paramMap);

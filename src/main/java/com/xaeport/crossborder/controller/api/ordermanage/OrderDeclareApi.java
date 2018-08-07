@@ -49,9 +49,6 @@ public class OrderDeclareApi extends BaseApi {
             @RequestParam(required = false) String start,
             @RequestParam(required = false) String length,
             @RequestParam(required = false) String draw
-            //未获取的参数entryType和ie_flag
-           /* , @RequestParam(required = false) String entryType,
-            @RequestParam(required = false) String ieFlag*/
     ) {
         this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,start:%s,length:%s]", idCardValidate, startFlightTimes, endFlightTimes, orderNo, start, length));
         Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -64,14 +61,11 @@ public class OrderDeclareApi extends BaseApi {
         //分页参数
         paramMap.put("start", Integer.parseInt(start)+1);
         paramMap.put("length", length);
-        //类型参数
-        /*paramMap.put("ieFlag",ieFlag);
-        paramMap.put("entryType",entryType);*/
         // 固定参数
         paramMap.put("dsStatus", String.format("%s,%s,%s", StatusCode.DDDSB, StatusCode.DDYSB, StatusCode.DDCB));
+        paramMap.put("entId",this.getCurrentUserEntId());
+        paramMap.put("roleId",this.getCurrentUserRoleId());
 
-        //更新人
-        paramMap.put("UPD_ID",this.getCurrentUsers().getId());
         List<OrderHeadAndList> resultList = new ArrayList<OrderHeadAndList>();
         try {
             //查询列表

@@ -89,6 +89,15 @@ public class PaymentImportSQLProvider {
                 if (!StringUtils.isEmpty(impPayment.getUpd_tm())) {
                     VALUES("UPD_TM", "#{impPayment.upd_tm}");
                 }
+                if(!StringUtils.isEmpty(impPayment.getEnt_id())){
+                    VALUES("ent_id","#{impPayment.ent_id}");
+                }
+                if(!StringUtils.isEmpty(impPayment.getEnt_name())){
+                    VALUES("ent_name","#{impPayment.ent_name}");
+                }
+                if(!StringUtils.isEmpty(impPayment.getEnt_customs_code())){
+                    VALUES("ent_customs_code","#{impPayment.ent_customs_code}");
+                }
             }
         }.toString();
     }
