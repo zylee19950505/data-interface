@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.data.provider.WaybillDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +17,7 @@ import java.util.Map;
 public interface WaybillDeclareMapper {
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareDataList")
-    List<ImpLogistics> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception;
+    List<ImpLogisticsData> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception;
 
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareCount")

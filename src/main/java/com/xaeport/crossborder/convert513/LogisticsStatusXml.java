@@ -1,9 +1,7 @@
 package com.xaeport.crossborder.convert513;
 
 
-import com.xaeport.crossborder.data.entity.CEB511Message;
 import com.xaeport.crossborder.data.entity.CEB513Message;
-import com.xaeport.crossborder.data.entity.LogisticsHead;
 import com.xaeport.crossborder.data.entity.LogisticsStatusHead;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +10,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**

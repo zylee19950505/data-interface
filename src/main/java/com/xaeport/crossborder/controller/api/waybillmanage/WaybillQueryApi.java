@@ -4,10 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.ImpLogistics;
-import com.xaeport.crossborder.data.entity.Logistics;
-import com.xaeport.crossborder.data.entity.LogisticsHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.service.waybillmanage.WaybillQueryService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,16 +57,16 @@ public class WaybillQueryApi {
         map.put("length", length);
         map.put("end", end);
         map.put("extra_search", extra_search);
-        DataList<ImpLogistics> dataList = null;
-        List<ImpLogistics> impLogisticsList = null;
+        DataList<ImpLogisticsData> dataList = null;
+        List<ImpLogisticsData> impLogisticsDataList = null;
         try {
             //查询数据
-            impLogisticsList = this.waybillService.queryWaybillQueryDataList(map);
+            impLogisticsDataList = this.waybillService.queryWaybillQueryDataList(map);
             //查询数据总数
             Integer count = this.waybillService.queryWaybillQueryCount(map);
             dataList = new DataList<>();
             dataList.setDraw(draw);
-            dataList.setData(impLogisticsList);
+            dataList.setData(impLogisticsDataList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {

@@ -6,7 +6,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.waybillmanage.WaybillDeclareService;
@@ -41,10 +41,10 @@ public class WaybillDeclareApi extends BaseApi{
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String logisticsNo,
-            @RequestParam(required = false) String logisticsStatus,
+            @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, logisticsStatus));
+        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, dataStatus));
 
         Map<String, String> map = new HashMap<String,String>();
 
@@ -58,22 +58,22 @@ public class WaybillDeclareApi extends BaseApi{
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
         map.put("logisticsNo", logisticsNo);
-        map.put("logisticsStatus", logisticsStatus);
+        map.put("dataStatus", dataStatus);
 
         map.put("start", start);
         map.put("length", length);
         map.put("end", end);
         map.put("extra_search", extra_search);
-        DataList<ImpLogistics> dataList = null;
-        List<ImpLogistics> impLogisticsList = null;
+        DataList<ImpLogisticsData> dataList = null;
+        List<ImpLogisticsData> impLogisticsDataList = null;
         try {
             //查询数据
-            impLogisticsList = this.waybillService.queryWaybillDeclareDataList(map);
+            impLogisticsDataList = this.waybillService.queryWaybillDeclareDataList(map);
             //查询数据总数
             Integer count = this.waybillService.queryWaybillDeclareCount(map);
             dataList = new DataList<>();
             dataList.setDraw(draw);
-            dataList.setData(impLogisticsList);
+            dataList.setData(impLogisticsDataList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {

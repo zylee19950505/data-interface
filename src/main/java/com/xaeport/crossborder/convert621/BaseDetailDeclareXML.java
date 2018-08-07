@@ -130,17 +130,7 @@ public class BaseDetailDeclareXML {
             case "DetailDeclare": {
                 ceborderheadEl.appendChild(this.detailDeclareXML.getEntryHead(document, ceb621Message));
                 this.detailDeclareXML.getEntryList(document, ceborderheadEl, ceb621Message);
-                //是否将EntryDocu节点组装
-                if (appConfiguration.isEntryDocu()) {
-               //     bzTypeElement.appendChild(this.waybill.getEntryDocu(document, signedData));
-                }
                 break;
-            }
-            case "shipingBill": {
-                //生成舱单 xml
-              /*  bzTypeElement.appendChild(this.shippingBill.getExpMftHead(document, signedData));
-                this.shippingBill.getExpMftList(document, bzTypeElement, signedData);
-                break;*/
             }
         }
         return ceborderheadEl;

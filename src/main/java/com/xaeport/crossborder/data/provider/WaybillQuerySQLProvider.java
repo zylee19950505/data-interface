@@ -17,16 +17,21 @@ public class WaybillQuerySQLProvider {
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
-                        " select " +
-                        " t.GUID," +
-                        " t.LOGISTICS_NO," +
+                        " select t.LOGISTICS_NO," +
+                        " t.GUID,"+
                         " t.LOGISTICS_NAME,"+
                         " t.CONSINGEE,"+
                         " t.CONSIGNEE_TELEPHONE," +
                         " t.CONSIGNEE_ADDRESS," +
                         " t.DATA_STATUS," +
-                        " t.APP_TIME" );
-                FROM("T_IMP_LOGISTICS t");
+                        " t.APP_TIME," +
+                        " t.RETURN_STATUS as return_status,"+
+                        " t.RETURN_INFO as return_info,"+
+                        " t1.LOGISTICS_STATUS," +
+                        " t1.RETURN_STATUS as returnStatus_status,"+
+                        " t1.RETURN_INFO as returnStatus_info,"+
+                        " t1.LOGISTICS_TIME"  );
+                FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS t1  ON t.LOGISTICS_NO=t1.LOGISTICS_NO");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
