@@ -281,13 +281,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     SET("t.LOGISTICS_CODE = #{impLogistics.logistics_code}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getReturn_status())){
-                    SET("t.RETURNSTATUS = #{impLogistics.return_status}");
+                    SET("t.RETURN_STATUS = #{impLogistics.return_status}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getReturn_time())){
-                    SET("t.RETURNTIME = #{impLogistics.return_time}");
+                    SET("t.RETURN_TIME = #{impLogistics.return_time}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getReturn_info())){
-                    SET("t.RETURNINFO = #{impLogistics.return_info}");
+                    SET("t.RETURN_INFO = #{impLogistics.return_info}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getUpd_tm())){
                     SET("t.UPD_TM = #{impLogistics.upd_tm}");
@@ -355,13 +355,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     SET("t.LOGISTICS_CODE = #{impLogisticsStatus.logistics_code}");
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_status())){
-                    SET("t.RETURNSTATUS = #{impLogisticsStatus.return_status}");
+                    SET("t.RETURN_STATUS = #{impLogisticsStatus.return_status}");
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_info())){
-                    SET("t.RETURNINFO = #{impLogisticsStatus.return_info}");
+                    SET("t.RETURN_INFO = #{impLogisticsStatus.return_info}");
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())){
-                    SET("t.RETURNTIME = #{impLogisticsStatus.return_time}");
+                    SET("t.RETURN_TIME = #{impLogisticsStatus.return_time}");
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
                     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");

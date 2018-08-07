@@ -12,7 +12,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
-        final String logisticsStatus = paramMap.get("logisticsStatus");
+        final String dataStatus = paramMap.get("dataStatus");
         final String end = paramMap.get("end");
         return new SQL(){
             {
@@ -24,14 +24,25 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                         " t.CONSIGNEE_ADDRESS," +
                         " t.DATA_STATUS," +
                         " t.APP_TIME," +
+                        " t.RETURN_STATUS as return_status,"+
+                        " t.RETURN_INFO as return_info,"+
                         " t1.LOGISTICS_STATUS," +
+                        " t1.RETURN_STATUS as returnStatus_status,"+
+                        " t1.RETURN_INFO as returnStatus_info,"+
                         " t1.LOGISTICS_TIME"  );
                 FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS t1  ON t.LOGISTICS_NO=t1.LOGISTICS_NO");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
-                if (!StringUtils.isEmpty(logisticsStatus)){
+               /* if (!StringUtils.isEmpty(dataStatus)){
                     WHERE("t.data_status = #{logisticsStatus}");
+                }*/
+                if (!StringUtils.isEmpty(dataStatus)){
+                    if ("N".equals(dataStatus)){
+                        WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
+                    }else if ("Y".equals(dataStatus)){
+                        WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
+                    }
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -52,7 +63,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
-        final String logisticsStatus = paramMap.get("logisticsStatus");
+        final String dataStatus = paramMap.get("dataStatus");
         return new SQL(){
             {
                 SELECT("COUNT(1)");
@@ -60,8 +71,13 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.LOGISTICS_NO = #{logisticsNo}");
                 }
-                if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.DATA_STATUS = #{logisticsStatus}");
+                if (!StringUtils.isEmpty(dataStatus)){
+                    /*WHERE("t.DATA_STATUS = #{logisticsStatus}");*/
+                    if ("N".equals(dataStatus)){
+                        WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
+                    }else if ("Y".equals(dataStatus)){
+                        WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
+                    }
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.APP_TIME >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");

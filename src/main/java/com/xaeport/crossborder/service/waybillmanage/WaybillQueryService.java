@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.waybillmanage;
 
 import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.Logistics;
 import com.xaeport.crossborder.data.entity.LogisticsHead;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
@@ -20,7 +21,7 @@ public class WaybillQueryService {
     /*
      * 查询运单查询数据
      */
-    public List<ImpLogistics> queryWaybillQueryDataList(Map<String, String> paramMap) throws Exception {
+    public List<ImpLogisticsData> queryWaybillQueryDataList(Map<String, String> paramMap) throws Exception {
         return this.waybillMapper.queryWaybillQueryDataList(paramMap);
     }
 

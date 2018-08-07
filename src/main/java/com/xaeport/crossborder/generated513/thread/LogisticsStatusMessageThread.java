@@ -51,6 +51,7 @@ public class LogisticsStatusMessageThread implements Runnable {
         LogisticsStatusHead logisticsStatusHead;
         ImpLogisticsStatus lmpLogisticsStatus;
         String guid;
+        String crtId = null;
         while (true) {
             try {
                 // 查找运单申报中的数据
@@ -75,6 +76,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                     xmlHeadGuid = impLogisticsStatusLists.get(0).getGuid();
                     nameLogisticsNo = impLogisticsStatusLists.get(0).getLogistics_no();
                     guid = lmpLogisticsStatus.getGuid();
+                    crtId = lmpLogisticsStatus.getCrt_id();
                     logisticsStatusHead = new LogisticsStatusHead();
 
                     logisticsStatusHead.setGuid(guid);//企业系统生成36 位唯一序号（英文字母大写）
@@ -100,6 +102,12 @@ public class LogisticsStatusMessageThread implements Runnable {
 
                 ceb513Message.setLogisticsStatusHeadList(logisticsStatusHeadsLists);
                 //开始生成报文
+                BaseTransfer baseTransfer = new BaseTransfer();
+                if (!StringUtils.isEmpty(crtId)) {
+                    baseTransfer = waybillDeclareMapper.queryCompany(crtId);
+                }
+                //给basetransfer字段值
+                ceb513Message.setBaseTransfer(baseTransfer);
                 this.entryProcess(ceb513Message, nameLogisticsNo, xmlHeadGuid);
 
             } catch (Exception e) {

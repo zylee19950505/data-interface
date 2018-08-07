@@ -3,6 +3,7 @@ package com.xaeport.crossborder.service.waybillmanage;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class WaybillDeclareService {
     /*
      * 查询运单申报数据
      */
-    public List<ImpLogistics> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception {
+    public List<ImpLogisticsData> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception {
         return this.waybillMapper.queryWaybillDeclareDataList(paramMap);
     }
 

@@ -6,7 +6,7 @@ public class CEB513Message {
 
     private ImpLogisticsStatus impLogisticsStatus;
     private List<ImpLogisticsStatus> impLogisticsList;
-    private BaseTransfer411 baseTransfer411;//xml中BaseTransfer节点中的子节点
+    private BaseTransfer baseTransfer;//xml中BaseTransfer节点中的子节点
     private Signature411 signature411;//xml中固定的子节点
     private List<LogisticsStatus> LogisticsStatusList; //加入运单状态头部
     private List<LogisticsStatusHead> LogisticsStatusHeadList;//加入运单状态LogisticsStatusHead实体类。
@@ -27,12 +27,12 @@ public class CEB513Message {
         this.impLogisticsList = impLogisticsList;
     }
 
-    public BaseTransfer411 getBaseTransfer411() {
-        return baseTransfer411;
+    public BaseTransfer getBaseTransfer() {
+        return baseTransfer;
     }
 
-    public void setBaseTransfer411(BaseTransfer411 baseTransfer411) {
-        this.baseTransfer411 = baseTransfer411;
+    public void setBaseTransfer(BaseTransfer baseTransfer) {
+        this.baseTransfer = baseTransfer;
     }
 
     public Signature411 getSignature411() {
