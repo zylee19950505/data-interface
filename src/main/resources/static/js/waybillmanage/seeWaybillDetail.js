@@ -98,10 +98,10 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         $("#consingee").val(entryHead.consingee);
         $("#consignee_telephone").val(entryHead.consigneeTelephone);
         $("#consignee_address").val(entryHead.consigneeAddress);
-        $("#freight").val(entryHead.freight);
-        $("#insured_fee").val(entryHead.insuredFee);
+        $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
+        $("#insured_fee").val(parseFloat(entryHead.insuredFee).toFixed(5));
         $("#pack_no").val(entryHead.packNo);
-        $("#weight").val(entryHead.weight);
+        $("#weight").val(parseFloat(entryHead.weight).toFixed(5));
         $("#note").val(entryHead.note);
     },
     // 标记问题字段

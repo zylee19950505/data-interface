@@ -161,9 +161,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        // $("#customs_code").val(entryHead.customs_code);
         selecterInitDetail("customs_code",entryHead.customs_code,sw.dict.customs)
-        // $("#port_code").val(entryHead.port_code);
         selecterInitDetail("port_code",entryHead.port_code,sw.dict.customs)
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
@@ -173,12 +171,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        // $("#traf_mode").val(entryHead.traf_mode);
         selecterInitDetail("traf_mode",entryHead.traf_mode,sw.dict.trafMode)
         $("#traf_no").val(entryHead.traf_no);
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
-        // $("#country").val(entryHead.country);
         selecterInitDetail("country",entryHead.country,sw.dict.countryArea);
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#note").val(entryHead.note);

@@ -45,10 +45,11 @@ public class PaymentDeclareApi extends BaseApi {
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String payTransactionId,
+            @RequestParam(required = false) String startFlightTimes,
+            @RequestParam(required = false) String endFlightTimes,
             HttpServletRequest request
-
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[orderNo:%s,payTransactionId:%s]", orderNo, payTransactionId));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]",startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
 
@@ -61,6 +62,8 @@ public class PaymentDeclareApi extends BaseApi {
 
         paramMap.put("orderNo", orderNo);
         paramMap.put("payTransactionId", payTransactionId);
+        paramMap.put("startFlightTimes", startFlightTimes);
+        paramMap.put("endFlightTimes", endFlightTimes);
 
         paramMap.put("start", start);
         paramMap.put("length", length);

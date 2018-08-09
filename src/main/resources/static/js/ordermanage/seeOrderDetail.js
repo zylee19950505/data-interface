@@ -1,6 +1,3 @@
-// 邮件查询--点击查看邮件详情
-
-
 // 计算表头总价值
 function sumTotalPriceB() {
     var totalPrice = 0;
@@ -48,8 +45,6 @@ function selecterInitB(selectId, value, data) {
             return obj;
         }),
         placeholder: value,
-        // allowClear: true,
-        // tags:false,
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
@@ -78,9 +73,7 @@ function inputChanged(id){
             }
             // 修改字段为单价
             if (keys == "price") {// 商品价格
-                //var dVal = parseFloat(val).toFixed(4);
                 var dVal = parseFloat(val);
-                //var g_qty = parseFloat($("#g_qty_" + gno).val()).toFixed(4);
                 var g_qty = parseFloat($("#qty_" + gno).val());
                 sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal);
 
@@ -94,37 +87,6 @@ function inputChanged(id){
 
                 sumTotalPriceB();
             }
-            /*else if (keys == "g_netwt") {// 商品净重
-                var g_grosswt = parseFloat($("#g_grosswt_" + gno).val()).toFixed(4);
-                var g_netwt = parseFloat(val).toFixed(4);
-                if (g_netwt > g_grosswt) {
-                    hasError("序号[" + gno + "][净重]不能大于毛重");
-                    return;
-                }
-                // 计算及更新总净重
-                var netWt = 0;
-                $(".detailPage input[id^=g_netwt]").each(function () {
-                    var gNetWt = $(this).val();
-                    netWt = parseFloat(netWt) + parseFloat(gNetWt);
-                });
-                $("#net_wt").val(parseFloat(netWt).toFixed(2));
-                headChangeKeyValB["net_wt"] = $("#net_wt").val();
-            } else if (keys == "g_grosswt") {// 商品毛重
-                var g_grosswt = parseFloat(val).toFixed(4);
-                var g_netwt = parseFloat($("#g_netwt_" + gno).val()).toFixed(4);
-                if (g_netwt > g_grosswt) {
-                    hasError("序号[" + gno + "][毛重]不能小于净重");
-                    return;
-                }
-                // 计算及更新总毛重
-                var gross_wt = 0;
-                $(".detailPage input[id^=g_grosswt]").each(function () {
-                    var g_grosswt = $(this).val();
-                    gross_wt = parseFloat(gross_wt) + parseFloat(g_grosswt);
-                });
-                $("#gross_wt").val(parseFloat(gross_wt).toFixed(2));
-                headChangeKeyValB["gross_wt"] = $("#gross_wt").val();
-            }*/
             // 记录变更信息
             listChangeKeyVal[keys] = val;
             listChangeKeyVal["g_no"] = gno;
@@ -207,7 +169,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
     fillEntryHeadInfo: function (entryHead) {
         $("#guid").val(entryHead.guid);
         $("#order_No").val(entryHead.order_No);
-        $("#goods_Value").val(entryHead.goods_Value);
+        $("#goods_Value").val(parseFloat(entryHead.goods_Value).toFixed(5));
         $("#ebp_Code").val(entryHead.ebp_Code);
         $("#ebp_Name").val(entryHead.ebp_Name);
         $("#ebc_Code").val(entryHead.ebc_Code);
@@ -218,33 +180,12 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#consignee").val(entryHead.consignee);
         $("#consignee_Telephone").val(entryHead.consignee_Telephone);
         $("#consignee_Address").val(entryHead.consignee_Address);
-        $("#discount").val(entryHead.discount);
-        $("#tax_Total").val(entryHead.tax_Total);
-        $("#freight").val(entryHead.freight);
+        $("#discount").val(parseFloat(entryHead.discount).toFixed(5));
+        $("#tax_Total").val(parseFloat(entryHead.tax_Total).toFixed(5));
+        $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
         selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
-       /* $("#consignee_Ditrict").val(entryHead.consignee_Ditrict);*/
         $("#note").val(entryHead.note);
 
-       /* $("#buyer_Id_Type").val(entryHead.buyer_Id_Type);
-        $("#app_Type").val(entryHead.app_Type);
-        $("#app_Time").val(moment(entryHead.app_Time).format("YYYY-MM-DD"));
-        $("#app_Status").val(entryHead.app_Status);
-        $("#order_Type").val(entryHead.order_Type);
-        $("#actural_Paid").val(entryHead.actural_Paid);
-        selecterInitB("currency", entryHead.currency, sw.dict.currency);
-        $("#pay_Code").val(entryHead.pay_Code);
-        $("#payName").val(entryHead.payName);
-        $("#pay_Transaction_Id").val(entryHead.pay_Transaction_Id);
-        $("#batch_Numbers").val(entryHead.batch_Numbers);
-        $("#crt_id").val(entryHead.crt_id);
-        $("#crt_tm").val(moment(entryHead.crt_tm).format("YYYY-MM-DD"));
-        $("#upd_id").val(entryHead.upd_id);
-        $("#upd_tm").val(moment(entryHead.upd_tm).format("YYYY-MM-DD"));
-        $("#data_status").val(entryHead.data_status);
-        $("#return_status").val(entryHead.return_status);*/
-        /* if (sw.ie === "E") {
-             $("#note_s").val(entryHead.note)
-         }*/
     },
     //加载表体信息
     // 装载表体信息
@@ -255,20 +196,11 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +//递增序号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='order_No_" + g_num + "' value='" + entryLists[i].order_No + "' /></td>" +//订单编号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + entryLists[i].qty + "' /></td>" +//商品数量
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(2) + "' /></td>" +//商品单价
+                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
+                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
                 "<td ><select class=\"form-control input-sm\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(4) + "' /></td>" +//商品总价
+                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(5) + "' /></td>" +//商品总价
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='note_" + g_num + "' value='" + entryLists[i].note + "' /></td>" +//促销活动
-
-
-               /* "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='head_guid" + g_num + "' value='" + entryLists[i].head_guid + "' /></td>" +//订单表头唯一序号
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_No" + g_num + "' value='" + entryLists[i].item_No + "' /></td>" +//商品货号
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='bar_Code" + g_num + "' value='" + entryLists[i].bar_Code + "' /></td>" +//条形码前缀
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Describe" + g_num + "' value='" + entryLists[i].item_Describe + "' /></td>" +//商品描述
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='unit" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//海关标准参数代码
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"10\" id='currency" + g_num + "' /></td>" +//填写人民币
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='country" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//海关参数*/
                 "</tr>";
             $("#entryList").append(str);
             selecterInitDetail("unit_"+g_num,entryLists[i].unit,sw.dict.unitCodes);
@@ -380,27 +312,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "discount": "非现金支付金额",
             "tax_Total": "代扣税款",
             "freight": "运杂费",
-            "consignee_Ditrict":"原产国",
-
-          /*  "app_Type": "企业报送类型",
-            "app_Time": "企业报送时间",
-            "app_Status": "业务状态",
-            "order_Type": "电子订单类型",
-            "actural_Paid": "支付金额",
-            "currency":"币制",
-            "buyer_Id_Type":"身份证",
-            "pay_Code":"支付企业编号",
-            "payName":"支付企业名称",
-            "pay_Transaction_Id":"支付流水号",
-            "batch_Numbers":"商品批次号",
-            "note":"备注",
-            "crt_id":"创建人ID",
-            "crt_tm":"创建时间",
-            "upd_id":"更新人ID",
-            "upd_tm":"更新时间",
-            "data_status":"数据状态",
-            "return_status":"回执状态"*/
-            /*   "i_e_date": "进出口时间"*/
+            "consignee_Ditrict":"原产国"
         };
 
         // 校验表体
@@ -411,13 +323,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "qty": "实际数量",
             "price": "商品单价",
             "unit": "计量单位",
-            "total_Price": "商品总价",
-           /* "note": "促销活动",*/
-       /*     "currency": "人民币",
-            "country": "行政区",
-            "bar_Code": "条形码",
-            "item_Describe": "商品详情",
-            "item_No": "货号",*/
+            "total_Price": "商品总价"
         };
 
         var fieldId, fieldName, fieldVal;
@@ -497,19 +403,6 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
 
-
-                       /* "g_num",//从1开始的递增序号。
-                        "head_guid",//出口电子订单表头系统唯一序号
-                        "item_No",//电商企业自定义的商品货号（SKU）。
-                        "item_Name",//交易平台销售商品的中文名称。
-                        "item_Describe",//交易平台销售商品的描述信息。
-                        "bar_Code",//商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。
-                        "unit",//海关标准的参数代码海关标准的参数代码《JGS-20 海关业务代码集》- 计量单位代码
-                        "qty",//商品实际数量
-                        "price",//商品单价。赠品单价填写为 0。
-                        "currency",//限定为人民币，填写142。
-                        "country",//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 国家（地区）代码表。
-                        "note"*/
                     ];
                 }
                 //保存的路径

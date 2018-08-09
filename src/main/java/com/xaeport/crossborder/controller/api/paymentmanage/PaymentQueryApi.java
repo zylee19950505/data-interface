@@ -34,7 +34,6 @@ public class PaymentQueryApi extends BaseApi {
 			@RequestParam(required = false) String startFlightTimes,
 			@RequestParam(required = false) String endFlightTimes,
 			HttpServletRequest request
-
 	) {
 		this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]",startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 

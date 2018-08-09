@@ -106,7 +106,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         $("#pay_transaction_id").val(entryHead.pay_transaction_id);
         $("#ebp_code").val(entryHead.ebp_code);
         $("#ebp_name").val(entryHead.ebp_name);
-        $("#amount_paid").val(entryHead.amount_paid);
+        $("#amount_paid").val(parseFloat(entryHead.amount_paid).toFixed(5));
         selecterInitPayment("payer_id_type",entryHead.payer_id_type,sw.dict.certificateType)
         $("#payer_id_number").val(entryHead.payer_id_number);
         $("#payer_name").val(entryHead.payer_name);

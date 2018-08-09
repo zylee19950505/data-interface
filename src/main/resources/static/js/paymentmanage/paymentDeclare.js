@@ -9,11 +9,15 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         // 获取查询表单参数
         var orderNo = $("[name='orderNo']").val();//订单编号
         var payTransactionId = $("[name='payTransactionId']").val();//支付交易编号
+        var startFlightTimes = $("[name='startFlightTimes']").val();
+        var endFlightTimes = $("[name='endFlightTimes']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/paymentManage/queryPaymentDeclare", {
             orderNo: orderNo,
-            payTransactionId: payTransactionId
+            payTransactionId: payTransactionId,
+            startFlightTimes: startFlightTimes,
+            endFlightTimes: endFlightTimes
         });
 
         // 数据表
@@ -162,6 +166,8 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         });
     },
     init: function () {
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
+        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,

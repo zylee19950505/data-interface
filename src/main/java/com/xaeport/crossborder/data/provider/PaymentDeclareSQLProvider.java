@@ -17,6 +17,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
         final String end = paramMap.get("end");
+        final String startFlightTimes = paramMap.get("startFlightTimes");
+        final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
 
@@ -48,6 +50,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
                 }
+                if (!StringUtils.isEmpty(startFlightTimes)) {
+                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(endFlightTimes)) {
+                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                }
                 if (!"-1".equals(end)) {
                     ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
@@ -64,6 +72,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
 
         final String orderNo = paramMap.get("orderNo");
         final String payTransactionId = paramMap.get("payTransactionId");
+        final String startFlightTimes = paramMap.get("startFlightTimes");
+        final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
 
@@ -79,6 +89,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(payTransactionId)) {
                     WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
+                }
+                if (!StringUtils.isEmpty(startFlightTimes)) {
+                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(endFlightTimes)) {
+                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
             }
         }.toString();
