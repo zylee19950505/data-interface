@@ -28,7 +28,7 @@ public interface StatusImportMapper {
     /*
     * //判断运单是否申报成功,是否有回执
     * */
-    @SelectProvider(type = StatusImportSQLProvider.class,method = "isEmptyLogisticsNo")
+    @SelectProvider(type = StatusImportSQLProvider.class,method = "getLogisticsSuccess")
     int getLogisticsSuccess(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
 
     /*
@@ -36,4 +36,7 @@ public interface StatusImportMapper {
     * */
     @UpdateProvider(type = StatusImportSQLProvider.class,method = "updateLogisticsStatus")
     void updateLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
+
+    @UpdateProvider(type = StatusImportSQLProvider.class,method = "updateLogistics")
+    void updateLogistics(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
 }

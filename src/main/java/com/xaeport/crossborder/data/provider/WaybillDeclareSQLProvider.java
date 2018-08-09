@@ -14,6 +14,8 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String logisticsNo = paramMap.get("logisticsNo");
         final String dataStatus = paramMap.get("dataStatus");
         final String end = paramMap.get("end");
+        final String entId = paramMap.get("entId").toString();
+        final String roleId = paramMap.get("roleId").toString();
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
@@ -37,6 +39,9 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                /* if (!StringUtils.isEmpty(dataStatus)){
                     WHERE("t.data_status = #{logisticsStatus}");
                 }*/
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
+                }
                 if (!StringUtils.isEmpty(dataStatus)){
                     if ("N".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
@@ -64,12 +69,17 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String dataStatus = paramMap.get("dataStatus");
+        final String entId = paramMap.get("entId").toString();
+        final String roleId = paramMap.get("roleId").toString();
         return new SQL(){
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS  ON t.LOGISTICS_NO=T_IMP_LOGISTICS_STATUS.LOGISTICS_NO");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.LOGISTICS_NO = #{logisticsNo}");
+                }
+                if(!roleId.equals("admin")){
+                    WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
                     /*WHERE("t.DATA_STATUS = #{logisticsStatus}");*/

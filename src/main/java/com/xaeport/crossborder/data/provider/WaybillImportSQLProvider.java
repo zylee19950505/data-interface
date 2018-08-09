@@ -82,6 +82,15 @@ public class WaybillImportSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(impLogistics.getUpd_tm())) {
                     VALUES("upd_tm", "#{impLogistics.upd_tm}");
                 }
+                if(!StringUtils.isEmpty(impLogistics.getEnt_id())){
+                    VALUES("ent_id","#{impLogistics.ent_id}");
+                }
+                if(!StringUtils.isEmpty(impLogistics.getEnt_name())){
+                    VALUES("ent_name","#{impLogistics.ent_name}");
+                }
+                if(!StringUtils.isEmpty(impLogistics.getEnt_customs_code())){
+                    VALUES("ent_customs_code","#{impLogistics.ent_customs_code}");
+                }
 
             }
         }.toString();

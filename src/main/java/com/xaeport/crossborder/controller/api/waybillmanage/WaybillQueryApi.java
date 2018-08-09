@@ -3,6 +3,7 @@ package com.xaeport.crossborder.controller.api.waybillmanage;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.service.waybillmanage.WaybillQueryService;
@@ -20,7 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/waybillManage")
-public class WaybillQueryApi {
+public class WaybillQueryApi extends BaseApi{
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -57,6 +58,8 @@ public class WaybillQueryApi {
         map.put("length", length);
         map.put("end", end);
         map.put("extra_search", extra_search);
+        map.put("entId",this.getCurrentUserEntId());
+        map.put("roleId",this.getCurrentUserRoleId());
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {

@@ -20,7 +20,7 @@ public class ValidateWaybillStatus extends ValidateBase {
     private int logisticsNoIndex; //物流运单编号";//head
     private int logisticsCodeIndex; //物流企业代码";//head
     private int logisticsNameIndex; //物流企业名称";//head
-    private int logisticsStatusIndex; //物流运单状态";//head
+   // private int logisticsStatusIndex; //物流运单状态";//head
     private int logisticsTimeIndex; //物流状态时间";//head
     private int noteIndex; //备注";//head
 
@@ -35,7 +35,7 @@ public class ValidateWaybillStatus extends ValidateBase {
         logisticsNoIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsNo);
         logisticsCodeIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsCode);
         logisticsNameIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsName);
-        logisticsStatusIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsStatus);
+        //logisticsStatusIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsStatus);
         logisticsTimeIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsTime);
         noteIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.note);
         this.initMap();
@@ -45,7 +45,7 @@ public class ValidateWaybillStatus extends ValidateBase {
         indexMap.put(logisticsNoIndex, "物流运单编号,60");
         indexMap.put(logisticsCodeIndex, "物流企业代码,18");
         indexMap.put(logisticsNameIndex, "物流企业名称,100");
-        indexMap.put(logisticsStatusIndex, "物流运单状态,1");
+       // indexMap.put(logisticsStatusIndex, "物流运单状态,1");
         indexMap.put(logisticsTimeIndex, "物流状态时间,14");
 //        indexMap.put(noteIndex, "备注,1000");
     }

@@ -16,7 +16,7 @@ public class ExcelDataWaybillStatus implements ExcelData {
     private int  logisticsNoIndex; //物流运单编号";//head
     private int  logisticsCodeIndex; //物流企业代码";//head
     private int  logisticsNameIndex; //物流企业名称";//head
-    private int  logisticsStatusIndex; //物流运单状态";//head
+    //private int  logisticsStatusIndex; //物流运单状态";//head
     private int  logisticsTimeIndex; //物流状态时间";//head
     private int  noteIndex; //备注";//head
 
@@ -41,7 +41,7 @@ public class ExcelDataWaybillStatus implements ExcelData {
             impLogisticsStatus.setLogistics_no(excelData.get(i).get(logisticsNoIndex));//物流运单编号
             impLogisticsStatus.setLogistics_code(excelData.get(i).get(logisticsCodeIndex));//物流企业代码
             impLogisticsStatus.setLogistics_name(excelData.get(i).get(logisticsNameIndex));//物流企业名称
-            impLogisticsStatus.setLogistics_status(excelData.get(i).get(logisticsStatusIndex));//物流运单状态
+            //impLogisticsStatus.setLogistics_status(excelData.get(i).get(logisticsStatusIndex));//物流运单状态
             impLogisticsStatus.setNote(excelData.get(i).get(noteIndex));//备注
 
             //对时间进行格式化。
@@ -68,7 +68,7 @@ public class ExcelDataWaybillStatus implements ExcelData {
         logisticsNoIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsNo);
         logisticsCodeIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsCode);
         logisticsNameIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsName);
-        logisticsStatusIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsStatus);
+        //logisticsStatusIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsStatus);
         logisticsTimeIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsTime);
         noteIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.note);
 

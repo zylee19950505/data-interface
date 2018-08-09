@@ -64,6 +64,9 @@ public class WaybillDeclareApi extends BaseApi{
         map.put("length", length);
         map.put("end", end);
         map.put("extra_search", extra_search);
+
+        map.put("entId",this.getCurrentUserEntId());
+        map.put("roleId",this.getCurrentUserRoleId());
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {

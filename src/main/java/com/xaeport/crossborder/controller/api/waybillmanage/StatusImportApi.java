@@ -86,7 +86,7 @@ public class StatusImportApi extends BaseApi{
 
                 //判断这个物流运单号在运单表里是否存在,
                 String logisticsNo= this.statusImportService.getLogisticsNoCount(excelMap);
-                if ("true" != logisticsNo){
+                if (!"true".equals(logisticsNo)){
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号"+logisticsNo+"不存在,请检查");
                 }
@@ -99,17 +99,18 @@ public class StatusImportApi extends BaseApi{
 
                 //判断运单是否申报成功,是否有回执
                 String logisticsSuccess = this.statusImportService.getLogisticsSuccess(excelMap);
-                if ("true" != logisticsNo){
+                if (!"true".equals(logisticsSuccess)){
+                    //这个没变的话,就说明没有收到回执,或者状态还没有变为CBDS41
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号"+logisticsNo+"申报未成功");//申报未成功或者未收到回执
-                }else{
-                    //有回执,也申报成功了,就把运单状态改为CBDS5
-                    this.statusImportService.updateLogisticsStatus(excelMap);
+                    return new ResponseData("物流运单编号"+logisticsSuccess+"申报未成功或者未收到回执");//申报未成功或者未收到回执
                 }
 
                 flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
+                    //有回执,也申报成功了,就把运单状态改为CBDS5
+                    this.statusImportService.updateLogisticsStatus(excelMap);
+                    this.statusImportService.updateLogistics(excelMap);
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData(String.format("跨境电子商务运单状态导入成功！"));
                 } else if (flag == 1){
@@ -119,6 +120,7 @@ public class StatusImportApi extends BaseApi{
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }
+
             }
         } catch (IOException e) {
             this.log.error(String.format("导入文件模板错误，文件名:%s", fileName), e);
