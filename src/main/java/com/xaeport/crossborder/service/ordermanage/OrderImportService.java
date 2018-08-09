@@ -142,6 +142,7 @@ public class OrderImportService {
     private ImpOrderBody impOrderGoodsListData(ImpOrderBody impOrderBody, String headGuid, Users user) throws Exception {
         impOrderBody.setHead_guid(headGuid);//
         impOrderBody.setCurrency("142");//币制
+        impOrderBody.setBar_Code("无");//非必填项，没有必须写“无”
         return impOrderBody;
     }
 

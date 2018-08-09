@@ -34,7 +34,7 @@ public abstract class ValidateBase {
         if (indexMap.containsKey(cell_num)) {
             String messInfo = indexMap.get(cell_num).split(",")[0];
             int len = Integer.parseInt(indexMap.get(cell_num).split(",")[1]);
-            if (messInfo.equals("运费") || messInfo.equals("保费")|| messInfo.equals("运杂费")|| messInfo.equals("保价费")|| messInfo.equals("非现金抵扣金额")|| messInfo.equals("代扣税款")) {
+            if (messInfo.equals("运费") || messInfo.equals("保费")|| messInfo.equals("运杂费")|| messInfo.equals("保价费")|| messInfo.equals("非现金抵扣金额")|| messInfo.equals("代扣税款")|| messInfo.equals("总价")) {
                 return true;
             } else if (ValidateUtil.checkStrValue(cell) == -1) {
                 error_num.put("error", String.format("导入失败请修改后重新导入，第%d行第%d列。<%s>不能为空！", rowNum + 1, cell_num + 1, messInfo));

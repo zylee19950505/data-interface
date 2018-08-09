@@ -31,8 +31,6 @@ public class BaseBill {
     Waybill waybill;
     @Autowired
     AppConfiguration appConfiguration;
-   /* @Autowired
-    ShippingBill shippingBill;*/
 
     private DocumentBuilder getDocumentBuilder() {
         DocumentBuilder documentBuilder = null;
@@ -60,10 +58,6 @@ public class BaseBill {
      */
     public byte[]  createXML(CEB311Message ceb311Message, String flag) throws TransformerException {
         Document document = this.getDocument();
-        /*
-        <ceb:CEB311Message guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0"
-        xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        */
         Element rootElement = document.createElement("ceb:CEB311Message");
         rootElement.setAttribute("guid",ceb311Message.getOrderHead().getGuid());
         rootElement.setAttribute("version","1.0");
@@ -127,17 +121,7 @@ public class BaseBill {
             case "orderDeclare": {
                 ceborderheadEl.appendChild(this.waybill.getEntryHead(document, ceb311Message));
                 this.waybill.getEntryList(document, ceborderheadEl, ceb311Message);
-                //是否将EntryDocu节点组装
-                if (appConfiguration.isEntryDocu()) {
-               //     bzTypeElement.appendChild(this.waybill.getEntryDocu(document, signedData));
-                }
                 break;
-            }
-            case "shipingBill": {
-                //生成舱单 xml
-              /*  bzTypeElement.appendChild(this.shippingBill.getExpMftHead(document, signedData));
-                this.shippingBill.getExpMftList(document, bzTypeElement, signedData);
-                break;*/
             }
         }
         return ceborderheadEl;

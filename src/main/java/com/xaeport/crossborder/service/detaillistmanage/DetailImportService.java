@@ -141,6 +141,7 @@ public class DetailImportService {
     private ImpInventoryBody impInventoryBodyData(ImpInventoryBody impInventoryBody, String headGuid, Users user) throws Exception {
         impInventoryBody.setHead_guid(headGuid);//
         impInventoryBody.setCurrency("142");//币制
+        impInventoryBody.setBar_code("无");//非必填项，没有必须写“无”
         return impInventoryBody;
     }
 

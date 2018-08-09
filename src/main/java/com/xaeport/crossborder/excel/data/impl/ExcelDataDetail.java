@@ -199,6 +199,9 @@ public class ExcelDataDetail implements ExcelData {
         if (!StringUtils.isEmpty(total_Price)) {
             total_Price = df.format(Double.parseDouble(total_Price));
             impInventoryBody.setTotal_price(total_Price);//总价
+        }else{
+            total_Price = "0";
+            impInventoryBody.setTotal_price(total_Price);//总价
         }
 
         double Price = Double.parseDouble(total_Price) / Double.parseDouble(qty);

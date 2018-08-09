@@ -137,11 +137,23 @@ public class ExcelDataOrder implements ExcelData {
         DecimalFormat df = new DecimalFormat("0.00000");
         if (impOrderHeadMap.containsKey(orderNo)) {
             List<String> list = impOrderHeadMap.get(orderNo);//存放每次合并的结果
-            double total_value_Total = Double.parseDouble(list.get(total_PriceIndex)) + Double.parseDouble(orderHeadLists.get(total_PriceIndex));//合并所有表体的总价
-
+            String allTotalPrice = list.get(total_PriceIndex);
+            String addTotalPrice = orderHeadLists.get(total_PriceIndex);
+            if (StringUtils.isEmpty(allTotalPrice)){
+                allTotalPrice = "0";
+            }
+            if (StringUtils.isEmpty(addTotalPrice)){
+                addTotalPrice = "0";
+            }
+            double total_value_Total = Double.parseDouble(allTotalPrice) + Double.parseDouble(addTotalPrice);//合并所有表体的总价
             list.set(total_PriceIndex, df.format(total_value_Total));//商品价格
             impOrderHeadMap.put(orderNo, list);
         } else {
+            String totalPrice = orderHeadLists.get(total_PriceIndex);
+            if(StringUtils.isEmpty(totalPrice)){
+                totalPrice = "0";
+                orderHeadLists.set(total_PriceIndex,totalPrice);
+            }
             impOrderHeadMap.put(orderNo, orderHeadLists);
         }
         return impOrderHeadMap;
@@ -171,6 +183,9 @@ public class ExcelDataOrder implements ExcelData {
         String total_Price = entryLists.get(total_PriceIndex);
         if (!StringUtils.isEmpty(total_Price)) {
             total_Price = df.format(Double.parseDouble(total_Price));
+            impOrderBody.setTotal_Price(total_Price);//总价
+        }else {
+            total_Price = "0";
             impOrderBody.setTotal_Price(total_Price);//总价
         }
         double Price = Double.parseDouble(total_Price)/Double.parseDouble(qty);

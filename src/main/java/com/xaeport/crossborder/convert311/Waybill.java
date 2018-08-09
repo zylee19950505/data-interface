@@ -155,9 +155,10 @@ public class Waybill {
         consigneeAddress.setTextContent(ceb311Message.getOrderHead().getConsignee_Address());
         list.add(consigneeAddress);
         //<ceb:consigneeDistrict>
-        Element consigneeDistrict = document.createElement("ceb:consigneeDistrict");
-        consigneeDistrict.setTextContent(ceb311Message.getOrderHead().getConsignee_Ditrict());
-        list.add(consigneeDistrict);
+        //暂时报文去掉consigneeDistrict字段
+//        Element consigneeDistrict = document.createElement("ceb:consigneeDistrict");
+//        consigneeDistrict.setTextContent(ceb311Message.getOrderHead().getConsignee_Ditrict());
+//        list.add(consigneeDistrict);
         //<ceb:note>
         Element note = document.createElement("ceb:note");
         note.setTextContent(ceb311Message.getOrderHead().getNote());

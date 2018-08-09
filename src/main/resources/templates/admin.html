@@ -37,7 +37,6 @@
         sw.ajax("api/loadData", "GET", {}, function (rsp) {
             if (rsp.status == 200) {
                 if (typeof(rsp.data) == "undefined" || rsp.data == null || rsp.data == "") return;
-//                sw.dict.postalRate = rsp.data.postalRateMap;
                 sw.dict.unitCode = rsp.data.unitCodeMap;
                 sw.dict.unitCodes = rsp.data.unitCodesMap;
                 sw.dict.trafMode = rsp.data.trafModeMap;
@@ -46,6 +45,7 @@
                 sw.dict.customs = rsp.data.customsMap;
                 sw.dict.currency = rsp.data.currencyMap;
                 sw.dict.countryArea = rsp.data.countryAreaMap;
+//                sw.dict.chineseDistricts = rsp.data.chineseDistrictsMap;
                 sw.dict.certificateType = rsp.data.certificateTypeMap;
                 sw.dict.agentType = rsp.data.agentTypeMap;
                 sw.dict.agentNature = rsp.data.agentNatureMap;

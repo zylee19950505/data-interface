@@ -80,7 +80,6 @@ public class OrderMessageThread implements Runnable {
                     //获取head表的id
                     String headGuid = entryHead.getGuid();
                     try {
-                       // ceb311Message = this.messageUtils.getCEB311Message(senderId,receiverId);
                         ceb311Message = new CEB311Message();
                         String orderNo = entryHead.getOrder_No();//订单号,用于报文头信息
                         //设置表头
