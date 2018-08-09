@@ -90,8 +90,42 @@ public class StatusImportService {
         impLogisticsStatus.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impLogisticsStatus.setUpd_tm(new Date());//更新时间
         impLogisticsStatus.setUpd_tm(new Date());
-        impLogisticsStatus.setData_status(StatusCode.EXPORT);//设置为已导入CBDS1
+        impLogisticsStatus.setData_status(StatusCode.YDZTDSB);//设置为待申报CBDS5,运单状态不用校验
         return impLogisticsStatus;
     }
 
+    public String getLogisticsNoCount(Map<String, Object> excelMap) {
+        int flag = 0;
+        List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
+        for(int i=0;i<list.size();i++){
+            ImpLogisticsStatus impLogisticsStatus = list.get(i);
+            flag = this.statusImportMapper.isEmptyLogisticsNo(impLogisticsStatus);
+            if (flag == 0) {
+                return impLogisticsStatus.getLogistics_no();
+            }
+        }
+        return "true";
+    }
+
+    public String getLogisticsSuccess(Map<String, Object> excelMap) {
+        int flag = 0;
+        List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
+        for(int i=0;i<list.size();i++){
+            ImpLogisticsStatus impLogisticsStatus = list.get(i);
+            flag = this.statusImportMapper.getLogisticsSuccess(impLogisticsStatus);
+            if (flag == 0) {
+                return impLogisticsStatus.getLogistics_no();
+            }
+        }
+        return "true";
+
+    }
+
+    public void updateLogisticsStatus(Map<String, Object> excelMap) throws Exception{
+        List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
+        for(int i=0;i<list.size();i++){
+            ImpLogisticsStatus impLogisticsStatus = list.get(i);
+            this.statusImportMapper.updateLogisticsStatus(impLogisticsStatus);
+        }
+    }
 }

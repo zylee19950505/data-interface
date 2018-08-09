@@ -50,7 +50,7 @@ public class WaybillDeclareService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("处理运单[orderNo: %s]时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("处理运单[logisticsNo: %s]时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;
@@ -68,10 +68,38 @@ public class WaybillDeclareService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("处理运单状态申报[orderNo: %s]时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("处理运单状态申报[logisticsNo: %s]时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;
     }
 
+    /*
+    *运单提交时,判断是否符合条件(是否已经提交过,是否有回执)
+    * */
+    public String queryDateStatus(String submitKeys) {
+        String[] split = submitKeys.split(",");
+        String logisticsNo = "true";
+        for (int i = 0;i<split.length;i++){
+            logisticsNo = split[i];
+           int countDataStatus =this.waybillMapper.queryDateStatus(logisticsNo);
+           if (countDataStatus>0){
+               return logisticsNo;
+           }
+        }
+        return logisticsNo;
+    }
+
+    public String queryStaDateStatus(String submitKeys) {
+        String[] split = submitKeys.split(",");
+        String logisticsNo = "true";
+        for (int i = 0;i<split.length;i++){
+            logisticsNo = split[i];
+            int countDataStatus =this.waybillMapper.queryStaDateStatus(logisticsNo);
+            if (countDataStatus>0){
+                return logisticsNo;
+            }
+        }
+        return logisticsNo;
+    }
 }

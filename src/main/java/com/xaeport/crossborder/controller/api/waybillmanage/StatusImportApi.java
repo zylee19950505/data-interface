@@ -84,12 +84,28 @@ public class StatusImportApi extends BaseApi{
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
+                //判断这个物流运单号在运单表里是否存在,
+                String logisticsNo= this.statusImportService.getLogisticsNoCount(excelMap);
+                if ("true" != logisticsNo){
+                    httpSession.removeAttribute("userIdCode");
+                    return new ResponseData("物流运单编号"+logisticsNo+"不存在,请检查");
+                }
+
                 int logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
                 if (logisticsNoCount > 0) {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号不能重复");
                 }
 
+                //判断运单是否申报成功,是否有回执
+                String logisticsSuccess = this.statusImportService.getLogisticsSuccess(excelMap);
+                if ("true" != logisticsNo){
+                    httpSession.removeAttribute("userIdCode");
+                    return new ResponseData("物流运单编号"+logisticsNo+"申报未成功");//申报未成功或者未收到回执
+                }else{
+                    //有回执,也申报成功了,就把运单状态改为CBDS5
+                    this.statusImportService.updateLogisticsStatus(excelMap);
+                }
 
                 flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
