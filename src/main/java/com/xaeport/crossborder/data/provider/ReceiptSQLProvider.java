@@ -315,9 +315,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_No())){
                     VALUES("LOGISTICS_NO","#{impRecLogisticsStatus.logistics_No}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())){
-                    VALUES("LOGISTICS_STATUS","#{impRecLogisticsStatus.logistics_Status}");
-                }
+                VALUES("LOGISTICS_STATUS","S");
                 if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())){
                     VALUES("RETURN_STATUS","#{impRecLogisticsStatus.return_Status}");
                 }

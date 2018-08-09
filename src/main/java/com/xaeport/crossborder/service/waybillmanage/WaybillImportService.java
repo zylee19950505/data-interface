@@ -1,9 +1,11 @@
 package com.xaeport.crossborder.service.waybillmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.mapper.WaybillImportMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -27,6 +29,8 @@ public class WaybillImportService {
     AppConfiguration appConfiguration;
     @Autowired
     WaybillImportMapper waybillImportMapper;
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     /*
      * 订单导入
@@ -51,9 +55,10 @@ public class WaybillImportService {
      */
     private int createImpLogistics(Map<String, Object> excelMap, Users user) throws Exception {
         int flag = 0;
+        Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpLogistics> impLogisticsList = (List<ImpLogistics>) excelMap.get("ImpLogistics");
         for (ImpLogistics anImpLogisticsList : impLogisticsList) {
-            ImpLogistics impLogistics = this.impLogisticsData(anImpLogisticsList, user);
+            ImpLogistics impLogistics = this.impLogisticsData(anImpLogisticsList, user,enterprise);
             flag = this.waybillImportMapper.isRepeatLogisticsNo(impLogistics);
             if (flag > 0) {
                 return 1;
@@ -82,7 +87,7 @@ public class WaybillImportService {
     /**
      * 表自生成信息
      */
-    private ImpLogistics impLogisticsData(ImpLogistics impLogistics, Users user) throws Exception {
+    private ImpLogistics impLogisticsData(ImpLogistics impLogistics, Users user,Enterprise enterprise) throws Exception {
         impLogistics.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impLogistics.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impLogistics.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
@@ -93,6 +98,9 @@ public class WaybillImportService {
         impLogistics.setCrt_tm(new Date());//创建时间
         impLogistics.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impLogistics.setUpd_tm(new Date());//更新时间
+        impLogistics.setEnt_id(enterprise.getId());
+        impLogistics.setEnt_name(enterprise.getEnt_name());
+        impLogistics.setEnt_customs_code(enterprise.getCustoms_code());
         return impLogistics;
     }
 

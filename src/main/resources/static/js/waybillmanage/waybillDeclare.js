@@ -109,25 +109,29 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                                 textColor = "text-yellow";
                                 value = "运单待申报";
                                 break;
-                            case "CBDS40"://支付单申报中
+                            case "CBDS40"://运单申报中
                                 textColor = "text-green";
                                 value = "运单申报中";
                                 break;
-                            case "CBDS42"://支付单申报成功
+                            case "CBDS42"://运单申报成功
                                 textColor = "text-green";
                                 value = "运单申报成功";
                                 break;
-                            case "CBDS41"://支付单已申报
+                            case "CBDS41"://运单已申报
                                 textColor = "text-green";
                                 value = "运单已申报";
                                 break;
-                            case "CBDS44"://支付单申报失败
+                            case "CBDS44"://运单申报失败
                                 textColor = "text-red";
                                 value = "运单申报失败";
                                 break;
-                            case "CBDS43"://支付单重报
+                            case "CBDS43"://运单重报
                                 textColor = "text-red";
                                 value = "运单重报";
+                                break;
+                            case "CBDS5"://运单已申报,运单状态待申报
+                                textColor = "text-red";
+                                value = "运单已申报,运单状态待申报";
                                 break;
                             default :
                                 textColor = "";

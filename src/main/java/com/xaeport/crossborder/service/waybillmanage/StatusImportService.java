@@ -1,8 +1,10 @@
 package com.xaeport.crossborder.service.waybillmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.mapper.StatusImportMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -27,6 +29,8 @@ public class StatusImportService {
     AppConfiguration appConfiguration;
     @Autowired
     StatusImportMapper statusImportMapper;
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     /*
      * 运单状态单导入
@@ -50,9 +54,10 @@ public class StatusImportService {
      */
     private int createImpLogisticsStatus(Map<String, Object> excelMap, Users user) throws Exception {
         int flag = 0;
+        Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpLogisticsStatus> ImpLogisticsStatusList = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
         for (ImpLogisticsStatus anImpLogisticsStatusList : ImpLogisticsStatusList) {
-            ImpLogisticsStatus impLogisticsStatus = this.ImpLogisticsStatusData(anImpLogisticsStatusList, user);
+            ImpLogisticsStatus impLogisticsStatus = this.ImpLogisticsStatusData(anImpLogisticsStatusList, user,enterprise);
             flag = this.statusImportMapper.isRepeatLogisticsStatusNo(impLogisticsStatus);
             if (flag > 0) {
                 return 1;
@@ -81,7 +86,7 @@ public class StatusImportService {
     /**
      * 表自生成信息
      */
-    private ImpLogisticsStatus ImpLogisticsStatusData(ImpLogisticsStatus impLogisticsStatus, Users user) throws Exception {
+    private ImpLogisticsStatus ImpLogisticsStatusData(ImpLogisticsStatus impLogisticsStatus, Users user,Enterprise enterprise) throws Exception {
         impLogisticsStatus.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impLogisticsStatus.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impLogisticsStatus.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
@@ -91,6 +96,9 @@ public class StatusImportService {
         impLogisticsStatus.setUpd_tm(new Date());//更新时间
         impLogisticsStatus.setUpd_tm(new Date());
         impLogisticsStatus.setData_status(StatusCode.YDZTDSB);//设置为待申报CBDS5,运单状态不用校验
+        impLogisticsStatus.setEnt_id(enterprise.getId());
+        impLogisticsStatus.setEnt_name(enterprise.getEnt_name());
+        impLogisticsStatus.setEnt_customs_code(enterprise.getCustoms_code());
         return impLogisticsStatus;
     }
 
@@ -126,6 +134,14 @@ public class StatusImportService {
         for(int i=0;i<list.size();i++){
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             this.statusImportMapper.updateLogisticsStatus(impLogisticsStatus);
+        }
+    }
+
+    public void updateLogistics(Map<String, Object> excelMap) {
+        List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
+        for(int i=0;i<list.size();i++){
+            ImpLogisticsStatus impLogisticsStatus = list.get(i);
+            this.statusImportMapper.updateLogistics(impLogisticsStatus);
         }
     }
 }

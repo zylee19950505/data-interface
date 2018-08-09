@@ -87,7 +87,7 @@ public class WaybillDeclareService {
                return logisticsNo;
            }
         }
-        return logisticsNo;
+        return "true";
     }
 
     public String queryStaDateStatus(String submitKeys) {
@@ -100,6 +100,6 @@ public class WaybillDeclareService {
                 return logisticsNo;
             }
         }
-        return logisticsNo;
+        return "true";
     }
 }

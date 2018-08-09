@@ -59,6 +59,15 @@ public class StatusImportSQLProvider {
                 if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
                     VALUES("upd_tm", "#{impLogisticsStatus.upd_tm}");
                 }
+                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_id())){
+                    VALUES("ent_id","#{impLogisticsStatus.ent_id}");
+                }
+                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_name())){
+                    VALUES("ent_name","#{impLogisticsStatus.ent_name}");
+                }
+                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_customs_code())){
+                    VALUES("ent_customs_code","#{impLogisticsStatus.ent_customs_code}");
+                }
             }
         }.toString();
     }
@@ -111,9 +120,24 @@ public class StatusImportSQLProvider {
     public String updateLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
         return new SQL(){
             {
+                UPDATE("T_IMP_LOGISTICS_STATUS t");
+                WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+              /*  WHERE("t.RETURN_STATUS is not null");
+                WHERE("t.DATA_STATUS = 'CBDS41'");*/
+                SET("t.DATA_STATUS = 'CBDS5'");
+            }
+        }.toString();
+    }
+    /*
+    *
+    * */
+    public String updateLogistics(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+        return new SQL(){
+            {
                 UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
-                WHERE("t.RETURN_STATUS is not null");
+                //能解析回执的时候放开
+               // WHERE("t.RETURN_STATUS is not null");
                 WHERE("t.DATA_STATUS = 'CBDS41'");
                 SET("t.DATA_STATUS = 'CBDS5'");
             }
