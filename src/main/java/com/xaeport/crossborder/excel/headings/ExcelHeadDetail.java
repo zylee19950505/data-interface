@@ -12,7 +12,7 @@ public class ExcelHeadDetail {
 
     //校验字段
     public final static String orderNo = "订单编号";//head //list
-    public final static String copNo = "企业内部编号";//head
+//    public final static String copNo = "企业内部编号";//head
     public final static String logisticsNo = "物流运单编号";//head
     public final static String logisticsCode = "物流企业代码";//head
     public final static String logisticsName = "物流企业名称";//head
@@ -62,7 +62,7 @@ public class ExcelHeadDetail {
     public static List<String> getList() {
         List<String> detailList = new ArrayList<>();
         detailList.add("订单编号");
-        detailList.add("企业内部编号");
+//        detailList.add("企业内部编号");
         detailList.add("物流运单编号");
         detailList.add("物流企业代码");
         detailList.add("物流企业名称");

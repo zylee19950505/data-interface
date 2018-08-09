@@ -13,16 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ValidateWaybillStatus extends ValidateBase{
+public class ValidateWaybillStatus extends ValidateBase {
 
 
     private Log log = LogFactory.getLog(this.getClass());
-    private int  logisticsNoIndex; //物流运单编号";//head
-    private int  logisticsCodeIndex; //物流企业代码";//head
-    private int  logisticsNameIndex; //物流企业名称";//head
-    private int  logisticsStatusIndex; //物流运单状态";//head
-    private int  logisticsTimeIndex; //物流状态时间";//head
-    private int  noteIndex; //备注";//head
+    private int logisticsNoIndex; //物流运单编号";//head
+    private int logisticsCodeIndex; //物流企业代码";//head
+    private int logisticsNameIndex; //物流企业名称";//head
+    private int logisticsStatusIndex; //物流运单状态";//head
+    private int logisticsTimeIndex; //物流状态时间";//head
+    private int noteIndex; //备注";//head
 
     private Map<Integer, String> indexMap = new HashMap<>();
 
@@ -53,12 +53,11 @@ public class ValidateWaybillStatus extends ValidateBase{
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
 
         //导入excel模板非空和长度判断
-        if (cell_num != noteIndex) {
-            boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
-            if (!isEmpty) {
-                return -1;
-            }
+        boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
+        if (!isEmpty) {
+            return -1;
         }
+
 
         return 0;
     }

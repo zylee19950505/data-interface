@@ -42,7 +42,7 @@ public class ValidateUtil {
         double value;
         int flag = 0;
         if (cell == null || cell.toString().replaceAll(" ", "").isEmpty() || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
-            flag = 1;
+            flag = 0;
         } else {
             try {
                 value = Double.parseDouble(cell.toString().replaceAll(" +", ""));

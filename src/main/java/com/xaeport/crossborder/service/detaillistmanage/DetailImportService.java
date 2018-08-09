@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.detaillistmanage;
 
+import com.alibaba.druid.sql.visitor.functions.Substring;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
@@ -113,6 +114,7 @@ public class DetailImportService {
      */
     private ImpInventoryHead impInventoryHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user,Enterprise enterprise) throws Exception {
         impInventoryHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
+        impInventoryHead.setCop_no(enterprise.getCustoms_code() + IdUtils.getShortUUId().substring(0,10));
         impInventoryHead.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impInventoryHead.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
         impInventoryHead.setIe_flag("I");//电子订单类型：I进口

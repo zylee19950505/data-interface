@@ -14,7 +14,7 @@ import java.util.*;
 public class ExcelDataDetail implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //"订单编号";//head //list
-    private int copNoIndex; //"企业内部编号";//head
+//    private int copNoIndex; //"企业内部编号";//head
     private int logisticsNoIndex; //"物流运单编号";//head
     private int logisticsCodeIndex; //"物流企业代码";//head
     private int logisticsNameIndex; //"物流企业名称";//head
@@ -94,7 +94,7 @@ public class ExcelDataDetail implements ExcelData {
             impInventoryHead.setLogistics_no(value.get(logisticsNoIndex));//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
             impInventoryHead.setLogistics_code(value.get(logisticsCodeIndex));//物流企业的海关注册登记编号。
             impInventoryHead.setLogistics_name(value.get(logisticsNameIndex));//物流企业在海关注册登记的名称。
-            impInventoryHead.setCop_no(value.get(copNoIndex));//企业内部标识单证的编号。
+//            impInventoryHead.setCop_no(value.get(copNoIndex));//企业内部标识单证的编号。
 //            impInventoryHead.setPre_no("");//电子口岸标识单证的编号。
             impInventoryHead.setAssure_code(value.get(assureCodeIndex));//担保扣税的企业海关注册登记编号，只限清单的电商平台企业、电商企业、物流企业。
 //            impInventoryHead.setEms_no("");//保税模式必填，填写区内仓储企业在海关备案的账册编号，用于保税进口业务在特殊区域辅助系统记账（二线出区核减）。
@@ -124,10 +124,16 @@ public class ExcelDataDetail implements ExcelData {
             if (!StringUtils.isEmpty(insuredFee)) {
                 insuredFee = df.format(Double.parseDouble(insuredFee));
                 impInventoryHead.setInsured_fee(insuredFee);//物流企业实际收取的商品保价费用。
+            }else{
+                insuredFee = "0";
+                impInventoryHead.setInsured_fee(insuredFee);//物流企业实际收取的商品保价费用。
             }
             String freight = value.get(freightIndex);
             if (!StringUtils.isEmpty(freight)) {
                 freight = df.format(Double.parseDouble(freight));
+                impInventoryHead.setFreight(freight);//运杂费
+            }else{
+                freight = "0";
                 impInventoryHead.setFreight(freight);//运杂费
             }
             String grossWeight = value.get(grossWeightIndex);
@@ -212,7 +218,7 @@ public class ExcelDataDetail implements ExcelData {
      */
     public void getIndexValue(List<String> detailLists) {
         orderNoIndex = detailLists.indexOf(ExcelHeadDetail.orderNo);
-        copNoIndex = detailLists.indexOf(ExcelHeadDetail.copNo);
+//        copNoIndex = detailLists.indexOf(ExcelHeadDetail.copNo);
         logisticsNoIndex = detailLists.indexOf(ExcelHeadDetail.logisticsNo);
         logisticsCodeIndex = detailLists.indexOf(ExcelHeadDetail.logisticsCode);
         logisticsNameIndex = detailLists.indexOf(ExcelHeadDetail.logisticsName);

@@ -93,15 +93,24 @@ public class ExcelDataOrder implements ExcelData {
             if (!StringUtils.isEmpty(freight)) {
                 freight = df.format(Double.parseDouble(freight));
                 impOrderHead.setFreight(freight);//运杂费
+            }else {
+                freight = "0";
+                impOrderHead.setFreight(freight);//运杂费
             }
             String discount = value.get(discountIndex);
             if (!StringUtils.isEmpty(discount)) {
                 discount = df.format(Double.parseDouble(discount));
                 impOrderHead.setDiscount(discount);//非现金抵扣金额
+            }else {
+                discount = "0";
+                impOrderHead.setDiscount(discount);//非现金抵扣金额
             }
             String tax_Total = value.get(tax_TotalIndex);
             if (!StringUtils.isEmpty(tax_Total)) {
                 tax_Total = df.format(Double.parseDouble(tax_Total));
+                impOrderHead.setTax_Total(tax_Total);//代扣税款
+            }else {
+                tax_Total = "0";
                 impOrderHead.setTax_Total(tax_Total);//代扣税款
             }
             double actural_Paid = Double.parseDouble(goodsValue) + Double.parseDouble(freight) + Double.parseDouble(tax_Total) - Double.parseDouble(discount);

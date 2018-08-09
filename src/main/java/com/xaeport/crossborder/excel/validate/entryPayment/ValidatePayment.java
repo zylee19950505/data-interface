@@ -63,12 +63,12 @@ public class ValidatePayment extends ValidateBase {
 
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
         //导入excel模板非空和长度判断
-            boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
-            if (!isEmpty) {
-                return -1;
-            }
+        boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
+        if (!isEmpty) {
+            return -1;
+        }
         // 导入数据double类型判断
-        if (cell_num == amountPaidIndex ) {
+        if (cell_num == amountPaidIndex) {
             String message = indexMap.get(cell_num).split(",")[0];
             int flag = ValidateUtil.checkDoubleValue(cell);
             boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);

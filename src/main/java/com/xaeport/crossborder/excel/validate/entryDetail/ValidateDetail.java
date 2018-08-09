@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ValidateDetail extends ValidateBase{
+public class ValidateDetail extends ValidateBase {
 
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //"订单编号";//head //list
-    private int copNoIndex; //"企业内部编号";//head
+    //    private int copNoIndex; //"企业内部编号";//head
     private int logisticsNoIndex; //"物流运单编号";//head
     private int logisticsCodeIndex; //"物流企业代码";//head
     private int logisticsNameIndex; //"物流企业名称";//head
@@ -59,7 +59,7 @@ public class ValidateDetail extends ValidateBase{
 
     public void initMap() {
         indexMap.put(orderNoIndex, "订单编号,60");
-        indexMap.put(copNoIndex, "企业内部编号,20");
+//        indexMap.put(copNoIndex, "企业内部编号,20");
         indexMap.put(logisticsNoIndex, "物流运单编号,60");
         indexMap.put(logisticsCodeIndex, "物流企业代码,18");
         indexMap.put(logisticsNameIndex, "物流企业名称,100");
@@ -86,7 +86,7 @@ public class ValidateDetail extends ValidateBase{
         indexMap.put(buyerTelephoneIndex, "订购人电话,30");
         indexMap.put(consignee_AddressIndex, "收件地址,200");
         indexMap.put(freightIndex, "运费,19");
-        indexMap.put(insuredFeeIndex, "运费,19");
+        indexMap.put(insuredFeeIndex, "保费,19");
         indexMap.put(agentCodeIndex, "申报企业代码,18");
         indexMap.put(agentNameIndex, "申报企业名称,100");
         indexMap.put(trafModeIndex, "运输方式,1");
@@ -104,17 +104,14 @@ public class ValidateDetail extends ValidateBase{
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
 
         //导入excel模板非空和长度判断
-        if (cell_num != noteIndex) {
-            boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
-            if (!isEmpty) {
-                return -1;
-            }
+        boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
+        if (!isEmpty) {
+            return -1;
         }
 
         // 导入数据double类型判断
-//        if (cell_num == qtyIndex || cell_num == qty1Index || cell_num == qty2Index || cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
-        if (cell_num == qtyIndex || cell_num == qty1Index|| cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex || cell_num == insuredFeeIndex || cell_num == grossWeightIndex ) {
-        String message = indexMap.get(cell_num).split(",")[0];
+        if (cell_num == qtyIndex || cell_num == qty1Index || cell_num == freightIndex || cell_num == total_PriceIndex || cell_num == netWeightIndex || cell_num == insuredFeeIndex || cell_num == grossWeightIndex) {
+            String message = indexMap.get(cell_num).split(",")[0];
             int flag = ValidateUtil.checkDoubleValue(cell);
             boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);
             if (!checkNumberType) {
@@ -156,7 +153,7 @@ public class ValidateDetail extends ValidateBase{
      */
     public void getIndexValue(List<String> list) {
         orderNoIndex = list.indexOf(ExcelHeadDetail.orderNo);
-        copNoIndex = list.indexOf(ExcelHeadDetail.copNo);
+//        copNoIndex = list.indexOf(ExcelHeadDetail.copNo);
         logisticsNoIndex = list.indexOf(ExcelHeadDetail.logisticsNo);
         logisticsCodeIndex = list.indexOf(ExcelHeadDetail.logisticsCode);
         logisticsNameIndex = list.indexOf(ExcelHeadDetail.logisticsName);

@@ -55,13 +55,18 @@ public class ExcelDataWaybill implements ExcelData {
             if (!StringUtils.isEmpty(freight)) {
                 freight = df.format(Double.parseDouble(freight));
                 impLogistics.setFreight(freight);//运费
+            }else {
+                freight = "0";
+                impLogistics.setFreight(freight);//运费
             }
             String insuredFee = excelData.get(i).get(insuredFeeIndex);
             if (!StringUtils.isEmpty(insuredFee)) {
                 insuredFee = df.format(Double.parseDouble(insuredFee));
                 impLogistics.setInsured_fee(insuredFee);//保价费
+            }else {
+                insuredFee = "0";
+                impLogistics.setInsured_fee(insuredFee);//保价费
             }
-
             String grossWeight = excelData.get(i).get(grossWeightIndex);
             if (!StringUtils.isEmpty(grossWeight)) {
                 grossWeight = df.format(Double.parseDouble(grossWeight));

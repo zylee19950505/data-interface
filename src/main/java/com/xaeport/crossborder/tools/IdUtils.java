@@ -10,4 +10,8 @@ public class IdUtils {
     public static String getUUId() {
         return UUID.randomUUID().toString().toUpperCase();
     }
+
+    public static String getShortUUId() {
+        return UUID.randomUUID().toString().toUpperCase().replace("-","");
+    }
 }
