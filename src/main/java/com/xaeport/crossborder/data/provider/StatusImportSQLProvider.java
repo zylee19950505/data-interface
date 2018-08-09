@@ -77,4 +77,46 @@ public class StatusImportSQLProvider {
         }.toString();
     }
 
+    /*
+    * 查询导入的运单装填是否有对应的运单
+    * */
+    public String  isEmptyLogisticsNo(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus)throws Exception{
+        return new SQL(){
+            {
+                SELECT("count(1)");
+                FROM("T_IMP_LOGISTICS t");
+                WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+            }
+        }.toString();
+    }
+
+    /*
+    * //判断运单是否申报成功,是否有回执
+    * */
+    public String  getLogisticsSuccess(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+        return new SQL(){
+            {
+                SELECT("count(1)");
+                FROM("T_IMP_LOGISTICS t");
+                WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+                WHERE("t.RETURN_STATUS is not null");
+                WHERE("t.DATA_STATUS = 'CBDS41'");
+            }
+        }.toString();
+    }
+
+    /*
+    * 有回执,申报成功后把运单状态改为CBDS5
+    * */
+    public String updateLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+                WHERE("t.RETURN_STATUS is not null");
+                WHERE("t.DATA_STATUS = 'CBDS41'");
+                SET("t.DATA_STATUS = 'CBDS5'");
+            }
+        }.toString();
+    }
 }

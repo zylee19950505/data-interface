@@ -54,7 +54,18 @@ public interface WaybillDeclareMapper {
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateToLogisticsStatus")
     void updateToLogisticsStatus(@Param("guid") String guid, @Param("CBDS51") String CBDS51) throws Exception;
 
+    //修改运单申报状态
+    @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateToLogistics")
+    void updateToLogistics(@Param("guid") String guid, @Param("CBDS51") String CBDS51)throws Exception;
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
 	BaseTransfer queryCompany(@Param("crtId") String crtId);
+
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryDateStatus")
+    int queryDateStatus(@Param("logisticsNo") String logisticsNo);
+
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryStaDateStatus")
+	int queryStaDateStatus(@Param("logisticsNo") String logisticsNo);
+
+
 }

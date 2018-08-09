@@ -2,10 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import com.xaeport.crossborder.data.provider.StatusImportSQLProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface StatusImportMapper {
@@ -22,4 +19,21 @@ public interface StatusImportMapper {
     @SelectProvider(type = StatusImportSQLProvider.class,method = "isRepeatLogisticsStatusNo")
     int isRepeatLogisticsStatusNo(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus) throws Exception;
 
+    /*
+    * 查询导入的运单状态是否有对应的运单
+    * */
+    @SelectProvider(type = StatusImportSQLProvider.class,method = "isEmptyLogisticsNo")
+	int isEmptyLogisticsNo(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
+
+    /*
+    * //判断运单是否申报成功,是否有回执
+    * */
+    @SelectProvider(type = StatusImportSQLProvider.class,method = "isEmptyLogisticsNo")
+    int getLogisticsSuccess(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
+
+    /*
+    * 有回执,申报成功后把运单状态改为CBDS5
+    * */
+    @UpdateProvider(type = StatusImportSQLProvider.class,method = "updateLogisticsStatus")
+    void updateLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
 }

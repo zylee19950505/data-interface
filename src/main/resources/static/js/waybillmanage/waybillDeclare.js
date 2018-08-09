@@ -58,12 +58,19 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        ////运单已申报，申报中，申报成功 那就不用再点击申报
-                        if(row.data_status == "CBDS41"){
-                            return "";
-                        }else {
+                        //运单状态已申报(此界面不显示此条信息)
+                        if(row.data_status == "CBDS1"){
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.logistics_no + '" />';
+                        }else if(row.data_status == "CBDS4"){
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.logistics_no + '" />';
+                        }else if (row.data_status == "CBDS5"){
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.logistics_no + '" />';
+                        }
+                        else {
+                            return "";
                         }
                     }
                 },

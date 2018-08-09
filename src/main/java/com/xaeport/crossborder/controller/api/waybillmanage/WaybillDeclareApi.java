@@ -94,6 +94,12 @@ public class WaybillDeclareApi extends BaseApi{
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的运单信息！");
         }
+        //判断运单已经申报的不再申报
+        String logisticsNo = this.waybillService.queryDateStatus(submitKeys);
+        if (!"true".equals(logisticsNo)){
+            return rtnResponse("false","申报失败,运单编号"+logisticsNo+"不符合运单申报");
+        }
+
             Users currentUser = this.getCurrentUsers();
             Map<String, String> paramMap = new HashMap<>();
             paramMap.put("dataStatus", StatusCode.YDSBZ);
@@ -122,6 +128,11 @@ public class WaybillDeclareApi extends BaseApi{
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的运单信息！");
         }
+        //判断运单状态已经申报的不再申报
+        String logisticsNo = this.waybillService.queryStaDateStatus(submitKeys);
+        if (!"true".equals(logisticsNo)){
+            return rtnResponse("false","运单状态申报失败,运单编号"+logisticsNo+"不符合运单状态申报");
+        }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.YDZTSBZ);
@@ -132,6 +143,10 @@ public class WaybillDeclareApi extends BaseApi{
 
         // 调用运单申报Service获取提交海关结果
         boolean flag = waybillService.updateSubmitWaybillToStatus(paramMap);
+        //改变运单表的状态
+        if (flag) {
+            flag = waybillService.updateSubmitWaybill(paramMap);
+        }
         if (flag) {
             return rtnResponse("true", "运单状态申报海关提交成功！");
         } else {
