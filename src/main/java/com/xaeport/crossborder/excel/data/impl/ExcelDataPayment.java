@@ -1,18 +1,14 @@
 package com.xaeport.crossborder.excel.data.impl;
 
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadPayment;
-import com.xaeport.crossborder.tools.DateTools;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -75,11 +71,8 @@ public class ExcelDataPayment implements ExcelData {
             }
 
             impPayment.setNote(excelData.get(i).get(noteIndex));//备注
-            String amountPaid = excelData.get(i).get(amountPaidIndex);//支付金额
-            if (!StringUtils.isEmpty(amountPaid)) {
-                amountPaid = df.format(Double.parseDouble(amountPaid));
-                impPayment.setAmount_paid(amountPaid);
-            }
+            impPayment.setAmount_paid(getDouble(excelData.get(i).get(amountPaidIndex)));//支付金额
+
             listData.add(impPayment);
         }
         return listData;
@@ -103,6 +96,24 @@ public class ExcelDataPayment implements ExcelData {
         noteIndex = paymentLists.indexOf(ExcelHeadPayment.note);//备注
 
 
+    }
+
+    protected String getString(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
+    protected String getDouble(String str) {
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (!StringUtils.isEmpty(str)) {
+            return df.format(Double.parseDouble(str));
+        } else {
+            return "0";
+        }
     }
 
 

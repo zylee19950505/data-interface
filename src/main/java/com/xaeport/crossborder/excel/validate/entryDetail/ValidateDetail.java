@@ -15,7 +15,6 @@ public class ValidateDetail extends ValidateBase {
 
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //"订单编号";//head //list
-    //    private int copNoIndex; //"企业内部编号";//head
     private int logisticsNoIndex; //"物流运单编号";//head
     private int logisticsCodeIndex; //"物流企业代码";//head
     private int logisticsNameIndex; //"物流企业名称";//head
@@ -59,7 +58,6 @@ public class ValidateDetail extends ValidateBase {
 
     public void initMap() {
         indexMap.put(orderNoIndex, "订单编号,60");
-//        indexMap.put(copNoIndex, "企业内部编号,20");
         indexMap.put(logisticsNoIndex, "物流运单编号,60");
         indexMap.put(logisticsCodeIndex, "物流企业代码,18");
         indexMap.put(logisticsNameIndex, "物流企业名称,100");
@@ -97,8 +95,6 @@ public class ValidateDetail extends ValidateBase {
         indexMap.put(startCountryIndex, "起运国,3");
         indexMap.put(grossWeightIndex, "毛重,19");
         indexMap.put(netWeightIndex, "净重,19");
-//        indexMap.put(noteIndex, "备注,1000");
-
     }
 
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
@@ -153,7 +149,6 @@ public class ValidateDetail extends ValidateBase {
      */
     public void getIndexValue(List<String> list) {
         orderNoIndex = list.indexOf(ExcelHeadDetail.orderNo);
-//        copNoIndex = list.indexOf(ExcelHeadDetail.copNo);
         logisticsNoIndex = list.indexOf(ExcelHeadDetail.logisticsNo);
         logisticsCodeIndex = list.indexOf(ExcelHeadDetail.logisticsCode);
         logisticsNameIndex = list.indexOf(ExcelHeadDetail.logisticsName);

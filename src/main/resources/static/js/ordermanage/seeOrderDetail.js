@@ -110,8 +110,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         disableField: [
             "order_No",
             "goods_Value",
-            "total_Price"
-            /*"app_Type",
+            "total_Price",
+            "app_Type",
             "app_Time",
             "app_Status",
             "order_Type",
@@ -142,7 +142,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "upd_id",
             "upd_tm",
             "data_status",
-            "return_status"*/
+            "return_status"
         ]
     },
     // 保存成功时回调查询
@@ -183,7 +183,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#discount").val(parseFloat(entryHead.discount).toFixed(5));
         $("#tax_Total").val(parseFloat(entryHead.tax_Total).toFixed(5));
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
+        // selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
         $("#note").val(entryHead.note);
 
     },
@@ -196,13 +196,15 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +//递增序号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='order_No_" + g_num + "' value='" + entryLists[i].order_No + "' /></td>" +//订单编号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
-                "<td ><select class=\"form-control input-sm\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(5) + "' /></td>" +//商品总价
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='note_" + g_num + "' value='" + entryLists[i].note + "' /></td>" +//促销活动
                 "</tr>";
             $("#entryList").append(str);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
             selecterInitDetail("unit_"+g_num,entryLists[i].unit,sw.dict.unitCodes);
         }
     },
@@ -312,18 +314,18 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "discount": "非现金支付金额",
             "tax_Total": "代扣税款",
             "freight": "运杂费",
-            "consignee_Ditrict":"原产国"
         };
 
         // 校验表体
         var validataListField = {
             "g_num": "序号",
             "order_No": "订单编号",
-            "item_Name": "商品名称",
-            "qty": "实际数量",
-            "price": "商品单价",
-            "unit": "计量单位",
-            "total_Price": "商品总价"
+            "item_Name": "企业商品名称",
+            "country": "原产国",
+            "qty": "数量",
+            "price": "单价",
+            "unit": "单位",
+            "total_Price": "总价"
         };
 
         var fieldId, fieldName, fieldVal;
@@ -376,9 +378,6 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         var isEdit = param.isEdit;
         /* $("#declareTime").val(declareTime);*/
 
-        if (sw.ie === "E") {
-            $("#bzTr").removeClass() //备注
-        }
         if (type !== "LJJY") {
             $(".ieDateHide").remove();
         } else {
@@ -402,6 +401,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                         "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
+                        "g_num"
 
                     ];
                 }
@@ -414,56 +414,14 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             }
             //逻辑校验(预留)
             case "LJJY": {
-                // 不可编辑状态
-             /*   if (isEdit == "true") {
-                    this.detailParam.disableField = [
-                        "ass_bill_no", "g_no", "gross_wt", "net_wt", "total_value", "decl_total"
-                    ];
-                }
-                this.detailParam.url = "api/entry/save";
-                if (sw.ie === "I") {
-                    this.detailParam.callBackUrl = "express/import_b/logical_inspection";
-                }
-                if (sw.ie === "E") {
-                    this.detailParam.callBackUrl = "express/export_b/logical_inspection";
-                }
-                this.detailParam.isShowError = true;*/
+
                 break;
             }
 
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-                "ass_bill_no",
-                "owner_code",
-                "district_code",
-                "receive_name",
-                "send_id",
-                "tel",
-                "receive_city",
-                "wrap_type",
-                "curr_code",
-                "gross_wt",
-                "net_wt",
-                "send_country",
-                "send_name",
-                "send_city",
-                "main_gname",
-                "send_phone",
-                "owner_scc",
-                "agent_scc",
-                "total_value",
-                "g_no",
-                "g_name",
-                "g_model",
-                "code_ts",
-                "origin_country",
-                "g_grosswt",
-                "g_netwt",
-                "g_unit",
-                "g_qty",
-                "decl_price",
-                "decl_total"
+
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");

@@ -246,6 +246,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				if (!StringUtils.isEmpty(entryList.get("note"))){
 					SET("t.NOTE = #{note}");
 				}
+				if(!StringUtils.isEmpty(entryList.get("country"))){
+					SET("t.COUNTRY = #{country}");
+				}
 			}
 		}.toString();
 	}

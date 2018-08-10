@@ -50,29 +50,9 @@ public class ExcelDataWaybill implements ExcelData {
             impLogistics.setConsignee_telephone(excelData.get(i).get(consigneeTelephoneIndex));//收货人电话
             impLogistics.setConsignee_address(excelData.get(i).get(consigneeAddressIndex));//收件地址
             impLogistics.setNote(excelData.get(i).get(noteIndex));//备注
-
-            String freight = excelData.get(i).get(freightIndex);
-            if (!StringUtils.isEmpty(freight)) {
-                freight = df.format(Double.parseDouble(freight));
-                impLogistics.setFreight(freight);//运费
-            }else {
-                freight = "0";
-                impLogistics.setFreight(freight);//运费
-            }
-            String insuredFee = excelData.get(i).get(insuredFeeIndex);
-            if (!StringUtils.isEmpty(insuredFee)) {
-                insuredFee = df.format(Double.parseDouble(insuredFee));
-                impLogistics.setInsured_fee(insuredFee);//保价费
-            }else {
-                insuredFee = "0";
-                impLogistics.setInsured_fee(insuredFee);//保价费
-            }
-            String grossWeight = excelData.get(i).get(grossWeightIndex);
-            if (!StringUtils.isEmpty(grossWeight)) {
-                grossWeight = df.format(Double.parseDouble(grossWeight));
-                impLogistics.setWeight(grossWeight);//毛重
-            }
-
+            impLogistics.setFreight(getDouble(excelData.get(i).get(freightIndex)));//运费
+            impLogistics.setInsured_fee(getDouble(excelData.get(i).get(insuredFeeIndex)));//保价费
+            impLogistics.setWeight(getDouble(excelData.get(i).get(grossWeightIndex)));//毛重
             listData.add(impLogistics);
         }
         return listData;
@@ -94,6 +74,24 @@ public class ExcelDataWaybill implements ExcelData {
         insuredFeeIndex = waybillLists.indexOf(ExcelHeadWaybill.insuredFee);
         grossWeightIndex = waybillLists.indexOf(ExcelHeadWaybill.grossWeight);
         noteIndex = waybillLists.indexOf(ExcelHeadWaybill.note);
+    }
 
+
+    protected String getString(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
+    protected String getDouble(String str) {
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (!StringUtils.isEmpty(str)) {
+            return df.format(Double.parseDouble(str));
+        } else {
+            return "0";
+        }
     }
 }

@@ -7,18 +7,21 @@ function isNotEmpty(obj) {
     /*]]>*/
     return true;
 }
+
 // 错误提示
 function hasError(errorMsg) {
     /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
     /*]]>*/
 }
+
 // 清楚错误提示
 function clearError() {
     /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
     /*]]>*/
 }
+
 // Select2初始化
 function selecterInitDetail(selectId, value, data) {
     $("#" + selectId).select2({
@@ -69,9 +72,9 @@ function inputChange(id) {
             // 修改字段为单价
             if (keys == "price") {// 单价
                 var dVal = parseFloat(val);
-                var qty = parseFloat($("#qty_" + gno).val());
+                var qty = parseFloat($("#g_qty_" + gno).val());
                 sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
-            } else if (keys == "qty") {// 数量
+            } else if (keys == "g_qty") {// 数量
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
                 sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
@@ -88,7 +91,6 @@ function inputChange(id) {
         clearError();
     });
 }
-
 
 
 sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmanage/seeInventoryDetail"] || {
@@ -127,12 +129,12 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "g_name",
             "g_code",
             "g_model",
-            "qty",
-            "unit",
-            "qty1",
-            "unit1",
-            "qty2",
-            "unit2",
+            "g_qty",
+            "g_unit",
+            "qty_1",
+            "unit_1",
+            "qty_2",
+            "unit_2",
             "total_price"
         ]
     },
@@ -161,8 +163,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        selecterInitDetail("customs_code",entryHead.customs_code,sw.dict.customs)
-        selecterInitDetail("port_code",entryHead.port_code,sw.dict.customs)
+        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs)
+        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs)
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
@@ -171,11 +173,11 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        selecterInitDetail("traf_mode",entryHead.traf_mode,sw.dict.trafMode)
+        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode)
         $("#traf_no").val(entryHead.traf_no);
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
-        selecterInitDetail("country",entryHead.country,sw.dict.countryArea);
+        selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#note").val(entryHead.note);
     },
@@ -189,20 +191,20 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" maxlength=\"3\" id='unit1_" + g_num + "' value='" + entryLists[i].unit1 + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"3\" id='unit2_" + g_num + "' value='" + entryLists[i].unit2 + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='g_unit_" + g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_1_" + g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td></tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_"+g_num,entryLists[i].country,sw.dict.countryArea);
-            selecterInitDetail("unit_"+g_num,entryLists[i].unit,sw.dict.unitCodes);
-            selecterInitDetail("unit1_"+g_num,entryLists[i].unit1,sw.dict.unitCodes);
-            // selecterInitDetail("unit2_"+g_num,entryLists[i].unit2,sw.dict.unitCodes);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
+            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
+            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
         }
     },
     // 标记问题字段
@@ -224,7 +226,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
     // 保存订单编辑信息
     saveEntryInfo: function (orderNo, type, ieFlag) {
-        if (!this.valiField()) {
+        if (!this.valiFieldInventory()) {
             return;
         }
         var entryLists = new Array();
@@ -262,7 +264,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         var param = sw.getPageParams("detailmanage/seeInventoryDetail");
         var guid = param.guid;
         var data = {
-            guid : guid
+            guid: guid
         };
         $.ajax({
             method: "GET",
@@ -286,7 +288,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                     if (entryModule.detailParam.isShowError) {
                         entryModule.errorMessageShow(vertify);
                     }
-                   headChangeKeyVal["entryhead_guid"] = param.guid;
+                    headChangeKeyVal["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
                     inputChange(param.guid);
                     entryModule.disabledFieldInput();
@@ -295,7 +297,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         });
     },
     //校验
-    valiField: function () {
+    valiFieldInventory: function () {
         // 校验表头
         var validataHeadField = {
             "order_no": "订单编号",
@@ -312,16 +314,16 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "buyer_id_number": "订购人证件号码",
             "buyer_name": "订购人姓名",
             "buyer_telephone": "订购人电话",
-            "consignee_address":"收件地址",
-            "freight":"运费",
-            "agent_code":"申报企业代码",
-            "agent_name":"申报企业名称",
-            "traf_mode":"运输方式",
-            "traf_no":"运输工具编号",
-            "voyage_no":"航班航次号",
-            "bill_no":"提运单号",
-            "country":"起运国（地区）",
-            "gross_weight":"净重"
+            "consignee_address": "收件地址",
+            "freight": "运费",
+            "agent_code": "申报企业代码",
+            "agent_name": "申报企业名称",
+            "traf_mode": "运输方式",
+            "traf_no": "运输工具编号",
+            "voyage_no": "航班航次号",
+            "bill_no": "提运单号",
+            "country": "起运国（地区）",
+            "gross_weight": "净重"
             // "note":"备注",
         };
 
@@ -332,12 +334,12 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "g_code": "商品编码",
             "g_model": "商品规格/型号",
             "country": "原产国（地区）",
-            "qty": "数量",
-            "unit": "计量单位",
-            "qty1": "第一法定数量",
-            "unit1": "第一法定单位",
-            "qty2": "第二法定数量",
-            "unit2": "第二法定单位",
+            "g_qty": "数量",
+            "g_unit": "计量单位",
+            "qty_1": "第一法定数量",
+            "unit_1": "第一法定单位",
+            "qty_2": "第二法定数量",
+            // "unit2": "第二法定单位",
             "price": "单价",
             "total_price": "总价"
         };
@@ -394,7 +396,9 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         //当前禁用的字段,需要禁用的字段值在这里改
 
                         "order_no",//订单编号。
+                        "cop_no",//企业内部编号
                         "logistics_no",//物流运单编号
+                        "g_num"
 
                     ];
                 }
@@ -436,7 +440,6 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             sw.page.modules["detailmanage/seeInventoryDetail"].cancel();
         });
     },
-
 
 
 }

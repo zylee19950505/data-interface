@@ -5,7 +5,9 @@ import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadWaybillStatus;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.springframework.util.StringUtils;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -71,7 +73,24 @@ public class ExcelDataWaybillStatus implements ExcelData {
         //logisticsStatusIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsStatus);
         logisticsTimeIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.logisticsTime);
         noteIndex = waybillStatusLists.indexOf(ExcelHeadWaybillStatus.note);
+    }
 
+    protected String getString(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
+    protected String getDouble(String str) {
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (!StringUtils.isEmpty(str)) {
+            return df.format(Double.parseDouble(str));
+        } else {
+            return "0";
+        }
     }
 
 }

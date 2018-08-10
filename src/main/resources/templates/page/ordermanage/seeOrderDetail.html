@@ -13,7 +13,7 @@
             <td colspan="2">
                 <input class="form-control input-sm" maxlength="32" id="order_No"/>
             </td>
-            <td class="headTitle">总价</td>
+            <td class="headTitle">总价（合计）</td>
             <td colspan="2">
                 <input class="form-control input-sm" maxlength="20" id="goods_Value"/>
             </td>
@@ -76,15 +76,15 @@
         </tr>
         <tr>
             <td class="headTitle">运杂费</td>
-            <td>
+            <td colspan="2">
                 <input class="form-control input-sm" maxlength="50" id="freight"/>
             </td>
-            <td class="headTitle">原产国</td>
-            <td>
-                <select class="form-control input-sm" maxlength="20" id="consignee_Ditrict"/>
-            </td>
+            <!--<td class="headTitle">原产国</td>-->
+            <!--<td>-->
+                <!--<select class="form-control input-sm" maxlength="20" id="consignee_Ditrict"/>-->
+            <!--</td>-->
             <td class="headTitle">备注</td>
-            <td>
+            <td colspan="2">
                 <input class="form-control input-sm" maxlength="20" id="note"/>
             </td>
         </tr>
@@ -97,11 +97,12 @@
         <tr style="height: 30px">
             <th width="3%">序号</th>
             <th>订单编号</th>
-            <th>企业商品名称</th>
-            <th>数量</th>
-            <th>单价</th>
+            <th width="8%">企业商品名称</th>
+            <th>原产国</th>
+            <th width="5%">数量</th>
+            <th width="5%">单价</th>
             <th>单位</th>
-            <th>总价</th>
+            <th width="5%">总价</th>
             <th>促销活动</th>
         </tr>
     </table>

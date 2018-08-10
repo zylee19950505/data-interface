@@ -120,32 +120,10 @@ public class ExcelDataDetail implements ExcelData {
 //            impInventoryHead.setWrap_type("");//海关对进出口货物实际采用的外部包装方式的标识代码，采用1 位数字表示，如：木箱、纸箱、桶装、散装、托盘、包、油罐车等
 //            impInventoryHead.setNote(value.get(noteIndex));//备注
 
-            String insuredFee = value.get(insuredFeeIndex);
-            if (!StringUtils.isEmpty(insuredFee)) {
-                insuredFee = df.format(Double.parseDouble(insuredFee));
-                impInventoryHead.setInsured_fee(insuredFee);//物流企业实际收取的商品保价费用。
-            }else{
-                insuredFee = "0";
-                impInventoryHead.setInsured_fee(insuredFee);//物流企业实际收取的商品保价费用。
-            }
-            String freight = value.get(freightIndex);
-            if (!StringUtils.isEmpty(freight)) {
-                freight = df.format(Double.parseDouble(freight));
-                impInventoryHead.setFreight(freight);//运杂费
-            }else{
-                freight = "0";
-                impInventoryHead.setFreight(freight);//运杂费
-            }
-            String grossWeight = value.get(grossWeightIndex);
-            if (!StringUtils.isEmpty(grossWeight)) {
-                grossWeight = df.format(Double.parseDouble(grossWeight));
-                impInventoryHead.setGross_weight(grossWeight);//货物及其包装材料的重量之和，计量单位为千克。
-            }
-            String netWeight = value.get(netWeightIndex);
-            if (!StringUtils.isEmpty(netWeight)) {
-                netWeight = df.format(Double.parseDouble(netWeight));
-                impInventoryHead.setNet_weight(netWeight);//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-            }
+            impInventoryHead.setInsured_fee(getDouble(value.get(insuredFeeIndex)));//物流企业实际收取的商品保价费用。
+            impInventoryHead.setFreight(getDouble(value.get(freightIndex)));//运杂费
+            impInventoryHead.setGross_weight(getDouble(value.get(grossWeightIndex)));//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setNet_weight(getDouble(value.get(netWeightIndex)));//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
 
             listData.add(impInventoryHead);
         }
@@ -176,40 +154,16 @@ public class ExcelDataDetail implements ExcelData {
         impInventoryBody.setUnit2(inventoryBodies.get(unit2Index));//第二计量单位
         impInventoryBody.setNote(inventoryBodies.get(noteIndex));//促销活动，商品单价偏离市场价格的，可以在此说明。
 
+        impInventoryBody.setQty(getDouble(inventoryBodies.get(qtyIndex)));//商品实际数量
+        impInventoryBody.setQty1(getDouble(inventoryBodies.get(qty1Index)));//第一法定数量
+        impInventoryBody.setQty2(getDouble(inventoryBodies.get(qty2Index)));//第二法定数量
+        impInventoryBody.setTotal_price(getDouble(inventoryBodies.get(total_PriceIndex)));//总价
 
-        String qty = inventoryBodies.get(qtyIndex);
-        if (!StringUtils.isEmpty(qty)) {
-            qty = df.format(Double.parseDouble(qty));
-            impInventoryBody.setQty(qty);//商品实际数量
-        }
-
-        String qty1 = inventoryBodies.get(qty1Index);
-        if (!StringUtils.isEmpty(qty1)) {
-            qty1 = df.format(Double.parseDouble(qty1));
-            impInventoryBody.setQty1(qty1);//第一法定数量
-        }
-
-        String qty2 = inventoryBodies.get(qty2Index);
-        if (!StringUtils.isEmpty(qty2)) {
-            qty2 = df.format(Double.parseDouble(qty2));
-            impInventoryBody.setQty2(qty2);//第二法定数量
-        }
-
-        String total_Price = inventoryBodies.get(total_PriceIndex);
-        if (!StringUtils.isEmpty(total_Price)) {
-            total_Price = df.format(Double.parseDouble(total_Price));
-            impInventoryBody.setTotal_price(total_Price);//总价
-        }else{
-            total_Price = "0";
-            impInventoryBody.setTotal_price(total_Price);//总价
-        }
-
-        double Price = Double.parseDouble(total_Price) / Double.parseDouble(qty);
+        double Price = Double.parseDouble(impInventoryBody.getTotal_price()) / Double.parseDouble(impInventoryBody.getQty());
         if (!StringUtils.isEmpty(Price)) {
             String price = df.format(Price);
             impInventoryBody.setPrice(price);//单价
         }
-
         impInventoryBodyData.add(impInventoryBody);
         return impInventoryBodyData;
     }
@@ -221,7 +175,6 @@ public class ExcelDataDetail implements ExcelData {
      */
     public void getIndexValue(List<String> detailLists) {
         orderNoIndex = detailLists.indexOf(ExcelHeadDetail.orderNo);
-//        copNoIndex = detailLists.indexOf(ExcelHeadDetail.copNo);
         logisticsNoIndex = detailLists.indexOf(ExcelHeadDetail.logisticsNo);
         logisticsCodeIndex = detailLists.indexOf(ExcelHeadDetail.logisticsCode);
         logisticsNameIndex = detailLists.indexOf(ExcelHeadDetail.logisticsName);
@@ -273,6 +226,24 @@ public class ExcelDataDetail implements ExcelData {
         String orderNo = impInventoryHeadLists.get(orderNoIndex);
         impInventoryHeadMap.put(orderNo, impInventoryHeadLists);
         return impInventoryHeadMap;
+    }
+
+    protected String getString(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
+    protected String getDouble(String str) {
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (!StringUtils.isEmpty(str)) {
+            return df.format(Double.parseDouble(str));
+        } else {
+            return "0";
+        }
     }
 
 

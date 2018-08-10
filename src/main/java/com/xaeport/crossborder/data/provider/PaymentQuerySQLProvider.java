@@ -150,7 +150,7 @@ public class PaymentQuerySQLProvider {
 					SET("t.payer_name = #{payer_name}");
 				}
 				if (!StringUtils.isEmpty(entryHead.get("pay_time"))){
-					SET("t.pay_time = #{pay_time}");
+					SET("t.pay_time = to_date(#{pay_time},'yyyy-MM-dd')");
 				}
 				if (!StringUtils.isEmpty(entryHead.get("note"))){
 					SET("t.note = #{note}");

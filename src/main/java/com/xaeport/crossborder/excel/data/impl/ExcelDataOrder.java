@@ -83,37 +83,12 @@ public class ExcelDataOrder implements ExcelData {
             impOrderHead.setConsignee_Telephone(value.get(consignee_TelephoneIndex));//收货人电话
             impOrderHead.setConsignee_Address(value.get(consignee_AddressIndex));//收件地址
 //            impOrderHead.setNote(excelData.get(i).get(noteIndex));//备注
+            impOrderHead.setGoods_Value(getDouble(value.get(total_PriceIndex)));//商品价格
+            impOrderHead.setFreight(getDouble(value.get(freightIndex)));//运杂费
+            impOrderHead.setDiscount(getDouble(value.get(discountIndex)));//非现金抵扣金额
+            impOrderHead.setTax_Total(getDouble(value.get(tax_TotalIndex)));//代扣税款
 
-            String goodsValue = value.get(total_PriceIndex);
-            if (!StringUtils.isEmpty(goodsValue)) {
-                goodsValue = df.format(Double.parseDouble(goodsValue));
-                impOrderHead.setGoods_Value(goodsValue);//商品价格
-            }
-            String freight = value.get(freightIndex);
-            if (!StringUtils.isEmpty(freight)) {
-                freight = df.format(Double.parseDouble(freight));
-                impOrderHead.setFreight(freight);//运杂费
-            }else {
-                freight = "0";
-                impOrderHead.setFreight(freight);//运杂费
-            }
-            String discount = value.get(discountIndex);
-            if (!StringUtils.isEmpty(discount)) {
-                discount = df.format(Double.parseDouble(discount));
-                impOrderHead.setDiscount(discount);//非现金抵扣金额
-            }else {
-                discount = "0";
-                impOrderHead.setDiscount(discount);//非现金抵扣金额
-            }
-            String tax_Total = value.get(tax_TotalIndex);
-            if (!StringUtils.isEmpty(tax_Total)) {
-                tax_Total = df.format(Double.parseDouble(tax_Total));
-                impOrderHead.setTax_Total(tax_Total);//代扣税款
-            }else {
-                tax_Total = "0";
-                impOrderHead.setTax_Total(tax_Total);//代扣税款
-            }
-            double actural_Paid = Double.parseDouble(goodsValue) + Double.parseDouble(freight) + Double.parseDouble(tax_Total) - Double.parseDouble(discount);
+            double actural_Paid = Double.parseDouble(impOrderHead.getGoods_Value()) + Double.parseDouble(impOrderHead.getFreight()) + Double.parseDouble(impOrderHead.getTax_Total()) - Double.parseDouble(impOrderHead.getDiscount());
             // 实际支付金额 = 商品价格 + 运杂费 + 代扣税款 - 非现金抵扣金额，与支付凭证的支付金额一致。
             if(!StringUtils.isEmpty(actural_Paid)){
                 String acturalPaid = df.format(actural_Paid);
@@ -174,21 +149,10 @@ public class ExcelDataOrder implements ExcelData {
         impOrderBody.setCountry(entryLists.get(originCountryIndex));//原产国
         impOrderBody.setUnit(entryLists.get(unitIndex));//计量单位
         impOrderBody.setNote(entryLists.get(noteIndex));//备注
+        impOrderBody.setQty(getDouble(entryLists.get(qtyIndex)));//数量
+        impOrderBody.setTotal_Price(getDouble(entryLists.get(total_PriceIndex)));//总价
 
-        String qty = entryLists.get(qtyIndex);
-        if (!StringUtils.isEmpty(qty)) {
-            qty = df.format(Double.parseDouble(qty));
-            impOrderBody.setQty(qty);//数量
-        }
-        String total_Price = entryLists.get(total_PriceIndex);
-        if (!StringUtils.isEmpty(total_Price)) {
-            total_Price = df.format(Double.parseDouble(total_Price));
-            impOrderBody.setTotal_Price(total_Price);//总价
-        }else {
-            total_Price = "0";
-            impOrderBody.setTotal_Price(total_Price);//总价
-        }
-        double Price = Double.parseDouble(total_Price)/Double.parseDouble(qty);
+        double Price = Double.parseDouble(impOrderBody.getTotal_Price())/Double.parseDouble(impOrderBody.getQty());
         if(!StringUtils.isEmpty(Price)){
             String price = df.format(Price);
             impOrderBody.setPrice(price);//单价
@@ -225,6 +189,24 @@ public class ExcelDataOrder implements ExcelData {
         originCountryIndex = orderLists.indexOf(ExcelHeadOrder.originCountry);//原产国
         noteIndex = orderLists.indexOf(ExcelHeadOrder.note);//备注
 
+    }
+
+    protected String getString(String str) {
+        if (!StringUtils.isEmpty(str)) {
+            return str;
+        } else {
+            return "";
+        }
+
+    }
+
+    protected String getDouble(String str) {
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (!StringUtils.isEmpty(str)) {
+            return df.format(Double.parseDouble(str));
+        } else {
+            return "0";
+        }
     }
 
 
