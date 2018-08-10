@@ -133,6 +133,10 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                                 textColor = "text-red";
                                 value = "运单已申报,运单状态待申报";
                                 break;
+                            case "CBDS50"://运单已申报,运单状态待申报
+                                textColor = "text-red";
+                                value = "运单已申报,运单状态申报中";
+                                break;
                             default :
                                 textColor = "";
                                 value = "未知";

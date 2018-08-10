@@ -74,6 +74,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                 for (int i = 0; i < impLogisticsStatusLists.size(); i++) {
                     lmpLogisticsStatus = impLogisticsStatusLists.get(i);
                     xmlHeadGuid = impLogisticsStatusLists.get(0).getGuid();
+                    //用于生成文件名
                     nameLogisticsNo = impLogisticsStatusLists.get(0).getLogistics_no();
                     guid = lmpLogisticsStatus.getGuid();
                     crtId = lmpLogisticsStatus.getCrt_id();
@@ -93,7 +94,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                         // 更新运单状态
                         this.waybillDeclareMapper.updateToLogisticsStatus(guid, StatusCode.YDZTYSB);
                         //更改运单表
-                        this.waybillDeclareMapper.updateToLogistics(guid, StatusCode.YDZTYSB);
+                        this.waybillDeclareMapper.updateToLogistics(lmpLogisticsStatus.getLogistics_no(), StatusCode.YDZTYSB);
                         this.logger.debug(String.format("更新运单状态的状态为已申报[guid: %s]状态为: %s", guid, StatusCode.YDZTYSB));
                     } catch (Exception e) {
                         String exceptionMsg = String.format("更改运单状态513，[headGuid: %s]状态时发生异常", logisticsStatusHead.getGuid());
