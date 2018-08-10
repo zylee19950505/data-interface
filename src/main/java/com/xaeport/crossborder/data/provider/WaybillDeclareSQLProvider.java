@@ -14,8 +14,8 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String logisticsNo = paramMap.get("logisticsNo");
         final String dataStatus = paramMap.get("dataStatus");
         final String end = paramMap.get("end");
-        final String entId = paramMap.get("entId").toString();
-        final String roleId = paramMap.get("roleId").toString();
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
@@ -43,11 +43,12 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                     WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
-                    if ("N".equals(dataStatus)){
+                   /* if ("N".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
                     }else if ("Y".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
-                    }
+                    }*/
+                   WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -83,11 +84,12 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
                     /*WHERE("t.DATA_STATUS = #{logisticsStatus}");*/
-                    if ("N".equals(dataStatus)){
+                   /* if ("N".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
                     }else if ("Y".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
-                    }
+                    }*/
+                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");

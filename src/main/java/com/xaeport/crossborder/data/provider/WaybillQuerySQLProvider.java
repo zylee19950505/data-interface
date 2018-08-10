@@ -16,6 +16,7 @@ public class WaybillQuerySQLProvider {
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
+        final String dataStatus = paramMap.get("dataStatus");
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
@@ -35,7 +36,10 @@ public class WaybillQuerySQLProvider {
                         " t1.LOGISTICS_TIME"  );
                 FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS t1  ON t.LOGISTICS_NO=t1.LOGISTICS_NO");
                 if(!roleId.equals("admin")){
-                    WHERE("th.ent_id = #{entId}");
+                    WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dataStatus)){
+                    WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
@@ -65,12 +69,16 @@ public class WaybillQuerySQLProvider {
         final String logisticsStatus = paramMap.get("logisticsStatus");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
+        final String dataStatus = paramMap.get("dataStatus");
         return new SQL(){
             {
                 SELECT("count(1)");
                 FROM("T_IMP_LOGISTICS t");
                 if(!roleId.equals("admin")){
-                    WHERE("th.ent_id = #{entId}");
+                    WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dataStatus)){
+                    WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");

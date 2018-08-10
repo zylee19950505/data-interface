@@ -80,7 +80,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     }
 
 
-    //插入清单回执表数据
+    //插入订单回执表数据
     public String createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder){
         return new SQL(){
             {
@@ -141,10 +141,10 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     SET("t.RETURN_STATUS = #{impOrderHead.return_status}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_time())){
-                    SET("t.RETURNTIME = #{impOrderHead.return_time}");
+                    SET("t.RETURN_TIME = #{impOrderHead.return_time}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_info())){
-                    SET("t.RETURNINFO = #{impOrderHead.return_info}");
+                    SET("t.RETURN_INFO = #{impOrderHead.return_info}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getData_status())){
                     SET("t.DATA_STATUS = #{impOrderHead.data_status}");

@@ -67,6 +67,8 @@ public class WaybillDeclareApi extends BaseApi{
 
         map.put("entId",this.getCurrentUserEntId());
         map.put("roleId",this.getCurrentUserRoleId());
+        // 固定参数
+        map.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.YDDSB, StatusCode.YDYSB, StatusCode.YDCB,StatusCode.EXPORT,StatusCode.YDZTDSB,StatusCode.YDZTYSB,StatusCode.YDZTSBZ,StatusCode.YDZTCB));
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {

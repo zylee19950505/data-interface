@@ -69,6 +69,8 @@ public class PaymentDeclareApi extends BaseApi {
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
+        // 固定参数
+        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.ZFDDSB,StatusCode.ZFDSBZ, StatusCode.ZFDYSB, StatusCode.ZFDCB,StatusCode.EXPORT));
 
         paramMap.put("entId",this.getCurrentUserEntId());
         paramMap.put("roleId",this.getCurrentUserRoleId());

@@ -85,8 +85,8 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                             value = "订单已申报";
                             break;
                         case "CBDS22":
-                            textColor = "text-red";
-                            value = "订单重报";
+                            textColor = "text-blue";
+                            value = "订单申报成功";
                             break;
                         default:
                             textColor = "";

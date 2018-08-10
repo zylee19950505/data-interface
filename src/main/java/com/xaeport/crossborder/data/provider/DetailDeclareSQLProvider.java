@@ -16,6 +16,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
+        final String dataStatus = paramMap.get("dataStatus");
 
         return new SQL() {
             {
@@ -25,6 +26,9 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dataStatus)){
+                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
@@ -51,6 +55,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
+        final String dataStatus = paramMap.get("dataStatus");
 
         return new SQL() {
             {
@@ -58,6 +63,9 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dataStatus)){
+                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");

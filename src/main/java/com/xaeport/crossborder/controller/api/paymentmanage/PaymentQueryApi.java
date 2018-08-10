@@ -7,6 +7,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.paymentmanage.PaymentQueryService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,8 @@ public class PaymentQueryApi extends BaseApi {
 
 		paramMap.put("entId",this.getCurrentUserEntId());
 		paramMap.put("roleId",this.getCurrentUserRoleId());
+
+		paramMap.put("dataStatus", StatusCode.ZFDSBCG);
 
 		DataList<ImpPayment> dataList = null;
 		List<ImpPayment> resultList = null;

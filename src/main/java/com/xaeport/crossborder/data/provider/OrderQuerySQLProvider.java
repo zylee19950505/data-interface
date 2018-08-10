@@ -17,6 +17,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 		final String length = paramMap.get("length");
 		final String entId = paramMap.get("entId");
 		final String roleId = paramMap.get("roleId");
+		final String dataStatus = paramMap.get("dataStatus");
 
 		return new SQL() {
 			{
@@ -28,6 +29,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
+				}
+				if (!StringUtils.isEmpty(dataStatus)) {
+					WHERE("th.DATA_STATUS = #{dataStatus}");
 				}
 				if (!StringUtils.isEmpty(startDeclareTime)) {
 					WHERE(" th.app_time >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -53,6 +57,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String entId = paramMap.get("entId");
 		final String roleId = paramMap.get("roleId");
+		final String dataStatus = paramMap.get("dataStatus");
 
 		return new SQL() {
 			{
@@ -63,6 +68,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
+				}
+				if (!StringUtils.isEmpty(dataStatus)) {
+					WHERE("th.DATA_STATUS = #{dataStatus}");
 				}
 				if (!StringUtils.isEmpty(startDeclareTime)) {
 					WHERE(" th.app_time >= to_date(#{startDeclareTime}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
