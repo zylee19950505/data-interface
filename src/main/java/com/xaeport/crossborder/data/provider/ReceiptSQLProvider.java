@@ -72,12 +72,15 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if(!StringUtils.isEmpty(impPayment.getUpd_tm())){
                     SET("t.UPD_TM = #{impPayment.upd_tm}");
                 }
+                if (!StringUtils.isEmpty(impPayment.getData_status())){
+                    SET("t.DATA_STATUS = #{impPayment.data_status}");
+                }
             }
         }.toString();
     }
 
 
-    //插入清单回执表数据
+    //插入订单回执表数据
     public String createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder){
         return new SQL(){
             {
@@ -138,10 +141,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     SET("t.RETURN_STATUS = #{impOrderHead.return_status}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_time())){
-                    SET("t.RETURNTIME = #{impOrderHead.return_time}");
+                    SET("t.RETURN_TIME = #{impOrderHead.return_time}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_info())){
-                    SET("t.RETURNINFO = #{impOrderHead.return_info}");
+                    SET("t.RETURN_INFO = #{impOrderHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())){
+                    SET("t.DATA_STATUS = #{impOrderHead.data_status}");
                 }
             }
         }.toString();
@@ -222,6 +228,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if(!StringUtils.isEmpty(impInventoryHead.getUpd_tm())){
                     SET("t.UPD_TM = #{impInventoryHead.upd_tm}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getData_status())){
+                    SET("t.DATA_STATUS = #{impInventoryHead.data_status}");
                 }
             }
         }.toString();
@@ -363,6 +372,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
                     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())){
+                    SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
                 }
             }
         }.toString();

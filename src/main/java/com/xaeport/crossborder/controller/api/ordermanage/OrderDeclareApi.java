@@ -62,7 +62,7 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("start", Integer.parseInt(start)+1);
         paramMap.put("length", length);
         // 固定参数
-        paramMap.put("dsStatus", String.format("%s,%s,%s", StatusCode.DDDSB, StatusCode.DDYSB, StatusCode.DDCB));
+        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ,StatusCode.DDYSB, StatusCode.DDCB,StatusCode.EXPORT));
         paramMap.put("entId",this.getCurrentUserEntId());
         paramMap.put("roleId",this.getCurrentUserRoleId());
 

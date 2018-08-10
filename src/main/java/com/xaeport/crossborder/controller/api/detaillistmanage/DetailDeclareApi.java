@@ -66,7 +66,7 @@ public class DetailDeclareApi extends BaseApi{
         paramMap.put("entId",this.getCurrentUserEntId());
         paramMap.put("roleId",this.getCurrentUserRoleId());
         //类型参数
-        paramMap.put("dsStatus", String.format("%s,%s,%s", StatusCode.QDDSB, StatusCode.QDYSB, StatusCode.QDCB));
+        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ,StatusCode.QDYSB, StatusCode.QDCB,StatusCode.EXPORT));
 
         //更新人
         DataList<ImpInventory> dataList = null;

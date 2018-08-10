@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -314,6 +313,8 @@ public class ReceiptService {
         impPayment.setReturn_status(impRecPayment.getReturn_status());//操作结果（2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库）,若小于0 数字表示处理异常回执
         impPayment.setReturn_info(impRecPayment.getReturn_info());//备注（如:退单原因）
         impPayment.setReturn_time(impRecPayment.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
+        //支付单状态申报成功
+        impPayment.setData_status(StatusCode.ZFDSBCG);
         impPayment.setUpd_tm(new Date());
 //        String result = impRecPayment.getReturn_status();
 
@@ -334,6 +335,8 @@ public class ReceiptService {
         impOrderHead.setReturn_status(impRecOrder.getReturnStatus());
         impOrderHead.setReturn_time(impRecOrder.getReturnTime());
         impOrderHead.setReturn_info(impRecOrder.getReturnInfo());
+        //运单状态申报成功
+        impOrderHead.setData_status(StatusCode.DDSBCG);
 
         this.receiptMapper.updateImpOrder(impOrderHead);
     }
@@ -369,6 +372,8 @@ public class ReceiptService {
         impInventoryHead.setReturn_info(impRecInventory.getReturn_info());//备注（如:退单原因）
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
         impInventoryHead.setUpd_tm(new Date());
+        //清单申报成功
+        impInventoryHead.setData_status(StatusCode.QDSBCG);
 //        String result = impRecPayment.getReturn_status();
 
         this.receiptMapper.updateImpInventory(impInventoryHead);  //更新支付单表中的回执状态
@@ -388,6 +393,8 @@ public class ReceiptService {
         impLogisticsStatus.setReturn_status(impRecLogisticsStatus.getReturn_Status());
         impLogisticsStatus.setReturn_time(impRecLogisticsStatus.getReturn_Time());
         impLogisticsStatus.setReturn_info(impRecLogisticsStatus.getReturn_Info());
+        //运单状态申报成功
+        impLogisticsStatus.setData_status(StatusCode.YDZTSBCG);
 
         this.receiptMapper.updateImpLogisticsStatus(impLogisticsStatus);
     }

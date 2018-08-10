@@ -6,6 +6,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.ordermanage.OrderQueryService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,8 @@ public class OrderQueryApi extends BaseApi {
 		paramMap.put("length",length);
 		paramMap.put("entId",this.getCurrentUserEntId());
 		paramMap.put("roleId",this.getCurrentUserRoleId());
+		//查询只查申报成功的
+		paramMap.put("dataStatus", StatusCode.DDSBCG);
 
 		List<ImpOrderHead> resultList = new ArrayList<ImpOrderHead>();
 		try {

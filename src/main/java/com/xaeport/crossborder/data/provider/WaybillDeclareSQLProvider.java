@@ -14,8 +14,8 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String logisticsNo = paramMap.get("logisticsNo");
         final String dataStatus = paramMap.get("dataStatus");
         final String end = paramMap.get("end");
-        final String entId = paramMap.get("entId").toString();
-        final String roleId = paramMap.get("roleId").toString();
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
@@ -43,22 +43,23 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                     WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
-                    if ("N".equals(dataStatus)){
+                   /* if ("N".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
                     }else if ("Y".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
-                    }
+                    }*/
+                   WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
-                    WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if(!StringUtils.isEmpty(endFlightTimes)){
-                    WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!"-1".equals(end)) {
-                    ORDER_BY("t.app_time desc ) f  ) WHERE rn between #{start} and #{end}");
+                    ORDER_BY("t.CRT_TM desc ) f  ) WHERE rn between #{start} and #{end}");
                 } else {
-                    ORDER_BY("t.app_time desc ) f  ) WHERE rn >= #{start}");
+                    ORDER_BY("t.CRT_TM desc ) f  ) WHERE rn >= #{start}");
                 }
             }
         }.toString();
@@ -83,17 +84,18 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
                     /*WHERE("t.DATA_STATUS = #{logisticsStatus}");*/
-                    if ("N".equals(dataStatus)){
+                   /* if ("N".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS4' or t.data_status = 'CBDS40'");
                     }else if ("Y".equals(dataStatus)){
                         WHERE("t.data_status = 'CBDS41' or t.data_status = 'CBDS42' or t.data_status = 'CBDS43' or t.data_status = 'CBDS44'");
-                    }
+                    }*/
+                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
-                    WHERE("t.APP_TIME >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if(!StringUtils.isEmpty(endFlightTimes)){
-                    WHERE("t.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
             }
         }.toString();
@@ -204,12 +206,12 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
     /*
      * 修改运单为运单状态已申报
      */
-    public String updateToLogistics(@Param("guid") String guid, @Param("CBDS51") String CBDS51){
+    public String updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51){
         return new SQL(){
             {
                 UPDATE("T_IMP_LOGISTICS t");
                 //是否需要判断运单是否已申报
-                WHERE("t.GUID = #{guid}");
+                WHERE("t.LOGISTICS_NO = #{logisticsNo}");
                 SET("t.DATA_STATUS = 'CBDS51'");
                 SET("t.upd_tm = sysdate");
             }

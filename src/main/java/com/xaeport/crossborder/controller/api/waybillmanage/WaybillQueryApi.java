@@ -6,6 +6,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.waybillmanage.WaybillQueryService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class WaybillQueryApi extends BaseApi{
         map.put("extra_search", extra_search);
         map.put("entId",this.getCurrentUserEntId());
         map.put("roleId",this.getCurrentUserRoleId());
+        map.put("dataStatus", StatusCode.YDZTSBCG);
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {

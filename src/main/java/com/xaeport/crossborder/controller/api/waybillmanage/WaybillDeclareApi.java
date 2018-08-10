@@ -67,6 +67,8 @@ public class WaybillDeclareApi extends BaseApi{
 
         map.put("entId",this.getCurrentUserEntId());
         map.put("roleId",this.getCurrentUserRoleId());
+        // 固定参数
+        map.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.YDDSB, StatusCode.YDYSB, StatusCode.YDCB,StatusCode.EXPORT,StatusCode.YDZTDSB,StatusCode.YDZTYSB,StatusCode.YDZTSBZ,StatusCode.YDZTCB));
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {
@@ -111,7 +113,7 @@ public class WaybillDeclareApi extends BaseApi{
             /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
             paramMap.put("submitKeys", submitKeys);//订单遍号
 
-            // 调用支付单申报Service获取提交海关结果
+            // 调用运单申报Service获取提交海关结果
             boolean flag = waybillService.updateSubmitWaybill(paramMap);
             if (flag) {
                 return rtnResponse("true", "运单申报海关提交成功！");
@@ -146,10 +148,10 @@ public class WaybillDeclareApi extends BaseApi{
 
         // 调用运单申报Service获取提交海关结果
         boolean flag = waybillService.updateSubmitWaybillToStatus(paramMap);
-        //改变运单表的状态
+        /*//改变运单表的状态
         if (flag) {
             flag = waybillService.updateSubmitWaybill(paramMap);
-        }
+        }*/
         if (flag) {
             return rtnResponse("true", "运单状态申报海关提交成功！");
         } else {
