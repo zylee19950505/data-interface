@@ -72,6 +72,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if(!StringUtils.isEmpty(impPayment.getUpd_tm())){
                     SET("t.UPD_TM = #{impPayment.upd_tm}");
                 }
+                if (!StringUtils.isEmpty(impPayment.getData_status())){
+                    SET("t.DATA_STATUS = #{impPayment.data_status}");
+                }
             }
         }.toString();
     }
@@ -142,6 +145,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_info())){
                     SET("t.RETURNINFO = #{impOrderHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())){
+                    SET("t.DATA_STATUS = #{impOrderHead.data_status}");
                 }
             }
         }.toString();
@@ -222,6 +228,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if(!StringUtils.isEmpty(impInventoryHead.getUpd_tm())){
                     SET("t.UPD_TM = #{impInventoryHead.upd_tm}");
+                }
+                if(!StringUtils.isEmpty(impInventoryHead.getData_status())){
+                    SET("t.DATA_STATUS = #{impInventoryHead.data_status}");
                 }
             }
         }.toString();
@@ -363,6 +372,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
                     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())){
+                    SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
                 }
             }
         }.toString();

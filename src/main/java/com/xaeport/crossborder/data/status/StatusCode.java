@@ -16,7 +16,10 @@ public class StatusCode {
 	public final static String DDDSB = "CBDS2";//订单待申报,导入当做待申报
 	public final static String DDSBZ = "CBDS20";//订单申报中
 	public final static String DDYSB = "CBDS21";//订单已申报
-	public final static String DDCB = "CBDS22";//订单重报
+	public final static String DDSBCG = "CBDS22";//订单申报成功
+	public final static String DDCB = "CBDS23";//订单重报
+	public final static String DSBSB = "CBDS23";//订单申报失败
+
 
 	//支付单数据状态
 	public final static String ZFDDSB = "CBDS3";//支付单待申报
