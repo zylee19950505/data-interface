@@ -9,47 +9,48 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ReceiptMapper {
 
+    //订单回执插入
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecOrder")
+    void createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder);
+
+    //订单更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpOrder")
+    void updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead);
+
+    //支付单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecPayment")
     boolean createImpRecPayment(@Param("impRecPayment") ImpRecPayment impRecPayment) throws Exception;
 
-//    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpPaymentStatus")
-//    boolean updateImpPaymentStatus(@Param("impPayment") ImpPayment impPayment) throws Exception;
-
+    //支付单更新状态
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpPayment")
     boolean updateImpPayment(@Param("impPayment") ImpPayment impPayment) throws Exception;
 
-	@InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecOrder")
-	void createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder);
+    //运单回执插入
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogistics")
+    void createImpRecLogistics(@Param("impRecLogistics") ImpRecLogistics impRecLogistics);
 
-	@UpdateProvider(type = ReceiptSQLProvider.class,method = "updateImpOrder")
-	void updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead);
+    //运单更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpLogistics")
+    void updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics);
 
+    //运单状态回执插入
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogisticsStatus")
+    void createImpRecLogisticsStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus);
+
+    //运单状态更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpLogisticsStatus")
+    void updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
+
+    //运单更新最终状态为“CBDS52”（运单申报成功，运单状态申报成功）
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpLogisticsDataStatus")
+    void updateImpLogisticsDataStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus, @Param("ydztsbcg") String ydztsbcg);
+
+    //清单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecInventory")
     boolean createImpRecInventory(@Param("impRecInventory") ImpRecInventory impRecInventory) throws Exception;
 
+    //清单更新状态
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpInventory")
     boolean updateImpInventory(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
-
-	@InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogistics")
-	void createImpRecLogistics(@Param("impRecLogistics") ImpRecLogistics impRecLogistics);
-
-	@UpdateProvider(type =ReceiptSQLProvider.class,method = "updateImpLogistics")
-	void updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics);
-
-	@InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecLogisticsStatus")
-	void createImpRecLogisticsStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus);
-
-	@UpdateProvider(type =ReceiptSQLProvider.class,method = "updateImpLogisticsStatus")
-	void updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus);
-
-	@UpdateProvider(type =ReceiptSQLProvider.class,method = "updateImpLogisticsDataStatus")
-	void updateImpLogisticsDataStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus, @Param("ydztsbcg") String ydztsbcg);
-
-
-//    @Select("select declare_status from entryhead where bill_no=#{bill_no} and ass_bill_no=#{ass_bill_no}")
-//    String getEntryhead(@Param("bill_no") String bill_no, @Param("ass_bill_no") String ass_bill_no);
-//
-//    @Select("select max(to_number(op_time)) from declare_receipt  where   bill_no=#{bill_no}  and ass_bill_no=#{ass_bill_no}")
-//    String getOpTime(@Param("bill_no") String bill_no, @Param("ass_bill_no") String ass_bill_no);
 
 }

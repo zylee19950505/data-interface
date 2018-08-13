@@ -59,23 +59,23 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             {
                 UPDATE("T_IMP_PAYMENT t");
                 WHERE("t.DATA_STATUS = 'CBDS31'");
-                if(!StringUtils.isEmpty(impPayment.getPay_transaction_id())){
+                if (!StringUtils.isEmpty(impPayment.getPay_transaction_id())) {
                     WHERE("t.PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getReturn_status())){
+                if (!StringUtils.isEmpty(impPayment.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impPayment.return_status}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getReturn_info())){
+                if (!StringUtils.isEmpty(impPayment.getReturn_info())) {
                     SET("t.RETURN_INFO = #{impPayment.return_info}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getReturn_time())){
+                if (!StringUtils.isEmpty(impPayment.getReturn_time())) {
                     SET("t.RETURN_TIME = #{impPayment.return_time}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getUpd_tm())){
-                    SET("t.UPD_TM = #{impPayment.upd_tm}");
-                }
-                if (!StringUtils.isEmpty(impPayment.getData_status())){
+                if (!StringUtils.isEmpty(impPayment.getData_status())) {
                     SET("t.DATA_STATUS = #{impPayment.data_status}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getUpd_tm())) {
+                    SET("t.UPD_TM = #{impPayment.upd_tm}");
                 }
             }
         }.toString();
@@ -83,73 +83,73 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
 
 
     //插入订单回执表数据
-    public String createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder){
-        return new SQL(){
+    public String createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder) {
+        return new SQL() {
             {
                 INSERT_INTO("T_IMP_REC_ORDER");
-                if (!StringUtils.isEmpty(impRecOrder.getId())){
-                    VALUES("ID","#{impRecOrder.id}");
+                if (!StringUtils.isEmpty(impRecOrder.getId())) {
+                    VALUES("ID", "#{impRecOrder.id}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getGuid())){
-                    VALUES("GUID","#{impRecOrder.guid}");
+                if (!StringUtils.isEmpty(impRecOrder.getGuid())) {
+                    VALUES("GUID", "#{impRecOrder.guid}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getEbpCode())){
-                    VALUES("EBP_CODE","#{impRecOrder.ebpCode}");
+                if (!StringUtils.isEmpty(impRecOrder.getEbpCode())) {
+                    VALUES("EBP_CODE", "#{impRecOrder.ebpCode}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getEbcCode())){
-                    VALUES("EBC_CODE","#{impRecOrder.ebcCode}");
+                if (!StringUtils.isEmpty(impRecOrder.getEbcCode())) {
+                    VALUES("EBC_CODE", "#{impRecOrder.ebcCode}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getOrderNo())){
-                    VALUES("ORDER_NO","#{impRecOrder.orderNo}");
+                if (!StringUtils.isEmpty(impRecOrder.getOrderNo())) {
+                    VALUES("ORDER_NO", "#{impRecOrder.orderNo}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getReturnStatus())){
-                    VALUES("RETURN_STATUS","#{impRecOrder.returnStatus}");
+                if (!StringUtils.isEmpty(impRecOrder.getReturnStatus())) {
+                    VALUES("RETURN_STATUS", "#{impRecOrder.returnStatus}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getReturnTime())){
-                    VALUES("RETURN_TIME","#{impRecOrder.returnTime}");
+                if (!StringUtils.isEmpty(impRecOrder.getReturnTime())) {
+                    VALUES("RETURN_TIME", "#{impRecOrder.returnTime}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getReturnInfo())){
-                    VALUES("RETURN_INFO","#{impRecOrder.returnInfo}");
+                if (!StringUtils.isEmpty(impRecOrder.getReturnInfo())) {
+                    VALUES("RETURN_INFO", "#{impRecOrder.returnInfo}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getCrtTm())){
-                    VALUES("CRT_TM","#{impRecOrder.crtTm}");
+                if (!StringUtils.isEmpty(impRecOrder.getCrtTm())) {
+                    VALUES("CRT_TM", "#{impRecOrder.crtTm}");
                 }
-                if (!StringUtils.isEmpty(impRecOrder.getUpdTm())){
-                    VALUES("UPD_TM","#{impRecOrder.updTm}");
+                if (!StringUtils.isEmpty(impRecOrder.getUpdTm())) {
+                    VALUES("UPD_TM", "#{impRecOrder.updTm}");
                 }
             }
         }.toString();
     }
 
     //更新订单表回执信息
-    public String updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead){
-        return new SQL(){
+    public String updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
                 WHERE("t.DATA_STATUS = 'CBDS21'");
-                if (!StringUtils.isEmpty(impOrderHead.getOrder_No())){
+                if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())){
-                    SET("t.UPD_TM = #{impOrderHead.upd_tm}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getEbc_Code())){
+                if (!StringUtils.isEmpty(impOrderHead.getEbc_Code())) {
                     SET("t.EBC_CODE = #{impOrderHead.ebc_Code}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getEbp_Code())){
+                if (!StringUtils.isEmpty(impOrderHead.getEbp_Code())) {
                     SET("t.EBP_CODE = #{impOrderHead.ebp_Code}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getReturn_status())){
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impOrderHead.return_status}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getReturn_time())){
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_time())) {
                     SET("t.RETURN_TIME = #{impOrderHead.return_time}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getReturn_info())){
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_info())) {
                     SET("t.RETURN_INFO = #{impOrderHead.return_info}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getData_status())){
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
                     SET("t.DATA_STATUS = #{impOrderHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())) {
+                    SET("t.UPD_TM = #{impOrderHead.upd_tm}");
                 }
             }
         }.toString();
@@ -216,23 +216,23 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.DATA_STATUS = 'CBDS61'");
-                if(!StringUtils.isEmpty(impInventoryHead.getCop_no())){
+                if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getReturn_status())){
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impInventoryHead.return_status}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getReturn_info())){
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_info())) {
                     SET("t.RETURN_INFO = #{impInventoryHead.return_info}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getReturn_time())){
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_time())) {
                     SET("t.RETURN_TIME = #{impInventoryHead.return_time}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getUpd_tm())){
-                    SET("t.UPD_TM = #{impInventoryHead.upd_tm}");
-                }
-                if(!StringUtils.isEmpty(impInventoryHead.getData_status())){
+                if (!StringUtils.isEmpty(impInventoryHead.getData_status())) {
                     SET("t.DATA_STATUS = #{impInventoryHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getUpd_tm())) {
+                    SET("t.UPD_TM = #{impInventoryHead.upd_tm}");
                 }
             }
         }.toString();
@@ -242,36 +242,36 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     //插入运单回执表信息
     public String createImpRecLogistics(
             @Param("impRecLogistics") ImpRecLogistics impRecLogistics
-    ){
-        return new SQL(){
+    ) {
+        return new SQL() {
             {
                 INSERT_INTO("T_IMP_REC_LOGISTICS");
-                if (!StringUtils.isEmpty(impRecLogistics.getId())){
-                  VALUES("ID","#{impRecLogistics.id}");
+                if (!StringUtils.isEmpty(impRecLogistics.getId())) {
+                    VALUES("ID", "#{impRecLogistics.id}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getGuid())){
-                    VALUES("GUID","#{impRecLogistics.guid}");
+                if (!StringUtils.isEmpty(impRecLogistics.getGuid())) {
+                    VALUES("GUID", "#{impRecLogistics.guid}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_Code())){
-                    VALUES("LOGISTICS_CODE","#{impRecLogistics.logistics_Code}");
+                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_Code())) {
+                    VALUES("LOGISTICS_CODE", "#{impRecLogistics.logistics_Code}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_No())){
-                    VALUES("LOGISTICS_NO","#{impRecLogistics.logistics_No}");
+                if (!StringUtils.isEmpty(impRecLogistics.getLogistics_No())) {
+                    VALUES("LOGISTICS_NO", "#{impRecLogistics.logistics_No}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Status())){
-                    VALUES("RETURN_STATUS","#{impRecLogistics.return_Status}");
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Status())) {
+                    VALUES("RETURN_STATUS", "#{impRecLogistics.return_Status}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Info())){
-                    VALUES("RETURN_INFO","#{impRecLogistics.return_Info}");
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Info())) {
+                    VALUES("RETURN_INFO", "#{impRecLogistics.return_Info}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Time())){
-                    VALUES("RETURN_TIME","#{impRecLogistics.return_Time}");
+                if (!StringUtils.isEmpty(impRecLogistics.getReturn_Time())) {
+                    VALUES("RETURN_TIME", "#{impRecLogistics.return_Time}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getCrtTm())){
-                    VALUES("CRT_TM","#{impRecLogistics.crtTm}");
+                if (!StringUtils.isEmpty(impRecLogistics.getCrtTm())) {
+                    VALUES("CRT_TM", "#{impRecLogistics.crtTm}");
                 }
-                if (!StringUtils.isEmpty(impRecLogistics.getUpdTm())){
-                    VALUES("UPD_TM","#{impRecLogistics.updTm}");
+                if (!StringUtils.isEmpty(impRecLogistics.getUpdTm())) {
+                    VALUES("UPD_TM", "#{impRecLogistics.updTm}");
                 }
 
             }
@@ -281,26 +281,26 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     //更新运单表回执信息
     public String updateImpLogistics(
             @Param("impLogistics") ImpLogistics impLogistics
-    ){
-        return new SQL(){
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_LOGISTICS t");
-                if (!StringUtils.isEmpty(impLogistics.getLogistics_no())){
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_no())) {
                     WHERE("t.LOGISTICS_NO = #{impLogistics.logistics_no}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getLogistics_code())){
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_code())) {
                     SET("t.LOGISTICS_CODE = #{impLogistics.logistics_code}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getReturn_status())){
+                if (!StringUtils.isEmpty(impLogistics.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impLogistics.return_status}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getReturn_time())){
+                if (!StringUtils.isEmpty(impLogistics.getReturn_time())) {
                     SET("t.RETURN_TIME = #{impLogistics.return_time}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getReturn_info())){
+                if (!StringUtils.isEmpty(impLogistics.getReturn_info())) {
                     SET("t.RETURN_INFO = #{impLogistics.return_info}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getUpd_tm())){
+                if (!StringUtils.isEmpty(impLogistics.getUpd_tm())) {
                     SET("t.UPD_TM = #{impLogistics.upd_tm}");
                 }
             }
@@ -314,35 +314,35 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_REC_LOGISTICS_STATUS");
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getId())){
-                    VALUES("ID","#{impRecLogisticsStatus.id}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getId())) {
+                    VALUES("ID", "#{impRecLogisticsStatus.id}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getGuid())){
-                    VALUES("GUID","#{impRecLogisticsStatus.guid}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getGuid())) {
+                    VALUES("GUID", "#{impRecLogisticsStatus.guid}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Code())){
-                    VALUES("LOGISTICS_CODE","#{impRecLogisticsStatus.logistics_Code}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Code())) {
+                    VALUES("LOGISTICS_CODE", "#{impRecLogisticsStatus.logistics_Code}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_No())){
-                    VALUES("LOGISTICS_NO","#{impRecLogisticsStatus.logistics_No}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_No())) {
+                    VALUES("LOGISTICS_NO", "#{impRecLogisticsStatus.logistics_No}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())){
-                    VALUES("LOGISTICS_STATUS","#{impRecLogisticsStatus.logistics_Status}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())) {
+                    VALUES("LOGISTICS_STATUS", "#{impRecLogisticsStatus.logistics_Status}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())){
-                    VALUES("RETURN_STATUS","#{impRecLogisticsStatus.return_Status}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())) {
+                    VALUES("RETURN_STATUS", "#{impRecLogisticsStatus.return_Status}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Info())){
-                    VALUES("RETURN_INFO","#{impRecLogisticsStatus.return_Info}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Info())) {
+                    VALUES("RETURN_INFO", "#{impRecLogisticsStatus.return_Info}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Time())){
-                    VALUES("RETURN_TIME","#{impRecLogisticsStatus.return_Time}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Time())) {
+                    VALUES("RETURN_TIME", "#{impRecLogisticsStatus.return_Time}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getCrtTm())){
-                    VALUES("CRT_TM","#{impRecLogisticsStatus.crtTm}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getCrtTm())) {
+                    VALUES("CRT_TM", "#{impRecLogisticsStatus.crtTm}");
                 }
-                if (!StringUtils.isEmpty(impRecLogisticsStatus.getUpdTm())){
-                    VALUES("UPD_TM","#{impRecLogisticsStatus.updTm}");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getUpdTm())) {
+                    VALUES("UPD_TM", "#{impRecLogisticsStatus.updTm}");
                 }
 
             }
@@ -352,47 +352,51 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     //更新运单状态表回执信息
     public String updateImpLogisticsStatus(
             @Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus
-    ){
-        return new SQL(){
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_LOGISTICS_STATUS t");
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())) {
                     WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_status())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_status())) {
                     SET("t.LOGISTICS_STATUS = #{impLogisticsStatus.logistics_status}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_code())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_code())) {
                     SET("t.LOGISTICS_CODE = #{impLogisticsStatus.logistics_code}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_status())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impLogisticsStatus.return_status}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_info())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_info())) {
                     SET("t.RETURN_INFO = #{impLogisticsStatus.return_info}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())) {
                     SET("t.RETURN_TIME = #{impLogisticsStatus.return_time}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())){
-                    SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())){
+                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())) {
                     SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
+                    SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
                 }
             }
         }.toString();
     }
 
     /*
-    * 运单状态表置为申报成功
+    * 运单表置为运单申报成功（CBDS52状态）
     * */
-    public String updateImpLogisticsDataStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus, @Param("ydztsbcg") String ydztsbcg){
-        return new SQL(){
+    public String updateImpLogisticsDataStatus(
+            @Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus,
+            @Param("ydztsbcg") String ydztsbcg
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.LOGISTICS_NO = #{impRecLogisticsStatus.logistics_No}");
                 SET("t.DATA_STATUS = #{ydztsbcg}");
+                SET("t.UPD_TM = sysdate");
             }
         }.toString();
     }

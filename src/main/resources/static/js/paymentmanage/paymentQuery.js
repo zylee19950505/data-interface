@@ -58,7 +58,7 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                     //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
                     var result = '<a style="cursor:pointer" title="查看" ' +
                         'onclick="' + "javascript:sw.pageModule('paymentmanage/paymentQuery')" +
-                        ".seePaymentDetail('" + row.pay_transaction_id + "','"+ row.order_no + "','"+ row.guid + "')" + '">' + row.pay_transaction_id + '</a>';
+                        ".seePaymentDetail('" + row.pay_transaction_id + "','" + row.order_no + "','" + row.guid + "')" + '">' + row.pay_transaction_id + '</a>';
                     return result;
                 }
                 },
@@ -82,33 +82,17 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
                     switch (row.data_status) {
-                        case "CBDS1"://待申报
-                            textColor = "text-yellow";
-                            row.data_status = "待申报";
-                            break;
-                        case "CBDS3"://支付单待申报
-                            textColor = "text-yellow";
-                            row.data_status = "支付单待申报";
-                            break;
-                        case "CBDS30"://支付单申报中
-                            textColor = "text-green";
-                            row.data_status = "支付单申报中";
-                            break;
                         case "CBDS32"://支付单申报成功
                             textColor = "text-green";
                             row.data_status = "支付单申报成功";
                             break;
-                        case "CBDS31"://支付单已申报
-                            textColor = "text-green";
-                            row.data_status = "支付单已申报";
-                            break;
-                        case "CBDS34"://支付单申报失败
-                            textColor = "text-red";
-                            row.data_status = "支付单申报失败";
-                            break;
-                        case "CBDS33"://支付单重报
+                        case "CBDS33"://支付单申报成功
                             textColor = "text-red";
                             row.data_status = "支付单重报";
+                            break;
+                        case "CBDS34"://支付单申报成功
+                            textColor = "text-red";
+                            row.data_status = "支付单申报失败";
                             break;
                     }
                     return "<span class='" + textColor + "'>" + row.data_status + "</span>";
@@ -117,11 +101,11 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 {data: "return_status", label: "回执状态"},
                 {data: "return_info", label: "回执备注"}
             ]
-            });
-        },
+        });
+    },
 
-    seePaymentDetail: function (pay_transaction_id,order_no,guid) {
-        var url = "paymentmanage/seePaymentDetail?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id+"&orderNo="+order_no+"&guid="+guid;
+    seePaymentDetail: function (pay_transaction_id, order_no, guid) {
+        var url = "paymentmanage/seePaymentDetail?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id + "&orderNo=" + order_no + "&guid=" + guid;
         sw.modelPopup(url, "支付单详情信息", false, 900, 400);
     },
 
@@ -138,4 +122,4 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
         $(".btn[ws-search]").click();
     }
 
-    };
+};

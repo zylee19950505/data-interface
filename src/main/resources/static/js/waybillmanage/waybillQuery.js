@@ -69,11 +69,11 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             columns: [
                 {
                     label: "物流运单编号", render: function (data, type, row) {
-                        //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
-                        var result = '<a style="cursor:pointer" title="查看" ' +
-                            'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').queryWaybillbyid('" + row.guid + "','"+row.logistics_no+"')" + '">' + row.logistics_no + '</a>';
-                        return result;
-                    }
+                    //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
+                    var result = '<a style="cursor:pointer" title="查看" ' +
+                        'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').queryWaybillbyid('" + row.guid + "','" + row.logistics_no + "')" + '">' + row.logistics_no + '</a>';
+                    return result;
+                }
                 },
                 {data: "logistics_name", label: "物流企业名称"},
                 {data: "consingee", label: "收货人姓名"},
@@ -81,7 +81,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                 {data: "consignee_address", label: "收货地址"},
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if(!isEmpty(row.app_time)){
+                    if (!isEmpty(row.app_time)) {
                         return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
@@ -90,7 +90,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                 {data: "logistics_status", label: "物流签收状态"},
                 {
                     label: "物流状态时间", render: function (data, type, row) {
-                    if(!isEmpty(row.logistics_time)){
+                    if (!isEmpty(row.logistics_time)) {
                         return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
@@ -101,8 +101,8 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
-                        case "CBDS62"://清单申报成功
-                            textColor = "text-blue";
+                        case "CBDS52"://运单申报成功（运单申报成功，运单状态申报成功）
+                            textColor = "text-green";
                             value = "运单申报成功";
                             break;
                         default :
@@ -126,8 +126,8 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         $("#preview").hide();
     },
     //打开一个页面，并且用路径传递参数
-    queryWaybillbyid: function (guid,logistics_no) {
-        var url = "waybillmanage/seeWaybillDetail?type=ZFDCX&isEdit=true&guid=" + guid+"&logistics_no="+logistics_no;
+    queryWaybillbyid: function (guid, logistics_no) {
+        var url = "waybillmanage/seeWaybillDetail?type=ZFDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
         sw.modelPopup(url, "运单详情信息", false, 900, 400);
     },
     billDownLoad: function () {

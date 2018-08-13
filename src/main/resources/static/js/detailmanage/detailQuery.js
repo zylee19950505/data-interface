@@ -50,18 +50,18 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             columns: [
                 // {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
                 {
-                    label: "清单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeOrderNoDetail('" + row.guid + "','"+row.order_no+"')" + '">' + row.order_no + '</a>'
+                    label: "订单编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
-                {data: "logistics_code", label: "物流运单编号"},
+                {data: "logistics_no", label: "物流运单编号"},
                 {data: "ebc_name", label: "电商企业名称"},
                 {data: "ebc_name", label: "支付企业名称"},
                 {data: "logistics_name", label: "物流企业名称"},
                 // {data: "g_name", label: "商品名称"},
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if(!isEmpty(row.app_time)){
+                    if (!isEmpty(row.app_time)) {
                         return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
@@ -70,16 +70,20 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                 {
                     label: "业务状态", render: function (data, type, row) {
                     var textColor = "";
-                    var value  = "";
+                    var value = "";
                     switch (row.data_status) {
                         case "CBDS62"://待申报
-                            textColor="text-blue";
-                            value="清单申报成功";
+                            textColor = "text-green";
+                            value = "清单申报成功";
                             break;
-                        default :
+                        case "CBDS63":
                             textColor = "text-red";
-                            value = "未知";
-
+                            value = "清单重报";
+                            break;
+                        case "CBDS64":
+                            textColor = "text-red";
+                            value = "清单申报失败";
+                            break;
                     }
 
                     return "<span class='" + textColor + "'>" + value + "</span>";
@@ -104,25 +108,11 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         $(".btn[ws-search]").click();
     },
 
-    seeOrderNoDetail: function (guid,order_no) {
-        console.log(guid,order_no)
-        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid="+guid+"&orderNo="+order_no;
+    seeOrderNoDetail: function (guid, order_no) {
+        console.log(guid, order_no)
+        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 };

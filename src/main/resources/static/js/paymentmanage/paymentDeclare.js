@@ -60,13 +60,16 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        ////支付单已申报，申报中，申报成功CBDS31  那就不用再点击申报
-
-                        if(row.data_status == "CBDS31"){
-                            return "";
-                        }else {
+                        if (row.data_status == "CBDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
+                        }
+                        else if (row.data_status == "CBDS3") {
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.order_no + '" />';
+                        }
+                        else {
+                            return "";
                         }
                     }
                 },
@@ -89,38 +92,26 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 }
                 },
                 {
-                    data: "data_status", label: "业务状态",render:function(data,type,row){
-                        switch (row.data_status){
-                            case "CBDS1"://待申报
-                                textColor="text-yellow";
-                                row.data_status="待申报";
-                                break;
-                            case "CBDS3"://支付单待申报
-                                textColor="text-yellow";
-                                row.data_status="支付单待申报";
-                                break;
-                            case "CBDS30"://支付单申报中
-                                textColor="text-green";
-                                row.data_status="支付单申报中";
-                                break;
-                            case "CBDS32"://支付单申报成功
-                                textColor="text-green";
-                                row.data_status="支付单申报成功";
-                                break;
-                            case "CBDS31"://支付单已申报
-                                textColor="text-green";
-                                row.data_status="支付单已申报";
-                                break;
-                            case "CBDS34"://支付单申报失败
-                                textColor="text-red";
-                                row.data_status="支付单申报失败";
-                                break;
-                            case "CBDS33"://支付单重报
-                                textColor="text-red";
-                                row.data_status="支付单重报";
-                                break;
-                        }
-                        return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                    data: "data_status", label: "业务状态", render: function (data, type, row) {
+                    switch (row.data_status) {
+                        case "CBDS1"://待申报
+                            textColor = "text-yellow";
+                            row.data_status = "待申报";
+                            break;
+                        case "CBDS3"://支付单待申报
+                            textColor = "text-yellow";
+                            row.data_status = "支付单待申报";
+                            break;
+                        case "CBDS30"://支付单申报中
+                            textColor = "text-green";
+                            row.data_status = "支付单申报中";
+                            break;
+                        case "CBDS31"://支付单已申报
+                            textColor = "text-green";
+                            row.data_status = "支付单已申报";
+                            break;
+                    }
+                    return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
                 },
                 {data: "return_status", label: "回执状态"},

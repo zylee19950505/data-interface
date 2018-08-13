@@ -59,13 +59,15 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     data: null,
                     render: function (data, type, row) {
                         //运单状态已申报(此界面不显示此条信息)
-                        if(row.data_status == "CBDS1"){
+                        if (row.data_status == "CBDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.logistics_no + '" />';
-                        }else if(row.data_status == "CBDS4"){
+                        }
+                        else if (row.data_status == "CBDS4") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.logistics_no + '" />';
-                        }else if (row.data_status == "CBDS5"){
+                        }
+                        else if (row.data_status == "CBDS5") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.logistics_no + '" />';
                         }
@@ -81,7 +83,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {data: "consignee_address", label: "收货地址"},
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if(!isEmpty(row.app_time)){
+                    if (!isEmpty(row.app_time)) {
                         return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
@@ -90,72 +92,52 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 {data: "logistics_status", label: "物流签收状态"},
                 {
                     label: "物流状态时间", render: function (data, type, row) {
-                        if(!isEmpty(row.logistics_time)){
-                            return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
+                    if (!isEmpty(row.logistics_time)) {
+                        return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
                     }
+                    return "";
+                }
                 },
                 {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
-                        var textColor = "";
-                        var value = "";
-                        switch (row.data_status) {
-                            case "CBDS1"://运单待申报 未导入
-                                textColor = "text-yellow";
-                                value = "运单待申报";
-                                break;
-                            case "CBDS4"://运单待申报
-                                textColor = "text-yellow";
-                                value = "运单待申报";
-                                break;
-                            case "CBDS40"://运单申报中
-                                textColor = "text-green";
-                                value = "运单申报中";
-                                break;
-                            case "CBDS42"://运单申报成功
-                                textColor = "text-green";
-                                value = "运单申报成功";
-                                break;
-                            case "CBDS41"://运单已申报
-                                textColor = "text-green";
-                                value = "运单已申报";
-                                break;
-                            case "CBDS44"://运单申报失败
-                                textColor = "text-red";
-                                value = "运单申报失败";
-                                break;
-                            case "CBDS43"://运单重报
-                                textColor = "text-red";
-                                value = "运单重报";
-                                break;
-                            case "CBDS5"://运单已申报,运单状态待申报
-                                textColor = "text-red";
-                                value = "运单已申报,运单状态待申报";
-                                break;
-                            case "CBDS50"://运单已申报,运单状态待申报
-                                textColor = "text-green";
-                                value = "运单已申报,运单状态申报中";
-                                break;
-                            case "CBDS51"://运单已申报,运单状态已申报
-                                textColor = "text-blue";
-                                value = "运单已申报,运单状态已申报";
-                                break;
-                            default :
-                                textColor = "";
-                                value = "未知";
-                        }
-                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    var textColor = "";
+                    var value = "";
+                    switch (row.data_status) {
+                        case "CBDS1"://运单待申报 未导入
+                            textColor = "text-yellow";
+                            value = "待申报";
+                            break;
+                        case "CBDS4"://运单待申报
+                            textColor = "text-yellow";
+                            value = "运单待申报";
+                            break;
+                        case "CBDS40"://运单申报中
+                            textColor = "text-green";
+                            value = "运单申报中";
+                            break;
+                        case "CBDS41"://运单已申报
+                            textColor = "text-green";
+                            value = "运单已申报";
+                            break;
+                        case "CBDS5"://运单已申报,运单状态待申报
+                            textColor = "text-yellow";
+                            value = "运单已申报,运单状态待申报";
+                            break;
+                        case "CBDS50"://运单已申报,运单状态申报中
+                            textColor = "text-green";
+                            value = "运单已申报,运单状态申报中";
+                            break;
+                        case "CBDS51"://运单已申报,运单状态已申报
+                            textColor = "text-green";
+                            value = "运单已申报,运单状态已申报";
+                            break;
+                        default :
+                            textColor = "";
+                            value = "未知";
                     }
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                }
                 },
-                /*{
-                    label: "物流状态时间", render: function (data, type, row) {
-                    if(!isEmpty(row.app_time)){
-                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                    }
-                },*/
                 {data: "return_status", label: "运单回执"},
                 {data: "return_info", label: "运单回执备注"},
                 {data: "returnStatus_status", label: "运单状态回执"},
@@ -166,7 +148,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
     },
     // 提交海关
     submitCustom: function () {
-
 
 
         var submitKeys = "";

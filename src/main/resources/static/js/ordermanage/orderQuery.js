@@ -47,7 +47,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
             columns: [
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').seeOrderNoDetail('" + row.guid + "','"+row.order_No+"')" + '">' + row.order_No + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'
                 }
                 },
 
@@ -57,7 +57,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                 {data: "buyer_Name", label: "订购人"},
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if(!isEmpty(row.app_Time)){
+                    if (!isEmpty(row.app_Time)) {
                         return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
@@ -68,29 +68,18 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
-                        case "CBDS1":
-                            textColor = "text-yellow";
-                            value = "待申报";
-                            break;
-                        case "CBDS2":
-                            textColor = "text-yellow";
-                            value = "订单待申报";
-                            break;
-                        case "CBDS20":
-                            textColor = "text-muted";
-                            value = "订单申报中";
-                            break;
-                        case "CBDS21":
-                            textColor = "text-green";
-                            value = "订单已申报";
-                            break;
                         case "CBDS22":
-                            textColor = "text-blue";
+                            textColor = "text-green";
                             value = "订单申报成功";
                             break;
-                        default:
-                            textColor = "";
-                            value = "";
+                        case "CBDS23":
+                            textColor = "text-red";
+                            value = "订单重报";
+                            break;
+                        case "CBDS24":
+                            textColor = "text-red";
+                            value = "订单申报失败";
+                            break;
                     }
                     return "<span class='" + textColor + "'>" + value + "</span>";
                 }
@@ -113,9 +102,9 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         });
         $("[ws-search]").unbind("click").click(this.query).click();
     },
-    seeOrderNoDetail: function (guid,order_No) {
-        console.log(guid,order_No)
-        var url = "ordermanage/seeOrderDetail?type=DDCX&isEdit=true&guid="+guid+"&orderNo="+order_No;
+    seeOrderNoDetail: function (guid, order_No) {
+        console.log(guid, order_No)
+        var url = "ordermanage/seeOrderDetail?type=DDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_No;
         sw.modelPopup(url, "查看订单详情", false, 1000, 930);
     }
 }
