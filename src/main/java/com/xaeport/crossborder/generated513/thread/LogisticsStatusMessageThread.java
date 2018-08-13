@@ -88,7 +88,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                     logisticsStatusHead.setLogisticsName(lmpLogisticsStatus.getLogistics_name());//物流企业在海关注册登记的名称。
                     logisticsStatusHead.setLogisticsNo(lmpLogisticsStatus.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
                     logisticsStatusHead.setLogisticsStatus(StringUtils.isEmpty(lmpLogisticsStatus.getLogistics_status()) ? "S" : lmpLogisticsStatus.getLogistics_status());//物流签收状态，限定S
-                    logisticsStatusHead.setLogisticsTime(lmpLogisticsStatus.getLogistics_time());//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+                    logisticsStatusHead.setLogisticsTime(sdf.format(lmpLogisticsStatus.getLogistics_time()));//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
                     logisticsStatusHead.setNote(lmpLogisticsStatus.getNote());//备注
                     try {
                         // 更新运单状态

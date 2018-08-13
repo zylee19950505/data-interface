@@ -71,7 +71,7 @@ public class LogisticsStatusXml {
             logisticsStatus.setTextContent(logisticsStatusHead.get(i).getLogisticsStatus());
 
             logisticsTime = document.createElement("ceb:logisticsTime");
-            logisticsTime.setTextContent(sdf.format(logisticsStatusHead.get(i).getLogisticsTime()));
+            logisticsTime.setTextContent(logisticsStatusHead.get(i).getLogisticsTime());
 
             note = document.createElement("ceb:note");
             note.setTextContent(logisticsStatusHead.get(i).getNote());

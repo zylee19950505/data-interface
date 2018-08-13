@@ -51,9 +51,7 @@ public class DetailDeclareXML {
         list.add(appType);
         //<ceb:appTime>
         Element appTime = document.createElement("ceb:appTime");
-        if (!StringUtils.isEmpty(ceb621Message.getImpInventoryHead().getApp_time())){
-            appTime.setTextContent(sdfSfm.format(ceb621Message.getImpInventoryHead().getApp_time()));
-        }
+        appTime.setTextContent(sdfSfm.format(ceb621Message.getImpInventoryHead().getApp_time()));
         list.add(appTime);
         //<ceb:appStatus>
         Element appStatus = document.createElement("ceb:appStatus");
@@ -117,7 +115,7 @@ public class DetailDeclareXML {
         list.add(ieFlag);
         //<ceb:declTime>
         Element declTime = document.createElement("ceb:declTime");
-        declTime.setTextContent(sdf.format(new Date()));
+        declTime.setTextContent(sdf.format(ceb621Message.getImpInventoryHead().getApp_time()));
         list.add(declTime);
         //<ceb:customsCode>
         Element customsCode = document.createElement("ceb:customsCode");
@@ -129,7 +127,7 @@ public class DetailDeclareXML {
         list.add(portCode);
         //<ceb:ieDate>
         Element ieDate = document.createElement("ceb:ieDate");
-        ieDate.setTextContent(sdfSfm.format(ceb621Message.getImpInventoryHead().getIe_date()));
+        ieDate.setTextContent(sdf.format(ceb621Message.getImpInventoryHead().getIe_date()));
         list.add(ieDate);
         //<ceb:buyerIdType>
         Element buyerIdType = document.createElement("ceb:buyerIdType");

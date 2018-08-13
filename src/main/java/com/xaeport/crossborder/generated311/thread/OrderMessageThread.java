@@ -113,7 +113,6 @@ public class OrderMessageThread implements Runnable {
             this.logger.debug(String.format("更新订单[head_id: %s]状态为: %s", headGuid, StatusCode.DDYSB));
             // 更新状态变化记录表
 
-
             // 生成报单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB311_" + orderNo + "_" + sdf.format(new Date()) + ".xml";

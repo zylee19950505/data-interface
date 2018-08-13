@@ -5,7 +5,7 @@ import java.util.Date;
 public class PaymentHead {
     private String guid;
     private String appType;
-    private Date appTime;
+    private String appTime;
     private String appStatus;
     private String payCode;
     private String payName;
@@ -19,7 +19,7 @@ public class PaymentHead {
     private String telephone;
     private String amountPaid;
     private String currency;
-    private Date payTime;
+    private String payTime;
     private String note;
 
     private String dataStatus;
@@ -93,12 +93,16 @@ public class PaymentHead {
         this.appType = appType;
     }
 
-    public Date getAppTime() {
+    public String getAppTime() {
         return appTime;
     }
 
-    public void setAppTime(Date appTime) {
+    public void setAppTime(String appTime) {
         this.appTime = appTime;
+    }
+
+    public void setPayTime(String payTime) {
+        this.payTime = payTime;
     }
 
     public String getAppStatus() {
@@ -205,12 +209,8 @@ public class PaymentHead {
         this.currency = currency;
     }
 
-    public Date getPayTime() {
+    public String getPayTime() {
         return payTime;
-    }
-
-    public void setPayTime(Date payTime) {
-        this.payTime = payTime;
     }
 
     public String getNote() {

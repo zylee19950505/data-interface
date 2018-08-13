@@ -11,7 +11,7 @@ public class LogisticsStatusHead {
     private String logisticsName;//物流企业在海关注册登记的名称。
     private String logisticsNo;//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
     private String logisticsStatus;//物流签收状态，限定S
-    private Date logisticsTime;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+    private String logisticsTime;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String note;//备注
 
     public String getGuid() {
@@ -78,11 +78,11 @@ public class LogisticsStatusHead {
         this.logisticsStatus = logisticsStatus;
     }
 
-    public Date getLogisticsTime() {
+    public String getLogisticsTime() {
         return logisticsTime;
     }
 
-    public void setLogisticsTime(Date logisticsTime) {
+    public void setLogisticsTime(String logisticsTime) {
         this.logisticsTime = logisticsTime;
     }
 

@@ -77,7 +77,7 @@ public class PaymentMessageThread implements Runnable {
                     paymentHead.setGuid(guid);
                     paymentHead.setAppType(impPayment.getApp_type());
 //                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
-                    paymentHead.setAppTime(impPayment.getApp_time());
+                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
                     paymentHead.setAppStatus(impPayment.getApp_status());
                     paymentHead.setPayCode(impPayment.getPay_code());
                     paymentHead.setPayName(impPayment.getPay_name());
@@ -92,7 +92,7 @@ public class PaymentMessageThread implements Runnable {
                     paymentHead.setAmountPaid(impPayment.getAmount_paid());
                     paymentHead.setCurrency(impPayment.getCurrency());
 //                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
-                    paymentHead.setPayTime(impPayment.getPay_time());
+                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
                     paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote()) ? "" : impPayment.getNote());
                     try {
                         // 更新支付单状态
