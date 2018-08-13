@@ -1,9 +1,8 @@
 package com.xaeport.crossborder.receipt;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert411.parser.ExpParser;
+import com.xaeport.crossborder.parser.ExpParser;
 import com.xaeport.crossborder.service.receipt.ReceiptService;
-import com.xaeport.crossborder.data.status.StatusCode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;

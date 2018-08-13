@@ -25,10 +25,10 @@ import java.io.ByteArrayOutputStream;
  *
  */
 @Component
-public class BaseBill {
+public class BaseOrderXml {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
-    Waybill waybill;
+    OrderXml orderXml;
     @Autowired
     AppConfiguration appConfiguration;
 
@@ -83,10 +83,7 @@ public class BaseBill {
         switch (flag) {
             //订单
             case "orderDeclare":{
-                this.waybill.getBaseTransfer(BaseTrElement,document,ceb311Message);
-                break;
-            }
-            case "":{
+                this.orderXml.getBaseTransfer(BaseTrElement,document,ceb311Message);
                 break;
             }
         }
@@ -119,8 +116,8 @@ public class BaseBill {
         switch (flag) {
             //生成订单 .xml
             case "orderDeclare": {
-                ceborderheadEl.appendChild(this.waybill.getEntryHead(document, ceb311Message));
-                this.waybill.getEntryList(document, ceborderheadEl, ceb311Message);
+                ceborderheadEl.appendChild(this.orderXml.getEntryHead(document, ceb311Message));
+                this.orderXml.getEntryList(document, ceborderheadEl, ceb311Message);
                 break;
             }
         }

@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.receipt;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert411.parser.ExpParser;
+import com.xaeport.crossborder.parser.ExpParser;
 import com.xaeport.crossborder.service.receipt.ReceiptService;
 import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.FileUtils;

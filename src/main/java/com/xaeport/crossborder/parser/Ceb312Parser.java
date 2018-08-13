@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert411.parser;
+package com.xaeport.crossborder.parser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,11 +12,11 @@ import java.util.Map;
 /**
  * Created by Administrator on 2017/7/18.
  */
-public class Ceb514Parser extends BaseParser {
+public class Ceb312Parser extends BaseParser {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
-     * 解析 Ceb514 报文数据
+     * 解析 Ceb312 报文数据
      */
     public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
         Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();

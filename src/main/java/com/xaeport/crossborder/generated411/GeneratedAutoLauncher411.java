@@ -1,8 +1,7 @@
 package com.xaeport.crossborder.generated411;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert411.generate.BaseXml;
-import com.xaeport.crossborder.convert411.tool.MessageUtils411;
+import com.xaeport.crossborder.convert411.BasePaymentXml;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import com.xaeport.crossborder.generated411.thread.PaymentMessageThread;
 import org.apache.commons.logging.Log;
@@ -31,14 +30,14 @@ public class GeneratedAutoLauncher411 implements ApplicationListener<Application
     AppConfiguration appConfiguration;
 
     @Autowired
-    BaseXml baseXml;
+    BasePaymentXml basePaymentXml;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
         this.logger.debug("支付单报文CEB411生成启动器初始化开始");
 
-        paymentMessageThread = new PaymentMessageThread(this.paymentDeclareMapper, this.appConfiguration, this.baseXml);
+        paymentMessageThread = new PaymentMessageThread(this.paymentDeclareMapper, this.appConfiguration, this.basePaymentXml);
         executorService.execute(paymentMessageThread);
 
 

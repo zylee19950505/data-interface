@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated411.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert411.generate.BaseXml;
+import com.xaeport.crossborder.convert411.BasePaymentXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
@@ -24,13 +24,13 @@ public class PaymentMessageThread implements Runnable {
     private Log logger = LogFactory.getLog(this.getClass());
     private PaymentDeclareMapper paymentDeclareMapper;
     private AppConfiguration appConfiguration;
-    private BaseXml baseXml;
+    private BasePaymentXml basePaymentXml;
     private UserMapper userMapper = SpringUtils.getBean(UserMapper.class);
 
-    public PaymentMessageThread(PaymentDeclareMapper paymentDeclareMapper, AppConfiguration appConfiguration, BaseXml baseXml) {
+    public PaymentMessageThread(PaymentDeclareMapper paymentDeclareMapper, AppConfiguration appConfiguration, BasePaymentXml basePaymentXml) {
         this.paymentDeclareMapper = paymentDeclareMapper;
         this.appConfiguration = appConfiguration;
-        this.baseXml = baseXml;
+        this.basePaymentXml = basePaymentXml;
     }
 
     @Override
@@ -129,7 +129,7 @@ public class PaymentMessageThread implements Runnable {
             // 生成支付单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB411Message_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.baseXml.createXML(ceb411Message, "payment", xmlHeadGuid);
+            byte[] xmlByte = this.basePaymentXml.createXML(ceb411Message, "payment", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成支付单411申报报文[fileName: %s]", fileName));
         } catch (Exception e) {

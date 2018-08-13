@@ -22,7 +22,7 @@ import java.util.List;
  * Created by zwj on 2017/07/18.
  */
 @Component
-public class Waybill {
+public class OrderXml {
     private Log log = LogFactory.getLog(this.getClass());
 
     public Element getEntryHead(Document document, CEB311Message ceb311Message) {
@@ -54,9 +54,7 @@ public class Waybill {
         list.add(appType);
         //<ceb:appTime>
         Element appTime = document.createElement("ceb:appTime");
-        if (!StringUtils.isEmpty(ceb311Message.getOrderHead().getApp_Time())){
-            appTime.setTextContent(sdfSfm.format(ceb311Message.getOrderHead().getApp_Time()));
-        }
+        appTime.setTextContent(sdfSfm.format(ceb311Message.getOrderHead().getApp_Time()));
         list.add(appTime);
         //<ceb:appStatus>
         Element appStatus = document.createElement("ceb:appStatus");
@@ -236,6 +234,7 @@ public class Waybill {
             orderBodyElement.appendChild(currency);
             orderBodyElement.appendChild(country);
             orderBodyElement.appendChild(note);
+
             ceborderheadEl.appendChild(orderBodyElement);
         }
     }
@@ -243,21 +242,27 @@ public class Waybill {
     //创建<ceb:BaseTransfer> 节点
 	public Element getBaseTransfer(Element baseTrElement, Document document, CEB311Message ceb311Message) {
         BaseTransfer baseTransfer = ceb311Message.getBaseTransfer();
+
         Element copCodElement = document.createElement("ceb:copCode");
         copCodElement.setTextContent(baseTransfer.getCopCode());
         baseTrElement.appendChild(copCodElement);
+
         Element copNameElement = document.createElement("ceb:copName");
         copNameElement.setTextContent(baseTransfer.getCopName());
         baseTrElement.appendChild(copNameElement);
+
         Element dxpModeElement = document.createElement("ceb:dxpMode");
         dxpModeElement.setTextContent(baseTransfer.getDxpMode());
         baseTrElement.appendChild(dxpModeElement);
+
         Element dxpIdElement = document.createElement("ceb:dxpId");
         dxpIdElement.setTextContent(baseTransfer.getDxpId());
         baseTrElement.appendChild(dxpIdElement);
+
         Element noteElement = document.createElement("ceb:note");
         noteElement.setTextContent(baseTransfer.getNote());
         baseTrElement.appendChild(noteElement);
+
         return baseTrElement;
 	}
 }

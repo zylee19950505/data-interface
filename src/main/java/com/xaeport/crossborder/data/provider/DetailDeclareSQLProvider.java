@@ -199,6 +199,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 SELECT("UNIT");
                 SELECT("UNIT1");
                 SELECT("UNIT2");
+                SELECT("PRICE");
                 SELECT("TOTAL_PRICE");
                 SELECT("NOTE");
                 FROM("T_IMP_INVENTORY_BODY tob");

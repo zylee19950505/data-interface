@@ -235,33 +235,30 @@ public class DetailDeclareXML {
      * 构建EntryList 节点
      */
     public void getEntryList(Document document, Element ceborderheadEl, CEB621Message ceb621Message) {
-       //未写
+        //未写
         List<ImpInventoryBody> inventoryBodyList = ceb621Message.getImpInventoryBodyList();
-        ImpInventoryHead inventoryHead = ceb621Message.getImpInventoryHead();
+        Element InventoryBodyElement;
+        Element gnum;
+        Element itemRecordNo;
+        Element itemNo;
+        Element itemName;
+        Element gcode;
+        Element gname;
+        Element gmodel;
+        Element barCode;
+        Element country;
+        Element currency;
+        Element qty;
+        Element unit;
+        Element qty1;
+        Element unit1;
+        Element qty2;
+        Element unit2;
+        Element price;
+        Element totalPrice;
 
-        Element InventoryBodyElement ;
-        Element gnum ;
-        Element itemRecordNo ;
-        Element itemNo ;
-        Element itemName ;
-        Element gcode ;
-        Element gname ;
-        Element gmodel ;
-        Element barCode ;
-        Element country ;
-        Element currency ;
-        Element qty ;
-        Element unit ;
-        Element qty1 ;
-        Element unit1 ;
-        Element qty2 ;
-        Element unit2 ;
-        Element price ;
-        Element totalPrice ;
-
-
-        Element note ;
-        for (int i = 0; i <inventoryBodyList.size() ; i++) {
+        Element note;
+        for (int i = 0; i < inventoryBodyList.size(); i++) {
             InventoryBodyElement = document.createElement("ceb:InventoryList");
 
             gnum = document.createElement("ceb:gnum");
@@ -346,23 +343,29 @@ public class DetailDeclareXML {
     }
 
     //创建<ceb:BaseTransfer> 节点
-	public Element getBaseTransfer(Element baseTrElement, Document document, CEB621Message ceb621Message) {
+    public Element getBaseTransfer(Element baseTrElement, Document document, CEB621Message ceb621Message) {
         BaseTransfer baseTransfer = ceb621Message.getBaseTransfer();
+
         Element copCodElement = document.createElement("ceb:copCode");
         copCodElement.setTextContent(baseTransfer.getCopCode());
         baseTrElement.appendChild(copCodElement);
+
         Element copNameElement = document.createElement("ceb:copName");
         copNameElement.setTextContent(baseTransfer.getCopName());
         baseTrElement.appendChild(copNameElement);
+
         Element dxpModeElement = document.createElement("ceb:dxpMode");
         dxpModeElement.setTextContent(baseTransfer.getDxpMode());
         baseTrElement.appendChild(dxpModeElement);
+
         Element dxpIdElement = document.createElement("ceb:dxpId");
         dxpIdElement.setTextContent(baseTransfer.getDxpId());
         baseTrElement.appendChild(dxpIdElement);
+
         Element noteElement = document.createElement("ceb:note");
         noteElement.setTextContent(baseTransfer.getNote());
         baseTrElement.appendChild(noteElement);
+
         return baseTrElement;
-	}
+    }
 }

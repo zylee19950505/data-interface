@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert411.generate;
+package com.xaeport.crossborder.convert411;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.BaseTransfer411;
@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
  * Created by zwj on 2017/07/18.
  */
 @Component
-public class BaseXml {
+public class BasePaymentXml {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     PaymentXml paymentXml;

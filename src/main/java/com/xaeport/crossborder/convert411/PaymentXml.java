@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert411.generate;
+package com.xaeport.crossborder.convert411;
 
 
 import com.xaeport.crossborder.data.entity.CEB411Message;

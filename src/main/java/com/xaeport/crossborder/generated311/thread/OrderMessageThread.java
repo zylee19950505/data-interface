@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated311.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert311.BaseBill;
+import com.xaeport.crossborder.convert311.BaseOrderXml;
 import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.CEB311Message;
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
@@ -29,14 +29,14 @@ public class OrderMessageThread implements Runnable {
     private OrderDeclareMapper orderDeclareMapper = SpringUtils.getBean(OrderDeclareMapper.class);
     private OrderDeclareSevice orderDeclareSevice = SpringUtils.getBean(OrderDeclareSevice.class);
     private MessageUtils messageUtils = SpringUtils.getBean(MessageUtils.class);
-    private BaseBill baseBill = SpringUtils.getBean(BaseBill.class);
+    private BaseOrderXml baseOrderXml = SpringUtils.getBean(BaseOrderXml.class);
     private static OrderMessageThread manifestGenMsgThread;
 
-    public OrderMessageThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, MessageUtils messageUtils, BaseBill baseBill, OrderDeclareSevice orderDeclareSevice) {
+    public OrderMessageThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, MessageUtils messageUtils, BaseOrderXml baseOrderXml, OrderDeclareSevice orderDeclareSevice) {
         this.orderDeclareMapper = orderDeclareMapper;
         this.appConfiguration = appConfiguration;
         this.messageUtils = messageUtils;
-        this.baseBill = baseBill;
+        this.baseOrderXml = baseOrderXml;
         this.orderDeclareSevice = orderDeclareSevice;
     }
     private OrderMessageThread() {
@@ -116,7 +116,7 @@ public class OrderMessageThread implements Runnable {
             // 生成报单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB311_" + orderNo + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.baseBill.createXML(ceb311Message, "orderDeclare");//flag
+            byte[] xmlByte = this.baseOrderXml.createXML(ceb311Message, "orderDeclare");//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成订单申报报文[fileName: %s]", fileName));
         } catch (Exception e) {

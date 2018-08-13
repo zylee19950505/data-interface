@@ -2,7 +2,6 @@ package com.xaeport.crossborder.convert621;
 
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.CEB621Message;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,13 +26,12 @@ import java.io.ByteArrayOutputStream;
  */
 @Component
 public class BaseDetailDeclareXML {
+
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     DetailDeclareXML detailDeclareXML;
     @Autowired
     AppConfiguration appConfiguration;
-   /* @Autowired
-    ShippingBill shippingBill;*/
 
     private DocumentBuilder getDocumentBuilder() {
         DocumentBuilder documentBuilder = null;
@@ -61,17 +59,12 @@ public class BaseDetailDeclareXML {
      */
     public byte[] createXML(CEB621Message ceb621Message, String flag) throws TransformerException {
         Document document = this.getDocument();
-        /*
-        <ceb:CEB311Message guid="4CDE1CFD-EDED-46B1-946C-B8022E42FC94" version="1.0"
-        xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        */
         Element rootElement = document.createElement("ceb:CEB621Message");
         rootElement.setAttribute("guid",ceb621Message.getImpInventoryHead().getGuid());
         rootElement.setAttribute("version","1.0");
         rootElement.setAttribute("xmlns:ceb","http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 
-        ceb621Message.setBaseTransfer(this.baseTransfer());
         rootElement.appendChild(this.getData(document, ceb621Message, flag));
         //添加<ceb:BaseTransfer>节点
         rootElement.appendChild(this.getBaseTransfer(document, ceb621Message, flag));
@@ -90,12 +83,9 @@ public class BaseDetailDeclareXML {
     private Element getBaseTransfer(Document document, CEB621Message ceb621Message, String flag) {
         Element BaseTrElement = document.createElement("ceb:BaseTransfer");
         switch (flag) {
-            //订单
+            //清单
             case "DetailDeclare":{
                 this.detailDeclareXML.getBaseTransfer(BaseTrElement,document,ceb621Message);
-                break;
-            }
-            case "":{
                 break;
             }
         }
@@ -118,7 +108,7 @@ public class BaseDetailDeclareXML {
     }
 
     /**
-     * 构建OrderHead 节点
+     * 构建InventoryHead 节点
      *
      * @param ceb621Message
      * @return
@@ -135,13 +125,5 @@ public class BaseDetailDeclareXML {
         }
         return ceborderheadEl;
     }
-    public BaseTransfer baseTransfer(){
-        BaseTransfer baseTransfer = new BaseTransfer();
-        baseTransfer.setCopCode("1101180326");
-        baseTransfer.setCopName("物流企业");
-        baseTransfer.setDxpId("EXP2016522002580001");
-        baseTransfer.setDxpMode("DXP");
-        baseTransfer.setNote("test");
-        return baseTransfer;
-    }
+
 }
