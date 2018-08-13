@@ -2,9 +2,11 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
 import org.apache.poi.util.StringUtil;
 import org.springframework.util.StringUtils;
+import sun.awt.SunHints;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
@@ -324,7 +326,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_No())){
                     VALUES("LOGISTICS_NO","#{impRecLogisticsStatus.logistics_No}");
                 }
-                VALUES("LOGISTICS_STATUS","S");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())){
+                    VALUES("LOGISTICS_STATUS","#{impRecLogisticsStatus.logistics_Status}");
+                }
                 if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())){
                     VALUES("RETURN_STATUS","#{impRecLogisticsStatus.return_Status}");
                 }
@@ -376,6 +380,19 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())){
                     SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
                 }
+            }
+        }.toString();
+    }
+
+    /*
+    * 运单状态表置为申报成功
+    * */
+    public String updateImpLogisticsDataStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus, @Param("ydztsbcg") String ydztsbcg){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.LOGISTICS_NO = #{impRecLogisticsStatus.logistics_No}");
+                SET("t.DATA_STATUS = #{ydztsbcg}");
             }
         }.toString();
     }

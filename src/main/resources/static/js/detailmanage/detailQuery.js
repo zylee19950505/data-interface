@@ -50,7 +50,7 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             columns: [
                 // {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
                 {
-                    label: "订单编号", render: function (data, type, row) {
+                    label: "清单编号", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeOrderNoDetail('" + row.guid + "','"+row.order_no+"')" + '">' + row.order_no + '</a>'
                 }
                 },
@@ -69,30 +69,20 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                 },
                 {
                     label: "业务状态", render: function (data, type, row) {
+                    var textColor = "";
+                    var value  = "";
                     switch (row.data_status) {
-                        case "CBDS1"://待申报
-                            textColor="text-yellow";
-                            row.data_status="待申报";
+                        case "CBDS62"://待申报
+                            textColor="text-blue";
+                            value="清单申报成功";
                             break;
-                        case "CBDS6":
-                            textColor = "text-yellow";
-                            row.data_status = "订单待申报";
-                            break;
-                        case "CBDS60":
-                            textColor = "text-green";
-                            row.data_status = "订单申报中";
-                            break;
-                        case "CBDS61":
-                            textColor = "text-green";
-                            row.data_status = "订单已申报";
-                            break;
-                        case "CBDS63":
+                        default :
                             textColor = "text-red";
-                            row.data_status = "订单重报";
-                            break;
+                            value = "未知";
+
                     }
 
-                    return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                    return "<span class='" + textColor + "'>" + value + "</span>";
                 }
                 },
                 {data: "return_status", label: "回执状态"},

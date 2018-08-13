@@ -70,8 +70,8 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String dataStatus = paramMap.get("dataStatus");
-        final String entId = paramMap.get("entId").toString();
-        final String roleId = paramMap.get("roleId").toString();
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
         return new SQL(){
             {
                 SELECT("COUNT(1)");

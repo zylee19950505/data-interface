@@ -1,5 +1,5 @@
 /**
- * 预览打印
+ * 运单查询
  * Created by Administrator on 2017/7/20.
  */
 sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/waybillQuery"] || {
@@ -101,33 +101,9 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
-                        case "CBDS1"://运单待申报 未导入
-                            textColor = "text-yellow";
-                            value = "运单待申报";
-                            break;
-                        case "CBDS4"://运单待申报
-                            textColor = "text-yellow";
-                            value = "运单待申报";
-                            break;
-                        case "CBDS40"://支付单申报中
-                            textColor = "text-green";
-                            value = "运单申报中";
-                            break;
-                        case "CBDS42"://支付单申报成功
-                            textColor = "text-green";
+                        case "CBDS62"://清单申报成功
+                            textColor = "text-blue";
                             value = "运单申报成功";
-                            break;
-                        case "CBDS41"://支付单已申报
-                            textColor = "text-green";
-                            value = "运单已申报";
-                            break;
-                        case "CBDS44"://支付单申报失败
-                            textColor = "text-red";
-                            value = "运单申报失败";
-                            break;
-                        case "CBDS43"://支付单重报
-                            textColor = "text-red";
-                            value = "运单重报";
                             break;
                         default :
                             textColor = "";

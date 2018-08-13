@@ -134,8 +134,12 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                                 value = "运单已申报,运单状态待申报";
                                 break;
                             case "CBDS50"://运单已申报,运单状态待申报
-                                textColor = "text-red";
+                                textColor = "text-green";
                                 value = "运单已申报,运单状态申报中";
+                                break;
+                            case "CBDS51"://运单已申报,运单状态已申报
+                                textColor = "text-blue";
+                                value = "运单已申报,运单状态已申报";
                                 break;
                             default :
                                 textColor = "";
@@ -176,7 +180,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
             return;
         }
 
-        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+        sw.confirm("请确认运单总数无误，提交海关", "确认", function () {
 
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
@@ -214,7 +218,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
             return;
         }
 
-        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+        sw.confirm("请确认运单总数无误，提交海关", "确认", function () {
 
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();

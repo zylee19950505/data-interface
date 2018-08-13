@@ -1,6 +1,6 @@
 /**
  * Created on 2017-7-23.
- * 订单申报
+ * 清单申报
  */
 sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/detailDeclare"] || {
         // 订单申报列表查询
@@ -80,30 +80,32 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     },
                     {
                         label: "业务状态", render: function (data, type, row) {
+                        var textColor = "";
+                        var value = "";
                         switch (row.data_status) {
                             case "CBDS1"://待申报
                                 textColor="text-yellow";
-                                row.data_status="待申报";
+                                value ="清单待申报";
                                 break;
                             case "CBDS6":
                                 textColor = "text-yellow";
-                                row.data_status = "订单待申报";
+                                value = "清单待申报";
                                 break;
                             case "CBDS60":
                                 textColor = "text-green";
-                                row.data_status = "订单申报中";
+                                value = "清单申报中";
                                 break;
                             case "CBDS61":
                                 textColor = "text-green";
-                                row.data_status = "订单已申报";
+                                value = "清单已申报";
                                 break;
                             case "CBDS63":
                                 textColor = "text-red";
-                                row.data_status = "订单重报";
+                                value = "清单重报";
                                 break;
                         }
 
-                        return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                        return "<span class='" + textColor + "'>" + value + "</span>";
                     }
                     },
                     {data: "return_status", label: "回执状态"},

@@ -95,10 +95,22 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.createImpRecLogisticsStatus(impRecLogisticsStatus); //插入运单状态表数据
-                this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单表状态
+                this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单状态表状态
+
+                //根据什么确定这个运单状态
+                this.updateImpLogisticsDataStatus(impRecLogisticsStatus,StatusCode.YDZTSBCG);    //更新运单表状态
             }
         }
     }
+
+    private void updateImpLogisticsDataStatus(ImpRecLogisticsStatus impRecLogisticsStatus, String ydztsbcg) {
+        this.receiptMapper.updateImpLogisticsDataStatus(impRecLogisticsStatus,ydztsbcg);
+    }
+
+    /*
+    * 将运单状态表置为申报成功
+    * */
+
 
     /*
     * 插入运单的数据
