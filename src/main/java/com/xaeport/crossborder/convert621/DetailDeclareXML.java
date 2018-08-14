@@ -303,18 +303,23 @@ public class DetailDeclareXML {
             unit1 = document.createElement("ceb:unit1");
             unit1.setTextContent(inventoryBodyList.get(i).getUnit1());
 
-            qty2 = document.createElement("ceb:qty2");
-            qty2.setTextContent(inventoryBodyList.get(i).getQty2());
+            if(inventoryBodyList.get(i).getQty2()!= "0"){
+                qty2 = document.createElement("ceb:qty2");
+                qty2.setTextContent(inventoryBodyList.get(i).getQty2());
+                InventoryBodyElement.appendChild(qty2);
+            }
 
-            unit2 = document.createElement("ceb:unit2");
-            unit2.setTextContent(inventoryBodyList.get(i).getUnit2());
+            if(!StringUtils.isEmpty(inventoryBodyList.get(i).getUnit2())){
+                unit2 = document.createElement("ceb:unit2");
+                unit2.setTextContent(inventoryBodyList.get(i).getUnit2());
+                InventoryBodyElement.appendChild(unit2);
+            }
 
             price = document.createElement("ceb:price");
             price.setTextContent(inventoryBodyList.get(i).getPrice());
 
             totalPrice = document.createElement("ceb:totalPrice");
             totalPrice.setTextContent(inventoryBodyList.get(i).getTotal_price());
-
 
             note = document.createElement("ceb:note");
             note.setTextContent(inventoryBodyList.get(i).getNote());
@@ -333,8 +338,6 @@ public class DetailDeclareXML {
             InventoryBodyElement.appendChild(unit);
             InventoryBodyElement.appendChild(qty1);
             InventoryBodyElement.appendChild(unit1);
-            InventoryBodyElement.appendChild(qty2);
-            InventoryBodyElement.appendChild(unit2);
             InventoryBodyElement.appendChild(price);
             InventoryBodyElement.appendChild(totalPrice);
 
