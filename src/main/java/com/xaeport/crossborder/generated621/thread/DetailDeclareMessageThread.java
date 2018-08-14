@@ -78,7 +78,7 @@ public class DetailDeclareMessageThread implements Runnable {
                         }
                         ceb621Message.setImpInventoryBodyList(InventoryLists);
                         //获取basetransfer节点数据(根据创建人)
-                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entryHead.getCrt_id());
+                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entryHead.getEnt_id());
                         //加载baseTransfer节点
                         ceb621Message.setBaseTransfer(baseTransfer);
                         //开始生成报文

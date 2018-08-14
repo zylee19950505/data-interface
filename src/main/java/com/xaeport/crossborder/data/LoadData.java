@@ -119,15 +119,15 @@ public class LoadData {
             this.log.debug("初始化港口代码数据map：" + portList.size() + " 条，执行完毕");
         }
 
-//        // 初始化包装类型代码map
-//        List<Code> packTypeList = this.loadService.getPackTypeList();
-//        if (!CollectionUtils.isEmpty(packTypeList)) {
-//            for (Code code : packTypeList) {
-//                // key为包装类型编码，value为包装类型名称
-//                this.setPackType(code.getCodeNo(), code.getCodeName());
-//            }
-//            this.log.debug("初始化包装类型代码数据map：" + packTypeList.size() + " 条，执行完毕");
-//        }
+        // 初始化包装类型代码map
+        List<Code> packTypeList = this.loadService.getPackTypeList();
+        if (!CollectionUtils.isEmpty(packTypeList)) {
+            for (Code code : packTypeList) {
+                // key为包装类型编码，value为包装类型名称
+                this.setPackType(code.getCodeNo(), code.getCodeName());
+            }
+            this.log.debug("初始化包装类型代码数据map：" + packTypeList.size() + " 条，执行完毕");
+        }
 
         // 初始化关区代码map
         List<Code> customsList = this.loadService.getCustomsList();

@@ -47,9 +47,9 @@ public class LoadService {
      *
      * @return 包装类型信息集合
      */
-//    public List<Code> getPackTypeList() {
-//        return this.loadMapper.getPackTypeList();
-//    }
+    public List<Code> getPackTypeList() {
+        return this.loadMapper.getPackTypeList();
+    }
 
     /**
      * 获取关区代码信息集合

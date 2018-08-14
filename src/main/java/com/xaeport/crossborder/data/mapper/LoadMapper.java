@@ -103,9 +103,9 @@ public interface LoadMapper {
             "from T_PRODUCTCODE")
     List<ProduecCode> getProduceCodeList();
 
-    //    // 查询包装类型
-//    @Select("select pack_code codeNo,pack_name codeName from pack_type")
-//    List<Code> getPackTypeList();
+    // 查询包装类型
+    @Select("SELECT pack_code codeNo,pack_name codeName FROM T_PACK_TYPE")
+    List<Code> getPackTypeList();
 
 //    // 根据代码类型获取代码集
 //    @Select("select c.key codeNo,c.value codeName from SYS_CODE c where c.status = '1' and c.parent = #{codeType}")

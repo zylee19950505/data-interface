@@ -116,6 +116,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "buyer_telephone",
             "consignee_address",
             "freight",
+            "wrap_type",
             "agent_code",
             "agent_name",
             "traf_mode",
@@ -171,6 +172,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#buyer_telephone").val(entryHead.buyer_telephone);
         $("#consignee_address").val(entryHead.consignee_address);
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
+        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType)
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
         selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode)
@@ -316,6 +318,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "buyer_telephone": "订购人电话",
             "consignee_address": "收件地址",
             "freight": "运费",
+            // "wrap_type": "包装种类",
             "agent_code": "申报企业代码",
             "agent_name": "申报企业名称",
             "traf_mode": "运输方式",

@@ -21,6 +21,7 @@ public class ValidateDetail extends ValidateBase {
     private int gnameIndex; //"商品名称";//list
     private int gcodeIndex; //"商品编码";//list
     private int gmodelIndex; //"商品规格型号";//list
+    private int wrapTypeIndex;//包装种类  head
     private int qtyIndex; //"数量";//list
     private int unitIndex; //"计量单位";//list
     private int qty1Index; //"第一法定数量";//list
@@ -64,6 +65,7 @@ public class ValidateDetail extends ValidateBase {
         indexMap.put(gnameIndex, "商品名称,250");
         indexMap.put(gcodeIndex, "商品编码,20");
         indexMap.put(gmodelIndex, "商品规格型号,250");
+//        indexMap.put(wrapTypeIndex, "包装种类,1");
         indexMap.put(qtyIndex, "数量,19");
         indexMap.put(unitIndex, "计量单位,10");
         indexMap.put(qty1Index, "第一法定数量,19");
@@ -155,6 +157,7 @@ public class ValidateDetail extends ValidateBase {
         gnameIndex = list.indexOf(ExcelHeadDetail.gname);
         gcodeIndex = list.indexOf(ExcelHeadDetail.gcode);
         gmodelIndex = list.indexOf(ExcelHeadDetail.gmodel);
+        wrapTypeIndex = list.indexOf(ExcelHeadDetail.wrapType);
         qtyIndex = list.indexOf(ExcelHeadDetail.qty);
         unitIndex = list.indexOf(ExcelHeadDetail.unit);
         qty1Index = list.indexOf(ExcelHeadDetail.qty1);

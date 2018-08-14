@@ -19,6 +19,7 @@ public class ExcelHeadDetail {
     public final static String gname = "商品名称";//list
     public final static String gcode = "商品编码";//list
     public final static String gmodel = "商品规格型号";//list
+    public final static String wrapType = "包装种类";//head
     public final static String qty = "数量";//list
     public final static String unit = "计量单位";//list
     public final static String qty1 = "第一法定数量";//list
@@ -69,6 +70,7 @@ public class ExcelHeadDetail {
         detailList.add("商品名称");
         detailList.add("商品编码");
         detailList.add("商品规格型号");
+        detailList.add("包装种类");
         detailList.add("数量");
         detailList.add("计量单位");
         detailList.add("第一法定数量");

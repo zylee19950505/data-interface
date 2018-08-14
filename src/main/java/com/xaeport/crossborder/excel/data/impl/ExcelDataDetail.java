@@ -21,6 +21,7 @@ public class ExcelDataDetail implements ExcelData {
     private int gnameIndex; //"商品名称";//list
     private int gcodeIndex; //"商品编码";//list
     private int gmodelIndex; //"商品规格型号";//list
+    private int wrapTypeIndex; //包装种类 //head
     private int qtyIndex; //"数量";//list
     private int unitIndex; //"计量单位";//list
     private int qty1Index; //"第一法定数量";//list
@@ -119,6 +120,7 @@ public class ExcelDataDetail implements ExcelData {
             impInventoryHead.setCountry(value.get(startCountryIndex));//直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；保税进口填写代码“142”。
 //            impInventoryHead.setWrap_type("");//海关对进出口货物实际采用的外部包装方式的标识代码，采用1 位数字表示，如：木箱、纸箱、桶装、散装、托盘、包、油罐车等
 //            impInventoryHead.setNote(value.get(noteIndex));//备注
+            impInventoryHead.setWrap_type(value.get(wrapTypeIndex));//包装种类
 
             impInventoryHead.setInsured_fee(getDouble(value.get(insuredFeeIndex)));//物流企业实际收取的商品保价费用。
             impInventoryHead.setFreight(getDouble(value.get(freightIndex)));//运杂费
@@ -181,6 +183,7 @@ public class ExcelDataDetail implements ExcelData {
         gnameIndex = detailLists.indexOf(ExcelHeadDetail.gname);
         gcodeIndex = detailLists.indexOf(ExcelHeadDetail.gcode);
         gmodelIndex = detailLists.indexOf(ExcelHeadDetail.gmodel);
+        wrapTypeIndex = detailLists.indexOf(ExcelHeadDetail.wrapType);
         qtyIndex = detailLists.indexOf(ExcelHeadDetail.qty);
         unitIndex = detailLists.indexOf(ExcelHeadDetail.unit);
         qty1Index = detailLists.indexOf(ExcelHeadDetail.qty1);
