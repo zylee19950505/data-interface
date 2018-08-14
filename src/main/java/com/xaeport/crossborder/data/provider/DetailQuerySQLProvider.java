@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class DetailQuerySQLProvider extends BaseSQLProvider{
+public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据
     public String queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
@@ -23,10 +23,10 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
                         " * from ( select rownum rn, f.* from ( " +
                                 " SELECT * ");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                if(!roleId.equals("admin")){
+                if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
-                if (!StringUtils.isEmpty(dataStatus)){
+                if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
@@ -59,10 +59,10 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                if(!roleId.equals("admin")){
+                if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
-                if (!StringUtils.isEmpty(dataStatus)){
+                if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
@@ -79,9 +79,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
     }
 
     //查询清单表头信息
-    public String queryImpInventoryHead(Map<String,String> paramMap){
+    public String queryImpInventoryHead(Map<String, String> paramMap) {
         final String id = paramMap.get("id");
-        return  new SQL(){
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("T_IMP_INVENTORY_HEAD t");
@@ -92,9 +92,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
     }
 
     //查询清单表体信息
-    public String queryImpInventoryBodies(Map<String,String> paramMap){
+    public String queryImpInventoryBodies(Map<String, String> paramMap) {
         final String id = paramMap.get("id");
-        return  new SQL(){
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("T_IMP_INVENTORY_BODY t");
@@ -104,84 +104,87 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
     }
 
     //修改清单表头信息
-    public String updateImpInventoryHead(LinkedHashMap<String, String> entryHead){
-        return new SQL(){
+    public String updateImpInventoryHead(LinkedHashMap<String, String> entryHead) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.GUID = #{entryhead_guid}");
-                if (!StringUtils.isEmpty(entryHead.get("order_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
                     SET("t.order_no = #{order_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("cop_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("cop_no"))) {
                     SET("t.cop_no = #{cop_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))) {
                     SET("t.logistics_no = #{logistics_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("ebp_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("ebp_code"))) {
                     SET("t.ebp_code = #{ebp_Name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("ebp_name"))){
+                if (!StringUtils.isEmpty(entryHead.get("ebp_name"))) {
                     SET("t.ebp_name = #{ebc_Code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("ebc_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("ebc_code"))) {
                     SET("t.ebc_code = #{ebc_Name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("ebc_name"))){
+                if (!StringUtils.isEmpty(entryHead.get("ebc_name"))) {
                     SET("t.ebc_name = #{ebc_name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("assure_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("assure_code"))) {
                     SET("t.assure_code = #{assure_code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("customs_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("customs_code"))) {
                     SET("t.customs_code = #{customs_code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("port_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("port_code"))) {
                     SET("t.port_code = #{port_code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("ie_date"))){
+                if (!StringUtils.isEmpty(entryHead.get("ie_date"))) {
                     SET("t.ie_date = to_date(#{ie_date},'yyyy-MM-dd')");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_id_number"))){
+                if (!StringUtils.isEmpty(entryHead.get("buyer_id_number"))) {
                     SET("t.buyer_id_number = #{buyer_id_number}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_name"))){
+                if (!StringUtils.isEmpty(entryHead.get("buyer_name"))) {
                     SET("t.buyer_name = #{buyer_name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_telephone"))){
+                if (!StringUtils.isEmpty(entryHead.get("buyer_telephone"))) {
                     SET("t.buyer_telephone = #{buyer_telephone}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))){
+                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))) {
                     SET("t.consignee_address = #{consignee_address}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("freight"))){
+                if (!StringUtils.isEmpty(entryHead.get("freight"))) {
                     SET("t.freight = #{freight}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("agent_code"))){
+                if (!StringUtils.isEmpty(entryHead.get("wrap_type"))) {
+                    SET("t.wrap_type = #{wrap_type}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("agent_code"))) {
                     SET("t.agent_code = #{agent_code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("agent_name"))){
+                if (!StringUtils.isEmpty(entryHead.get("agent_name"))) {
                     SET("t.agent_name = #{agent_name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("traf_mode"))){
+                if (!StringUtils.isEmpty(entryHead.get("traf_mode"))) {
                     SET("t.traf_mode = #{traf_mode}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("traf_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("traf_no"))) {
                     SET("t.traf_no = #{traf_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("voyage_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("voyage_no"))) {
                     SET("t.voyage_no = #{voyage_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("bill_no"))){
+                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
                     SET("t.bill_no = #{bill_no}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("country"))){
+                if (!StringUtils.isEmpty(entryHead.get("country"))) {
                     SET("t.country = #{country}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))){
+                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
                     SET("t.gross_weight = #{gross_weight}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("note"))){
+                if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
                 }
             }
@@ -189,66 +192,51 @@ public class DetailQuerySQLProvider extends BaseSQLProvider{
     }
 
     //修改清单表体信息
-    public String updateImpInventoryBodies(LinkedHashMap<String, String> entryList){
-        return new SQL(){
+    public String updateImpInventoryBodies(LinkedHashMap<String, String> entryList) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_BODY t");
                 WHERE("t.HEAD_GUID = #{entryhead_guid}");
                 WHERE("t.G_NUM = #{g_no}");
-                if (!StringUtils.isEmpty(entryList.get("g_name"))){
+                if (!StringUtils.isEmpty(entryList.get("g_name"))) {
                     SET("t.g_name = #{g_name}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_code"))){
+                if (!StringUtils.isEmpty(entryList.get("g_code"))) {
                     SET("t.g_code = #{g_code}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_model"))){
+                if (!StringUtils.isEmpty(entryList.get("g_model"))) {
                     SET("t.g_model = #{g_model}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("country"))){
+                if (!StringUtils.isEmpty(entryList.get("country"))) {
                     SET("t.country = #{country}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_qty"))){
+                if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
                     SET("t.qty = #{g_qty}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_unit"))){
+                if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
                     SET("t.unit = #{g_unit}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_1"))){
+                if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
                     SET("t.qty1 = #{qty_1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_1"))){
+                if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
                     SET("t.unit1 = #{unit_1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_2"))){
+                if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
                     SET("t.qty2 = #{qty_2}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_2"))){
+                if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
                     SET("t.unit2 = #{unit_2}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("price"))){
+                if (!StringUtils.isEmpty(entryList.get("price"))) {
                     SET("t.price = #{price}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("total_price"))){
+                if (!StringUtils.isEmpty(entryList.get("total_price"))) {
                     SET("t.total_price = #{total_price}");
                 }
             }
         }.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
