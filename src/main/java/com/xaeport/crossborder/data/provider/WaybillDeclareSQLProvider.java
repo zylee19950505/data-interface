@@ -160,10 +160,26 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         final String dataStatus = paramMap.get("dataStatus");
         return new SQL() {
             {
-                SELECT("GUID,APP_TYPE,APP_TIME,APP_STATUS,LOGISTICS_CODE,LOGISTICS_NAME,LOGISTICS_NO");
-                SELECT("BILL_NO,to_char(FREIGHT,'FM999999999990.00000') as FREIGHT,to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE,CURRENCY,to_char(WEIGHT,'FM999999999990.00000') as WEIGHT,PACK_NO");
-                SELECT("GOODS_INFO,CONSINGEE,CONSIGNEE_ADDRESS,CONSIGNEE_TELEPHONE");
-                SELECT("NOTE,DATA_STATUS,CRT_ID,CRT_TM,UPD_ID,UPD_TM");
+                SELECT("GUID," +
+                        "APP_TYPE," +
+                        "APP_TIME," +
+                        "APP_STATUS," +
+                        "LOGISTICS_CODE," +
+                        "LOGISTICS_NAME," +
+                        "LOGISTICS_NO");
+                SELECT("BILL_NO," +
+                        "to_char(FREIGHT,'FM999999999990.00000') as FREIGHT," +
+                        "to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE," +
+                        "CURRENCY," +
+                        "to_char(WEIGHT,'FM999999999990.00000') as WEIGHT,PACK_NO");
+                SELECT("GOODS_INFO," +
+                        "CONSINGEE,CONSIGNEE_ADDRESS," +
+                        "CONSIGNEE_TELEPHONE");
+                SELECT("NOTE," +
+                        "DATA_STATUS," +
+                        "ENT_ID," +
+                        "ENT_NAME," +
+                        "ENT_CUSTOMS_CODE");
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("data_Status = #{dataStatus}");
                 WHERE("rownum<=100");
@@ -175,12 +191,24 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
     /*
      * 运单状态报文数据查询
      */
-    public String findWaitGeneratedToLogisticsStatus(final Map<String, String> paramMap) {
+    public String findWaitGeneratedStatus(final Map<String, String> paramMap) {
         final String dataStatus = paramMap.get("dataStatus");
         return new SQL() {
             {
-                SELECT("GUID,APP_TYPE,APP_TIME,APP_STATUS,LOGISTICS_CODE,LOGISTICS_NAME,LOGISTICS_NO,LOGISTICS_STATUS,LOGISTICS_TIME");
-                SELECT("NOTE,DATA_STATUS,CRT_ID,CRT_TM,UPD_ID,UPD_TM");
+                SELECT("GUID," +
+                        "APP_TYPE," +
+                        "APP_TIME," +
+                        "APP_STATUS," +
+                        "LOGISTICS_CODE," +
+                        "LOGISTICS_NAME," +
+                        "LOGISTICS_NO," +
+                        "LOGISTICS_STATUS," +
+                        "LOGISTICS_TIME");
+                SELECT("NOTE," +
+                        "DATA_STATUS," +
+                        "ENT_ID," +
+                        "ENT_NAME," +
+                        "ENT_CUSTOMS_CODE");
                 FROM("T_IMP_LOGISTICS_STATUS t");
                 WHERE("data_Status = #{dataStatus}");
                 WHERE("rownum<=100");
@@ -219,23 +247,6 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
     }
 
     /*
-    *  queryCompany(@Param("queryCompany") String crtId)
-    *  获取企业id
-    * */
-    public String  queryCompany(@Param("crtId") String crtId){
-        return new SQL(){
-            {
-                SELECT("te.CUSTOMS_CODE as copCode");
-                SELECT("te.ENT_NAME as copName");
-                SELECT("'DXP' as dxpMode");
-                SELECT("te.DXP_ID as dxpId");
-                SELECT("te.note as note");
-                FROM("T_ENTERPRISE te,T_USERS tu");
-                WHERE("tu.id=#{crtId} and tu.ent_id = te.id");
-            }
-        }.toString();
-    }
-    /*
     * 查询运单申报是否合格()
     *
     * */
@@ -260,6 +271,24 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("t.LOGISTICS_NO = #{logisticsNo}");
                 WHERE("t.DATA_STATUS <>'CBDS5'");
+            }
+        }.toString();
+    }
+
+    /*
+     *  queryCompany(@Param("ent_id") String ent_id)
+     * 根据企业ID获取企业信息
+     * */
+    public String  queryCompany(@Param("ent_id") String ent_id){
+        return new SQL(){
+            {
+                SELECT("t.CUSTOMS_CODE as copCode");
+                SELECT("t.ENT_NAME as copName");
+                SELECT("'DXP' as dxpMode");
+                SELECT("t.DXP_ID as dxpId");
+                SELECT("t.note as note");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.id = #{ent_id}");
             }
         }.toString();
     }

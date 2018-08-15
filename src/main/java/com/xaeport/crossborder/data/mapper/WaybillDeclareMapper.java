@@ -46,8 +46,8 @@ public interface WaybillDeclareMapper {
     /*
      * 生产运单状态报文数据查询
      */
-    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGeneratedToLogisticsStatus")
-    List<ImpLogisticsStatus> findWaitGeneratedToLogisticsStatus(Map<String, String> paramMap) throws Exception;
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGeneratedStatus")
+    List<ImpLogisticsStatus> findWaitGeneratedStatus(Map<String, String> paramMap) throws Exception;
     /*
      * 修改运单状态申报状态
      */
@@ -58,14 +58,13 @@ public interface WaybillDeclareMapper {
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateToLogistics")
     void updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51)throws Exception;
 
-    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
-	BaseTransfer queryCompany(@Param("crtId") String crtId);
-
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryDateStatus")
     int queryDateStatus(@Param("logisticsNo") String logisticsNo);
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryStaDateStatus")
 	int queryStaDateStatus(@Param("logisticsNo") String logisticsNo);
 
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
+    BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 
 }

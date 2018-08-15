@@ -154,7 +154,6 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                         "PAY_TIME");
                 SELECT("NOTE," +
                         "DATA_STATUS," +
-                        "RETURN_STATUS," +
                         "ENT_ID," +
                         "ENT_NAME," +
                         "ENT_CUSTOMS_CODE");
@@ -206,8 +205,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
     /*
-    * queryCompany(@Param("crtId") String crtId)
-    * 根据用户id查找企业id,根据企业id查找企业信息
+    * queryCompany(@Param("ent_id") String ent_id)
+    * 根据企业ID获取企业信息
     * */
     public String queryCompany(@Param("ent_id") String ent_id){
         return new SQL(){
