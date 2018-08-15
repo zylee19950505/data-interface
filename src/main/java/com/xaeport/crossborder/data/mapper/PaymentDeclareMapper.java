@@ -56,5 +56,5 @@ public interface PaymentDeclareMapper {
     ImpPayment queryPaymentById(@Param("paytransactionid") String paytransactionid);
 
     @SelectProvider(type = PaymentDeclareSQLProvider.class, method = "queryCompany")
-    BaseTransfer411 queryCompany(@Param("crtId") String crtId);
+    BaseTransfer411 queryCompany(@Param("ent_id") String ent_id);
 }

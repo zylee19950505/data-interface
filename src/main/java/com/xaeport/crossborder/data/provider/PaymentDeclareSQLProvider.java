@@ -135,13 +135,32 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
         final String dataStatus = paramMap.get("dataStatus");
         return new SQL() {
             {
-                SELECT("GUID,APP_TYPE,APP_TIME,APP_STATUS,PAY_CODE,PAY_NAME,PAY_TRANSACTION_ID");
-                SELECT("ORDER_NO,EBP_CODE,EBP_NAME,PAYER_ID_TYPE,PAYER_ID_NUMBER,PAYER_NAME");
-                SELECT("TELEPHONE,to_char(AMOUNT_PAID,'FM999999999990.00000') as AMOUNT_PAID,CURRENCY,PAY_TIME");
-                SELECT("NOTE,DATA_STATUS,CRT_ID,CRT_TM,UPD_ID,UPD_TM,RETURN_STATUS");
+                SELECT("GUID," +
+                        "APP_TYPE," +
+                        "APP_TIME," +
+                        "APP_STATUS," +
+                        "PAY_CODE," +
+                        "PAY_NAME," +
+                        "PAY_TRANSACTION_ID");
+                SELECT("ORDER_NO," +
+                        "EBP_CODE," +
+                        "EBP_NAME," +
+                        "PAYER_ID_TYPE," +
+                        "PAYER_ID_NUMBER," +
+                        "PAYER_NAME");
+                SELECT("TELEPHONE," +
+                        "to_char(AMOUNT_PAID,'FM999999999990.00000') as AMOUNT_PAID," +
+                        "CURRENCY," +
+                        "PAY_TIME");
+                SELECT("NOTE," +
+                        "DATA_STATUS," +
+                        "RETURN_STATUS," +
+                        "ENT_ID," +
+                        "ENT_NAME," +
+                        "ENT_CUSTOMS_CODE");
                 FROM("T_IMP_PAYMENT t");
                 WHERE("data_Status = #{dataStatus}");
-                WHERE("rownum<=100");
+                WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
             }
         }.toString();
@@ -190,16 +209,16 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     * queryCompany(@Param("crtId") String crtId)
     * 根据用户id查找企业id,根据企业id查找企业信息
     * */
-    public String queryCompany(@Param("crtId") String crtId){
+    public String queryCompany(@Param("ent_id") String ent_id){
         return new SQL(){
             {
-                SELECT("te.CUSTOMS_CODE as copCode");
-                SELECT("te.ENT_NAME as copName");
+                SELECT("t.CUSTOMS_CODE as copCode");
+                SELECT("t.ENT_NAME as copName");
                 SELECT("'DXP' as dxpMode");
-                SELECT("te.DXP_ID as dxpId");
-                SELECT("te.note as note");
-                FROM("T_ENTERPRISE te,T_USERS tu");
-                WHERE("tu.id=#{crtId} and tu.ent_id = te.id");
+                SELECT("t.DXP_ID as dxpId");
+                SELECT("t.note as note");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.id = #{ent_id}");
             }
         }.toString();
 

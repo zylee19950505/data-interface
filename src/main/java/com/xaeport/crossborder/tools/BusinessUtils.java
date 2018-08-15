@@ -1,7 +1,6 @@
 package com.xaeport.crossborder.tools;
 
-
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
+import com.xaeport.crossborder.data.entity.ImpPayment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,32 +8,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by baozhe on 2017-7-23.
+ * Created by lzy on 2018-15-31.
  * 业务处理工具
  */
 public class BusinessUtils {
 
     /**
-     * 将EntryHead集合按照总单号拆分成Map<订单号,EntryHead集合>
+     * 将impPayment集合按照总单号拆分成Map<企业ID码,impPayment集合>
      *
-     * @param entryHeadList EntryHead集合
-     * @return Map<订单号,EntryHead集合>
+     * @param impPaymentLists impPayment集合
+     * @return Map<企业ID码,impPayment集合>
      */
-    public static Map<String, List<ImpOrderHead>> getOrderNoHeadListMap(List<ImpOrderHead> entryHeadList) {
-        Map<String, List<ImpOrderHead>> orderNoHeadListMap = new HashMap<String, List<ImpOrderHead>>();
-        String orderNo = null;
-        for (ImpOrderHead entryHead : entryHeadList) {
-            orderNo = entryHead.getOrder_No();
-            if (orderNoHeadListMap.containsKey(orderNo)) {
-                List<ImpOrderHead> entryHeads = orderNoHeadListMap.get(orderNo);
-                entryHeads.add(entryHead);
+    public static Map<String, List<ImpPayment>> getEntIdDataMap(List<ImpPayment> impPaymentLists) {
+        Map<String, List<ImpPayment>> entIdDataListMap = new HashMap<String, List<ImpPayment>>();
+        String entId = null;
+        for (ImpPayment impPayment : impPaymentLists) {
+            entId = impPayment.getEnt_id();
+            if (entIdDataListMap.containsKey(entId)) {
+                List<ImpPayment> impPayments = entIdDataListMap.get(entId);
+                impPayments.add(impPayment);
             } else {
-                List<ImpOrderHead> entryHeads = new ArrayList<ImpOrderHead>();
-                entryHeads.add(entryHead);
-                orderNoHeadListMap.put(orderNo, entryHeads);
+                List<ImpPayment> impPayments = new ArrayList<ImpPayment>();
+                impPayments.add(impPayment);
+                entIdDataListMap.put(entId, impPayments);
             }
         }
-        return orderNoHeadListMap;
+        return entIdDataListMap;
     }
 
 

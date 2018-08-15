@@ -6,6 +6,7 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
+import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
@@ -41,11 +42,14 @@ public class PaymentMessageThread implements Runnable {
         CEB411Message ceb411Message = new CEB411Message();
 
         List<ImpPayment> impPaymentLists;
+        List<ImpPayment> paymentLists;
         List<PaymentHead> paymentHeadLists;///报文实体类
         PaymentHead paymentHead;
         ImpPayment impPayment;
         String guid;
-        String crtId = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        String xmlHeadGuid = null;
+        String nameOrderNo = null;
 
         while (true) {
             try {
@@ -62,57 +66,118 @@ public class PaymentMessageThread implements Runnable {
                     }
                     continue;
                 }
-                paymentHeadLists = new ArrayList<>();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-                String xmlHeadGuid = null;
-                String nameOrderNo = null;
 
-                for (int i = 0; i < impPaymentLists.size(); i++) {
-                    impPayment = impPaymentLists.get(i);
-                    xmlHeadGuid = impPaymentLists.get(0).getGuid();
-                    nameOrderNo = impPaymentLists.get(0).getOrder_no();
-                    guid = impPayment.getGuid();
-                    crtId = impPayment.getCrt_id();
-                    paymentHead = new PaymentHead();
-                    paymentHead.setGuid(guid);
-                    paymentHead.setAppType(impPayment.getApp_type());
-//                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
-                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
-                    paymentHead.setAppStatus(impPayment.getApp_status());
-                    paymentHead.setPayCode(impPayment.getPay_code());
-                    paymentHead.setPayName(impPayment.getPay_name());
-                    paymentHead.setPayTransactionId(impPayment.getPay_transaction_id());
-                    paymentHead.setOrderNo(impPayment.getOrder_no());
-                    paymentHead.setEbpCode(impPayment.getEbp_code());
-                    paymentHead.setEbpName(impPayment.getEbp_name());
-                    paymentHead.setPayerIdType(impPayment.getPayer_id_type());
-                    paymentHead.setPayerIdNumber(impPayment.getPayer_id_number());
-                    paymentHead.setPayerName(impPayment.getPayer_name());
-                    paymentHead.setTelephone(StringUtils.isEmpty(impPayment.getTelephone()) ? "" : impPayment.getTelephone());
-                    paymentHead.setAmountPaid(impPayment.getAmount_paid());
-                    paymentHead.setCurrency(impPayment.getCurrency());
-//                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
-                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
-                    paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote()) ? "" : impPayment.getNote());
+                Map<String, List<ImpPayment>> paymentXmlMap = BusinessUtils.getEntIdDataMap(impPaymentLists);
+
+                for (String entId : paymentXmlMap.keySet()) {
                     try {
-                        // 更新支付单状态
-                        this.paymentDeclareMapper.updateImpPaymentStatus(guid, StatusCode.ZFDYSB);
-                        this.logger.debug(String.format("更新支付单为已申报[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
+
+                        paymentLists = paymentXmlMap.get(entId);
+                        paymentHeadLists = new ArrayList<>();
+
+                        for (int i = 0; i < paymentLists.size(); i++) {
+
+                            impPayment = paymentLists.get(i);
+                            xmlHeadGuid = paymentLists.get(0).getGuid();
+                            nameOrderNo = paymentLists.get(0).getOrder_no();
+                            entId = paymentLists.get(0).getEnt_id();
+
+                            guid = impPayment.getGuid();
+                            paymentHead = new PaymentHead();
+                            paymentHead.setGuid(guid);
+                            paymentHead.setEntId(impPayment.getEnt_id());
+                            paymentHead.setAppType(impPayment.getApp_type());
+                            paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
+                            paymentHead.setAppStatus(impPayment.getApp_status());
+                            paymentHead.setPayCode(impPayment.getPay_code());
+                            paymentHead.setPayName(impPayment.getPay_name());
+                            paymentHead.setPayTransactionId(impPayment.getPay_transaction_id());
+                            paymentHead.setOrderNo(impPayment.getOrder_no());
+                            paymentHead.setEbpCode(impPayment.getEbp_code());
+                            paymentHead.setEbpName(impPayment.getEbp_name());
+                            paymentHead.setPayerIdType(impPayment.getPayer_id_type());
+                            paymentHead.setPayerIdNumber(impPayment.getPayer_id_number());
+                            paymentHead.setPayerName(impPayment.getPayer_name());
+                            paymentHead.setTelephone(StringUtils.isEmpty(impPayment.getTelephone()) ? "" : impPayment.getTelephone());
+                            paymentHead.setAmountPaid(impPayment.getAmount_paid());
+                            paymentHead.setCurrency(impPayment.getCurrency());
+                            paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
+                            paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote()) ? "" : impPayment.getNote());
+
+                            try {
+                                // 更新支付单状态
+                                this.paymentDeclareMapper.updateImpPaymentStatus(guid, StatusCode.ZFDYSB);
+                                this.logger.debug(String.format("更新支付单为已申报[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
+                            } catch (Exception e) {
+                                String exceptionMsg = String.format("更改支付单[headGuid: %s]状态时发生异常", paymentHead.getGuid());
+                                this.logger.error(exceptionMsg, e);
+                            }
+
+                            paymentHeadLists.add(paymentHead);
+
+                        }
+
+                        ceb411Message.setPaymentHeadList(paymentHeadLists);
+                        //设置baseTransfer411节点
+                        BaseTransfer411 baseTransfer411 = new BaseTransfer411();
+                        baseTransfer411 = paymentDeclareMapper.queryCompany(entId);
+                        ceb411Message.setBaseTransfer411(baseTransfer411);
+
+                        //开始生成报文
+                        this.entryProcess(ceb411Message, nameOrderNo, xmlHeadGuid);
+
                     } catch (Exception e) {
-                        String exceptionMsg = String.format("更改支付单[headGuid: %s]状态时发生异常", paymentHead.getGuid());
+                        String exceptionMsg = String.format("处理支付单[headGuid: %s]状态时发生异常", entId);
                         this.logger.error(exceptionMsg, e);
                     }
-                    paymentHeadLists.add(paymentHead);
                 }
-                ceb411Message.setPaymentHeadList(paymentHeadLists);
-                //设置baseTransfer411节点
-                BaseTransfer411 baseTransfer411 = new BaseTransfer411();
-                if (!StringUtils.isEmpty(crtId)) {
-                    baseTransfer411 = paymentDeclareMapper.queryCompany(crtId);
-                }
-                ceb411Message.setBaseTransfer411(baseTransfer411);
-                //开始生成报文
-                this.entryProcess(ceb411Message, nameOrderNo, xmlHeadGuid);
+
+//                for (int i = 0; i < impPaymentLists.size(); i++) {
+//                    impPayment = impPaymentLists.get(i);
+//                    xmlHeadGuid = impPaymentLists.get(0).getGuid();
+//                    nameOrderNo = impPaymentLists.get(0).getOrder_no();
+//                    guid = impPayment.getGuid();
+//                    crtId = impPayment.getCrt_id();
+//                    paymentHead = new PaymentHead();
+//                    paymentHead.setGuid(guid);
+//                    paymentHead.setAppType(impPayment.getApp_type());
+////                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
+//                    paymentHead.setAppTime(sdf.format(impPayment.getApp_time()));
+//                    paymentHead.setAppStatus(impPayment.getApp_status());
+//                    paymentHead.setPayCode(impPayment.getPay_code());
+//                    paymentHead.setPayName(impPayment.getPay_name());
+//                    paymentHead.setPayTransactionId(impPayment.getPay_transaction_id());
+//                    paymentHead.setOrderNo(impPayment.getOrder_no());
+//                    paymentHead.setEbpCode(impPayment.getEbp_code());
+//                    paymentHead.setEbpName(impPayment.getEbp_name());
+//                    paymentHead.setPayerIdType(impPayment.getPayer_id_type());
+//                    paymentHead.setPayerIdNumber(impPayment.getPayer_id_number());
+//                    paymentHead.setPayerName(impPayment.getPayer_name());
+//                    paymentHead.setTelephone(StringUtils.isEmpty(impPayment.getTelephone()) ? "" : impPayment.getTelephone());
+//                    paymentHead.setAmountPaid(impPayment.getAmount_paid());
+//                    paymentHead.setCurrency(impPayment.getCurrency());
+////                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
+//                    paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
+//                    paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote()) ? "" : impPayment.getNote());
+//                    try {
+//                        // 更新支付单状态
+//                        this.paymentDeclareMapper.updateImpPaymentStatus(guid, StatusCode.ZFDYSB);
+//                        this.logger.debug(String.format("更新支付单为已申报[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
+//                    } catch (Exception e) {
+//                        String exceptionMsg = String.format("更改支付单[headGuid: %s]状态时发生异常", paymentHead.getGuid());
+//                        this.logger.error(exceptionMsg, e);
+//                    }
+//                    paymentHeadLists.add(paymentHead);
+//                }
+//                ceb411Message.setPaymentHeadList(paymentHeadLists);
+//                //设置baseTransfer411节点
+//                BaseTransfer411 baseTransfer411 = new BaseTransfer411();
+//
+//                baseTransfer411 = paymentDeclareMapper.queryCompany(paymentHeadLists.get(0).getEntId());
+//
+//                ceb411Message.setBaseTransfer411(baseTransfer411);
+//                //开始生成报文
+//                this.entryProcess(ceb411Message, nameOrderNo, xmlHeadGuid);
             } catch (Exception e) {
                 try {
                     Thread.sleep(5000);

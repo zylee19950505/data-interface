@@ -21,6 +21,7 @@ public class PaymentHead {
     private String currency;
     private String payTime;
     private String note;
+    private String entId;
 
     private String dataStatus;
     private String crtId;
@@ -219,5 +220,13 @@ public class PaymentHead {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getEntId() {
+        return entId;
+    }
+
+    public void setEntId(String entId) {
+        this.entId = entId;
     }
 }
