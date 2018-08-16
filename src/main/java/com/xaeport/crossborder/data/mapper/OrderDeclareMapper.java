@@ -61,4 +61,7 @@ public interface OrderDeclareMapper {
 
 	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryCompany")
 	BaseTransfer queryCompany(@Param("ent_id") String ent_id);
+
+
+
 }

@@ -8,25 +8,43 @@ import java.util.List;
 * 订单报文节点
 * */
 public class CEB311Message {
-	private ImpOrderHead orderHead;
-	private List<ImpOrderBody> orderBodyList;
+	private List<ImpOrderHead> impOrderHeadList;
+	private List<ImpOrderBody> impOrderBodyList;
+	private List<OrderHead> orderHeadList;
+	private List<OrderList> orderListList;
 	private BaseTransfer baseTransfer;
 	private Signature signature;
 
-	public ImpOrderHead getOrderHead() {
-		return orderHead;
+	public List<ImpOrderHead> getImpOrderHeadList() {
+		return impOrderHeadList;
 	}
 
-	public void setOrderHead(ImpOrderHead orderHead) {
-		this.orderHead = orderHead;
+	public void setImpOrderHeadList(List<ImpOrderHead> impOrderHeadList) {
+		this.impOrderHeadList = impOrderHeadList;
 	}
 
-	public List<ImpOrderBody> getOrderBodyList() {
-		return orderBodyList;
+	public List<ImpOrderBody> getImpOrderBodyList() {
+		return impOrderBodyList;
 	}
 
-	public void setOrderBodyList(List<ImpOrderBody> orderBodyList) {
-		this.orderBodyList = orderBodyList;
+	public void setImpOrderBodyList(List<ImpOrderBody> impOrderBodyList) {
+		this.impOrderBodyList = impOrderBodyList;
+	}
+
+	public List<OrderHead> getOrderHeadList() {
+		return orderHeadList;
+	}
+
+	public void setOrderHeadList(List<OrderHead> orderHeadList) {
+		this.orderHeadList = orderHeadList;
+	}
+
+	public List<OrderList> getOrderListList() {
+		return orderListList;
+	}
+
+	public void setOrderListList(List<OrderList> orderListList) {
+		this.orderListList = orderListList;
 	}
 
 	public BaseTransfer getBaseTransfer() {

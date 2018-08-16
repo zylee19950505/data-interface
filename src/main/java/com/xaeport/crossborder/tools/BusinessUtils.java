@@ -2,6 +2,7 @@ package com.xaeport.crossborder.tools;
 
 import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
+import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 
 import java.util.ArrayList;
@@ -18,21 +19,39 @@ public class BusinessUtils {
     /**
      * 将impPayment集合按照总单号拆分成Map<企业ID码,impPayment集合>
      *
-     * @param impPaymentLists impPayment集合
+     * @param impOrderHeadLists impPayment集合
      * @return Map<企业ID码,impPayment集合>
      */
+
+    public static Map<String, List<ImpOrderHead>> getEntIdOrderMap(List<ImpOrderHead> impOrderHeadLists) {
+        Map<String, List<ImpOrderHead>> entIdDataListMap = new HashMap<String, List<ImpOrderHead>>();
+        String entId = null;
+        for (ImpOrderHead impOrderHead : impOrderHeadLists) {
+            entId = impOrderHead.getEnt_id();
+            if (entIdDataListMap.containsKey(entId)) {
+                List<ImpOrderHead> impOrderHeadList = entIdDataListMap.get(entId);
+                impOrderHeadList.add(impOrderHead);
+            } else {
+                List<ImpOrderHead> impOrderHeadList = new ArrayList<ImpOrderHead>();
+                impOrderHeadList.add(impOrderHead);
+                entIdDataListMap.put(entId, impOrderHeadList);
+            }
+        }
+        return entIdDataListMap;
+    }
+
     public static Map<String, List<ImpPayment>> getEntIdDataMap(List<ImpPayment> impPaymentLists) {
         Map<String, List<ImpPayment>> entIdDataListMap = new HashMap<String, List<ImpPayment>>();
         String entId = null;
         for (ImpPayment impPayment : impPaymentLists) {
             entId = impPayment.getEnt_id();
             if (entIdDataListMap.containsKey(entId)) {
-                List<ImpPayment> impPayments = entIdDataListMap.get(entId);
-                impPayments.add(impPayment);
+                List<ImpPayment> impPaymentList = entIdDataListMap.get(entId);
+                impPaymentList.add(impPayment);
             } else {
-                List<ImpPayment> impPayments = new ArrayList<ImpPayment>();
-                impPayments.add(impPayment);
-                entIdDataListMap.put(entId, impPayments);
+                List<ImpPayment> impPaymentList = new ArrayList<ImpPayment>();
+                impPaymentList.add(impPayment);
+                entIdDataListMap.put(entId, impPaymentList);
             }
         }
         return entIdDataListMap;
