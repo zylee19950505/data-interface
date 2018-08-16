@@ -85,4 +85,9 @@ public class ValidatePayment extends ValidateBase {
         return 0;
     }
 
+    @Override
+    public int checkRowAmount(List list, Map<String, Object> map) {
+        return 0;
+    }
+
 }

@@ -56,6 +56,7 @@ public class ValidateDetail extends ValidateBase {
     private int noteIndex; //"备注";//list
 
     private Map<Integer, String> indexMap = new HashMap<>();
+    private Map<String, Integer> orderNoMap = new HashMap<>();
 
     public void initMap() {
         indexMap.put(orderNoIndex, "订单编号,60");
@@ -144,6 +145,7 @@ public class ValidateDetail extends ValidateBase {
         return flag;
     }
 
+
     /**
      * 初始化索引值
      *
@@ -191,6 +193,22 @@ public class ValidateDetail extends ValidateBase {
         netWeightIndex = list.indexOf(ExcelHeadDetail.netWeight);
         noteIndex = list.indexOf(ExcelHeadDetail.note);
         this.initMap();
+    }
+
+    public int checkRowAmount(List list, Map<String, Object> map) {
+        int num = 0;
+        String orderno = list.get(orderNoIndex).toString();
+        if (orderNoMap.containsKey(orderno)) {
+            int count = Integer.parseInt(orderNoMap.get(orderno).toString()) + 1;
+            if (count > 99) {
+                map.put("error", String.format("订单<%s>的商品条目不能超过99", orderno));
+                num = 1;
+            }
+            orderNoMap.put(orderno, count);
+        } else {
+            orderNoMap.put(orderno, 1);
+        }
+        return 0;
     }
 
 }

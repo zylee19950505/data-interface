@@ -165,6 +165,13 @@ public class ReadExcel {
                 if (i == 0) {
                     excelCheck.getIndexValue(rowList);
                 }
+                //用于判断订单号不能超过15
+                if (i > 0 && count > 0) {
+                    int num = excelCheck.checkRowAmount(rowList, map);
+                    if (num > 0) {
+                        return map;
+                    }
+                }
 
                 dataList.add(rowList);
             }

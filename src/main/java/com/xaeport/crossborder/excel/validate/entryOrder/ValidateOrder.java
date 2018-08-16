@@ -39,6 +39,7 @@ public class ValidateOrder extends ValidateBase {
     private int noteIndex; //备注";//list
 
     private Map<Integer, String> indexMap = new HashMap<>();
+    private Map<String, Integer> orderNoMap = new HashMap<>();
 
     public void getIndexValue(List<String> list) {
         orderNoIndex = list.indexOf(ExcelHeadOrder.orderNo);//订单编号
@@ -126,6 +127,22 @@ public class ValidateOrder extends ValidateBase {
             }
         }
         return flag;
+    }
+
+    public int checkRowAmount(List list, Map<String, Object> map) {
+        int num = 0;
+        String orderno = list.get(orderNoIndex).toString();
+        if (orderNoMap.containsKey(orderno)) {
+            int count = Integer.parseInt(orderNoMap.get(orderno).toString()) + 1;
+            if (count > 99) {
+                map.put("error", String.format("订单<%s>的商品条目不能超过99", orderno));
+                num = 1;
+            }
+            orderNoMap.put(orderno, count);
+        } else {
+            orderNoMap.put(orderno, 1);
+        }
+        return 0;
     }
 
 

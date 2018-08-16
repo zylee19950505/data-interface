@@ -1,14 +1,11 @@
 package com.xaeport.crossborder.excel.validate.entryWaybillStatus;
 
-import com.xaeport.crossborder.excel.headings.ExcelHeadWaybill;
 import com.xaeport.crossborder.excel.headings.ExcelHeadWaybillStatus;
 import com.xaeport.crossborder.excel.validate.ValidateBase;
-import com.xaeport.crossborder.excel.validate.ValidateUtil;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Cell;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +60,11 @@ public class ValidateWaybillStatus extends ValidateBase {
     }
 
     public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
+        return 0;
+    }
+
+
+    public int checkRowAmount(List list, Map<String, Object> map) {
         return 0;
     }
 

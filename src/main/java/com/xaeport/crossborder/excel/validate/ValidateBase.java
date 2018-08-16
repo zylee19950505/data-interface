@@ -29,6 +29,9 @@ public abstract class ValidateBase {
     //申报计量单位转化
     public abstract int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num);
 
+    //校验订单号不能超过15条
+    public abstract int checkRowAmount(List list, Map<String, Object> map);
+
     //非空和长度判断
     protected boolean CheckedEmptyAndLen(Map<Integer, String> indexMap, Map<String, Object> error_num, Cell cell, int rowNum, int cell_num) {
         if (indexMap.containsKey(cell_num)) {
