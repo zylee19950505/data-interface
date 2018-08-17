@@ -101,7 +101,8 @@ public class BasePaymentXml {
         dxpMode.setTextContent(baseTransfer411.getDxpMode());
 
         Element dxpId = document.createElement("ceb:dxpId");
-        dxpId.setTextContent(baseTransfer411.getDxpId());
+//        dxpId.setTextContent(baseTransfer411.getDxpId());
+        dxpId.setTextContent("DXPENT0000018755");
 
         Element note = document.createElement("ceb:note");
         note.setTextContent(baseTransfer411.getNote());

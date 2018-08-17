@@ -95,7 +95,8 @@ public class BaseOrderXml {
         dxpMode.setTextContent(baseTransfer.getDxpMode());
 
         Element dxpId = document.createElement("ceb:dxpId");
-        dxpId.setTextContent(baseTransfer.getDxpId());
+//        dxpId.setTextContent(baseTransfer.getDxpId());
+        dxpId.setTextContent("DXPENT0000018755");
 
         Element note = document.createElement("ceb:note");
         note.setTextContent(baseTransfer.getNote());
