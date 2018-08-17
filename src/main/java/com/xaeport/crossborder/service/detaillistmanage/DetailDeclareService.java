@@ -53,14 +53,6 @@ public class DetailDeclareService {
         }
         return flag;
     }
-    /*
-     * 根据创建人id查找企业信息
-     * */
-    public BaseTransfer queryCompany(String crt_id) {
-        //用户表里查找企业id
-        String ent_id =  detailDeclareMapper.queryEntId(crt_id);
-        //根据企业id查找企业信息
-        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(ent_id);
-        return baseTransfer;
-    }
+
+
 }

@@ -108,7 +108,6 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
             {
                 SELECT("GUID");
                 SELECT("APP_TYPE");
-                /*SELECT("to_char(APP_TIME,'YYYYMMDDhhmmss') as app_time");*/
                 SELECT("APP_TIME");
                 SELECT("APP_STATUS");
                 SELECT("ORDER_NO");

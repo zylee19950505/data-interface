@@ -6,11 +6,13 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.DetailDeclareMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
+import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -24,7 +26,6 @@ public class DetailDeclareMessageThread implements Runnable {
     private DetailDeclareMapper detailDeclareMapper;
     private AppConfiguration appConfiguration;
     private BaseDetailDeclareXML baseDetailDeclareXML;
-    private UserMapper userMapper = SpringUtils.getBean(UserMapper.class);
 
     //无参数的构造方法。
     public DetailDeclareMessageThread() {
@@ -45,13 +46,26 @@ public class DetailDeclareMessageThread implements Runnable {
 
         CEB621Message ceb621Message = new CEB621Message();
 
-        List<ImpInventoryHead> entryHeadList;
+        List<ImpInventoryHead> impInventoryHeadLists;
+        List<ImpInventoryHead> inventoryHeadLists;
+        List<ImpInventoryBody> impInventoryBodyList;
+        List<InventoryHead> inventoryHeads;
+        List<ImpInventoryBody> inventoryLists;
+        ImpInventoryHead impInventoryHead;
+        ImpInventoryBody impInventoryBody;
+        InventoryHead inventoryHead;
+        String guid;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
+        String xmlHeadGuid = null;
+        String nameOrderNo = null;
 
         while (true){
-            try {
-                entryHeadList = detailDeclareMapper.findWaitGenerated(paramMap);
 
-                if (CollectionUtils.isEmpty(entryHeadList)) {
+            try {
+                impInventoryHeadLists = detailDeclareMapper.findWaitGenerated(paramMap);
+
+                if (CollectionUtils.isEmpty(impInventoryHeadLists)) {
                     // 如无待生成数据，则等待3s后重新确认
                     try {
                         Thread.sleep(3000);
@@ -61,52 +75,159 @@ public class DetailDeclareMessageThread implements Runnable {
                     }
                     continue;
                 }
-                for (ImpInventoryHead entryHead: entryHeadList) {
-                    //获取head表的id
-                    String headGuid = entryHead.getGuid();
+
+                Map<String, List<ImpInventoryHead>> inventoryXmlMap = BusinessUtils.getEntIdInventoryMap(impInventoryHeadLists);
+
+
+
+                for (String entId : inventoryXmlMap.keySet()) {
                     try {
-                        ceb621Message = new CEB621Message();
-                        String orderNo = entryHead.getOrder_no();//订单号,用于报文头信息
-                        //设置表头
-                        ceb621Message.setImpInventoryHead(entryHead);
-                        //用id来获取list表体
-                        List<ImpInventoryBody> InventoryLists = new ArrayList<ImpInventoryBody>();
-                        InventoryLists = detailDeclareMapper.querydetailDeclareListByGuid(headGuid);
-                        if (CollectionUtils.isEmpty(InventoryLists)){
-                            this.logger.error(String.format("获取清单详情[headGuid: %s]表体信息失败", headGuid));
-                            continue;
+                        inventoryHeadLists = inventoryXmlMap.get(entId);
+                        inventoryHeads = new ArrayList<>();
+                        inventoryLists = new ArrayList<>();
+
+                        for (int i = 0; i < inventoryHeadLists.size(); i++) {
+
+                            impInventoryHead = inventoryHeadLists.get(i);
+                            xmlHeadGuid = inventoryHeadLists.get(0).getGuid();
+                            nameOrderNo = inventoryHeadLists.get(0).getOrder_no();
+                            entId = inventoryHeadLists.get(0).getEnt_id();
+                            guid = impInventoryHead.getGuid();
+
+                            inventoryHead = new InventoryHead();
+                            inventoryHead.setGuid(guid);
+                            inventoryHead.setAppType(impInventoryHead.getApp_type());
+                            inventoryHead.setAppTime(sdfSfm.format(impInventoryHead.getApp_time()));
+                            inventoryHead.setAppStatus(impInventoryHead.getApp_status());
+                            inventoryHead.setOrderNo(impInventoryHead.getOrder_no());
+                            inventoryHead.setEbpCode(impInventoryHead.getEbp_code());
+                            inventoryHead.setEbpName(impInventoryHead.getEbp_name());
+                            inventoryHead.setEbcCode(impInventoryHead.getEbc_code());
+                            inventoryHead.setEbcName(impInventoryHead.getEbc_name());
+                            inventoryHead.setLogisticsNo(impInventoryHead.getLogistics_no());
+                            inventoryHead.setLogisticsCode(impInventoryHead.getLogistics_code());
+                            inventoryHead.setLogisticsName(impInventoryHead.getLogistics_name());
+                            inventoryHead.setCopNo(impInventoryHead.getCop_no());
+                            inventoryHead.setPreNo(impInventoryHead.getPre_no());
+                            inventoryHead.setAssureCode(impInventoryHead.getAssure_code());
+                            inventoryHead.setEmsNo(impInventoryHead.getEms_no());
+                            inventoryHead.setInvtNo(impInventoryHead.getInvt_no());
+                            inventoryHead.setIeFlag(impInventoryHead.getIe_flag());
+                            inventoryHead.setDeclTime(sdf.format(impInventoryHead.getApp_time()));
+                            inventoryHead.setCustomsCode(impInventoryHead.getCustoms_code());
+                            inventoryHead.setPortCode(impInventoryHead.getPort_code());
+                            inventoryHead.setIeDate(sdf.format(impInventoryHead.getIe_date()));
+                            inventoryHead.setBuyerIdType(impInventoryHead.getBuyer_id_type());
+                            inventoryHead.setBuyerIdNumber(impInventoryHead.getBuyer_id_number());
+                            inventoryHead.setBuyerName(impInventoryHead.getBuyer_name());
+                            inventoryHead.setBuyerTelephone(impInventoryHead.getBuyer_telephone());
+                            inventoryHead.setConsigneeAddress(impInventoryHead.getConsignee_address());
+                            inventoryHead.setAgentCode(impInventoryHead.getAgent_code());
+                            inventoryHead.setAgentName(impInventoryHead.getAgent_name());
+                            inventoryHead.setAreaCode(impInventoryHead.getArea_code());
+                            inventoryHead.setAreaName(impInventoryHead.getArea_name());
+                            inventoryHead.setTradeMode(impInventoryHead.getTrade_mode());
+                            inventoryHead.setTrafMode(impInventoryHead.getTraf_mode());
+                            inventoryHead.setTrafNo(impInventoryHead.getTraf_no());
+                            inventoryHead.setVoyageNo(impInventoryHead.getVoyage_no());
+                            inventoryHead.setBillNo(impInventoryHead.getBill_no());
+                            inventoryHead.setLoctNo(impInventoryHead.getLoct_no());
+                            inventoryHead.setLicenseNo(impInventoryHead.getLicense_no());
+                            inventoryHead.setCountry(impInventoryHead.getCountry());
+                            inventoryHead.setFreight(impInventoryHead.getFreight());
+                            inventoryHead.setInsuredFee(impInventoryHead.getInsured_fee());
+                            inventoryHead.setCurrency(impInventoryHead.getCurrency());
+                            inventoryHead.setWrapType(impInventoryHead.getWrap_type());
+                            inventoryHead.setPackNo(impInventoryHead.getPack_no());
+                            inventoryHead.setGrossWeight(impInventoryHead.getGross_weight());
+                            inventoryHead.setNetWeight(impInventoryHead.getNet_weight());
+                            inventoryHead.setNote(StringUtils.isEmpty(impInventoryHead.getNote()) ? "" : impInventoryHead.getNote());
+
+                            try {
+                                // 更新清单状态
+                                this.detailDeclareMapper.updateEntryHeadDetailStatus(guid, StatusCode.QDYSB);
+                                this.logger.debug(String.format("更新清单[guid: %s]状态为: %s", guid, StatusCode.QDYSB));
+                            } catch (Exception e) {
+                                String exceptionMsg = String.format("更改订单[headGuid: %s]状态时发生异常", inventoryHead.getGuid());
+                                this.logger.error(exceptionMsg, e);
+                            }
+
+                            inventoryHeads.add(inventoryHead);
+
+                            impInventoryBodyList = this.detailDeclareMapper.querydetailDeclareListByGuid(guid);
+
+                            for (int j = 0; j < impInventoryBodyList.size(); j++) {
+                                impInventoryBody = impInventoryBodyList.get(j);
+                                inventoryLists.add(impInventoryBody);
+                            }
                         }
-                        ceb621Message.setImpInventoryBodyList(InventoryLists);
-                        //获取basetransfer节点数据(根据创建人)
-                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entryHead.getEnt_id());
-                        //加载baseTransfer节点
+
+                        ceb621Message.setInventoryHeadList(inventoryHeads);
+                        ceb621Message.setImpInventoryBodyList(inventoryLists);
+                        //设置baseTransfer节点
+                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entId);
                         ceb621Message.setBaseTransfer(baseTransfer);
+
                         //开始生成报文
-                        this.entryProcess(ceb621Message, headGuid, orderNo);
+                        this.entryProcess(ceb621Message, nameOrderNo, xmlHeadGuid);
+
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        String exceptionMsg = String.format("处理订单[entId: %s]时发生异常", entId);
+                        this.logger.error(exceptionMsg, e);
                     }
                 }
+
+
+//                for (ImpInventoryHead entryHead: impInventoryHeadLists) {
+//                    //获取head表的id
+//                    String headGuid = entryHead.getGuid();
+//                    try {
+//                        ceb621Message = new CEB621Message();
+//                        String orderNo = entryHead.getOrder_no();//订单号,用于报文头信息
+//                        //设置表头
+//                        ceb621Message.setImpInventoryHead(entryHead);
+//                        //用id来获取list表体
+//                        List<ImpInventoryBody> InventoryLists = new ArrayList<ImpInventoryBody>();
+//                        InventoryLists = detailDeclareMapper.querydetailDeclareListByGuid(headGuid);
+//                        if (CollectionUtils.isEmpty(InventoryLists)){
+//                            this.logger.error(String.format("获取清单详情[headGuid: %s]表体信息失败", headGuid));
+//                            continue;
+//                        }
+//                        ceb621Message.setImpInventoryBodyList(InventoryLists);
+//                        //获取basetransfer节点数据(根据创建人)
+//                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entryHead.getEnt_id());
+//                        //加载baseTransfer节点
+//                        ceb621Message.setBaseTransfer(baseTransfer);
+//                        //开始生成报文
+//                        this.entryProcess(ceb621Message, headGuid, orderNo);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+
+
+
+
             }catch (Exception e){
-                e.printStackTrace();
+                try {
+                    Thread.sleep(5000);
+                    logger.error("生成清单621报文时发生异常，等待5秒重新开始获取数据", e);
+                } catch (InterruptedException ie) {
+                    logger.error("清单621报文生成器暂停时发生异常", ie);
+                }
             }
         }
     }
-    private void entryProcess(CEB621Message ceb621Message, String headGuid, String orderNo) throws TransformerException, IOException {
+    private void entryProcess(CEB621Message ceb621Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
-            this.detailDeclareMapper.updateEntryHeadDetailStatus(headGuid, StatusCode.QDYSB);
-            this.logger.debug(String.format("更新清单[head_id: %s]状态为: %s", headGuid, StatusCode.QDYSB));
-            // 更新状态变化记录表
-
-
             // 生成报单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB621_" + orderNo + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare");//flag
+            String fileName = "CEB621_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
+            byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare",xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成清单621申报报文[fileName: %s]", fileName));
         } catch (Exception e) {
-            String exceptionMsg = String.format("处理清单[headGuid: %s]时发生异常", headGuid);
+            String exceptionMsg = String.format("处理清单[headGuid: %s]时发生异常", xmlHeadGuid);
             this.logger.error(exceptionMsg, e);
         }
     }

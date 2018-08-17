@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.tools;
 
-import com.xaeport.crossborder.data.entity.ImpLogistics;
-import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +16,26 @@ public class BusinessUtils {
     /**
      * 将impPayment集合按照总单号拆分成Map<企业ID码,impPayment集合>
      *
-     * @param impOrderHeadLists impPayment集合
+     * @param impInventoryHeadLists impPayment集合
      * @return Map<企业ID码,impPayment集合>
      */
+
+    public static Map<String, List<ImpInventoryHead>> getEntIdInventoryMap(List<ImpInventoryHead> impInventoryHeadLists) {
+        Map<String, List<ImpInventoryHead>> entIdDataListMap = new HashMap<String, List<ImpInventoryHead>>();
+        String entId = null;
+        for (ImpInventoryHead impInventoryHead : impInventoryHeadLists) {
+            entId = impInventoryHead.getEnt_id();
+            if (entIdDataListMap.containsKey(entId)) {
+                List<ImpInventoryHead> impInventoryHeadList = entIdDataListMap.get(entId);
+                impInventoryHeadList.add(impInventoryHead);
+            } else {
+                List<ImpInventoryHead> impInventoryHeadList = new ArrayList<ImpInventoryHead>();
+                impInventoryHeadList.add(impInventoryHead);
+                entIdDataListMap.put(entId, impInventoryHeadList);
+            }
+        }
+        return entIdDataListMap;
+    }
 
     public static Map<String, List<ImpOrderHead>> getEntIdOrderMap(List<ImpOrderHead> impOrderHeadLists) {
         Map<String, List<ImpOrderHead>> entIdDataListMap = new HashMap<String, List<ImpOrderHead>>();

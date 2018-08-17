@@ -3,10 +3,19 @@ package com.xaeport.crossborder.data.entity;
 import java.util.List;
 
 public class CEB621Message {
+    private List<InventoryHead> inventoryHeadList;
     private ImpInventoryHead impInventoryHead;
     private List<ImpInventoryBody> impInventoryBodyList;
     private BaseTransfer baseTransfer;
     private Signature signature;
+
+    public List<InventoryHead> getInventoryHeadList() {
+        return inventoryHeadList;
+    }
+
+    public void setInventoryHeadList(List<InventoryHead> inventoryHeadList) {
+        this.inventoryHeadList = inventoryHeadList;
+    }
 
     public ImpInventoryHead getImpInventoryHead() {
         return impInventoryHead;

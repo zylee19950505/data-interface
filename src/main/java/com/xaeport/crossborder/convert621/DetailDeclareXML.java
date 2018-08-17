@@ -20,226 +20,278 @@ import java.util.List;
  */
 @Component
 public class DetailDeclareXML {
-    private Log log = LogFactory.getLog(this.getClass());
 
-    public Element getEntryHead(Document document, CEB621Message ceb621Message) {
-        Element entryHead = document.createElement("ceb:InventoryHead");
-        ImpInventoryHead InventoryHead = ceb621Message.getImpInventoryHead();
-        List<Element> list = new ArrayList<>();
-        if (InventoryHead != null) {
-            this.getEntryHeadChildren(document, ceb621Message, list);
-        }
-        for (int i = 0; i < list.size(); i++) {
-            entryHead.appendChild(list.get(i));
-        }
-        return entryHead;
-    }
+    private Log log = LogFactory.getLog(this.getClass());
 
     /**
      * 构建EntryHead 节点
      */
-    public void getEntryHeadChildren(Document document, CEB621Message ceb621Message, List<Element> list) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
-        //<ceb:guid>
-        Element guid = document.createElement("ceb:guid");
-        guid.setTextContent(ceb621Message.getImpInventoryHead().getGuid());
-        list.add(guid);
-        //<ceb:appType>
-        Element appType = document.createElement("ceb:appType");
-        appType.setTextContent(ceb621Message.getImpInventoryHead().getApp_type());
-        list.add(appType);
-        //<ceb:appTime>
-        Element appTime = document.createElement("ceb:appTime");
-        appTime.setTextContent(sdfSfm.format(ceb621Message.getImpInventoryHead().getApp_time()));
-        list.add(appTime);
-        //<ceb:appStatus>
-        Element appStatus = document.createElement("ceb:appStatus");
-        appStatus.setTextContent(ceb621Message.getImpInventoryHead().getApp_status());
-        list.add(appStatus);
-        //<ceb:orderNo>
-        Element orderNo = document.createElement("ceb:orderNo");
-        orderNo.setTextContent(ceb621Message.getImpInventoryHead().getOrder_no());
-        list.add(orderNo);
-        //<ceb:ebpCode>
-        Element ebpCode = document.createElement("ceb:ebpCode");
-        ebpCode.setTextContent(ceb621Message.getImpInventoryHead().getEbp_code());
-        list.add(ebpCode);
-        //<ceb:ebpName>
-        Element ebpName = document.createElement("ceb:ebpName");
-        ebpName.setTextContent(ceb621Message.getImpInventoryHead().getEbp_name());
-        list.add(ebpName);
-        //<ceb:ebcCode>
-        Element ebcCode = document.createElement("ceb:ebcCode");
-        ebcCode.setTextContent(ceb621Message.getImpInventoryHead().getEbc_code());
-        list.add(ebcCode);
-        //<ceb:ebcName>
-        Element ebcName = document.createElement("ceb:ebcName");
-        ebcName.setTextContent(ceb621Message.getImpInventoryHead().getEbc_name());
-        list.add(ebcName);
-        //<ceb:logisticsNo>
-        Element logisticsNo = document.createElement("ceb:logisticsNo");
-        logisticsNo.setTextContent(ceb621Message.getImpInventoryHead().getLogistics_no());
-        list.add(logisticsNo);
-        //<ceb:logisticsCode>
-        Element logisticsCode = document.createElement("ceb:logisticsCode");
-        logisticsCode.setTextContent(ceb621Message.getImpInventoryHead().getLogistics_code());
-        list.add(logisticsCode);
-        //<ceb:logisticsName>
-        Element logisticsName = document.createElement("ceb:logisticsName");
-        logisticsName.setTextContent(ceb621Message.getImpInventoryHead().getLogistics_name());
-        list.add(logisticsName);
-        //<ceb:copNo>
-        Element copNo = document.createElement("ceb:copNo");
-        copNo.setTextContent(ceb621Message.getImpInventoryHead().getCop_no());
-        list.add(copNo);
-        //<ceb:preNo>
-        Element preNo = document.createElement("ceb:preNo");
-        preNo.setTextContent(ceb621Message.getImpInventoryHead().getPre_no());
-        list.add(preNo);
-        //<ceb:assureCode>
-        Element assureCode = document.createElement("ceb:assureCode");
-        assureCode.setTextContent(ceb621Message.getImpInventoryHead().getAssure_code());
-        list.add(assureCode);
-        //<ceb:emsNo>
-        Element emsNo = document.createElement("ceb:emsNo");
-        emsNo.setTextContent(ceb621Message.getImpInventoryHead().getEms_no());
-        list.add(emsNo);
-        //<ceb:invtNo>
-        Element invtNo = document.createElement("ceb:invtNo");
-        invtNo.setTextContent(ceb621Message.getImpInventoryHead().getInvt_no());
-        list.add(invtNo);
-        //<ceb:ieFlag>
-        Element ieFlag = document.createElement("ceb:ieFlag");
-        ieFlag.setTextContent(ceb621Message.getImpInventoryHead().getIe_flag());
-        list.add(ieFlag);
-        //<ceb:declTime>
-        Element declTime = document.createElement("ceb:declTime");
-        declTime.setTextContent(sdf.format(ceb621Message.getImpInventoryHead().getApp_time()));
-        list.add(declTime);
-        //<ceb:customsCode>
-        Element customsCode = document.createElement("ceb:customsCode");
-        customsCode.setTextContent(ceb621Message.getImpInventoryHead().getCustoms_code());
-        list.add(customsCode);
-        //<ceb:portCode>
-        Element portCode = document.createElement("ceb:portCode");
-        portCode.setTextContent(ceb621Message.getImpInventoryHead().getPort_code());
-        list.add(portCode);
-        //<ceb:ieDate>
-        Element ieDate = document.createElement("ceb:ieDate");
-        ieDate.setTextContent(sdf.format(ceb621Message.getImpInventoryHead().getIe_date()));
-        list.add(ieDate);
-        //<ceb:buyerIdType>
-        Element buyerIdType = document.createElement("ceb:buyerIdType");
-        buyerIdType.setTextContent(ceb621Message.getImpInventoryHead().getBuyer_id_type());
-        list.add(buyerIdType);
-        //<ceb:buyerIdNumber>
-        Element buyerIdNumber = document.createElement("ceb:buyerIdNumber");
-        buyerIdNumber.setTextContent(ceb621Message.getImpInventoryHead().getBuyer_id_number());
-        list.add(buyerIdNumber);
-        //<ceb:buyerName>
-        Element buyerName = document.createElement("ceb:buyerName");
-        buyerName.setTextContent(ceb621Message.getImpInventoryHead().getBuyer_name());
-        list.add(buyerName);
-        //<ceb:buyerTelephone>
-        Element buyerTelephone = document.createElement("ceb:buyerTelephone");
-        buyerTelephone.setTextContent(ceb621Message.getImpInventoryHead().getBuyer_telephone());
-        list.add(buyerTelephone);
-        //<ceb:consigneeAddress>
-        Element consigneeAddress = document.createElement("ceb:consigneeAddress");
-        consigneeAddress.setTextContent(ceb621Message.getImpInventoryHead().getConsignee_address());
-        list.add(consigneeAddress);
-        //<ceb:agentCode>
-        Element agentCode = document.createElement("ceb:agentCode");
-        agentCode.setTextContent(ceb621Message.getImpInventoryHead().getAgent_code());
-        list.add(agentCode);
-        //<ceb:agentName>
-        Element agentName = document.createElement("ceb:agentName");
-        agentName.setTextContent(ceb621Message.getImpInventoryHead().getAgent_name());
-        list.add(agentName);
-        //<ceb:areaCode>
-        Element areaCode = document.createElement("ceb:areaCode");
-        areaCode.setTextContent(ceb621Message.getImpInventoryHead().getArea_code());
-        list.add(areaCode);
-        //<ceb:areaName>
-        Element areaName = document.createElement("ceb:areaName");
-        areaName.setTextContent(ceb621Message.getImpInventoryHead().getArea_name());
-        list.add(areaName);
-        //<ceb:tradeMode>
-        Element tradeMode = document.createElement("ceb:tradeMode");
-        tradeMode.setTextContent(ceb621Message.getImpInventoryHead().getTrade_mode());
-        list.add(tradeMode);
-        //<ceb:trafMode>
-        Element trafMode = document.createElement("ceb:trafMode");
-        trafMode.setTextContent(ceb621Message.getImpInventoryHead().getTraf_mode());
-        list.add(trafMode);
-        //<ceb:trafNo>
-        Element trafNo = document.createElement("ceb:trafNo");
-        trafNo.setTextContent(ceb621Message.getImpInventoryHead().getTraf_no());
-        list.add(trafNo);
-        //<ceb:voyageNo>
-        Element voyageNo = document.createElement("ceb:voyageNo");
-        voyageNo.setTextContent(ceb621Message.getImpInventoryHead().getVoyage_no());
-        list.add(voyageNo);
-        //<ceb:billNo>
-        Element billNo = document.createElement("ceb:billNo");
-        billNo.setTextContent(ceb621Message.getImpInventoryHead().getBill_no());
-        list.add(billNo);
-        //<ceb:loctNo>
-        Element loctNo = document.createElement("ceb:loctNo");
-        loctNo.setTextContent(ceb621Message.getImpInventoryHead().getLoct_no());
-        list.add(loctNo);
-        //<ceb:licenseNo>
-        Element licenseNo = document.createElement("ceb:licenseNo");
-        licenseNo.setTextContent(ceb621Message.getImpInventoryHead().getLicense_no());
-        list.add(licenseNo);
-        //<ceb:country>
-        Element country = document.createElement("ceb:country");
-        country.setTextContent(ceb621Message.getImpInventoryHead().getCountry());
-        list.add(country);
-        //<ceb:freight>
-        Element freight = document.createElement("ceb:freight");
-        freight.setTextContent(ceb621Message.getImpInventoryHead().getFreight());
-        list.add(freight);
-        //<ceb:insuredFee>
-        Element insuredFee = document.createElement("ceb:insuredFee");
-        insuredFee.setTextContent(ceb621Message.getImpInventoryHead().getInsured_fee());
-        list.add(insuredFee);
-        //<ceb:currency>
-        Element currency = document.createElement("ceb:currency");
-        currency.setTextContent(ceb621Message.getImpInventoryHead().getCurrency());
-        list.add(currency);
-        //<ceb:wrapType>
-        if (!StringUtils.isEmpty(ceb621Message.getImpInventoryHead().getWrap_type())) {
-            Element wrapType = document.createElement("ceb:wrapType");
-            wrapType.setTextContent(ceb621Message.getImpInventoryHead().getWrap_type());
-            list.add(wrapType);
+    public void getEntryHead(Document document, CEB621Message ceb621Message, Element rootElement) {
+
+        List<InventoryHead> inventoryHeads = ceb621Message.getInventoryHeadList();
+
+        Element Inventory;
+        Element InventoryHead;
+        Element guid;
+        Element appType;
+        Element appTime;
+        Element appStatus;
+        Element orderNo;
+        Element ebpCode;
+        Element ebpName;
+        Element ebcCode;
+        Element ebcName;
+        Element logisticsNo;
+        Element logisticsCode;
+        Element logisticsName;
+        Element copNo;
+        Element preNo;
+        Element assureCode;
+        Element emsNo;
+        Element invtNo;
+        Element ieFlag;
+        Element declTime;
+        Element customsCode;
+        Element portCode;
+        Element ieDate;
+        Element buyerIdType;
+        Element buyerIdNumber;
+        Element buyerName;
+        Element buyerTelephone;
+        Element consigneeAddress;
+        Element agentCode;
+        Element agentName;
+        Element areaCode;
+        Element areaName;
+        Element tradeMode;
+        Element trafMode;
+        Element trafNo;
+        Element voyageNo;
+        Element billNo;
+        Element loctNo;
+        Element licenseNo;
+        Element country;
+        Element freight;
+        Element insuredFee;
+        Element currency;
+        Element wrapType;
+        Element packNo;
+        Element grossWeight;
+        Element netWeight;
+        Element note;
+
+        for (int i = 0; i < inventoryHeads.size(); i++) {
+            Inventory = document.createElement("ceb:Inventory");
+            InventoryHead = document.createElement("ceb:InventoryHead");
+
+            guid = document.createElement("ceb:guid");
+            guid.setTextContent(inventoryHeads.get(i).getGuid());
+
+            appType = document.createElement("ceb:appType");
+            appType.setTextContent(inventoryHeads.get(i).getAppType());
+
+            appTime = document.createElement("ceb:appTime");
+            appTime.setTextContent(inventoryHeads.get(i).getAppTime());
+
+            appStatus = document.createElement("ceb:appStatus");
+            appStatus.setTextContent(inventoryHeads.get(i).getAppStatus());
+
+            orderNo = document.createElement("ceb:orderNo");
+            orderNo.setTextContent(inventoryHeads.get(i).getOrderNo());
+
+            ebpCode = document.createElement("ceb:ebpCode");
+            ebpCode.setTextContent(inventoryHeads.get(i).getEbpCode());
+
+            ebpName = document.createElement("ceb:ebpName");
+            ebpName.setTextContent(inventoryHeads.get(i).getEbpName());
+
+            ebcCode = document.createElement("ceb:ebcCode");
+            ebcCode.setTextContent(inventoryHeads.get(i).getEbcCode());
+
+            ebcName = document.createElement("ceb:ebcName");
+            ebcName.setTextContent(inventoryHeads.get(i).getEbcName());
+
+            logisticsNo = document.createElement("ceb:logisticsNo");
+            logisticsNo.setTextContent(inventoryHeads.get(i).getLogisticsNo());
+
+            logisticsCode = document.createElement("ceb:logisticsCode");
+            logisticsCode.setTextContent(inventoryHeads.get(i).getLogisticsCode());
+
+            logisticsName = document.createElement("ceb:logisticsName");
+            logisticsName.setTextContent(inventoryHeads.get(i).getLogisticsName());
+
+            copNo = document.createElement("ceb:copNo");
+            copNo.setTextContent(inventoryHeads.get(i).getCopNo());
+
+            preNo = document.createElement("ceb:preNo");
+            preNo.setTextContent(inventoryHeads.get(i).getPreNo());
+
+            assureCode = document.createElement("ceb:assureCode");
+            assureCode.setTextContent(inventoryHeads.get(i).getAssureCode());
+
+            emsNo = document.createElement("ceb:emsNo");
+            emsNo.setTextContent(inventoryHeads.get(i).getEmsNo());
+
+            invtNo = document.createElement("ceb:invtNo");
+            invtNo.setTextContent(inventoryHeads.get(i).getInvtNo());
+
+            ieFlag = document.createElement("ceb:ieFlag");
+            ieFlag.setTextContent(inventoryHeads.get(i).getIeFlag());
+
+            declTime = document.createElement("ceb:declTime");
+            declTime.setTextContent(inventoryHeads.get(i).getDeclTime());
+
+            customsCode = document.createElement("ceb:customsCode");
+            customsCode.setTextContent(inventoryHeads.get(i).getCustomsCode());
+
+            portCode = document.createElement("ceb:portCode");
+            portCode.setTextContent(inventoryHeads.get(i).getPortCode());
+
+            ieDate = document.createElement("ceb:ieDate");
+            ieDate.setTextContent(inventoryHeads.get(i).getIeDate());
+
+            buyerIdType = document.createElement("ceb:buyerIdType");
+            buyerIdType.setTextContent(inventoryHeads.get(i).getBuyerIdType());
+
+            buyerIdNumber = document.createElement("ceb:buyerIdNumber");
+            buyerIdNumber.setTextContent(inventoryHeads.get(i).getBuyerIdNumber());
+
+            buyerName = document.createElement("ceb:buyerName");
+            buyerName.setTextContent(inventoryHeads.get(i).getBuyerName());
+
+            buyerTelephone = document.createElement("ceb:buyerTelephone");
+            buyerTelephone.setTextContent(inventoryHeads.get(i).getBuyerTelephone());
+
+            consigneeAddress = document.createElement("ceb:consigneeAddress");
+            consigneeAddress.setTextContent(inventoryHeads.get(i).getConsigneeAddress());
+
+            agentCode = document.createElement("ceb:agentCode");
+            agentCode.setTextContent(inventoryHeads.get(i).getAgentCode());
+
+            agentName = document.createElement("ceb:agentName");
+            agentName.setTextContent(inventoryHeads.get(i).getAgentName());
+
+            areaCode = document.createElement("ceb:areaCode");
+            areaCode.setTextContent(inventoryHeads.get(i).getAreaCode());
+
+            areaName = document.createElement("ceb:areaName");
+            areaName.setTextContent(inventoryHeads.get(i).getAgentName());
+
+            tradeMode = document.createElement("ceb:tradeMode");
+            tradeMode.setTextContent(inventoryHeads.get(i).getTradeMode());
+
+            trafMode = document.createElement("ceb:trafMode");
+            trafMode.setTextContent(inventoryHeads.get(i).getTradeMode());
+
+            trafNo = document.createElement("ceb:trafNo");
+            trafNo.setTextContent(inventoryHeads.get(i).getTrafNo());
+
+            voyageNo = document.createElement("ceb:voyageNo");
+            voyageNo.setTextContent(inventoryHeads.get(i).getVoyageNo());
+
+            billNo = document.createElement("ceb:billNo");
+            billNo.setTextContent(inventoryHeads.get(i).getBillNo());
+
+            loctNo = document.createElement("ceb:loctNo");
+            loctNo.setTextContent(inventoryHeads.get(i).getLoctNo());
+
+            licenseNo = document.createElement("ceb:licenseNo");
+            licenseNo.setTextContent(inventoryHeads.get(i).getLicenseNo());
+
+            country = document.createElement("ceb:country");
+            country.setTextContent(inventoryHeads.get(i).getCountry());
+
+            freight = document.createElement("ceb:freight");
+            freight.setTextContent(inventoryHeads.get(i).getFreight());
+
+            insuredFee = document.createElement("ceb:insuredFee");
+            insuredFee.setTextContent(inventoryHeads.get(i).getInsuredFee());
+
+            currency = document.createElement("ceb:currency");
+            currency.setTextContent(inventoryHeads.get(i).getCurrency());
+
+            packNo = document.createElement("ceb:packNo");
+            packNo.setTextContent(inventoryHeads.get(i).getPackNo());
+
+            grossWeight = document.createElement("ceb:grossWeight");
+            grossWeight.setTextContent(inventoryHeads.get(i).getGrossWeight());
+
+            netWeight = document.createElement("ceb:netWeight");
+            netWeight.setTextContent(inventoryHeads.get(i).getNetWeight());
+
+            note = document.createElement("ceb:note");
+            note.setTextContent(inventoryHeads.get(i).getNote());
+
+            InventoryHead.appendChild(guid);
+            InventoryHead.appendChild(appType);
+            InventoryHead.appendChild(appTime);
+            InventoryHead.appendChild(appStatus);
+            InventoryHead.appendChild(orderNo);
+            InventoryHead.appendChild(ebpCode);
+            InventoryHead.appendChild(ebpName);
+            InventoryHead.appendChild(ebcCode);
+            InventoryHead.appendChild(ebcName);
+            InventoryHead.appendChild(logisticsNo);
+            InventoryHead.appendChild(logisticsCode);
+            InventoryHead.appendChild(logisticsName);
+            InventoryHead.appendChild(copNo);
+            InventoryHead.appendChild(preNo);
+            InventoryHead.appendChild(assureCode);
+            InventoryHead.appendChild(emsNo);
+            InventoryHead.appendChild(invtNo);
+            InventoryHead.appendChild(ieFlag);
+            InventoryHead.appendChild(declTime);
+            InventoryHead.appendChild(customsCode);
+            InventoryHead.appendChild(portCode);
+            InventoryHead.appendChild(ieDate);
+            InventoryHead.appendChild(buyerIdType);
+            InventoryHead.appendChild(buyerIdNumber);
+            InventoryHead.appendChild(buyerName);
+            InventoryHead.appendChild(buyerTelephone);
+            InventoryHead.appendChild(consigneeAddress);
+            InventoryHead.appendChild(agentCode);
+            InventoryHead.appendChild(agentName);
+            InventoryHead.appendChild(areaCode);
+            InventoryHead.appendChild(areaName);
+            InventoryHead.appendChild(tradeMode);
+            InventoryHead.appendChild(trafMode);
+            InventoryHead.appendChild(trafNo);
+            InventoryHead.appendChild(voyageNo);
+            InventoryHead.appendChild(billNo);
+            InventoryHead.appendChild(loctNo);
+            InventoryHead.appendChild(licenseNo);
+            InventoryHead.appendChild(country);
+            InventoryHead.appendChild(freight);
+            InventoryHead.appendChild(insuredFee);
+            InventoryHead.appendChild(currency);
+            if(!StringUtils.isEmpty(inventoryHeads.get(i).getWrapType())){
+                wrapType = document.createElement("ceb:wrapType");
+                wrapType.setTextContent(inventoryHeads.get(i).getWrapType());
+                InventoryHead.appendChild(wrapType);
+            }
+            InventoryHead.appendChild(packNo);
+            InventoryHead.appendChild(grossWeight);
+            InventoryHead.appendChild(netWeight);
+            InventoryHead.appendChild(note);
+
+            String headGuid = inventoryHeads.get(i).getGuid();
+
+            Inventory.appendChild(InventoryHead);
+            this.getEntryList(document, ceb621Message, headGuid, Inventory);
+
+            rootElement.appendChild(Inventory);
+
         }
-        //<ceb:packNo>
-        Element packNo = document.createElement("ceb:packNo");
-        packNo.setTextContent(ceb621Message.getImpInventoryHead().getPack_no());
-        list.add(packNo);
-        //<ceb:grossWeight>
-        Element grossWeight = document.createElement("ceb:grossWeight");
-        grossWeight.setTextContent(ceb621Message.getImpInventoryHead().getGross_weight());
-        list.add(grossWeight);
-        //<ceb:netWeight>
-        Element netWeight = document.createElement("ceb:netWeight");
-        netWeight.setTextContent(ceb621Message.getImpInventoryHead().getNet_weight());
-        list.add(netWeight);
-        //<ceb:note>
-        Element note = document.createElement("ceb:note");
-        note.setTextContent(ceb621Message.getImpInventoryHead().getNote());
-        list.add(note);
     }
 
     /**
      * 构建EntryList 节点
      */
-    public void getEntryList(Document document, Element ceborderheadEl, CEB621Message ceb621Message) {
+    public void getEntryList(Document document, CEB621Message ceb621Message, String headGuid, Element Inventory) {
         //未写
         List<ImpInventoryBody> inventoryBodyList = ceb621Message.getImpInventoryBodyList();
-        Element InventoryBodyElement;
+
+        Element InventoryList;
         Element gnum;
         Element itemRecordNo;
         Element itemNo;
@@ -258,117 +310,110 @@ public class DetailDeclareXML {
         Element unit2;
         Element price;
         Element totalPrice;
-
         Element note;
+
         for (int i = 0; i < inventoryBodyList.size(); i++) {
-            InventoryBodyElement = document.createElement("ceb:InventoryList");
 
-            gnum = document.createElement("ceb:gnum");
-            gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getG_num()));
+            if((inventoryBodyList.get(i).getHead_guid()).equals(headGuid)){
+                InventoryList = document.createElement("ceb:InventoryList");
 
-            itemRecordNo = document.createElement("ceb:itemRecordNo");
-            itemRecordNo.setTextContent(inventoryBodyList.get(i).getItem_record_no());
+                gnum = document.createElement("ceb:gnum");
+                gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getG_num()));
 
-            itemNo = document.createElement("ceb:itemNo");
-            itemNo.setTextContent(inventoryBodyList.get(i).getItem_no());
+                itemRecordNo = document.createElement("ceb:itemRecordNo");
+                itemRecordNo.setTextContent(inventoryBodyList.get(i).getItem_record_no());
 
-            itemName = document.createElement("ceb:itemName");
-            itemName.setTextContent(inventoryBodyList.get(i).getItem_name());
+                itemNo = document.createElement("ceb:itemNo");
+                itemNo.setTextContent(inventoryBodyList.get(i).getItem_no());
 
-            gcode = document.createElement("ceb:gcode");
-            gcode.setTextContent(inventoryBodyList.get(i).getG_code());
+                itemName = document.createElement("ceb:itemName");
+                itemName.setTextContent(inventoryBodyList.get(i).getItem_name());
 
-            gname = document.createElement("ceb:gname");
-            gname.setTextContent(inventoryBodyList.get(i).getG_name());
+                gcode = document.createElement("ceb:gcode");
+                gcode.setTextContent(inventoryBodyList.get(i).getG_code());
 
-            gmodel = document.createElement("ceb:gmodel");
-            gmodel.setTextContent(inventoryBodyList.get(i).getG_model());
+                gname = document.createElement("ceb:gname");
+                gname.setTextContent(inventoryBodyList.get(i).getG_name());
 
-            barCode = document.createElement("ceb:barCode");
-            barCode.setTextContent(inventoryBodyList.get(i).getBar_code());
+                gmodel = document.createElement("ceb:gmodel");
+                gmodel.setTextContent(inventoryBodyList.get(i).getG_model());
 
-            country = document.createElement("ceb:country");
-            country.setTextContent(inventoryBodyList.get(i).getCountry());
+                barCode = document.createElement("ceb:barCode");
+                barCode.setTextContent(inventoryBodyList.get(i).getBar_code());
 
-            currency = document.createElement("ceb:currency");
-            currency.setTextContent(inventoryBodyList.get(i).getCurrency());
+                country = document.createElement("ceb:country");
+                country.setTextContent(inventoryBodyList.get(i).getCountry());
 
-            qty = document.createElement("ceb:qty");
-            qty.setTextContent(inventoryBodyList.get(i).getQty());
+                currency = document.createElement("ceb:currency");
+                currency.setTextContent(inventoryBodyList.get(i).getCurrency());
 
-            unit = document.createElement("ceb:unit");
-            unit.setTextContent(inventoryBodyList.get(i).getUnit());
+                qty = document.createElement("ceb:qty");
+                qty.setTextContent(inventoryBodyList.get(i).getQty());
 
-            qty1 = document.createElement("ceb:qty1");
-            qty1.setTextContent(inventoryBodyList.get(i).getQty1());
+                unit = document.createElement("ceb:unit");
+                unit.setTextContent(inventoryBodyList.get(i).getUnit());
 
-            unit1 = document.createElement("ceb:unit1");
-            unit1.setTextContent(inventoryBodyList.get(i).getUnit1());
+                qty1 = document.createElement("ceb:qty1");
+                qty1.setTextContent(inventoryBodyList.get(i).getQty1());
 
-            price = document.createElement("ceb:price");
-            price.setTextContent(inventoryBodyList.get(i).getPrice());
+                unit1 = document.createElement("ceb:unit1");
+                unit1.setTextContent(inventoryBodyList.get(i).getUnit1());
 
-            totalPrice = document.createElement("ceb:totalPrice");
-            totalPrice.setTextContent(inventoryBodyList.get(i).getTotal_price());
+                price = document.createElement("ceb:price");
+                price.setTextContent(inventoryBodyList.get(i).getPrice());
 
-            note = document.createElement("ceb:note");
-            note.setTextContent(inventoryBodyList.get(i).getNote());
+                totalPrice = document.createElement("ceb:totalPrice");
+                totalPrice.setTextContent(inventoryBodyList.get(i).getTotal_price());
 
-            InventoryBodyElement.appendChild(gnum);
-            InventoryBodyElement.appendChild(itemRecordNo);
-            InventoryBodyElement.appendChild(itemNo);
-            InventoryBodyElement.appendChild(itemName);
-            InventoryBodyElement.appendChild(gcode);
-            InventoryBodyElement.appendChild(gname);
-            InventoryBodyElement.appendChild(gmodel);
-            InventoryBodyElement.appendChild(barCode);
-            InventoryBodyElement.appendChild(country);
-            InventoryBodyElement.appendChild(currency);
-            InventoryBodyElement.appendChild(qty);
-            InventoryBodyElement.appendChild(unit);
-            InventoryBodyElement.appendChild(qty1);
-            InventoryBodyElement.appendChild(unit1);
-            if (!(inventoryBodyList.get(i).getQty2()).equals("0")) {
-                qty2 = document.createElement("ceb:qty2");
-                qty2.setTextContent(inventoryBodyList.get(i).getQty2());
-                InventoryBodyElement.appendChild(qty2);
+                note = document.createElement("ceb:note");
+                note.setTextContent(inventoryBodyList.get(i).getNote());
+
+                InventoryList.appendChild(gnum);
+                InventoryList.appendChild(itemRecordNo);
+                InventoryList.appendChild(itemNo);
+                InventoryList.appendChild(itemName);
+                InventoryList.appendChild(gcode);
+                InventoryList.appendChild(gname);
+                InventoryList.appendChild(gmodel);
+                InventoryList.appendChild(barCode);
+                InventoryList.appendChild(country);
+                InventoryList.appendChild(currency);
+                InventoryList.appendChild(qty);
+                InventoryList.appendChild(unit);
+                InventoryList.appendChild(qty1);
+                InventoryList.appendChild(unit1);
+                if (!(inventoryBodyList.get(i).getQty2()).equals("0")) {
+                    qty2 = document.createElement("ceb:qty2");
+                    qty2.setTextContent(inventoryBodyList.get(i).getQty2());
+                    InventoryList.appendChild(qty2);
+                }
+                if (!StringUtils.isEmpty(inventoryBodyList.get(i).getUnit2())) {
+                    unit2 = document.createElement("ceb:unit2");
+                    unit2.setTextContent(inventoryBodyList.get(i).getUnit2());
+                    InventoryList.appendChild(unit2);
+                }
+                InventoryList.appendChild(price);
+                InventoryList.appendChild(totalPrice);
+
+                Inventory.appendChild(InventoryList);
             }
-            if (!StringUtils.isEmpty(inventoryBodyList.get(i).getUnit2())) {
-                unit2 = document.createElement("ceb:unit2");
-                unit2.setTextContent(inventoryBodyList.get(i).getUnit2());
-                InventoryBodyElement.appendChild(unit2);
-            }
-            InventoryBodyElement.appendChild(price);
-            InventoryBodyElement.appendChild(totalPrice);
-
-            ceborderheadEl.appendChild(InventoryBodyElement);
         }
     }
 
-    //创建<ceb:BaseTransfer> 节点
-    public Element getBaseTransfer(Element baseTrElement, Document document, CEB621Message ceb621Message) {
-        BaseTransfer baseTransfer = ceb621Message.getBaseTransfer();
 
-        Element copCodElement = document.createElement("ceb:copCode");
-        copCodElement.setTextContent(baseTransfer.getCopCode());
-        baseTrElement.appendChild(copCodElement);
 
-        Element copNameElement = document.createElement("ceb:copName");
-        copNameElement.setTextContent(baseTransfer.getCopName());
-        baseTrElement.appendChild(copNameElement);
 
-        Element dxpModeElement = document.createElement("ceb:dxpMode");
-        dxpModeElement.setTextContent(baseTransfer.getDxpMode());
-        baseTrElement.appendChild(dxpModeElement);
 
-        Element dxpIdElement = document.createElement("ceb:dxpId");
-        dxpIdElement.setTextContent(baseTransfer.getDxpId());
-        baseTrElement.appendChild(dxpIdElement);
 
-        Element noteElement = document.createElement("ceb:note");
-        noteElement.setTextContent(baseTransfer.getNote());
-        baseTrElement.appendChild(noteElement);
 
-        return baseTrElement;
-    }
+
+
+
+
+
+
+
+
+
+
 }
