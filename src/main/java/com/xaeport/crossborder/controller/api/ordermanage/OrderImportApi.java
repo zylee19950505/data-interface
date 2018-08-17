@@ -46,9 +46,10 @@ public class OrderImportApi extends BaseApi {
      * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "importTime", required = false) String importTime,//申报时间
-                                      @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
-                                      HttpServletRequest request
+    public ResponseData MultipartFile(
+            @RequestParam(value = "importTime", required = false) String importTime,//申报时间
+            @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+            HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
