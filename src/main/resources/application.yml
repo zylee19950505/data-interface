@@ -4,11 +4,15 @@ logging:
     org.springframework: info
     com.springboot: debug
     com.xaeport: debug
-    com.xaeport.crossborder.generated311.thread.OrderMessageThread: info
-    com.xaeport.crossborder.generated411.thread.PaymentMessageThread: info
-    com.xaeport.crossborder.generated511.thread.LogisticsMessageThread: info
-    com.xaeport.crossborder.generated513.thread.LogisticsStatusMessageThread: info
-    com.xaeport.crossborder.generated621.thread.DetailDeclareMessageThread: info
+    com.xaeport.crossborder.generated311.thread: info
+    com.xaeport.crossborder.generated411.thread: info
+    com.xaeport.crossborder.generated511.thread: info
+    com.xaeport.crossborder.generated513.thread: info
+    com.xaeport.crossborder.generated621.thread: info
+    com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.WaybillDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.DetailDeclareMapper: info
 
   config: classpath:config/logback-spring.xml
 
