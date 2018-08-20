@@ -182,7 +182,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                         "ENT_CUSTOMS_CODE");
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("data_Status = #{dataStatus}");
-                WHERE("rownum<=100");
+                WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
 
             }
@@ -211,7 +211,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                         "ENT_CUSTOMS_CODE");
                 FROM("T_IMP_LOGISTICS_STATUS t");
                 WHERE("data_Status = #{dataStatus}");
-                WHERE("rownum<=100");
+                WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
             }
         }.toString();
