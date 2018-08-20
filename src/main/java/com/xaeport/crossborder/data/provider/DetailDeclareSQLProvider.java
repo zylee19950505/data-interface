@@ -164,12 +164,9 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 SELECT("ENT_CUSTOMS_CODE");
                 FROM("T_IMP_INVENTORY_HEAD toh");
                 WHERE("1=1");
-                if(!StringUtils.isEmpty(dataStatus)){
-                    WHERE("toh.DATA_STATUS = #{dataStatus}");
-                    ORDER_BY("toh.CRT_TM asc");
-                    ORDER_BY("toh.GUID asc");
-                    ORDER_BY("toh.ORDER_NO asc");
-                }
+                WHERE("rownum<=100");
+                WHERE("toh.DATA_STATUS = #{dataStatus}");
+                ORDER_BY("toh.ORDER_NO asc");
             }
         }.toString();
     }
