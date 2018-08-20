@@ -181,7 +181,7 @@ public class DetailDeclareXML {
             tradeMode.setTextContent(inventoryHeads.get(i).getTradeMode());
 
             trafMode = document.createElement("ceb:trafMode");
-            trafMode.setTextContent(inventoryHeads.get(i).getTradeMode());
+            trafMode.setTextContent(inventoryHeads.get(i).getTrafMode());
 
             trafNo = document.createElement("ceb:trafNo");
             trafNo.setTextContent(inventoryHeads.get(i).getTrafNo());
