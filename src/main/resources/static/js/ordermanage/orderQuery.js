@@ -9,7 +9,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         var url = sw.serializeObjectToURL("api/ordermanage/queryOrder/queryOrderHeadList", {
             startDeclareTime: startDeclareTime,
             endDeclareTime: endDeclareTime,
-            orderNov: orderNo
+            orderNo: orderNo
         });
 
         var table = sw.datatable("#query-orderHead-table", {
