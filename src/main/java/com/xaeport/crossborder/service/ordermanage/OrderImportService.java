@@ -58,7 +58,7 @@ public class OrderImportService {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpOrderHead> impOrderHeadList = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
         for (ImpOrderHead anImpOrderHeadList : impOrderHeadList) {
-            ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user,enterprise);
+            ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user, enterprise);
             flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
             if (flag > 0) {
                 return 0;
@@ -101,23 +101,23 @@ public class OrderImportService {
     /*
      * 查询有无重复订单号
      */
-    public int getOrderNoCount(Map<String, Object> excelMap) throws Exception{
+    public String getOrderNoCount(Map<String, Object> excelMap) throws Exception {
         int flag = 0;
         List<ImpOrderHead> list = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpOrderHead impOrderHead = list.get(i);
             flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
             if (flag > 0) {
-                return 1;
+                return impOrderHead.getOrder_No();
             }
         }
-        return flag;
+        return "0";
     }
 
     /**
      * 表头自生成信息
      */
-    private ImpOrderHead impOrderHeadData(String declareTime, ImpOrderHead impOrderHead, Users user,Enterprise enterprise) throws Exception {
+    private ImpOrderHead impOrderHeadData(String declareTime, ImpOrderHead impOrderHead, Users user, Enterprise enterprise) throws Exception {
         impOrderHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impOrderHead.setApp_Type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impOrderHead.setApp_Status("2");//业务状态:1-暂存,2-申报,默认为2。

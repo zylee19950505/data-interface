@@ -32,7 +32,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/statusImport")
-public class StatusImportApi extends BaseApi{
+public class StatusImportApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
     AppConfiguration appConfiguration;
@@ -42,7 +42,7 @@ public class StatusImportApi extends BaseApi{
     /**
      * 新快件上传
      *
-     * @param statusFile       // 上传的文件
+     * @param statusFile // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(@RequestParam(value = "statusFile", required = false) MultipartFile statusFile,//出口国际邮件模板
@@ -71,7 +71,7 @@ public class StatusImportApi extends BaseApi{
         try {
             inputStream = statusFile.getInputStream();
             String type = "waybillStatus";
-            map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
+            map = readExcel.readExcelData(inputStream, fileName, type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
                 httpSession.removeAttribute("userIdCode");
@@ -85,24 +85,24 @@ public class StatusImportApi extends BaseApi{
                 excelMap = excelData.getExcelData(excelDataList);
 
                 //判断这个物流运单号在运单表里是否存在,
-                String logisticsNo= this.statusImportService.getLogisticsNoCount(excelMap);
-                if (!"true".equals(logisticsNo)){
+                String logisticsNo = this.statusImportService.getLogisticsNoCount(excelMap);
+                if (!"true".equals(logisticsNo)) {
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号"+logisticsNo+"不存在,请检查");
+                    return new ResponseData("物流运单编号【" + logisticsNo + "】不存在,请检查");
                 }
 
-                int logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
-                if (logisticsNoCount > 0) {
+                String logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
+                if (!logisticsNoCount.equals("0")) {
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号不能重复");
+                    return new ResponseData("物流运单编号【" + logisticsNoCount + "】不能重复");
                 }
 
                 //判断运单是否申报成功,是否有回执
                 String logisticsSuccess = this.statusImportService.getLogisticsSuccess(excelMap);
-                if (!"true".equals(logisticsSuccess)){
+                if (!"true".equals(logisticsSuccess)) {
                     //这个没变的话,就说明没有收到回执,或者状态还没有变为CBDS41
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号"+logisticsSuccess+"申报未成功或者未收到回执");//申报未成功或者未收到回执
+                    return new ResponseData("物流运单编号【" + logisticsSuccess + "】申报未成功或者未收到回执");//申报未成功或者未收到回执
                 }
 
                 flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
@@ -113,10 +113,10 @@ public class StatusImportApi extends BaseApi{
                     this.statusImportService.updateLogistics(excelMap);
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData(String.format("跨境电子商务运单状态导入成功！"));
-                } else if (flag == 1){
+                } else if (flag == 1) {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("同一批物流运单编号不可重复！");
-                }else {
+                } else {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }

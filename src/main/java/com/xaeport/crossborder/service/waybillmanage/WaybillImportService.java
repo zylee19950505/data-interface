@@ -37,7 +37,7 @@ public class WaybillImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createWaybillForm(Map<String, Object> excelMap , Users user) {
+    public int createWaybillForm(Map<String, Object> excelMap, Users user) {
         int flag;
         try {
             String id = user.getId();
@@ -58,7 +58,7 @@ public class WaybillImportService {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpLogistics> impLogisticsList = (List<ImpLogistics>) excelMap.get("ImpLogistics");
         for (ImpLogistics anImpLogisticsList : impLogisticsList) {
-            ImpLogistics impLogistics = this.impLogisticsData(anImpLogisticsList, user,enterprise);
+            ImpLogistics impLogistics = this.impLogisticsData(anImpLogisticsList, user, enterprise);
             flag = this.waybillImportMapper.isRepeatLogisticsNo(impLogistics);
             if (flag > 0) {
                 return 1;
@@ -71,23 +71,23 @@ public class WaybillImportService {
     /*
      * 查询有无重复物流运单编号
      */
-    public int getLogisticsNoCount(Map<String, Object> excelMap) throws Exception{
+    public String getLogisticsNoCount(Map<String, Object> excelMap) throws Exception {
         int flag = 0;
         List<ImpLogistics> list = (List<ImpLogistics>) excelMap.get("ImpLogistics");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogistics impLogistics = list.get(i);
             flag = this.waybillImportMapper.isRepeatLogisticsNo(impLogistics);
             if (flag > 0) {
-                return 1;
+                return impLogistics.getLogistics_no();
             }
         }
-        return flag;
+        return "0";
     }
 
     /**
      * 表自生成信息
      */
-    private ImpLogistics impLogisticsData(ImpLogistics impLogistics, Users user,Enterprise enterprise) throws Exception {
+    private ImpLogistics impLogisticsData(ImpLogistics impLogistics, Users user, Enterprise enterprise) throws Exception {
         impLogistics.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impLogistics.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impLogistics.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。

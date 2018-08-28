@@ -42,7 +42,7 @@ public class PaymentImportApi extends BaseApi {
     /**
      * 新快件上传
      *
-     * @param file       // 上传的文件
+     * @param file // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
@@ -72,7 +72,7 @@ public class PaymentImportApi extends BaseApi {
         try {
             inputStream = file.getInputStream();
             String type = "payment";
-            map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
+            map = readExcel.readExcelData(inputStream, fileName, type);//读取excel数据
 
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
@@ -85,29 +85,30 @@ public class PaymentImportApi extends BaseApi {
                 Map<String, Object> excelMap;
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
+
                 //校验订单号不能重复
-                int orderNoCount = this.paymentImportService.getOrderNoCount(excelMap);
-                if (orderNoCount > 0) {
+                String orderNoCount = this.paymentImportService.getOrderNoCount(excelMap);
+                if (!orderNoCount.equals("0")) {
                     httpSession.removeAttribute("userId");
-                    return new ResponseData("订单号不能重复");
-                }
-                //校验支付单流水号不能重复
-                int payIDCount = this.paymentImportService.getPaytransIdCount(excelMap);
-                if (payIDCount > 0) {
-                    httpSession.removeAttribute("userId");
-                    return new ResponseData("支付单流水号重复");
+                    return new ResponseData("订单号【" + orderNoCount + "】不能重复");
                 }
 
+                //校验支付单流水号不能重复
+                String payIdCount = this.paymentImportService.getPaytransIdCount(excelMap);
+                if (!payIdCount.equals("0")) {
+                    httpSession.removeAttribute("userId");
+                    return new ResponseData("支付单流水号【" + payIdCount + "】不能重复");
+                }
 
                 flag = this.paymentImportService.createOrderForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("userId");
                     return new ResponseData(String.format("跨境电子商务进口支付单导入成功！"));
-                } else if (flag == 1){
+                } else if (flag == 1) {
                     httpSession.removeAttribute("userId");
                     return new ResponseData("同一批订单号不有可重复！");
-                }else {
+                } else {
                     httpSession.removeAttribute("userId");
                     return new ResponseData("入库失败");
                 }

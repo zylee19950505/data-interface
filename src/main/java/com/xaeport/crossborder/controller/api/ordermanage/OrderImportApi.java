@@ -75,7 +75,7 @@ public class OrderImportApi extends BaseApi {
         try {
             inputStream = file.getInputStream();
             String type = "order";
-            map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
+            map = readExcel.readExcelData(inputStream, fileName, type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
                 httpSession.removeAttribute("importTime");
@@ -88,10 +88,10 @@ public class OrderImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
-                if (orderNoCount > 0) {
+                String orderNoCount = this.orderImportService.getOrderNoCount(excelMap);
+                if (!orderNoCount.equals("0")) {
                     httpSession.removeAttribute("importTime");
-                    return new ResponseData("订单号不能重复");
+                    return new ResponseData("订单号【" + orderNoCount + "】不能重复");
                 }
 
 

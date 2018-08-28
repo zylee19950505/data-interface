@@ -37,7 +37,7 @@ public class PaymentImportService {
      * 支付单导入
      */
     @Transactional
-    public int createOrderForm(Map<String, Object> excelMap , Users user) {
+    public int createOrderForm(Map<String, Object> excelMap, Users user) {
         int flag;
         try {
             String id = user.getId();
@@ -53,13 +53,13 @@ public class PaymentImportService {
     /*
      * 创建ImpPayment信息
      */
-    private int createImpOrderHead(Map<String, Object> excelMap , Users user) throws Exception {
+    private int createImpOrderHead(Map<String, Object> excelMap, Users user) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
-        ImpPayment impPayment =null;
+        ImpPayment impPayment = null;
         List<ImpPayment> ImpPayment = (List<ImpPayment>) excelMap.get("ImpPayment");
         for (ImpPayment anImpOrderHeadList : ImpPayment) {
-            impPayment = this.impPaymentHeadData(anImpOrderHeadList, user,enterprise);
+            impPayment = this.impPaymentHeadData(anImpOrderHeadList, user, enterprise);
             //查找同一批编号不能重复代码， 查找方式为在impPayment中查找， 代码完成80%先留着，因为后期这里可能会出现bug
             //查询同一批订单号不能重复方法， 因为是插入一条查一条，所以导致的问题有
             //1.excal中已经插入了一半的数据后发现有重复这个时候数据未回滚可能会出现，继续插入的时候提示有重复。
@@ -77,38 +77,39 @@ public class PaymentImportService {
     /*
      * 查询有无重复订单号
      */
-    public int getOrderNoCount(Map<String, Object> excelMap) throws Exception{
+    public String getOrderNoCount(Map<String, Object> excelMap) throws Exception {
         int flag = 0;
         List<ImpPayment> list = (List<ImpPayment>) excelMap.get("ImpPayment");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpPayment impPayment = list.get(i);
             flag = this.paymentImportMapper.isRepeatOrderNo(impPayment);
             if (flag > 0) {
-                return 1;
+                return impPayment.getOrder_no();
             }
         }
-        return flag;
+        return "0";
     }
+
     /*
     * 查询支付单流水号是否重复
     * */
-    public int getPaytransIdCount(Map<String, Object> excelMap) throws Exception {
+    public String getPaytransIdCount(Map<String, Object> excelMap) throws Exception {
         int flag = 0;
         List<ImpPayment> list = (List<ImpPayment>) excelMap.get("ImpPayment");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpPayment impPayment = list.get(i);
             flag = this.paymentImportMapper.isRepeatPaytransId(impPayment);
             if (flag > 0) {
-                return 1;
+                return impPayment.getPay_transaction_id();
             }
         }
-        return flag;
+        return "0";
     }
 
     /**
      * 表头自生成信息
      */
-    private ImpPayment impPaymentHeadData(ImpPayment impPayment, Users user,Enterprise enterprise) throws Exception {
+    private ImpPayment impPaymentHeadData(ImpPayment impPayment, Users user, Enterprise enterprise) throws Exception {
         impPayment.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impPayment.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impPayment.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。

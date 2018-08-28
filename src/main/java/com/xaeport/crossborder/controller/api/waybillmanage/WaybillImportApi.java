@@ -42,7 +42,7 @@ public class WaybillImportApi extends BaseApi {
     /**
      * 新快件上传
      *
-     * @param file       // 上传的文件
+     * @param file // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
@@ -71,7 +71,7 @@ public class WaybillImportApi extends BaseApi {
         try {
             inputStream = file.getInputStream();
             String type = "waybill";
-            map = readExcel.readExcelData(inputStream, fileName,type);//读取excel数据
+            map = readExcel.readExcelData(inputStream, fileName, type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
                 httpSession.removeAttribute("userIdCode");
@@ -84,22 +84,21 @@ public class WaybillImportApi extends BaseApi {
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
 
-                int logisticsNoCount = this.waybillImportService.getLogisticsNoCount(excelMap);
-                if (logisticsNoCount > 0) {
+                String logisticsNoCount = this.waybillImportService.getLogisticsNoCount(excelMap);
+                if (!logisticsNoCount.equals("0")) {
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号不能重复");
+                    return new ResponseData("物流运单编号【" + logisticsNoCount + "】不能重复");
                 }
-
 
                 flag = this.waybillImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData(String.format("跨境电子商务运单导入成功！"));
-                } else if (flag == 1){
+                } else if (flag == 1) {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("同一批物流运单编号不可重复！");
-                }else {
+                } else {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }

@@ -36,7 +36,7 @@ public class StatusImportService {
      * 运单状态单导入
      */
     @Transactional
-    public int createWaybillForm(Map<String, Object> excelMap , Users user) {
+    public int createWaybillForm(Map<String, Object> excelMap, Users user) {
         int flag;
         try {
             String id = user.getId();
@@ -57,7 +57,7 @@ public class StatusImportService {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpLogisticsStatus> ImpLogisticsStatusList = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
         for (ImpLogisticsStatus anImpLogisticsStatusList : ImpLogisticsStatusList) {
-            ImpLogisticsStatus impLogisticsStatus = this.ImpLogisticsStatusData(anImpLogisticsStatusList, user,enterprise);
+            ImpLogisticsStatus impLogisticsStatus = this.ImpLogisticsStatusData(anImpLogisticsStatusList, user, enterprise);
             flag = this.statusImportMapper.isRepeatLogisticsStatusNo(impLogisticsStatus);
             if (flag > 0) {
                 return 1;
@@ -70,23 +70,23 @@ public class StatusImportService {
     /*
      * 查询有无重复物流运单编号
      */
-    public int getLogisticsStatusNoCount(Map<String, Object> excelMap) throws Exception{
+    public String getLogisticsStatusNoCount(Map<String, Object> excelMap) throws Exception {
         int flag = 0;
         List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             flag = this.statusImportMapper.isRepeatLogisticsStatusNo(impLogisticsStatus);
             if (flag > 0) {
-                return 1;
+                return impLogisticsStatus.getLogistics_no();
             }
         }
-        return flag;
+        return "0";
     }
 
     /**
      * 表自生成信息
      */
-    private ImpLogisticsStatus ImpLogisticsStatusData(ImpLogisticsStatus impLogisticsStatus, Users user,Enterprise enterprise) throws Exception {
+    private ImpLogisticsStatus ImpLogisticsStatusData(ImpLogisticsStatus impLogisticsStatus, Users user, Enterprise enterprise) throws Exception {
         impLogisticsStatus.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impLogisticsStatus.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impLogisticsStatus.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
@@ -106,7 +106,7 @@ public class StatusImportService {
     public String getLogisticsNoCount(Map<String, Object> excelMap) {
         int flag = 0;
         List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             flag = this.statusImportMapper.isEmptyLogisticsNo(impLogisticsStatus);
             if (flag == 0) {
@@ -119,7 +119,7 @@ public class StatusImportService {
     public String getLogisticsSuccess(Map<String, Object> excelMap) {
         int flag = 0;
         List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             flag = this.statusImportMapper.getLogisticsSuccess(impLogisticsStatus);
             if (flag == 0) {
@@ -130,9 +130,9 @@ public class StatusImportService {
 
     }
 
-    public void updateLogisticsStatus(Map<String, Object> excelMap) throws Exception{
+    public void updateLogisticsStatus(Map<String, Object> excelMap) throws Exception {
         List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             this.statusImportMapper.updateLogisticsStatus(impLogisticsStatus);
         }
@@ -140,7 +140,7 @@ public class StatusImportService {
 
     public void updateLogistics(Map<String, Object> excelMap) {
         List<ImpLogisticsStatus> list = (List<ImpLogisticsStatus>) excelMap.get("ImpLogisticsStatus");
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImpLogisticsStatus impLogisticsStatus = list.get(i);
             this.statusImportMapper.updateLogistics(impLogisticsStatus);
         }
