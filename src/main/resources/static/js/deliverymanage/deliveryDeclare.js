@@ -1,29 +1,24 @@
 /**
  * Created on 2017-7-23.
- * 订单申报
+ * 清单申报
  */
-sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/orderDeclare"] || {
+sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliverymanage/deliveryDeclare"] || {
     // 订单申报列表查询
     query: function () {
         // 获取查询表单参数
-        var idCardValidate = $("[name='idCardValidate']").val();//身份验证
-        /* var flightTimes = $("[name='flightTimes']").val();//初始时只选择一个时间.现在条件变为两个*/
-        var startFlightTimes = $("[name='startFlightTimes']").val();//开始时间
-        var endFlightTimes = $("[name='endFlightTimes']").val();//结束时间
-        var orderNo = $("[name='orderNo']").val();//订单编号
+        var startFlightTimes = $("[name='startFlightTimes']").val();
+        var endFlightTimes = $("[name='endFlightTimes']").val();
+        var orderNo = $("[name='orderNo']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/orderManage/queryOrderDeclare", {
-            ieFlag: sw.ie,//进出口
-            entryType: sw.type,//申报类型
-            idCardValidate: idCardValidate,//身份验证通过
+        var url = sw.serializeObjectToURL("api/detailManage/queryDetailDeclare", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            orderNo: orderNo//订单编号
+            orderNo: orderNo
         });
 
         // 数据表
-        sw.datatable("#query-orderDeclare-table", {
+        sw.datatable("#query-deliveryDeclare-table", {
             ordering: false,
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
@@ -62,30 +57,25 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS1") {
+                        if (row.data_status == "CBDS7") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_No + '" />';
-                        }
-                        else if (row.data_status == "CBDS2") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_No + '" />';
+                                row.order_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "order_No", label: "订单编号"},//订单编号要点击查看订单详情
-                {data: "ebp_Name", label: "电商企业名称"},
-                {data: "ebc_Name", label: "电商平台名称"},
-                /*  {data: "item_Name", label: "商品名称"},*/
-                {data: "goods_Value", label: "总价"},
-                {data: "buyer_Name", label: "订购人"},
-                //要区分开
+                {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
+                {data: "logistics_no", label: "物流运单编号"},
+                {data: "ebc_name", label: "电商企业名称"},
+                {data: "ebc_name", label: "支付企业名称"},
+                {data: "logistics_name", label: "物流企业名称"},
+                // {data: "g_name", label: "商品名称"},
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if (!isEmpty(row.app_Time)) {
-                        return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
+                    if (!isEmpty(row.app_time)) {
+                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
                 }
@@ -95,21 +85,17 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
-                        case "CBDS1":
+                        case "CBDS7":
                             textColor = "text-yellow";
-                            value = "待申报";
+                            value = "入库明细单待申报";
                             break;
-                        case "CBDS2":
-                            textColor = "text-yellow";
-                            value = "订单待申报";
-                            break;
-                        case "CBDS20":
+                        case "CBDS70":
                             textColor = "text-green";
-                            value = "订单申报中";
+                            value = "入库明细单申报中";
                             break;
-                        case "CBDS21":
+                        case "CBDS71":
                             textColor = "text-green";
-                            value = "订单已申报";
+                            value = "入库明细单已申报";
                             break;
                     }
 
@@ -136,7 +122,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
         sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
 
-            var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
+            var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
 
             var postData = {
@@ -148,12 +134,12 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
             $("#submitManifestBtn").prop("disabled", true);
 
-            sw.ajax("api/orderManage/submitCustom", "POST", postData, function (rsp) {
+            sw.ajax("api/detailManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
                     }, "modal-success");
                     $("#submitManifestBtn").prop("disabled", false);
-                    sw.page.modules["ordermanage/orderDeclare"].query();
+                    sw.page.modules["detailmanage/detailDeclare"].query();
                 } else {
                     sw.alert(rsp.data.msg);
                 }
@@ -161,12 +147,6 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
             });
         });
     },
-
-    // orderXmlDownLoad: function () {
-    //     var type = "Order";
-    //     window.location.href = "/api/orderManage/downloadFile?type=" + type;
-    // },
-
     init: function () {
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
@@ -178,8 +158,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
         });
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-submit]").unbind("click").click(this.submitCustom);
-        // $("[ws-download]").unbind("click").click(this.orderXmlDownLoad);
-        $table = $("#query-orderDeclare-table");
+        $table = $("#query-detailDeclare-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {
                 //全选

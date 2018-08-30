@@ -44,6 +44,8 @@ appConfig:
   receiverId: "DXPEDC0000000001"
   xmlPath:
     sendPath: "kj/send"
+    sendOrderPath: "kj/OrderBak"
+    sendInventoryPath: "kj/InventoryBak"
     sendBakPath: "kj/sendBak"
 
   #下载文件夹

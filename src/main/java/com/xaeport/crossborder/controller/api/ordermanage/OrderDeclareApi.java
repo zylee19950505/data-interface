@@ -2,6 +2,8 @@ package com.xaeport.crossborder.controller.api.ordermanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
@@ -9,6 +11,7 @@ import com.xaeport.crossborder.data.entity.OrderHeadAndList;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
+import com.xaeport.crossborder.tools.DownloadUtils;
 import com.xaeport.crossborder.tools.GetIpAddr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.*;
 
 
@@ -32,6 +37,8 @@ public class OrderDeclareApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
+    @Autowired
+    AppConfiguration appConfiguration;
     @Autowired
     OrderDeclareSevice orderDeclareService;
 
@@ -120,5 +127,16 @@ public class OrderDeclareApi extends BaseApi {
             return rtnResponse("false", "舱单申报海关提交失败！");
         }
     }
+
+//    /**
+//     * excel 跨境电子商务进口订单模板下载
+//     */
+//    @RequestMapping(value = "/downloadFile")
+//    public void excelModelDownload(HttpServletResponse response,
+//                                   @RequestParam(value = "type") String type) {
+//        String sendOrderPath = this.appConfiguration.getXmlPath().get("sendOrderPath");
+//        File file = new File(sendOrderPath);
+//        DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_XML);
+//    }
 
 }

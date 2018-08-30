@@ -236,7 +236,10 @@ public class DetailDeclareMessageThread implements Runnable {
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "inventory" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("清单621申报报文发送备份文件[backFilePath: %s]", backFilePath));
 
-        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
+//        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
+//        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
+
+        String sendFilePath = this.appConfiguration.getXmlPath().get("sendInventoryPath") + File.separator + fileName;
         this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
 
         File backupFile = new File(backFilePath);
