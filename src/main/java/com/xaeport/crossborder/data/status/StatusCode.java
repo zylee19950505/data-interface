@@ -20,6 +20,8 @@ public class StatusCode {
 	public final static String DDCB = "CBDS23";//订单重报
 	public final static String DDSBSB = "CBDS24";//订单申报失败
 
+	public final static String DDBWSCZ = "OrderDoing";
+	public final static String DDBWXZWC = "OrderOver";
 
 	//支付单数据状态
 	public final static String ZFDDSB = "CBDS3";//支付单待申报

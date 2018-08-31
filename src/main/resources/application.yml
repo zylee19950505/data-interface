@@ -47,6 +47,7 @@ appConfig:
     sendOrderPath: "kj/OrderBak"
     sendInventoryPath: "kj/InventoryBak"
     sendBakPath: "kj/sendBak"
+    xmlDownload: "xmlDownload"
 
   #下载文件夹
   downloadFolder: d:/app/download

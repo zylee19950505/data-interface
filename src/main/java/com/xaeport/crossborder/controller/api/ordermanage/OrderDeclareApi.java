@@ -66,12 +66,12 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         //分页参数
-        paramMap.put("start", Integer.parseInt(start)+1);
+        paramMap.put("start", Integer.parseInt(start) + 1);
         paramMap.put("length", length);
         // 固定参数
-        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ,StatusCode.DDYSB, StatusCode.DDCB,StatusCode.EXPORT));
-        paramMap.put("entId",this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
+        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ, StatusCode.DDYSB, StatusCode.DDCB, StatusCode.EXPORT, StatusCode.DDBWSCZ, StatusCode.DDBWXZWC));
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
 
         List<OrderHeadAndList> resultList = new ArrayList<OrderHeadAndList>();
         try {
@@ -105,12 +105,12 @@ public class OrderDeclareApi extends BaseApi {
         //this.log.debug(String.format("舱单申报-提交海关舱单Keys：%s", submitKeys));
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
-            return rtnResponse("false", "请先勾选要提交海关的订单单信息！");
+            return rtnResponse("false", "请先勾选要提交海关的订单信息！");
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("opStatus", StatusCode.DDSBZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
-        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB+","+StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
+        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
         paramMap.put("currentUserId", currentUser.getId());
 
        /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
@@ -122,21 +122,58 @@ public class OrderDeclareApi extends BaseApi {
         // 调用订单申报Service 获取提交海关结果
         boolean flag = orderDeclareService.updateSubmitCustom(paramMap);
         if (flag) {
-            return rtnResponse("true", "舱单申报海关提交成功！");
+            return rtnResponse("true", "订单申报海关提交成功！");
         } else {
-            return rtnResponse("false", "舱单申报海关提交失败！");
+            return rtnResponse("false", "订单申报海关提交失败！");
         }
     }
 
-//    /**
-//     * excel 跨境电子商务进口订单模板下载
-//     */
-//    @RequestMapping(value = "/downloadFile")
-//    public void excelModelDownload(HttpServletResponse response,
-//                                   @RequestParam(value = "type") String type) {
-//        String sendOrderPath = this.appConfiguration.getXmlPath().get("sendOrderPath");
-//        File file = new File(sendOrderPath);
-//        DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_XML);
-//    }
+    /**
+     * 订单单申报-提交海关
+     *
+     * @param submitKeys EntryHead.IDs
+     */
+    @RequestMapping(value = "/orderXmlDownload", method = RequestMethod.POST)
+    public ResponseData orderXmlDownload(@RequestParam(required = false) String submitKeys,
+                                         @RequestParam(required = false) String idCardValidate,
+                                         @RequestParam(required = false) String ieFlag,
+                                         @RequestParam(required = false) String entryType,
+                                         HttpServletRequest request) {
+        this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        if (StringUtils.isEmpty(submitKeys)) {
+            return rtnResponse("false", "请先勾选要下载的订单信息！");
+        }
+        Users currentUser = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("opStatus", StatusCode.DDBWSCZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
+        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
+        paramMap.put("currentUserId", currentUser.getId());
+
+       /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
+        paramMap.put("submitKeys", submitKeys);//订单遍号
+        paramMap.put("idCardValidate", idCardValidate);
+        paramMap.put("entryType", entryType);
+        paramMap.put("ieFlag", ieFlag);
+
+        // 调用订单申报Service 获取提交海关结果
+        boolean flag = orderDeclareService.orderXmlDownload(paramMap);
+        String orderZipPath = orderDeclareService.OrderXml(this.getCurrentUserEntId());
+        if (!StringUtils.isEmpty(orderZipPath)) {
+            return rtnResponse("1" + orderZipPath, "订单报文生成提交成功");
+        } else {
+            return rtnResponse("0" + orderZipPath, "订单报文生成提交失败");
+        }
+    }
+
+    /**
+     * excel 跨境电子商务进口订单模板下载
+     */
+    @RequestMapping(value = "/downloadFile")
+    public void excelModelDownload(
+            HttpServletResponse response,
+            @RequestParam(value = "type") String type) {
+        File file = new File(type);
+        DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_ZIP);
+    }
 
 }

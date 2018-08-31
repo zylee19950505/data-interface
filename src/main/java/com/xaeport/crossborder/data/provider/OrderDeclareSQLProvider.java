@@ -168,6 +168,79 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
+    /*
+     * 根据订单状态查找数据
+     * findWaitGeneratedByXml
+     * */
+    public String findWaitGeneratedByXml(Map<String,String> paramMap){
+        final String dataStatus = paramMap.get("dataStatus");
+        final String ent_id = paramMap.get("ent_id");
+        return new SQL(){
+            {
+                SELECT("GUID");
+                SELECT("APP_TYPE");
+                SELECT("APP_TIME");
+                SELECT("APP_STATUS");
+                SELECT("ORDER_TYPE");
+                SELECT("ORDER_NO");
+                SELECT("EBP_CODE");
+                SELECT("EBP_NAME");
+                SELECT("EBC_CODE");
+                SELECT("EBC_NAME");
+                SELECT("to_char(GOODS_VALUE) as goods_value");
+                SELECT("to_char(FREIGHT) as freight");
+                SELECT("to_char(DISCOUNT) as discount");
+                SELECT("to_char(TAX_TOTAL) as tax_total");
+                SELECT("to_char(ACTURAL_PAID) as actural_paid");
+                SELECT("CURRENCY");
+                SELECT("BUYER_REG_NO");
+                SELECT("BUYER_NAME");
+                SELECT("BUYER_ID_TYPE");
+                SELECT("BUYER_ID_NUMBER");
+                SELECT("PAY_CODE");
+                SELECT("PAYNAME");
+                SELECT("PAY_TRANSACTION_ID");
+                SELECT("BATCH_NUMBERS");
+                SELECT("CONSIGNEE");
+                SELECT("CONSIGNEE_TELEPHONE");
+                SELECT("CONSIGNEE_ADDRESS");
+                SELECT("CONSIGNEE_DITRICT");
+                SELECT("NOTE");
+                SELECT("DATA_STATUS");
+                SELECT("CRT_ID");
+                SELECT("CRT_TM");
+                SELECT("UPD_ID");
+                SELECT("UPD_TM");
+                SELECT("RETURN_STATUS");
+                SELECT("ENT_ID");
+                SELECT("ENT_NAME");
+                SELECT("ENT_CUSTOMS_CODE");
+                FROM("T_IMP_ORDER_HEAD t");
+                WHERE("DATA_STATUS = #{dataStatus}");
+                WHERE("ENT_ID = #{ent_id}");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    /*
+     * 根据订单状态查找数据
+     * findWaitGeneratedByXmlCount
+     * */
+    public String findWaitGeneratedByXmlCount(Map<String,String> paramMap){
+        final String dataStatus = paramMap.get("dataStatus");
+        final String ent_id = paramMap.get("ent_id");
+        return new SQL(){
+            {
+                SELECT("COUNT(1)");
+                FROM("T_IMP_ORDER_HEAD t");
+                WHERE("DATA_STATUS = #{dataStatus}");
+                WHERE("ENT_ID = #{ent_id}");
+            }
+        }.toString();
+    }
+
     /*
     * 根据id查找
     * queryOrderListByGuid

@@ -44,6 +44,18 @@ public interface OrderDeclareMapper {
 	List<ImpOrderHead> findWaitGenerated(Map<String, String> paramMap);
 
 	/*
+     * 根据状态查找订单
+     * */
+	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "findWaitGeneratedByXml")
+	List<ImpOrderHead> findWaitGeneratedByXml(Map<String, String> paramMap);
+
+	/*
+     * 根据状态查找订单
+     * */
+	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "findWaitGeneratedByXmlCount")
+	double findWaitGeneratedByXmlCount(Map<String, String> paramMap);
+
+	/*
 	* 根据id查找标题信息
 	* */
 	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryOrderListByGuid")
