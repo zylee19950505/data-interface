@@ -20,8 +20,8 @@ public class StatusCode {
 	public final static String DDCB = "CBDS23";//订单重报
 	public final static String DDSBSB = "CBDS24";//订单申报失败
 
-	public final static String DDBWSCZ = "OrderDoing";
-	public final static String DDBWXZWC = "OrderOver";
+	public final static String DDBWSCZ = "OrderDoing";//订单报文生成中
+	public final static String DDBWXZWC = "OrderOver";//订单报文下载完成
 
 	//支付单数据状态
 	public final static String ZFDDSB = "CBDS3";//支付单待申报
@@ -54,6 +54,9 @@ public class StatusCode {
 	public final static String QDSBCG = "CBDS62";//清单申报成功
 	public final static String QDCB = "CBDS63";//清单重报
 	public final static String QDSBSB = "CBDS64";//清单申报失败
+
+	public final static String QDBWSCZ = "InvenDoing";//清单报文生成中
+	public final static String QDBWXZWC = "InvenOver";//清单报文下载完成
 
 	//入库明细单数据状态
 	public final static String RKMXDDSB = "CBDS7";//入库明细单待申报

@@ -100,7 +100,6 @@ public class OrderDeclareSevice {
         String orderZipPath = null;
 
         impOrderHeadLists = orderDeclareMapper.findWaitGeneratedByXml(paramMap);
-        double impOrderHeadCount = orderDeclareMapper.findWaitGeneratedByXmlCount(paramMap);
 
         entId = impOrderHeadLists.get(0).getEnt_id();
         List<File> fileList = new ArrayList<>();
@@ -144,7 +143,8 @@ public class OrderDeclareSevice {
                 orderHead.setConsigneeAddress(impOrderHead.getConsignee_Address());
                 orderHead.setConsigneeDistrict(StringUtils.isEmpty(impOrderHead.getConsignee_Ditrict()) ? "" : impOrderHead.getConsignee_Ditrict());
                 orderHead.setNote(StringUtils.isEmpty(impOrderHead.getNote()) ? "" : impOrderHead.getNote());
-                // 更新支付单状态
+
+                // 更新订单状态
                 this.orderDeclareMapper.updateEntryHeadOrderStatus(guid, StatusCode.DDBWXZWC);
                 this.logger.debug(String.format("更新订单[guid: %s]状态为: %s", guid, StatusCode.DDBWXZWC));
                 orderHeadList.add(orderHead);

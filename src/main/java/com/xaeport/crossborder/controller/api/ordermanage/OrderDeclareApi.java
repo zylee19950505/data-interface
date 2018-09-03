@@ -34,7 +34,6 @@ import java.util.*;
 @RequestMapping("/api/orderManage")
 public class OrderDeclareApi extends BaseApi {
 
-
     private Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
@@ -129,7 +128,7 @@ public class OrderDeclareApi extends BaseApi {
     }
 
     /**
-     * 订单单申报-提交海关
+     * 订单报文下载
      *
      * @param submitKeys EntryHead.IDs
      */
@@ -149,8 +148,7 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
         paramMap.put("currentUserId", currentUser.getId());
 
-       /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
-        paramMap.put("submitKeys", submitKeys);//订单遍号
+        paramMap.put("submitKeys", submitKeys);//订单编号
         paramMap.put("idCardValidate", idCardValidate);
         paramMap.put("entryType", entryType);
         paramMap.put("ieFlag", ieFlag);

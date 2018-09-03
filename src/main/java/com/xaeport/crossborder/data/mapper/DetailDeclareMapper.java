@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.ImpInventory;
-import com.xaeport.crossborder.data.entity.ImpInventoryBody;
-import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.DetailDeclareSQLProvider;
 import com.xaeport.crossborder.data.provider.OrderDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,6 +31,18 @@ public interface DetailDeclareMapper {
      * */
     @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGenerated")
     List<ImpInventoryHead> findWaitGenerated(Map<String, String> paramMap);
+
+    /*
+ * 根据状态查找订单
+ * */
+    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGeneratedByXml")
+    List<ImpInventoryHead> findWaitGeneratedByXml(Map<String, String> paramMap);
+
+    /*
+     * 根据状态查找订单
+     * */
+    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGeneratedByXmlCount")
+    double findWaitGeneratedByXmlCount(Map<String, String> paramMap);
 
     /*
      * 根据id查找标题信息

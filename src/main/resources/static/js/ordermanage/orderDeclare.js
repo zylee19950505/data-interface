@@ -193,7 +193,6 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
             };
             $("#orderXmlDownload").prop("disabled", true);
             sw.ajax("api/orderManage/orderXmlDownload", "POST", postData, function (rsp) {
-                debugger;
                 var str = rsp.data.result;
                 if (str.substring(0, 1) == "1") {
                     sw.alert("订单报文生成中", "提示", function () {

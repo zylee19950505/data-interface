@@ -105,6 +105,14 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                             textColor = "text-green";
                             value = "清单已申报";
                             break;
+                        case "InvenDoing":
+                            textColor = "text-green";
+                            value = "清单报文生成中";
+                            break;
+                        case "InvenOver":
+                            textColor = "text-green";
+                            value = "清单报文下载完成";
+                            break;
                     }
 
                     return "<span class='" + textColor + "'>" + value + "</span>";
@@ -124,7 +132,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的舱单信息！");
+            sw.alert("请先勾选要提交海关的清单信息！");
             return;
         }
 
@@ -155,6 +163,45 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
             });
         });
     },
+
+    // 报文下载
+    InvenXmlDownLoad: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要生成报文的清单信息！");
+            return;
+        }
+        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+            var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
+            sw.blockPage();
+            var postData = {
+                submitKeys: submitKeys,
+                idCardValidate: idCardValidate,
+                ieFlag: sw.ie,
+                entryType: sw.type
+            };
+            $("#InvenXmlDownload").prop("disabled", true);
+            sw.ajax("api/detailManage/InvenXmlDownload", "POST", postData, function (rsp) {
+                var str = rsp.data.result;
+                if (str.substring(0, 1) == "1") {
+                    sw.alert("清单报文生成中", "提示", function () {
+                    }, "modal-success");
+                    $("#InvenXmlDownload").prop("disabled", false);
+                    sw.page.modules["detailmanage/detailDeclare"].query();
+                    window.location.href = "/api/detailManage/downloadFile?type=" + str.substring(1);
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
+        });
+    },
+
     init: function () {
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
@@ -166,6 +213,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
         });
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-submit]").unbind("click").click(this.submitCustom);
+        $("[ws-download]").unbind("click").click(this.InvenXmlDownLoad);
         $table = $("#query-detailDeclare-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {

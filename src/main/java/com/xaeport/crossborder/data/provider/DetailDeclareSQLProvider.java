@@ -98,6 +98,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
+
     /*
      * 根据订单状态查找数据
      * findWaitGenerated
@@ -169,6 +170,97 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
+
+    /*
+     * 根据清单状态查找数据
+     * findWaitGenerated
+     * */
+    public String findWaitGeneratedByXml(Map<String,String> paramMap){
+        final String dataStatus = paramMap.get("dataStatus");
+        final String ent_id = paramMap.get("ent_id");
+        return new SQL(){
+            {
+                SELECT("GUID");
+                SELECT("APP_TYPE");
+                SELECT("APP_TIME");
+                SELECT("APP_STATUS");
+                SELECT("ORDER_NO");
+                SELECT("EBP_CODE");
+                SELECT("EBP_NAME");
+                SELECT("EBC_CODE");
+                SELECT("EBC_NAME");
+                SELECT("LOGISTICS_NO");
+                SELECT("LOGISTICS_CODE");
+                SELECT("LOGISTICS_NAME");
+                SELECT("COP_NO");
+                SELECT("PRE_NO");
+                SELECT("ASSURE_CODE");
+                SELECT("EMS_NO");
+                SELECT("INVT_NO");
+                SELECT("IE_FLAG");
+                SELECT("DECL_TIME");
+                SELECT("CUSTOMS_CODE");
+                SELECT("PORT_CODE");
+                SELECT("IE_DATE");
+                SELECT("BUYER_ID_TYPE");
+                SELECT("BUYER_ID_NUMBER");
+                SELECT("BUYER_NAME");
+                SELECT("BUYER_TELEPHONE");
+                SELECT("CONSIGNEE_ADDRESS");
+                SELECT("AGENT_CODE");
+                SELECT("AGENT_NAME");
+                SELECT("AREA_CODE");
+                SELECT("AREA_NAME");
+                SELECT("TRADE_MODE");
+                SELECT("TRAF_MODE");
+                SELECT("TRAF_NO");
+                SELECT("VOYAGE_NO");
+                SELECT("BILL_NO");
+                SELECT("LOCT_NO");
+                SELECT("LICENSE_NO");
+                SELECT("COUNTRY");
+                SELECT("FREIGHT");
+                SELECT("INSURED_FEE");
+                SELECT("CURRENCY");
+                SELECT("WRAP_TYPE");
+                SELECT("PACK_NO");
+                SELECT("GROSS_WEIGHT");
+                SELECT("NET_WEIGHT");
+                SELECT("NOTE");
+                SELECT("DATA_STATUS");
+                SELECT("CRT_ID");
+                SELECT("CRT_TM");
+                SELECT("UPD_ID");
+                SELECT("UPD_TM");
+                SELECT("RETURN_STATUS");
+                SELECT("ENT_ID");
+                SELECT("ENT_NAME");
+                SELECT("ENT_CUSTOMS_CODE");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("DATA_STATUS = #{dataStatus}");
+                WHERE("ENT_ID = #{ent_id}");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    /*
+     * 根据清单状态查找数据
+     * findWaitGeneratedByXmlCount
+     * */
+    public String findWaitGeneratedByXmlCount(Map<String,String> paramMap){
+        final String dataStatus = paramMap.get("dataStatus");
+        final String ent_id = paramMap.get("ent_id");
+        return new SQL(){
+            {
+                SELECT("COUNT(1)");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("DATA_STATUS = #{dataStatus}");
+                WHERE("ENT_ID = #{ent_id}");
+            }
+        }.toString();
+    }
+
     /*
      * 根据id查找
      * queryOrderListByGuid
