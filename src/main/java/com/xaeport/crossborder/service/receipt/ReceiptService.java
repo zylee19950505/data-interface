@@ -353,7 +353,19 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.createImpRecInventory(impRecInventory); //插入清单状态表数据
-                this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
+                long returnTime = Long.parseLong(impRecInventory.getReturn_time());
+                String copNo = impRecInventory.getCop_no();
+                ImpInventoryHead impInventoryHead = this.receiptMapper.findByCopNo(copNo);
+                if (!StringUtils.isEmpty(impInventoryHead)) {
+                    long systemTime = StringUtils.isEmpty(impInventoryHead.getReturn_time()) ? 0 : Long.parseLong(impInventoryHead.getReturn_time());
+                    if (returnTime >= systemTime){
+                        this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
+                    }else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
             }
         }
     }
@@ -380,22 +392,6 @@ public class ReceiptService {
         this.receiptMapper.updateImpInventory(impInventoryHead);  //更新支付单表中的回执状态
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

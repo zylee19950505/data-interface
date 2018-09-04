@@ -10,6 +10,16 @@ import sun.awt.SunHints;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    public String findByCopNo(String copNo){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.COP_NO = #{copNo}");
+            }
+        }.toString();
+    }
+
     //插入支付单回执表数据
     public String createImpRecPayment(
             @Param("impRecPayment") ImpRecPayment impRecPayment
@@ -58,7 +68,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_PAYMENT t");
-                WHERE("t.DATA_STATUS = 'CBDS31'");
+                WHERE("t.DATA_STATUS in ('CBDS31','CBDS32')");
                 if (!StringUtils.isEmpty(impPayment.getPay_transaction_id())) {
                     WHERE("t.PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
                 }
@@ -126,7 +136,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.DATA_STATUS = 'CBDS21'");
+                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22')");
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
@@ -215,7 +225,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS = 'CBDS61'");
+                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62')");
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }

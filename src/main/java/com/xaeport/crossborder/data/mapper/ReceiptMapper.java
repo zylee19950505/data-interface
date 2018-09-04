@@ -53,4 +53,8 @@ public interface ReceiptMapper {
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpInventory")
     boolean updateImpInventory(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
 
+    //清单数据查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "findByCopNo")
+    ImpInventoryHead findByCopNo(String copNo) throws Exception;
+
 }
