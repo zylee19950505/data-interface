@@ -4,11 +4,9 @@ import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert621.BaseDetailDeclareXML;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.DetailDeclareMapper;
-import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
-import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -177,37 +175,6 @@ public class DetailDeclareMessageThread implements Runnable {
                     }
                 }
 
-
-//                for (ImpInventoryHead entryHead: impInventoryHeadLists) {
-//                    //获取head表的id
-//                    String headGuid = entryHead.getGuid();
-//                    try {
-//                        ceb621Message = new CEB621Message();
-//                        String orderNo = entryHead.getOrder_no();//订单号,用于报文头信息
-//                        //设置表头
-//                        ceb621Message.setImpInventoryHead(entryHead);
-//                        //用id来获取list表体
-//                        List<ImpInventoryBody> InventoryLists = new ArrayList<ImpInventoryBody>();
-//                        InventoryLists = detailDeclareMapper.querydetailDeclareListByGuid(headGuid);
-//                        if (CollectionUtils.isEmpty(InventoryLists)){
-//                            this.logger.error(String.format("获取清单详情[headGuid: %s]表体信息失败", headGuid));
-//                            continue;
-//                        }
-//                        ceb621Message.setImpInventoryBodyList(InventoryLists);
-//                        //获取basetransfer节点数据(根据创建人)
-//                        BaseTransfer baseTransfer = detailDeclareMapper.queryCompany(entryHead.getEnt_id());
-//                        //加载baseTransfer节点
-//                        ceb621Message.setBaseTransfer(baseTransfer);
-//                        //开始生成报文
-//                        this.entryProcess(ceb621Message, headGuid, orderNo);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-
-
-
-
             }catch (Exception e){
                 try {
                     Thread.sleep(5000);
@@ -220,7 +187,7 @@ public class DetailDeclareMessageThread implements Runnable {
     }
     private void entryProcess(CEB621Message ceb621Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
-            // 生成报单申报报文
+            // 生成申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
             String fileName = "CEB621_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare",xmlHeadGuid);//flag
@@ -249,6 +216,6 @@ public class DetailDeclareMessageThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("清单发送完毕" + fileName);
-        this.logger.debug(String.format("清单621申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("清单621申报报文发送文件[backFilePath: %s]生成完毕", sendFilePath));
     }
 }

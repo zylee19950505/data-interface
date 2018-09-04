@@ -2,7 +2,7 @@ package com.xaeport.crossborder.data.entity;
 
 import java.util.Date;
 
-public class ImpDeliveryHead {
+public class ImpDelivery {
     private String guid;
     private String app_type;
     private Date app_time;
@@ -18,11 +18,10 @@ public class ImpDeliveryHead {
     private String traf_no;
     private String voyage_no;
     private String bill_no;
-    private String logistics_no;
     private String logistics_code;
     private String logistics_name;
     private String unload_location;
-    private String note;
+    private String head_note;
     private String data_status;
     private String crt_id;
     private Date crt_tm;
@@ -35,13 +34,14 @@ public class ImpDeliveryHead {
     private String ent_name;
     private String ent_customs_code;
 
-    public String getLogistics_no() {
-        return logistics_no;
-    }
-
-    public void setLogistics_no(String logistics_no) {
-        this.logistics_no = logistics_no;
-    }
+    private String head_guid;
+    private String g_num;
+    private String logistics_no;
+    private String g_code;
+    private String g_name;
+    private String qty;
+    private String unit;
+    private String body_note;
 
     public String getGuid() {
         return guid;
@@ -187,12 +187,12 @@ public class ImpDeliveryHead {
         this.unload_location = unload_location;
     }
 
-    public String getNote() {
-        return note;
+    public String getHead_note() {
+        return head_note;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setHead_note(String head_note) {
+        this.head_note = head_note;
     }
 
     public String getData_status() {
@@ -281,5 +281,69 @@ public class ImpDeliveryHead {
 
     public void setEnt_customs_code(String ent_customs_code) {
         this.ent_customs_code = ent_customs_code;
+    }
+
+    public String getHead_guid() {
+        return head_guid;
+    }
+
+    public void setHead_guid(String head_guid) {
+        this.head_guid = head_guid;
+    }
+
+    public String getG_num() {
+        return g_num;
+    }
+
+    public void setG_num(String g_num) {
+        this.g_num = g_num;
+    }
+
+    public String getLogistics_no() {
+        return logistics_no;
+    }
+
+    public void setLogistics_no(String logistics_no) {
+        this.logistics_no = logistics_no;
+    }
+
+    public String getG_code() {
+        return g_code;
+    }
+
+    public void setG_code(String g_code) {
+        this.g_code = g_code;
+    }
+
+    public String getG_name() {
+        return g_name;
+    }
+
+    public void setG_name(String g_name) {
+        this.g_name = g_name;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getBody_note() {
+        return body_note;
+    }
+
+    public void setBody_note(String body_note) {
+        this.body_note = body_note;
     }
 }

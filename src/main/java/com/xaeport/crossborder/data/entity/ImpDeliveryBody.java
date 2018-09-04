@@ -3,7 +3,7 @@ package com.xaeport.crossborder.data.entity;
 public class ImpDeliveryBody {
 
     private String head_guid;
-    private String g_num;
+    private int g_num;
     private String logistics_no;
     private String g_code;
     private String g_name;
@@ -19,11 +19,11 @@ public class ImpDeliveryBody {
         this.head_guid = head_guid;
     }
 
-    public String getG_num() {
+    public int getG_num() {
         return g_num;
     }
 
-    public void setG_num(String g_num) {
+    public void setG_num(int g_num) {
         this.g_num = g_num;
     }
 

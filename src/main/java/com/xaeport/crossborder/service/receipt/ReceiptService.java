@@ -339,9 +339,9 @@ public class ReceiptService {
                     if (map.containsKey("preNo")) {
                         impRecInventory.setPre_no(map.get("preNo"));
                     }
-//                    if (map.containsKey("invtNo")) {
-//                        impRecInventory.setInvt_no(map.get("invtNo"));
-//                    }
+                    if (map.containsKey("invtNo")) {
+                        impRecInventory.setInvt_no(map.get("invtNo"));
+                    }
                     if (map.containsKey("returnStatus")) {
                         impRecInventory.setReturn_status(map.get("returnStatus"));
                     }
@@ -370,6 +370,7 @@ public class ReceiptService {
         impInventoryHead.setAgent_code(impRecInventory.getAgent_code());//申报单位的海关注册登记编号。
         impInventoryHead.setCop_no(impRecInventory.getCop_no());//企业内部标识单证的编号
         impInventoryHead.setPre_no(impRecInventory.getPre_no());//电子口岸标识单证的编号
+        impInventoryHead.setInvt_no(impRecInventory.getInvt_no());//海关接受申报生成的清单编号。
         impInventoryHead.setReturn_status(impRecInventory.getReturn_status());//操作结果（2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库）,若小于0 数字表示处理异常回执
         impInventoryHead.setReturn_info(impRecInventory.getReturn_info());//备注（如:退单原因）
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)

@@ -1,16 +1,14 @@
 //package com.xaeport.crossborder.generated711.thread;
 //
 //import com.xaeport.crossborder.configuration.AppConfiguration;
-//import com.xaeport.crossborder.convert711.BaseDeliveryDeclareXML;
+//import com.xaeport.crossborder.convert711.BaseDeliveryXML;
 //import com.xaeport.crossborder.data.entity.*;
 //import com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper;
 //import com.xaeport.crossborder.data.status.StatusCode;
-//import com.xaeport.crossborder.tools.BusinessUtils;
 //import com.xaeport.crossborder.tools.FileUtils;
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 //import org.springframework.util.CollectionUtils;
-//import org.springframework.util.StringUtils;
 //
 //import javax.xml.transform.TransformerException;
 //import java.io.File;
@@ -18,22 +16,22 @@
 //import java.text.SimpleDateFormat;
 //import java.util.*;
 //
-//public class DeliveryDeclareMessageThread implements Runnable {
+//public class DeliveryMessageThread implements Runnable {
 //
 //    private Log logger = LogFactory.getLog(this.getClass());
 //    private DeliveryDeclareMapper deliveryDeclareMapper;
 //    private AppConfiguration appConfiguration;
-//    private BaseDeliveryDeclareXML baseDeliveryDeclareXML;
+//    private BaseDeliveryXML baseDeliveryXML;
 //
 //    //无参数的构造方法。
-//    public DeliveryDeclareMessageThread() {
+//    public DeliveryMessageThread() {
 //    }
 //
 //    //有参数的构造方法。
-//    public DeliveryDeclareMessageThread(DeliveryDeclareMapper deliveryDeclareMapper, AppConfiguration appConfiguration, BaseDeliveryDeclareXML baseDeliveryDeclareXML) {
+//    public DeliveryMessageThread(DeliveryDeclareMapper deliveryDeclareMapper, AppConfiguration appConfiguration, BaseDeliveryXML baseDeliveryXML) {
 //        this.deliveryDeclareMapper = deliveryDeclareMapper;
 //        this.appConfiguration = appConfiguration;
-//        this.baseDeliveryDeclareXML = baseDeliveryDeclareXML;
+//        this.baseDeliveryXML = baseDeliveryXML;
 //    }
 //
 //    @Override
@@ -44,12 +42,15 @@
 //        CEB711Message ceb711Message = new CEB711Message();
 //
 //        List<ImpDeliveryHead> impDeliveryHeadList;
+//        ImpDeliveryHead deliveryHead;
 //        List<ImpDeliveryBody> impDeliveryBodyList;
 //        ImpDeliveryBody impDeliveryBody;
+//        String xmlHeadGuid;
+//        String nameBillNo;
+//        String entId;
 //        String guid;
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 //        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
-//        String nameCopNo = null;
 //
 //        while (true) {
 //
@@ -69,31 +70,41 @@
 //
 //                for (ImpDeliveryHead impDeliveryHead : impDeliveryHeadList) {
 //                    try {
+//                        impDeliveryBodyList = new ArrayList<>();
+//                        impDeliveryBody = new ImpDeliveryBody();
+//
+//                        deliveryHead = impDeliveryHeadList.get(0);
+//                        xmlHeadGuid = impDeliveryHeadList.get(0).getGuid();
+//                        nameBillNo = impDeliveryHeadList.get(0).getBill_no();
+//                        entId = impDeliveryHeadList.get(0).getEnt_id();
 //                        guid = impDeliveryHead.getGuid();
-//                        nameCopNo = impDeliveryHead.getCop_no();
 //
 //                        try {
 //                            // 更新入库明细单状态
-//                            this.deliveryDeclareMapper.updateEntryHeadDetailStatus(guid, StatusCode.RKMXDYSB);
+//                            this.deliveryDeclareMapper.updateDeliveryStatus(guid, StatusCode.RKMXDYSB);
 //                            this.logger.debug(String.format("更新入库明细单[guid: %s]状态为: %s", guid, StatusCode.RKMXDYSB));
 //                        } catch (Exception e) {
-//                            String exceptionMsg = String.format("更改入库明细单[headGuid: %s]状态时发生异常", guid);
+//                            String exceptionMsg = String.format("更改入库明细单[guid: %s]状态时发生异常", guid);
 //                            this.logger.error(exceptionMsg, e);
 //                        }
 //
-//                        impDeliveryBodyList = this.deliveryDeclareMapper.queryDeliveryDeclareListByGuid(guid);
+//                        for(int j = 0; j< impDeliveryHeadList.size(); j++){
+//                            impDeliveryBody.setG_num(j+1);
+//                            impDeliveryBody.setLogistics_no(impDeliveryHead.getLogistics_no());
+//                            impDeliveryBodyList.add(impDeliveryBody);
+//                        }
 //
-//                        ceb711Message.setImpDeliveryHead(impDeliveryHead);
+//                        ceb711Message.setImpDeliveryHead(deliveryHead);
 //                        ceb711Message.setImpDeliveryBodyList(impDeliveryBodyList);
 //                        //设置baseTransfer节点
-//                        BaseTransfer baseTransfer = deliveryDeclareMapper.queryCompany(impDeliveryHead);
+//                        BaseTransfer baseTransfer = deliveryDeclareMapper.queryCompany(entId);
 //                        ceb711Message.setBaseTransfer(baseTransfer);
 //
 //                        //开始生成报文
-//                        this.entryProcess(ceb711Message, nameCopNo, guid);
+//                        this.entryProcess(ceb711Message, nameBillNo, xmlHeadGuid);
 //
 //                    } catch (Exception e) {
-//                        String exceptionMsg = String.format("处理订单[entId: %s]时发生异常", impDeliveryHead.getEnt_id());
+//                        String exceptionMsg = String.format("处理入库明细单[entId: %s]时发生异常", impDeliveryHead.getEnt_id());
 //                        this.logger.error(exceptionMsg, e);
 //                    }
 //
@@ -110,16 +121,16 @@
 //        }
 //    }
 //
-//    private void entryProcess(CEB711Message ceb711Message, String nameCopNo, String guid) throws TransformerException, IOException {
+//    private void entryProcess(CEB711Message ceb711Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
 //        try {
-//            // 生成报单申报报文
+//            // 生成申报报文
 //            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-//            String fileName = "CEB711_" + nameCopNo + "_" + sdf.format(new Date()) + ".xml";
-//            byte[] xmlByte = this.baseDeliveryDeclareXML.createXML(ceb711Message, "DetailDeclare", guid);//flag
+//            String fileName = "CEB711_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
+//            byte[] xmlByte = this.baseDeliveryXML.createXML(ceb711Message, "DeliveryDeclare", xmlHeadGuid);//flag
 //            saveXmlFile(fileName, xmlByte);
 //            this.logger.debug(String.format("完成生成入库明细单711申报报文[fileName: %s]", fileName));
 //        } catch (Exception e) {
-//            String exceptionMsg = String.format("处理入库明细单[headGuid: %s]时发生异常", guid);
+//            String exceptionMsg = String.format("处理入库明细单报文[headGuid: %s]时发生异常", xmlHeadGuid);
 //            this.logger.error(exceptionMsg, e);
 //        }
 //    }
@@ -139,6 +150,6 @@
 //        File sendFile = new File(sendFilePath);
 //        FileUtils.save(sendFile, xmlByte);
 //        this.logger.info("入库明细单发送完毕" + fileName);
-//        this.logger.debug(String.format("入库明细单711申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+//        this.logger.debug(String.format("入库明细单711申报报文发送文件[backFilePath: %s]生成完毕", sendFilePath));
 //    }
 //}

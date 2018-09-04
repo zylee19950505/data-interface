@@ -219,6 +219,12 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }
+                if (!StringUtils.isEmpty(impInventoryHead.getPre_no())) {
+                    SET("t.PRE_NO = #{impInventoryHead.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getInvt_no())) {
+                    SET("t.INVT_NO = #{impInventoryHead.invt_no}");
+                }
                 if (!StringUtils.isEmpty(impInventoryHead.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impInventoryHead.return_status}");
                 }
