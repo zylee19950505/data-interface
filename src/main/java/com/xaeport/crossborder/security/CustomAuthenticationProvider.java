@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -28,9 +29,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-//        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();  // 如上面的介绍，这里通过authentication.getDetails()获取详细信息
-//        String fillCode = details.getFillCode();
-//        String authCode = details.getAuthCode();
+        CustomWebAuthenticationDetails details = (CustomWebAuthenticationDetails) authentication.getDetails();  // 如上面的介绍，这里通过authentication.getDetails()获取详细信息
+        String fillCode = details.getFillCode();
+        String authCode = details.getAuthCode();
 
         UserDetails userDetails = customUserService.loadUserByUsername(username);
 
@@ -45,13 +46,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
-//        if (StringUtils.isEmpty(fillCode) || StringUtils.isEmpty(authCode)) throw new AuthCodeException("验证码错误");
-//        if (fillCode.equalsIgnoreCase(authCode)) {
-//            return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
-//        } else {
-//            throw new AuthCodeException("验证码错误");
-//        }
-        return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
+        if (StringUtils.isEmpty(fillCode) || StringUtils.isEmpty(authCode)) throw new AuthCodeException("验证码错误");
+        if (fillCode.equalsIgnoreCase(authCode)) {
+            return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
+        } else {
+            throw new AuthCodeException("验证码错误");
+        }
     }
 
     @Override
