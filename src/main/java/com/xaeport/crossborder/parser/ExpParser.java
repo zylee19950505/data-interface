@@ -42,10 +42,9 @@ public class ExpParser {
             type = "CEB514";
         }else if(sample.contains("<CEB622Message")){//清单回执
             type = "CEB622";
+        }else if(sample.contains("<CEB712Message")){//入库明细单回执
+            type = "CEB712";
         }
-//        else if(sample.contains("<CEB712Message")){//入库明细单回执
-//            type = "CEB712";
-//        }
         return type;
     }
 
@@ -71,9 +70,9 @@ public class ExpParser {
             case "CEB622"://清单回执报文
                 map = this.parserHolder.getParser("ceb622").expParser(expPath, "InventoryReturn");
                 break;
-//            case "CEB712"://入库明细单回执
-//                map = this.parserHolder.getParser("ceb712").expParser(expPath, "DeliveryReturn");
-//                break;
+            case "CEB712"://入库明细单回执
+                map = this.parserHolder.getParser("ceb712").expParser(expPath, "DeliveryReturn");
+                break;
         }
         mapData.put("Receipt", map);
         return mapData;

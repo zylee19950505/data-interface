@@ -105,4 +105,21 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    public static Map<String, List<ImpDeliveryHead>> getBillNoDeliveryMap(List<ImpDeliveryHead> impDeliveryHeadList) {
+        Map<String, List<ImpDeliveryHead>> entIdDataListMap = new HashMap<String, List<ImpDeliveryHead>>();
+        String billNo = null;
+        for (ImpDeliveryHead impDeliveryHead : impDeliveryHeadList) {
+            billNo = impDeliveryHead.getBill_no();
+            if (entIdDataListMap.containsKey(billNo)) {
+                List<ImpDeliveryHead> impLogisticsStatusList = entIdDataListMap.get(billNo);
+                impLogisticsStatusList.add(impDeliveryHead);
+            } else {
+                List<ImpDeliveryHead> impDeliveryHeadLists = new ArrayList<ImpDeliveryHead>();
+                impDeliveryHeadLists.add(impDeliveryHead);
+                entIdDataListMap.put(billNo, impDeliveryHeadLists);
+            }
+        }
+        return entIdDataListMap;
+    }
+
 }

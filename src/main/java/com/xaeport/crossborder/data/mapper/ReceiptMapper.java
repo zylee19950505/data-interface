@@ -45,6 +45,7 @@ public interface ReceiptMapper {
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpLogisticsDataStatus")
     void updateImpLogisticsDataStatus(@Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus, @Param("ydztsbcg") String ydztsbcg);
 
+
     //清单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecInventory")
     boolean createImpRecInventory(@Param("impRecInventory") ImpRecInventory impRecInventory) throws Exception;
@@ -56,5 +57,18 @@ public interface ReceiptMapper {
     //清单数据查询
     @SelectProvider(type = ReceiptSQLProvider.class, method = "findByCopNo")
     ImpInventoryHead findByCopNo(String copNo) throws Exception;
+
+
+    //入库明细单回执插入
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecDelivery")
+    boolean createImpRecDelivery(@Param("impRecDelivery") ImpRecDelivery impRecDelivery) throws Exception;
+
+    //入库明细单更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateImpDelivery")
+    boolean updateImpDelivery(@Param("impDeliveryHead") ImpDeliveryHead impDeliveryHead) throws Exception;
+
+    //入库明细单数据查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "findDeliveryByCopNo")
+    ImpDeliveryHead findDeliveryByCopNo(String copNo) throws Exception;
 
 }

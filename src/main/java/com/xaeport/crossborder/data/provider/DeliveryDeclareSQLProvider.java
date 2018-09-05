@@ -13,7 +13,6 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
     public String queryDeliveryDeclareList(Map<String, String> paramMap) throws Exception {
 
         final String billNo = paramMap.get("billNo");
-        final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
@@ -22,14 +21,15 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
 
         return new SQL() {
             {
-                SELECT(
-                        " * " +
-                                "from ( select rownum rn, f.* from ( " +
-                                " SELECT * ");
+                SELECT("BILL_NO");
+                SELECT("APP_TIME");
+                SELECT("count(LOGISTICS_NO) as asscount");
+                SELECT("LOGISTICS_CODE");
+                SELECT("LOGISTICS_NAME");
+                SELECT("DATA_STATUS");
+                SELECT("RETURN_STATUS");
+                SELECT("RETURN_INFO");
                 FROM("T_IMP_DELIVERY_HEAD t");
-//                if (!roleId.equals("admin")) {
-//                    WHERE("t.ent_id = #{entId}");
-//                }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
                 }
@@ -37,16 +37,13 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                     WHERE("t.BILL_NO = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!"-1".equals(end)) {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
-                } else {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn >= #{start}");
-                }
+                GROUP_BY("BILL_NO,APP_TIME,LOGISTICS_CODE,LOGISTICS_NAME,DATA_STATUS,RETURN_STATUS,RETURN_INFO");
+                ORDER_BY("t.APP_TIME desc");
             }
         }.toString();
     }
@@ -159,7 +156,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_DELIVERY_HEAD t");
-                WHERE(splitJointIn("t.LOGISTICS_NO", submitKeys));
+                WHERE(splitJointIn("t.BILL_NO", submitKeys));
                 WHERE(splitJointIn("t.DATA_STATUS", dataStatusWhere));
                 SET("t.data_status = #{dataStatus}");
                 SET("t.upd_tm = sysdate");
@@ -174,7 +171,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_DELIVERY_HEAD t");
-                WHERE(splitJointIn("t.LOGISTICS_NO", submitKeys));
+                WHERE(splitJointIn("t.BILL_NO", submitKeys));
                 SET("t.OPERATOR_CODE = #{enterprise.customs_code}");
                 SET("t.OPERATOR_NAME = #{enterprise.ent_name}");
                 SET("t.ENT_ID = #{enterprise.id}");

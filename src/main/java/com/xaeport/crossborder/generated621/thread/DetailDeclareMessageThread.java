@@ -216,6 +216,6 @@ public class DetailDeclareMessageThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("清单发送完毕" + fileName);
-        this.logger.debug(String.format("清单621申报报文发送文件[backFilePath: %s]生成完毕", sendFilePath));
+        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
     }
 }

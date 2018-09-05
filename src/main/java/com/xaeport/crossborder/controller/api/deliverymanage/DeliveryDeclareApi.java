@@ -33,8 +33,6 @@ public class DeliveryDeclareApi extends BaseApi {
     @Autowired
     DeliveryDeclareService deliveryDeclService;
 
-
-
     /*
      *  入库明细申报查询
      */
@@ -49,14 +47,6 @@ public class DeliveryDeclareApi extends BaseApi {
         this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
-        //查询参数
-        String startStr = request.getParameter("start");
-        String length = request.getParameter("length");
-        String extra_search = request.getParameter("extra_search");
-        String draw = request.getParameter("draw");
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
-
         paramMap.put("billNo", billNo);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
@@ -65,37 +55,21 @@ public class DeliveryDeclareApi extends BaseApi {
         }else {
             paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s", StatusCode.RKMXDDSB, StatusCode.RKMXDSBZ,StatusCode.RKMXDYSB, StatusCode.RKMXDSBCG,StatusCode.EXPORT,StatusCode.RKMXDCB));
         }
-
-        //分页参数
-        paramMap.put("start", start);
-        paramMap.put("length", length);
-        paramMap.put("end", end);
-        paramMap.put("extra_search", extra_search);
-
         paramMap.put("entId",this.getCurrentUserEntId());
         paramMap.put("roleId",this.getCurrentUserRoleId());
 
         //更新人
-        DataList<ImpDelivery> dataList = null;
         List<ImpDelivery> resultList = null;
         try {
             //查询列表
             resultList = this.deliveryDeclService.queryDeliveryDeclareList(paramMap);
-            //查询总数
-            Integer count = this.deliveryDeclService.queryDeliveryDeclareCount(paramMap);
-            dataList = new DataList<>();
-            dataList.setDraw(draw);
-            dataList.setData(resultList);
-            dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);
         } catch (Exception e) {
             this.logger.error("查询入库明细单申报数据失败", e);
             return new ResponseData("获取入库明细单申报数据错误", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(dataList);
+        return new ResponseData(resultList);
 
     }
-
 
     /**
      * 订单单申报-提交海关
@@ -125,7 +99,6 @@ public class DeliveryDeclareApi extends BaseApi {
         paramMap.put("ieFlag", ieFlag);
 
         // 调用订单申报Service 获取提交海关结果
-
         this.deliveryDeclService.setDeliveryData(this.getCurrentUserEntId(),submitKeys);
         boolean flag = this.deliveryDeclService.updateSubmitCustom(paramMap);
         if (flag) {

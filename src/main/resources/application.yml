@@ -9,6 +9,7 @@ logging:
     com.xaeport.crossborder.generated511.thread: info
     com.xaeport.crossborder.generated513.thread: info
     com.xaeport.crossborder.generated621.thread: info
+    com.xaeport.crossborder.generated711.thread: info
     com.xaeport.crossborder.generatedDelivery.thread: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
@@ -46,6 +47,7 @@ appConfig:
   receiverId: "DXPEDC0000000001"
   xmlPath:
     sendPath: "kj/send"
+    sendDeliveryPath: "kj/DeliveryBak"
     sendOrderPath: "kj/OrderBak"
     sendInventoryPath: "kj/InventoryBak"
     sendBakPath: "kj/sendBak"

@@ -47,7 +47,7 @@ public class DeliveryDeclareService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("置为入库明细单[orderNo: %s]申报中时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("置为入库明细单[submitKeys: %s]申报中时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;

@@ -33,6 +33,7 @@ public class ImpDelivery {
     private String ent_id;
     private String ent_name;
     private String ent_customs_code;
+    private String asscount;
 
     private String head_guid;
     private String g_num;
@@ -181,6 +182,14 @@ public class ImpDelivery {
 
     public String getUnload_location() {
         return unload_location;
+    }
+
+    public String getAsscount() {
+        return asscount;
+    }
+
+    public void setAsscount(String asscount) {
+        this.asscount = asscount;
     }
 
     public void setUnload_location(String unload_location) {

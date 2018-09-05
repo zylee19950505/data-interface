@@ -21,47 +21,20 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
 
         // 数据表
         sw.datatable("#query-deliveryDeclare-table", {
-            ordering: false,
-            bSort: false, //排序功能
-            serverSide: true,////服务器端获取数据
-            pagingType: 'simple_numbers',
-            ajax: function (data, callback, setting) {
-                $.ajax({
-                    type: 'GET',
-                    url: sw.resolve(url),
-                    data: data,
-                    cache: false,
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("tbody").html('<tr class="odd"><td valign="top" colspan="13" class="dataTables_empty">载入中...</td></tr>');
-                    },
-                    success: function (res) {
-                        var returnData = {};
-                        returnData.data = res.data.data;
-                        returnData.recordsFiltered = res.data.recordsFiltered;
-                        returnData.draw = res.data.draw;
-                        returnData.recordsTotal = res.data.recordsTotal;
-                        returnData.start = data.start;
-                        returnData.length = data.length;
-                        callback(returnData);
-                    },
-                    error: function (xhr, status, error) {
-                        sw.showErrorMessage(xhr, status, error);
-                    }
-                });
-            },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            ajax: url,
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 //还需判断下状态
                 {
+
                     label: '<input type="checkbox" name="cb-check-all"/>',
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
                         if (row.data_status == "CBDS7" || row.data_status == "CBDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.logistics_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else {
                             return "";
@@ -79,7 +52,7 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
                 },
                 {data: "logistics_code", label: "物流企业编号"},
                 {data: "logistics_name", label: "物流企业名称"},
-                // {data: "", label: "运单数量"},
+                {data: "asscount", label: "运单数量"},
                 {
                     label: "业务状态", render: function (data, type, row) {
                     var textColor = "";
