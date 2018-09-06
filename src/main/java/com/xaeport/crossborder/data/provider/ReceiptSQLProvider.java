@@ -146,7 +146,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22')");
+                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22','OrderOver')");
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
@@ -235,7 +235,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62')");
+                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','InvenOver')");
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }
