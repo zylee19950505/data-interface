@@ -46,16 +46,21 @@ public class WaybillImportApi extends BaseApi {
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(@RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+                                      @RequestParam(value = "billNo",required = false) String billNo,//提运单号
+                                      @RequestParam(value = "voyageNo",required = false) String voyageNo,//航班航次号
                                       HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
+        if (billNo == null) return new ResponseData("提运单号不能为空");
+        if (voyageNo == null) return new ResponseData("航班航次号不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
 
         String fileName = file.getOriginalFilename();
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
-
+        if (billNo.length()>37) return new ResponseData("提运单号长度超过限制,请重新输入");
+        if (voyageNo.length()>32) return new ResponseData("航班航次号长度超过限制,请重新输入");
         //获取企业信息
         Users user = this.getCurrentUsers();
 
@@ -90,7 +95,7 @@ public class WaybillImportApi extends BaseApi {
                     return new ResponseData("物流运单编号【" + logisticsNoCount + "】不能重复");
                 }
 
-                flag = this.waybillImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
+                flag = this.waybillImportService.createWaybillForm(excelMap, user,billNo,voyageNo);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("userIdCode");

@@ -7,6 +7,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpLogisticsData;
+import com.xaeport.crossborder.data.entity.LogisticsSum;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.waybillmanage.WaybillDeclareService;
@@ -36,15 +37,16 @@ public class WaybillDeclareApi extends BaseApi{
     /*
      * 运单申报查询
      */
-    @RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
+    /*@RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, dataStatus));
+        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes,billNo, dataStatus));
 
         Map<String, String> map = new HashMap<String,String>();
 
@@ -57,7 +59,8 @@ public class WaybillDeclareApi extends BaseApi{
 
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-        map.put("logisticsNo", logisticsNo);
+        //map.put("logisticsNo", logisticsNo);
+        map.put("billNo",billNo);
         map.put("dataStatus", dataStatus);
 
         map.put("start", start);
@@ -86,7 +89,64 @@ public class WaybillDeclareApi extends BaseApi{
              return new ResponseData("获取运单申报数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
+    }*/
+    @RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
+    public ResponseData queryOrderDeclare1(
+            @RequestParam(required = false) String startFlightTimes,
+            @RequestParam(required = false) String endFlightTimes,
+               @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String billNo,
+            @RequestParam(required = false) String dataStatus,//运单回执
+            @RequestParam(required = false) String statusDataStatus,//运单状态回执
+            HttpServletRequest request
+    ) {
+        //this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes,billNo, dataStatus));
+
+        Map<String, String> map = new HashMap<String,String>();
+
+        String startStr = request.getParameter("start");
+        String length = request.getParameter("length");
+        String extra_search = request.getParameter("extra_search");
+        String draw = request.getParameter("draw");
+        String start = String.valueOf((Integer.parseInt(startStr) + 1));
+        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+
+        map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
+        map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
+        //map.put("logisticsNo", logisticsNo);
+        map.put("billNo",billNo);
+        map.put("dataStatus", dataStatus);
+        map.put("statusDataStatus", statusDataStatus);
+
+        map.put("start", start);
+        map.put("length", length);
+        map.put("end", end);
+        map.put("extra_search", extra_search);
+
+        map.put("entId",this.getCurrentUserEntId());
+        map.put("roleId",this.getCurrentUserRoleId());
+        // 固定参数
+       // map.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.YDDSB,StatusCode.YDSBZ,StatusCode.YDYSB, StatusCode.YDCB,StatusCode.EXPORT,StatusCode.YDZTDSB,StatusCode.YDZTYSB,StatusCode.YDZTSBZ,StatusCode.YDZTCB));
+        DataList<LogisticsSum> dataList = null;
+        List<LogisticsSum> logisticsSumList = null;
+        try {
+            //查询数据
+            logisticsSumList = this.waybillService.queryWaybillDeclareDataList(map);
+            //查询数据总数
+           // Integer count = this.waybillService.queryWaybillDeclareCount(map);
+            dataList = new DataList<>();
+            dataList.setDraw(draw);
+            dataList.setData(logisticsSumList);
+            //dataList.setRecordsTotal(count);
+            //dataList.setRecordsFiltered(count);
+        } catch (Exception e) {
+            this.logger.error("查询运单申报数据失败", e);
+            return new ResponseData("获取运单申报数据错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(dataList);
     }
+
+
     /**
      * 运单申报-提交海关
      *
@@ -97,12 +157,12 @@ public class WaybillDeclareApi extends BaseApi{
                                          HttpServletRequest request) {
         this.logger.info("运单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
-            return rtnResponse("false", "请先勾选要提交海关的运单信息！");
+            return rtnResponse("false", "请先勾选要提交海关的提运单信息！");
         }
-        //判断运单已经申报的不再申报
-        String logisticsNo = this.waybillService.queryDateStatus(submitKeys);
-        if (!"true".equals(logisticsNo)){
-            return rtnResponse("false","申报失败,运单编号"+logisticsNo+"不符合运单申报");
+        //判断这个提运单里是否含有可以进行运单申报的运单(CBDS1和CBDS4)
+        String billNo = this.waybillService.queryDateStatus(submitKeys);
+        if (!"true".equals(billNo)){
+            return rtnResponse("false","申报失败,提运单号"+billNo+"里没有符合运单申报的运单");
         }
 
             Users currentUser = this.getCurrentUsers();
@@ -111,7 +171,7 @@ public class WaybillDeclareApi extends BaseApi{
             paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.YDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
             paramMap.put("currentUserId", currentUser.getId());
             /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
-            paramMap.put("submitKeys", submitKeys);//订单遍号
+            paramMap.put("submitKeys", submitKeys);//提运单号
 
             // 调用运单申报Service获取提交海关结果
             boolean flag = waybillService.updateSubmitWaybill(paramMap);
@@ -131,12 +191,12 @@ public class WaybillDeclareApi extends BaseApi{
                                          HttpServletRequest request) {
         this.logger.info("运单状态申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
-            return rtnResponse("false", "请先勾选要提交海关的运单信息！");
+            return rtnResponse("false", "请先勾选要提交海关的提运单信息！");
         }
-        //判断运单状态已经申报的不再申报
-        String logisticsNo = this.waybillService.queryStaDateStatus(submitKeys);
-        if (!"true".equals(logisticsNo)){
-            return rtnResponse("false","运单状态申报失败,运单编号"+logisticsNo+"不符合运单状态申报");
+        //判断这个提运单里是否含有可以进行运单状态申报的运单
+        String billNo = this.waybillService.queryStaDateStatus(submitKeys);
+        if (!"true".equals(billNo)){
+            return rtnResponse("false","运单状态申报失败,提运单"+billNo+"里没有符合运单状态申报的运单");
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
@@ -149,9 +209,9 @@ public class WaybillDeclareApi extends BaseApi{
         // 调用运单申报Service获取提交海关结果
         boolean flag = waybillService.updateSubmitWaybillToStatus(paramMap);
         //改变运单表的状态
-        if (flag) {
-            flag = waybillService.updateSubmitWaybill(paramMap);
-        }
+        //if (flag) {
+            //flag = waybillService.updateSubmitWaybill(paramMap);
+        //}
         if (flag) {
             return rtnResponse("true", "运单状态申报海关提交成功！");
         } else {

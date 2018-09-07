@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.ImpLogistics;
-import com.xaeport.crossborder.data.entity.ImpLogisticsData;
-import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.WaybillDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +14,7 @@ import java.util.Map;
 public interface WaybillDeclareMapper {
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareDataList")
-    List<ImpLogisticsData> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception;
+    List<LogisticsSum> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception;
 
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareCount")
@@ -47,7 +44,7 @@ public interface WaybillDeclareMapper {
      * 生产运单状态报文数据查询
      */
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGeneratedStatus")
-    List<ImpLogisticsStatus> findWaitGeneratedStatus(Map<String, String> paramMap) throws Exception;
+    List<ImpLogistics> findWaitGeneratedStatus(Map<String, String> paramMap) throws Exception;
     /*
      * 修改运单状态申报状态
      */
@@ -59,10 +56,10 @@ public interface WaybillDeclareMapper {
     void updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51)throws Exception;
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryDateStatus")
-    int queryDateStatus(@Param("logisticsNo") String logisticsNo);
+    int queryDateStatus(@Param("billNo") String billNo);
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryStaDateStatus")
-	int queryStaDateStatus(@Param("logisticsNo") String logisticsNo);
+	int queryStaDateStatus(@Param("billNo") String billNo);
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);

@@ -37,11 +37,11 @@ public class OrderImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createOrderForm(Map<String, Object> excelMap, String importTime, Users user) {
+    public int createOrderForm(Map<String, Object> excelMap, String importTime, Users user,String billNo) {
         int flag;
         try {
             String id = user.getId();
-            flag = this.createImpOrderHead(excelMap, importTime, user);
+            flag = this.createImpOrderHead(excelMap, importTime, user,billNo);
         } catch (Exception e) {
             flag = 2;
             this.log.error("导入失败", e);
@@ -53,12 +53,13 @@ public class OrderImportService {
     /*
      * 创建ImpOrderHead信息
      */
-    private int createImpOrderHead(Map<String, Object> excelMap, String importTime, Users user) throws Exception {
+    private int createImpOrderHead(Map<String, Object> excelMap, String importTime, Users user,String billNo) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpOrderHead> impOrderHeadList = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
         for (ImpOrderHead anImpOrderHeadList : impOrderHeadList) {
             ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user, enterprise);
+            impOrderHead.setBill_No(billNo);
             flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
             if (flag > 0) {
                 return 0;

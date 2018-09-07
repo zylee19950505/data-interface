@@ -87,4 +87,11 @@ public class WaybillQueryService {
 		this.entryMapper.insertStatusRecord(statusRecord);*/
         return false;
     }
+
+    /*
+    * 运单状态回执详情
+    * */
+	public ImpLogistics queryReturnDetail(Map<String, String> paramMap) {
+	    return waybillMapper.queryReturnDetail(paramMap);
+	}
 }

@@ -12,6 +12,7 @@ public class WaybillQuerySQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
+        final String billNo = paramMap.get("billNo");
         final String logisticsStatus = paramMap.get("logisticsStatus");
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
@@ -30,11 +31,11 @@ public class WaybillQuerySQLProvider {
                         " t.APP_TIME," +
                         " t.RETURN_STATUS as return_status,"+
                         " t.RETURN_INFO as return_info,"+
-                        " t1.LOGISTICS_STATUS," +
-                        " t1.RETURN_STATUS as returnStatus_status,"+
-                        " t1.RETURN_INFO as returnStatus_info,"+
-                        " t1.LOGISTICS_TIME"  );
-                FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS t1  ON t.LOGISTICS_NO=t1.LOGISTICS_NO");
+                        " t.LOGISTICS_STATUS," +
+                        " t.RETURN_STATUS as returnStatus_status,"+
+                        " t.RETURN_INFO as returnStatus_info,"+
+                        " t.LOGISTICS_TIME"  );
+                FROM("T_IMP_LOGISTICS t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -44,8 +45,11 @@ public class WaybillQuerySQLProvider {
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("t.bill_no = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.data_status = #{logisticsStatus}");
+                    WHERE("t.return_info like '%'||#{logisticsStatus}||'%'");
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -66,6 +70,7 @@ public class WaybillQuerySQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
+        final String billNo =  paramMap.get("billNo");
         final String logisticsStatus = paramMap.get("logisticsStatus");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
@@ -83,8 +88,11 @@ public class WaybillQuerySQLProvider {
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("t.bill_no = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.data_status = #{logisticsStatus}");
+                    WHERE("t.return_info like '%'||#{logisticsStatus}||'%'");
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -171,6 +179,28 @@ public class WaybillQuerySQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("note"))){
                     SET("t.NOTE = #{note}");
                 }
+            }
+        }.toString();
+    }
+
+    public String queryReturnDetail(Map<String, String> paramMap){
+        final String guId = paramMap.get("guId");
+        final String logisticsNo = paramMap.get("logisticsNo");
+
+        return new SQL(){
+            {
+                SELECT("t.RETURN_STATUS");
+                SELECT("t.RETURN_INFO");
+                SELECT("t.REC_RETURN_STATUS");
+                SELECT("t.REC_RETURN_INFO");
+                FROM("T_IMP_LOGISTICS t");
+                if (!StringUtils.isEmpty(guId)){
+                    WHERE("t.GUID = #{guId}");
+                }
+                if (!StringUtils.isEmpty(logisticsNo)){
+                    WHERE("t.logistics_no = #{logisticsNo}");
+                }
+
             }
         }.toString();
     }

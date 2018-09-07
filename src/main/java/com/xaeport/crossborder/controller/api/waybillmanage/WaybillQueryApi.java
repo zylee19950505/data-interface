@@ -37,10 +37,11 @@ public class WaybillQueryApi extends BaseApi{
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String logisticsStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单查询查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, logisticsStatus));
+        this.logger.debug(String.format("运单查询查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo,billNo, logisticsStatus));
         Map<String, String> map = new HashMap<String,String>();
 
         String startStr = request.getParameter("start");
@@ -53,6 +54,7 @@ public class WaybillQueryApi extends BaseApi{
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
         map.put("logisticsNo", logisticsNo);
+        map.put("billNo", billNo);
         map.put("logisticsStatus", logisticsStatus);
 
         map.put("start", start);
@@ -96,7 +98,7 @@ public class WaybillQueryApi extends BaseApi{
         try {
             logistics = waybillService.waybillQueryById(paramMap);
         } catch (Exception e) {
-            this.logger.error("查询支付单信息失败，logistics_no=" + logistics_no, e);
+            this.logger.error("查询运单信息失败，logistics_no=" + logistics_no, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
 
@@ -125,6 +127,27 @@ public class WaybillQueryApi extends BaseApi{
         }
         return new ResponseData(rtnMap);
 
+    }
+    /*
+    * 运单回执详情
+    * */
+    @RequestMapping("/returnDetail")
+    public ResponseData returnDetail(
+            @RequestParam(required = false) String guid,
+            @RequestParam(required = false) String logisticsNo
+    ){
+        Map<String,String> paramMap = new HashMap<String,String>();
+        paramMap.put("guId",guid);
+        paramMap.put("logisticsNo",logisticsNo);
+        ImpLogistics impLogistics;
+        try {
+            impLogistics = waybillService.queryReturnDetail(paramMap);
+        } catch (Exception e) {
+            this.logger.error("查询回执详情信息失败，logistics_no=" + logisticsNo, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseData(impLogistics);
     }
 
 }

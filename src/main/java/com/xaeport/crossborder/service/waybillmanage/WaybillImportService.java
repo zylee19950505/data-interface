@@ -37,11 +37,11 @@ public class WaybillImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createWaybillForm(Map<String, Object> excelMap, Users user) {
+    public int createWaybillForm(Map<String, Object> excelMap, Users user,String billNo,String voyageNo) {
         int flag;
         try {
             String id = user.getId();
-            flag = this.createImpLogistics(excelMap, user);
+            flag = this.createImpLogistics(excelMap, user,billNo,voyageNo);
         } catch (Exception e) {
             flag = 2;
             this.log.error("导入失败", e);
@@ -53,12 +53,14 @@ public class WaybillImportService {
     /*
      * 创建ImpOrderHead信息
      */
-    private int createImpLogistics(Map<String, Object> excelMap, Users user) throws Exception {
+    private int createImpLogistics(Map<String, Object> excelMap, Users user,String billNo,String voyageNo) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpLogistics> impLogisticsList = (List<ImpLogistics>) excelMap.get("ImpLogistics");
         for (ImpLogistics anImpLogisticsList : impLogisticsList) {
             ImpLogistics impLogistics = this.impLogisticsData(anImpLogisticsList, user, enterprise);
+            impLogistics.setBill_no(billNo);
+            impLogistics.setVoyage_no(voyageNo);
             flag = this.waybillImportMapper.isRepeatLogisticsNo(impLogistics);
             if (flag > 0) {
                 return 1;

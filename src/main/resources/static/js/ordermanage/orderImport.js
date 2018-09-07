@@ -19,13 +19,25 @@ sw.page.modules["ordermanage/orderImport"] = sw.page.modules["ordermanage/orderI
     //导入运单
     orderImport: function () {
 
-        var importTime = $("[name='importTime']").val();
+        /*var importTime = $("[name='importTime']").val();*/
         var file = $("#file").val();
+        var billNo = $("#billNo").val();
 
-        if (isEmpty(importTime)) {
+        /*if (isEmpty(importTime)) {
             sw.alert("请选择进口时间", "提示", "", "modal-info");
             return false;
+        }*/
+        if (isEmpty(billNo.replace(/(^\s+)|(\s+$)/g, ""))) {
+            sw.alert("提运单号不能为空", "提示", "", "modal-info");
+            return false;
         }
+
+        var pattern = new RegExp("^[0-9A-Za-z]+[0-9A-Za-z]*$");
+        if (!pattern.test(billNo)) {
+            sw.alert("提运单号只允许输入数字、英文字母", "提示", "", "modal-info");
+            return false;
+        }
+
         if (isEmpty(file)) {
             sw.alert("请选择要导入的文件", "提示", "", "modal-info");
             return false;

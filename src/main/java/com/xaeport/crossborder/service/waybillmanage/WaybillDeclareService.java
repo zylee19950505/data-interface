@@ -4,6 +4,7 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsData;
+import com.xaeport.crossborder.data.entity.LogisticsSum;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class WaybillDeclareService {
     /*
      * 查询运单申报数据
      */
-    public List<ImpLogisticsData> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception {
+    public List<LogisticsSum> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception {
         return this.waybillMapper.queryWaybillDeclareDataList(paramMap);
     }
 
@@ -50,7 +51,7 @@ public class WaybillDeclareService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("处理运单[logisticsNo: %s]时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("处理运单[bill_no: %s]时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;
@@ -68,7 +69,7 @@ public class WaybillDeclareService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("处理运单状态申报[logisticsNo: %s]时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("处理运单状态申报[bill_no: %s]时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;
@@ -79,12 +80,12 @@ public class WaybillDeclareService {
     * */
     public String queryDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
-        String logisticsNo = "true";
+        String billNo = "true";
         for (int i = 0;i<split.length;i++){
-            logisticsNo = split[i];
-           int countDataStatus =this.waybillMapper.queryDateStatus(logisticsNo);
-           if (countDataStatus>0){
-               return logisticsNo;
+            billNo = split[i];
+           int countDataStatus =this.waybillMapper.queryDateStatus(billNo);
+           if (countDataStatus==0){
+               return billNo;
            }
         }
         return "true";
@@ -92,12 +93,12 @@ public class WaybillDeclareService {
 
     public String queryStaDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
-        String logisticsNo = "true";
+        String billNo = "true";
         for (int i = 0;i<split.length;i++){
-            logisticsNo = split[i];
-            int countDataStatus =this.waybillMapper.queryStaDateStatus(logisticsNo);
-            if (countDataStatus>0){
-                return logisticsNo;
+            billNo = split[i];
+            int countDataStatus =this.waybillMapper.queryStaDateStatus(billNo);
+            if (countDataStatus==0){
+                return billNo;
             }
         }
         return "true";

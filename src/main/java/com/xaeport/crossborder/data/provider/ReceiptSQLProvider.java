@@ -377,9 +377,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())) {
                     SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
                 }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
-                    SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
-                }
+               // if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
+               //     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
+               // }
             }
         }.toString();
     }
@@ -397,6 +397,21 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 WHERE("t.LOGISTICS_NO = #{impRecLogisticsStatus.logistics_No}");
                 SET("t.DATA_STATUS = #{ydztsbcg}");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Status())) {
+                    SET("t.LOGISTICS_STATUS = #{impRecLogisticsStatus.logistics_Status}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getLogistics_Code())) {
+                    SET("t.LOGISTICS_CODE = #{impRecLogisticsStatus.logistics_Code}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Status())) {
+                    SET("t.REC_RETURN_STATUS = #{impRecLogisticsStatus.return_Status}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Info())) {
+                    SET("t.REC_RETURN_INFO = #{impRecLogisticsStatus.return_Info}");
+                }
+                if (!StringUtils.isEmpty(impRecLogisticsStatus.getReturn_Time())) {
+                    SET("t.REC_RETURN_TIME = #{impRecLogisticsStatus.return_Time}");
+                }
             }
         }.toString();
     }

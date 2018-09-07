@@ -11,6 +11,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
         var startFlightTimes = $("[name='startFlightTimes']").val();//开始时间
         var endFlightTimes = $("[name='endFlightTimes']").val();//结束时间
         var orderNo = $("[name='orderNo']").val();//订单编号
+        var billNo =  $("[name = 'billNo']").val();//提运单号
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/orderManage/queryOrderDeclare", {
@@ -19,7 +20,8 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
             idCardValidate: idCardValidate,//身份验证通过
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            orderNo: orderNo//订单编号
+            orderNo: orderNo,//订单编号
+            billNo:billNo
         });
 
         // 数据表

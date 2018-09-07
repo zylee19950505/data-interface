@@ -45,12 +45,13 @@ public class OrderDeclareApi extends BaseApi {
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String orderNo,
+            @RequestParam(required = false) String billNo,
             //分页参数
             @RequestParam(required = false) String start,
             @RequestParam(required = false) String length,
             @RequestParam(required = false) String draw
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,start:%s,length:%s]", idCardValidate, startFlightTimes, endFlightTimes, orderNo, start, length));
+        this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,billNo:%s,start:%s,length:%s]", idCardValidate, startFlightTimes, endFlightTimes, orderNo, billNo,start, length));
         Map<String, Object> paramMap = new HashMap<String, Object>();
         DataList<OrderHeadAndList> dataList = new DataList<>();
         //查询参数
@@ -58,6 +59,7 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("orderNo", orderNo);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
+        paramMap.put("billNo",billNo);
         //分页参数
         paramMap.put("start", Integer.parseInt(start)+1);
         paramMap.put("length", length);

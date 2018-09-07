@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.LogisticsHead;
 import com.xaeport.crossborder.data.provider.WaybillQuerySQLProvider;
@@ -25,4 +26,7 @@ public interface WaybillQueryMapper {
 
     @UpdateProvider(type =  WaybillQuerySQLProvider.class,method ="updateBillHead")
 	void updateBillHead(LinkedHashMap<String, String> entryHead);
+
+    @SelectProvider(type = WaybillQuerySQLProvider.class,method = "queryReturnDetail")
+	ImpLogistics queryReturnDetail(Map<String, String> paramMap);
 }

@@ -9,6 +9,7 @@ public class ImpOrderHead {
     private String app_Status;//业务状态:1-暂存,2-申报,默认为2。
     private String order_Type;//电子订单类型：I进口
     private String order_No;//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
+    private String bill_No;//提运单号
     private String ebp_Code;//电商平台的海关注册登记编号；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台标识编号为准。
     private String ebp_Name;//电商平台的海关注册登记名称；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台名称为准。
     private String ebc_Code;//电商企业的海关注册登记编号。
@@ -43,6 +44,14 @@ public class ImpOrderHead {
     private String ent_id;//导入企业ID码
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
+
+    public String getBill_No() {
+        return bill_No;
+    }
+
+    public void setBill_No(String bill_No) {
+        this.bill_No = bill_No;
+    }
 
     public String getReturn_info() {
         return return_info;

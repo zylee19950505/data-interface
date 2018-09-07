@@ -14,6 +14,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
 	 */
     public String queryOrderDeclareList(Map<String, Object> paramMap) throws Exception {
         final String orderNo = paramMap.get("orderNo").toString();
+        final String billNo = paramMap.get("billNo").toString();
         final String startFlightTimes = paramMap.get("startFlightTimes").toString();
         final String endFlightTimes = paramMap.get("endFlightTimes").toString();
         final String start = paramMap.get("start").toString();
@@ -36,6 +37,9 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("th.order_no = #{orderNo}");
                 }
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("th.bill_no = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE(" th.crt_tm >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
@@ -57,6 +61,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
     public String queryOrderDeclareCount(Map<String, Object> paramMap) throws Exception {
 
         final String orderNo = paramMap.get("orderNo").toString();
+        final String billNo = paramMap.get("billNo").toString();
         final String startFlightTimes = paramMap.get("startFlightTimes").toString();
         final String endFlightTimes = paramMap.get("endFlightTimes").toString();
         final String entId = paramMap.get("entId").toString();
@@ -77,6 +82,9 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("th.order_no = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("th.bill_no = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE(" th.crt_tm >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");

@@ -23,14 +23,16 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
-        var logisticsStatus = $("[name='logisticsStatus']").val();
+        var logisticsStatus = $("[name='logisticsStatus']").val();//业务状态
+        var billNo = $("[name='billNo']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/waybillManage/queryWaybillQuery", {
             startFlightTimes: startFlightTimes,
             endFlightTimes: endFlightTimes,
             logisticsNo: logisticsNo,
-            logisticsStatus: logisticsStatus
+            logisticsStatus: logisticsStatus,
+            billNo:billNo
         });
 
         sw.datatable("#query-waybillQuery-table", {
@@ -73,12 +75,12 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     var result = '<a style="cursor:pointer" title="查看" ' +
                         'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').queryWaybillbyid('" + row.guid + "','" + row.logistics_no + "')" + '">' + row.logistics_no + '</a>';
                     return result;
-                }
+                    }
                 },
-                {data: "logistics_name", label: "物流企业名称"},
+               // {data: "logistics_name", label: "物流企业名称"},
                 {data: "consingee", label: "收货人姓名"},
-                {data: "consignee_telephone", label: "收货人电话"},
-                {data: "consignee_address", label: "收货地址"},
+                //{data: "consignee_telephone", label: "收货人电话"},
+                //{data: "consignee_address", label: "收货地址"},
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (!isEmpty(row.app_time)) {
@@ -87,7 +89,15 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     return "";
                 }
                 },
-                {data: "logistics_status", label: "物流签收状态"},
+                //{data: "logistics_status", label: "物流签收状态"},
+                {
+                    label:"物流签收状态",render:function (data, type, row) {
+                    if (!"S"==row.logistics_status){
+                        return ""
+                    }
+                    return "已运抵"
+                }
+                },
                 {
                     label: "物流状态时间", render: function (data, type, row) {
                     if (!isEmpty(row.logistics_time)) {
@@ -109,13 +119,11 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                             textColor = "";
                             value = "未知";
                     }
-                    return "<span class='" + textColor + "'>" + value + "</span>";
+                    var result = '<a style="cursor:pointer" title="运单回执详情信息" class="+textColor+" ' +
+                        'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').returnDetails('" + row.guid + "','" + row.logistics_no + "')" + '">' + value + '</a>';
+                    return result;
                 }
-                },
-                {data: "return_status", label: "运单回执"},
-                {data: "return_info", label: "运单回执备注"},
-                {data: "returnStatus_status", label: "运单状态回执"},
-                {data: "returnStatus_info", label: "运单状态回执备注"}
+                }
             ]
         });
 
@@ -129,6 +137,10 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
     queryWaybillbyid: function (guid, logistics_no) {
         var url = "waybillmanage/seeWaybillDetail?type=ZFDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
         sw.modelPopup(url, "运单详情信息", false, 900, 400);
+    },
+    returnDetails:function(guid, logistics_no){
+        var url = "waybillmanage/returnDetail?guid=" + guid + "&logistics_no=" + logistics_no;
+        sw.modelPopup(url, "回执备注详情", false, 600, 200);
     },
     billDownLoad: function () {
         sw.ajax("api/bill", "GET", {

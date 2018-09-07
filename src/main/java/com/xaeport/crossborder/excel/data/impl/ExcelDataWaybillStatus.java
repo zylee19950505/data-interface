@@ -1,6 +1,6 @@
 package com.xaeport.crossborder.excel.data.impl;
 
-import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
+import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.excel.data.ExcelData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadWaybillStatus;
 import org.apache.juli.logging.Log;
@@ -26,7 +26,7 @@ public class ExcelDataWaybillStatus implements ExcelData {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
         this.getIndexValue(excelData.get(0));//初始化表头索引
-        List<ImpLogisticsStatus> impLogisticsStatusList = this.getImpLogisticsStatusData(excelData);
+        List<ImpLogistics> impLogisticsStatusList = this.getImpLogisticsStatusData(excelData);
         map.put("ImpLogisticsStatus", impLogisticsStatusList);
         this.log.debug("封装数据耗时" + (System.currentTimeMillis() - start));
         return map;
@@ -35,28 +35,28 @@ public class ExcelDataWaybillStatus implements ExcelData {
     /**
      * 封装ImpLogistics方法
      */
-    public List<ImpLogisticsStatus> getImpLogisticsStatusData(List<List<String>> excelData) {
-        List<ImpLogisticsStatus> listData = new ArrayList<>();
-        ImpLogisticsStatus impLogisticsStatus;
+    public List<ImpLogistics> getImpLogisticsStatusData(List<List<String>> excelData) {
+        List<ImpLogistics> listData = new ArrayList<>();
+        ImpLogistics impLogistics;
         for (int i = 1; i < excelData.size(); i++) {
-            impLogisticsStatus = new ImpLogisticsStatus();
-            impLogisticsStatus.setLogistics_no(excelData.get(i).get(logisticsNoIndex));//物流运单编号
-            impLogisticsStatus.setLogistics_code(excelData.get(i).get(logisticsCodeIndex));//物流企业代码
-            impLogisticsStatus.setLogistics_name(excelData.get(i).get(logisticsNameIndex));//物流企业名称
+            impLogistics = new ImpLogistics();
+            impLogistics.setLogistics_no(excelData.get(i).get(logisticsNoIndex));//物流运单编号
+            impLogistics.setLogistics_code(excelData.get(i).get(logisticsCodeIndex));//物流企业代码
+            impLogistics.setLogistics_name(excelData.get(i).get(logisticsNameIndex));//物流企业名称
             //impLogisticsStatus.setLogistics_status(excelData.get(i).get(logisticsStatusIndex));//物流运单状态
-            impLogisticsStatus.setNote(excelData.get(i).get(noteIndex));//备注
+            impLogistics.setNote(excelData.get(i).get(noteIndex));//备注
 
             //对时间进行格式化。
             String logisticsTime = excelData.get(i).get(logisticsTimeIndex);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             try {
                 Date LogisticsTime = sdf.parse(logisticsTime);
-                impLogisticsStatus.setLogistics_time(LogisticsTime);//物流状态时间
+                impLogistics.setLogistics_time(LogisticsTime);//物流状态时间
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            listData.add(impLogisticsStatus);
+            listData.add(impLogistics);
         }
         return listData;
     }

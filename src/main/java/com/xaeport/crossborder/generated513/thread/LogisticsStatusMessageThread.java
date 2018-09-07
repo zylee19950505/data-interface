@@ -47,11 +47,11 @@ public class LogisticsStatusMessageThread implements Runnable {
 
         CEB513Message ceb513Message = new CEB513Message();
 
-        List<ImpLogisticsStatus> impLogisticsStatusLists;
-        List<ImpLogisticsStatus> logisticsStatusLists;;
+        List<ImpLogistics> impLogisticsStatusLists;
+        List<ImpLogistics> logisticsStatusLists;;
         List<LogisticsStatusHead> logisticsStatusHeadsLists;
         LogisticsStatusHead logisticsStatusHead;
-        ImpLogisticsStatus lmpLogisticsStatus;
+        ImpLogistics lmpLogisticsStatus;
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
         String nameLogisticsNo = null;
@@ -73,7 +73,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                     continue;
                 }
 
-                Map<String, List<ImpLogisticsStatus>> logisticsStatusXmlMap = BusinessUtils.getEntIdStatusDataMap(impLogisticsStatusLists);
+                Map<String, List<ImpLogistics>> logisticsStatusXmlMap = BusinessUtils.getEntIdStatusDataMap(impLogisticsStatusLists);
 
                 for (String entId : logisticsStatusXmlMap.keySet()) {
                     try {
@@ -104,7 +104,7 @@ public class LogisticsStatusMessageThread implements Runnable {
 
                             try {
                                 // 更新运单状态
-                                this.waybillDeclareMapper.updateToLogisticsStatus(guid, StatusCode.YDZTYSB);
+                               // this.waybillDeclareMapper.updateToLogisticsStatus(guid, StatusCode.YDZTYSB);
                                 //更改运单表
                                 this.waybillDeclareMapper.updateToLogistics(lmpLogisticsStatus.getLogistics_no(), StatusCode.YDZTYSB);
                                 this.logger.debug(String.format("更新运单状态的状态为已申报[guid: %s]状态为: %s", guid, StatusCode.YDZTYSB));
@@ -130,48 +130,6 @@ public class LogisticsStatusMessageThread implements Runnable {
                         this.logger.error(exceptionMsg, e);
                     }
                 }
-
-//                for (int i = 0; i < impLogisticsStatusLists.size(); i++) {
-//                    lmpLogisticsStatus = impLogisticsStatusLists.get(i);
-//                    xmlHeadGuid = impLogisticsStatusLists.get(0).getGuid();
-//                    //用于生成文件名
-//                    nameLogisticsNo = impLogisticsStatusLists.get(0).getLogistics_no();
-//                    guid = lmpLogisticsStatus.getGuid();
-//                    crtId = lmpLogisticsStatus.getCrt_id();
-//                    logisticsStatusHead = new LogisticsStatusHead();
-//
-//                    logisticsStatusHead.setGuid(guid);//企业系统生成36 位唯一序号（英文字母大写）
-//                    logisticsStatusHead.setAppType(lmpLogisticsStatus.getApp_type());//企业报送类型。1-新增2-变更3-删除。默认为1。
-//                    logisticsStatusHead.setAppTime(sdf.format(lmpLogisticsStatus.getApp_time()));//企业报送时间。格式:YYYYMMDDhhmmss。
-//                    logisticsStatusHead.setAppStatus(lmpLogisticsStatus.getApp_status());//业务状态:1-暂存,2-申报,默认为2。
-//                    logisticsStatusHead.setLogisticsCode(lmpLogisticsStatus.getLogistics_code());//物流企业的海关注册登记编号。
-//                    logisticsStatusHead.setLogisticsName(lmpLogisticsStatus.getLogistics_name());//物流企业在海关注册登记的名称。
-//                    logisticsStatusHead.setLogisticsNo(lmpLogisticsStatus.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
-//                    logisticsStatusHead.setLogisticsStatus(StringUtils.isEmpty(lmpLogisticsStatus.getLogistics_status()) ? "S" : lmpLogisticsStatus.getLogistics_status());//物流签收状态，限定S
-//                    logisticsStatusHead.setLogisticsTime(sdf.format(lmpLogisticsStatus.getLogistics_time()));//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
-//                    logisticsStatusHead.setNote(lmpLogisticsStatus.getNote());//备注
-//                    try {
-//                        // 更新运单状态
-//                        this.waybillDeclareMapper.updateToLogisticsStatus(guid, StatusCode.YDZTYSB);
-//                        //更改运单表
-//                        this.waybillDeclareMapper.updateToLogistics(lmpLogisticsStatus.getLogistics_no(), StatusCode.YDZTYSB);
-//                        this.logger.debug(String.format("更新运单状态的状态为已申报[guid: %s]状态为: %s", guid, StatusCode.YDZTYSB));
-//                    } catch (Exception e) {
-//                        String exceptionMsg = String.format("更改运单状态513，[headGuid: %s]状态时发生异常", logisticsStatusHead.getGuid());
-//                        this.logger.error(exceptionMsg, e);
-//                    }
-//                    logisticsStatusHeadsLists.add(logisticsStatusHead);
-//                }
-//
-//                ceb513Message.setLogisticsStatusHeadList(logisticsStatusHeadsLists);
-//                //开始生成报文
-//                BaseTransfer baseTransfer = new BaseTransfer();
-//                if (!StringUtils.isEmpty(crtId)) {
-//                    baseTransfer = waybillDeclareMapper.queryCompany(crtId);
-//                }
-//                //给basetransfer字段值
-//                ceb513Message.setBaseTransfer(baseTransfer);
-//                this.entryProcess(ceb513Message, nameLogisticsNo, xmlHeadGuid);
 
             } catch (Exception e) {
                 try {

@@ -37,6 +37,10 @@ public class WaybillImportSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(impLogistics.getBill_no())) {
                     VALUES("bill_no", "#{impLogistics.bill_no}");
                 }
+                //航班航次号
+                if (!StringUtils.isEmpty(impLogistics.getVoyage_no())){
+                    VALUES("voyage_no","#{impLogistics.voyage_no}");
+                }
                 if (!StringUtils.isEmpty(impLogistics.getFreight())) {
                     VALUES("freight", "#{impLogistics.freight}");
                 }

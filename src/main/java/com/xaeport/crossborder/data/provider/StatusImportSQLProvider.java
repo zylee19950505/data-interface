@@ -1,73 +1,35 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpLogisticsStatus;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class StatusImportSQLProvider {
 
     /*
      * 导入插入impLogisticsStatus表数据
      */
-    public String insertImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus) throws Exception {
+    public String insertImpLogisticsStatus(@Param("impLogisticsStatus")ImpLogistics impLogisticsStatus) throws Exception {
+
         return new SQL() {
             {
-                INSERT_INTO("T_IMP_LOGISTICS_STATUS");
-                if (!StringUtils.isEmpty(impLogisticsStatus.getGuid())) {
-                    VALUES("guid", "#{impLogisticsStatus.guid}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_type())) {
-                    VALUES("app_type", "#{impLogisticsStatus.app_type}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_time())) {
-                    VALUES("app_time", "#{impLogisticsStatus.app_time}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_status())) {
-                    VALUES("app_status", "#{impLogisticsStatus.app_status}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_code())) {
-                    VALUES("logistics_code", "#{impLogisticsStatus.logistics_code}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_name())) {
-                    VALUES("logistics_name", "#{impLogisticsStatus.logistics_name}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())) {
-                    VALUES("logistics_no", "#{impLogisticsStatus.logistics_no}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_status())) {
-                    VALUES("logistics_status", "#{impLogisticsStatus.logistics_status}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_time())) {
-                    VALUES("logistics_time", "#{impLogisticsStatus.logistics_time}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getNote())) {
-                    VALUES("note", "#{impLogisticsStatus.note}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())) {
-                    VALUES("data_status", "#{impLogisticsStatus.data_status}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getCrt_id())) {
-                    VALUES("crt_id", "#{impLogisticsStatus.crt_id}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getCrt_tm())) {
-                    VALUES("crt_tm", "#{impLogisticsStatus.crt_tm}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_id())) {
-                    VALUES("upd_id", "#{impLogisticsStatus.upd_id}");
-                }
-                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
-                    VALUES("upd_tm", "#{impLogisticsStatus.upd_tm}");
-                }
-                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_id())){
-                    VALUES("ent_id","#{impLogisticsStatus.ent_id}");
-                }
-                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_name())){
-                    VALUES("ent_name","#{impLogisticsStatus.ent_name}");
-                }
-                if(!StringUtils.isEmpty(impLogisticsStatus.getEnt_customs_code())){
-                    VALUES("ent_customs_code","#{impLogisticsStatus.ent_customs_code}");
-                }
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+                SET("t.app_status = #{impLogisticsStatus.app_status}");
+                SET("t.app_type = #{impLogisticsStatus.app_type}");
+                SET("t.logistics_status = #{impLogisticsStatus.logistics_status}");
+
+                //SET("t.logistics_time = to_date(to_char(to_Timestamp(#{impLogisticsStatus.logistics_time},'yyyy-MM-dd hh24:mi:ss.ff'),'yyyy-MM-dd hh24:mi:ss'),'yyyy-MM-dd hh24:mi:ss')");
+                SET("t.logistics_time = to_date(to_char(#{impLogisticsStatus.logistics_time},'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss')");
+                SET("t.upd_id = #{impLogisticsStatus.upd_id}");
+                SET("t.upd_tm = sysdate");
+                SET("t.data_status = #{impLogisticsStatus.data_status}");
+
             }
         }.toString();
     }
@@ -76,11 +38,11 @@ public class StatusImportSQLProvider {
     /*
      * 查询有无重复订单号表头信息
      */
-    public String isRepeatLogisticsStatusNo(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus) throws Exception {
+    public String isRepeatLogisticsStatusNo(@Param("impLogisticsStatus") ImpLogistics impLogisticsStatus) throws Exception {
         return new SQL() {
             {
                 SELECT("count(1)");
-                FROM("T_IMP_LOGISTICS_STATUS t");
+                FROM("T_IMP_LOGISTICS t");
                 WHERE("t.logistics_no = #{impLogisticsStatus.logistics_no}");
             }
         }.toString();
@@ -89,7 +51,7 @@ public class StatusImportSQLProvider {
     /*
     * 查询导入的运单装填是否有对应的运单
     * */
-    public String  isEmptyLogisticsNo(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus)throws Exception{
+    public String  isEmptyLogisticsNo(@Param("impLogisticsStatus") ImpLogistics impLogisticsStatus)throws Exception{
         return new SQL(){
             {
                 SELECT("count(1)");
@@ -102,7 +64,7 @@ public class StatusImportSQLProvider {
     /*
     * //判断运单是否申报成功,是否有回执
     * */
-    public String  getLogisticsSuccess(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+    public String  getLogisticsSuccess(@Param("impLogisticsStatus") ImpLogistics impLogisticsStatus){
         return new SQL(){
             {
                 SELECT("count(1)");
@@ -120,7 +82,7 @@ public class StatusImportSQLProvider {
     public String updateLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
         return new SQL(){
             {
-                UPDATE("T_IMP_LOGISTICS_STATUS t");
+                UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
               /*  WHERE("t.RETURN_STATUS is not null");
                 WHERE("t.DATA_STATUS = 'CBDS41'");*/
@@ -131,7 +93,7 @@ public class StatusImportSQLProvider {
     /*
     *
     * */
-    public String updateLogistics(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus){
+    public String updateLogistics(@Param("impLogisticsStatus") ImpLogistics impLogisticsStatus){
         return new SQL(){
             {
                 UPDATE("T_IMP_LOGISTICS t");

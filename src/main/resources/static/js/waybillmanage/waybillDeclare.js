@@ -2,21 +2,27 @@
  * Created by on 2017-7-23.
  * 运单申报
  */
+var BILLNO = "";
+var TOTALCOUNT = "";
+var APPTIME = "";
 sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage/waybillDeclare"] || {
     // 申报列表查询
     query: function () {
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
         var dataStatus = $("[name='dataStatus']").val();
+        var statusDataStatus = $("[name='statusDataStatus']").val();
+        var billNo = $("[name='billNo']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/waybillManage/queryWaybillDeclare", {
             startFlightTimes: startFlightTimes,
             endFlightTimes: endFlightTimes,
-            logisticsNo: logisticsNo,
-            dataStatus: dataStatus
+            /*logisticsNo: logisticsNo,*/
+            dataStatus: dataStatus,
+            statusDataStatus:statusDataStatus,
+            billNo:billNo
         });
 
         sw.datatable("#query-waybillDeclare-table", {
@@ -44,14 +50,18 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                         returnData.start = data.start;
                         returnData.length = data.length;
                         callback(returnData);
+                        BILLNO = "";
+
                     },
                     error: function (xhr, status, error) {
                         sw.showErrorMessage(xhr, status, error);
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            /*lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],*/
             searching: false,//开启本地搜索
+            paging:false,
+            info:false,
             columns: [
                 {
                     label: '<input type="checkbox" name="cb-check-all"/>',
@@ -61,87 +71,106 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                         //运单状态已申报(此界面不显示此条信息)
                         if (row.data_status == "CBDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.logistics_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else if (row.data_status == "CBDS4") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.logistics_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else if (row.data_status == "CBDS5") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.logistics_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "logistics_no", label: "物流运单编号"},//订单编号要点击查看订单详情
-                {data: "logistics_name", label: "物流企业名称"},
-                {data: "consingee", label: "收货人姓名"},
-                {data: "consignee_telephone", label: "收货人电话"},
-                {data: "consignee_address", label: "收货地址"},
+                //{data: "bill_no", label: "提运单号"},//订单编号要点击查看订单详情
+                {
+                    label:"提运单号",render:function (data, type, row) {
+                    if(BILLNO == row.bill_no){
+                        return "";
+                    }
+                    BILLNO = row.bill_no;
+                    TOTALCOUNT = "";
+                    APPTIME = "";
+                    return BILLNO;
+                }
+                },
+                //{data: "totalCount", label: "运单总数"},
+                {
+                    label:"运单总数",render:function (data, type, row) {
+                    if(TOTALCOUNT == row.totalCount){
+                        return "";
+                    }
+                    TOTALCOUNT = row.totalCount;
+                    return TOTALCOUNT;
+                }
+                },
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if (!isEmpty(row.app_time)) {
-                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
+                    if (!isEmpty(row.appTime)) {
+                        if (APPTIME == row.appTime){
+                            return "";
+                        }
+                        APPTIME = row.appTime;
+                        return moment(APPTIME).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
-                }
-                },
-                {data: "logistics_status", label: "物流签收状态"},
-                {
-                    label: "物流状态时间", render: function (data, type, row) {
-                    if (!isEmpty(row.logistics_time)) {
-                        return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
                     }
-                    return "";
-                }
                 },
+
+                //{data: "data_status", label: "运单回执"},
                 {
-                    data: "data_status", label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
-                    var value = "";
-                    switch (row.data_status) {
-                        case "CBDS1"://运单待申报 未导入
-                            textColor = "text-yellow";
-                            value = "待申报";
-                            break;
-                        case "CBDS4"://运单待申报
-                            textColor = "text-yellow";
-                            value = "运单待申报";
-                            break;
-                        case "CBDS40"://运单申报中
-                            textColor = "text-green";
-                            value = "运单申报中";
-                            break;
-                        case "CBDS41"://运单已申报
-                            textColor = "text-green";
-                            value = "运单已申报";
-                            break;
-                        case "CBDS5"://运单已申报,运单状态待申报
-                            textColor = "text-yellow";
-                            value = "运单已申报,运单状态待申报";
-                            break;
-                        case "CBDS50"://运单已申报,运单状态申报中
-                            textColor = "text-green";
-                            value = "运单已申报,运单状态申报中";
-                            break;
-                        case "CBDS51"://运单已申报,运单状态已申报
-                            textColor = "text-green";
-                            value = "运单已申报,运单状态已申报";
-                            break;
-                        default :
-                            textColor = "";
-                            value = "未知";
+                  label:"运单回执",render:function (data,type,row) {
+                    var status = "";
+                    switch (row.data_status){
+                        case "CBDS1": status = "运单待申报";break;
+                        case "CBDS4": status = "运单待申报";break;
+                        case "CBDS40":status = "运单申报中";break;
+                        case "CBDS41":status = "运单已申报";break;
+                        case "CBDS42":status = "运单申报成功";break;
+                        case "CBDS43":status = "运单重报";break;
+                        case "CBDS44":status = "运单申报失败";break;
                     }
-                    return "<span class='" + textColor + "'>" + value + "</span>";
+                    return status
                 }
                 },
-                {data: "return_status", label: "运单回执"},
-                {data: "return_info", label: "运单回执备注"},
-                {data: "returnStatus_status", label: "运单状态回执"},
-                {data: "returnStatus_info", label: "运单状态回执备注"}
+                //{data: "count1", label: "数量"},
+                {
+                  label:"数量",render:function (data,type,row) {
+                    if (row.count1=="0"){
+                        return ""
+                    }
+                    return row.count1
+                }
+                },
+                //{data: "sta_data_status", label: "运单状态回执"},
+                {
+                    label:"运单回执",render:function (data,type,row) {
+                    var status = "";
+                    switch (row.sta_data_status){
+                        //case "CBDS1": status = "运单状态已导入";break;
+                        case "CBDS5": status = "运单状态待申报";break;
+                        case "CBDS50":status = "运单状态申报中";break;
+                        case "CBDS51":status = "运单状态已申报";break;
+                        case "CBDS52":status = "运单状态申报成功";break;
+                        case "CBDS53":status = "运单状态重报";break;
+                        case "CBDS54":status = "运单状态申报失败";break;
+                    }
+                    return status
+                }
+                },
+                //{data: "count2", label: "数量"}
+                {
+                    label:"数量",render:function (data,type,row) {
+                    if (row.count2=="0"){
+                        return ""
+                    }
+                    return row.count2
+                }
+                }
             ]
         });
 
