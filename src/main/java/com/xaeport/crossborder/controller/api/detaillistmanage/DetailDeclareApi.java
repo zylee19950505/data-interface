@@ -34,7 +34,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/detailManage")
-public class DetailDeclareApi extends BaseApi{
+public class DetailDeclareApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -48,53 +48,38 @@ public class DetailDeclareApi extends BaseApi{
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-            @RequestParam(required = false) String orderNo,
+            @RequestParam(required = false) String billNo,
+            @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]",startFlightTimes, endFlightTimes, orderNo));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s]", startFlightTimes, endFlightTimes, billNo));
         Map<String, String> paramMap = new HashMap<String, String>();
 
-        //查询参数
-        String startStr = request.getParameter("start");
-        String length = request.getParameter("length");
-        String extra_search = request.getParameter("extra_search");
-        String draw = request.getParameter("draw");
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
-
-        paramMap.put("orderNo", orderNo);
+        paramMap.put("billNo", billNo);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
-        //分页参数
-        paramMap.put("start", start);
-        paramMap.put("length", length);
-        paramMap.put("end", end);
-        paramMap.put("extra_search", extra_search);
 
-        paramMap.put("entId",this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
-        //类型参数
-        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ,StatusCode.QDYSB, StatusCode.QDCB,StatusCode.EXPORT,StatusCode.QDBWSCZ,StatusCode.QDBWXZWC));
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
+
+        if (!StringUtils.isEmpty(dataStatus)) {
+            paramMap.put("dataStatus", dataStatus);
+        } else {
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ, StatusCode.QDYSB, StatusCode.QDCB, StatusCode.EXPORT, StatusCode.QDBWSCZ, StatusCode.QDBWXZWC,StatusCode.QDSBCG));
+        }
 
         //更新人
-        DataList<ImpInventory> dataList = null;
         List<ImpInventory> resultList = null;
         try {
             //查询列表
             resultList = this.detailDeclareService.queryInventoryDeclareList(paramMap);
-            //查询总数
-            Integer count = this.detailDeclareService.queryInventoryDeclareCount(paramMap);
-            dataList = new DataList<>();
-            dataList.setDraw(draw);
-            dataList.setData(resultList);
-            dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);
         } catch (Exception e) {
             this.logger.error("查询清单申报数据失败", e);
             return new ResponseData("获取清单申报数据错误", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(dataList);
+        return new ResponseData(resultList);
     }
+
     /**
      * 清单申报-提交海关
      *
@@ -110,11 +95,11 @@ public class DetailDeclareApi extends BaseApi{
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.QDSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.QDDSB + "," + StatusCode.QDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("dataStatusWhere", StatusCode.QDDSB + "," + StatusCode.QDCB + "," + StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
         paramMap.put("currentUserId", currentUser.getId());
+        paramMap.put("userId", currentUser.getId());
 
-        //* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*//*  //暂时不获取企业id
-        paramMap.put("submitKeys", submitKeys);//清单遍号
+        paramMap.put("submitKeys", submitKeys);//提运单号
         // 调用清单申报Service获取提交海关结果
         boolean flag = detailDeclareService.updateSubmitCustom(paramMap);
         if (flag) {
@@ -131,9 +116,6 @@ public class DetailDeclareApi extends BaseApi{
      */
     @RequestMapping(value = "/InvenXmlDownload", method = RequestMethod.POST)
     public ResponseData orderXmlDownload(@RequestParam(required = false) String submitKeys,
-                                         @RequestParam(required = false) String idCardValidate,
-                                         @RequestParam(required = false) String ieFlag,
-                                         @RequestParam(required = false) String entryType,
                                          HttpServletRequest request) {
         this.logger.info("清单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
@@ -143,12 +125,9 @@ public class DetailDeclareApi extends BaseApi{
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.QDBWSCZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
         paramMap.put("dataStatusWhere", StatusCode.QDDSB + "," + StatusCode.QDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
-        paramMap.put("currentUserId", currentUser.getId());
+        paramMap.put("userId", currentUser.getId());
 
-        paramMap.put("submitKeys", submitKeys);//订单编号
-        paramMap.put("idCardValidate", idCardValidate);
-        paramMap.put("entryType", entryType);
-        paramMap.put("ieFlag", ieFlag);
+        paramMap.put("submitKeys", submitKeys);//提运单号
 
         // 调用订单申报Service 获取提交海关结果
         boolean flag = detailDeclareService.invenXmlDownload(paramMap);

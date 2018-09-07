@@ -48,6 +48,13 @@ public class DetailQueryService {
         return impInventoryDetail;
     }
 
+    public ImpInventoryHead getImpInventoryRec(String guid) {
+        Map<String,String> paramMap =  new HashMap<>();
+        paramMap.put("id",guid);
+        ImpInventoryHead impInventoryHead =  detailQueryMapper.getImpInventoryRec(paramMap);
+        return impInventoryHead;
+    }
+
     @Transactional
     public Map<String,String> saveInventoryDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();

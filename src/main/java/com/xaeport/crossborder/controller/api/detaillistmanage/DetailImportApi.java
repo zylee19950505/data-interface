@@ -47,12 +47,17 @@ public class DetailImportApi extends BaseApi {
      * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-    public ResponseData MultipartFile(@RequestParam(value = "importTime", required = false) String importTime,//申报时间
-                                      @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
-                                      HttpServletRequest request
+    public ResponseData MultipartFile(
+            @RequestParam(value = "voyageNo", required = false) String voyageNo,//航班号
+            @RequestParam(value = "importTime", required = false) String importTime,//进口时间
+            @RequestParam(value = "billNo", required = false) String billNo,//提运单号
+            @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
+            HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
+        if (voyageNo.isEmpty()) return new ResponseData("航班号不能为空");
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
+        if (billNo.isEmpty()) return new ResponseData("提运单号不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
 
         String fileName = file.getOriginalFilename();
@@ -94,7 +99,7 @@ public class DetailImportApi extends BaseApi {
                     return new ResponseData("订单号【" + orderNoCount + "】不能重复");
                 }
 
-                flag = this.detailImportService.createDetailForm(excelMap, importTime, user);//数据创建对应的数据
+                flag = this.detailImportService.createDetailForm(excelMap, importTime, user, voyageNo, billNo);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");

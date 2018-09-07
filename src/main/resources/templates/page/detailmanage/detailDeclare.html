@@ -38,8 +38,24 @@
 
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">订单编号</span>
-                                    <input type="text" class="form-control" name="orderNo" placeholder="请输入订单编号" />
+                                    <span class="input-group-addon">提运单号</span>
+                                    <input type="text" class="form-control" name="billNo" placeholder="请输入提运单号" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">业务状态：</span>
+                                    <select class="form-control" name="dataStatus">
+                                        <option value="" selected = "selected" >全部</option>
+                                        <option value="CBDS1" >待申报</option>
+                                        <option value="CBDS60" >清单申报中</option>
+                                        <option value="InvenDoing" >清单报文生成中</option>
+                                        <option value="CBDS61" >清单已申报</option>
+                                        <option value="InvenOver" >清单报文下载完成</option>
+                                        <option value="CBDS62" >清单申报成功</option>
+                                        <!--<option value="CBDS63" >清单重报</option>-->
+                                    </select>
                                 </div>
                             </div>
 

@@ -21,15 +21,26 @@ sw.page.modules["detailmanage/detailImport"] = sw.page.modules["detailmanage/det
 
         var importTime = $("[name='importTime']").val();
         var file = $("#file").val();
+        var voyageNo = $("[name='voyageNo']").val();
+        var billNo = $("[name='billNo']").val();
 
+        if (isEmpty(voyageNo)) {
+            sw.alert("请填写航班号", "提示", "", "modal-info");
+            return false;
+        }
         if (isEmpty(importTime)) {
             sw.alert("请选择进口时间", "提示", "", "modal-info");
             return false;
         }
-        if (isEmpty(file)) {
-            sw.alert("请选择要导入的文件", "提示", "", "modal-info");
+        if (isEmpty(billNo)) {
+            sw.alert("请填写提运单号", "提示", "", "modal-info");
             return false;
         }
+        if (isEmpty(file)) {
+            sw.alert("请选择导入的文件", "提示", "", "modal-info");
+            return false;
+        }
+
 
         var options = {
             url: "/detailImport/uploadFile",

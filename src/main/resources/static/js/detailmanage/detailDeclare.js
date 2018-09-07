@@ -8,46 +8,20 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
-        var orderNo = $("[name='orderNo']").val();
+        var billNo = $("[name='billNo']").val();
+        var dataStatus = $("[name='dataStatus']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/detailManage/queryDetailDeclare", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            orderNo: orderNo
+            billNo: billNo,//提运单号
+            dataStatus: dataStatus//业务状态
         });
 
         // 数据表
         sw.datatable("#query-detailDeclare-table", {
-            ordering: false,
-            bSort: false, //排序功能
-            serverSide: true,////服务器端获取数据
-            pagingType: 'simple_numbers',
-            ajax: function (data, callback, setting) {
-                $.ajax({
-                    type: 'GET',
-                    url: sw.resolve(url),
-                    data: data,
-                    cache: false,
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("tbody").html('<tr class="odd"><td valign="top" colspan="13" class="dataTables_empty">载入中...</td></tr>');
-                    },
-                    success: function (res) {
-                        var returnData = {};
-                        returnData.data = res.data.data;
-                        returnData.recordsFiltered = res.data.recordsFiltered;
-                        returnData.draw = res.data.draw;
-                        returnData.recordsTotal = res.data.recordsTotal;
-                        returnData.start = data.start;
-                        returnData.length = data.length;
-                        callback(returnData);
-                    },
-                    error: function (xhr, status, error) {
-                        sw.showErrorMessage(xhr, status, error);
-                    }
-                });
-            },
+            ajax: url,
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
@@ -59,29 +33,41 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     render: function (data, type, row) {
                         if (row.data_status == "CBDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else if (row.data_status == "CBDS6") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_no + '" />';
+                                row.bill_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
-                {data: "logistics_no", label: "物流运单编号"},
-                {data: "ebc_name", label: "电商企业名称"},
-                {data: "ebc_name", label: "支付企业名称"},
-                {data: "logistics_name", label: "物流企业名称"},
-                // {data: "g_name", label: "商品名称"},
+                {
+                    label: "提运单号", render: function (data, type, row) {
+                    if (row.no == "1") {
+                        return row.bill_no;
+                    } else {
+                        return "";
+                    }
+                }
+                },
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if (!isEmpty(row.app_time)) {
+                    if (row.no == "1") {
                         return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
+                }
+                },
+                {
+                    label: "清单总数", render: function (data, type, row) {
+                    if (row.no == "1") {
+                        return row.sum;
+                    } else {
+                        return "";
+                    }
                 }
                 },
                 {
@@ -105,6 +91,10 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                             textColor = "text-green";
                             value = "清单已申报";
                             break;
+                        case "CBDS62":
+                            textColor = "text-green";
+                            value = "清单申报成功";
+                            break;
                         case "InvenDoing":
                             textColor = "text-green";
                             value = "清单报文生成中";
@@ -118,6 +108,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     return "<span class='" + textColor + "'>" + value + "</span>";
                 }
                 },
+                {data: "asscount", label: "运单数量"},
                 {data: "return_status", label: "回执状态"},
                 {data: "return_info", label: "回执备注"}
             ]

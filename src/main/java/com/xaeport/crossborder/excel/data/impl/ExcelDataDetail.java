@@ -113,8 +113,9 @@ public class ExcelDataDetail implements ExcelData {
 //            impInventoryHead.setArea_name("");//保税模式必填，区内仓储企业在海关注册登记的名称。
             impInventoryHead.setTraf_mode(value.get(trafModeIndex));//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
             impInventoryHead.setTraf_no(value.get(trafNoIndex));//直购进口必填。货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。保税进口免填。
-            impInventoryHead.setVoyage_no(value.get(flightVoyageIndex));//直购进口必填。货物进出境的运输工具的航次编号。保税进口免填。
-            impInventoryHead.setBill_no(value.get(billNoIndex));//直购进口必填。货物提单或运单的编号，保税进口免填。
+//            impInventoryHead.setVoyage_no(value.get(flightVoyageIndex));//直购进口必填。货物进出境的运输工具的航次编号。保税进口免填。
+//            impInventoryHead.setBill_no(value.get(billNoIndex));//直购进口必填。货物提单或运单的编号，保税进口免填。
+
 //            impInventoryHead.setLoct_no("");//针对同一申报地海关下有多个跨境电子商务的监管场所,需要填写区分
 //            impInventoryHead.setLicense_no("");//商务主管部门及其授权发证机关签发的进出口货物许可证件的编号
             impInventoryHead.setCountry(value.get(startCountryIndex));//直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；保税进口填写代码“142”。
