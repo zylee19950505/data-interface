@@ -48,6 +48,9 @@ public class ReceiptService {
                 case "CEB622"://清单回执代码
                     this.createImpRecInventory(receipt, refileName);
                     break;
+                case "CEB712"://入库明细单回执
+                    this.createImpRecDelivery(receipt, refileName);
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -339,9 +342,9 @@ public class ReceiptService {
                     if (map.containsKey("preNo")) {
                         impRecInventory.setPre_no(map.get("preNo"));
                     }
-//                    if (map.containsKey("invtNo")) {
-//                        impRecInventory.setInvt_no(map.get("invtNo"));
-//                    }
+                    if (map.containsKey("invtNo")) {
+                        impRecInventory.setInvt_no(map.get("invtNo"));
+                    }
                     if (map.containsKey("returnStatus")) {
                         impRecInventory.setReturn_status(map.get("returnStatus"));
                     }
@@ -353,7 +356,19 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.createImpRecInventory(impRecInventory); //插入清单状态表数据
-                this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
+                long returnTime = Long.parseLong(impRecInventory.getReturn_time());
+                String copNo = impRecInventory.getCop_no();
+                ImpInventoryHead impInventoryHead = this.receiptMapper.findByCopNo(copNo);
+                if (!StringUtils.isEmpty(impInventoryHead)) {
+                    long systemTime = StringUtils.isEmpty(impInventoryHead.getReturn_time()) ? 0 : Long.parseLong(impInventoryHead.getReturn_time());
+                    if (returnTime >= systemTime){
+                        this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
+                    }else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
             }
         }
     }
@@ -370,6 +385,7 @@ public class ReceiptService {
         impInventoryHead.setAgent_code(impRecInventory.getAgent_code());//申报单位的海关注册登记编号。
         impInventoryHead.setCop_no(impRecInventory.getCop_no());//企业内部标识单证的编号
         impInventoryHead.setPre_no(impRecInventory.getPre_no());//电子口岸标识单证的编号
+        impInventoryHead.setInvt_no(impRecInventory.getInvt_no());//海关接受申报生成的清单编号。
         impInventoryHead.setReturn_status(impRecInventory.getReturn_status());//操作结果（2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库）,若小于0 数字表示处理异常回执
         impInventoryHead.setReturn_info(impRecInventory.getReturn_info());//备注（如:退单原因）
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
@@ -380,21 +396,88 @@ public class ReceiptService {
 
     }
 
+    /**
+     * 插入入库明细单回执报文数据
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createImpRecDelivery(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("DeliveryReturn");
+        if (!StringUtils.isEmpty(list)) {
+            ImpRecDelivery impRecDelivery;
+            for (int i = 0; i < list.size(); i++) {
+                impRecDelivery = new ImpRecDelivery();
+                impRecDelivery.setId(IdUtils.getUUId());
+                impRecDelivery.setCrt_tm(new Date());
+                impRecDelivery.setUpd_tm(new Date());
 
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("guid")) {
+                        impRecDelivery.setGuid(map.get("guid"));
+                    }
+                    if (map.containsKey("customsCode")) {
+                        impRecDelivery.setCustoms_code(map.get("customsCode"));
+                    }
+                    if (map.containsKey("operatorCode")) {
+                        impRecDelivery.setOperator_code(map.get("operatorCode"));
+                    }
+                    if (map.containsKey("copNo")) {
+                        impRecDelivery.setCop_no(map.get("copNo"));
+                    }
+                    if (map.containsKey("preNo")) {
+                        impRecDelivery.setPre_no(map.get("preNo"));
+                    }
+                    if (map.containsKey("rkdNo")) {
+                        impRecDelivery.setRkd_no(map.get("rkdNo"));
+                    }
+                    if (map.containsKey("returnStatus")) {
+                        impRecDelivery.setReturn_status(map.get("returnStatus"));
+                    }
+                    if (map.containsKey("returnTime")) {
+                        impRecDelivery.setReturn_time(map.get("returnTime"));
+                    }
+                    if (map.containsKey("returnInfo")) {
+                        impRecDelivery.setReturn_info(map.get("returnInfo"));
+                    }
+                }
+                this.receiptMapper.createImpRecDelivery(impRecDelivery); //插入清单状态表数据
+                long returnTime = Long.parseLong(impRecDelivery.getReturn_time());
+                String copNo = impRecDelivery.getCop_no();
+                ImpDeliveryHead impDeliveryHead = this.receiptMapper.findDeliveryByCopNo(copNo);
+                if (!StringUtils.isEmpty(impDeliveryHead)) {
+                    long systemTime = StringUtils.isEmpty(impDeliveryHead.getReturn_time()) ? 0 : Long.parseLong(impDeliveryHead.getReturn_time());
+                    if (returnTime >= systemTime){
+                        impRecDelivery.setBill_no(impDeliveryHead.getBill_no());
+                        this.updateImpDeliveryStatus(impRecDelivery);    //更新清单表状态
+                    }else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
 
+    /**
+     * 根据入库明细单回执更新入库明细数据
+     */
+    private void updateImpDeliveryStatus(ImpRecDelivery impRecDelivery) throws Exception {
+        ImpDeliveryHead impDeliveryHead = new ImpDeliveryHead();
+        impDeliveryHead.setBill_no(impRecDelivery.getBill_no());
+        impDeliveryHead.setCustoms_code(impRecDelivery.getCustoms_code());//接受清单申报的海关关区代码，参照JGS/T 18《海关关区代码》。
+        impDeliveryHead.setOperator_code(impRecDelivery.getOperator_code());//监管场所经营人在海关注册登记的编号
+        impDeliveryHead.setCop_no(impRecDelivery.getCop_no());//企业内部标识单证的编号。
+        impDeliveryHead.setPre_no(impRecDelivery.getPre_no());//电子口岸标识单证的编号。
+        impDeliveryHead.setRkd_no(impRecDelivery.getRkd_no());//海关审核生成的入库单编号
+        impDeliveryHead.setReturn_status(impRecDelivery.getReturn_status());//回执状态
+        impDeliveryHead.setReturn_time(impRecDelivery.getReturn_time());//回执时间
+        impDeliveryHead.setReturn_info(impRecDelivery.getReturn_info());//回执信息
+        impDeliveryHead.setUpd_tm(new Date());
+        //入库明细单申报成功
+        impDeliveryHead.setData_status(StatusCode.RKMXDSBCG);
+        this.receiptMapper.updateImpDelivery(impDeliveryHead);  //更新支付单表中的回执状态
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 }

@@ -39,7 +39,7 @@ public class GeneratedAutoLauncher621 implements ApplicationListener<Application
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        this.logger.debug("清单报文CEB521生成启动器初始化开始");
+        this.logger.debug("清单报文CEB621生成启动器初始化开始");
 
         detailDeclareMessageThread = new DetailDeclareMessageThread(this.detailDeclareMapper, this.appConfiguration, this.baseDetailDeclareXML);
         executorService.execute(detailDeclareMessageThread);

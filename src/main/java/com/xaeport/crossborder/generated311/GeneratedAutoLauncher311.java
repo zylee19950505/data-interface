@@ -24,7 +24,7 @@ public class GeneratedAutoLauncher311 implements ApplicationListener<Application
             Thread thread = new Thread(manifestGenMsgThread);
             thread.start();
         } catch (Exception e) {
-            this.logger.error("订单报文生成程序运行过程中发生异常", e);
+            this.logger.error("订单报文CEB311生成程序运行过程中发生异常", e);
         }
     }
 }

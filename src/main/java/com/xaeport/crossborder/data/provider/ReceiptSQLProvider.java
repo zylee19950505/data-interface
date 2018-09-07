@@ -10,6 +10,26 @@ import sun.awt.SunHints;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    public String findByCopNo(String copNo) {
+        return new SQL() {
+            {
+                SELECT("t.*");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.COP_NO = #{copNo}");
+            }
+        }.toString();
+    }
+
+    public String findDeliveryByCopNo(String copNo) {
+        return new SQL() {
+            {
+                SELECT("t.*");
+                FROM("T_IMP_DELIVERY_HEAD t");
+                WHERE("t.COP_NO = #{copNo}");
+            }
+        }.toString();
+    }
+
     //插入支付单回执表数据
     public String createImpRecPayment(
             @Param("impRecPayment") ImpRecPayment impRecPayment
@@ -58,7 +78,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_PAYMENT t");
-                WHERE("t.DATA_STATUS = 'CBDS31'");
+                WHERE("t.DATA_STATUS in ('CBDS31','CBDS32')");
                 if (!StringUtils.isEmpty(impPayment.getPay_transaction_id())) {
                     WHERE("t.PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
                 }
@@ -126,7 +146,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.DATA_STATUS = 'CBDS21'");
+                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22','OrderOver')");
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }
@@ -215,9 +235,15 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS = 'CBDS61'");
+                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','InvenOver')");
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getPre_no())) {
+                    SET("t.PRE_NO = #{impInventoryHead.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getInvt_no())) {
+                    SET("t.INVT_NO = #{impInventoryHead.invt_no}");
                 }
                 if (!StringUtils.isEmpty(impInventoryHead.getReturn_status())) {
                     SET("t.RETURN_STATUS = #{impInventoryHead.return_status}");
@@ -415,4 +441,88 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
+    //插入入库明细单回执表数据
+    public String createImpRecDelivery(
+            @Param("impRecDelivery") ImpRecDelivery impRecDelivery
+    ) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_IMP_REC_DELIVERY");
+                if (!StringUtils.isEmpty(impRecDelivery.getId())) {
+                    VALUES("ID", "#{impRecDelivery.id}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getGuid())) {
+                    VALUES("GUID", "#{impRecDelivery.guid}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{impRecDelivery.customs_code}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getOperator_code())) {
+                    VALUES("OPERATOR_CODE", "#{impRecDelivery.operator_code}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getCop_no())) {
+                    VALUES("COP_NO", "#{impRecDelivery.cop_no}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getPre_no())) {
+                    VALUES("PRE_NO", "#{impRecDelivery.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getRkd_no())) {
+                    VALUES("RKD_NO", "#{impRecDelivery.rkd_no}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getReturn_status())) {
+                    VALUES("RETURN_STATUS", "#{impRecDelivery.return_status}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getReturn_time())) {
+                    VALUES("RETURN_TIME", "#{impRecDelivery.return_time}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getReturn_info())) {
+                    VALUES("RETURN_INFO", "#{impRecDelivery.return_info}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{impRecDelivery.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(impRecDelivery.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{impRecDelivery.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //更新清单表回执信息
+    public String updateImpDelivery(
+            @Param("impDeliveryHead") ImpDeliveryHead impDeliveryHead
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_DELIVERY_HEAD t");
+                WHERE("t.DATA_STATUS in ('CBDS71','CBDS72')");
+                if (!StringUtils.isEmpty(impDeliveryHead.getBill_no())) {
+                    WHERE("t.BILL_NO = #{impDeliveryHead.bill_no}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getPre_no())) {
+                    SET("t.PRE_NO = #{impDeliveryHead.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getRkd_no())) {
+                    SET("t.RKD_NO = #{impDeliveryHead.rkd_no}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getReturn_status())) {
+                    SET("t.RETURN_STATUS = #{impDeliveryHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getReturn_info())) {
+                    SET("t.RETURN_INFO = #{impDeliveryHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getReturn_time())) {
+                    SET("t.RETURN_TIME = #{impDeliveryHead.return_time}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getData_status())) {
+                    SET("t.DATA_STATUS = #{impDeliveryHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impDeliveryHead.getUpd_tm())) {
+                    SET("t.UPD_TM = #{impDeliveryHead.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
 }

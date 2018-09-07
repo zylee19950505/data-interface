@@ -111,6 +111,8 @@ public interface SystemConstants {
 
     String HTTP_CONTENT_TYPE_EXCEL = "application/vnd.ms-excel";
     String HTTP_CONTENT_TYPE_EXE = "application/x-msdownload";
+    String HTTP_CONTENT_TYPE_XML = "application/xml";
+    String HTTP_CONTENT_TYPE_ZIP = "application/x-zip-compressed";
 
 
     /*

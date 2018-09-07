@@ -103,6 +103,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "order_no",
             "cop_no",
             "logistics_no",
+            "invt_no",
+            "pre_no",
             "ebp_code",
             "ebp_name",
             "ebc_code",
@@ -136,7 +138,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "unit_1",
             "qty_2",
             "unit_2",
-            "total_price"
+            "total_price",
+            "no1"
         ]
     },
     // 保存成功时回调查询
@@ -159,6 +162,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#order_no").val(entryHead.order_no);
         $("#cop_no").val(entryHead.cop_no);
         $("#logistics_no").val(entryHead.logistics_no);
+        $("#invt_no").val(entryHead.invt_no);
+        $("#pre_no").val(entryHead.pre_no);
         $("#ebp_code").val(entryHead.ebp_code);
         $("#ebp_name").val(entryHead.ebp_name);
         $("#ebc_code").val(entryHead.ebc_code);
@@ -305,6 +310,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "order_no": "订单编号",
             "cop_no": "企业内部编号",
             "logistics_no": "物流运单编号",
+            "invt_no": "海关清单编号",
+            "pre_no": "电子口岸标识编号",
             "ebp_code": "电商平台代码",
             "ebp_name": "电商平台名称",
             "ebc_code": "电商企业代码",
@@ -401,7 +408,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         "order_no",//订单编号。
                         "cop_no",//企业内部编号
                         "logistics_no",//物流运单编号
-                        "g_num"
+                        "invt_no",//海关清单编号
+                        "pre_no",//电子口岸标识编号
+                        "g_num",//表体序号
+                        "no1"
 
                     ];
                 }

@@ -55,6 +55,7 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                 }
                 },
                 {data: "logistics_no", label: "物流运单编号"},
+                {data: "invt_no", label: "海关清单编号"},
                 {data: "ebc_name", label: "电商企业名称"},
                 {data: "ebc_name", label: "支付企业名称"},
                 {data: "logistics_name", label: "物流企业名称"},

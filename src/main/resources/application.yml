@@ -9,10 +9,13 @@ logging:
     com.xaeport.crossborder.generated511.thread: info
     com.xaeport.crossborder.generated513.thread: info
     com.xaeport.crossborder.generated621.thread: info
+    com.xaeport.crossborder.generated711.thread: info
+    com.xaeport.crossborder.generatedDelivery.thread: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
     com.xaeport.crossborder.data.mapper.WaybillDeclareMapper: info
     com.xaeport.crossborder.data.mapper.DetailDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper: info
 
   config: classpath:config/logback-spring.xml
 
@@ -44,7 +47,11 @@ appConfig:
   receiverId: "DXPEDC0000000001"
   xmlPath:
     sendPath: "kj/send"
+    sendDeliveryPath: "kj/DeliveryBak"
+    sendOrderPath: "kj/OrderBak"
+    sendInventoryPath: "kj/InventoryBak"
     sendBakPath: "kj/sendBak"
+    xmlDownload: "xmlDownload"
 
   #下载文件夹
   downloadFolder: d:/app/download

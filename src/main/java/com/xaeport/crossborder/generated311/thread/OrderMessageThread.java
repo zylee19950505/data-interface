@@ -195,7 +195,10 @@ public class OrderMessageThread implements Runnable {
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "order" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("订单申报报文发送备份文件[backFilePath: %s]", backFilePath));
 
-        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
+//        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
+//        this.logger.debug(String.format("订单申报报文发送文件[sendFilePath: %s]", sendFilePath));
+
+        String sendFilePath = this.appConfiguration.getXmlPath().get("sendOrderPath") + File.separator + fileName;
         this.logger.debug(String.format("订单申报报文发送文件[sendFilePath: %s]", sendFilePath));
 
         File backupFile = new File(backFilePath);
@@ -205,6 +208,6 @@ public class OrderMessageThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("订单发送完毕" + fileName);
-        this.logger.debug(String.format("订单申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("订单申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
     }
 }

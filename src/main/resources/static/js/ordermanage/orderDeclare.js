@@ -113,6 +113,14 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                             textColor = "text-green";
                             value = "订单已申报";
                             break;
+                        case "OrderDoing":
+                            textColor = "text-green";
+                            value = "订单报文生成中";
+                            break;
+                        case "OrderOver":
+                            textColor = "text-green";
+                            value = "订单报文下载完成";
+                            break;
                     }
 
                     return "<span class='" + textColor + "'>" + value + "</span>";
@@ -132,7 +140,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的舱单信息！");
+            sw.alert("请先勾选要提交海关的订单信息！");
             return;
         }
 
@@ -163,6 +171,45 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
             });
         });
     },
+
+    // 报文下载
+    orderXmlDownLoad: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要生成报文的订单信息！");
+            return;
+        }
+        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
+            var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
+            sw.blockPage();
+            var postData = {
+                submitKeys: submitKeys,
+                idCardValidate: idCardValidate,
+                ieFlag: sw.ie,
+                entryType: sw.type
+            };
+            $("#orderXmlDownload").prop("disabled", true);
+            sw.ajax("api/orderManage/orderXmlDownload", "POST", postData, function (rsp) {
+                var str = rsp.data.result;
+                if (str.substring(0, 1) == "1") {
+                    sw.alert("订单报文生成中", "提示", function () {
+                    }, "modal-success");
+                    $("#orderXmlDownload").prop("disabled", false);
+                    sw.page.modules["ordermanage/orderDeclare"].query();
+                    window.location.href = "/api/orderManage/downloadFile?type=" + str.substring(1);
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
+        });
+    },
+
     init: function () {
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
@@ -174,6 +221,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
         });
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-submit]").unbind("click").click(this.submitCustom);
+        $("[ws-download]").unbind("click").click(this.orderXmlDownLoad);
         $table = $("#query-orderDeclare-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {
