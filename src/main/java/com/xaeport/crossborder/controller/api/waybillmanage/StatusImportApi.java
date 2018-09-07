@@ -90,11 +90,17 @@ public class StatusImportApi extends BaseApi {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号【" + logisticsNo + "】不存在,请检查");
                 }
-
+                //运单状态时间只能为数字logistics_time
+               String logisticsTime =  this.statusImportService.jugerLogisticsTime(excelMap);
+                if (!"true".equals(logisticsTime)) {
+                    httpSession.removeAttribute("userIdCode");
+                    return new ResponseData("物流运单编号【" + logisticsTime + "】物流时间格式不正确,必须为14位纯数字,请检查");
+                }
+                //判断运单表里是是否存在这个运单编号
                 String logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
                 if (!logisticsNoCount.equals("0")) {
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号【" + logisticsNoCount + "】不能重复");
+                    return new ResponseData("物流运单编号【" + logisticsNoCount + "】不存在,不能导入");
                 }
 
                 //判断运单是否申报成功,是否有回执
@@ -105,18 +111,19 @@ public class StatusImportApi extends BaseApi {
                     return new ResponseData("物流运单编号【" + logisticsSuccess + "】申报未成功或者未收到回执");//申报未成功或者未收到回执
                 }
 
-                flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据
+                flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据(现在更改运单表)
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     //有回执,也申报成功了,就把运单状态改为CBDS5
-                    this.statusImportService.updateLogisticsStatus(excelMap);
+                    //this.statusImportService.updateLogisticsStatus(excelMap);
                     this.statusImportService.updateLogistics(excelMap);
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData(String.format("跨境电子商务运单状态导入成功！"));
-                } else if (flag == 1) {
+                } /*else if (flag == 1) {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("同一批物流运单编号不可重复！");
-                } else {
+                } */
+                else {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }

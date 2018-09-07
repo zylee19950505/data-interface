@@ -5,6 +5,7 @@ import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
+import sun.awt.SunHints;
 
 public class OrderImportSQLProvider {
 
@@ -32,6 +33,9 @@ public class OrderImportSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     VALUES("order_No", "#{impOrderHead.order_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBill_No())){
+                    VALUES("bill_No","#{impOrderHead.bill_No}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getEbp_Code())) {
                     VALUES("ebp_Code", "#{impOrderHead.ebp_Code}");

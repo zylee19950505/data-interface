@@ -5,11 +5,13 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         var startDeclareTime = $('[name="startDeclareTime"]').val();//申报时间
         var endDeclareTime = $('[name="endDeclareTime"]').val();//申报结束时间
         var orderNo = $('[name="orderNo"]').val();//订单编号
+        var billNo =  $("[name = 'billNo']").val();//提运单号
 
         var url = sw.serializeObjectToURL("api/ordermanage/queryOrder/queryOrderHeadList", {
             startDeclareTime: startDeclareTime,
             endDeclareTime: endDeclareTime,
-            orderNo: orderNo
+            orderNo: orderNo,
+            billNo:billNo
         });
 
         var table = sw.datatable("#query-orderHead-table", {

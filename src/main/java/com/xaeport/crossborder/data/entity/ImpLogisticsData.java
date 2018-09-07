@@ -32,25 +32,7 @@ public class ImpLogisticsData {
     private String return_status;   //回执状态
     private String return_info;//回执备注原因
     private String return_time;//回执时间
-    //回执信息
-    private String returnStatus_status;//运单状态回执
-    private String returnStatus_info;
 
-    public String getReturnStatus_status() {
-        return returnStatus_status;
-    }
-
-    public void setReturnStatus_status(String returnStatus_status) {
-        this.returnStatus_status = returnStatus_status;
-    }
-
-    public String getReturnStatus_info() {
-        return returnStatus_info;
-    }
-
-    public void setReturnStatus_info(String returnStatus_info) {
-        this.returnStatus_info = returnStatus_info;
-    }
 
     public String getReturn_status() {
         return return_status;

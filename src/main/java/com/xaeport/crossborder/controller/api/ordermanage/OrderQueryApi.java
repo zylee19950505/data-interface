@@ -41,18 +41,20 @@ public class OrderQueryApi extends BaseApi {
 			@RequestParam(required = false) String startDeclareTime,
 			@RequestParam(required = false) String endDeclareTime,
 			@RequestParam(required = false) String orderNo,
+			@RequestParam(required = false) String billNo,
 			@RequestParam(required = false) String start,
 			@RequestParam(required = false) String length,
 			@RequestParam(required = false) String draw
 
 
 	) {
-		this.logger.debug(String.format("查询邮件申报条件参数:[startDeclareTime:%s,endDeclareTime:%s,orderNo:%s,start:%s,length:%s,drew:%s]", startDeclareTime,endDeclareTime,orderNo,start,length,draw));
+		this.logger.debug(String.format("查询邮件申报条件参数:[startDeclareTime:%s,endDeclareTime:%s,orderNo:%s,billNo:%s,start:%s,length:%s,drew:%s]", startDeclareTime,endDeclareTime,orderNo,billNo,start,length,draw));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpOrderHead> dataList = new DataList<ImpOrderHead>();
 		paramMap.put("startDeclareTime",startDeclareTime);
 		paramMap.put("endDeclareTime",endDeclareTime);
 		paramMap.put("orderNo",orderNo);
+		paramMap.put("billNo",billNo);
 		paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
 		paramMap.put("length",length);
 		paramMap.put("entId",this.getCurrentUserEntId());

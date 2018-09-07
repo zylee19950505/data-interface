@@ -273,7 +273,7 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.createImpRecLogisticsStatus(impRecLogisticsStatus); //插入运单状态表数据
-                this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单状态表状态
+                //this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单状态表状态
                 //运单状态收到回执后，更新运单表状态
                 this.updateImpLogisticsDataStatus(impRecLogisticsStatus, StatusCode.YDZTSBCG);    //更新运单表状态
             }

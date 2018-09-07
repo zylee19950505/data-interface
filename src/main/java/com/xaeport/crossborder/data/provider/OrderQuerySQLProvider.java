@@ -11,6 +11,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 
 	public String queryOrderHeadList(Map<String, String> paramMap){
 		final String orderNo = paramMap.get("orderNo");
+		final String billNo = paramMap.get("billNo");
 		final String startDeclareTime = paramMap.get("startDeclareTime");
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String start = paramMap.get("start");
@@ -29,6 +30,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
+				}
+				if (!StringUtils.isEmpty(billNo)){
+					WHERE("th.bill_no = #{billNo}");
 				}
 				if (!StringUtils.isEmpty(dataStatus)) {
 					WHERE("th.DATA_STATUS = #{dataStatus}");
@@ -53,6 +57,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 	* */
 	public String queryOrderHeadListCount(Map<String, String> paramMap){
 		final String orderNo = paramMap.get("orderNo");
+		final String billNo = paramMap.get("billNo");
 		final String startDeclareTime = paramMap.get("startDeclareTime");
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String entId = paramMap.get("entId");
@@ -68,6 +73,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("th.order_no = #{orderNo}");
+				}
+				if (!StringUtils.isEmpty(billNo)){
+					WHERE("th.bill_no = #{billNo}");
 				}
 				if (!StringUtils.isEmpty(dataStatus)) {
 					WHERE("th.DATA_STATUS = #{dataStatus}");

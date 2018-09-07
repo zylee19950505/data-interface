@@ -41,12 +41,22 @@
                                     <input type="text" name="logisticsNo" class="form-control" placeholder="请输入物流运单编号"/>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">提运单号</span>
+                                    <input type="text" class="form-control" name="billNo" placeholder="请输入提运编号" />
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">物流运单状态：</span>
                                     <select class="form-control" name="logisticsStatus">
                                         <option value="" >全部</option>
+                                        <option value="逻辑校验通过" >逻辑校验通过</option>
+                                        <option value="新增申报成功" >新增申报成功</option>
+                                        <!--<option value="-9999" >系统异常</option>
+                                        <option value="" >退单</option>-->
                                     </select>
                                 </div>
                             </div>

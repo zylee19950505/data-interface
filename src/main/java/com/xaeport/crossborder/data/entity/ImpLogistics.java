@@ -11,7 +11,10 @@ public class ImpLogistics {
     private String logistics_code;//物流企业的海关注册登记编号。
     private String logistics_name;//物流企业在海关注册登记的名称。
     private String logistics_no;//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
+    private String logistics_status;//物流签收状态，限定S
+    private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String bill_no;//直购进口为海运提单、空运总单或汽车载货清单
+    private String voyage_no;//直购进口必填。货物进出境的运输工具的航次编号。保税进口免填。
     private String freight;//商品运输费用，无则填0。
     private String insured_fee;//商品保险费用，无则填0。
     private String currency;//限定为人民币，填写142。
@@ -27,14 +30,49 @@ public class ImpLogistics {
     private Date crt_tm;//创建时间
     private String upd_id;//更新人ID
     private Date upd_tm;//更新时间
-    private String logistics_status;//物流签收状态，限定S
-    private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String return_status;   //回执状态
     private String return_info;//回执备注原因
     private String return_time;//回执时间
+
+    private String rec_return_status;   //回执状态
+    private String rec_return_info;//回执备注原因
+    private String rec_return_time;//回执时间
+
+    public String getRec_return_status() {
+        return rec_return_status;
+    }
+
+    public void setRec_return_status(String rec_return_status) {
+        this.rec_return_status = rec_return_status;
+    }
+
+    public String getRec_return_info() {
+        return rec_return_info;
+    }
+
+    public void setRec_return_info(String rec_return_info) {
+        this.rec_return_info = rec_return_info;
+    }
+
+    public String getRec_return_time() {
+        return rec_return_time;
+    }
+
+    public void setRec_return_time(String rec_return_time) {
+        this.rec_return_time = rec_return_time;
+    }
+
     private String ent_id;//导入企业ID码
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
+
+    public String getVoyage_no() {
+        return voyage_no;
+    }
+
+    public void setVoyage_no(String voyage_no) {
+        this.voyage_no = voyage_no;
+    }
 
     public String getReturn_status() {
         return return_status;

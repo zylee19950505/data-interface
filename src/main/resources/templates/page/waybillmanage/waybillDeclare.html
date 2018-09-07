@@ -33,24 +33,41 @@
                                     <input class="form-control" type="text" name="endFlightTimes"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">物流运单编号：</span>
-                                    <input type="text" class="form-control" name="logisticsNo" placeholder="请输入物流运单编号" />
+                                    <span class="input-group-addon">提运单号</span>
+                                    <input type="text" class="form-control" name="billNo" placeholder="请输入提运编号" />
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">运单申报状态：</span>
                                     <select class="form-control" name="dataStatus">
                                         <option value="" selected = "selected" >全部</option>
-                                        <option value="Y" >已申报</option>
-                                        <option value="N" >未申报</option>
+                                        <option value="CBDS4" >运单待申报</option>
+                                        <option value="CBDS40" >运单申报中</option>
+                                        <option value="CBDS41" >运单已申报</option>
+                                        <option value="CBDS42" >运单申报成功</option>
+                                        <option value="CBDS43" >运单重报</option>
+                                        <option value="CBDS44" >运单申报失败</option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">运单状态申报状态：</span>
+                                    <select class="form-control" name="statusDataStatus">
+                                        <option value="" selected = "selected" >全部</option>
+                                        <option value="CBDS5" >运单状态待申报</option>
+                                        <option value="CBDS50" >运单状态申报中</option>
+                                        <option value="CBDS51" >运单状态已申报</option>
+                                        <option value="CBDS52" >运单状态申报成功</option>
+                                        <option value="CBDS53" >运单状态重报</option>
+                                        <option value="CBDS54" >运单状态申报失败</option>
+                                    </select>
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <button class="btn btn-sm btn-primary" type="button" ws-search=""

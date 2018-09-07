@@ -88,16 +88,16 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
-    public static Map<String, List<ImpLogisticsStatus>> getEntIdStatusDataMap(List<ImpLogisticsStatus> impLogisticsStatusLists) {
-        Map<String, List<ImpLogisticsStatus>> entIdDataListMap = new HashMap<String, List<ImpLogisticsStatus>>();
+    public static Map<String, List<ImpLogistics>> getEntIdStatusDataMap(List<ImpLogistics> impLogisticsStatusLists) {
+        Map<String, List<ImpLogistics>> entIdDataListMap = new HashMap<String, List<ImpLogistics>>();
         String entId = null;
-        for (ImpLogisticsStatus impLogisticsStatus : impLogisticsStatusLists) {
+        for (ImpLogistics impLogisticsStatus : impLogisticsStatusLists) {
             entId = impLogisticsStatus.getEnt_id();
             if (entIdDataListMap.containsKey(entId)) {
-                List<ImpLogisticsStatus> impLogisticsStatusList = entIdDataListMap.get(entId);
+                List<ImpLogistics> impLogisticsStatusList = entIdDataListMap.get(entId);
                 impLogisticsStatusList.add(impLogisticsStatus);
             } else {
-                List<ImpLogisticsStatus> impLogisticsStatusList = new ArrayList<ImpLogisticsStatus>();
+                List<ImpLogistics> impLogisticsStatusList = new ArrayList<ImpLogistics>();
                 impLogisticsStatusList.add(impLogisticsStatus);
                 entIdDataListMap.put(entId, impLogisticsStatusList);
             }
