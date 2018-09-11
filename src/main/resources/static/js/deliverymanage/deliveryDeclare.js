@@ -88,7 +88,8 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
                 }
                 },
                 {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}
+                {data: "return_info", label: "回执备注"},
+                {data: "return_time", label: "回执时间"}
             ]
         });
     },
