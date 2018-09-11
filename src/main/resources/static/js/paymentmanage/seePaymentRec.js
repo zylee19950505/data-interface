@@ -61,20 +61,18 @@ function inputChangePayment(id) {
     });
 }
 
-sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/seeInventoryRec"] || {
+sw.page.modules["paymentmanage/seePaymentRec"] = sw.page.modules["paymentmanage/seePaymentRec"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "bill_no",
             "order_no",
-            "logistics_no",
-            "cop_no",
+            "pay_transaction_id",
             "return_status",
             "return_info",
-            "return_time",
+            "return_time"
         ]
     },
     // 保存成功时回调查询
@@ -87,7 +85,7 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["detailmanage/seeInventoryRec"].detailParam.disableField;
+        var disableField = sw.page.modules["paymentmanage/seePaymentRec"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -95,10 +93,8 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
     // 装载表头信息
 
     fillInventoryRec: function (entryHead) {
-        $("#bill_no").val(entryHead.bill_no);
         $("#order_no").val(entryHead.order_no);
-        $("#logistics_no").val(entryHead.logistics_no);
-        $("#cop_no").val(entryHead.cop_no);
+        $("#pay_transaction_id").val(entryHead.pay_transaction_id);
         $("#return_status").val(entryHead.return_status);
         $("#return_info").val(entryHead.return_info);
         $("#return_time").val(entryHead.return_time);
@@ -125,18 +121,18 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
         // 表头变化
         headChangeKeyVal = {};
         //从路径上找参数
-        var param = sw.getPageParams("detailmanage/seeInventoryRec");
+        var param = sw.getPageParams("paymentmanage/seePaymentRec");
         var guid = param.guid;
         var data = {
-            guid: guid
+            guid: guid,
         };
         $.ajax({
             method: "GET",
-            url: "api/detailManage/seeInventoryRec",
+            url: "api/paymentManage/querypayment/seePaymentRec",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["detailmanage/seeInventoryRec"];
+                    var entryModule = sw.page.modules["paymentmanage/seePaymentRec"];
                     var entryHead = data.data;
 
                     if (isNotEmpty(entryHead)) {
@@ -153,7 +149,7 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("detailmanage/seeInventoryRec");
+        var param = sw.getPageParams("paymentmanage/seePaymentRec");
         var paytransactionid = param.paytransactionid;
         var type = param.type;
         var isEdit = param.isEdit;
@@ -167,7 +163,7 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
         });
         switch (type) {
             //支付单查询
-            case "QDCX": {
+            case "ZFDCX": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
@@ -182,7 +178,7 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
                     ];
                 }
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "detailmanage/seeInventoryRec";
+                this.detailParam.callBackUrl = "paymentmanage/seePaymentRec";
                 this.detailParam.isShowError = false;
                 break;
             }
@@ -205,9 +201,6 @@ sw.page.modules["detailmanage/seeInventoryRec"] = sw.page.modules["detailmanage/
         this.query();
 
     }
-
-
-
 
 
 }

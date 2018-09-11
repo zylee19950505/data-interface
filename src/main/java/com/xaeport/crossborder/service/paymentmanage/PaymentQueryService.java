@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.paymentmanage;
 
+import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.data.mapper.PaymentQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class PaymentQueryService {
 
 	public ImpPayment seePaymentDetail(Map<String, String> paramMap) {
 		return paymentQueryMapper.seePaymentDetail(paramMap);
+	}
+
+	public ImpPayment getImpPaymentRec(Map<String, String> paramMap) {
+		return paymentQueryMapper.getImpPaymentRec(paramMap);
 	}
 
 	@Transactional

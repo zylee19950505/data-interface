@@ -129,6 +129,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_CODE," +
                         "LOGISTICS_NAME," +
                         "LOGISTICS_NO," +
+                        "VOYAGE_NO," +
                         "BILL_NO," +
                         "NOTE," +
                         "ENT_ID," +

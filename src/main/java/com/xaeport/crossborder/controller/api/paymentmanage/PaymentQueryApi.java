@@ -6,12 +6,14 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
+import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.paymentmanage.PaymentQueryService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +36,7 @@ public class PaymentQueryApi extends BaseApi {
 			@RequestParam(required = false) String payTransactionId,
 			@RequestParam(required = false) String startFlightTimes,
 			@RequestParam(required = false) String endFlightTimes,
+			@RequestParam(required = false) String returnStatus,
 			HttpServletRequest request
 	) {
 		this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]",startFlightTimes, endFlightTimes, orderNo, payTransactionId));
@@ -61,6 +64,11 @@ public class PaymentQueryApi extends BaseApi {
 		paramMap.put("roleId",this.getCurrentUserRoleId());
 
 		paramMap.put("dataStatus", StatusCode.ZFDSBCG);
+		if (!StringUtils.isEmpty(returnStatus)) {
+			paramMap.put("returnStatus", returnStatus);
+		}else {
+			paramMap.put("returnStatus", "");
+		}
 
 		DataList<ImpPayment> dataList = null;
 		List<ImpPayment> resultList = null;
@@ -99,6 +107,24 @@ public class PaymentQueryApi extends BaseApi {
 			return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
 		}
 
+		return new ResponseData(impPayment);
+	}
+
+	@RequestMapping("/seePaymentRec")
+	public ResponseData getImpPaymentRec(
+			@RequestParam(required = false) String guid
+	) {
+		if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
+		this.logger.debug(String.format("查询支付单条件参数:[guid:%s]", guid));
+		ImpPayment impPayment;
+		Map<String,String> paramMap =  new HashMap<>();
+		paramMap.put("id",guid);
+		try {
+			impPayment = paymentQueryService.getImpPaymentRec(paramMap);
+		} catch (Exception e) {
+			this.logger.error("查询回执信息失败，entryHeadId=" + guid, e);
+			return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseData(impPayment);
 	}
 

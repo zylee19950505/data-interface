@@ -21,12 +21,10 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         return new SQL() {
             {
                 SELECT("BILL_NO");
-                SELECT("max(APP_TIME) as APP_TIME");
+                SELECT("(select max(APP_TIME) from T_IMP_INVENTORY_HEAD t2 where t2.bill_no = t.bill_no) as APP_TIME");
                 SELECT("(select count(1) from T_IMP_INVENTORY_HEAD tt where tt.bill_no = t.bill_no) as sum");
-                SELECT("count(order_no) as asscount");
+                SELECT("count(1) as asscount");
                 SELECT("DATA_STATUS");
-                SELECT("RETURN_STATUS");
-                SELECT("RETURN_INFO");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
@@ -43,9 +41,8 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                GROUP_BY("BILL_NO,APP_TIME,DATA_STATUS,RETURN_STATUS,RETURN_INFO");
+                GROUP_BY("BILL_NO,DATA_STATUS");
                 ORDER_BY("t.BILL_NO");
-                ORDER_BY("t.APP_TIME desc");
             }
         }.toString();
     }

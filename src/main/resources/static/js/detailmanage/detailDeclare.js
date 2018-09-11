@@ -108,10 +108,8 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     return "<span class='" + textColor + "'>" + value + "</span>";
                 }
                 },
-                {data: "asscount", label: "运单数量"},
-                {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}
-            ]
+                {data: "asscount", label: "运单数量"}
+                ]
         });
     },
     // 提交海关

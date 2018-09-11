@@ -55,7 +55,7 @@ public class DetailImportApi extends BaseApi {
             HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-        if (voyageNo.isEmpty()) return new ResponseData("航班号不能为空");
+        if (voyageNo.isEmpty()) return new ResponseData("航班航次号不能为空");
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (billNo.isEmpty()) return new ResponseData("提运单号不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
@@ -63,6 +63,8 @@ public class DetailImportApi extends BaseApi {
         String fileName = file.getOriginalFilename();
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
+        if (voyageNo.length() > 32) return new ResponseData("航班航次号长度超过32位，请重新输入");
+        if (billNo.length() > 37) return new ResponseData("提运单号长度超过37位，请重新输入");
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
 
         //获取企业信息

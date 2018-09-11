@@ -137,6 +137,7 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 SELECT("BILL_NO");
                 SELECT("ORDER_NO");
                 SELECT("LOGISTICS_NO");
+                SELECT("COP_NO");
                 SELECT("RETURN_STATUS");
                 SELECT("RETURN_INFO");
                 SELECT("RETURN_TIME");

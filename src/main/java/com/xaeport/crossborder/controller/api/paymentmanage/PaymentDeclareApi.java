@@ -37,9 +37,7 @@ public class PaymentDeclareApi extends BaseApi {
     @Autowired
     PaymentDeclareSevice paymentDeclareSevice;
     /*
-     * 支付单申报查询和支付单查询共用一个方法。
-     *支付单申报查询：条件 没有 时间
-     * 支付单查询：条件 有 时间
+     * 支付单申报
      */
     @RequestMapping("/queryPaymentDeclare")
     public ResponseData queryOrderDeclare(
@@ -47,6 +45,7 @@ public class PaymentDeclareApi extends BaseApi {
             @RequestParam(required = false) String payTransactionId,
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
+            @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]",startFlightTimes, endFlightTimes, orderNo, payTransactionId));
@@ -64,13 +63,17 @@ public class PaymentDeclareApi extends BaseApi {
         paramMap.put("payTransactionId", payTransactionId);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
+        if (!StringUtils.isEmpty(dataStatus)) {
+            paramMap.put("dataStatus", dataStatus);
+        } else {
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s", StatusCode.ZFDDSB,StatusCode.ZFDSBZ, StatusCode.ZFDYSB, StatusCode.ZFDCB,StatusCode.EXPORT,StatusCode.ZFDSBCG));
+        }
 
         paramMap.put("start", start);
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
         // 固定参数
-        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.ZFDDSB,StatusCode.ZFDSBZ, StatusCode.ZFDYSB, StatusCode.ZFDCB,StatusCode.EXPORT));
 
         paramMap.put("entId",this.getCurrentUserEntId());
         paramMap.put("roleId",this.getCurrentUserRoleId());
@@ -111,8 +114,6 @@ public class PaymentDeclareApi extends BaseApi {
         paramMap.put("dataStatus", StatusCode.ZFDSBZ);
         paramMap.put("dataStatusWhere", StatusCode.ZFDDSB + "," + StatusCode.ZFDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
         paramMap.put("currentUserId", currentUser.getId());
-
-       /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
         paramMap.put("submitKeys", submitKeys);//订单遍号
 
         // 调用支付单申报Service获取提交海关结果
@@ -141,31 +142,10 @@ public class PaymentDeclareApi extends BaseApi {
         return impPayment;
     }
 
-    /**
-     * 支付单修改功能因还没有确定需求。暂存。
-     * @param
-     * @return
-     */
-    @RequestMapping(value = "/submitUpdata", method = RequestMethod.POST)
-    public boolean submitUpdata(
-            @RequestParam String GUID,
-            @RequestParam String order_no,
-            @RequestParam String pay_code,
-            @RequestParam String pay_transaction_id,
-            @RequestParam String pay_name,
-            @RequestParam String ebp_code,
-            @RequestParam String ebp_name,
-            @RequestParam String payer_id_type,
-            @RequestParam String payer_name,
-            @RequestParam String note,
-            @RequestParam String amount_paid,
-            @RequestParam String payer_id_number,
-            @RequestParam String pay_time,
-            @RequestParam String data_status
-    ) {
-        System.err.println("进入api。。。。执行修改方法。");
-        System.err.println("GUID:"+GUID);
-        return true;
-    }
+
+
+
+
+
 
 }
