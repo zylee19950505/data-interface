@@ -10,13 +10,17 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据
     public String queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
+        final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
+        final String logisticsNo = paramMap.get("logisticsNo");
         final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
+        final String returnStatus = paramMap.get("returnStatus");
+
         return new SQL() {
             {
                 SELECT(
@@ -29,8 +33,17 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
+                if (!StringUtils.isEmpty(returnStatus)){
+                    WHERE(splitJointIn("t.return_Status",returnStatus));
+                }
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_No = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(logisticsNo)) {
+                    WHERE("t.logistics_No = #{logisticsNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -49,12 +62,16 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据总数
     public String queryInventoryQueryCount(Map<String, String> paramMap) throws Exception {
+        final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
+        final String logisticsNo = paramMap.get("logisticsNo");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
+        final String returnStatus = paramMap.get("returnStatus");
+
         return new SQL() {
             {
                 SELECT("COUNT(1)");
@@ -65,8 +82,17 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
+                if (!StringUtils.isEmpty(returnStatus)){
+                    WHERE(splitJointIn("t.return_Status",returnStatus));
+                }
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_No = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(logisticsNo)) {
+                    WHERE("t.logistics_No = #{logisticsNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -103,6 +129,25 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //查询清单回执信息
+    public String getImpInventoryRec(Map<String, String> paramMap) {
+        final String id = paramMap.get("id");
+        return new SQL() {
+            {
+                SELECT("BILL_NO");
+                SELECT("ORDER_NO");
+                SELECT("LOGISTICS_NO");
+                SELECT("COP_NO");
+                SELECT("RETURN_STATUS");
+                SELECT("RETURN_INFO");
+                SELECT("RETURN_TIME");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.GUID = #{id}");
+            }
+        }.toString();
+
+    }
+
     //修改清单表头信息
     public String updateImpInventoryHead(LinkedHashMap<String, String> entryHead) {
         return new SQL() {
@@ -119,13 +164,13 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                     SET("t.logistics_no = #{logistics_no}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("ebp_code"))) {
-                    SET("t.ebp_code = #{ebp_Name}");
+                    SET("t.ebp_code = #{ebp_code}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("ebp_name"))) {
-                    SET("t.ebp_name = #{ebc_Code}");
+                    SET("t.ebp_name = #{ebp_name}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("ebc_code"))) {
-                    SET("t.ebc_code = #{ebc_Name}");
+                    SET("t.ebc_code = #{ebc_code}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("ebc_name"))) {
                     SET("t.ebc_name = #{ebc_name}");

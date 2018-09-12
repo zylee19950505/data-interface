@@ -5,13 +5,19 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
+        var billNo = $("[name='billNo']").val();
         var orderNo = $("[name='orderNo']").val();
+        var logisticsNo = $("[name='logisticsNo']").val();
+        var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            orderNo: orderNo
+            billNo: billNo,//提运单号
+            orderNo: orderNo,//订单编号
+            logisticsNo: logisticsNo,//物流运单编号
+            returnStatus: returnStatus//回执状态
         });
 
         // 数据表
@@ -48,18 +54,32 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                // {data: "order_no", label: "订单编号"},//订单编号要点击查看订单详情
+                {data: "bill_no", label: "提运单号"},//订单编号要点击查看订单详情
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeInventoryDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {data: "logistics_no", label: "物流运单编号"},
                 {data: "invt_no", label: "海关清单编号"},
-                {data: "ebc_name", label: "电商企业名称"},
-                {data: "ebc_name", label: "支付企业名称"},
-                {data: "logistics_name", label: "物流企业名称"},
-                // {data: "g_name", label: "商品名称"},
+                {
+                    label: "电商平台名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.ebp_name + '">' + row.ebp_name + '</div>';
+                }
+                },
+                {
+                    label: "电商企业名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.ebc_name + '">' + row.ebc_name + '</div>';
+                }
+                },
+                {
+                    label: "物流企业名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.logistics_name + '">' + row.logistics_name + '</div>';
+                }
+                },
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (!isEmpty(row.app_time)) {
@@ -86,12 +106,10 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
                             value = "清单申报失败";
                             break;
                     }
-
-                    return "<span class='" + textColor + "'>" + value + "</span>";
+                    // return "<span class='" + textColor + "'>" + value + "</span>";
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeInventoryRec('" + row.guid + "','" + row.data_status + "')" + '">' + value + '</a>'
                 }
                 },
-                {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}
             ]
         });
     },
@@ -109,10 +127,16 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         $(".btn[ws-search]").click();
     },
 
-    seeOrderNoDetail: function (guid, order_no) {
+    seeInventoryDetail: function (guid, order_no) {
         console.log(guid, order_no)
         var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
+    },
+
+    seeInventoryRec: function (guid, data_status) {
+        console.log(guid, data_status)
+        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
+        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
     }
 
 

@@ -10,7 +10,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
 
     public String queryInventoryDeclareList(Map<String, String> paramMap) throws Exception {
 
-        final String orderNo = paramMap.get("orderNo");
+        final String billNo = paramMap.get("billNo");
         final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
@@ -20,9 +20,11 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
 
         return new SQL() {
             {
-                SELECT(
-                        " * from ( select rownum rn, f.* from ( " +
-                                " SELECT * ");
+                SELECT("BILL_NO");
+                SELECT("(select max(APP_TIME) from T_IMP_INVENTORY_HEAD t2 where t2.bill_no = t.bill_no) as APP_TIME");
+                SELECT("(select count(1) from T_IMP_INVENTORY_HEAD tt where tt.bill_no = t.bill_no) as sum");
+                SELECT("count(1) as asscount");
+                SELECT("DATA_STATUS");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
@@ -30,8 +32,8 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(dataStatus)){
                     WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
-                if (!StringUtils.isEmpty(orderNo)) {
-                    WHERE("t.order_no = #{orderNo}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_no = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -39,18 +41,15 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!"-1".equals(end)) {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
-                } else {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn >= #{start}");
-                }
+                GROUP_BY("BILL_NO,DATA_STATUS");
+                ORDER_BY("t.BILL_NO");
             }
         }.toString();
     }
 
     public String queryInventoryDeclareCount(Map<String, String> paramMap) throws Exception {
 
-        final String orderNo = paramMap.get("orderNo");
+        final String billNo = paramMap.get("billNo");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
@@ -67,8 +66,8 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(dataStatus)){
                     WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
                 }
-                if (!StringUtils.isEmpty(orderNo)) {
-                    WHERE("t.ORDER_NO = #{orderNo}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_no = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.crt_tm >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -86,15 +85,16 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String submitKeys = paramMap.get("submitKeys");
         final String dataStatusWhere = paramMap.get("dataStatusWhere");
         final String dataStatus = paramMap.get("dataStatus");
+        final String userId = paramMap.get("userId");
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE(splitJointIn("t.ORDER_NO", submitKeys));
+                WHERE(splitJointIn("t.BILL_NO", submitKeys));
                 WHERE(splitJointIn("t.DATA_STATUS", dataStatusWhere));
                 SET("t.data_status = #{dataStatus}");
                 SET("t.APP_TIME = sysdate");
                 SET("t.upd_tm = sysdate");
-                SET("t.upd_id = #{currentUserId}");
+                SET("t.upd_id = #{userId}");
             }
         }.toString();
     }

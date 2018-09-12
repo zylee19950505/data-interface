@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class PaymentQuerySQLProvider {
+public class PaymentQuerySQLProvider extends BaseSQLProvider{
 
 
 	//支付单查询数据
@@ -19,6 +19,7 @@ public class PaymentQuerySQLProvider {
 		final String entId = paramMap.get("entId");
 		final String roleId = paramMap.get("roleId");
 		final String dataStatus = paramMap.get("dataStatus");
+		final String returnStatus = paramMap.get("returnStatus");
 
 		return new SQL() {
 			{
@@ -48,6 +49,9 @@ public class PaymentQuerySQLProvider {
 				if (!StringUtils.isEmpty(dataStatus)){
 					WHERE("t.DATA_STATUS = #{dataStatus}");
 				}
+				if (!StringUtils.isEmpty(returnStatus)){
+					WHERE(splitJointIn("t.return_Status",returnStatus));
+				}
 				if (!StringUtils.isEmpty(payTransactionId)) {
 					WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
 				}
@@ -76,6 +80,7 @@ public class PaymentQuerySQLProvider {
 		final String entId = paramMap.get("entId");
 		final String roleId = paramMap.get("roleId");
 		final String dataStatus = paramMap.get("dataStatus");
+		final String returnStatus = paramMap.get("returnStatus");
 
 		return new SQL() {
 			{
@@ -86,6 +91,9 @@ public class PaymentQuerySQLProvider {
 				}
 				if (!StringUtils.isEmpty(dataStatus)){
 					WHERE("t.DATA_STATUS = #{dataStatus}");
+				}
+				if (!StringUtils.isEmpty(returnStatus)){
+					WHERE(splitJointIn("t.return_Status",returnStatus));
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("t.ORDER_NO = #{orderNo}");
@@ -119,6 +127,23 @@ public class PaymentQuerySQLProvider {
 				}
 			}
 		}.toString();
+	}
+
+	//查询清单回执信息
+	public String getImpPaymentRec(Map<String, String> paramMap) {
+		final String id = paramMap.get("id");
+		return new SQL() {
+			{
+				SELECT("ORDER_NO");
+				SELECT("PAY_TRANSACTION_ID");
+				SELECT("RETURN_STATUS");
+				SELECT("RETURN_INFO");
+				SELECT("RETURN_TIME");
+				FROM("T_IMP_PAYMENT t");
+				WHERE("t.GUID = #{id}");
+			}
+		}.toString();
+
 	}
 
 	//修改清单表头信息

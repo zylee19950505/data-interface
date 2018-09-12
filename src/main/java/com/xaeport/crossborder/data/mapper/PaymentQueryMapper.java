@@ -13,20 +13,24 @@ import java.util.Map;
 @Mapper
 public interface PaymentQueryMapper {
 
-	//查询支付单查询数据
-	@SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryList")
-	List<ImpPayment> queryPaymentQueryList(Map<String, String> paramMap) throws Exception;
+    //查询支付单查询数据
+    @SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryList")
+    List<ImpPayment> queryPaymentQueryList(Map<String, String> paramMap) throws Exception;
 
-	//查询支付单查询数据总数
-	@SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryCount")
-	Integer queryPaymentQueryCount(Map<String, String> paramMap) throws Exception;
+    //查询支付单查询数据总数
+    @SelectProvider(type = PaymentQuerySQLProvider.class, method = "queryPaymentQueryCount")
+    Integer queryPaymentQueryCount(Map<String, String> paramMap) throws Exception;
 
-	//查询支付单详情信息
-	@SelectProvider(type = PaymentQuerySQLProvider.class,method ="seePaymentDetail")
-	ImpPayment seePaymentDetail(Map<String, String> paramMap);
+    //查询支付单详情信息
+    @SelectProvider(type = PaymentQuerySQLProvider.class, method = "seePaymentDetail")
+    ImpPayment seePaymentDetail(Map<String, String> paramMap);
 
-	//修改支付单详情信息
-	@UpdateProvider(type = PaymentQuerySQLProvider.class,method = "updateImpPayment")
-	void updateImpPayment(LinkedHashMap<String, String> entryHead);
+    //查询支付单回执详情
+    @SelectProvider(type = PaymentQuerySQLProvider.class, method = "getImpPaymentRec")
+    ImpPayment getImpPaymentRec(Map<String, String> paramMap);
+
+    //修改支付单详情信息
+    @UpdateProvider(type = PaymentQuerySQLProvider.class, method = "updateImpPayment")
+    void updateImpPayment(LinkedHashMap<String, String> entryHead);
 
 }

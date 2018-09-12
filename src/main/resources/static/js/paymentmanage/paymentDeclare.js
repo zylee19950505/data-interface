@@ -11,13 +11,15 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         var payTransactionId = $("[name='payTransactionId']").val();//支付交易编号
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
+        var dataStatus = $("[name='dataStatus']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/paymentManage/queryPaymentDeclare", {
             orderNo: orderNo,
             payTransactionId: payTransactionId,
             startFlightTimes: startFlightTimes,
-            endFlightTimes: endFlightTimes
+            endFlightTimes: endFlightTimes,
+            dataStatus: dataStatus//业务状态
         });
 
         // 数据表
@@ -52,7 +54,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 {
@@ -75,8 +77,13 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 },
                 {data: "pay_transaction_id", label: "支付交易编号"},
                 {data: "order_no", label: "订单编号"},
-                {data: "pay_name", label: "支付企业名称"},
-                {data: "ebp_name", label: "电商平台名称"},
+                //vertical-align:middle;
+                {
+                    label: "电商平台名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.ebp_name + '">' + row.ebp_name + '</div>';
+                }
+                },
                 {data: "payer_name", label: "支付人"},
                 {
                     label: "支付金额（元）", render: function (data, type, row) {
@@ -110,12 +117,14 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                             textColor = "text-green";
                             row.data_status = "支付单已申报";
                             break;
+                        case "CBDS32"://支付单申报成功
+                            textColor = "text-green";
+                            row.data_status = "支付单申报成功";
+                            break;
                     }
                     return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
-                },
-                {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}
+                }
             ]
         });
     },

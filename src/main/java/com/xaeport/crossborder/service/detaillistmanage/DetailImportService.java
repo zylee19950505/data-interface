@@ -38,11 +38,11 @@ public class DetailImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createDetailForm(Map<String, Object> excelMap, String importTime, Users user) {
+    public int createDetailForm(Map<String, Object> excelMap, String importTime, Users user, String voyageNo, String billNo) {
         int flag;
         try {
             String id = user.getId();
-            flag = this.createImpInventoryHead(excelMap, importTime, user);
+            flag = this.createImpInventoryHead(excelMap, importTime, user, voyageNo, billNo);
         } catch (Exception e) {
             flag = 2;
             this.log.error("导入失败", e);
@@ -54,12 +54,12 @@ public class DetailImportService {
     /*
  * 创建ImpOrderHead信息
  */
-    private int createImpInventoryHead(Map<String, Object> excelMap, String importTime, Users user) throws Exception {
+    private int createImpInventoryHead(Map<String, Object> excelMap, String importTime, Users user, String voyageNo, String billNo) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpInventoryHead> impInventoryHeadList = (List<ImpInventoryHead>) excelMap.get("ImpInventoryHead");
         for (ImpInventoryHead anImpInventoryHeadList : impInventoryHeadList) {
-            ImpInventoryHead impInventoryHead = this.impInventoryHeadData(importTime, anImpInventoryHeadList, user, enterprise);
+            ImpInventoryHead impInventoryHead = this.impInventoryHeadData(importTime, anImpInventoryHeadList, user, enterprise, voyageNo, billNo);
             flag = this.detailImportMapper.isRepeatOrderNo(impInventoryHead);
             if (flag > 0) {
                 return 0;
@@ -111,7 +111,7 @@ public class DetailImportService {
     /**
      * 表头自生成信息
      */
-    private ImpInventoryHead impInventoryHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user, Enterprise enterprise) throws Exception {
+    private ImpInventoryHead impInventoryHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user, Enterprise enterprise, String voyageNo, String billNo) throws Exception {
         impInventoryHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impInventoryHead.setCop_no(enterprise.getCustoms_code() + IdUtils.getShortUUId().substring(0, 10));
         impInventoryHead.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
@@ -122,6 +122,8 @@ public class DetailImportService {
         impInventoryHead.setCurrency("142");//币制
         impInventoryHead.setPack_no("1");//件数
         impInventoryHead.setIe_date(DateTools.shortDateTimeString(importTime));
+        impInventoryHead.setVoyage_no(voyageNo.trim());
+        impInventoryHead.setBill_no(billNo.trim());
         impInventoryHead.setData_status(StatusCode.EXPORT);//数据状态
         impInventoryHead.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impInventoryHead.setCrt_tm(new Date());//创建时间

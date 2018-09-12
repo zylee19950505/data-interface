@@ -10,13 +10,15 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
         var payTransactionId = $("[name='payTransactionId']").val();//支付交易编号
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
+        var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/paymentManage/querypayment/queryPaymentQuery", {
             orderNo: orderNo,
             payTransactionId: payTransactionId,
             startFlightTimes: startFlightTimes,
-            endFlightTimes: endFlightTimes
+            endFlightTimes: endFlightTimes,
+            returnStatus: returnStatus//回执状态
         });
 
         // 数据表
@@ -50,7 +52,7 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 {
@@ -63,7 +65,6 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 }
                 },
                 {data: "order_no", label: "订单编号"},
-                {data: "pay_name", label: "支付企业名称"},
                 {data: "ebp_name", label: "电商平台名称"},
                 {data: "payer_name", label: "支付人"},
                 {
@@ -95,11 +96,10 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                             row.data_status = "支付单申报失败";
                             break;
                     }
-                    return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                    // return "<span class='" + textColor + "'>" + row.data_status + "</span>";
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('paymentmanage/paymentQuery').seePaymentRec('" + row.guid + "','" + row.pay_transaction_id + "')" + '">' + row.data_status + '</a>'
                 }
-                },
-                {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}
+                }
             ]
         });
     },
@@ -107,6 +107,11 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
     seePaymentDetail: function (pay_transaction_id, order_no, guid) {
         var url = "paymentmanage/seePaymentDetail?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id + "&orderNo=" + order_no + "&guid=" + guid;
         sw.modelPopup(url, "支付单详情信息", false, 900, 400);
+    },
+
+    seePaymentRec: function (guid, pay_transaction_id) {
+        var url = "paymentmanage/seePaymentRec?type=ZFDCX&isEdit=true&paytransactionid=" + pay_transaction_id + "&guid=" + guid;
+        sw.modelPopup(url, "查看支付单回执详情", false, 800, 300);
     },
 
     init: function () {

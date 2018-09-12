@@ -8,6 +8,7 @@ import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryDetail;
+import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.detaillistmanage.DetailQueryService;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +24,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/detailManage")
-public class DetailQueryApi extends BaseApi{
+public class DetailQueryApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -37,10 +38,13 @@ public class DetailQueryApi extends BaseApi{
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
+            @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String orderNo,
+            @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]",startFlightTimes, endFlightTimes, orderNo));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]", startFlightTimes, endFlightTimes, orderNo));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         String startStr = request.getParameter("start");
@@ -50,7 +54,9 @@ public class DetailQueryApi extends BaseApi{
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
+        paramMap.put("billNo", billNo);
         paramMap.put("orderNo", orderNo);
+        paramMap.put("logisticsNo", logisticsNo);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         //分页参数
@@ -59,10 +65,15 @@ public class DetailQueryApi extends BaseApi{
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
 
-        paramMap.put("entId",this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
         //类型参数
         paramMap.put("dataStatus", StatusCode.QDSBCG);
+        if (!StringUtils.isEmpty(returnStatus)) {
+            paramMap.put("returnStatus", returnStatus);
+        }else {
+            paramMap.put("returnStatus", "");
+        }
 
         //更新人
         DataList<ImpInventory> dataList = null;
@@ -92,7 +103,7 @@ public class DetailQueryApi extends BaseApi{
             @RequestParam(required = false) String guid
     ) {
         if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
-        this.logger.debug(String.format("查询邮件条件参数:[guid:%s]",guid));
+        this.logger.debug(String.format("查询清单条件参数:[guid:%s]", guid));
         ImpInventoryDetail impInventoryDetail;
         try {
             impInventoryDetail = detailQueryService.getImpInventoryDetail(guid);
@@ -103,9 +114,25 @@ public class DetailQueryApi extends BaseApi{
         return new ResponseData(impInventoryDetail);
     }
 
+    @RequestMapping("/seeInventoryRec")
+    public ResponseData seeInventoryRec(
+            @RequestParam(required = false) String guid
+    ) {
+        if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
+        this.logger.debug(String.format("查询清单条件参数:[guid:%s]", guid));
+        ImpInventoryHead impInventoryHead;
+        try {
+            impInventoryHead = detailQueryService.getImpInventoryRec(guid);
+        } catch (Exception e) {
+            this.logger.error("查询回执信息失败，entryHeadId=" + guid, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(impInventoryHead);
+    }
+
     //保存清单信息
     @RequestMapping("/saveInventoryDetail")
-    public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson){
+    public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         //清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
 
@@ -126,20 +153,6 @@ public class DetailQueryApi extends BaseApi{
         }
         return new ResponseData(rtnMap);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

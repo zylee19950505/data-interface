@@ -10,6 +10,7 @@ import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.FileUtils;
 import com.xaeport.crossborder.tools.ZipUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,10 +35,32 @@ public class DetailDeclareService {
     private Log logger = LogFactory.getLog(this.getClass());
 
     /*
-     * 查询清单申报数据
+     * 查询清单申报数据hashCode
      */
     public List<ImpInventory> queryInventoryDeclareList(Map<String, String> paramMap) throws Exception {
-        return this.detailDeclareMapper.queryInventoryDeclareList(paramMap);
+        int hashValue;
+        String str;
+        List<ImpInventory> impInventoryList = this.detailDeclareMapper.queryInventoryDeclareList(paramMap);
+        List<ImpInventory> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+
+        if(!StringUtils.isEmpty(impInventoryList)){
+            for(ImpInventory impInventory :impInventoryList){
+                str = String.format("%s%s",impInventory.getBill_no(),impInventory.getSum());
+                hashValue = str.hashCode();
+                if(list.contains(hashValue)){
+                    impInventory.setNo("0");
+                    result.add(impInventory);
+                }else{
+                    list.add(hashValue);
+                    impInventory.setNo("1");
+                    result.add(impInventory);
+                }
+            }
+        }
+        list.clear();
+
+        return result;
     }
 
     /*
@@ -46,7 +69,6 @@ public class DetailDeclareService {
     public Integer queryInventoryDeclareCount(Map<String, String> paramMap) throws Exception {
         return this.detailDeclareMapper.queryInventoryDeclareCount(paramMap);
     }
-
 
     /**
      * 更新清单状态

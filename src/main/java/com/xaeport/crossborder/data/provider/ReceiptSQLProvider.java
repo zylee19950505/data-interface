@@ -500,8 +500,8 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             {
                 UPDATE("T_IMP_DELIVERY_HEAD t");
                 WHERE("t.DATA_STATUS in ('CBDS71','CBDS72')");
-                if (!StringUtils.isEmpty(impDeliveryHead.getBill_no())) {
-                    WHERE("t.BILL_NO = #{impDeliveryHead.bill_no}");
+                if (!StringUtils.isEmpty(impDeliveryHead.getCop_no())) {
+                    WHERE("t.BILL_NO = #{impDeliveryHead.cop_no}");
                 }
                 if (!StringUtils.isEmpty(impDeliveryHead.getPre_no())) {
                     SET("t.PRE_NO = #{impDeliveryHead.pre_no}");

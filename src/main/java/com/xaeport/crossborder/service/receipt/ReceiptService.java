@@ -449,7 +449,6 @@ public class ReceiptService {
                 if (!StringUtils.isEmpty(impDeliveryHead)) {
                     long systemTime = StringUtils.isEmpty(impDeliveryHead.getReturn_time()) ? 0 : Long.parseLong(impDeliveryHead.getReturn_time());
                     if (returnTime >= systemTime){
-                        impRecDelivery.setBill_no(impDeliveryHead.getBill_no());
                         this.updateImpDeliveryStatus(impRecDelivery);    //更新清单表状态
                     }else {
                         continue;
@@ -466,7 +465,6 @@ public class ReceiptService {
      */
     private void updateImpDeliveryStatus(ImpRecDelivery impRecDelivery) throws Exception {
         ImpDeliveryHead impDeliveryHead = new ImpDeliveryHead();
-        impDeliveryHead.setBill_no(impRecDelivery.getBill_no());
         impDeliveryHead.setCustoms_code(impRecDelivery.getCustoms_code());//接受清单申报的海关关区代码，参照JGS/T 18《海关关区代码》。
         impDeliveryHead.setOperator_code(impRecDelivery.getOperator_code());//监管场所经营人在海关注册登记的编号
         impDeliveryHead.setCop_no(impRecDelivery.getCop_no());//企业内部标识单证的编号。

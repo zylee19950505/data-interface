@@ -59,6 +59,9 @@ public class ImpInventory {
     private String return_status;//回执状态
     private String return_info;//回执备注
     private String return_time;//回执时间
+    private String sum;//分单总数
+    private String asscount;//分单总数
+    private String no;
 
     private int g_num;//序号: 从1开始连续序号，与关联的电子订单表体序号一一对应。
     private String head_guid;//表头编号: 企业系统生成36 位唯一序号（英文字母大写）
@@ -79,6 +82,30 @@ public class ImpInventory {
     private String price;//商品单价。赠品单价填写为 0。
     private String total_price;//商品总价，等于单价乘以数量。
     private String bodyNote;//促销活动，商品单价偏离市场价格的，可以在此说明。
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
+    }
+
+    public String getAsscount() {
+        return asscount;
+    }
+
+    public void setAsscount(String asscount) {
+        this.asscount = asscount;
+    }
 
     public String getGuid() {
         return guid;

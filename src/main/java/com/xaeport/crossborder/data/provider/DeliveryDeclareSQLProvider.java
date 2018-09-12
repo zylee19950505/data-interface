@@ -29,6 +29,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("DATA_STATUS");
                 SELECT("RETURN_STATUS");
                 SELECT("RETURN_INFO");
+                SELECT("RETURN_TIME");
                 FROM("T_IMP_DELIVERY_HEAD t");
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
@@ -42,8 +43,8 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                GROUP_BY("BILL_NO,APP_TIME,LOGISTICS_CODE,LOGISTICS_NAME,DATA_STATUS,RETURN_STATUS,RETURN_INFO");
-                ORDER_BY("t.APP_TIME desc");
+                GROUP_BY("BILL_NO,APP_TIME,LOGISTICS_CODE,LOGISTICS_NAME,DATA_STATUS,RETURN_STATUS,RETURN_INFO,RETURN_TIME");
+                ORDER_BY("t.BILL_NO,t.APP_TIME desc");
             }
         }.toString();
     }
@@ -129,6 +130,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_CODE," +
                         "LOGISTICS_NAME," +
                         "LOGISTICS_NO," +
+                        "VOYAGE_NO," +
                         "BILL_NO," +
                         "NOTE," +
                         "ENT_ID," +
