@@ -98,16 +98,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     return BILLNO;
                 }
                 },
-                //{data: "totalCount", label: "运单总数"},
-                {
-                    label: "运单总数", render: function (data, type, row) {
-                    if (TOTALCOUNT == row.totalCount) {
-                        return "";
-                    }
-                    TOTALCOUNT = row.totalCount;
-                    return TOTALCOUNT;
-                }
-                },
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (!isEmpty(row.appTime)) {
@@ -120,6 +110,16 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     return "";
                 }
                 },
+                {
+                    label: "运单总数", render: function (data, type, row) {
+                    if (TOTALCOUNT == row.totalCount) {
+                        return "";
+                    }
+                    TOTALCOUNT = row.totalCount;
+                    return TOTALCOUNT;
+                }
+                },
+
 
                 //{data: "data_status", label: "运单回执"},
                 {
