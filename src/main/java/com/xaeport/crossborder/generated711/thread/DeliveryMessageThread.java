@@ -80,6 +80,7 @@ public class DeliveryMessageThread implements Runnable {
                         String distinctCode = IdUtils.getShortUUId();
                         for (ImpDeliveryHead impDeliveryHead : impDeliveryHeadLists) {
                             impDeliveryHead.setCop_no(impDeliveryHead.getEnt_customs_code() + distinctCode.substring(0, 10));
+                            this.deliveryDeclareMapper.setDeliveryCopNo(impDeliveryHead);
                         }
                         deliveryHead = impDeliveryHeadLists.get(0);
                         xmlHeadGuid = deliveryHead.getGuid();

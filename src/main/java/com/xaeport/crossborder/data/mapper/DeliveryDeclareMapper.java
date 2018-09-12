@@ -50,6 +50,9 @@ public interface DeliveryDeclareMapper {
     @UpdateProvider(type = DeliveryDeclareSQLProvider.class,method = "updateDeliveryStatus")
     void updateDeliveryStatus(@Param("guid") String guid,@Param("dataStatus") String dataStatus);
 
+    @Update("UPDATE T_IMP_DELIVERY_HEAD t SET t.COP_NO = #{impDeliveryHead.cop_no} WHERE t.guid = #{impDeliveryHead.guid}")
+    void setDeliveryCopNo(@Param("impDeliveryHead")ImpDeliveryHead impDeliveryHead);
+
 
 
 

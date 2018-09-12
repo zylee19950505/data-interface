@@ -23,9 +23,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     public String findDeliveryByCopNo(String copNo) {
         return new SQL() {
             {
-                SELECT("t.*");
-                FROM("T_IMP_DELIVERY_HEAD t");
-                WHERE("t.COP_NO = #{copNo}");
+                SELECT("*");
+                FROM("(SELECT * FROM T_IMP_DELIVERY_HEAD t where t.COP_NO = #{copNo})");
+                WHERE("rownum = 1");
             }
         }.toString();
     }
@@ -501,7 +501,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_DELIVERY_HEAD t");
                 WHERE("t.DATA_STATUS in ('CBDS71','CBDS72')");
                 if (!StringUtils.isEmpty(impDeliveryHead.getCop_no())) {
-                    WHERE("t.BILL_NO = #{impDeliveryHead.cop_no}");
+                    WHERE("t.COP_NO = #{impDeliveryHead.cop_no}");
                 }
                 if (!StringUtils.isEmpty(impDeliveryHead.getPre_no())) {
                     SET("t.PRE_NO = #{impDeliveryHead.pre_no}");
