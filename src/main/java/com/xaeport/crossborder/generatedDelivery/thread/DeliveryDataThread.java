@@ -55,10 +55,8 @@ public class DeliveryDataThread implements Runnable {
                         impDeliveryHead = new ImpDeliveryHead();
                         impDeliveryHead.setGuid(IdUtils.getUUId());
                         impDeliveryHead.setApp_type("1");
-//                        impDeliveryHead.setApp_time();
                         impDeliveryHead.setApp_status("2");
                         impDeliveryHead.setCustoms_code("9007");
-                        impDeliveryHead.setCop_no(impLogistics.getEnt_customs_code() + IdUtils.getShortUUId().substring(0, 10));
                         impDeliveryHead.setPre_no("");
                         impDeliveryHead.setRkd_no("");
                         impDeliveryHead.setOperator_code("");

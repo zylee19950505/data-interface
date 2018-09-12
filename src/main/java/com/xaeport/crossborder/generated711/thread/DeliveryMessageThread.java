@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
+import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -76,6 +77,10 @@ public class DeliveryMessageThread implements Runnable {
                         impDeliveryBodyList = new ArrayList<>();
                         impDeliveryHeadLists = deliveryXmlMap.get(billNo);
 
+                        String distinctCode = IdUtils.getShortUUId();
+                        for (ImpDeliveryHead impDeliveryHead : impDeliveryHeadLists) {
+                            impDeliveryHead.setCop_no(impDeliveryHead.getEnt_customs_code() + distinctCode.substring(0, 10));
+                        }
                         deliveryHead = impDeliveryHeadLists.get(0);
                         xmlHeadGuid = deliveryHead.getGuid();
                         nameBillNo = deliveryHead.getBill_no();
