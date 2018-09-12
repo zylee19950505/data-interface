@@ -42,19 +42,21 @@ public class OrderQueryApi extends BaseApi {
 			@RequestParam(required = false) String endDeclareTime,
 			@RequestParam(required = false) String orderNo,
 			@RequestParam(required = false) String billNo,
+			@RequestParam(required = false) String orderStatus,
 			@RequestParam(required = false) String start,
 			@RequestParam(required = false) String length,
 			@RequestParam(required = false) String draw
 
 
 	) {
-		this.logger.debug(String.format("查询邮件申报条件参数:[startDeclareTime:%s,endDeclareTime:%s,orderNo:%s,billNo:%s,start:%s,length:%s,drew:%s]", startDeclareTime,endDeclareTime,orderNo,billNo,start,length,draw));
+		this.logger.debug(String.format("查询邮件申报条件参数:[startDeclareTime:%s,endDeclareTime:%s,orderNo:%s,billNo:%s,orderStatus:%s,start:%s,length:%s,drew:%s]", startDeclareTime,endDeclareTime,orderNo,billNo,orderStatus,start,length,draw));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpOrderHead> dataList = new DataList<ImpOrderHead>();
 		paramMap.put("startDeclareTime",startDeclareTime);
 		paramMap.put("endDeclareTime",endDeclareTime);
 		paramMap.put("orderNo",orderNo);
 		paramMap.put("billNo",billNo);
+		paramMap.put("orderStatus",orderStatus);
 		paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
 		paramMap.put("length",length);
 		paramMap.put("entId",this.getCurrentUserEntId());
@@ -158,6 +160,28 @@ public class OrderQueryApi extends BaseApi {
 			rtnMap.put("msg", "保存订单详细信息时发生异常");
 		}
 		return new ResponseData(rtnMap);
+	}
+
+	/*
+	* 点击查看订单回执详情
+	* */
+	@RequestMapping("/returnOrderDetail")
+	public ResponseData returnOrderDetail(
+			@RequestParam(required = false) String guid,
+			@RequestParam(required = false) String orderNo
+	){
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("guid",guid);
+		paramMap.put("orderNo",orderNo);
+		ImpOrderHead impOrderHead;
+		try {
+			impOrderHead = orderQueryService.returnOrderDetail(paramMap);
+		} catch (Exception e) {
+			this.logger.error("查询回执详情信息失败，order_no=" + orderNo, e);
+			return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseData(impOrderHead);
 	}
 }
 

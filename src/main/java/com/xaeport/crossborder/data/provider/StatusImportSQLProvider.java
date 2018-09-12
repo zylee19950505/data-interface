@@ -71,7 +71,7 @@ public class StatusImportSQLProvider {
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("t.LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
                 WHERE("t.RETURN_STATUS is not null");
-                WHERE("t.DATA_STATUS = 'CBDS41'");
+                WHERE("t.DATA_STATUS = 'CBDS42'");
             }
         }.toString();
     }

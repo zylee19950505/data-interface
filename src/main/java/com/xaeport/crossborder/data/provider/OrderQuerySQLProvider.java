@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.provider;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
+import org.apache.poi.sl.draw.geom.Guide;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 	public String queryOrderHeadList(Map<String, String> paramMap){
 		final String orderNo = paramMap.get("orderNo");
 		final String billNo = paramMap.get("billNo");
+		final String orderStatus = paramMap.get("orderStatus");
 		final String startDeclareTime = paramMap.get("startDeclareTime");
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String start = paramMap.get("start");
@@ -33,6 +35,12 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(billNo)){
 					WHERE("th.bill_no = #{billNo}");
+				}
+				/*if (!StringUtils.isEmpty(orderStatus)){
+					WHERE("t.return_info like '%'||#{orderStatus}||'%'");
+				}*/
+				if (!StringUtils.isEmpty(orderStatus)){
+					WHERE("th.RETURN_STATUS = #{orderStatus}");
 				}
 				if (!StringUtils.isEmpty(dataStatus)) {
 					WHERE("th.DATA_STATUS = #{dataStatus}");
@@ -58,6 +66,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 	public String queryOrderHeadListCount(Map<String, String> paramMap){
 		final String orderNo = paramMap.get("orderNo");
 		final String billNo = paramMap.get("billNo");
+		final String orderStatus = paramMap.get("orderStatus");
 		final String startDeclareTime = paramMap.get("startDeclareTime");
 		final String endDeclareTimes = paramMap.get("endDeclareTimes");
 		final String entId = paramMap.get("entId");
@@ -76,6 +85,12 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(billNo)){
 					WHERE("th.bill_no = #{billNo}");
+				}
+				/*if (!StringUtils.isEmpty(orderStatus)){
+					WHERE("t.return_info like '%'||#{orderStatus}||'%'");
+				}*/
+				if (!StringUtils.isEmpty(orderStatus)){
+					WHERE("th.RETURN_STATUS = #{orderStatus}");
 				}
 				if (!StringUtils.isEmpty(dataStatus)) {
 					WHERE("th.DATA_STATUS = #{dataStatus}");
@@ -267,6 +282,27 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 			}
 		}.toString();
+	}
+
+	/*
+	* 点击查看订单回执详情
+	* */
+	public String returnOrderDetail(Map<String,String> paramMap){
+		final String guid = paramMap.get("guid");
+		final String orderNo = paramMap.get("orderNo");
+		return new SQL(){
+			{
+				SELECT("t.bill_no,t.order_no,t.return_status,t.return_info,t.return_time");
+				FROM("T_IMP_ORDER_HEAD t");
+				if (!StringUtils.isEmpty(guid)) {
+					WHERE("t.guid = #{guid} ");
+				}
+				if(!StringUtils.isEmpty(orderNo)){
+					WHERE("t.order_no = #{orderNo}");
+				}
+			}
+		}.toString();
+
 	}
 
 }

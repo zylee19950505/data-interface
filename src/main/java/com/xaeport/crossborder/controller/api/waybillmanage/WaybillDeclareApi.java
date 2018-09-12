@@ -34,62 +34,6 @@ public class WaybillDeclareApi extends BaseApi{
     @Autowired
     WaybillDeclareService waybillService;
 
-    /*
-     * 运单申报查询
-     */
-    /*@RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
-    public ResponseData queryOrderDeclare(
-            @RequestParam(required = false) String startFlightTimes,
-            @RequestParam(required = false) String endFlightTimes,
-            @RequestParam(required = false) String logisticsNo,
-            @RequestParam(required = false) String billNo,
-            @RequestParam(required = false) String dataStatus,
-            HttpServletRequest request
-    ) {
-        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes,billNo, dataStatus));
-
-        Map<String, String> map = new HashMap<String,String>();
-
-        String startStr = request.getParameter("start");
-        String length = request.getParameter("length");
-        String extra_search = request.getParameter("extra_search");
-        String draw = request.getParameter("draw");
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
-
-        map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-        map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-        //map.put("logisticsNo", logisticsNo);
-        map.put("billNo",billNo);
-        map.put("dataStatus", dataStatus);
-
-        map.put("start", start);
-        map.put("length", length);
-        map.put("end", end);
-        map.put("extra_search", extra_search);
-
-        map.put("entId",this.getCurrentUserEntId());
-        map.put("roleId",this.getCurrentUserRoleId());
-        // 固定参数
-        map.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.YDDSB,StatusCode.YDSBZ,StatusCode.YDYSB, StatusCode.YDCB,StatusCode.EXPORT,StatusCode.YDZTDSB,StatusCode.YDZTYSB,StatusCode.YDZTSBZ,StatusCode.YDZTCB));
-        DataList<ImpLogisticsData> dataList = null;
-        List<ImpLogisticsData> impLogisticsDataList = null;
-        try {
-            //查询数据
-            impLogisticsDataList = this.waybillService.queryWaybillDeclareDataList(map);
-            //查询数据总数
-            Integer count = this.waybillService.queryWaybillDeclareCount(map);
-            dataList = new DataList<>();
-            dataList.setDraw(draw);
-            dataList.setData(impLogisticsDataList);
-            dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);
-        } catch (Exception e) {
-            this.logger.error("查询运单申报数据失败", e);
-             return new ResponseData("获取运单申报数据错误", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseData(dataList);
-    }*/
     @RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
     public ResponseData queryOrderDeclare1(
             @RequestParam(required = false) String startFlightTimes,
@@ -100,7 +44,7 @@ public class WaybillDeclareApi extends BaseApi{
             @RequestParam(required = false) String statusDataStatus,//运单状态回执
             HttpServletRequest request
     ) {
-        //this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes,billNo, dataStatus));
+        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes,logisticsNo,billNo, dataStatus,statusDataStatus));
 
         Map<String, String> map = new HashMap<String,String>();
 

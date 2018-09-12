@@ -80,7 +80,7 @@ public class WaybillDeclareService {
     * */
     public String queryDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
-        String billNo = "true";
+        String billNo;
         for (int i = 0;i<split.length;i++){
             billNo = split[i];
            int countDataStatus =this.waybillMapper.queryDateStatus(billNo);
@@ -93,7 +93,7 @@ public class WaybillDeclareService {
 
     public String queryStaDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
-        String billNo = "true";
+        String billNo;
         for (int i = 0;i<split.length;i++){
             billNo = split[i];
             int countDataStatus =this.waybillMapper.queryStaDateStatus(billNo);

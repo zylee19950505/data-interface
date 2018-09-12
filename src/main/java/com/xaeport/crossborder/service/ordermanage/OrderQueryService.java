@@ -90,4 +90,8 @@ public class OrderQueryService {
 		this.entryMapper.insertStatusRecord(statusRecord);*/
 		return false;
 	}
+
+	public ImpOrderHead returnOrderDetail(Map<String, String> paramMap) {
+		return orderQueryMapper.returnOrderDetail(paramMap);
+	}
 }

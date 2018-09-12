@@ -106,7 +106,7 @@ public class StatusImportApi extends BaseApi {
                 //判断运单是否申报成功,是否有回执
                 String logisticsSuccess = this.statusImportService.getLogisticsSuccess(excelMap);
                 if (!"true".equals(logisticsSuccess)) {
-                    //这个没变的话,就说明没有收到回执,或者状态还没有变为CBDS41
+                    //这个没变的话,就说明没有收到回执,或者状态还没有变为CBDS42
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号【" + logisticsSuccess + "】申报未成功或者未收到回执");//申报未成功或者未收到回执
                 }

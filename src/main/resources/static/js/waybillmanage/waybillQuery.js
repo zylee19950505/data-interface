@@ -111,9 +111,13 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
-                        case "CBDS52"://运单申报成功（运单申报成功，运单状态申报成功）
+                        case "CBDS42"://运单申报成功（运单申报成功）
                             textColor = "text-green";
                             value = "运单申报成功";
+                            break;
+                        case "CBDS52"://运单申报成功（运单申报成功，运单状态申报成功）
+                            textColor = "text-green";
+                            value = "运单状态申报成功";
                             break;
                         default :
                             textColor = "";
@@ -140,7 +144,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
     },
     returnDetails:function(guid, logistics_no){
         var url = "waybillmanage/returnDetail?guid=" + guid + "&logistics_no=" + logistics_no;
-        sw.modelPopup(url, "回执备注详情", false, 600, 200);
+        sw.modelPopup(url, "回执备注详情", false, 600, 350);
     },
     billDownLoad: function () {
         sw.ajax("api/bill", "GET", {

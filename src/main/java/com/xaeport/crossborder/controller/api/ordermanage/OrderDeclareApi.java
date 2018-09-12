@@ -8,6 +8,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.OrderHeadAndList;
+import com.xaeport.crossborder.data.entity.OrderSum;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
@@ -50,40 +51,40 @@ public class OrderDeclareApi extends BaseApi {
             @RequestParam(required = false) String idCardValidate,
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-            @RequestParam(required = false) String orderNo,
+            //@RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String billNo,
+            @RequestParam(required = false) String dataStatus,
             //分页参数
-            @RequestParam(required = false) String start,
-            @RequestParam(required = false) String length,
+            /*@RequestParam(required = false) String start,
+            @RequestParam(required = false) String length,*/
             @RequestParam(required = false) String draw
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,billNo:%s,start:%s,length:%s]", idCardValidate, startFlightTimes, endFlightTimes, orderNo, billNo,start, length));
-        Map<String, Object> paramMap = new HashMap<String, Object>();
-        DataList<OrderHeadAndList> dataList = new DataList<>();
+        this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", idCardValidate, startFlightTimes, endFlightTimes, billNo,dataStatus));
+        Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         paramMap.put("idCardValidate", idCardValidate);
-        paramMap.put("orderNo", orderNo);
-        paramMap.put("startFlightTimes", startFlightTimes);
-        paramMap.put("endFlightTimes", endFlightTimes);
+        //paramMap.put("orderNo", orderNo);
+        paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
+        paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
         paramMap.put("billNo",billNo);
-        //分页参数
+        paramMap.put("dataStatus",dataStatus);
+        /*//分页参数
         paramMap.put("start", Integer.parseInt(start) + 1);
-        paramMap.put("length", length);
+        paramMap.put("length", length);*/
         // 固定参数
-        paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ, StatusCode.DDYSB, StatusCode.DDCB, StatusCode.EXPORT, StatusCode.DDBWSCZ, StatusCode.DDBWXZWC));
+       // paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ, StatusCode.DDYSB, StatusCode.DDCB, StatusCode.EXPORT, StatusCode.DDBWSCZ, StatusCode.DDBWXZWC));
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
 
-        List<OrderHeadAndList> resultList = new ArrayList<OrderHeadAndList>();
+        DataList<OrderSum> dataList = new DataList<>();
+        List<OrderSum> resultList = new ArrayList<OrderSum>();
         try {
             //查询列表
             resultList = orderDeclareService.queryOrderDeclareList(paramMap);
             //查询总数
-            Integer count = orderDeclareService.queryOrderDeclareCount(paramMap);
+            //Integer count = orderDeclareService.queryOrderDeclareCount(paramMap);
             dataList.setDraw(draw);
             dataList.setData(resultList);
-            dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);
             return new ResponseData(dataList);
         } catch (Exception e) {
             this.logger.error("查询订单申报数据失败", e);
@@ -99,9 +100,9 @@ public class OrderDeclareApi extends BaseApi {
      */
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
-                                         @RequestParam(required = false) String idCardValidate,
-                                         @RequestParam(required = false) String ieFlag,
-                                         @RequestParam(required = false) String entryType,
+                                        // @RequestParam(required = false) String idCardValidate,
+                                        // @RequestParam(required = false) String ieFlag,
+                                         //@RequestParam(required = false) String entryType,
                                          HttpServletRequest request) {
         //this.log.debug(String.format("舱单申报-提交海关舱单Keys：%s", submitKeys));
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
@@ -115,10 +116,10 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("currentUserId", currentUser.getId());
 
        /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
-        paramMap.put("submitKeys", submitKeys);//订单遍号
-        paramMap.put("idCardValidate", idCardValidate);
-        paramMap.put("entryType", entryType);
-        paramMap.put("ieFlag", ieFlag);
+        paramMap.put("submitKeys", submitKeys);//提运单号
+       // paramMap.put("idCardValidate", idCardValidate);
+       // paramMap.put("entryType", entryType);
+       // paramMap.put("ieFlag", ieFlag);
 
         // 调用订单申报Service 获取提交海关结果
         boolean flag = orderDeclareService.updateSubmitCustom(paramMap);

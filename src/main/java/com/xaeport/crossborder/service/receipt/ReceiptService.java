@@ -232,6 +232,8 @@ public class ReceiptService {
         impLogistics.setReturn_time(impRecLogistics.getReturn_Time());
         impLogistics.setReturn_info(impRecLogistics.getReturn_Info());
         impLogistics.setUpd_tm(new Date());
+        //收到回执后,把数据状态改为运单申报成功
+        impLogistics.setData_status(StatusCode.YDSBCG);
         this.receiptMapper.updateImpLogistics(impLogistics);
     }
 

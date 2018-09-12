@@ -59,8 +59,8 @@ public class WaybillImportApi extends BaseApi {
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
-        if (billNo.length()>37) return new ResponseData("提运单号长度超过限制,请重新输入");
-        if (voyageNo.length()>32) return new ResponseData("航班航次号长度超过限制,请重新输入");
+        if (billNo.length()>37) return new ResponseData("提运单号长度超过37位,请重新输入");
+        if (voyageNo.length()>32) return new ResponseData("航班航次号长度超过32位,请重新输入");
         //获取企业信息
         Users user = this.getCurrentUsers();
 

@@ -97,7 +97,7 @@ public class StatusImportService {
      */
     private ImpLogistics ImpLogisticsStatusData(ImpLogistics impLogisticsStatus, Users user, Enterprise enterprise) throws Exception {
         //impLogisticsStatus.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
-        impLogisticsStatus.setApp_type("2");//企业报送类型。1-新增2-变更3-删除。默认为1。
+        impLogisticsStatus.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impLogisticsStatus.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
         impLogisticsStatus.setLogistics_status("S");//运抵
         impLogisticsStatus.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人

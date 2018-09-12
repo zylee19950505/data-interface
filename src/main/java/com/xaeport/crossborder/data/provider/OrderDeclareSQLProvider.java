@@ -12,45 +12,58 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
     /*
      * 订单申报数据查询
 	 */
-    public String queryOrderDeclareList(Map<String, Object> paramMap) throws Exception {
-        final String orderNo = paramMap.get("orderNo").toString();
-        final String billNo = paramMap.get("billNo").toString();
-        final String startFlightTimes = paramMap.get("startFlightTimes").toString();
-        final String endFlightTimes = paramMap.get("endFlightTimes").toString();
-        final String start = paramMap.get("start").toString();
-        final String length = paramMap.get("length").toString();
-        final String entId = paramMap.get("entId").toString();
-        final String roleId = paramMap.get("roleId").toString();
-        final String dataStatus = paramMap.get("dataStatus").toString();
+    public String queryOrderDeclareList(Map<String, String> paramMap) throws Exception {
+        //final String orderNo = paramMap.get("orderNo");
+        final String billNo = paramMap.get("billNo");
+        final String startFlightTimes = paramMap.get("startFlightTimes");
+        final String endFlightTimes = paramMap.get("endFlightTimes");
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
+        final String dataStatus = paramMap.get("dataStatus");
 
         return new SQL() {
             {
-                SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
-                        " select * from T_IMP_ORDER_HEAD th ");
-                WHERE("1=1");
+                SELECT("* from (select rownum rn,f.*from (" +
+                        "SELECT" +
+                        "    t.bill_no," +
+                        "    (" +
+                        "        SELECT" +
+                        "            COUNT(1)" +
+                        "        FROM" +
+                        "            t_imp_order_head t2" +
+                        "        WHERE" +
+                        "            t2.bill_no = t.bill_no" +
+                        "    ) totalCount," +
+                        "    (select max(t3.app_time) from t_imp_order_head t3 where t3.BILL_NO=t.BILL_NO and t3.DATA_STATUS=t.DATA_STATUS) appTime," +
+                        "    t.data_status," +
+                        "    (" +
+                        "        SELECT" +
+                        "            COUNT(1)" +
+                        "        FROM" +
+                        "            t_imp_order_head t4" +
+                        "        WHERE" +
+                        "            t4.DATA_STATUS = t.DATA_STATUS and t4.bill_no = t.BILL_NO " +
+                        "            and (t4.DATA_STATUS like 'CBDS2%' or t4.DATA_STATUS = 'CBDS1')" +
+                        "    ) count" );
+                FROM("t_imp_order_head t");
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("t.bill_no = #{billNo}");
+                }
                 if(!roleId.equals("admin")){
-                    WHERE("th.ent_id = #{entId}");
+                    WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
-                    WHERE(splitJointIn("th.DATA_STATUS",dataStatus));
+                    WHERE("t.dataStatus = #{dataStatus}");
                 }
-                if (!StringUtils.isEmpty(orderNo)) {
-                    WHERE("th.order_no = #{orderNo}");
+                if(!StringUtils.isEmpty(startFlightTimes)){
+                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!StringUtils.isEmpty(billNo)){
-                    WHERE("th.bill_no = #{billNo}");
+                if(!StringUtils.isEmpty(endFlightTimes)){
+                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE(" th.crt_tm >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE(" th.crt_tm <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!"-1".equals(length)) {
-                    ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
-                } else {
-                    ORDER_BY("th.crt_tm desc ) w  )   WHERE rn >= #{start}");
-                }
+                GROUP_BY("t.bill_no," +
+                        "    t.data_status");
+                ORDER_BY("t.bill_no asc) f ) WHERE rn >= '1'");
             }
         }.toString();
     }
@@ -103,13 +116,13 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
     public String updateSubmitCustom(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
         final String opStatusWhere = paramMap.get("opStatusWhere");
-        final String entryType = paramMap.get("entryType");//申报类型
-        final String idCardValidate = paramMap.get("idCardValidate");//身份证验证通过
-        final String ieFlag = paramMap.get("ieFlag");//进出口
+       // final String entryType = paramMap.get("entryType");//申报类型
+       // final String idCardValidate = paramMap.get("idCardValidate");//身份证验证通过
+       // final String ieFlag = paramMap.get("ieFlag");//进出口
         return new SQL(){
             {
                 UPDATE("T_IMP_ORDER_HEAD th");
-                WHERE(splitJointIn("th.ORDER_NO", submitKeys));
+                WHERE(splitJointIn("th.bill_no", submitKeys));
                 WHERE(splitJointIn("th.DATA_STATUS", opStatusWhere));
                 //身份证验证通过?
                 //进出口?电子订单类型

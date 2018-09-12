@@ -41,7 +41,7 @@ public class OrderDeclareSevice {
     /*
      * 查询订单申报数据
      */
-    public List<OrderHeadAndList> queryOrderDeclareList(Map<String, Object> paramMap) {
+    public List<OrderSum> queryOrderDeclareList(Map<String, String> paramMap) {
         return orderDeclareMapper.queryOrderDeclareList(paramMap);
     }
 

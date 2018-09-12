@@ -5,10 +5,7 @@ package com.xaeport.crossborder.data.mapper;
  * 订单申报
  */
 
-import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-import com.xaeport.crossborder.data.entity.OrderHeadAndList;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.OrderDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +23,7 @@ public interface OrderDeclareMapper {
 	  *  查询订单申报数据
 	 */
 	@SelectProvider(type = OrderDeclareSQLProvider.class,method = "queryOrderDeclareList")
-	List<OrderHeadAndList> queryOrderDeclareList(Map<String, Object> paramMap);
+	List<OrderSum> queryOrderDeclareList(Map<String, String> paramMap);
 
 	/*
 	 * 查询订单申报数据总数

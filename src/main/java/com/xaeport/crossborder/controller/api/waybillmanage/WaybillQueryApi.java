@@ -30,7 +30,7 @@ public class WaybillQueryApi extends BaseApi{
     WaybillQueryService waybillService;
 
     /*
-     * 运单申报查询
+     * 运单查询
      */
     @RequestMapping(value = "/queryWaybillQuery" , method = RequestMethod.GET)
     public ResponseData queryOrderDeclare(
@@ -63,7 +63,9 @@ public class WaybillQueryApi extends BaseApi{
         map.put("extra_search", extra_search);
         map.put("entId",this.getCurrentUserEntId());
         map.put("roleId",this.getCurrentUserRoleId());
-        map.put("dataStatus", StatusCode.YDZTSBCG);
+        //查询的状态可以使运单申报成功和运单状态申报成功
+        map.put("dataStatus", StatusCode.YDSBCG);
+        map.put("staDataStatus", StatusCode.YDZTSBCG);
         DataList<ImpLogisticsData> dataList = null;
         List<ImpLogisticsData> impLogisticsDataList = null;
         try {

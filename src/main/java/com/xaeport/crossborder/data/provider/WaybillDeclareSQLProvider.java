@@ -65,7 +65,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
         //final String logisticsNo = paramMap.get("logisticsNo");
         final String billNo = paramMap.get("billNo");
         final String dataStatus = paramMap.get("dataStatus");
-        final String staDataStatus = paramMap.get("statusDataStatus");
+        final String statusDataStatus = paramMap.get("statusDataStatus");
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
@@ -81,7 +81,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                        "            t_imp_logistics t2" +
                        "        WHERE" +
                        "            t2.bill_no = t.bill_no" +
-                       "    ) totalcount," +
+                       "    ) totalCount," +
                        "    (select max(t3.app_time) from T_IMP_LOGISTICS t3 where t3.BILL_NO=t.BILL_NO and t3.DATA_STATUS=t.DATA_STATUS) appTime," +
                        "    t.data_status," +
                        "    (" +
@@ -110,12 +110,12 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }
-                if (!StringUtils.isEmpty(dataStatus)){
-                    WHERE("t.dataStatus = #{dataStatus}");
+                if ((!StringUtils.isEmpty(dataStatus))||(!StringUtils.isEmpty(statusDataStatus))){
+                    WHERE("t.data_status = #{dataStatus} or t.data_status = #{statusDataStatus}");
                 }
-                if (!StringUtils.isEmpty(staDataStatus)){
-                    WHERE("t.dataStatus = #{staDataStatus}");
-                }
+                /*if (!StringUtils.isEmpty(staDataStatus)){
+                    WHERE("t.data_status = #{staDataStatus}");
+                }*/
 
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -125,7 +125,8 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 }
 
                GROUP_BY("t.bill_no," +
-                       "    t.data_status) f ) WHERE rn >= #{start}");
+                       "    t.data_status");
+                ORDER_BY("t.bill_no asc) f ) WHERE rn >= #{start}");
             }
         }.toString();
     }
@@ -325,8 +326,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                 SELECT("count(1) count");
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("t.bill_no = #{billNo}");
-                WHERE("t.DATA_STATUS = 'CBDS4' or t.DATA_STATUS = 'CBDS1'");
-//                WHERE("t.DATA_STATUS = 'CBDS1'");
+                WHERE("(t.DATA_STATUS = 'CBDS4' or t.DATA_STATUS = 'CBDS1')");
             }
         }.toString();
     }
