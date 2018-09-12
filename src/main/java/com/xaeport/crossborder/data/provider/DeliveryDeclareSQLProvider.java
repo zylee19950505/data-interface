@@ -117,7 +117,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_NO");
                 FROM("T_IMP_DELIVERY_HEAD t");
                 WHERE("DATA_STATUS = #{dataStatus}");
-                WHERE("rownum <= 1000");
+//                WHERE("rownum <= 1000");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
             }
         }.toString();
