@@ -108,7 +108,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     return "<span class='" + textColor + "'>" + value + "</span>";
                 }
                 },
-                {data: "asscount", label: "运单数量"}
+                {data: "asscount", label: "清单数量"}
                 ]
         });
     },
