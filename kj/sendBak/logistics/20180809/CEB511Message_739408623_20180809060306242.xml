@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ceb:CEB511Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="8B6F3208-F8D7-4CAF-9AC6-9F2275BC99D3" version="1.0">
+    <ceb:Logistics>
+        <ceb:LogisticsHead>
+            <ceb:guid>8B6F3208-F8D7-4CAF-9AC6-9F2275BC99D3</ceb:guid>
+            <ceb:appType>1</ceb:appType>
+            <ceb:appTime>20180809060300</ceb:appTime>
+            <ceb:appStatus>2</ceb:appStatus>
+            <ceb:logisticsCode>6555445FZ455</ceb:logisticsCode>
+            <ceb:logisticsName>456554845658456</ceb:logisticsName>
+            <ceb:logisticsNo>739408623</ceb:logisticsNo>
+            <ceb:billNo/>
+            <ceb:freight>20.12345</ceb:freight>
+            <ceb:insuredFee>200.00000</ceb:insuredFee>
+            <ceb:currency>142</ceb:currency>
+            <ceb:weight>70.12346</ceb:weight>
+            <ceb:packNo>1</ceb:packNo>
+            <ceb:goodsInfo/>
+            <ceb:consignee>王富贵</ceb:consignee>
+            <ceb:consigneeAddress>风语咒</ceb:consigneeAddress>
+            <ceb:consigneeTelephone>18025258888</ceb:consigneeTelephone>
+            <ceb:note>第一条备注</ceb:note>
+        </ceb:LogisticsHead>
+    </ceb:Logistics>
+    <ceb:BaseTransfer>
+        <ceb:copCode>6101041999</ceb:copCode>
+        <ceb:copName>西安口岸电子科技有限公司</ceb:copName>
+        <ceb:dxpMode>DXP</ceb:dxpMode>
+        <ceb:dxpId>1858582252</ceb:dxpId>
+        <ceb:note/>
+    </ceb:BaseTransfer>
+</ceb:CEB511Message>

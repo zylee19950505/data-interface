@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ceb:CEB411Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="D92C8CE3-4225-4B80-BBAA-BE7AC5807E83" version="1.0">
+<ceb:Payment>
+<ceb:PaymentHead>
+<ceb:guid>D92C8CE3-4225-4B80-BBAA-BE7AC5807E83</ceb:guid>
+<ceb:appType>1</ceb:appType>
+<ceb:appTime>Mon Aug 13 09:25:17 CST 2018</ceb:appTime>
+<ceb:appStatus>2</ceb:appStatus>
+<ceb:payCode>paymentCode</ceb:payCode>
+<ceb:payName>某企鹅公司</ceb:payName>
+<ceb:payTransactionId>payment1234563</ceb:payTransactionId>
+<ceb:orderNo>order1234567893</ceb:orderNo>
+<ceb:ebpCode>18025258888</ceb:ebpCode>
+<ceb:ebpName>陕西省西安市雁塔区</ceb:ebpName>
+<ceb:payerIdType>1</ceb:payerIdType>
+<ceb:payerIdNumber>610104199001011234</ceb:payerIdNumber>
+<ceb:payerName>李四</ceb:payerName>
+<ceb:telephone/>
+<ceb:amountPaid>100.12347</ceb:amountPaid>
+<ceb:currency>142</ceb:currency>
+<ceb:payTime>Wed Aug 08 08:08:08 CST 2018</ceb:payTime>
+<ceb:note>第二条备注</ceb:note>
+</ceb:PaymentHead>
+</ceb:Payment>
+<ceb:Payment>
+<ceb:PaymentHead>
+<ceb:guid>E9DE1036-0070-448E-B896-355A48232F66</ceb:guid>
+<ceb:appType>1</ceb:appType>
+<ceb:appTime>Mon Aug 13 09:25:17 CST 2018</ceb:appTime>
+<ceb:appStatus>2</ceb:appStatus>
+<ceb:payCode>paymentCode</ceb:payCode>
+<ceb:payName>某企鹅公司</ceb:payName>
+<ceb:payTransactionId>payment1234564</ceb:payTransactionId>
+<ceb:orderNo>order1234567894</ceb:orderNo>
+<ceb:ebpCode>18025258888</ceb:ebpCode>
+<ceb:ebpName>陕西省西安市雁塔区</ceb:ebpName>
+<ceb:payerIdType>1</ceb:payerIdType>
+<ceb:payerIdNumber>610104199001011234</ceb:payerIdNumber>
+<ceb:payerName>李四</ceb:payerName>
+<ceb:telephone/>
+<ceb:amountPaid>100.12348</ceb:amountPaid>
+<ceb:currency>142</ceb:currency>
+<ceb:payTime>Wed Aug 08 08:08:08 CST 2018</ceb:payTime>
+<ceb:note/>
+</ceb:PaymentHead>
+</ceb:Payment>
+<ceb:BaseTransfer>
+<ceb:copCode>6101041999</ceb:copCode>
+<ceb:copName>西安口岸电子科技有限公司</ceb:copName>
+<ceb:dxpMode>DXP</ceb:dxpMode>
+<ceb:dxpId>1858582252</ceb:dxpId>
+<ceb:note/>
+</ceb:BaseTransfer>
+</ceb:CEB411Message>

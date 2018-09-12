@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ceb:CEB513Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="7912AAAC-6D2D-428E-B51F-510861285509" version="1.0">
+    <ceb:LogisticsStatus>
+        <ceb:guid>7912AAAC-6D2D-428E-B51F-510861285509</ceb:guid>
+        <ceb:appType>1</ceb:appType>
+        <ceb:appTime>20180810095328</ceb:appTime>
+        <ceb:appStatus>2</ceb:appStatus>
+        <ceb:logisticsCode>6555445FZ455</ceb:logisticsCode>
+        <ceb:logisticsName>456554845658456</ceb:logisticsName>
+        <ceb:logisticsNo>739408610</ceb:logisticsNo>
+        <ceb:logisticsStatus>S</ceb:logisticsStatus>
+        <ceb:logisticsTime>20180712062600</ceb:logisticsTime>
+        <ceb:note>备注啊</ceb:note>
+    </ceb:LogisticsStatus>
+    <ceb:LogisticsStatus>
+        <ceb:guid>1E8AFCDF-64E8-4029-80F1-04DE7E0698C7</ceb:guid>
+        <ceb:appType>1</ceb:appType>
+        <ceb:appTime>20180810095328</ceb:appTime>
+        <ceb:appStatus>2</ceb:appStatus>
+        <ceb:logisticsCode>6555445FZ455</ceb:logisticsCode>
+        <ceb:logisticsName>456554845658456</ceb:logisticsName>
+        <ceb:logisticsNo>739408612</ceb:logisticsNo>
+        <ceb:logisticsStatus>S</ceb:logisticsStatus>
+        <ceb:logisticsTime>20180712062600</ceb:logisticsTime>
+        <ceb:note>备注啊</ceb:note>
+    </ceb:LogisticsStatus>
+    <ceb:BaseTransfer>
+        <ceb:copCode>6101041999</ceb:copCode>
+        <ceb:copName>西安口岸电子科技有限公司</ceb:copName>
+        <ceb:dxpMode>DXP</ceb:dxpMode>
+        <ceb:dxpId>1858582252</ceb:dxpId>
+        <ceb:note/>
+    </ceb:BaseTransfer>
+</ceb:CEB513Message>

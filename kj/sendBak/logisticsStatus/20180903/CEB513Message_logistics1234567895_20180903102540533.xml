@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ceb:CEB513Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="DF5A8869-F6D2-4BDA-948B-B741C7691CB8" version="1.0">
+    <ceb:LogisticsStatus>
+        <ceb:guid>DF5A8869-F6D2-4BDA-948B-B741C7691CB8</ceb:guid>
+        <ceb:appType>1</ceb:appType>
+        <ceb:appTime>20180903102538</ceb:appTime>
+        <ceb:appStatus>2</ceb:appStatus>
+        <ceb:logisticsCode>expressCode</ceb:logisticsCode>
+        <ceb:logisticsName>快递公司名称</ceb:logisticsName>
+        <ceb:logisticsNo>logistics1234567895</ceb:logisticsNo>
+        <ceb:logisticsStatus>S</ceb:logisticsStatus>
+        <ceb:logisticsTime>20180712062600</ceb:logisticsTime>
+        <ceb:note>备注啊</ceb:note>
+    </ceb:LogisticsStatus>
+    <ceb:LogisticsStatus>
+        <ceb:guid>18AB0EEB-64A9-49B1-B066-FAB15D5275F0</ceb:guid>
+        <ceb:appType>1</ceb:appType>
+        <ceb:appTime>20180903102538</ceb:appTime>
+        <ceb:appStatus>2</ceb:appStatus>
+        <ceb:logisticsCode>expressCode</ceb:logisticsCode>
+        <ceb:logisticsName>快递公司名称</ceb:logisticsName>
+        <ceb:logisticsNo>logistics1234567896</ceb:logisticsNo>
+        <ceb:logisticsStatus>S</ceb:logisticsStatus>
+        <ceb:logisticsTime>20180712062600</ceb:logisticsTime>
+        <ceb:note/>
+    </ceb:LogisticsStatus>
+    <ceb:LogisticsStatus>
+        <ceb:guid>8C64C898-7173-4592-8B96-EA702C85E624</ceb:guid>
+        <ceb:appType>1</ceb:appType>
+        <ceb:appTime>20180903102538</ceb:appTime>
+        <ceb:appStatus>2</ceb:appStatus>
+        <ceb:logisticsCode>expressCode</ceb:logisticsCode>
+        <ceb:logisticsName>快递公司名称</ceb:logisticsName>
+        <ceb:logisticsNo>logistics1234567899</ceb:logisticsNo>
+        <ceb:logisticsStatus>S</ceb:logisticsStatus>
+        <ceb:logisticsTime>20180712062600</ceb:logisticsTime>
+        <ceb:note>备注啊</ceb:note>
+    </ceb:LogisticsStatus>
+    <ceb:BaseTransfer>
+        <ceb:copCode>6101041999</ceb:copCode>
+        <ceb:copName>西安口岸电子科技有限公司</ceb:copName>
+        <ceb:dxpMode>DXP</ceb:dxpMode>
+        <ceb:dxpId>DXPENT0000018755</ceb:dxpId>
+        <ceb:note/>
+    </ceb:BaseTransfer>
+</ceb:CEB513Message>
