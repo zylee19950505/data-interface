@@ -69,6 +69,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
+                {data: "bill_no", label: "提运单号"},
                 {
                     label: "物流运单编号", render: function (data, type, row) {
                     //a链接跳转到querypaymentbyid方法。并赋值参数。 cursor:pointer鼠标移动上去变手掌样式
@@ -92,10 +93,10 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                 //{data: "logistics_status", label: "物流签收状态"},
                 {
                     label:"物流签收状态",render:function (data, type, row) {
-                    if (!"S"==row.logistics_status){
-                        return ""
+                    if ("S"==row.logistics_status){
+                        return "已签收"
                     }
-                    return "已运抵"
+                    return "未签收"
                 }
                 },
                 {
@@ -144,7 +145,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
     },
     returnDetails:function(guid, logistics_no){
         var url = "waybillmanage/returnDetail?guid=" + guid + "&logistics_no=" + logistics_no;
-        sw.modelPopup(url, "回执备注详情", false, 600, 350);
+        sw.modelPopup(url, "回执备注详情", false, 900, 350);
     },
     billDownLoad: function () {
         sw.ajax("api/bill", "GET", {
