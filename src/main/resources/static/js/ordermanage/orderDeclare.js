@@ -85,57 +85,6 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         }
                     }
                 },
-                /*{data: "order_No", label: "订单编号"},//订单编号要点击查看订单详情
-                {data: "ebp_Name", label: "电商企业名称"},
-                {data: "ebc_Name", label: "电商平台名称"},
-                /!*  {data: "item_Name", label: "商品名称"},*!/
-                {data: "goods_Value", label: "总价"},
-                {data: "buyer_Name", label: "订购人"},
-                //要区分开
-                {
-                    label: "申报日期", render: function (data, type, row) {
-                    if (!isEmpty(row.app_Time)) {
-                        return moment(row.app_Time).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                }
-                },
-                {
-                    label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
-                    var value = "";
-                    switch (row.data_status) {
-                        case "CBDS1":
-                            textColor = "text-yellow";
-                            value = "待申报";
-                            break;
-                        case "CBDS2":
-                            textColor = "text-yellow";
-                            value = "订单待申报";
-                            break;
-                        case "CBDS20":
-                            textColor = "text-green";
-                            value = "订单申报中";
-                            break;
-                        case "CBDS21":
-                            textColor = "text-green";
-                            value = "订单已申报";
-                            break;
-                        case "OrderDoing":
-                            textColor = "text-green";
-                            value = "订单报文生成中";
-                            break;
-                        case "OrderOver":
-                            textColor = "text-green";
-                            value = "订单报文下载完成";
-                            break;
-                    }
-
-                    return "<span class='" + textColor + "'>" + value + "</span>";
-                }
-                },
-                {data: "return_status", label: "回执状态"},
-                {data: "return_info", label: "回执备注"}*/
                 {
                     label:"提运单号",render:function (data, type, row) {
                     if(BILLNO == row.bill_no){
@@ -148,15 +97,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                 }
                 },
                 //{data: "totalCount", label: "订单总数"},
-                {
-                    label:"订单总数",render:function (data, type, row) {
-                    if(TOTALCOUNT == row.totalCount){
-                        return "";
-                    }
-                    TOTALCOUNT = row.totalCount;
-                    return TOTALCOUNT;
-                }
-                },
+
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (!isEmpty(row.appTime)) {
@@ -167,6 +108,15 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                         return moment(APPTIME).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
+                }
+                },
+                {
+                    label:"订单总数",render:function (data, type, row) {
+                    if(TOTALCOUNT == row.totalCount){
+                        return "";
+                    }
+                    TOTALCOUNT = row.totalCount;
+                    return TOTALCOUNT;
                 }
                 },
                 {

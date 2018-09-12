@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ceb:CEB411Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="B10604B1-02AD-4E47-8D24-0BF3BB836824" version="1.0">
+<ceb:Payment>
+<ceb:PaymentHead>
+<ceb:guid>B10604B1-02AD-4E47-8D24-0BF3BB836824</ceb:guid>
+<ceb:appType>1</ceb:appType>
+<ceb:appTime>Mon Aug 06 10:26:43 CST 2018</ceb:appTime>
+<ceb:appStatus>2</ceb:appStatus>
+<ceb:payCode>ankangpo123</ceb:payCode>
+<ceb:payName>三国赵国</ceb:payName>
+<ceb:payTransactionId>qaz14121</ceb:payTransactionId>
+<ceb:orderNo>1234567897t7</ceb:orderNo>
+<ceb:ebpCode>asd123abc456</ceb:ebpCode>
+<ceb:ebpName>赵国</ceb:ebpName>
+<ceb:payerIdType>1</ceb:payerIdType>
+<ceb:payerIdNumber>612401198805790623</ceb:payerIdNumber>
+<ceb:payerName>赵三</ceb:payerName>
+<ceb:telephone/>
+<ceb:amountPaid>5000.00000</ceb:amountPaid>
+<ceb:currency>142</ceb:currency>
+<ceb:payTime>Mon Aug 06 10:16:13 CST 2018</ceb:payTime>
+<ceb:note/>
+</ceb:PaymentHead>
+</ceb:Payment>
+<ceb:BaseTransfer>
+<ceb:copCode>6101041999</ceb:copCode>
+<ceb:copName>西安口岸电子科技有限公司</ceb:copName>
+<ceb:dxpMode>DXP</ceb:dxpMode>
+<ceb:dxpId>1858582252</ceb:dxpId>
+<ceb:note/>
+</ceb:BaseTransfer>
+</ceb:CEB411Message>
