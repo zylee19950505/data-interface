@@ -21,7 +21,8 @@ public class WaybillQuerySQLProvider {
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
-                        " select t.LOGISTICS_NO," +
+                        " select t.bill_no," +
+                        "t.LOGISTICS_NO," +
                         " t.GUID,"+
                         " t.LOGISTICS_NAME,"+
                         " t.CONSINGEE,"+

@@ -49,6 +49,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
+                {data: "bill_No", label: "提运单号"},
                 {
                     label: "订单编号", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'
@@ -67,27 +68,6 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                     return "";
                 }
                 },
-                /*{
-                    label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
-                    var value = "";
-                    switch (row.data_status) {
-                        case "CBDS22":
-                            textColor = "text-green";
-                            value = "订单申报成功";
-                            break;
-                        case "CBDS23":
-                            textColor = "text-red";
-                            value = "订单重报";
-                            break;
-                        case "CBDS24":
-                            textColor = "text-red";
-                            value = "订单申报失败";
-                            break;
-                    }
-                    return "<span class='" + textColor + "'>" + value + "</span>";
-                }
-                },*/
                 {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
                     var textColor = "";
@@ -139,7 +119,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
     },
     returnOrderDetails:function(guid, order_No){
         var url = "ordermanage/returnOrderDetail?guid=" + guid + "&order_no=" + order_No;
-        sw.modelPopup(url, "回执备注详情", false, 600, 300);
+        sw.modelPopup(url, "回执备注详情", false, 900, 300);
     },
 }
 

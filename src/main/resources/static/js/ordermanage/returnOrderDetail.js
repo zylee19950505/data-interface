@@ -107,11 +107,6 @@ sw.page.modules["ordermanage/returnOrderDetail"] = sw.page.modules["ordermanage/
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "order_no",
-            "bill_no",
-            "return_info",
-            "return_time",
-            "return_status"
         ]
     },
     // 禁用字段

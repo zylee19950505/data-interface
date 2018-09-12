@@ -53,7 +53,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                     WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
-                    WHERE("t.dataStatus = #{dataStatus}");
+                    WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
