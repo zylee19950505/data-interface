@@ -42,7 +42,30 @@ public class OrderDeclareSevice {
      * 查询订单申报数据
      */
     public List<OrderSum> queryOrderDeclareList(Map<String, String> paramMap) {
-        return orderDeclareMapper.queryOrderDeclareList(paramMap);
+
+        int hashValue;
+        String str;
+        List<OrderSum> orderSums = this.orderDeclareMapper.queryOrderDeclareList(paramMap);
+        List<OrderSum> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+
+        if(!StringUtils.isEmpty(orderSums)){
+            for(OrderSum orderSum :orderSums){
+                str = String.format("%s%s",orderSum.getBill_no(),orderSum.getTotalCount());
+                hashValue = str.hashCode();
+                if(list.contains(hashValue)){
+                    orderSum.setNo("0");
+                    result.add(orderSum);
+                }else{
+                    list.add(hashValue);
+                    orderSum.setNo("1");
+                    result.add(orderSum);
+                }
+            }
+        }
+        list.clear();
+
+        return result;
     }
 
     /*

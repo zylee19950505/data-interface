@@ -103,7 +103,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     switch (row.data_status) {
                         case "CBDS1"://待申报
                             textColor = "text-yellow";
-                            row.data_status = "待申报";
+                            row.data_status = "支付单待申报";
                             break;
                         case "CBDS3"://支付单待申报
                             textColor = "text-yellow";

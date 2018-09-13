@@ -178,7 +178,7 @@ public class LogisticsStatusMessageThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("运单状态513发送完毕" + fileName);
-        this.logger.debug(String.format("运单状态513申报报文发送文件[backFilePath: %s]生成完毕", backFilePath));
+        this.logger.debug(String.format("运单状态513申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
     }
 
 }

@@ -56,7 +56,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (row.no == "1") {
-                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
+                        return isEmpty(row.app_time)?"":moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
                 }
@@ -77,7 +77,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     switch (row.data_status) {
                         case "CBDS1"://待申报
                             textColor = "text-yellow";
-                            value = "待申报";
+                            value = "清单待申报";
                             break;
                         case "CBDS6":
                             textColor = "text-yellow";

@@ -23,34 +23,37 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
 
         return new SQL() {
             {
-                SELECT("* from (select rownum rn,f.*from (" +
-                        "SELECT" +
-                        "    t.bill_no," +
-                        "    (" +
-                        "        SELECT" +
-                        "            COUNT(1)" +
-                        "        FROM" +
-                        "            t_imp_order_head t2" +
-                        "        WHERE" +
-                        "            t2.bill_no = t.bill_no" +
-                        "    ) totalCount," +
-                        "    (select max(t3.app_time) from t_imp_order_head t3 where t3.BILL_NO=t.BILL_NO and t3.DATA_STATUS=t.DATA_STATUS) appTime," +
-                        "    t.data_status," +
-                        "    (" +
-                        "        SELECT" +
-                        "            COUNT(1)" +
-                        "        FROM" +
-                        "            t_imp_order_head t4" +
-                        "        WHERE" +
-                        "            t4.DATA_STATUS = t.DATA_STATUS and t4.bill_no = t.BILL_NO " +
-                        "            and (t4.DATA_STATUS like 'CBDS2%' or t4.DATA_STATUS = 'CBDS1')" +
-                        "    ) count" );
-                FROM("t_imp_order_head t");
-                if (!StringUtils.isEmpty(billNo)){
-                    WHERE("t.bill_no = #{billNo}");
-                }
+//                SELECT("t.bill_no," +
+//                        "    ( " +
+//                        "        SELECT" +
+//                        "            COUNT(1)" +
+//                        "        FROM" +
+//                        "            t_imp_order_head t2" +
+//                        "        WHERE" +
+//                        "            t2.bill_no = t.bill_no" +
+//                        "    ) totalCount," +
+//                        "    (select max(t3.app_time) from t_imp_order_head t3 where t3.BILL_NO=t.BILL_NO and t3.DATA_STATUS=t.DATA_STATUS) appTime," +
+//                        "    t.data_status," +
+//                        "    (" +
+//                        "        SELECT" +
+//                        "            COUNT(1)" +
+//                        "        FROM" +
+//                        "            t_imp_order_head t4" +
+//                        "        WHERE" +
+//                        "            t4.DATA_STATUS = t.DATA_STATUS and t4.bill_no = t.BILL_NO " +
+//                        "            and (t4.DATA_STATUS like 'CBDS2%' or t4.DATA_STATUS = 'CBDS1')" +
+//                        "    ) count" );
+                SELECT("t.bill_no");
+                SELECT("(select max(APP_TIME) from T_IMP_ORDER_HEAD t2 where t2.bill_no = t.bill_no) as appTime");
+                SELECT("(select count(1) from T_IMP_ORDER_HEAD tt where tt.bill_no = t.bill_no) as totalCount");
+                SELECT("count(1) as count");
+                SELECT("t.data_status");
+                FROM("T_IMP_ORDER_HEAD t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(billNo)){
+                    WHERE("t.bill_no = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)){
                     WHERE("t.DATA_STATUS = #{dataStatus}");
@@ -61,9 +64,8 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 if(!StringUtils.isEmpty(endFlightTimes)){
                     WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                GROUP_BY("t.bill_no," +
-                        "    t.data_status");
-                ORDER_BY("t.bill_no asc) f ) WHERE rn >= '1'");
+                GROUP_BY("t.bill_no,t.data_status");
+                ORDER_BY("t.bill_no asc");
             }
         }.toString();
     }

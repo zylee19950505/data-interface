@@ -15,6 +15,7 @@ import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import com.xaeport.crossborder.tools.GetIpAddr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,31 +49,22 @@ public class OrderDeclareApi extends BaseApi {
     @RequestMapping("/queryOrderDeclare")
     public ResponseData queryOrderDeclare(
             //身份验证
-            @RequestParam(required = false) String idCardValidate,
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-            //@RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String billNo,
-            @RequestParam(required = false) String dataStatus,
-            //分页参数
-            /*@RequestParam(required = false) String start,
-            @RequestParam(required = false) String length,*/
-            @RequestParam(required = false) String draw
+            @RequestParam(required = false) String dataStatus
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[idCardValidate:%s,startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", idCardValidate, startFlightTimes, endFlightTimes, billNo,dataStatus));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo,dataStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
-        paramMap.put("idCardValidate", idCardValidate);
-        //paramMap.put("orderNo", orderNo);
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
+
         paramMap.put("billNo",billNo);
         paramMap.put("dataStatus",dataStatus);
-        /*//分页参数
-        paramMap.put("start", Integer.parseInt(start) + 1);
-        paramMap.put("length", length);*/
-        // 固定参数
+
        // paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ, StatusCode.DDYSB, StatusCode.DDCB, StatusCode.EXPORT, StatusCode.DDBWSCZ, StatusCode.DDBWXZWC));
+
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
 
@@ -81,15 +73,11 @@ public class OrderDeclareApi extends BaseApi {
         try {
             //查询列表
             resultList = orderDeclareService.queryOrderDeclareList(paramMap);
-            //查询总数
-            //Integer count = orderDeclareService.queryOrderDeclareCount(paramMap);
-            dataList.setDraw(draw);
-            dataList.setData(resultList);
-            return new ResponseData(dataList);
         } catch (Exception e) {
             this.logger.error("查询订单申报数据失败", e);
-            return new ResponseData(dataList);
+            return new ResponseData("获取订单申报数据错误", HttpStatus.BAD_REQUEST);
         }
+        return new ResponseData(resultList);
     }
 
 
@@ -100,9 +88,6 @@ public class OrderDeclareApi extends BaseApi {
      */
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
-                                        // @RequestParam(required = false) String idCardValidate,
-                                        // @RequestParam(required = false) String ieFlag,
-                                         //@RequestParam(required = false) String entryType,
                                          HttpServletRequest request) {
         //this.log.debug(String.format("舱单申报-提交海关舱单Keys：%s", submitKeys));
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
@@ -114,12 +99,7 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("opStatus", StatusCode.DDSBZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
         paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
         paramMap.put("currentUserId", currentUser.getId());
-
-       /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
         paramMap.put("submitKeys", submitKeys);//提运单号
-       // paramMap.put("idCardValidate", idCardValidate);
-       // paramMap.put("entryType", entryType);
-       // paramMap.put("ieFlag", ieFlag);
 
         // 调用订单申报Service 获取提交海关结果
         boolean flag = orderDeclareService.updateSubmitCustom(paramMap);
@@ -137,9 +117,6 @@ public class OrderDeclareApi extends BaseApi {
      */
     @RequestMapping(value = "/orderXmlDownload", method = RequestMethod.POST)
     public ResponseData orderXmlDownload(@RequestParam(required = false) String submitKeys,
-                                         @RequestParam(required = false) String idCardValidate,
-                                         @RequestParam(required = false) String ieFlag,
-                                         @RequestParam(required = false) String entryType,
                                          HttpServletRequest request) {
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
@@ -152,9 +129,6 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("currentUserId", currentUser.getId());
 
         paramMap.put("submitKeys", submitKeys);//订单编号
-        paramMap.put("idCardValidate", idCardValidate);
-        paramMap.put("entryType", entryType);
-        paramMap.put("ieFlag", ieFlag);
 
         // 调用订单申报Service 获取提交海关结果
         boolean flag = orderDeclareService.orderXmlDownload(paramMap);

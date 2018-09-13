@@ -9,6 +9,15 @@ public class OrderSum {
 	private int totalCount;//提运单号下的订单总数
 	private String data_status;//订单状态
 	private int count;//订单状态数量
+	private String no;
+
+	public String getNo() {
+		return no;
+	}
+
+	public void setNo(String no) {
+		this.no = no;
+	}
 
 	public String getBill_no() {
 		return bill_no;

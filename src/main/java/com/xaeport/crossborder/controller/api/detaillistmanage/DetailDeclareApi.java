@@ -56,8 +56,8 @@ public class DetailDeclareApi extends BaseApi {
         Map<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put("billNo", billNo);
-        paramMap.put("startFlightTimes", startFlightTimes);
-        paramMap.put("endFlightTimes", endFlightTimes);
+        paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
+        paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
@@ -65,7 +65,7 @@ public class DetailDeclareApi extends BaseApi {
         if (!StringUtils.isEmpty(dataStatus)) {
             paramMap.put("dataStatus", dataStatus);
         } else {
-            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ, StatusCode.QDYSB, StatusCode.QDCB, StatusCode.EXPORT, StatusCode.QDBWSCZ, StatusCode.QDBWXZWC,StatusCode.QDSBCG));
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ, StatusCode.QDYSB, StatusCode.QDCB, StatusCode.EXPORT, StatusCode.QDBWSCZ, StatusCode.QDBWXZWC, StatusCode.QDSBCG));
         }
 
         //更新人

@@ -2,69 +2,28 @@
  * Created on 2017-7-23.
  * 订单申报
  */
-var BILLNO = "";
-var TOTALCOUNT = "";
-var APPTIME = "";
 sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/orderDeclare"] || {
     // 订单申报列表查询
     query: function () {
         // 获取查询表单参数
-        var idCardValidate = $("[name='idCardValidate']").val();//身份验证
-        /* var flightTimes = $("[name='flightTimes']").val();//初始时只选择一个时间.现在条件变为两个*/
         var startFlightTimes = $("[name='startFlightTimes']").val();//开始时间
         var endFlightTimes = $("[name='endFlightTimes']").val();//结束时间
-       // var orderNo = $("[name='orderNo']").val();//订单编号
         var dataStatus = $("[name='dataStatus']").val();//业务状态
-        var billNo =  $("[name = 'billNo']").val();//提运单号
+        var billNo = $("[name = 'billNo']").val();//提运单号
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/orderManage/queryOrderDeclare", {
-            ieFlag: sw.ie,//进出口
-            entryType: sw.type,//申报类型
-            idCardValidate: idCardValidate,//身份验证通过
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            //orderNo: orderNo,//订单编号
-            dataStatus: dataStatus,
-            billNo:billNo
+            billNo: billNo,//提运单号
+            dataStatus: dataStatus//业务状态
         });
 
         // 数据表
         sw.datatable("#query-orderDeclare-table", {
-            ordering: false,
-            bSort: false, //排序功能
-            serverSide: true,////服务器端获取数据
-            pagingType: 'simple_numbers',
-            ajax: function (data, callback, setting) {
-                $.ajax({
-                    type: 'GET',
-                    url: sw.resolve(url),
-                    data: data,
-                    cache: false,
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("tbody").html('<tr class="odd"><td valign="top" colspan="13" class="dataTables_empty">载入中...</td></tr>');
-                    },
-                    success: function (res) {
-                        var returnData = {};
-                        returnData.data = res.data.data;
-                        returnData.recordsFiltered = res.data.recordsFiltered;
-                        returnData.draw = res.data.draw;
-                        returnData.recordsTotal = res.data.recordsTotal;
-                        returnData.start = data.start;
-                        returnData.length = data.length;
-                        callback(returnData);
-                        BILLNO = "";
-                    },
-                    error: function (xhr, status, error) {
-                        sw.showErrorMessage(xhr, status, error);
-                    }
-                });
-            },
-           // lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            ajax: url,
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
-            paging:false,
-            info:false,
             columns: [
                 //还需判断下状态
                 {
@@ -86,41 +45,34 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     }
                 },
                 {
-                    label:"提运单号",render:function (data, type, row) {
-                    if(BILLNO == row.bill_no){
+                    label: "提运单号", render: function (data, type, row) {
+                    if (row.no == "1") {
+                        return row.bill_no;
+                    } else {
                         return "";
                     }
-                    BILLNO = row.bill_no;
-                    TOTALCOUNT = "";
-                    APPTIME = "";
-                    return BILLNO;
                 }
                 },
-                //{data: "totalCount", label: "订单总数"},
-
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if (!isEmpty(row.appTime)) {
-                        if (APPTIME == row.appTime){
-                            return "";
-                        }
-                        APPTIME = row.appTime;
-                        return moment(APPTIME).format("YYYY-MM-DD HH:mm:ss");
-                    }
-                    return "";
-                }
-                },
-                {
-                    label:"订单总数",render:function (data, type, row) {
-                    if(TOTALCOUNT == row.totalCount){
+                    if (row.no == "1") {
+                        return isEmpty(row.appTime) ? "" : moment(row.appTime).format("YYYY-MM-DD HH:mm:ss");
+                    } else {
                         return "";
                     }
-                    TOTALCOUNT = row.totalCount;
-                    return TOTALCOUNT;
                 }
                 },
                 {
-                    label:"订单回执",render:function (data,type,row) {
+                    label: "订单总数", render: function (data, type, row) {
+                    if (row.no == "1") {
+                        return row.totalCount;
+                    } else {
+                        return "";
+                    }
+                }
+                },
+                {
+                    label: "业务状态", render: function (data, type, row) {
                     var value = "";
                     var textColor = "";
                     switch (row.data_status) {
@@ -144,28 +96,21 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                             value = "订单申报成功";
                             textColor = "text-green";
                             break;
-                        case "CBDS23":
-                            value = "订单重报";
-                            textColor = "text-yellow";
+                        case "OrderDoing":
+                            value = "订单报文生成中";
+                            textColor = "text-green";
                             break;
-                        case "CBDS24":
-                            value = "订单申报失败";
-                            textColor = "text-red";
+                        case "OrderOver":
+                            value = "订单报文下载完成";
+                            textColor = "text-green";
                             break;
                     }
-                    var result = "<span class="+textColor+">" + value + "</span>";
+                    var result = "<span class=" + textColor + ">" + value + "</span>";
                     return result
                 }
                 },
-                //{data: "count1", label: "数量"},
-                {
-                    label:"数量",render:function (data,type,row) {
-                    if (row.count=="0"){
-                        return ""
-                    }
-                    return row.count
-                }
-                }
+                {data: "count", label: "订单数量"}
+
             ]
         });
     },
@@ -189,9 +134,6 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
 
             var postData = {
                 submitKeys: submitKeys
-                //idCardValidate: idCardValidate
-               // ieFlag: sw.ie,
-               // entryType: sw.type
             };
 
             $("#submitManifestBtn").prop("disabled", true);
@@ -226,10 +168,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
             var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
             sw.blockPage();
             var postData = {
-                submitKeys: submitKeys,
-                idCardValidate: idCardValidate,
-                ieFlag: sw.ie,
-                entryType: sw.type
+                submitKeys: submitKeys
             };
             $("#orderXmlDownload").prop("disabled", true);
             sw.ajax("api/orderManage/orderXmlDownload", "POST", postData, function (rsp) {
