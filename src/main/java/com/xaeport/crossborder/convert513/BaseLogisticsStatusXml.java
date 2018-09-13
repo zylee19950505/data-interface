@@ -127,11 +127,8 @@ public class BaseLogisticsStatusXml {
         switch (flag) {
             //生成新快件 xml
             case "logisticsStatus": {
-//                Data.appendChild(this.waybill.getEntryHead(document, ceb411Message));
                 this.logisticsStatusXml.getLogisticsList(document, rootElement, ceb513Message);
                 break;
-            }
-            case "shipingBill": {
             }
         }
         return rootElement;
