@@ -58,7 +58,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     }
                 });
             },
-            /*lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],*/
+            // lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             paging: false,
             info: false,
@@ -86,7 +86,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                         }
                     }
                 },
-                //{data: "bill_no", label: "提运单号"},//订单编号要点击查看订单详情
                 {
                     label: "提运单号", render: function (data, type, row) {
                     if (BILLNO == row.bill_no) {
@@ -119,11 +118,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     return TOTALCOUNT;
                 }
                 },
-
-
-                //{data: "data_status", label: "运单回执"},
                 {
-                    label: "运单回执", render: function (data, type, row) {
+                    label: "运单业务状态", render: function (data, type, row) {
                     var value = "";
                     var textColor = "";
                     switch (row.data_status) {
@@ -160,7 +156,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     return result
                 }
                 },
-                //{data: "count1", label: "数量"},
                 {
                     label: "数量", render: function (data, type, row) {
                     if (row.count1 == "0") {
@@ -169,13 +164,11 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     return row.count1
                 }
                 },
-                //{data: "sta_data_status", label: "运单状态回执"},
                 {
-                    label: "运单状态回执", render: function (data, type, row) {
+                    label: "运单状态业务状态", render: function (data, type, row) {
                     var value = "";
                     var textColor = "";
                     switch (row.sta_data_status){
-                        //case "CBDS1": status = "运单状态已导入";break;
                         case "CBDS5": value = "运单状态待申报";textColor = "text-yellow";break;
                         case "CBDS50":value = "运单状态申报中";textColor = "text-yellow";break;
                         case "CBDS51":value = "运单状态已申报";textColor = "text-green";break;
@@ -185,10 +178,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     }
                     var result = "<span class="+ textColor +">" + value + "</span>";
                     return result
-                   // return "<span class='+ text-yellow +'>" + row.sta_data_status + "</span>";
                 }
                 },
-                //{data: "count2", label: "数量"}
                 {
                     label: "数量", render: function (data, type, row) {
                     if (row.count2 == "0") {
