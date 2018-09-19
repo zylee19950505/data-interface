@@ -23,6 +23,7 @@ public class ParserHolder {
         map.put("ceb514", new Ceb514Parser());//运单状态回执报文
         map.put("ceb622", new Ceb622Parser());//清单回执报文
         map.put("ceb712", new Ceb712Parser());//入库明细单回执报文
+        map.put("CheckGoodsInfo", new CheckGoodsInfoParser());//核放单预订数据报文
     }
 
     public BaseParser getParser(String parserType) {

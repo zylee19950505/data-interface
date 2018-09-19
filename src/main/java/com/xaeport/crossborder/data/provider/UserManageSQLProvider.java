@@ -65,9 +65,13 @@ public class UserManageSQLProvider extends BaseSQLProvider {
                 SELECT("t1.IC_CARD");
                 SELECT("t1.IC_PWD");
                 SELECT("t2.ROLEID");
+                SELECT("t3.ENT_CODE");
+                SELECT("t3.CUSTOMS_CODE ENT_CUSTOMS_CODE");
                 FROM("T_USERS t1");
                 FROM("T_USER_ROLE t2");
+                FROM("T_ENTERPRISE t3");
                 WHERE("t1.ID = t2.USERINFOID");
+                WHERE("t1.ENT_ID = t3.ID");
                 WHERE("t1.ID = #{id}");
             }
         }.toString();

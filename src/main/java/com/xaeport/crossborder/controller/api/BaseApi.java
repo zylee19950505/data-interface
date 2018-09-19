@@ -56,10 +56,41 @@ public class BaseApi {
      *
      * @return
      */
+    protected String getCurrentUserLoginName() {
+        Users currentUsers = this.getCurrentUsers();
+        return currentUsers.getLoginName();
+    }
+
+    /**
+     * 获取当前用户的企业ID
+     *
+     * @return
+     */
     protected String getCurrentUserEntId() {
         Users currentUsers = this.getCurrentUsers();
         return currentUsers.getEnt_Id();
     }
+
+    /**
+     * 获取当前用户的企业ID
+     *
+     * @return
+     */
+    protected String getCurrentUserEntCode() {
+        Users currentUsers = this.getCurrentUsers();
+        return currentUsers.getEnt_Code();
+    }
+
+    /**
+     * 获取当前用户的企业ID
+     *
+     * @return
+     */
+    protected String getCurrentUserEntName() {
+        Users currentUsers = this.getCurrentUsers();
+        return currentUsers.getEnt_Name();
+    }
+
 
     /**
      * 获取当前用户的角色Id

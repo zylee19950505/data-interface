@@ -1,0 +1,79 @@
+package com.xaeport.crossborder.service.manifest;
+
+import com.xaeport.crossborder.data.entity.CheckGoodsInfo;
+import com.xaeport.crossborder.data.entity.ManifestHead;
+import com.xaeport.crossborder.data.mapper.ManifestCreateMapper;
+import com.xaeport.crossborder.tools.IdUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+@Service
+public class ManifestCreateService {
+
+    @Autowired
+    ManifestCreateMapper manifestCreateMapper;
+
+    public List<CheckGoodsInfo> queryCheckGoodsInfoList(Map<String, String> paramMap) throws Exception {
+        return this.manifestCreateMapper.queryCheckGoodsInfoList(paramMap);
+    }
+
+
+    public ManifestHead queryManifestData(Map<String, String> paramMap) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        ManifestHead manifestHead = new ManifestHead();
+        CheckGoodsInfo checkGoodsInfo = this.manifestCreateMapper.queryManifestSum(paramMap);
+        manifestHead.setAuto_id(IdUtils.getUUId());
+        manifestHead.setManifest_no("H" + paramMap.get("ent_code") + sdf.format(new Date()) + IdUtils.getShortUUId().substring(0, 8));
+        manifestHead.setCustoms_code("9007");
+        manifestHead.setBiz_type("KA12");
+        manifestHead.setBiz_mode("KA27");
+        manifestHead.setI_e_flag("I");
+        manifestHead.setI_e_mark("E");
+        manifestHead.setTrade_mode("直购进口");
+        manifestHead.setDelivery_way("普通业务");
+        manifestHead.setStart_land("XK16");
+        manifestHead.setGoal_land("XK01");
+
+        manifestHead.setGoods_wt(checkGoodsInfo.getGrossWtSum());
+        manifestHead.setFact_weight(checkGoodsInfo.getNetWtSum());
+        manifestHead.setPack_no(checkGoodsInfo.getReleaseSum());
+        manifestHead.setSum_goods_value(checkGoodsInfo.getGoodsValueSum());
+
+        manifestHead.setM_status("K01");
+        manifestHead.setB_status("B01");
+        manifestHead.setStatus("K01");
+        manifestHead.setPort_status("K03");
+
+        manifestHead.setInput_name(paramMap.get("input_name"));
+        manifestHead.setInput_code(paramMap.get("input_code"));
+        manifestHead.setTrade_name(paramMap.get("trade_name"));
+        manifestHead.setTrade_code(paramMap.get("trade_code"));
+
+        manifestHead.setApp_person(paramMap.get("app_person"));
+
+        manifestHead.setRegion_code("RE24");
+        manifestHead.setExtend_field_3("KJWTBLC");
+        manifestHead.setPlat_from("XAKJE");
+        manifestHead.setNote("");
+
+        return manifestHead;
+    }
+
+    @Transactional
+    public Map<String, String> saveManifestInfo(LinkedHashMap<String, String> entryHead) {
+        Map<String, String> rtnMap = new HashMap<String, String>();
+
+        this.manifestCreateMapper.saveManifest(entryHead);
+        rtnMap.put("result", "true");
+        rtnMap.put("msg", "编辑信息成功，请到“清单查询-清单申报”处重新进行订单申报！");
+        return rtnMap;
+
+    }
+
+
+}

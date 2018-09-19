@@ -51,6 +51,9 @@ public class ReceiptService {
                 case "CEB712"://入库明细单回执
                     this.createImpRecDelivery(receipt, refileName);
                     break;
+                case "CheckGoodsInfo"://核放单预订数据
+                    this.createCheckGoodsInfo(receipt, refileName);
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -58,6 +61,75 @@ public class ReceiptService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return flag;
+    }
+
+    /**
+     * 插入订单回执报文数据
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createCheckGoodsInfo(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("CheckGoodsInfoHead");
+        if (!StringUtils.isEmpty(list)) {
+            CheckGoodsInfo checkGoodsInfo;
+            for (int i = 0; i < list.size(); i++) {
+                checkGoodsInfo = new CheckGoodsInfo();
+                checkGoodsInfo.setGuid(IdUtils.getUUId());
+                checkGoodsInfo.setCrt_id("系统自生成");
+                checkGoodsInfo.setCrt_tm(new Date());
+                checkGoodsInfo.setUpd_id("系统自生成");
+                checkGoodsInfo.setUpd_tm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("entryid")) {
+                        checkGoodsInfo.setEntry_id(map.get("entryid"));
+                    }
+                    if (map.containsKey("ieFlage")) {
+                        checkGoodsInfo.setI_e_flag(map.get("ieFlage"));
+                    }
+                    if (map.containsKey("orderNo")) {
+                        checkGoodsInfo.setOrder_no(map.get("orderNo"));
+                    }
+                    if (map.containsKey("logisticsNo")) {
+                        checkGoodsInfo.setLogistics_no(map.get("logisticsNo"));
+                    }
+                    if (map.containsKey("logisticsCode")) {
+                        checkGoodsInfo.setLogistics_code(map.get("logisticsCode"));
+                    }
+                    if (map.containsKey("logisticsName")) {
+                        checkGoodsInfo.setLogistics_name(map.get("logisticsName"));
+                    }
+                    if (map.containsKey("packNum")) {
+                        checkGoodsInfo.setPack_num(map.get("packNum"));
+                    }
+                    if (map.containsKey("grossWt")) {
+                        checkGoodsInfo.setGross_wt(map.get("grossWt"));
+                    }
+                    if (map.containsKey("netWt")) {
+                        checkGoodsInfo.setNet_wt(map.get("netWt"));
+                    }
+                    if (map.containsKey("goodsValue")) {
+                        checkGoodsInfo.setGoods_value(map.get("goodsValue"));
+                    }
+                    if (map.containsKey("controlledStatus")) {
+                        checkGoodsInfo.setControlled_status(map.get("controlledStatus"));
+                    }
+                    if (map.containsKey("messageTime")) {
+                        checkGoodsInfo.setMessage_time(map.get("messageTime"));
+                    }
+                    if (map.containsKey("customsCode")) {
+                        checkGoodsInfo.setCustoms_code(map.get("customsCode"));
+                    }
+                    if (map.containsKey("status")) {
+                        checkGoodsInfo.setStatus(map.get("status"));
+                    }
+                    if (map.containsKey("totalLogisticsNo")) {
+                        checkGoodsInfo.setTotal_logistics_no(map.get("totalLogisticsNo"));
+                    }
+                }
+                this.receiptMapper.createCheckGoodsInfo(checkGoodsInfo); //插入核放单预订数据
+            }
+        }
     }
 
     /**

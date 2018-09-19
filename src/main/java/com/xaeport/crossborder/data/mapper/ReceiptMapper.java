@@ -9,6 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ReceiptMapper {
 
+    //核放单预定数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createCheckGoodsInfo")
+    void createCheckGoodsInfo(@Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo);
+
     //订单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecOrder")
     void createImpRecOrder(@Param("impRecOrder") ImpRecOrder impRecOrder);

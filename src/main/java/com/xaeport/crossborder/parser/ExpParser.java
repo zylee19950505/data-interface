@@ -44,6 +44,8 @@ public class ExpParser {
             type = "CEB622";
         }else if(sample.contains("<CEB712Message")){//入库明细单回执
             type = "CEB712";
+        }else if(sample.contains("<CheckGoodsInfo")){
+            type = "CheckGoodsInfo";
         }
         return type;
     }
@@ -72,6 +74,9 @@ public class ExpParser {
                 break;
             case "CEB712"://入库明细单回执
                 map = this.parserHolder.getParser("ceb712").expParser(expPath, "DeliveryReturn");
+                break;
+            case "CheckGoodsInfo"://核放单
+                map = this.parserHolder.getParser("CheckGoodsInfo").expParser(expPath, "CheckGoodsInfoHead");
                 break;
         }
         mapData.put("Receipt", map);

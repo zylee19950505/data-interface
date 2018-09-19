@@ -23,11 +23,29 @@ public class Users {
     private String roleName;//角色名称
     private String ent_Id;//企业ID
     private String ent_Name;//企业名称
+    private String ent_Code;//企业代码
+    private String ent_Customs_Code;
     private String ic_Card;//IC卡号
     private String ic_Pwd;//IC卡密码
     private List<Menu> subMenuList;//菜单表
     private List<Menu> childMenuList;//子菜单表
     private Enterprise enterprise;//企业信息
+
+    public String getEnt_Customs_Code() {
+        return ent_Customs_Code;
+    }
+
+    public void setEnt_Customs_Code(String ent_Customs_Code) {
+        this.ent_Customs_Code = ent_Customs_Code;
+    }
+
+    public String getEnt_Code() {
+        return ent_Code;
+    }
+
+    public void setEnt_Code(String ent_Code) {
+        this.ent_Code = ent_Code;
+    }
 
     public Enterprise getEnterprise() {
         return enterprise;
