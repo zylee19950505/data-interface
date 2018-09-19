@@ -14,6 +14,7 @@ import java.util.Map;
 public class ValidateWaybill extends ValidateBase {
 
     private Log log = LogFactory.getLog(this.getClass());
+    private int orderNoIndex; //物流运单编号";//head
     private int logisticsNoIndex; //物流运单编号";//head
     private int logisticsCodeIndex; //物流企业代码";//head
     private int logisticsNameIndex; //物流企业名称";//head
@@ -33,6 +34,7 @@ public class ValidateWaybill extends ValidateBase {
      * @param list
      */
     public void getIndexValue(List<String> list) {
+        orderNoIndex = list.indexOf(ExcelHeadWaybill.orderNo);
         logisticsNoIndex = list.indexOf(ExcelHeadWaybill.logisticsNo);
         logisticsCodeIndex = list.indexOf(ExcelHeadWaybill.logisticsCode);
         logisticsNameIndex = list.indexOf(ExcelHeadWaybill.logisticsName);
@@ -47,6 +49,7 @@ public class ValidateWaybill extends ValidateBase {
     }
 
     public void initMap() {
+        indexMap.put(orderNoIndex, "订单编号,60");
         indexMap.put(logisticsNoIndex, "物流运单编号,60");
         indexMap.put(logisticsCodeIndex, "物流企业代码,18");
         indexMap.put(logisticsNameIndex, "物流企业名称,100");

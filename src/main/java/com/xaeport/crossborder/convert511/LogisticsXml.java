@@ -37,6 +37,7 @@ public class LogisticsXml {
         Element logisticsCode;
         Element logisticsName;
         Element logisticsNo;
+        Element orderNo;
         Element billNo;
         Element freight;
         Element insuredFee;
@@ -74,6 +75,9 @@ public class LogisticsXml {
 
             logisticsNo = document.createElement("ceb:logisticsNo");
             logisticsNo.setTextContent(logisticsHeadsList.get(i).getLogisticsNo());
+
+            orderNo = document.createElement("ceb:orderNo");
+            orderNo.setTextContent(logisticsHeadsList.get(i).getOrderNo());
 
             billNo = document.createElement("ceb:billNo");
             billNo.setTextContent(logisticsHeadsList.get(i).getBillNo());
@@ -115,6 +119,7 @@ public class LogisticsXml {
             LogisticsHead.appendChild(logisticsCode);
             LogisticsHead.appendChild(logisticsName);
             LogisticsHead.appendChild(logisticsNo);
+            LogisticsHead.appendChild(orderNo);
             LogisticsHead.appendChild(billNo);
             LogisticsHead.appendChild(freight);
             LogisticsHead.appendChild(insuredFee);

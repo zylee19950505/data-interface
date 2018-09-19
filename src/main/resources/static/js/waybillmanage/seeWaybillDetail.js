@@ -92,6 +92,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     // 装载表头信息
 
         fillEntryHeadInfo: function (entryHead) {
+        $("#order_no").val(entryHead.orderNo);
         $("#logistics_no").val(entryHead.logisticsNo);
         $("#logistics_code").val(entryHead.logisticsCode);
         $("#logistics_name").val(entryHead.logisticsName);
@@ -191,6 +192,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     valiField: function () {
         // 校验表头
         var validataHeadField = {
+            "order_no":"订单编号",
             "logistics_no":"物流运单编号",
             "logistics_code":"物流企业代码",
             "logistics_name":"物流企业名称",
@@ -249,6 +251,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
                     "logistics_no", //运单编号
+                    "order_no", //运单编号
                      "pack_no"//件数
                     ];
                 }

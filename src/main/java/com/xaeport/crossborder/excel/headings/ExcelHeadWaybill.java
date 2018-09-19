@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ExcelHeadWaybill {
     //校验字段
+    public final static String orderNo = "订单编号";//head
     public final static String logisticsNo = "物流运单编号";//head
     public final static String logisticsCode = "物流企业代码";//head
     public final static String logisticsName = "物流企业名称";//head
@@ -19,6 +20,7 @@ public class ExcelHeadWaybill {
     //运单Excel模板表头所有字段名
     public static List<String> getList() {
         List<String> wayBillList = new ArrayList<>();
+        wayBillList.add("订单编号");
         wayBillList.add("物流运单编号");
         wayBillList.add("物流企业代码");
         wayBillList.add("物流企业名称");

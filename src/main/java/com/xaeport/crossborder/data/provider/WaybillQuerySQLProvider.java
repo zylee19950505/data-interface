@@ -120,6 +120,7 @@ public class WaybillQuerySQLProvider {
                 SELECT("t.LOGISTICS_CODE as logisticscode");
                 SELECT("t.LOGISTICS_NAME as logisticsname");
                 SELECT("t.LOGISTICS_NO as logisticsno");
+                SELECT("t.ORDER_NO as orderno");
                 SELECT("t.BILL_NO as billno");
                 SELECT("t.FREIGHT as freight");
                 SELECT("t.INSURED_FEE as insuredfee");

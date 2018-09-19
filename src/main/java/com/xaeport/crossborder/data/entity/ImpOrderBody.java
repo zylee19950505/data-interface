@@ -10,6 +10,7 @@ public class ImpOrderBody {
     private String item_Describe;//交易平台销售商品的描述信息。
     private String bar_Code;//商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。
     private String unit;//海关标准的参数代码海关标准的参数代码《JGS-20 海关业务代码集》- 计量单位代码
+    private String g_Model;//商品规格型号
     private String qty;//商品实际数量
     private String price;//商品单价。赠品单价填写为 0。
     private String total_Price;//商品总价，等于单价乘以数量。
@@ -79,6 +80,14 @@ public class ImpOrderBody {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getG_Model() {
+        return g_Model;
+    }
+
+    public void setG_Model(String g_Model) {
+        this.g_Model = g_Model;
     }
 
     public String getQty() {

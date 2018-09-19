@@ -20,6 +20,16 @@ public class OrderHead {
     private String currency;
     private String buyerRegNo;
     private String buyerName;
+    private String buyerTelePhone;
+
+    public String getBuyerTelePhone() {
+        return buyerTelePhone;
+    }
+
+    public void setBuyerTelePhone(String buyerTelePhone) {
+        this.buyerTelePhone = buyerTelePhone;
+    }
+
     private String buyerIdType;
     private String buyerIdNumber;
     private String payCode;

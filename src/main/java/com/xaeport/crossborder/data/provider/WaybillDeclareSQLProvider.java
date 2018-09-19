@@ -236,6 +236,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider{
                         "APP_STATUS," +
                         "LOGISTICS_CODE," +
                         "LOGISTICS_NAME," +
+                        "ORDER_NO," +
                         "LOGISTICS_NO");
                 SELECT("BILL_NO," +
                         "to_char(FREIGHT,'FM999999999990.00000') as FREIGHT," +

@@ -96,6 +96,7 @@ public class LogisticsMessageThread implements Runnable {
                             logisticsHead.setAppStatus(impLogistics.getApp_status());//业务状态:1-暂存,2-申报,默认为2。
                             logisticsHead.setLogisticsCode(impLogistics.getLogistics_code());//物流企业的海关注册登记编号。
                             logisticsHead.setLogisticsName(impLogistics.getLogistics_name());//物流企业在海关注册登记的名称。
+                            logisticsHead.setOrderNo(impLogistics.getOrder_no());//订单编号
                             logisticsHead.setLogisticsNo(impLogistics.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
                             logisticsHead.setBillNo(impLogistics.getBill_no());//直购进口为海运提单、空运总单或汽车载货清单
                             logisticsHead.setFreight(StringUtils.isEmpty(impLogistics.getFreight()) ? "0" : impLogistics.getFreight());//商品运输费用，无则填0。

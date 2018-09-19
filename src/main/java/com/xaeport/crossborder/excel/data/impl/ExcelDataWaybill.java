@@ -12,6 +12,7 @@ import java.util.*;
 
 public class ExcelDataWaybill implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
+    private int orderNoIndex; //物流运单编号";//head
     private int logisticsNoIndex; //物流运单编号";//head
     private int logisticsCodeIndex; //物流企业代码";//head
     private int logisticsNameIndex; //物流企业名称";//head
@@ -43,6 +44,7 @@ public class ExcelDataWaybill implements ExcelData {
         DecimalFormat df = new DecimalFormat("0.00000");
         for (int i = 1; i < excelData.size(); i++) {
             impLogistics = new ImpLogistics();
+            impLogistics.setOrder_no(excelData.get(i).get(orderNoIndex));//物流运单编号
             impLogistics.setLogistics_no(excelData.get(i).get(logisticsNoIndex));//物流运单编号
             impLogistics.setLogistics_code(excelData.get(i).get(logisticsCodeIndex));//物流企业代码
             impLogistics.setLogistics_name(excelData.get(i).get(logisticsNameIndex));//物流企业名称
@@ -64,6 +66,7 @@ public class ExcelDataWaybill implements ExcelData {
      * @param waybillLists
      */
     public void getIndexValue(List<String> waybillLists) {
+        orderNoIndex = waybillLists.indexOf(ExcelHeadWaybill.orderNo);
         logisticsNoIndex = waybillLists.indexOf(ExcelHeadWaybill.logisticsNo);
         logisticsCodeIndex = waybillLists.indexOf(ExcelHeadWaybill.logisticsCode);
         logisticsNameIndex = waybillLists.indexOf(ExcelHeadWaybill.logisticsName);

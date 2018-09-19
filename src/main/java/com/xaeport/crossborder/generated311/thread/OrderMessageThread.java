@@ -119,6 +119,7 @@ public class OrderMessageThread implements Runnable {
                             orderHead.setCurrency(impOrderHead.getCurrency());
                             orderHead.setBuyerRegNo(impOrderHead.getBuyer_Reg_No());
                             orderHead.setBuyerName(impOrderHead.getBuyer_Name());
+                            orderHead.setBuyerTelePhone(impOrderHead.getBuyer_TelePhone());
                             orderHead.setBuyerIdType(impOrderHead.getBuyer_Id_Type());
                             orderHead.setBuyerIdNumber(impOrderHead.getBuyer_Id_Number());
                             orderHead.setPayCode(StringUtils.isEmpty(impOrderHead.getPay_Code()) ? "" : impOrderHead.getPay_Code());
@@ -132,7 +133,7 @@ public class OrderMessageThread implements Runnable {
                             orderHead.setNote(StringUtils.isEmpty(impOrderHead.getNote()) ? "" : impOrderHead.getNote());
 
                             try {
-                                // 更新支付单状态
+                                // 更新订单单状态
                                 this.orderDeclareMapper.updateEntryHeadOrderStatus(guid, StatusCode.DDYSB);
                                 this.logger.debug(String.format("更新订单[guid: %s]状态为: %s", guid, StatusCode.DDYSB));
                             } catch (Exception e) {

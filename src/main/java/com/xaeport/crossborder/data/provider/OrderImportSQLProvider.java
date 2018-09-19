@@ -73,6 +73,9 @@ public class OrderImportSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getBuyer_Name())) {
                     VALUES("buyer_Name", "#{impOrderHead.buyer_Name}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_TelePhone())) {
+                    VALUES("buyer_telePhone", "#{impOrderHead.buyer_TelePhone}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Type())) {
                     VALUES("buyer_Id_Type", "#{impOrderHead.buyer_Id_Type}");
                 }
@@ -155,6 +158,9 @@ public class OrderImportSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getItem_Name())) {
                     VALUES("item_Name", "#{impOrderBody.item_Name}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
+                    VALUES("g_Model", "#{impOrderBody.g_Model}");
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getItem_Describe())) {
                     VALUES("item_Describe", "#{impOrderBody.item_Describe}");

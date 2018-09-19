@@ -8,6 +8,7 @@ public class ImpLogistics {
     private String app_type;//企业报送类型。1-新增2-变更3-删除。默认为1。
     private Date app_time;//企业报送时间。格式:YYYYMMDDhhmmss。
     private String app_status;//业务状态:1-暂存,2-申报,默认为2。
+    private String order_no;//物流企业的海关注册登记编号。
     private String logistics_code;//物流企业的海关注册登记编号。
     private String logistics_name;//物流企业在海关注册登记的名称。
     private String logistics_no;//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
@@ -40,6 +41,14 @@ public class ImpLogistics {
 
     public String getRec_return_status() {
         return rec_return_status;
+    }
+
+    public String getOrder_no() {
+        return order_no;
+    }
+
+    public void setOrder_no(String order_no) {
+        this.order_no = order_no;
     }
 
     public void setRec_return_status(String rec_return_status) {

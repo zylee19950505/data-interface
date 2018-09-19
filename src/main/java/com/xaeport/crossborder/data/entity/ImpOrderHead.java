@@ -22,6 +22,7 @@ public class ImpOrderHead {
     private String currency;//限定为人民币，填写142。
     private String buyer_Reg_No;//订购人的交易平台注册号。
     private String buyer_Name;//订购人的真实姓名。
+    private String buyer_TelePhone;//订购人的真实姓名。
     private String buyer_Id_Type;//1-身份证,2-其它。限定为身份证，填写1。
     private String buyer_Id_Number;//订购人的身份证件号码。
     private String pay_Code;//支付企业的海关注册登记编号。
@@ -219,6 +220,13 @@ public class ImpOrderHead {
 
     public void setBuyer_Name(String buyer_Name) {
         this.buyer_Name = buyer_Name;
+    }
+    public String getBuyer_TelePhone() {
+        return buyer_TelePhone;
+    }
+
+    public void setBuyer_TelePhone(String buyer_TelePhone) {
+        this.buyer_TelePhone = buyer_TelePhone;
     }
 
     public String getBuyer_Id_Type() {
