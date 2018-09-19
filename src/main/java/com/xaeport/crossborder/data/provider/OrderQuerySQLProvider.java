@@ -216,6 +216,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				if (!StringUtils.isEmpty(entryHead.get("buyer_Name"))){
 					SET("t.BUYER_NAME = #{buyer_Name}");
 				}
+				if (!StringUtils.isEmpty(entryHead.get("buyer_TelePhone"))){
+					SET("t.BUYER_TELEPHONE = #{buyer_TelePhone}");
+				}
 				if (!StringUtils.isEmpty(entryHead.get("consignee"))){
 					SET("t.CONSIGNEE = #{consignee}");
 				}
@@ -261,6 +264,9 @@ public class OrderQuerySQLProvider extends BaseSQLProvider{
 				}
 				if (!StringUtils.isEmpty(entryList.get("item_Name"))){
 					SET("t.ITEM_NAME = #{item_Name}");
+				}
+				if (!StringUtils.isEmpty(entryList.get("g_Model"))){
+					SET("t.G_MODEL = #{g_Model}");
 				}
 				if (!StringUtils.isEmpty(entryList.get("qty"))){
 					SET("t.QTY = #{qty}");

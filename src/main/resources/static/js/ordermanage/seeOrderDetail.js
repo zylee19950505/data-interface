@@ -126,6 +126,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "currency",
             "buyer_Reg_No",
             "buyer_Name",
+            "buyer_TelePhone",
             "buyer_Id_Type",
             "buyer_Id_Number",
             "pay_Code",
@@ -177,6 +178,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#buyer_Reg_No").val(entryHead.buyer_Reg_No);
         $("#buyer_Id_Number").val(entryHead.buyer_Id_Number);
         $("#buyer_Name").val(entryHead.buyer_Name);
+        $("#buyer_TelePhone").val(entryHead.buyer_TelePhone);
         $("#consignee").val(entryHead.consignee);
         $("#consignee_Telephone").val(entryHead.consignee_Telephone);
         $("#consignee_Address").val(entryHead.consignee_Address);
@@ -198,6 +200,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_Model_" + g_num + "' value='" + entryLists[i].g_Model + "' /></td>" +//商品规格型号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
                 "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(5) + "' /></td>" +//商品总价
@@ -308,6 +311,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "buyer_Reg_No":"订购人注册号",
             "buyer_Id_Number":"证件号码",
             "buyer_Name":"订购人姓名",
+            "buyer_TelePhone":"订购人电话",
             "consignee":"收货人姓名",
             "consignee_Address":"收货地址",
             "consignee_Telephone":"收货人电话",
@@ -323,6 +327,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "item_Name": "企业商品名称",
             "country": "原产国",
             "qty": "数量",
+            "g_Model": "商品规格型号",
             "price": "单价",
             "unit": "单位",
             "total_Price": "总价"
@@ -349,7 +354,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 fieldId = $(fields[i]).attr("id");
                 fieldVal = $(fields[i]).val();
                 gno = fieldId.substring(fieldId.lastIndexOf("_") + 1, fieldId.length);
-                if (!isNotEmpty(fieldVal)) {
+                if ((!isNotEmpty(fieldVal))||fieldVal=="null") {
                     hasError("序号[" + gno + "]-[" + validataListField[key] + "]不能为空");
                     return false;
                 }

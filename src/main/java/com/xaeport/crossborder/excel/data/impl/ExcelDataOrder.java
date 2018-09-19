@@ -19,6 +19,7 @@ public class ExcelDataOrder implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //订单编号";//head //list
     private int itemNameIndex; //商品名称";//list
+    private int g_modelIndex; //商品规格型号";//list
     private int qtyIndex; //数量";//list
     private int unitIndex; //计量单位";//list
     private int total_PriceIndex; //总价";//list
@@ -29,6 +30,7 @@ public class ExcelDataOrder implements ExcelData {
     private int buyer_Reg_NoIndex; //订购人注册号";//head
     private int buyer_Id_NumberIndex; //订购人证件号码";//head
     private int buyer_NameIndex; //订购人姓名";//head
+    private int buyer_TelePhoneIndex; //订购人姓名";//head
     private int consigneeIndex; //收货人姓名";//head
     private int consignee_TelephoneIndex; //收货人电话";//head
     private int consignee_AddressIndex; //收货地址";//head
@@ -79,6 +81,7 @@ public class ExcelDataOrder implements ExcelData {
             impOrderHead.setBuyer_Reg_No(value.get(buyer_Reg_NoIndex));//订购人注册号
             impOrderHead.setBuyer_Id_Number(value.get(buyer_Id_NumberIndex));//订购人证件号码
             impOrderHead.setBuyer_Name(value.get(buyer_NameIndex));//订购人姓名
+            impOrderHead.setBuyer_TelePhone(value.get(buyer_TelePhoneIndex));//订购人电话
             impOrderHead.setConsignee(value.get(consigneeIndex));//收货人姓名
             impOrderHead.setConsignee_Telephone(value.get(consignee_TelephoneIndex));//收货人电话
             impOrderHead.setConsignee_Address(value.get(consignee_AddressIndex));//收件地址
@@ -146,6 +149,7 @@ public class ExcelDataOrder implements ExcelData {
         DecimalFormat df = new DecimalFormat("0.00000");
         impOrderBody.setOrder_No(entryLists.get(orderNoIndex));//订单编号
         impOrderBody.setItem_Name(entryLists.get(itemNameIndex));//商品名称
+        impOrderBody.setG_Model(entryLists.get(g_modelIndex));//商品规格型号
         impOrderBody.setCountry(entryLists.get(originCountryIndex));//原产国
         impOrderBody.setUnit(entryLists.get(unitIndex));//计量单位
         impOrderBody.setNote(entryLists.get(noteIndex));//备注
@@ -170,6 +174,7 @@ public class ExcelDataOrder implements ExcelData {
     public void getIndexValue(List<String> orderLists) {
         orderNoIndex = orderLists.indexOf(ExcelHeadOrder.orderNo);//订单编号
         itemNameIndex = orderLists.indexOf(ExcelHeadOrder.itemName);//商品名称
+        g_modelIndex = orderLists.indexOf(ExcelHeadOrder.g_model);//商品规格型号
         qtyIndex = orderLists.indexOf(ExcelHeadOrder.qty);//数量
         unitIndex = orderLists.indexOf(ExcelHeadOrder.unit);//计量单位
         total_PriceIndex = orderLists.indexOf(ExcelHeadOrder.total_Price);//总价
@@ -180,6 +185,7 @@ public class ExcelDataOrder implements ExcelData {
         buyer_Reg_NoIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Reg_No);//订购人注册号
         buyer_Id_NumberIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Id_Number);//订购人证件号码
         buyer_NameIndex = orderLists.indexOf(ExcelHeadOrder.buyer_Name);//订购人姓名
+        buyer_TelePhoneIndex = orderLists.indexOf(ExcelHeadOrder.buyer_TelePhone);//订购人电话
         consigneeIndex = orderLists.indexOf(ExcelHeadOrder.consignee);//收货人姓名
         consignee_TelephoneIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Telephone);//收货人电话
         consignee_AddressIndex = orderLists.indexOf(ExcelHeadOrder.consignee_Address);//收货地址

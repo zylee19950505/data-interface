@@ -51,6 +51,7 @@ public class OrderXml {
         Element currency;
         Element buyerRegNo;
         Element buyerName;
+        Element buyerTelePhone;
         Element buyerIdType;
         Element buyerIdNumber;
         Element payCode;
@@ -121,6 +122,9 @@ public class OrderXml {
             buyerName = document.createElement("ceb:buyerName");
             buyerName.setTextContent(orderHeadList.get(i).getBuyerName());
 
+            buyerTelePhone = document.createElement("ceb:buyerTelePhone");
+            buyerTelePhone.setTextContent(orderHeadList.get(i).getBuyerTelePhone());
+
             buyerIdType = document.createElement("ceb:buyerIdType");
             buyerIdType.setTextContent(orderHeadList.get(i).getBuyerIdType());
 
@@ -175,6 +179,7 @@ public class OrderXml {
             OrderHead.appendChild(currency);
             OrderHead.appendChild(buyerRegNo);
             OrderHead.appendChild(buyerName);
+            OrderHead.appendChild(buyerTelePhone);
             OrderHead.appendChild(buyerIdType);
             OrderHead.appendChild(buyerIdNumber);
             OrderHead.appendChild(payCode);
@@ -210,6 +215,7 @@ public class OrderXml {
         Element itemDescribe;
         Element barCode;
         Element unit;
+        Element gModel;
         Element qty;
         Element price;
         Element totalPrice;
@@ -240,6 +246,9 @@ public class OrderXml {
                 unit = document.createElement("ceb:unit");
                 unit.setTextContent(impOrderBodyList.get(i).getUnit());
 
+                gModel = document.createElement("ceb:gModel");
+                gModel.setTextContent(impOrderBodyList.get(i).getG_Model());
+
                 qty = document.createElement("ceb:qty");
                 qty.setTextContent(impOrderBodyList.get(i).getQty());
 
@@ -264,6 +273,7 @@ public class OrderXml {
                 OrderList.appendChild(itemDescribe);
                 OrderList.appendChild(barCode);
                 OrderList.appendChild(unit);
+                OrderList.appendChild(gModel);
                 OrderList.appendChild(qty);
                 OrderList.appendChild(price);
                 OrderList.appendChild(totalPrice);

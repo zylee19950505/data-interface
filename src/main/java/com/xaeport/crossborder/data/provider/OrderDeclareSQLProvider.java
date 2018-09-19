@@ -164,6 +164,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                     SELECT("CURRENCY");
                     SELECT("BUYER_REG_NO");
                     SELECT("BUYER_NAME");
+                    SELECT("BUYER_TELEPHONE");
                     SELECT("BUYER_ID_TYPE");
                     SELECT("BUYER_ID_NUMBER");
                     SELECT("PAY_CODE");
@@ -219,6 +220,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("CURRENCY");
                 SELECT("BUYER_REG_NO");
                 SELECT("BUYER_NAME");
+                SELECT("BUYER_TELEPHONE");
                 SELECT("BUYER_ID_TYPE");
                 SELECT("BUYER_ID_NUMBER");
                 SELECT("PAY_CODE");
@@ -277,6 +279,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("ORDER_NO");
                 SELECT("ITEM_NO");
                 SELECT("ITEM_NAME");
+                SELECT("G_MODEL");
                 SELECT("ITEM_DESCRIBE");
                 SELECT("BAR_CODE");
                 SELECT("UNIT");

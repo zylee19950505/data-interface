@@ -19,6 +19,7 @@ public class ValidateOrder extends ValidateBase {
     private LoadData loadData = SpringUtils.getBean(LoadData.class);
     private int orderNoIndex; //订单编号";//head //list
     private int itemNameIndex; //商品名称";//list
+    private int g_modelIndex; //商品规格型号";//list
     private int qtyIndex; //数量";//list
     private int unitIndex; //计量单位";//list
     private int total_PriceIndex; //总价";//list
@@ -29,6 +30,7 @@ public class ValidateOrder extends ValidateBase {
     private int buyer_Reg_NoIndex; //订购人注册号";//head
     private int buyer_Id_NumberIndex; //订购人证件号码";//head
     private int buyer_NameIndex; //订购人姓名";//head
+    private int buyer_TelephoneIndex; //订购人电话;//head
     private int consigneeIndex; //收货人姓名";//head
     private int consignee_TelephoneIndex; //收货人电话";//head
     private int consignee_AddressIndex; //收货地址";//head
@@ -44,6 +46,7 @@ public class ValidateOrder extends ValidateBase {
     public void getIndexValue(List<String> list) {
         orderNoIndex = list.indexOf(ExcelHeadOrder.orderNo);//订单编号
         itemNameIndex = list.indexOf(ExcelHeadOrder.itemName);//商品名称
+        g_modelIndex = list.indexOf(ExcelHeadOrder.g_model);//商品规格型号
         qtyIndex = list.indexOf(ExcelHeadOrder.qty);//数量
         unitIndex = list.indexOf(ExcelHeadOrder.unit);//计量单位
         total_PriceIndex = list.indexOf(ExcelHeadOrder.total_Price);//总价
@@ -54,6 +57,7 @@ public class ValidateOrder extends ValidateBase {
         buyer_Reg_NoIndex = list.indexOf(ExcelHeadOrder.buyer_Reg_No);//订购人注册号
         buyer_Id_NumberIndex = list.indexOf(ExcelHeadOrder.buyer_Id_Number);//订购人证件号码
         buyer_NameIndex = list.indexOf(ExcelHeadOrder.buyer_Name);//订购人姓名
+        buyer_TelephoneIndex = list.indexOf(ExcelHeadOrder.buyer_TelePhone);//订购人姓名
         consigneeIndex = list.indexOf(ExcelHeadOrder.consignee);//收货人姓名
         consignee_TelephoneIndex = list.indexOf(ExcelHeadOrder.consignee_Telephone);//收货人电话
         consignee_AddressIndex = list.indexOf(ExcelHeadOrder.consignee_Address);//收货地址
@@ -68,6 +72,7 @@ public class ValidateOrder extends ValidateBase {
     public void initMap() {
         indexMap.put(orderNoIndex, "订单编号,60");
         indexMap.put(itemNameIndex, "企业商品名称,250");
+        indexMap.put(g_modelIndex, "商品规格型号,510");
         indexMap.put(qtyIndex, "数量,19");//double
         indexMap.put(unitIndex, "计量单位,10");
         indexMap.put(total_PriceIndex, "总价,19");//double
@@ -78,6 +83,7 @@ public class ValidateOrder extends ValidateBase {
         indexMap.put(buyer_Reg_NoIndex, "订购人注册号,60");
         indexMap.put(buyer_Id_NumberIndex, "订购人证件号码,60");
         indexMap.put(buyer_NameIndex, "订购人姓名,60");
+        indexMap.put(buyer_TelephoneIndex, "订购人电话,30");
         indexMap.put(consigneeIndex, "收货人姓名,100");
         indexMap.put(consignee_TelephoneIndex, "收货人电话,50");
         indexMap.put(consignee_AddressIndex, "收货地址,200");

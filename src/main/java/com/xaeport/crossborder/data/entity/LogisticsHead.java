@@ -7,6 +7,7 @@ public class LogisticsHead {
     private String appStatus;//业务状态:1-暂存,2-申报,默认为2。
     private String logisticsCode;//物流企业的海关注册登记编号。
     private String logisticsName;//物流企业在海关注册登记的名称。
+    private String orderNo;//订单编号
     private String logisticsNo;//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
     private String billNo;//直购进口为海运提单、空运总单或汽车载货清单
     private String freight;//商品运输费用，无则填0。
@@ -28,6 +29,14 @@ public class LogisticsHead {
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     public String getAppType() {
