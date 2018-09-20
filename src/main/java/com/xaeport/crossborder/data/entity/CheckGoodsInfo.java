@@ -19,7 +19,7 @@ public class CheckGoodsInfo {
     private String goods_value;
     private String status;
     private String controlled_status;
-    private String message_time;
+    private Date message_time;
 
     private String crt_id;
     private Date crt_tm;
@@ -202,11 +202,11 @@ public class CheckGoodsInfo {
         this.controlled_status = controlled_status;
     }
 
-    public String getMessage_time() {
+    public Date getMessage_time() {
         return message_time;
     }
 
-    public void setMessage_time(String message_time) {
+    public void setMessage_time(Date message_time) {
         this.message_time = message_time;
     }
 

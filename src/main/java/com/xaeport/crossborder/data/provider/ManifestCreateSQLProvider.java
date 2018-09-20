@@ -26,9 +26,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");
                 FROM("T_CHECK_GOODS_INFO t");
-//                if (!StringUtils.isEmpty(returnStatus)) {
-//                    WHERE(splitJointIn("t.STATUS", returnStatus));
-//                }
                 WHERE("t.STATUS = '800'");
                 WHERE("t.IS_MANIFEST = 'N'");
                 if (!StringUtils.isEmpty(billNo)) {

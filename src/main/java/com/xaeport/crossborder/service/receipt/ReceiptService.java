@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,8 @@ public class ReceiptService {
         if (!StringUtils.isEmpty(list)) {
             CheckGoodsInfo checkGoodsInfo;
             for (int i = 0; i < list.size(); i++) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
                 checkGoodsInfo = new CheckGoodsInfo();
                 checkGoodsInfo.setGuid(IdUtils.getUUId());
                 checkGoodsInfo.setCrt_id("系统自生成");
@@ -115,7 +118,7 @@ public class ReceiptService {
                         checkGoodsInfo.setControlled_status(map.get("controlledStatus"));
                     }
                     if (map.containsKey("messageTime")) {
-                        checkGoodsInfo.setMessage_time(map.get("messageTime"));
+                        checkGoodsInfo.setMessage_time(sdf.parse(map.get("messageTime")));
                     }
                     if (map.containsKey("customsCode")) {
                         checkGoodsInfo.setCustoms_code(map.get("customsCode"));
@@ -127,7 +130,21 @@ public class ReceiptService {
                         checkGoodsInfo.setTotal_logistics_no(map.get("totalLogisticsNo"));
                     }
                 }
-                this.receiptMapper.createCheckGoodsInfo(checkGoodsInfo); //插入核放单预订数据
+                this.receiptMapper.createCheckGoodsInfoHis(checkGoodsInfo); //插入核放单预订数据
+
+                long newTime = (checkGoodsInfo.getMessage_time()).getTime();
+                String orderNo = checkGoodsInfo.getOrder_no();
+                CheckGoodsInfo checkGoodsInfoData = this.receiptMapper.findByOrderNo(orderNo);
+                if (!StringUtils.isEmpty(checkGoodsInfoData)) {
+                    long systemTime = StringUtils.isEmpty(checkGoodsInfoData.getMessage_time()) ? 0 : (checkGoodsInfoData.getMessage_time()).getTime();
+                    if (newTime >= systemTime) {
+                        this.receiptMapper.updateCheckGoodsInfo(checkGoodsInfo);
+                    } else {
+                        continue;
+                    }
+                } else {
+                    this.receiptMapper.createCheckGoodsInfo(checkGoodsInfo);
+                }
             }
         }
     }
@@ -435,9 +452,9 @@ public class ReceiptService {
                 ImpInventoryHead impInventoryHead = this.receiptMapper.findByCopNo(copNo);
                 if (!StringUtils.isEmpty(impInventoryHead)) {
                     long systemTime = StringUtils.isEmpty(impInventoryHead.getReturn_time()) ? 0 : Long.parseLong(impInventoryHead.getReturn_time());
-                    if (returnTime >= systemTime){
+                    if (returnTime >= systemTime) {
                         this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
-                    }else {
+                    } else {
                         continue;
                     }
                 } else {
@@ -520,9 +537,9 @@ public class ReceiptService {
                 ImpDeliveryHead impDeliveryHead = this.receiptMapper.findDeliveryByCopNo(copNo);
                 if (!StringUtils.isEmpty(impDeliveryHead)) {
                     long systemTime = StringUtils.isEmpty(impDeliveryHead.getReturn_time()) ? 0 : Long.parseLong(impDeliveryHead.getReturn_time());
-                    if (returnTime >= systemTime){
+                    if (returnTime >= systemTime) {
                         this.updateImpDeliveryStatus(impRecDelivery);    //更新清单表状态
-                    }else {
+                    } else {
                         continue;
                     }
                 } else {

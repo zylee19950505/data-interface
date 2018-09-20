@@ -11,6 +11,77 @@ import sun.awt.SunHints;
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
     //插入支付单回执表数据
+    public String createCheckGoodsInfoHis(
+            @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
+    ) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_CHECK_GOODS_INFO_HIS");
+                if (!StringUtils.isEmpty(checkGoodsInfo.getGuid())) {
+                    VALUES("GUID", "#{checkGoodsInfo.guid}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getEntry_id())) {
+                    VALUES("ENTRY_ID", "#{checkGoodsInfo.entry_id}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{checkGoodsInfo.customs_code}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getI_e_flag())) {
+                    VALUES("I_E_FLAG", "#{checkGoodsInfo.i_e_flag}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getTotal_logistics_no())) {
+                    VALUES("TOTAL_LOGISTICS_NO", "#{checkGoodsInfo.total_logistics_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_no())) {
+                    VALUES("LOGISTICS_NO", "#{checkGoodsInfo.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getOrder_no())) {
+                    VALUES("ORDER_NO", "#{checkGoodsInfo.order_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_code())) {
+                    VALUES("LOGISTICS_CODE", "#{checkGoodsInfo.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_name())) {
+                    VALUES("LOGISTICS_NAME", "#{checkGoodsInfo.logistics_name}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getPack_num())) {
+                    VALUES("PACK_NUM", "#{checkGoodsInfo.pack_num}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getGross_wt())) {
+                    VALUES("GROSS_WT", "#{checkGoodsInfo.gross_wt}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getNet_wt())) {
+                    VALUES("NET_WT", "#{checkGoodsInfo.net_wt}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getGoods_value())) {
+                    VALUES("GOODS_VALUE", "#{checkGoodsInfo.goods_value}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getStatus())) {
+                    VALUES("STATUS", "#{checkGoodsInfo.status}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getControlled_status())) {
+                    VALUES("CONTROLLED_STATUS", "#{checkGoodsInfo.controlled_status}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getMessage_time())) {
+                    VALUES("MESSAGE_TIME", "#{checkGoodsInfo.message_time}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getCrt_id())) {
+                    VALUES("CRT_ID", "#{checkGoodsInfo.crt_id}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{checkGoodsInfo.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getUpd_id())) {
+                    VALUES("UPD_ID", "#{checkGoodsInfo.upd_id}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{checkGoodsInfo.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //插入支付单回执表数据
     public String createCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
     ) {
@@ -77,10 +148,83 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(checkGoodsInfo.getUpd_tm())) {
                     VALUES("UPD_TM", "#{checkGoodsInfo.upd_tm}");
                 }
+                VALUES("IS_MANIFEST", "'N'");
             }
         }.toString();
     }
 
+    public String findByOrderNo(String orderNo) {
+        return new SQL() {
+            {
+                SELECT("t.*");
+                FROM("T_CHECK_GOODS_INFO t");
+                WHERE("t.ORDER_NO = #{orderNo}");
+            }
+        }.toString();
+    }
+
+    //更新支付单表回执信息
+    public String updateCheckGoodsInfo(
+            @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_CHECK_GOODS_INFO t");
+                if (!StringUtils.isEmpty(checkGoodsInfo.getOrder_no())) {
+                    WHERE("t.ORDER_NO = #{checkGoodsInfo.order_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getEntry_id())) {
+                    SET("t.ENTRY_ID = #{checkGoodsInfo.entry_id}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getCustoms_code())) {
+                    SET("t.CUSTOMS_CODE = #{checkGoodsInfo.customs_code}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getI_e_flag())) {
+                    SET("t.I_E_FLAG = #{checkGoodsInfo.i_e_flag}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getTotal_logistics_no())) {
+                    SET("t.TOTAL_LOGISTICS_NO = #{checkGoodsInfo.total_logistics_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_no())) {
+                    SET("t.LOGISTICS_NO = #{checkGoodsInfo.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_code())) {
+                    SET("t.LOGISTICS_CODE = #{checkGoodsInfo.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getLogistics_name())) {
+                    SET("t.LOGISTICS_NAME = #{checkGoodsInfo.logistics_name}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getPack_num())) {
+                    SET("t.PACK_NUM = #{checkGoodsInfo.pack_num}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getGross_wt())) {
+                    SET("t.GROSS_WT = #{checkGoodsInfo.gross_wt}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getNet_wt())) {
+                    SET("t.NET_WT = #{checkGoodsInfo.net_wt}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getGoods_value())) {
+                    SET("t.GOODS_VALUE = #{checkGoodsInfo.goods_value}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getStatus())) {
+                    SET("t.STATUS = #{checkGoodsInfo.status}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getControlled_status())) {
+                    SET("t.CONTROLLED_STATUS = #{checkGoodsInfo.controlled_status}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getMessage_time())) {
+                    SET("t.MESSAGE_TIME = #{checkGoodsInfo.message_time}");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getUpd_id())) {
+                    SET("t.UPD_ID = '系统变更'");
+                }
+                if (!StringUtils.isEmpty(checkGoodsInfo.getUpd_tm())) {
+                    SET("t.UPD_TM = sysdate");
+                }
+
+            }
+        }.toString();
+    }
 
     public String findByCopNo(String copNo) {
         return new SQL() {

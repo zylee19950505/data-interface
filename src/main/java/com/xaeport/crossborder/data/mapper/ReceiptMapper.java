@@ -10,8 +10,20 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ReceiptMapper {
 
     //核放单预定数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createCheckGoodsInfoHis")
+    void createCheckGoodsInfoHis(@Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo);
+
+    //核放单预定数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createCheckGoodsInfo")
     void createCheckGoodsInfo(@Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo);
+
+    //清单数据查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "findByOrderNo")
+    CheckGoodsInfo findByOrderNo(String orderNo) throws Exception;
+
+    //清单更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateCheckGoodsInfo")
+    void updateCheckGoodsInfo(@Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo) throws Exception;
 
     //订单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecOrder")
