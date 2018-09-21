@@ -8,13 +8,13 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
-        var checkReleaseNo = $("[name='checkReleaseNo']").val();
+        var manifestNo = $("[name='manifestNo']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
+        var url = sw.serializeObjectToURL("api/manifestManage/queryManifestManage", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            checkReleaseNo: checkReleaseNo
+            manifestNo: manifestNo//核放单号
         });
 
         // 数据表
@@ -51,16 +51,62 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "logistics_no", label: "核放单号"},
-                {data: "logistics_no", label: "总件数"},
-                {data: "logistics_no", label: "总毛重"},
-                {data: "logistics_no", label: "总净重"},
-                {data: "logistics_no", label: "总货值"},
-                {data: "logistics_no", label: "车牌号"},
-                {data: "logistics_no", label: "IC卡号"},
-                {data: "logistics_no", label: "状态"},
-                {data: "logistics_no", label: "操作"}
-            ]
+                {data: "manifest_no", label: "核放单号"},
+                {data: "pack_no", label: "总件数"},
+                {data: "goods_wt", label: "总毛重"},
+                {data: "car_wt", label: "总净重"},
+                {data: "sum_goods_value", label: "总货值"},
+                {data: "car_no", label: "车牌号"},
+                {data: "ic_code", label: "IC卡号"},
+                {label:"状态",render:function (data, type, row) {
+                    var textColor = "";
+                    var value = "";
+                    switch (row.data_status) {
+                        case null:
+                            textColor = "text-yellow";
+                            value = "待申报";
+                            break;
+                        case "CBDS8":
+                            textColor = "text-yellow";
+                            value = "核放单待申报";
+                            break;
+                        case "CBDS80":
+                            textColor = "text-green";
+                            value = "核放单申报中";
+                            break;
+                        case "CBDS81":
+                            textColor = "text-green";
+                            value = "核放单已申报";
+                            break;
+                        case "CBDS82":
+                            textColor = "text-green";
+                            value = "核放单申报成功";
+                            break;
+                        case "CBDS83":
+                            textColor = "text-red";
+                            value = "核放单重报";
+                            break;
+                    }
+
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                    }
+                },
+                {
+                    label: "操作", render: function (data, type, row) {
+                   // if (row.MAILSTATE === "U" || row.STATESTR === "已移交")return "";
+                    return item = '<button class="btn btn-sm btn-primary" title="申报" id="submitCustomBtn" ' +
+                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDeclare('" + row.manifest_no + "')" + '">' +
+                            '<i class="fa fa-edit">申报</i> </button> '+
+                            '<button class="btn btn-sm btn-primary" title="下载" ' +
+                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDownload('" + row.manifest_no + "')" + '">' +
+                            '<i class="fa fa-edit">下载</i> </button> '+
+                            '<button class="btn btn-sm btn-primary" title="删除" ' +
+                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDelete('" + row.manifest_no + "')" + '">' +
+                            '<i class="fa fa-edit">删除</i> </button> ';
+                },width:"300px"
+                }
+            ],
+            order: [[1, 'asc']]
         });
     },
 
@@ -74,14 +120,24 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        $(".btn[ws-search]").click();
     },
+    //申报
+    manifestDeclare:function (manifest_no) {
+        sw.blockPage();
+        var postData = {
+            manifestNo: manifest_no
+        };
+        sw.ajax("api/manifestManage/manifestDeclare", "POST", postData, function (rsp) {
+            if (rsp.data.result == "true") {
+                $("#submitCustomBtn").prop("disabled", false);
+                sw.alert("申报成功", "提示", function () {
+                }, "modal-success");
 
-    seeOrderNoDetail: function (guid, order_no) {
-        console.log(guid, order_no)
-        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        sw.modelPopup(url, "查看清单详情", false, 1000, 930);
+                sw.page.modules["manifest/manifestmanage"].query();
+            } else {
+                sw.alert(rsp.data.msg);
+            }
+            $.unblockUI();
+        });
     }
-
-
 };

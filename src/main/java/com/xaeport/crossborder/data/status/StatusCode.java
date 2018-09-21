@@ -66,6 +66,14 @@ public class StatusCode {
 	public final static String RKMXDCB = "CBDS73";//入库明细单重报
 	public final static String RKMXDSBSB = "CBDS74";//入库明细单申报失败
 
+	//核放单数据状态
+	public final static String HFDDSB = "CBDS8";//核放单待申报
+	public final static String HFDSBZ = "CBDS80";//核放单申报中
+	public final static String HFDYSB = "CBDS81";//核放单已申报
+	public final static String HFDSBCG = "CBDS82";//核放单申报成功
+	public final static String HFDCB = "CBDS83";//核放单重报
+	public final static String HFDSBSB = "CBDS84";//核放单申报失败
+
 	public final static String DZKAYZC = "1";//电子口岸已暂存
 	public final static String DZKASBZ = "2";//电子口岸申报中
 	public final static String FWHGCG = "3";//发送海关成功
