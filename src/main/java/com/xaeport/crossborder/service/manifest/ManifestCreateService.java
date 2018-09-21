@@ -83,7 +83,7 @@ public class ManifestCreateService {
         this.manifestCreateMapper.updateCheckGoodsData(manifestNo,bill_nos);
         this.manifestCreateMapper.saveManifest(entryHead);
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“核放单管理”处进行后续操作");
+        rtnMap.put("msg", "编辑成功，请到“核放单管理”处进行后续操作");
         return rtnMap;
 
     }
