@@ -46,6 +46,15 @@ public class ManifestHead {
     public void setBill_nos(String bill_nos) {
         this.bill_nos = bill_nos;
     }
+    private String data_status;
+
+    public String getData_status() {
+        return data_status;
+    }
+
+    public void setData_status(String data_status) {
+        this.data_status = data_status;
+    }
 
     public String getB_status() {
         return b_status;
