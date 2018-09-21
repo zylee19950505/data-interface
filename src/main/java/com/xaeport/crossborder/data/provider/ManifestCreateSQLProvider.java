@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.ManifestHead;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -42,6 +43,27 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String queryCheckGoodsList(Map<String, String> paramMap) throws Exception {
+        final String totalLogisticsNo = paramMap.get("totalLogisticsNo");
+        return new SQL() {
+            {
+                SELECT("TOTAL_LOGISTICS_NO");
+                SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO) totalSum");
+                SELECT("count(entry_id) releaseSum");
+                SELECT("sum(t.GROSS_WT) grossWtSum");
+                SELECT("sum(t.NET_WT) netWtSum");
+                SELECT("sum(t.GOODS_VALUE) goodsValueSum");
+                FROM("T_CHECK_GOODS_INFO t");
+                WHERE("t.STATUS = '800'");
+                WHERE("t.IS_MANIFEST = 'N'");
+                if (!StringUtils.isEmpty(totalLogisticsNo)) {
+                    WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", totalLogisticsNo));
+                }
+                GROUP_BY("TOTAL_LOGISTICS_NO");
+            }
+        }.toString();
+    }
+
     public String queryManifestSum(Map<String, String> paramMap) throws Exception {
         final String userId = paramMap.get("userId");
         final String entId = paramMap.get("entId");
@@ -59,6 +81,24 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                     WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", totalLogisticsNo));
                 }
                 WHERE("t.STATUS = '800'");
+                WHERE("t.IS_MANIFEST = 'N'");
+            }
+        }.toString();
+    }
+
+    public String updateCheckGoodsData(@Param("manifestNo") String manifestNo, @Param("bill_nos") String bill_nos) {
+        return new SQL() {
+            {
+                UPDATE("T_CHECK_GOODS_INFO t");
+                if (!StringUtils.isEmpty(bill_nos)) {
+                    WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", bill_nos));
+                }
+                WHERE("t.STATUS = '800'");
+                WHERE("t.IS_MANIFEST = 'N'");
+                if (!StringUtils.isEmpty(manifestNo)) {
+                    SET("t.MANIFEST_NO = #{manifestNo}");
+                }
+                SET("t.IS_MANIFEST = 'Y'");
             }
         }.toString();
     }
@@ -70,6 +110,10 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("auto_id"))) {
                     VALUES("t.auto_id", "#{auto_id}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("bill_nos"))) {
+                    VALUES("t.bill_nos", "#{bill_nos}");
+                }
+
                 if (!StringUtils.isEmpty(entryHead.get("manifest_no"))) {
                     VALUES("t.manifest_no", "#{manifest_no}");
                 }
@@ -167,6 +211,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("ic_code"))) {
                     VALUES("t.ic_code", "#{ic_code}");
                 }
+
+                VALUES("t.data_status","'CBDS8'");
 
                 VALUES("t.app_date", "sysdate");
 

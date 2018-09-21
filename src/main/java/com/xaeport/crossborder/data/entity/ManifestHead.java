@@ -37,6 +37,15 @@ public class ManifestHead {
     private String plat_from;
     private String note;
     private String sum_goods_value;
+    private String bill_nos;
+
+    public String getBill_nos() {
+        return bill_nos;
+    }
+
+    public void setBill_nos(String bill_nos) {
+        this.bill_nos = bill_nos;
+    }
 
     public String getB_status() {
         return b_status;

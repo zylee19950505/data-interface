@@ -40,6 +40,9 @@ function selecterInitDetail(selectId, value, data) {
 // 表头变化
 var headChangeKeyVal = {};
 
+// 表体变化
+var listChangeKeyVals = {};
+
 // 表体ID匹配正则
 var pattern = /^.*_[0-9]+$/;
 
@@ -134,7 +137,15 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
             "car_no",
             "car_wt",
-            "ic_code"
+            "ic_code",
+
+            // "",
+            // "",
+            // "",
+            // "",
+            // "",
+            // "",
+
         ]
     },
     // 保存成功时回调查询
@@ -155,6 +166,8 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
         $("#auto_id").val(entryHead.auto_id);
+        $("#bill_nos").val(entryHead.bill_nos);
+
         $("#manifest_no").val(entryHead.manifest_no);
         $("#customs_code").val(entryHead.customs_code);
         $("#biz_type").val(entryHead.biz_type);
@@ -195,6 +208,21 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
     },
 
+
+    //加载表体信息
+    fillEntryListInfo: function (entryLists) {
+        for (var i = 0; i < entryLists.length; i++) {
+            var str =
+                "<tr><td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_total_logistics_no_" + i + "' value='" + entryLists[i].total_logistics_no + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_totalSum_" + i + "' value='" + parseFloat(entryLists[i].totalSum).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_releaseSum_" + i + "' value='" + parseFloat(entryLists[i].releaseSum).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_grossWtSum_" + i + "' value='" + parseFloat(entryLists[i].grossWtSum).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_etWtSum_" + i + "' value='" + parseFloat(entryLists[i].netWtSum).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_goodsValueSum_" + i + "' value='" + parseFloat(entryLists[i].goodsValueSum).toFixed(5) + "' /></td></tr>";
+            $("#entryList").append(str);
+        }
+    },
+
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
@@ -213,12 +241,13 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
     // 保存订单编辑信息
     saveManifestInfo: function (totalLogisticsNo) {
-        debugger;
         if (!this.valiFieldInventory()) {
             return;
         }
         var entryData = {
             auto_id: $("#auto_id").val(),
+            bill_nos: $("#bill_nos").val(),
+
             manifest_no: $("#manifest_no").val(),
             customs_code: $("#customs_code").val(),
             biz_type: $("#biz_type").val(),
@@ -274,11 +303,16 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
     // 查询订单详情
     query: function () {
+        debugger;
         // 表头变化
         headChangeKeyVal = {};
+        // 表体变化
+        listChangeKeyVals = {};
+
         //从路径上找参数
         var param = sw.getPageParams("manifest/seeManifestInfo");
         var totalLogisticsNo = param.submitKeys;
+
         var data = {
             totalLogisticsNo: totalLogisticsNo
         };
@@ -289,11 +323,15 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["manifest/seeManifestInfo"];
-                    var entryHead = data.data;
+                    var entryHead = data.data.manifestHead;
+                    var entryLists = data.data.checkGoodsInfoList;
                     var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillManifestInfo(entryHead);
+                    }
+                    if (isNotEmpty(entryLists)) {
+                        entryModule.fillEntryListInfo(entryLists);
                     }
                     // 根据错误字段中的值加高亮显示
                     if (entryModule.detailParam.isShowError) {
@@ -369,6 +407,7 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
         var totalLogisticsNo = param.submitKeys;
         var type = param.type;
         var isEdit = param.isEdit;
+
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -415,7 +454,14 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
                         "region_code",
                         "plat_from",
                         "note",
-                        "extend_field_3"
+                        "extend_field_3",
+
+                        "list_total_logistics_no",
+                        "list_totalSum",
+                        "list_releaseSum",
+                        "list_grossWtSum",
+                        "list_etWtSum",
+                        "list_goodsValueSum"
 
                     ];
                 }

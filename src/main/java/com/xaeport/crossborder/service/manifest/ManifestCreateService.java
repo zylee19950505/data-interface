@@ -1,6 +1,8 @@
 package com.xaeport.crossborder.service.manifest;
 
+import com.sun.tools.javac.comp.Check;
 import com.xaeport.crossborder.data.entity.CheckGoodsInfo;
+import com.xaeport.crossborder.data.entity.ManifestData;
 import com.xaeport.crossborder.data.entity.ManifestHead;
 import com.xaeport.crossborder.data.mapper.ManifestCreateMapper;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -23,10 +25,15 @@ public class ManifestCreateService {
     }
 
 
-    public ManifestHead queryManifestData(Map<String, String> paramMap) throws Exception {
+    public ManifestData queryManifestData(Map<String, String> paramMap) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
         ManifestHead manifestHead = new ManifestHead();
+        ManifestData manifestData = new ManifestData();
+
         CheckGoodsInfo checkGoodsInfo = this.manifestCreateMapper.queryManifestSum(paramMap);
+        List<CheckGoodsInfo> checkGoodsInfoList = this.manifestCreateMapper.queryCheckGoodsList(paramMap);
+
         manifestHead.setAuto_id(IdUtils.getUUId());
         manifestHead.setManifest_no("H" + paramMap.get("ent_code") + sdf.format(new Date()) + IdUtils.getShortUUId().substring(0, 8));
         manifestHead.setCustoms_code("9007");
@@ -39,6 +46,7 @@ public class ManifestCreateService {
         manifestHead.setStart_land("XK16");
         manifestHead.setGoal_land("XK01");
 
+        manifestHead.setBill_nos(paramMap.get("totalLogisticsNo"));
         manifestHead.setGoods_wt(checkGoodsInfo.getGrossWtSum());
         manifestHead.setFact_weight(checkGoodsInfo.getNetWtSum());
         manifestHead.setPack_no(checkGoodsInfo.getReleaseSum());
@@ -61,16 +69,21 @@ public class ManifestCreateService {
         manifestHead.setPlat_from("XAKJE");
         manifestHead.setNote("");
 
-        return manifestHead;
+        manifestData.setManifestHead(manifestHead);
+        manifestData.setCheckGoodsInfoList(checkGoodsInfoList);
+
+        return manifestData;
     }
 
     @Transactional
     public Map<String, String> saveManifestInfo(LinkedHashMap<String, String> entryHead) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-
+        String manifestNo = entryHead.get("manifest_no");
+        String bill_nos = entryHead.get("bill_nos");
+        this.manifestCreateMapper.updateCheckGoodsData(manifestNo,bill_nos);
         this.manifestCreateMapper.saveManifest(entryHead);
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“清单查询-清单申报”处重新进行订单申报！");
+        rtnMap.put("msg", "编辑信息成功，请到“核放单管理”处进行后续操作");
         return rtnMap;
 
     }

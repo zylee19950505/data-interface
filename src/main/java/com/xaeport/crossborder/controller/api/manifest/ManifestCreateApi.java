@@ -5,10 +5,7 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.CheckGoodsInfo;
-import com.xaeport.crossborder.data.entity.ImpDelivery;
-import com.xaeport.crossborder.data.entity.ManifestHead;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.deliverymanage.DeliveryDeclareService;
 import com.xaeport.crossborder.service.manifest.ManifestCreateService;
@@ -84,21 +81,22 @@ public class ManifestCreateApi extends BaseApi {
         paramMap.put("ent_code", users.getEnt_Code());
 
         paramMap.put("totalLogisticsNo", totalLogisticsNo);
+
         paramMap.put("app_person", users.getLoginName());
         paramMap.put("input_code", users.getEnt_Customs_Code());
         paramMap.put("input_name", users.getEnt_Name());
         paramMap.put("trade_code", users.getEnt_Customs_Code());
         paramMap.put("trade_name", users.getEnt_Name());
 
-        ManifestHead manifestHead = null;
+        ManifestData manifestData = null;
         try {
             //查询列表
-            manifestHead = this.manifestCreateService.queryManifestData(paramMap);
+            manifestData = this.manifestCreateService.queryManifestData(paramMap);
         } catch (Exception e) {
             this.logger.error("新建核放单数据失败", e);
             return new ResponseData("获取核放单数据错误", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(manifestHead);
+        return new ResponseData(manifestData);
 
     }
 
@@ -107,11 +105,10 @@ public class ManifestCreateApi extends BaseApi {
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         //核放单json信息
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) JSONUtils.parse(entryJson);
-
         Map<String, String> rtnMap = new HashMap<>();
         try {
             // 保存详情信息
-            rtnMap = manifestCreateService.saveManifestInfo(entryHead);
+            rtnMap = this.manifestCreateService.saveManifestInfo(entryHead);
         } catch (Exception e) {
             logger.error("保存核放单信息时发生异常", e);
             rtnMap.put("result", "false");
