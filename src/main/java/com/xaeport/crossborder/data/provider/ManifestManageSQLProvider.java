@@ -32,7 +32,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider{
 				if (!StringUtils.isEmpty(manifestNo)) {
 					WHERE("t.MANIFEST_NO = #{manifestNo}");
 				}
-
+				WHERE("t.DATA_STATUS = #{dataStatus}");
 				if (!StringUtils.isEmpty(startFlightTimes)) {
 					WHERE(" t.CREATE_TIME >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
 				}
@@ -72,7 +72,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider{
 				if (!StringUtils.isEmpty(manifestNo)) {
 					WHERE("t.MANIFEST_NO = #{manifestNo}");
 				}
-
+				WHERE("t.DATA_STATUS = #{dataStatus}");
 				if (!StringUtils.isEmpty(startFlightTimes)) {
 					WHERE(" t.CREATE_TIME >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
 				}

@@ -6,6 +6,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ManifestHead;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.manifest.ManifestManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -47,6 +48,7 @@ public class ManifestManageApi extends BaseApi {
         paramMap.put("startFlightTimes",startFlightTimes);
         paramMap.put("endFlightTimes",endFlightTimes);
         paramMap.put("manifestNo",manifestNo);
+        paramMap.put("dataStatus", StatusCode.HFDDSB);
         paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
         paramMap.put("length",length);
         paramMap.put("entId",this.getCurrentUserEntId());
