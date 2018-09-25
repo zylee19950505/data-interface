@@ -11,11 +11,13 @@ logging:
     com.xaeport.crossborder.generated621.thread: info
     com.xaeport.crossborder.generated711.thread: info
     com.xaeport.crossborder.generatedDelivery.thread: info
+    com.xaeport.crossborder.generatedManifest.thread: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
     com.xaeport.crossborder.data.mapper.WaybillDeclareMapper: info
     com.xaeport.crossborder.data.mapper.DetailDeclareMapper: info
     com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.ManifestManageMapper: info
 
   config: classpath:config/logback-spring.xml
 
