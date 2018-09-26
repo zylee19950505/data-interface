@@ -15,34 +15,42 @@ import java.util.Map;
 @Service
 public class ManifestManageService {
 
-	@Autowired
-	ManifestManageMapper manifestManageMapper;
+    @Autowired
+    ManifestManageMapper manifestManageMapper;
 
-	private Log logger = LogFactory.getLog(this.getClass());
+    private Log logger = LogFactory.getLog(this.getClass());
 
-	public List<ManifestHead> queryManifestManageList(Map<String, String> paramMap) throws Exception {
-		return manifestManageMapper.queryManifestManageList(paramMap);
-	}
+    public List<ManifestHead> queryManifestManageList(Map<String, String> paramMap) throws Exception {
+        return manifestManageMapper.queryManifestManageList(paramMap);
+    }
 
-	public Integer queryManifestManageCount(Map<String, String> paramMap) {
-		return manifestManageMapper.queryManifestManageCount(paramMap);
-	}
+    public Integer queryManifestManageCount(Map<String, String> paramMap) {
+        return manifestManageMapper.queryManifestManageCount(paramMap);
+    }
 
-	/*
-	* 核放单申报
-	* */
-	public boolean manifestDeclare(String manifestNo) {
-		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("manifestNo", manifestNo);
-		paramMap.put("dataStatus", StatusCode.HFDSBZ);//核放单申报中
-		try {
-			manifestManageMapper.manifestDeclare(paramMap);
-			return true;
-		}catch (Exception e){
-			String exceptionMsg = String.format("处理核放单[manifestNo: %s]时发生异常", paramMap.get("manifestNo"));
-			logger.error(exceptionMsg, e);
-			return false;
-		}
+    public void updateCheckGoodsInfo(String manifest_no) {
+        manifestManageMapper.updateCheckGoodsInfo(manifest_no);
+    }
 
-	}
+    public void manifestDelete(String manifest_no) {
+        manifestManageMapper.manifestDelete(manifest_no);
+    }
+
+    /*
+    * 核放单申报
+    * */
+    public boolean manifestDeclare(String manifestNo) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("manifestNo", manifestNo);
+        paramMap.put("dataStatus", StatusCode.HFDSBZ);//核放单申报中
+        try {
+            manifestManageMapper.manifestDeclare(paramMap);
+            return true;
+        } catch (Exception e) {
+            String exceptionMsg = String.format("处理核放单[manifestNo: %s]时发生异常", paramMap.get("manifestNo"));
+            logger.error(exceptionMsg, e);
+            return false;
+        }
+
+    }
 }

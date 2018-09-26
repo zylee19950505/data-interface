@@ -10,10 +10,7 @@ import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.manifest.ManifestManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -44,20 +41,20 @@ public class ManifestManageApi extends BaseApi {
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("查询核放单管理条件参数:[startFlightTimes:%s,endFlightTimes:%s,manifestNo:%s]", startFlightTimes, endFlightTimes, manifestNo));
-        Map<String,String> paramMap = new HashMap<>();
-        paramMap.put("startFlightTimes",startFlightTimes);
-        paramMap.put("endFlightTimes",endFlightTimes);
-        paramMap.put("manifestNo",manifestNo);
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("startFlightTimes", startFlightTimes);
+        paramMap.put("endFlightTimes", endFlightTimes);
+        paramMap.put("manifestNo", manifestNo);
         paramMap.put("dataStatus", StatusCode.HFDDSB);
-        paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
-        paramMap.put("length",length);
-        paramMap.put("entId",this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
+        paramMap.put("start", String.valueOf(Integer.parseInt(start) + 1));
+        paramMap.put("length", length);
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
         List<ManifestHead> resultList = new ArrayList<ManifestHead>();
         DataList<ManifestHead> dataList = new DataList<ManifestHead>();
         try {
             resultList = manifestManageService.queryManifestManageList(paramMap);
-            Integer count =manifestManageService.queryManifestManageCount(paramMap);
+            Integer count = manifestManageService.queryManifestManageCount(paramMap);
             dataList.setDraw(draw);
             dataList.setData(resultList);
             dataList.setRecordsTotal(count);
@@ -72,21 +69,32 @@ public class ManifestManageApi extends BaseApi {
     /*
     * 核放单申报
     * */
-    @RequestMapping(value = "/manifestDeclare",method = RequestMethod.POST)
+    @RequestMapping(value = "/manifestDeclare", method = RequestMethod.POST)
     public ResponseData manifestDeclare(
             @RequestParam(required = false) String manifestNo,
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("核放单申报条件参数:[manifestNo:%s]", manifestNo));
-        if (StringUtils.isEmpty(manifestNo)){
-            return rtnResponse("false","核放单号不能为空");
+        if (StringUtils.isEmpty(manifestNo)) {
+            return rtnResponse("false", "核放单号不能为空");
         }
-        boolean flag=this.manifestManageService.manifestDeclare(manifestNo);
+        boolean flag = this.manifestManageService.manifestDeclare(manifestNo);
         if (flag) {
             return rtnResponse("true", "核放单申报成功！");
         } else {
             return rtnResponse("false", "核放单申报失败！");
         }
+    }
+
+    //核放单删除
+    @RequestMapping(value = "/manifestDelete/{manifest_no}", method = RequestMethod.DELETE)
+    public ResponseData manifestDelete(
+            @PathVariable(value = "manifest_no") String manifest_no
+    ) {
+        this.logger.debug(String.format("核放单删除[manifest_no:%s]", manifest_no));
+        this.manifestManageService.updateCheckGoodsInfo(manifest_no);
+        this.manifestManageService.manifestDelete(manifest_no);
+        return new ResponseData();
     }
 
 }

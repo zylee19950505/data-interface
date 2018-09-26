@@ -67,7 +67,7 @@ public class ManifestManageThread implements Runnable {
                 }
                 for (int i = 0; i <manifestHeadList.size() ; i++) {
                     manifestHead = manifestHeadList.get(i);
-                    MessageHead messageHead = this.getMessageHead();
+                    MessageHead messageHead = this.getMessageHead(manifestHead.getManifest_no());
                     manifestNo = manifestHead.getManifest_no();
 
                     //修改核放单数据状态
@@ -134,18 +134,18 @@ public class ManifestManageThread implements Runnable {
         this.logger.debug(String.format("核放单811申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
     }
 
-    private MessageHead getMessageHead() {
+    private MessageHead getMessageHead(String manifest_no) {
         MessageHead messageHead = new MessageHead();
         messageHead.setMessageType("DISQ");
         messageHead.setMessageId("3d9801a9-54a6-4055-8bff-a61027ed23ea");
         messageHead.setMessageTime(new Date());
-        messageHead.setSenderId("ANKJ");
+        messageHead.setSenderId("XAKJ");
         messageHead.setSenderAddress("XAKJ@JC.COM");
         messageHead.setReceiveId("KCUST001");
         messageHead.setReceiveAddress("KCUST001@ecidh.com");
         messageHead.setPlatFormNo("XAKJE");
         messageHead.setCustomCode("9007");
-        messageHead.setSeqNo("H18012910000004321");
+        messageHead.setSeqNo(manifest_no);
         return messageHead;
     }
 }

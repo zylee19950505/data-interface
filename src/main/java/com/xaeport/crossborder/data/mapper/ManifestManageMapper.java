@@ -14,19 +14,29 @@ import java.util.Map;
 public interface ManifestManageMapper {
 
 
-	@SelectProvider(type = ManifestManageSQLProvider.class,method = "queryManifestManageList")
-	List<ManifestHead> queryManifestManageList(Map<String, String> paramMap)throws Exception;
+    @SelectProvider(type = ManifestManageSQLProvider.class, method = "queryManifestManageList")
+    List<ManifestHead> queryManifestManageList(Map<String, String> paramMap) throws Exception;
 
-	@SelectProvider(type = ManifestManageSQLProvider.class,method = "queryManifestManageCount")
-	Integer queryManifestManageCount(Map<String, String> paramMap);
+    @SelectProvider(type = ManifestManageSQLProvider.class, method = "queryManifestManageCount")
+    Integer queryManifestManageCount(Map<String, String> paramMap);
 
-	@UpdateProvider(type = ManifestManageSQLProvider.class,method = "manifestDeclare")
-	void manifestDeclare(Map<String, String> paramMap)throws Exception;
+    @UpdateProvider(type = ManifestManageSQLProvider.class, method = "manifestDeclare")
+    void manifestDeclare(Map<String, String> paramMap) throws Exception;
 
-	//查找核放单申报中的数据
-	@SelectProvider(type = ManifestManageSQLProvider.class,method = "findManifestManage")
-	List<ManifestHead> findManifestManage(Map<String, String> paramMap);
+    //查找核放单申报中的数据
+    @SelectProvider(type = ManifestManageSQLProvider.class, method = "findManifestManage")
+    List<ManifestHead> findManifestManage(Map<String, String> paramMap);
 
-	@UpdateProvider(type = ManifestManageSQLProvider.class,method = "updateManifestManage")
-	void updateManifestManage(@Param("manifestNo") String manifestNo);
+    @UpdateProvider(type = ManifestManageSQLProvider.class, method = "updateManifestManage")
+    void updateManifestManage(@Param("manifestNo") String manifestNo);
+
+
+
+    @UpdateProvider(type = ManifestManageSQLProvider.class, method = "updateCheckGoodsInfo")
+    void updateCheckGoodsInfo(@Param("manifest_no") String manifest_no);
+
+    @UpdateProvider(type = ManifestManageSQLProvider.class, method = "manifestDelete")
+    void manifestDelete(@Param("manifest_no") String manifest_no);
+
+
 }

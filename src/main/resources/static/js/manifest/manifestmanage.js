@@ -58,7 +58,8 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                 {data: "sum_goods_value", label: "总货值"},
                 {data: "car_no", label: "车牌号"},
                 {data: "ic_code", label: "IC卡号"},
-                {label:"状态",render:function (data, type, row) {
+                {
+                    label: "状态", render: function (data, type, row) {
                     var textColor = "";
                     var value = "";
                     switch (row.data_status) {
@@ -89,21 +90,20 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                     }
 
                     return "<span class='" + textColor + "'>" + value + "</span>";
-                    }
+                }
                 },
                 {
                     label: "操作", render: function (data, type, row) {
-                   // if (row.MAILSTATE === "U" || row.STATESTR === "已移交")return "";
                     return item = '<button class="btn btn-sm btn-primary" title="申报" id="submitCustomBtn" ' +
-                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDeclare('" + row.manifest_no + "')" + '">' +
-                            '<i class="fa fa-edit">申报</i> </button> '+
-                            '<button class="btn btn-sm btn-primary" title="下载" ' +
-                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDownload('" + row.manifest_no + "')" + '">' +
-                            '<i class="fa fa-edit">下载</i> </button> '+
-                            '<button class="btn btn-sm btn-primary" title="删除" ' +
-                            'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDelete('" + row.manifest_no + "')" + '">' +
-                            '<i class="fa fa-edit">删除</i> </button> ';
-                },width:"300px"
+                        'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDeclare('" + row.manifest_no + "')" + '">' +
+                        '<i class="fa fa-edit">申报</i> </button> ' +
+                        '<button class="btn btn-sm btn-info" title="打印" ' +
+                        'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDownload('" + row.manifest_no + "')" + '">' +
+                        '<i class="fa fa-print">打印</i> </button> ' +
+                        '<button class="btn btn-sm btn-danger" title="删除" ' +
+                        'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDelete('" + row.manifest_no + "')" + '">' +
+                        '<i class="fa fa-remove">删除</i> </button> ';
+                }, width: "300px"
                 }
             ],
             order: [[1, 'asc']]
@@ -111,7 +111,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='startFlightTimes']").val(moment(new Date(1)).format("YYYYMMDD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -122,7 +122,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
         $("[ws-search]").unbind("click").click(this.query).click();
     },
     //申报
-    manifestDeclare:function (manifest_no) {
+    manifestDeclare: function (manifest_no) {
         sw.blockPage();
         var postData = {
             manifestNo: manifest_no
@@ -139,5 +139,14 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
             }
             $.unblockUI();
         });
+    },
+
+    manifestDelete: function (manifest_no) {
+        sw.confirm("确认删除核放单号【" + manifest_no + "】", "确认", function () {
+            sw.ajax("api/manifestManage/manifestDelete/" + manifest_no, "DELETE", {}, function (rsp) {
+                sw.page.modules["manifest/manifestmanage"].query();
+            })
+        })
     }
+
 };
