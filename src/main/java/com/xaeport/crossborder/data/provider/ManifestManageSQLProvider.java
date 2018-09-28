@@ -75,13 +75,13 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
             {
                 SELECT(" count(*) count from T_MANIFEST_HEAD t ");
                 WHERE("1=1");
-                if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
-                }
+//                if (!roleId.equals("admin")) {
+//                    WHERE("t.ent_id = #{entId}");
+//                }
                 if (!StringUtils.isEmpty(manifestNo)) {
                     WHERE("t.MANIFEST_NO = #{manifestNo}");
                 }
-                WHERE("t.DATA_STATUS = #{dataStatus}");
+//                WHERE("t.DATA_STATUS = #{dataStatus}");
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE(" t.CREATE_TIME >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
@@ -100,7 +100,8 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_MANIFEST_HEAD t");
-                SET("t.data_status = #{dataStatus}");
+                SET("t.DATA_STATUS = #{dataStatus}");
+                SET("t.APP_DATE = sysdate");
                 WHERE("t.MANIFEST_NO = #{manifestNo}");
             }
         }.toString();
@@ -139,6 +140,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
             {
                 UPDATE("T_CHECK_GOODS_INFO t");
                 SET("t.IS_MANIFEST = 'N'");
+                SET("t.UPD_TM = sysdate");
                 WHERE("t.MANIFEST_NO = #{manifest_no}");
                 WHERE("t.IS_MANIFEST = 'Y'");
             }
@@ -151,6 +153,38 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
             {
                 DELETE_FROM("T_MANIFEST_HEAD t");
                 WHERE("t.MANIFEST_NO = #{manifest_no}");
+            }
+        }.toString();
+    }
+
+    //查询核放单表头打印数据
+    public String queryManifestHead(Map<String, String> paramMap) throws Exception {
+        final String manifest_no = paramMap.get("manifest_no");
+
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_MANIFEST_HEAD t");
+                if (!StringUtils.isEmpty(manifest_no)) {
+                    WHERE("t.MANIFEST_NO = #{manifest_no}");
+                }
+            }
+        }.toString();
+    }
+
+    //查询核放单表头打印数据
+    public String queryCheckGoodsInfoList(Map<String, String> paramMap) throws Exception {
+        final String manifest_no = paramMap.get("manifest_no");
+
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_CHECK_GOODS_INFO t ");
+                WHERE("t.IS_MANIFEST = 'Y'");
+                WHERE("t.STATUS = '800'");
+                if (!StringUtils.isEmpty(manifest_no)) {
+                    WHERE("t.MANIFEST_NO = #{manifest_no}");
+                }
             }
         }.toString();
     }

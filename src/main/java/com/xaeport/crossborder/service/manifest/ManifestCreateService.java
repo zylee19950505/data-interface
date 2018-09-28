@@ -26,7 +26,7 @@ public class ManifestCreateService {
 
 
     public ManifestData queryManifestData(Map<String, String> paramMap) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 
         ManifestHead manifestHead = new ManifestHead();
         ManifestData manifestData = new ManifestData();
@@ -35,7 +35,7 @@ public class ManifestCreateService {
         List<CheckGoodsInfo> checkGoodsInfoList = this.manifestCreateMapper.queryCheckGoodsList(paramMap);
 
         manifestHead.setAuto_id(IdUtils.getUUId());
-        manifestHead.setManifest_no("H" + paramMap.get("ent_code") + sdf.format(new Date()) + IdUtils.getShortUUId().substring(0, 8));
+        manifestHead.setManifest_no("H" + paramMap.get("ent_customs_code") + sdf.format(new Date()) + IdUtils.getShortUUId().substring(0, 3));
         manifestHead.setCustoms_code("9007");
         manifestHead.setBiz_type("KA12");
         manifestHead.setBiz_mode("KA27");

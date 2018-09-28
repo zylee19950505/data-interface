@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <base th:href="${basePath}"/>
+    <title></title>
+    <meta th:include="fragments/resource :: head" th:remove="tag"/>
+    <style type="text/css" media="all">
+        body {
+            font-family: Arial, '宋体', 'SimSun Arial', 'SimSun' !important;
+            font-size: 13px !important;
+        }
+
+        h1 {
+            font-family: Arial, '宋体', 'SimSun Arial', 'SimSun' !important;
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        th {
+            height: 1em;
+        }
+
+        .box-body {
+            padding: 2px;
+        }
+
+        .paging {
+            page-break-after: always;
+            margin: 10px 0;
+        }
+
+        .border {
+            border: 1px solid black;
+        }
+
+        .border-bottom {
+            border-bottom: 1px solid black;
+        }
+
+        .no-border {
+            border: none !important;
+        }
+
+        .no-top-border {
+            border-top: none !important;
+        }
+
+        .no-bottom-border {
+            border-bottom: none !important;
+        }
+
+        .no-left-border {
+            border-left: none !important;
+        }
+
+        .no-right-border {
+            border-right: none !important;
+        }
+
+        #headTable td, #dataTable td, #dataTable th {
+            border: 1px solid #000;
+            font-weight:bold;
+        }
+
+        #dataTable th {
+            border-left: none;
+            border-right: none;
+            font-weight: normal;
+            white-space: nowrap;
+            padding: 2px 5px;
+            font-weight:normal !important;
+        }
+
+        #dataTable th, #footTable {
+            border-top: none;
+        }
+
+        #dataTable tr td {
+            font-weight:normal !important;
+            height: 2em;
+            overflow: hidden;
+            border: none;
+        }
+
+        table tr th td {
+            border: 1px solid black !important;
+        }
+
+        tr th {
+            border: 1px solid black !important;
+        }
+
+        tr td {
+            border: 1px solid black !important;
+        }
+
+        #dataTable td .cell {
+            height: 2em;
+            overflow: hidden;
+            padding: 0 5px;
+        }
+
+        #footTable td {
+            padding: 0;
+            vertical-align: top;
+        }
+
+        #footTable td span {
+            padding-left: 5px;
+        }
+
+        #totalFee {
+            display: block;
+            float: right;
+            position: absolute;
+            padding: 0;
+            margin: 5px 0 0 0;
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @page {
+            size: A4 landscape;
+            margin: auto 0.5cm;
+        }
+
+    </style>
+    <div th:replace="fragments/resource :: scripts"></div>
+
+    <script type="text/javascript">
+        /*<![CDATA[*/
+
+        $(function () {
+            loadDictData();
+            $("#ws-preview").dblclick(function () {
+                window.print();
+            });
+        });
+
+
+        // 加载字典数据方法
+        function loadDictData() {
+            debugger;
+            sw.ajax("api/loadData", "GET", {}, function (rsp) {
+                if (rsp.status == 200) {
+                    if (typeof(rsp.data) == "undefined" || rsp.data == null || rsp.data == "") return;
+                    sw.dict.postalRate = rsp.data.postalRateMap;
+                    sw.dict.unitCode = rsp.data.unitCodeMap;
+                    sw.dict.trafMode = rsp.data.trafModeMap;
+                    sw.dict.port = rsp.data.portMap;
+                    sw.dict.packType = rsp.data.packTypeMap;
+                    sw.dict.customs = rsp.data.customsMap;
+                    sw.dict.currency = rsp.data.currencyMap;
+                    sw.dict.countryArea = rsp.data.countryAreaMap;
+                    sw.dict.certificateType = rsp.data.certificateTypeMap;
+                    sw.dict.agentType = rsp.data.agentTypeMap;
+                    sw.dict.agentNature = rsp.data.agentNatureMap;
+                    sw.dict.agentClassify = rsp.data.agentClassifyMap;
+                    sw.dict.status = rsp.data.statusMap;
+                }
+                // 加载完字典数据后，调用打印预览方法
+                showPrintPreview();
+                // 用完本地存储数据后移除
+                localStorage.removeItem("assbill_inquiry_param");
+            });
+        }
+
+
+        // 打印预览方法
+        function showPrintPreview() {
+            debugger;
+            var assBillParam = localStorage.getItem("assbill_inquiry_param");
+
+            sw.ajax("api/manifestManage/preview", "GET", JSON.parse(assBillParam), function (rsp) {
+                if (rsp.data === null) {
+                    console.log("数据载入失败！");
+                    return;
+                }
+
+                var manifestHead = rsp.data.manifestHead;
+                var checkGoodsInfoList = rsp.data.checkGoodsInfoList;
+
+                $("#manifest_no").text(manifestHead.manifest_no);
+                $("#customs_code").text(manifestHead.customs_code);
+
+                $("#billNo").text("");
+                $("#input_name").text(manifestHead.input_name);
+                $("#input_code").text(manifestHead.input_code);
+
+                $("#i_e_mark").text("出区");
+                $("#trade_mode").text(manifestHead.trade_mode);
+                $("#app_person").text(manifestHead.app_person);
+
+                $("#pack_no").text(manifestHead.pack_no);
+                $("#goods_wt").text(parseFloat(manifestHead.goods_wt).toFixed(2));
+                $("#fact_weight").text(parseFloat(manifestHead.fact_weight).toFixed(2));
+
+                $("#sum_goods_value").text(parseFloat(manifestHead.sum_goods_value).toFixed(2));
+                $("#create_time").text(moment(manifestHead.create_time).format("YYYY-MM-DD"));
+                $("#app_date").text(isEmpty(manifestHead.app_date) ? "" : moment(manifestHead.app_date).format("YYYY-MM-DD"));
+
+                $("#start_land").text(manifestHead.start_land);
+                $("#i_e_bayonet_1").text("");
+                $("#delivery_way").text(manifestHead.delivery_way)
+                ;
+                $("#goal_land").text(manifestHead.goal_land);
+                $("#i_e_bayonet_2").text("");
+                $("#locate_code").text("");
+
+                $("#note").text("");
+
+                var headCodeTemplate = $("#headTable").clone();
+                var dataTableTemplate = $("#dataTable").clone();
+
+                if (typeof(checkGoodsInfoList) != "undefined" && null != checkGoodsInfoList && "" != checkGoodsInfoList) {
+                    var dataTable = dataTableTemplate.clone();
+                    var dataTableId = 1;
+                    var totalFee = 0;
+
+                    for (var i = 0; i < checkGoodsInfoList.length; i++) {
+                        if (i < 28 && i % 27 == 0) {
+                            if (i == 0) {
+                                $("#previewBox").append($("h1:first").clone());
+                                $("#previewBox").append(headCodeTemplate.clone());
+                            }
+                            dataTable = dataTableTemplate.clone();
+                            dataTable.addClass("dataTable_" + dataTableId);
+                            $("#previewBox").append(dataTable).append($("<div class='paging'/>"));
+                            dataTableId++;
+                        } else if (i >= 28 && i % 62 == 0) {
+                            dataTable = dataTableTemplate.clone();
+                            dataTable.addClass("dataTable_" + dataTableId);
+                            $("#previewBox").append(dataTable).append($("<div class='paging'/>"));
+                            dataTableId++;
+                        }
+                        var entry_id = checkGoodsInfoList[i].entry_id;
+                        var pack_num = checkGoodsInfoList[i].pack_num;
+                        var gross_wt = parseFloat(checkGoodsInfoList[i].gross_wt).toFixed(2);
+                        var net_wt = parseFloat(checkGoodsInfoList[i].net_wt).toFixed(2);
+                        var total_logistics_no = checkGoodsInfoList[i].total_logistics_no;
+                        var transport_mode = "航空运输";
+                        var g_name = "";
+                        var surface_number = checkGoodsInfoList[i].logistics_no;
+                        var batch_number = "";
+                        var status = "放行";
+
+                        var str = [
+//                            i + 1,
+                            entry_id,
+                            pack_num,
+                            gross_wt,
+                            net_wt,
+                            total_logistics_no,
+                            transport_mode,
+                            g_name,
+                            surface_number,
+                            batch_number,
+                            status
+                        ].map(function (val) {
+                            return "<td><div class='cell'>" + val + "</div></td>";
+                        }).join("");
+
+                        str = "<tr class='text-center'>" + str + "</tr>";
+                        dataTable.append(str);
+                    }
+//                    dataTable.append($("<tr><td colspan='9' style='height:1px;overflow: hidden;'></td><td style='height:1px;overflow: hidden;'><div id='totalFee'></div></td><td colspan='5' style='height:1px;overflow: hidden;'></td></tr>"));
+
+                    $(".paging:last").remove();
+
+                    // 先取4位取整，再取2位取整，提高小数精准度
+                    window.print();
+                }
+            });
+        };
+
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<div class="box-body" id="ws-preview">
+    <div id="previewBox">
+
+        <div class="hidden">
+
+            <h1><strong>核放单</strong></h1>
+
+            <table id="headTable" width="100%" height="100%" border="1px solid black">
+                <tr>
+                    <td colspan="6"><strong>核放单表头信息</strong></td>
+                </tr>
+                <tr>
+                    <th class="text-center">核放单号</th>
+                    <th class="text-center" id="manifest_no"></th>
+                    <th class="text-center">申报地海关</th>
+                    <th class="text-center" id="customs_code"></th>
+                    <td colspan="2" class="text-center">西安物流</td>
+                </tr>
+                <tr>
+                    <th class="text-center">单据内部编号</th>
+                    <th class="text-center" id="billNo"></th>
+                    <th class="text-center">申报单位</th>
+                    <th class="text-center" id="input_code"></th>
+                    <td colspan="2" class="text-center" id="input_name"></td>
+                </tr>
+                <tr>
+                    <th class="text-center">出入区标志</th>
+                    <th class="text-center" id="i_e_mark"></th>
+                    <th class="text-center">出入区方式</th>
+                    <th class="text-center" id="trade_mode"></th>
+                    <th class="text-center">操作员</th>
+                    <th class="text-center" id="app_person"></th>
+                </tr>
+                <tr>
+                    <th class="text-center">总件数</th>
+                    <th class="text-center" id="pack_no"></th>
+                    <th class="text-center">总毛重</th>
+                    <th class="text-center" id="goods_wt"></th>
+                    <th class="text-center">总净重</th>
+                    <th class="text-center" id="fact_weight"></th>
+                </tr>
+                <tr>
+                    <th class="text-center">总货值</th>
+                    <th class="text-center" id="sum_goods_value"></th>
+                    <th class="text-center">录入时间</th>
+                    <th class="text-center" id="create_time"></th>
+                    <th class="text-center">申报时间</th>
+                    <th class="text-center" id="app_date"></th>
+                </tr>
+                <tr>
+                    <th class="text-center">起始地</th>
+                    <th class="text-center" id="start_land"></th>
+                    <th class="text-center">出入卡口标志</th>
+                    <th class="text-center" id="i_e_bayonet_1"></th>
+                    <th class="text-center">运载方式</th>
+                    <th class="text-center" id="delivery_way"></th>
+                </tr>
+                <tr>
+                    <th class="text-center">目的地</th>
+                    <th class="text-center" id="goal_land"></th>
+                    <th class="text-center">出入卡口标志</th>
+                    <th class="text-center" id="i_e_bayonet_2"></th>
+                    <th class="text-center">业务现场代码</th>
+                    <th class="text-center" id="locate_code"></th>
+                </tr>
+                <tr>
+                    <th class="text-center">备注</th>
+                    <td colspan="5" class="text-center" id="note"></td>
+                </tr>
+            </table>
+
+            <table id="dataTable" width="100%" height="100%" class="border no-top-border" border="1px solid black">
+                <tr border="1px solid black">
+                    <td colspan="11"><strong>配载业务单据信息</strong></td>
+                </tr>
+                <tr>
+                    <!--<th class="text-center" width="50">序号</th>-->
+                    <th class="text-center">单证编号</th>
+                    <th class="text-center">件数</th>
+                    <th class="text-center">毛重</th>
+                    <th class="text-center">净重</th>
+                    <th class="text-center">提运单号</th>
+                    <th class="text-center">运输方式</th>
+                    <th class="text-center">货物品名</th>
+                    <th class="text-center">面单号</th>
+                    <th class="text-center">批次号</th>
+                    <!--<th class="text-center">姓名</th>-->
+                    <th class="text-center">清单状态</th>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

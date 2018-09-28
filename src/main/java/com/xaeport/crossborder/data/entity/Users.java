@@ -24,7 +24,7 @@ public class Users {
     private String ent_Id;//企业ID
     private String ent_Name;//企业名称
     private String ent_Code;//企业代码
-    private String ent_Customs_Code;
+    private String ent_Customs_Code;//海关十位码
     private String ic_Card;//IC卡号
     private String ic_Pwd;//IC卡密码
     private List<Menu> subMenuList;//菜单表

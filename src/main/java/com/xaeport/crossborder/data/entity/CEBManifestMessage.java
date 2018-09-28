@@ -2,7 +2,7 @@ package com.xaeport.crossborder.data.entity;
 
 import java.util.List;
 
-public class CEB811Message {
+public class CEBManifestMessage {
 
 	private ManifestHead manifestHead;
 	private List<ManifestHead> manifestHeadList;

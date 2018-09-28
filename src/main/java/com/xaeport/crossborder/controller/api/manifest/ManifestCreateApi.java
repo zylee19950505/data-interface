@@ -78,7 +78,7 @@ public class ManifestCreateApi extends BaseApi {
         paramMap.put("userId", users.getId());
         paramMap.put("entId", users.getEnt_Id());
         paramMap.put("roleId", users.getRoleId());
-        paramMap.put("ent_code", users.getEnt_Code());
+        paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
 
         paramMap.put("totalLogisticsNo", totalLogisticsNo);
 

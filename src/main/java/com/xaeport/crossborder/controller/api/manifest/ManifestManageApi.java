@@ -4,11 +4,14 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
+import com.xaeport.crossborder.data.entity.CheckGoodsInfo;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ManifestHead;
+import com.xaeport.crossborder.data.entity.ManifestPrint;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.manifest.ManifestManageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -96,5 +99,28 @@ public class ManifestManageApi extends BaseApi {
         this.manifestManageService.manifestDelete(manifest_no);
         return new ResponseData();
     }
+
+    @RequestMapping(value = "/preview", method = RequestMethod.GET)
+    public ResponseData getAssBillPreviewData(@RequestParam String manifest_no
+    ) {
+        if (StringUtils.isEmpty(manifest_no)) return new ResponseData("核放单号为空", HttpStatus.FORBIDDEN);
+
+        Map<String, String> map = new HashMap<>();
+        ManifestPrint manifestPrint = new ManifestPrint();
+        map.put("manifest_no", manifest_no);
+
+        try {
+            ManifestHead manifestHead = this.manifestManageService.queryManifestHead(map);
+            List<CheckGoodsInfo> checkGoodsInfoList = this.manifestManageService.queryCheckGoodsInfoList(map);
+            manifestPrint.setManifestHead(manifestHead);
+            manifestPrint.setCheckGoodsInfoList(checkGoodsInfoList);
+            return new ResponseData(manifestPrint);
+        } catch (Exception e) {
+            this.logger.error("核放单查询打印数据失败", e);
+            return new ResponseData(manifestPrint);
+        }
+
+    }
+
 
 }

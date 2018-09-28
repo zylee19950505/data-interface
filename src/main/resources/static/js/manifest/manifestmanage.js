@@ -97,8 +97,8 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                     return item = '<button class="btn btn-sm btn-primary" title="申报" id="submitCustomBtn" ' +
                         'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDeclare('" + row.manifest_no + "')" + '">' +
                         '<i class="fa fa-edit">申报</i> </button> ' +
-                        '<button class="btn btn-sm btn-info" title="打印" ' +
-                        'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDownload('" + row.manifest_no + "')" + '">' +
+                        '<button class="btn btn-sm btn-info" id="manifestPrint" ws-print="" title="打印" ' +
+                        'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestPrint('" + row.manifest_no + "')" + '">' +
                         '<i class="fa fa-print">打印</i> </button> ' +
                         '<button class="btn btn-sm btn-danger" title="删除" ' +
                         'onclick="' + "javascript:sw.page.modules['manifest/manifestmanage'].manifestDelete('" + row.manifest_no + "')" + '">' +
@@ -111,7 +111,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date(1)).format("YYYYMMDD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -147,6 +147,27 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                 sw.page.modules["manifest/manifestmanage"].query();
             })
         })
+    },
+
+    manifestPrint: function (manifest_no) {
+        debugger;
+        var parameter = {
+            manifest_no: manifest_no
+        }
+        // sw.ajax("api/manifestManage/preview","GET",parameter,function (rsp){
+        //     var
+        // });
+        // $("#manifestPrint").unbind("click").attr("param-data", JSON.stringify(parameter)).click(this.printBill);
+        var param = JSON.stringify(parameter);
+        this.printBill(param);
+
+    },
+
+    printBill: function (param) {
+        debugger;
+        // var paramData = $(this).attr("param-data");
+        localStorage.setItem("assbill_inquiry_param", param);
+        var printWindow = window.open(sw.resolve("admin/page?p=manifest/manifestPrint"), "printWindow");
     }
 
 };

@@ -1,8 +1,7 @@
-package com.xaeport.crossborder.convert811;
+package com.xaeport.crossborder.convertManifest;
 
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert711.DeliveryDeclareXML;
 import com.xaeport.crossborder.data.entity.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,12 +57,12 @@ public class BaseManifestXML {
     /**
      * 创建clientDxp数据报文
      */
-    public byte[] createXML(CEB811Message ceb811Message) throws TransformerException {
+    public byte[] createXML(CEBManifestMessage cebManifestMessage) throws TransformerException {
         Document document = this.getDocument();
         Element rootElement = document.createElement("DTC_Message");
-        MessageHead messageHead = ceb811Message.getMessageHead();
+        MessageHead messageHead = cebManifestMessage.getMessageHead();
         rootElement.appendChild(this.getMessageHead(document, messageHead));
-        ManifestHead manifestHead = ceb811Message.getManifestHead();
+        ManifestHead manifestHead = cebManifestMessage.getManifestHead();
         rootElement.appendChild(this.getManifestHead(document, manifestHead));
 
         document.appendChild(rootElement);

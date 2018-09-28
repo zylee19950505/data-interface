@@ -21,7 +21,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT("TOTAL_LOGISTICS_NO");
-                SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO) totalSum");
+                SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO and tt.IS_MANIFEST = 'N') totalSum");
                 SELECT("count(entry_id) releaseSum");
                 SELECT("sum(t.GROSS_WT) grossWtSum");
                 SELECT("sum(t.NET_WT) netWtSum");
@@ -48,7 +48,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT("TOTAL_LOGISTICS_NO");
-                SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO) totalSum");
+                SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO and tt.IS_MANIFEST = 'N') totalSum");
                 SELECT("count(entry_id) releaseSum");
                 SELECT("sum(t.GROSS_WT) grossWtSum");
                 SELECT("sum(t.NET_WT) netWtSum");
@@ -213,9 +213,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 }
 
                 VALUES("t.data_status","'CBDS8'");
-
-                VALUES("t.app_date", "sysdate");
-
                 VALUES("t.create_time", "sysdate");
 
 
