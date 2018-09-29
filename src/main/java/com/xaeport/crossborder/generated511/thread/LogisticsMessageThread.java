@@ -138,52 +138,6 @@ public class LogisticsMessageThread implements Runnable {
                     }
                 }
 
-//                for (int i = 0; i < impLogisticsLists.size(); i++) {
-//                    impLogistics = impLogisticsLists.get(i);
-//                    xmlHeadGuid = impLogisticsLists.get(0).getGuid();
-//                    nameLogisticsNo = impLogisticsLists.get(0).getLogistics_no();
-//                    guid = impLogistics.getGuid();
-//                    crtId = impLogistics.getCrt_id();
-//                    logisticsHead = new LogisticsHead();
-//
-//                    logisticsHead.setGuid(guid);//企业系统生成36 位唯一序号（英文字母大写）
-//                    logisticsHead.setAppType(impLogistics.getApp_type());//企业报送类型。1-新增2-变更3-删除。默认为1。
-//                    logisticsHead.setAppTime(sdf.format(impLogistics.getApp_time()));//企业报送时间。格式:YYYYMMDDhhmmss。
-//                    logisticsHead.setAppStatus(impLogistics.getApp_status());//业务状态:1-暂存,2-申报,默认为2。
-//                    logisticsHead.setLogisticsCode(impLogistics.getLogistics_code());//物流企业的海关注册登记编号。
-//                    logisticsHead.setLogisticsName(impLogistics.getLogistics_name());//物流企业在海关注册登记的名称。
-//                    logisticsHead.setLogisticsNo(impLogistics.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
-//                    logisticsHead.setBillNo(impLogistics.getBill_no());//直购进口为海运提单、空运总单或汽车载货清单
-//                    logisticsHead.setFreight(StringUtils.isEmpty(impLogistics.getFreight()) ? "0" : impLogistics.getFreight());//商品运输费用，无则填0。
-//                    logisticsHead.setInsuredFee(StringUtils.isEmpty(impLogistics.getInsured_fee()) ? "0" : impLogistics.getInsured_fee());//商品保险费用，无则填0。
-//                    logisticsHead.setCurrency(impLogistics.getCurrency());//限定为人民币，填写142。
-//                    logisticsHead.setWeight(impLogistics.getWeight());//单位为千克。
-//                    logisticsHead.setPackNo(impLogistics.getPack_no());//单个运单下包裹数，限定为1。
-//                    logisticsHead.setGoodsInfo(impLogistics.getGoods_info());//配送的商品信息，包括商品名称、数量等。
-//                    logisticsHead.setConsingee(impLogistics.getConsingee());//收货人姓名。
-//                    logisticsHead.setConsigneeAddress(impLogistics.getConsignee_address());//收货地址。
-//                    logisticsHead.setConsigneeTelephone(impLogistics.getConsignee_telephone());//收货人电话号码。
-//                    logisticsHead.setNote(impLogistics.getNote());//备注
-//                    try {
-//                        // 更新运单状态
-//                        this.waybillDeclareMapper.updateImpLogisticsStatus(guid, StatusCode.YDYSB);
-//                        this.logger.debug(String.format("更新运单为已申报[guid: %s]状态为: %s", guid, StatusCode.YDYSB));
-//                    } catch (Exception e) {
-//                        String exceptionMsg = String.format("更改运单[headGuid: %s]状态时发生异常", logisticsHead.getGuid());
-//                        this.logger.error(exceptionMsg, e);
-//                    }
-//                    logisticsHeadsLists.add(logisticsHead);
-//                }
-//
-//                ceb511Message.setLogisticsHeadList(logisticsHeadsLists);
-//                //开始生成报文
-//                BaseTransfer baseTransfer = new BaseTransfer();
-//                if (!StringUtils.isEmpty(crtId)) {
-//                    baseTransfer = waybillDeclareMapper.queryCompany(crtId);
-//                }
-//                ceb511Message.setBaseTransfer(baseTransfer);
-//                this.entryProcess(ceb511Message, nameLogisticsNo, xmlHeadGuid);
-
             } catch (Exception e) {
                 try {
                     Thread.sleep(5000);
@@ -200,7 +154,7 @@ public class LogisticsMessageThread implements Runnable {
         try {
             // 生成运单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB511Message_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB511_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsXml.createXML(ceb511Message, "logistics", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成运单申报报文[fileName: %s]", fileName));

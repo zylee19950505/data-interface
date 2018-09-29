@@ -52,6 +52,7 @@ appConfig:
     sendDeliveryPath: "kj/DeliveryBak"
     sendOrderPath: "kj/OrderBak"
     sendInventoryPath: "kj/InventoryBak"
+    sendManifestPath: "kj/Manifest"
     sendBakPath: "kj/sendBak"
     xmlDownload: "xmlDownload"
 

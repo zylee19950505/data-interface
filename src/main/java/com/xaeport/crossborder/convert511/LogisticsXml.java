@@ -79,8 +79,8 @@ public class LogisticsXml {
             orderNo = document.createElement("ceb:orderNo");
             orderNo.setTextContent(logisticsHeadsList.get(i).getOrderNo());
 
-            billNo = document.createElement("ceb:billNo");
-            billNo.setTextContent(logisticsHeadsList.get(i).getBillNo());
+//            billNo = document.createElement("ceb:billNo");
+//            billNo.setTextContent(logisticsHeadsList.get(i).getBillNo());
 
             freight = document.createElement("ceb:freight");
             freight.setTextContent(logisticsHeadsList.get(i).getFreight());
@@ -120,7 +120,7 @@ public class LogisticsXml {
             LogisticsHead.appendChild(logisticsName);
             LogisticsHead.appendChild(logisticsNo);
             LogisticsHead.appendChild(orderNo);
-            LogisticsHead.appendChild(billNo);
+//            LogisticsHead.appendChild(billNo);
             LogisticsHead.appendChild(freight);
             LogisticsHead.appendChild(insuredFee);
             LogisticsHead.appendChild(currency);

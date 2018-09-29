@@ -147,7 +147,7 @@ public class PaymentMessageThread implements Runnable {
         try {
             // 生成支付单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB411Message_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB411_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.basePaymentXml.createXML(ceb411Message, "payment", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成支付单411申报报文[fileName: %s]", fileName));

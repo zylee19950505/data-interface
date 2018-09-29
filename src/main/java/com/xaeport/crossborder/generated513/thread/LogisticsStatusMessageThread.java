@@ -147,7 +147,7 @@ public class LogisticsStatusMessageThread implements Runnable {
         try {
             // 生成运单状态申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB513Message_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB513_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsStatusXml.createXML(ceb513Message, "logisticsStatus", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成运单状态513申报报文[fileName: %s]", fileName));

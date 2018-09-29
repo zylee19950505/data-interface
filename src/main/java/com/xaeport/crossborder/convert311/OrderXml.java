@@ -246,7 +246,7 @@ public class OrderXml {
                 unit = document.createElement("ceb:unit");
                 unit.setTextContent(impOrderBodyList.get(i).getUnit());
 
-                gModel = document.createElement("ceb:gModel");
+                gModel = document.createElement("ceb:gmodel");
                 gModel.setTextContent(impOrderBodyList.get(i).getG_Model());
 
                 qty = document.createElement("ceb:qty");
