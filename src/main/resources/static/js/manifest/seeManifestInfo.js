@@ -137,14 +137,7 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
             "car_no",
             "car_wt",
-            "ic_code",
-
-            // "",
-            // "",
-            // "",
-            // "",
-            // "",
-            // "",
+            "ic_code"
 
         ]
     },
@@ -191,10 +184,14 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
         $("#status").val(entryHead.status);
         $("#port_status").val(entryHead.port_status);
 
-        $("#input_name").val(entryHead.input_name);
-        $("#input_code").val(entryHead.input_code);
-        $("#trade_name").val(entryHead.trade_name);
-        $("#trade_code").val(entryHead.trade_code);
+        // $("#input_name").val(entryHead.input_name);
+        $("#input_name").val("");
+        // $("#input_code").val(entryHead.input_code);
+        $("#input_code").val("");
+        // $("#trade_name").val(entryHead.trade_name);
+        $("#trade_name").val("");
+        // $("#trade_code").val(entryHead.trade_code);
+        $("#trade_code").val("");
 
         $("#app_person").val(entryHead.app_person);
         $("#region_code").val(entryHead.region_code);
@@ -273,8 +270,8 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
             input_name: $("#input_name").val(),
             input_code: $("#input_code").val(),
-            trade_name: $("#trade_name").val(),
-            trade_code: $("#trade_code").val(),
+            trade_name: $("#input_name").val(),
+            trade_code: $("#input_code").val(),
 
             app_person: $("#app_person").val(),
             region_code: $("#region_code").val(),
@@ -374,8 +371,8 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
             "input_name": "录入单位名称",
             "input_code": "录入单位代码",
-            "trade_name": "trade_name",
-            "trade_code": "trade_code",
+            // "trade_name": "trade_name",
+            // "trade_code": "trade_code",
 
             "app_person": "申请人",
             "region_code": "区域标志",
@@ -445,8 +442,8 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
                         "status",
                         "port_status",
 
-                        "input_name",
-                        "input_code",
+                        // "input_name",
+                        // "input_code",
                         "trade_name",
                         "trade_code",
 

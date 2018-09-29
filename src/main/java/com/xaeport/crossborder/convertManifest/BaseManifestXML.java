@@ -79,7 +79,7 @@ public class BaseManifestXML {
     //811的体节点
     private Node getManifestHead(Document document, ManifestHead manifestHead) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         Element messageBody = document.createElement("MessageBody");
 
@@ -213,7 +213,7 @@ public class BaseManifestXML {
     //811的头结点
     private Element getMessageHead(Document document, MessageHead messageHead) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Element messageHeadElement = document.createElement("MessageHead");
 
         Element messageType = document.createElement("MessageType");
@@ -223,7 +223,7 @@ public class BaseManifestXML {
         MessageId.setTextContent(messageHead.getMessageId());
 
         Element MessageTime = document.createElement("MessageTime");
-        MessageTime.setTextContent(sdf.format(messageHead.getMessageTime()));
+        MessageTime.setTextContent(messageHead.getMessageTime());
 
         Element SenderId = document.createElement("SenderId");
         SenderId.setTextContent(messageHead.getSenderId());

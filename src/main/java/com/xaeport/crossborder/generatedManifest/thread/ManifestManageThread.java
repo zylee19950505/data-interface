@@ -137,10 +137,11 @@ public class ManifestManageThread implements Runnable {
     }
 
     private MessageHead getMessageHead(String manifest_no) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         MessageHead messageHead = new MessageHead();
         messageHead.setMessageType("DISQ");
         messageHead.setMessageId(IdUtils.getUUId());
-        messageHead.setMessageTime(new Date());
+        messageHead.setMessageTime(sdf.format(new Date()));
         messageHead.setSenderId("XAKJ");
         messageHead.setSenderAddress("XAKJ@JC.COM");
         messageHead.setReceiveId("KCUST001");

@@ -8,7 +8,7 @@ import java.util.Date;
 public class MessageHead {
 	private String messageType;
 	private String messageId;
-	private Date messageTime;
+	private String messageTime;
 	private String senderId;
 	private String senderAddress;
 	private String receiveId;
@@ -33,11 +33,11 @@ public class MessageHead {
 		this.messageId = messageId;
 	}
 
-	public Date getMessageTime() {
+	public String getMessageTime() {
 		return messageTime;
 	}
 
-	public void setMessageTime(Date messageTime) {
+	public void setMessageTime(String messageTime) {
 		this.messageTime = messageTime;
 	}
 
