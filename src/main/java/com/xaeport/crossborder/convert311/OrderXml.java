@@ -237,17 +237,17 @@ public class OrderXml {
                 itemName = document.createElement("ceb:itemName");
                 itemName.setTextContent(impOrderBodyList.get(i).getItem_Name());
 
-//                itemDescribe = document.createElement("ceb:itemDescribe");
-//                itemDescribe.setTextContent(StringUtils.isEmpty(impOrderBodyList.get(i).getItem_Describe()) ? "" : impOrderBodyList.get(i).getItem_Describe());
+                gModel = document.createElement("ceb:gmodel");
+                gModel.setTextContent(impOrderBodyList.get(i).getG_Model());
+
+                itemDescribe = document.createElement("ceb:itemDescribe");
+                itemDescribe.setTextContent(StringUtils.isEmpty(impOrderBodyList.get(i).getItem_Describe()) ? "" : impOrderBodyList.get(i).getItem_Describe());
 
                 barCode = document.createElement("ceb:barCode");
                 barCode.setTextContent(impOrderBodyList.get(i).getBar_Code());
 
                 unit = document.createElement("ceb:unit");
                 unit.setTextContent(impOrderBodyList.get(i).getUnit());
-
-                gModel = document.createElement("ceb:gmodel");
-                gModel.setTextContent(impOrderBodyList.get(i).getG_Model());
 
                 qty = document.createElement("ceb:qty");
                 qty.setTextContent(impOrderBodyList.get(i).getQty());
@@ -270,10 +270,10 @@ public class OrderXml {
                 OrderList.appendChild(gnum);
                 OrderList.appendChild(itemNo);
                 OrderList.appendChild(itemName);
-//                OrderList.appendChild(itemDescribe);
+                OrderList.appendChild(gModel);
+                OrderList.appendChild(itemDescribe);
                 OrderList.appendChild(barCode);
                 OrderList.appendChild(unit);
-                OrderList.appendChild(gModel);
                 OrderList.appendChild(qty);
                 OrderList.appendChild(price);
                 OrderList.appendChild(totalPrice);
