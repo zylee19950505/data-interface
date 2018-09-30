@@ -181,7 +181,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
                 SELECT("*");
                 FROM("T_CHECK_GOODS_INFO t ");
                 WHERE("t.IS_MANIFEST = 'Y'");
-                WHERE("t.STATUS = '800'");
+                WHERE("t.STATUS = '26'");
                 if (!StringUtils.isEmpty(manifest_no)) {
                     WHERE("t.MANIFEST_NO = #{manifest_no}");
                 }
