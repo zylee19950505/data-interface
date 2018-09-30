@@ -122,7 +122,7 @@ public class OrderXml {
             buyerName = document.createElement("ceb:buyerName");
             buyerName.setTextContent(orderHeadList.get(i).getBuyerName());
 
-            buyerTelePhone = document.createElement("ceb:buyerTelePhone");
+            buyerTelePhone = document.createElement("ceb:buyerTelephone");
             buyerTelePhone.setTextContent(orderHeadList.get(i).getBuyerTelePhone());
 
             buyerIdType = document.createElement("ceb:buyerIdType");
