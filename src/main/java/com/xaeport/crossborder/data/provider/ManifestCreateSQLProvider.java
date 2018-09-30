@@ -27,7 +27,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");
                 FROM("T_CHECK_GOODS_INFO t");
-                WHERE("t.STATUS = '800'");
+                WHERE("t.STATUS = '26'");
                 WHERE("t.IS_MANIFEST = 'N'");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.TOTAL_LOGISTICS_NO = #{billNo}");
@@ -54,7 +54,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");
                 FROM("T_CHECK_GOODS_INFO t");
-                WHERE("t.STATUS = '800'");
+                WHERE("t.STATUS = '26'");
                 WHERE("t.IS_MANIFEST = 'N'");
                 if (!StringUtils.isEmpty(totalLogisticsNo)) {
                     WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", totalLogisticsNo));
@@ -80,7 +80,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(totalLogisticsNo)) {
                     WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", totalLogisticsNo));
                 }
-                WHERE("t.STATUS = '800'");
+                WHERE("t.STATUS = '26'");
                 WHERE("t.IS_MANIFEST = 'N'");
             }
         }.toString();
@@ -93,7 +93,7 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bill_nos)) {
                     WHERE(splitJointIn("t.TOTAL_LOGISTICS_NO", bill_nos));
                 }
-                WHERE("t.STATUS = '800'");
+                WHERE("t.STATUS = '26'");
                 WHERE("t.IS_MANIFEST = 'N'");
                 if (!StringUtils.isEmpty(manifestNo)) {
                     SET("t.MANIFEST_NO = #{manifestNo}");

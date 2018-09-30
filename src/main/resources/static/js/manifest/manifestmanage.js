@@ -150,22 +150,15 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
     },
 
     manifestPrint: function (manifest_no) {
-        debugger;
         var parameter = {
             manifest_no: manifest_no
         }
-        // sw.ajax("api/manifestManage/preview","GET",parameter,function (rsp){
-        //     var
-        // });
-        // $("#manifestPrint").unbind("click").attr("param-data", JSON.stringify(parameter)).click(this.printBill);
         var param = JSON.stringify(parameter);
         this.printBill(param);
 
     },
 
     printBill: function (param) {
-        debugger;
-        // var paramData = $(this).attr("param-data");
         localStorage.setItem("assbill_inquiry_param", param);
         var printWindow = window.open(sw.resolve("admin/page?p=manifest/manifestPrint"), "printWindow");
     }
