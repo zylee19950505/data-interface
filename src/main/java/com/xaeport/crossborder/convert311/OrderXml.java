@@ -237,8 +237,8 @@ public class OrderXml {
                 itemName = document.createElement("ceb:itemName");
                 itemName.setTextContent(impOrderBodyList.get(i).getItem_Name());
 
-                itemDescribe = document.createElement("ceb:itemDescribe");
-                itemDescribe.setTextContent(StringUtils.isEmpty(impOrderBodyList.get(i).getItem_Describe()) ? "" : impOrderBodyList.get(i).getItem_Describe());
+//                itemDescribe = document.createElement("ceb:itemDescribe");
+//                itemDescribe.setTextContent(StringUtils.isEmpty(impOrderBodyList.get(i).getItem_Describe()) ? "" : impOrderBodyList.get(i).getItem_Describe());
 
                 barCode = document.createElement("ceb:barCode");
                 barCode.setTextContent(impOrderBodyList.get(i).getBar_Code());
@@ -270,7 +270,7 @@ public class OrderXml {
                 OrderList.appendChild(gnum);
                 OrderList.appendChild(itemNo);
                 OrderList.appendChild(itemName);
-                OrderList.appendChild(itemDescribe);
+//                OrderList.appendChild(itemDescribe);
                 OrderList.appendChild(barCode);
                 OrderList.appendChild(unit);
                 OrderList.appendChild(gModel);
