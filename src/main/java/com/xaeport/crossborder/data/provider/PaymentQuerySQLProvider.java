@@ -38,7 +38,9 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider{
 								"    t.RETURN_STATUS," +
 								"    t.RETURN_INFO," +
 								"    t.RETURN_TIME," +
-								"    t.DATA_STATUS");
+								"    t.DATA_STATUS,"+
+								" (select ss.status_name from t_status ss " +
+								" where ss.status_code = t.return_status ) return_status_name");
 				FROM("T_IMP_PAYMENT t");
 				if(!roleId.equals("admin")){
 					WHERE("t.ent_id = #{entId}");
@@ -50,7 +52,11 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider{
 					WHERE("t.DATA_STATUS = #{dataStatus}");
 				}
 				if (!StringUtils.isEmpty(returnStatus)){
-					WHERE(splitJointIn("t.return_Status",returnStatus));
+					if (returnStatus.equals("-")) {
+						WHERE("t.RETURN_STATUS like '%'||#{returnStatus}||'%' ");
+					} else {
+						WHERE("t.RETURN_STATUS = #{returnStatus}");
+					}
 				}
 				if (!StringUtils.isEmpty(payTransactionId)) {
 					WHERE("t.PAY_TRANSACTION_ID = #{payTransactionId}");
@@ -93,7 +99,11 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider{
 					WHERE("t.DATA_STATUS = #{dataStatus}");
 				}
 				if (!StringUtils.isEmpty(returnStatus)){
-					WHERE(splitJointIn("t.return_Status",returnStatus));
+					if (returnStatus.equals("-")) {
+						WHERE("t.RETURN_STATUS like '%'||#{returnStatus}||'%' ");
+					} else {
+						WHERE("t.RETURN_STATUS = #{returnStatus}");
+					}
 				}
 				if (!StringUtils.isEmpty(orderNo)) {
 					WHERE("t.ORDER_NO = #{orderNo}");
@@ -152,6 +162,9 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider{
 			{
 				UPDATE("T_IMP_PAYMENT t");
 				WHERE("t.GUID = #{entryhead_guid}");
+				SET("t.APP_TYPE = '2'");
+				SET("t.DATA_STATUS = 'CBDS1'");
+				SET("t.UPD_TM = sysdate");
 				if (!StringUtils.isEmpty(entryHead.get("order_no"))){
 					SET("t.order_no = #{order_no}");
 				}

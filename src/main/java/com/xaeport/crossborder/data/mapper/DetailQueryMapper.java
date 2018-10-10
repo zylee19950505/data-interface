@@ -33,6 +33,9 @@ public interface DetailQueryMapper {
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHead")
     void updateImpInventoryHead(LinkedHashMap<String, String> entryHead);
 
+    @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHeadByList")
+    void updateImpInventoryHeadByList(LinkedHashMap<String, String> entryHead);
+
     //修改清单表体信息
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryBodies")
     void updateImpInventoryBodies(LinkedHashMap<String, String> entryList);

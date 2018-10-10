@@ -40,7 +40,7 @@ public class PaymentQueryService {
 		if (saveDetail(entryHead, rtnMap,"支付单查询-编辑-重报")) return rtnMap;
 
 		rtnMap.put("result", "true");
-		rtnMap.put("msg", "编辑信息成功，请到“支付单查询-清单申报”处重新进行订单申报！");
+		rtnMap.put("msg", "编辑信息成功，请到“支付单申报”处重新进行申报！");
 		return rtnMap;
 
 	}

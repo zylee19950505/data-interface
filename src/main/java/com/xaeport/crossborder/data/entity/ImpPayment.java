@@ -37,6 +37,15 @@ public class ImpPayment {
     private String ent_id;//导入企业ID码
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
+    private String return_status_name;//回执状态对应中文意思
+
+    public String getReturn_status_name() {
+        return return_status_name;
+    }
+
+    public void setReturn_status_name(String return_status_name) {
+        this.return_status_name = return_status_name;
+    }
 
     public String getReturn_status() {
         return return_status;

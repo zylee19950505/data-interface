@@ -83,6 +83,25 @@ public class ImpInventory {
     private String total_price;//商品总价，等于单价乘以数量。
     private String bodyNote;//促销活动，商品单价偏离市场价格的，可以在此说明。
 
+    private String maxtime_three_return_status;//最大时间的三位数字回执状态
+    private String return_status_name;//回执状态转译中文意思
+
+    public String getReturn_status_name() {
+        return return_status_name;
+    }
+
+    public void setReturn_status_name(String return_status_name) {
+        this.return_status_name = return_status_name;
+    }
+
+    public String getMaxtime_three_return_status() {
+        return maxtime_three_return_status;
+    }
+
+    public void setMaxtime_three_return_status(String maxtime_three_return_status) {
+        this.maxtime_three_return_status = maxtime_three_return_status;
+    }
+
     public String getNo() {
         return no;
     }

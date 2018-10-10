@@ -483,6 +483,18 @@ public class ReceiptService {
         impInventoryHead.setUpd_tm(new Date());
         //清单申报成功
         impInventoryHead.setData_status(StatusCode.QDSBCG);
+
+        boolean isContains = (impInventoryHead.getReturn_status()).contains("-");
+        String MaxTimeReturnStatus = null;
+        if(isContains){
+            MaxTimeReturnStatus = this.receiptMapper.queryMaxTimeReturnStatus(impInventoryHead.getCop_no());
+            if(!StringUtils.isEmpty(MaxTimeReturnStatus)){
+                impInventoryHead.setReturn_status(MaxTimeReturnStatus);
+            }else {
+                impInventoryHead.setReturn_status("100");
+            }
+        }
+
         this.receiptMapper.updateImpInventory(impInventoryHead);  //更新支付单表中的回执状态
 
     }

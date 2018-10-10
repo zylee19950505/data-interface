@@ -32,7 +32,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             endFlightTimes: endFlightTimes,
             logisticsNo: logisticsNo,
             logisticsStatus: logisticsStatus,
-            billNo:billNo
+            billNo: billNo
         });
 
         sw.datatable("#query-waybillQuery-table", {
@@ -76,12 +76,9 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     var result = '<a style="cursor:pointer" title="查看" ' +
                         'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').queryWaybillbyid('" + row.guid + "','" + row.logistics_no + "')" + '">' + row.logistics_no + '</a>';
                     return result;
-                    }
+                }
                 },
-               // {data: "logistics_name", label: "物流企业名称"},
                 {data: "consingee", label: "收货人姓名"},
-                //{data: "consignee_telephone", label: "收货人电话"},
-                //{data: "consignee_address", label: "收货地址"},
                 {
                     label: "申报日期", render: function (data, type, row) {
                     if (!isEmpty(row.app_time)) {
@@ -90,10 +87,9 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     return "";
                 }
                 },
-                //{data: "logistics_status", label: "物流签收状态"},
                 {
-                    label:"物流签收状态",render:function (data, type, row) {
-                    if ("S"==row.logistics_status){
+                    label: "物流签收状态", render: function (data, type, row) {
+                    if ("S" == row.logistics_status) {
                         return "已签收"
                     }
                     return "未签收"
@@ -108,25 +104,16 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                 }
                 },
                 {
-                    data: "data_status", label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
+                    label: "回执状态", render: function (data, type, row) {
                     var value = "";
-                    switch (row.data_status) {
-                        case "CBDS42"://运单申报成功（运单申报成功）
-                            textColor = "text-green";
-                            value = "运单申报成功";
-                            break;
-                        case "CBDS52"://运单申报成功（运单申报成功，运单状态申报成功）
-                            textColor = "text-green";
-                            value = "运单状态申报成功";
-                            break;
-                        default :
-                            textColor = "";
-                            value = "未知";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = row.return_status;
                     }
-                    var result = '<a style="cursor:pointer" title="运单回执详情信息" class="+textColor+" ' +
+
+                    return '<a style="cursor:pointer" title="运单回执详情信息" ' +
                         'onclick="' + "javascript:sw.pageModule('waybillmanage/waybillQuery').returnDetails('" + row.guid + "','" + row.logistics_no + "')" + '">' + value + '</a>';
-                    return result;
                 }
                 }
             ]
@@ -138,15 +125,18 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         $("#bill").show();
         $("#preview").hide();
     },
+
     //打开一个页面，并且用路径传递参数
     queryWaybillbyid: function (guid, logistics_no) {
         var url = "waybillmanage/seeWaybillDetail?type=ZFDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
         sw.modelPopup(url, "运单详情信息", false, 900, 400);
     },
-    returnDetails:function(guid, logistics_no){
+
+    returnDetails: function (guid, logistics_no) {
         var url = "waybillmanage/returnDetail?guid=" + guid + "&logistics_no=" + logistics_no;
         sw.modelPopup(url, "回执备注详情", false, 900, 350);
     },
+
     billDownLoad: function () {
         sw.ajax("api/bill", "GET", {
             ieFlag: sw.ie,
@@ -163,4 +153,5 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         });
 
     }
+
 };

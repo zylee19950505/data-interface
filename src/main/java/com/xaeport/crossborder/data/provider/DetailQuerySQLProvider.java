@@ -23,9 +23,30 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
         return new SQL() {
             {
-                SELECT(
-                        " * from ( select rownum rn, f.* from ( " +
-                                " SELECT * ");
+                SELECT(" * from ( select rownum rn, f.* from ( " +
+                        " SELECT t.bill_no," +
+                        "t.guid," +
+                        "t.order_no," +
+                        "t.logistics_no," +
+                        "t.invt_no," +
+                        "t.ebp_name," +
+                        "t.ebc_name," +
+                        "t.logistics_name," +
+                        "t.app_time," +
+                        "t.return_status," +
+                        "t.cop_no," +
+//                        "(SELECT return_status " +
+//                        "from t_imp_rec_inventory tt " +
+//                        "where tt.cop_no = t.cop_no " +
+//                        "and tt.return_time = " +
+//                        "(select max(zz.return_time) " +
+//                        "from t_imp_rec_inventory zz " +
+//                        "where zz.cop_no = tt.cop_no " +
+//                        "and length(zz.return_status) = 3) " +
+//                        "and rownum = 1) maxtime_three_return_status," +
+                        "(select ss.status_name " +
+                        "from t_status ss " +
+                        "where ss.status_code = t.return_status) return_status_name");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
@@ -33,8 +54,8 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
-                if (!StringUtils.isEmpty(returnStatus)){
-                    WHERE(splitJointIn("t.return_Status",returnStatus));
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE(splitJointIn("t.return_Status", returnStatus));
                 }
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.bill_No = #{billNo}");
@@ -82,8 +103,8 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
-                if (!StringUtils.isEmpty(returnStatus)){
-                    WHERE(splitJointIn("t.return_Status",returnStatus));
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE(splitJointIn("t.return_Status", returnStatus));
                 }
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.bill_No = #{billNo}");
@@ -154,6 +175,10 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.GUID = #{entryhead_guid}");
+                SET("t.PRE_NO = '' ");
+                SET("t.INVT_NO = '' ");
+                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.UPD_TM = sysdate ");
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
                     SET("t.order_no = #{order_no}");
                 }
@@ -232,6 +257,20 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
                 }
+            }
+        }.toString();
+    }
+
+    //修改清单表头信息
+    public String updateImpInventoryHeadByList(LinkedHashMap<String, String> entryHead) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.GUID = #{entryhead_guid}");
+                SET("t.PRE_NO = '' ");
+                SET("t.INVT_NO = '' ");
+                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.UPD_TM = sysdate ");
             }
         }.toString();
     }

@@ -10,6 +10,19 @@ import sun.awt.SunHints;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    public String queryMaxTimeReturnStatus(String copNo) {
+        return new SQL() {
+            {
+                SELECT("return_status");
+                FROM("( select return_status " +
+                        "from t_imp_rec_inventory t " +
+                        "where length(t.return_status) = 3 " +
+                        "and t.cop_no = #{copNo} order by t.return_time desc )");
+                WHERE("rownum = 1");
+            }
+        }.toString();
+    }
+
     //插入支付单回执表数据
     public String createCheckGoodsInfoHis(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo

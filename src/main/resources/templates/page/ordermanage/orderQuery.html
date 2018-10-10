@@ -58,10 +58,13 @@
                                     <span class="input-group-addon">回执状态：</span>
                                     <select class="form-control" name="orderStatus">
                                         <option value="" selected = "selected" >全部</option>
-                                        <option value="100" >逻辑校验未通过(100)</option>
-                                        <option value="120" >逻辑校验通过(120)</option>
-                                        <option value="2" >新增申报成功(2)</option>
-                                        <!--<option value="退单" >退单</option>-->
+                                        <option value="1" >暂存(1)</option>
+                                        <option value="100" >海关退单(100)</option>
+                                        <option value="120" >海关入库(120)</option>
+                                        <option value="2" >申报(2)</option>
+                                        <option value="3" >发送海关成功(3)</option>
+                                        <option value="4" >发送海关失败(4)</option>
+                                        <option value="-" >其他(负号标识码)</option>
                                     </select>
                                 </div>
                             </div>

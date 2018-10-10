@@ -48,7 +48,7 @@ public class WaybillQueryService {
         if (saveBillDetail(entryHead, entryLists, rtnMap,"运单查询-编辑-重报")) return rtnMap;
 
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“运单查询-运单申报”处重新进行运单申报！");
+        rtnMap.put("msg", "编辑信息成功，请到“运单申报”处重新进行申报！");
         return rtnMap;
 	}
 
@@ -66,25 +66,6 @@ public class WaybillQueryService {
             // 更新表头数据
             this.waybillMapper.updateBillHead(entryHead);
         }
-       /* if (!CollectionUtils.isEmpty(entryLists)) {
-            // 更新表体数据
-            for (LinkedHashMap<String, String> entryList : entryLists) {
-                if (!CollectionUtils.isEmpty(entryList) && entryList.size() > 2) {
-                    orderQueryMapper.updateOrderList(entryList);
-                }
-            }
-        }*/
-		/*// 修改entry_head的 操作状态SWOP3 和 申报状态（置空）、申报结果（置空）
-		this.entryMapper.updateEntryHeadStatus(StatusCode.BDSB, "", "", entryHeadId);
-		// 插入状态改变记录表
-		StatusRecord statusRecord = new StatusRecord();
-		statusRecord.setSr_id(IdUtils.getUUId());
-		statusRecord.setCreate_time(new Date());
-		statusRecord.setOdd_no(entryHeadId);
-		statusRecord.setNotes(notes);
-		statusRecord.setBelong("Entryhead");
-		statusRecord.setStatus_code(StatusCode.BDSB);
-		this.entryMapper.insertStatusRecord(statusRecord);*/
         return false;
     }
 

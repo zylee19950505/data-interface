@@ -81,23 +81,15 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                 }
                 },
                 {
-                    data: "data_status", label: "业务状态", render: function (data, type, row) {
-                    switch (row.data_status) {
-                        case "CBDS32"://支付单申报成功
-                            textColor = "text-green";
-                            row.data_status = "支付单申报成功";
-                            break;
-                        case "CBDS33"://支付单申报成功
-                            textColor = "text-red";
-                            row.data_status = "支付单重报";
-                            break;
-                        case "CBDS34"://支付单申报成功
-                            textColor = "text-red";
-                            row.data_status = "支付单申报失败";
-                            break;
+                    label: "回执状态", render: function (data, type, row) {
+                    var value = "";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = row.return_status;
                     }
-                    // return "<span class='" + textColor + "'>" + row.data_status + "</span>";
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('paymentmanage/paymentQuery').seePaymentRec('" + row.guid + "','" + row.pay_transaction_id + "')" + '">' + row.data_status + '</a>'
+
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('paymentmanage/paymentQuery').seePaymentRec('" + row.guid + "','" + row.pay_transaction_id + "')" + '">' + value + '</a>'
                 }
                 }
             ]

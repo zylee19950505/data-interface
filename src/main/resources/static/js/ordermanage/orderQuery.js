@@ -5,15 +5,15 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         var startDeclareTime = $('[name="startDeclareTime"]').val();//申报时间
         var endDeclareTime = $('[name="endDeclareTime"]').val();//申报结束时间
         var orderNo = $('[name="orderNo"]').val();//订单编号
-        var billNo =  $("[name = 'billNo']").val();//提运单号
-        var orderStatus =  $("[name = 'orderStatus']").val();//业务状态
+        var billNo = $("[name = 'billNo']").val();//提运单号
+        var orderStatus = $("[name = 'orderStatus']").val();//业务状态
 
         var url = sw.serializeObjectToURL("api/ordermanage/queryOrder/queryOrderHeadList", {
             startDeclareTime: startDeclareTime,
             endDeclareTime: endDeclareTime,
             orderNo: orderNo,
-            billNo:billNo,
-            orderStatus:orderStatus
+            billNo: billNo,
+            orderStatus: orderStatus
         });
 
         var table = sw.datatable("#query-orderHead-table", {
@@ -69,34 +69,18 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                 }
                 },
                 {
-                    data: "data_status", label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
+                    label: "回执状态", render: function (data, type, row) {
                     var value = "";
-                    switch (row.data_status) {
-                        case "CBDS22":
-                            textColor = "text-green";
-                            value = "订单申报成功";
-                            break;
-                        case "CBDS23":
-                            textColor = "text-red";
-                            value = "订单重报";
-                            break;
-                        case "CBDS24":
-                            textColor = "text-red";
-                            value = "订单申报失败";
-                            break;
-                        default :
-                            textColor = "";
-                            value = "未知";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = row.return_status;
                     }
-                    var result = '<a style="cursor:pointer" title="订单回执详情信息" class="+textColor+" ' +
-                        'onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').returnOrderDetails('" + row.guid + "','" + row.order_No + "')" + '">' + value + '</a>';
-                    return result;
-                }
-                }
 
-               // {data: "return_status", label: "回执状态"},
-               // {data: "return_info", label: "回执备注"},
+                    return '<a style="cursor:pointer" title="订单回执详情信息" ' +
+                        'onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').returnOrderDetails('" + row.guid + "','" + row.order_No + "')" + '">' + value + '</a>';
+                }
+                }
             ],
             order: [[1, 'asc']]
         });
@@ -117,7 +101,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         var url = "ordermanage/seeOrderDetail?type=DDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_No;
         sw.modelPopup(url, "查看订单详情", false, 1000, 930);
     },
-    returnOrderDetails:function(guid, order_No){
+    returnOrderDetails: function (guid, order_No) {
         var url = "ordermanage/returnOrderDetail?guid=" + guid + "&order_no=" + order_No;
         sw.modelPopup(url, "回执备注详情", false, 900, 300);
     },

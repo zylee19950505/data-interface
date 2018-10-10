@@ -28,19 +28,17 @@ public interface OrderQueryMapper {
 	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderBodyListCount")
 	Integer queryOrderBodyListCount(Map<String, String> paramMap);
 
-/*点击查看邮件详情
-* */
 	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderHead")
 	ImpOrderHead queryOrderHead(Map<String, String> paramMap);
 
 	@SelectProvider(type = OrderQuerySQLProvider.class,method = "queryOrderBody")
 	List<ImpOrderBody> queryOrderBody(Map<String, String> paramMap);
 
-	/*
-	* 修改表头
-	* */
 	@UpdateProvider(type = OrderQuerySQLProvider.class,method = "updateOrderHead")
 	void updateOrderHead(LinkedHashMap<String, String> entryHead);
+
+	@UpdateProvider(type = OrderQuerySQLProvider.class,method = "updateOrderHeadByList")
+	void updateOrderHeadByList(LinkedHashMap<String, String> entryHead);
 
 	@UpdateProvider(type = OrderQuerySQLProvider.class,method = "updateOrderList")
 	void updateOrderList(LinkedHashMap<String, String> entryList);

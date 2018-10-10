@@ -21,8 +21,9 @@ public class WaybillQuerySQLProvider {
         return new SQL(){
             {
                 SELECT("* from ( select rownum rn ,f.* from ( " +
-                        " select t.bill_no," +
-                        "t.LOGISTICS_NO," +
+                        " select " +
+                        " t.bill_no," +
+                        " t.LOGISTICS_NO," +
                         " t.GUID,"+
                         " t.LOGISTICS_NAME,"+
                         " t.CONSINGEE,"+
@@ -35,7 +36,9 @@ public class WaybillQuerySQLProvider {
                         " t.LOGISTICS_STATUS," +
                         " t.RETURN_STATUS as returnStatus_status,"+
                         " t.RETURN_INFO as returnStatus_info,"+
-                        " t.LOGISTICS_TIME"  );
+                        " t.LOGISTICS_TIME,"+
+                        " (select ss.status_name from t_status ss " +
+                        " where ss.status_code = t.return_status ) return_status_name");
                 FROM("T_IMP_LOGISTICS t");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
@@ -47,11 +50,12 @@ public class WaybillQuerySQLProvider {
                 if (!StringUtils.isEmpty(billNo)){
                     WHERE("t.bill_no = #{billNo}");
                 }
-                /*if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.return_info like '%'||#{logisticsStatus}||'%'");
-                }*/
                 if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("(t.return_status = #{logisticsStatus} or t.rec_return_status = #{logisticsStatus})");
+                    if(logisticsStatus.equals("-")){
+                        WHERE("(t.return_status like '%'||#{logisticsStatus}||'%' or t.rec_return_status like '%'||#{logisticsStatus}||'%')");
+                    }else {
+                        WHERE("(t.return_status = #{logisticsStatus} or t.rec_return_status = #{logisticsStatus})");
+                    }
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -91,11 +95,12 @@ public class WaybillQuerySQLProvider {
                 if (!StringUtils.isEmpty(billNo)){
                     WHERE("t.bill_no = #{billNo}");
                 }
-               /* if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.return_info like '%'||#{logisticsStatus}||'%'");
-                }*/
                 if (!StringUtils.isEmpty(logisticsStatus)){
-                    WHERE("t.return_status = #{logisticsStatus}");
+                    if(logisticsStatus.equals("-")){
+                        WHERE("(t.return_status like '%'||#{logisticsStatus}||'%' or t.rec_return_status like '%'||#{logisticsStatus}||'%')");
+                    }else {
+                        WHERE("(t.return_status = #{logisticsStatus} or t.rec_return_status = #{logisticsStatus})");
+                    }
                 }
                 if(!StringUtils.isEmpty(startFlightTimes)){
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||'00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -153,6 +158,9 @@ public class WaybillQuerySQLProvider {
             {
                 UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.GUID = #{entryhead_guid}");
+                SET("t.APP_TYPE = '2'");
+                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.UPD_TM = sysdate");
                 if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
                     SET("t.LOGISTICS_CODE = #{logistics_code}");
                 }

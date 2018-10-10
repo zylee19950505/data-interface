@@ -74,6 +74,10 @@ public interface ReceiptMapper {
     @SelectProvider(type = ReceiptSQLProvider.class, method = "findByCopNo")
     ImpInventoryHead findByCopNo(String copNo) throws Exception;
 
+    //查询该COP_NO的最晚时间的三位有效状态码
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryMaxTimeReturnStatus")
+    String queryMaxTimeReturnStatus(String copNo) throws Exception;
+
 
     //入库明细单回执插入
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createImpRecDelivery")

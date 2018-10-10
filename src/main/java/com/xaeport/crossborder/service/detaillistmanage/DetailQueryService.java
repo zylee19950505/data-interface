@@ -61,7 +61,7 @@ public class DetailQueryService {
         if (saveOrderDetail(entryHead, entryLists, rtnMap,"清单查询-编辑-重报")) return rtnMap;
 
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“清单查询-清单申报”处重新进行订单申报！");
+        rtnMap.put("msg", "编辑信息成功，请到“清单申报”处重新进行申报！");
         return rtnMap;
 
     }
@@ -86,6 +86,7 @@ public class DetailQueryService {
                     detailQueryMapper.updateImpInventoryBodies(entryList);
                 }
             }
+            this.detailQueryMapper.updateImpInventoryHeadByList(entryHead);
         }
 		/*// 修改entry_head的 操作状态SWOP3 和 申报状态（置空）、申报结果（置空）
 		this.entryMapper.updateEntryHeadStatus(StatusCode.BDSB, "", "", entryHeadId);
