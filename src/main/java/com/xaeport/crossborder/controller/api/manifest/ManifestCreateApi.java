@@ -36,18 +36,18 @@ public class ManifestCreateApi extends BaseApi {
      */
     @RequestMapping("/queryManifestCreate")
     public ResponseData queryDeliveryDeclare(
-            @RequestParam(required = false) String startFlightTimes,
-            @RequestParam(required = false) String endFlightTimes,
+//            @RequestParam(required = false) String startFlightTimes,
+//            @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String billNo,
 //            @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s]", startFlightTimes, endFlightTimes, billNo));
+        this.logger.debug(String.format("查询邮件申报条件参数:[billNo:%s]", billNo));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put("billNo", billNo);
-        paramMap.put("startFlightTimes", startFlightTimes);
-        paramMap.put("endFlightTimes", endFlightTimes);
+//        paramMap.put("startFlightTimes", startFlightTimes);
+//        paramMap.put("endFlightTimes", endFlightTimes);
 //        paramMap.put("returnStatus",returnStatus);
 
         paramMap.put("entId", this.getCurrentUserEntId());

@@ -6,15 +6,15 @@ sw.page.modules["manifest/manifestcreate"] = sw.page.modules["manifest/manifestc
     // 订单申报列表查询
     query: function () {
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
+        // var startFlightTimes = $("[name='startFlightTimes']").val();
+        // var endFlightTimes = $("[name='endFlightTimes']").val();
         var billNo = $("[name='billNo']").val();
         // var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/manifest/queryManifestCreate", {
-            startFlightTimes: startFlightTimes,//导入时间
-            endFlightTimes: endFlightTimes,//导入时间
+            // startFlightTimes: startFlightTimes,//导入时间
+            // endFlightTimes: endFlightTimes,//导入时间
             billNo: billNo,//提运单号
             // returnStatus: returnStatus//业务状态
         });

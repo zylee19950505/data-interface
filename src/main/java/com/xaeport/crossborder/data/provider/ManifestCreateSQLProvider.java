@@ -12,8 +12,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
 
     public String queryCheckGoodsInfoList(Map<String, String> paramMap) throws Exception {
         final String billNo = paramMap.get("billNo");
-        final String startFlightTimes = paramMap.get("startFlightTimes");
-        final String endFlightTimes = paramMap.get("endFlightTimes");
+//        final String startFlightTimes = paramMap.get("startFlightTimes");
+//        final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
 //        final String returnStatus = paramMap.get("returnStatus");
@@ -33,12 +33,12 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.TOTAL_LOGISTICS_NO = #{billNo}");
                 }
-                if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-                }
+//                if (!StringUtils.isEmpty(startFlightTimes)) {
+//                    WHERE("t.CRT_TM >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
+//                }
+//                if (!StringUtils.isEmpty(endFlightTimes)) {
+//                    WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+//                }
                 GROUP_BY("TOTAL_LOGISTICS_NO");
             }
         }.toString();
