@@ -54,7 +54,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                 {data: "manifest_no", label: "核放单号"},
                 {data: "pack_no", label: "总件数"},
                 {data: "goods_wt", label: "总毛重"},
-                {data: "car_wt", label: "总净重"},
+                {data: "fact_weight", label: "总净重"},
                 {data: "sum_goods_value", label: "总货值"},
                 {data: "car_no", label: "车牌号"},
                 {data: "ic_code", label: "IC卡号"},

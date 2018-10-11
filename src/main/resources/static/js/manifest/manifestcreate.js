@@ -43,10 +43,11 @@ sw.page.modules["manifest/manifestcreate"] = sw.page.modules["manifest/manifestc
                 },
                 {data: "total_logistics_no", label: "提运单号"},//订单编号要点击查看订单详情
                 {data: "totalSum", label: "总单量"},
-                {data: "releaseSum", label: "总件数(放行)"},
-                {data: "grossWtSum", label: "总毛重"},
-                {data: "netWtSum", label: "总净重"},
-                {data: "goodsValueSum", label: "总货值"},
+                {data: "releaseSum", label: "放行单量"},
+                {data: "releasePackSum", label: "放行件数"},
+                {data: "grossWtSum", label: "放行毛重"},
+                {data: "netWtSum", label: "放行净重"},
+                {data: "goodsValueSum", label: "放行货值"}
             ]
         });
     },

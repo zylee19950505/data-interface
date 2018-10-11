@@ -49,7 +49,7 @@ public class ManifestCreateService {
         manifestHead.setBill_nos(paramMap.get("totalLogisticsNo"));
         manifestHead.setGoods_wt(checkGoodsInfo.getGrossWtSum());
         manifestHead.setFact_weight(checkGoodsInfo.getNetWtSum());
-        manifestHead.setPack_no(checkGoodsInfo.getReleaseSum());
+        manifestHead.setPack_no(checkGoodsInfo.getReleasePackSum());
         manifestHead.setSum_goods_value(checkGoodsInfo.getGoodsValueSum());
 
         manifestHead.setM_status("K01");

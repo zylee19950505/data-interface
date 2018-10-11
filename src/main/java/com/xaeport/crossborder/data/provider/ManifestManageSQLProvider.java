@@ -28,6 +28,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
                         " t.manifest_no," +
                         " t.pack_no," +
                         " t.goods_wt," +
+                        " t.fact_weight," +
                         " t.car_wt," +
                         " t.sum_goods_value," +
                         " t.car_no," +

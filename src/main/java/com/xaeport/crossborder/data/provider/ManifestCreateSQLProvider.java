@@ -22,7 +22,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
             {
                 SELECT("TOTAL_LOGISTICS_NO");
                 SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO and tt.IS_MANIFEST = 'N') totalSum");
-                SELECT("count(entry_id) releaseSum");
+                SELECT("count(t.ENTRY_ID) releaseSum");
+                SELECT("sum(t.PACK_NUM) releasePackSum");
                 SELECT("sum(t.GROSS_WT) grossWtSum");
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");
@@ -49,7 +50,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
             {
                 SELECT("TOTAL_LOGISTICS_NO");
                 SELECT("(select count(entry_id) from T_CHECK_GOODS_INFO tt where tt.TOTAL_LOGISTICS_NO = t.TOTAL_LOGISTICS_NO and tt.IS_MANIFEST = 'N') totalSum");
-                SELECT("count(entry_id) releaseSum");
+                SELECT("count(t.ENTRY_ID) releaseSum");
+                SELECT("sum(t.PACK_NUM) releasePackSum");
                 SELECT("sum(t.GROSS_WT) grossWtSum");
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");
@@ -72,7 +74,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
 
         return new SQL() {
             {
-                SELECT("count(t.entry_id) releaseSum");
+                SELECT("count(t.ENTRY_ID) releaseSum");
+                SELECT("sum(t.PACK_NUM) releasePackSum");
                 SELECT("sum(t.GROSS_WT) grossWtSum");
                 SELECT("sum(t.NET_WT) netWtSum");
                 SELECT("sum(t.GOODS_VALUE) goodsValueSum");

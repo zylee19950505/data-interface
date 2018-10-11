@@ -28,11 +28,20 @@ public class CheckGoodsInfo {
 
     private String totalSum;
     private String releaseSum;
+    private String releasePackSum;
     private String grossWtSum;
     private String netWtSum;
     private String goodsValueSum;
 
     private String is_manifest;
+
+    public String getReleasePackSum() {
+        return releasePackSum;
+    }
+
+    public void setReleasePackSum(String releasePackSum) {
+        this.releasePackSum = releasePackSum;
+    }
 
     public String getIs_manifest() {
         return is_manifest;

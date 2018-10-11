@@ -213,6 +213,7 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
                 "<tr><td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_total_logistics_no_" + i + "' value='" + entryLists[i].total_logistics_no + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_totalSum_" + i + "' value='" + parseFloat(entryLists[i].totalSum).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_releaseSum_" + i + "' value='" + parseFloat(entryLists[i].releaseSum).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_releasePackSum_" + i + "' value='" + parseFloat(entryLists[i].releasePackSum).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_grossWtSum_" + i + "' value='" + parseFloat(entryLists[i].grossWtSum).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_etWtSum_" + i + "' value='" + parseFloat(entryLists[i].netWtSum).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_goodsValueSum_" + i + "' value='" + parseFloat(entryLists[i].goodsValueSum).toFixed(5) + "' /></td></tr>";
@@ -300,7 +301,6 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
     // 查询订单详情
     query: function () {
-        debugger;
         // 表头变化
         headChangeKeyVal = {};
         // 表体变化
@@ -456,6 +456,7 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
                         "list_total_logistics_no",
                         "list_totalSum",
                         "list_releaseSum",
+                        "list_releasePackSum",
                         "list_grossWtSum",
                         "list_etWtSum",
                         "list_goodsValueSum"
