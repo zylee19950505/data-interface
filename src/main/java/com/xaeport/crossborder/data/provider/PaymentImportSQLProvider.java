@@ -98,6 +98,9 @@ public class PaymentImportSQLProvider {
                 if(!StringUtils.isEmpty(impPayment.getEnt_customs_code())){
                     VALUES("ent_customs_code","#{impPayment.ent_customs_code}");
                 }
+                if(!StringUtils.isEmpty(impPayment.getBusiness_type())){
+                    VALUES("business_type","#{impPayment.business_type}");
+                }
             }
         }.toString();
     }

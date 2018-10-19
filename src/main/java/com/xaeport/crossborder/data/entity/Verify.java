@@ -8,71 +8,73 @@ import java.util.Date;
  */
 public class Verify {
 
-    private String vsId;
-    private String vrId;
-    private String orderNo;
-    private String entryHeadId;
-    private String billNo;
-    private String assBillNo;
+    private String vs_id;
+    private String vr_id;
+    private String cb_verify_no;
+    private String cb_head_id;
+    private String bill_no;
+    private String order_no;
     private String idCard;
     private String name;
     private String type;
     private String code;
     private String status;
     private String result;
-    private Date createTime;
-    private Date updateTime;
-    private String entryMessage;
-    private String enterpriseId;
+    private Date create_time;
+    private Date update_time;
+    private String entry_message;
+    private String enterprise_id;
+    private String enterprise_name;
     private String receiveName;
     private String sendId;
+    private String reMark;
 
-    public String getVsId() {
-        return vsId;
+    public String getVs_id() {
+        return vs_id;
     }
 
-    public void setVsId(String vsId) {
-        this.vsId = vsId;
+    public void setVs_id(String vs_id) {
+        this.vs_id = vs_id;
     }
 
-    public String getVrId() {
-        return vrId;
+    public String getVr_id() {
+        return vr_id;
     }
 
-    public void setVrId(String vrId) {
-        this.vrId = vrId;
+    public void setVr_id(String vr_id) {
+        this.vr_id = vr_id;
     }
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getCb_verify_no() {
+        return cb_verify_no;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setCb_verify_no(String cb_verify_no) {
+        this.cb_verify_no = cb_verify_no;
     }
 
-    public String getEntryHeadId() {
-        return entryHeadId;
+    public String getCb_head_id() {
+        return cb_head_id;
     }
 
-    public void setEntryHeadId(String entryHeadId) {
-        this.entryHeadId = entryHeadId;
+    public void setCb_head_id(String cb_head_id) {
+        this.cb_head_id = cb_head_id;
     }
 
-    public String getBillNo() {
-        return billNo;
+    public String getBill_no() {
+        return bill_no;
     }
 
-    public void setBillNo(String billNo) {
-        this.billNo = billNo;
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
     }
 
-    public String getAssBillNo() {
-        return assBillNo;
+    public String getOrder_no() {
+        return order_no;
     }
 
-    public void setAssBillNo(String assBillNo) {
-        this.assBillNo = assBillNo;
+    public void setOrder_no(String order_no) {
+        this.order_no = order_no;
     }
 
     public String getIdCard() {
@@ -123,36 +125,44 @@ public class Verify {
         this.result = result;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCreate_time() {
+        return create_time;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getUpdate_time() {
+        return update_time;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setUpdate_time(Date update_time) {
+        this.update_time = update_time;
     }
 
-    public String getEntryMessage() {
-        return entryMessage;
+    public String getEntry_message() {
+        return entry_message;
     }
 
-    public void setEntryMessage(String entryMessage) {
-        this.entryMessage = entryMessage;
+    public void setEntry_message(String entry_message) {
+        this.entry_message = entry_message;
     }
 
-    public String getEnterpriseId() {
-        return enterpriseId;
+    public String getEnterprise_id() {
+        return enterprise_id;
     }
 
-    public void setEnterpriseId(String enterpriseId) {
-        this.enterpriseId = enterpriseId;
+    public void setEnterprise_id(String enterprise_id) {
+        this.enterprise_id = enterprise_id;
+    }
+
+    public String getEnterprise_name() {
+        return enterprise_name;
+    }
+
+    public void setEnterprise_name(String enterprise_name) {
+        this.enterprise_name = enterprise_name;
     }
 
     public String getReceiveName() {
@@ -169,5 +179,13 @@ public class Verify {
 
     public void setSendId(String sendId) {
         this.sendId = sendId;
+    }
+
+    public String getReMark() {
+        return reMark;
+    }
+
+    public void setReMark(String reMark) {
+        this.reMark = reMark;
     }
 }

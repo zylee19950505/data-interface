@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.detaillistmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
@@ -132,6 +133,7 @@ public class DetailImportService {
         impInventoryHead.setEnt_id(enterprise.getId());
         impInventoryHead.setEnt_name(enterprise.getEnt_name());
         impInventoryHead.setEnt_customs_code(enterprise.getCustoms_code());
+        impInventoryHead.setBusiness_type(SystemConstants.T_IMP_INVENTORY);
         return impInventoryHead;
     }
 

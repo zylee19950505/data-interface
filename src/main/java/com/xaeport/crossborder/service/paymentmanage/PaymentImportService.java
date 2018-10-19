@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.paymentmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.data.entity.Users;
@@ -116,7 +117,6 @@ public class PaymentImportService {
         impPayment.setCurrency("142");//币制
         impPayment.setPayer_id_type("1");//1-身份证,2-其它。限定为身份证，填写1。
         impPayment.setData_status("CBDS1");//设为已导入状态
-
         impPayment.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impPayment.setCrt_tm(new Date());//创建时间
         impPayment.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
@@ -124,6 +124,7 @@ public class PaymentImportService {
         impPayment.setEnt_id(enterprise.getId());
         impPayment.setEnt_name(enterprise.getEnt_name());
         impPayment.setEnt_customs_code(enterprise.getCustoms_code());
+        impPayment.setBusiness_type(SystemConstants.T_IMP_PAYMENT);
         return impPayment;
     }
 

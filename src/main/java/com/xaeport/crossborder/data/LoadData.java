@@ -76,6 +76,13 @@ public class LoadData {
     // 报关类别集合
     public static List<String> entryTypeList = new ArrayList<String>();
 
+    static {
+        entryTypeList.add(SystemConstants.T_IMP_ORDER);
+        entryTypeList.add(SystemConstants.T_IMP_PAYMENT);
+        entryTypeList.add(SystemConstants.T_IMP_LOGISTICS);
+        entryTypeList.add(SystemConstants.T_IMP_INVENTORY);
+    }
+
     @PostConstruct
     public void initData() {
 

@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.ordermanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
@@ -133,6 +134,7 @@ public class OrderImportService {
         impOrderHead.setEnt_id(enterprise.getId());
         impOrderHead.setEnt_name(enterprise.getEnt_name());
         impOrderHead.setEnt_customs_code(enterprise.getCustoms_code());
+        impOrderHead.setBusiness_type(SystemConstants.T_IMP_ORDER);
         return impOrderHead;
     }
 

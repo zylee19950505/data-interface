@@ -38,6 +38,7 @@ public class ImpLogistics {
     private String rec_return_status;   //回执状态
     private String rec_return_info;//回执备注原因
     private String rec_return_time;//回执时间
+    private String business_type;//业务类型
 
     public String getRec_return_status() {
         return rec_return_status;
@@ -329,5 +330,13 @@ public class ImpLogistics {
 
     public void setEnt_customs_code(String ent_customs_code) {
         this.ent_customs_code = ent_customs_code;
+    }
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
     }
 }

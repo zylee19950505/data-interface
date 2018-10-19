@@ -31,11 +31,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS1") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
-                        }
-                        else if (row.data_status == "CBDS6") {
+                        if (row.data_status == "CBDS6") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.bill_no + '" />';
                         }
@@ -76,8 +72,8 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                     var value = "";
                     switch (row.data_status) {
                         case "CBDS1"://待申报
-                            textColor = "text-yellow";
-                            value = "清单待申报";
+                            textColor = "text-red";
+                            value = "校验未通过";
                             break;
                         case "CBDS6":
                             textColor = "text-yellow";

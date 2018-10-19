@@ -62,6 +62,7 @@ public class ImpInventoryHead {
     private String ent_id;//导入企业ID码
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
+    private String business_type;//业务类型
 
     public String getGuid() {
         return guid;
@@ -525,5 +526,13 @@ public class ImpInventoryHead {
 
     public void setEnt_customs_code(String ent_customs_code) {
         this.ent_customs_code = ent_customs_code;
+    }
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
     }
 }

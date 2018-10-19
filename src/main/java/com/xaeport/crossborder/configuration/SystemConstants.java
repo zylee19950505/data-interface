@@ -19,6 +19,11 @@ public interface SystemConstants {
     String CODE_TYPE_TRANS_MODE = "TRANS_MODE";
     String CODE_TYPE_TRADE_MODE = "TRADE_MODE";
 
+    String T_IMP_ORDER = "ORDER";
+    String T_IMP_PAYMENT = "PAYMENT";
+    String T_IMP_LOGISTICS = "LOGISTICS";
+    String T_IMP_INVENTORY = "INVENTORY";
+
     /** 系统用户状态 已删除 */
     int SYSTEM_USER_STATUS_DEL = 0;
     /** 系统用户状态 正常 */

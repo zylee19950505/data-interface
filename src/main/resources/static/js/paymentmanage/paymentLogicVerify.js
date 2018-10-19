@@ -2,7 +2,7 @@
  * 逻辑校验
  * Created by zwj on 2017/7/20.
  */
-sw.page.modules["ordermanage/logicVerify"] = sw.page.modules["ordermanage/logicVerify"] || {
+sw.page.modules["paymentmanage/paymentLogicVerify"] = sw.page.modules["paymentmanage/paymentLogicVerify"] || {
         //查询
         query: function () {
             var url = sw.serializeObjectToURL($("[ws-search]").attr("ws-search"), {

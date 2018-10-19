@@ -81,15 +81,17 @@ public class StatusCode {
 	public final static String HGTD = "100";//海关退单
 	public final static String HGRK = "120";//海关入库
 	public final static String RGSH = "300";//人工审核
-	public final static String HGSJ = "399";//海关审结
-	public final static String FX = "800";//放行
-	public final static String JG = "899";//结关
+	public final static String HGSJ = "399";//海关审结（审核通过）
+	public final static String DYD = "400";//待运抵
 	public final static String CY = "500";//查验
 	public final static String KLYSTG = "501";//扣留移送通关
 	public final static String KLYSJS = "502";//扣留移送缉私
 	public final static String KLYSFG = "503";//扣留移送法规
 	public final static String QTKL = "599";//其他扣留
+	public final static String GQ = "600";//挂起
 	public final static String TY = "700";//退运
+	public final static String FX = "800";//放行
+	public final static String JG = "899";//结关
 
 
 }

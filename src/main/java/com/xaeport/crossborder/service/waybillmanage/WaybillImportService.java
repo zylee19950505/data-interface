@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.waybillmanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpLogistics;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
@@ -103,6 +104,7 @@ public class WaybillImportService {
         impLogistics.setEnt_id(enterprise.getId());
         impLogistics.setEnt_name(enterprise.getEnt_name());
         impLogistics.setEnt_customs_code(enterprise.getCustoms_code());
+        impLogistics.setBusiness_type(SystemConstants.T_IMP_LOGISTICS);
         return impLogistics;
     }
 

@@ -133,6 +133,9 @@ public class OrderImportSQLProvider {
                 if(!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())){
                     VALUES("ent_customs_code","#{impOrderHead.ent_customs_code}");
                 }
+                if(!StringUtils.isEmpty(impOrderHead.getBusiness_type())){
+                    VALUES("business_type","#{impOrderHead.business_type}");
+                }
             }
         }.toString();
     }

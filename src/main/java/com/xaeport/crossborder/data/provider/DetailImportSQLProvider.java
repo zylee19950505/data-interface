@@ -180,6 +180,9 @@ public class DetailImportSQLProvider extends BaseSQLProvider{
                 if(!StringUtils.isEmpty(impInventoryHead.getEnt_customs_code())){
                     VALUES("ent_customs_code","#{impInventoryHead.ent_customs_code}");
                 }
+                if(!StringUtils.isEmpty(impInventoryHead.getBusiness_type())){
+                    VALUES("business_type","#{impInventoryHead.business_type}");
+                }
             }
         }.toString();
     }
