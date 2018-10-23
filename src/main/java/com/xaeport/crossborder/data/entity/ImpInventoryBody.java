@@ -23,6 +23,9 @@ public class ImpInventoryBody {
     private String price;//商品单价。赠品单价填写为 0。
     private String total_price;//商品总价，等于单价乘以数量。
     private String note;//促销活动，商品单价偏离市场价格的，可以在此说明。
+    private String customs_tax;//应征关税
+    private String value_added_tax;//应征增值税
+    private String consumption_tax;//应征消费税
 
     public int getG_num() {
         return g_num;
@@ -190,5 +193,29 @@ public class ImpInventoryBody {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getCustoms_tax() {
+        return customs_tax;
+    }
+
+    public void setCustoms_tax(String customs_tax) {
+        this.customs_tax = customs_tax;
+    }
+
+    public String getValue_added_tax() {
+        return value_added_tax;
+    }
+
+    public void setValue_added_tax(String value_added_tax) {
+        this.value_added_tax = value_added_tax;
+    }
+
+    public String getConsumption_tax() {
+        return consumption_tax;
+    }
+
+    public void setConsumption_tax(String consumption_tax) {
+        this.consumption_tax = consumption_tax;
     }
 }

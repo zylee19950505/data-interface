@@ -9,6 +9,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ReceiptMapper {
 
+    //插入电子税单表头数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "InsertTaxHeadRd")
+    void InsertTaxHeadRd(@Param("taxHeadRd") TaxHeadRd taxHeadRd);
+
+    //插入电子税单表体数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "InsertTaxListRd")
+    void InsertTaxListRd(@Param("taxListRd") TaxListRd taxListRd);
+
+    //更新清单表头税额
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateInventoryHeadTax")
+    void updateInventoryHeadTax(@Param("taxHeadRd") TaxHeadRd taxHeadRd);
+
+    //更新清单表体税额
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateInventoryListTax")
+    void updateInventoryListTax(@Param("taxHeadRd") TaxHeadRd taxHeadRd, @Param("taxListRd") TaxListRd taxListRd);
+
     //核放单预定数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createCheckGoodsInfoHis")
     void createCheckGoodsInfoHis(@Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo);
@@ -73,6 +89,10 @@ public interface ReceiptMapper {
     //清单数据查询
     @SelectProvider(type = ReceiptSQLProvider.class, method = "findByCopNo")
     ImpInventoryHead findByCopNo(String copNo) throws Exception;
+
+    //清单数据查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "findByInvtNo")
+    ImpInventoryHead findByInvtNo(String invtNo) throws Exception;
 
     //查询该COP_NO的最晚时间的三位有效状态码
     @SelectProvider(type = ReceiptSQLProvider.class, method = "queryMaxTimeReturnStatus")

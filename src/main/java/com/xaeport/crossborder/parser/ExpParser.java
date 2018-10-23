@@ -32,20 +32,22 @@ public class ExpParser {
         String type = "";
         String sample = new String(expPath, "UTF-8").trim();
         //判断回执报文类型
-        if(sample.contains("<CEB312Message")){//订单回执
+        if (sample.contains("<CEB312Message")) {//订单回执
             type = "CEB312";
-        }else if(sample.contains("<CEB412Message")){//支付单回执
+        } else if (sample.contains("<CEB412Message")) {//支付单回执
             type = "CEB412";
-        }else if(sample.contains("<CEB512Message")){//运单回执
+        } else if (sample.contains("<CEB512Message")) {//运单回执
             type = "CEB512";
-        }else if(sample.contains("<CEB514Message")){//运单状态回执
+        } else if (sample.contains("<CEB514Message")) {//运单状态回执
             type = "CEB514";
-        }else if(sample.contains("<CEB622Message")){//清单回执
+        } else if (sample.contains("<CEB622Message")) {//清单回执
             type = "CEB622";
-        }else if(sample.contains("<CEB712Message")){//入库明细单回执
+        } else if (sample.contains("<CEB712Message")) {//入库明细单回执
             type = "CEB712";
-        }else if(sample.contains("<CheckGoodsInfo")){
+        } else if (sample.contains("<CheckGoodsInfo")) {//预订数据报文
             type = "CheckGoodsInfo";
+        } else if (sample.contains("<CEB816Message")) {//电子税单回执
+            type = "TAX";
         }
         return type;
     }
@@ -75,8 +77,11 @@ public class ExpParser {
             case "CEB712"://入库明细单回执
                 map = this.parserHolder.getParser("ceb712").expParser(expPath, "DeliveryReturn");
                 break;
-            case "CheckGoodsInfo"://核放单
+            case "CheckGoodsInfo"://预定数据报文
                 map = this.parserHolder.getParser("CheckGoodsInfo").expParser(expPath, "CheckGoodsInfoHead");
+                break;
+            case "TAX"://电子税单回执报文
+                map = this.parserHolder.getParser("TAX").expParser(expPath, "Tax", "TaxHeadRd", "TaxListRd");
                 break;
         }
         mapData.put("Receipt", map);

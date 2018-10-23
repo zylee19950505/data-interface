@@ -63,6 +63,11 @@ public class ImpInventoryHead {
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
     private String business_type;//业务类型
+    private String customs_tax;//应征关税
+    private String value_added_tax;//应征增值税
+    private String consumption_tax;//应征消费税
+    private String tax_return_time;//税额回执时间
+
 
     public String getGuid() {
         return guid;
@@ -534,5 +539,37 @@ public class ImpInventoryHead {
 
     public void setBusiness_type(String business_type) {
         this.business_type = business_type;
+    }
+
+    public String getCustoms_tax() {
+        return customs_tax;
+    }
+
+    public void setCustoms_tax(String customs_tax) {
+        this.customs_tax = customs_tax;
+    }
+
+    public String getValue_added_tax() {
+        return value_added_tax;
+    }
+
+    public void setValue_added_tax(String value_added_tax) {
+        this.value_added_tax = value_added_tax;
+    }
+
+    public String getConsumption_tax() {
+        return consumption_tax;
+    }
+
+    public void setConsumption_tax(String consumption_tax) {
+        this.consumption_tax = consumption_tax;
+    }
+
+    public String getTax_return_time() {
+        return tax_return_time;
+    }
+
+    public void setTax_return_time(String tax_return_time) {
+        this.tax_return_time = tax_return_time;
     }
 }

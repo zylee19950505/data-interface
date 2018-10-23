@@ -2,14 +2,171 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.*;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
-import org.apache.poi.util.StringUtil;
 import org.springframework.util.StringUtils;
-import sun.awt.SunHints;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    //插入电子税单表头
+    public String InsertTaxHeadRd(
+            @Param("taxHeadRd") TaxHeadRd taxHeadRd
+    ) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_TAX_HEADRD");
+                if (!StringUtils.isEmpty(taxHeadRd.getGuid())) {
+                    VALUES("GUID", "#{taxHeadRd.guid}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getPrivate_guid())) {
+                    VALUES("PRIVATE_GUID", "#{taxHeadRd.private_guid}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getReturn_time())) {
+                    VALUES("RETURN_TIME", "#{taxHeadRd.return_time}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getInvt_no())) {
+                    VALUES("INVT_NO", "#{taxHeadRd.invt_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getTax_no())) {
+                    VALUES("TAX_NO", "#{taxHeadRd.tax_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getCustoms_tax())) {
+                    VALUES("CUSTOMS_TAX", "#{taxHeadRd.customs_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getValue_added_tax())) {
+                    VALUES("VALUE_ADDED_TAX", "#{taxHeadRd.value_added_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getConsumption_tax())) {
+                    VALUES("CONSUMPTION_TAX", "#{taxHeadRd.consumption_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getStatus())) {
+                    VALUES("STATUS", "#{taxHeadRd.status}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getEntduty_no())) {
+                    VALUES("ENTDUTY_NO", "#{taxHeadRd.entduty_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getNote())) {
+                    VALUES("NOTE", "#{taxHeadRd.note}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getAssure_code())) {
+                    VALUES("ASSURE_CODE", "#{taxHeadRd.assure_code}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getEbc_code())) {
+                    VALUES("EBC_CODE", "#{taxHeadRd.ebc_code}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getLogistics_code())) {
+                    VALUES("LOGISTICS_CODE", "#{taxHeadRd.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getAgent_code())) {
+                    VALUES("AGENT_CODE", "#{taxHeadRd.agent_code}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{taxHeadRd.customs_code}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getOrder_no())) {
+                    VALUES("ORDER_NO", "#{taxHeadRd.order_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getLogistics_no())) {
+                    VALUES("LOGISTICS_NO", "#{taxHeadRd.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{taxHeadRd.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{taxHeadRd.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //插入电子税单表体
+    public String InsertTaxListRd(
+            @Param("taxListRd") TaxListRd taxListRd
+    ) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_TAX_LISTRD");
+                if (!StringUtils.isEmpty(taxListRd.getHead_guid())) {
+                    VALUES("HEAD_GUID", "#{taxListRd.head_guid}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getG_num())) {
+                    VALUES("G_NUM", "#{taxListRd.g_num}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getG_code())) {
+                    VALUES("G_CODE", "#{taxListRd.g_code}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getTax_price())) {
+                    VALUES("TAX_PRICE", "#{taxListRd.tax_price}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getCustoms_tax())) {
+                    VALUES("CUSTOMS_TAX", "#{taxListRd.customs_tax}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getValue_added_tax())) {
+                    VALUES("VALUE_ADDED_TAX", "#{taxListRd.value_added_tax}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getConsumption_tax())) {
+                    VALUES("CONSUMPTION_TAX", "#{taxListRd.consumption_tax}");
+                }
+            }
+        }.toString();
+    }
+
+    //更新清单表头税额
+    public String updateInventoryHeadTax(
+            @Param("taxHeadRd") TaxHeadRd taxHeadRd
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD t");
+                if (!StringUtils.isEmpty(taxHeadRd.getInvt_no())) {
+                    WHERE("t.INVT_NO = #{taxHeadRd.invt_no}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getCustoms_tax())) {
+                    SET("t.CUSTOMS_TAX = #{taxHeadRd.customs_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getValue_added_tax())) {
+                    SET("t.VALUE_ADDED_TAX = #{taxHeadRd.value_added_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getConsumption_tax())) {
+                    SET("t.CONSUMPTION_TAX = #{taxHeadRd.consumption_tax}");
+                }
+                if (!StringUtils.isEmpty(taxHeadRd.getReturn_time())) {
+                    SET("t.TAX_RETURN_TIME = #{taxHeadRd.return_time}");
+                    SET("t.UPD_ID = '税额变更'");
+                    SET("t.UPD_TM = sysdate");
+                }
+            }
+        }.toString();
+    }
+
+    //更新清单表体税额
+    public String updateInventoryListTax(
+            @Param("taxHeadRd") TaxHeadRd taxHeadRd,
+            @Param("taxListRd") TaxListRd taxListRd
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_BODY t");
+                if (!StringUtils.isEmpty(taxHeadRd.getInvt_no())) {
+                    WHERE("t.HEAD_GUID = " +
+                            "(SELECT tt.GUID FROM T_IMP_INVENTORY_HEAD tt WHERE tt.INVT_NO = #{taxHeadRd.invt_no})");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getG_num())) {
+                    WHERE("t.G_NUM = #{taxListRd.g_num}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getCustoms_tax())) {
+                    SET("t.CUSTOMS_TAX = #{taxListRd.customs_tax}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getValue_added_tax())) {
+                    SET("t.VALUE_ADDED_TAX = #{taxListRd.value_added_tax}");
+                }
+                if (!StringUtils.isEmpty(taxListRd.getConsumption_tax())) {
+                    SET("t.CONSUMPTION_TAX = #{taxListRd.consumption_tax}");
+                }
+            }
+        }.toString();
+    }
+
+    //查询最晚一票三位数字的清单回执状态
     public String queryMaxTimeReturnStatus(String copNo) {
         return new SQL() {
             {
@@ -23,7 +180,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //插入支付单回执表数据
+    //插入预定历史表数据
     public String createCheckGoodsInfoHis(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
     ) {
@@ -94,7 +251,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //插入支付单回执表数据
+    //插入预定数据
     public String createCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
     ) {
@@ -176,7 +333,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //更新支付单表回执信息
+    //更新预定数据
     public String updateCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
     ) {
@@ -245,6 +402,16 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("t.*");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.COP_NO = #{copNo}");
+            }
+        }.toString();
+    }
+
+    public String findByInvtNo(String invtNo) {
+        return new SQL() {
+            {
+                SELECT("t.*");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.INVT_NO = #{invtNo}");
             }
         }.toString();
     }
@@ -549,7 +716,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impLogistics.getUpd_tm())) {
                     SET("t.UPD_TM = #{impLogistics.upd_tm}");
                 }
-                if (!StringUtils.isEmpty(impLogistics.getData_status())){
+                if (!StringUtils.isEmpty(impLogistics.getData_status())) {
                     SET("t.DATA_STATUS = #{impLogistics.data_status}");
                 }
             }
@@ -626,9 +793,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())) {
                     SET("t.DATA_STATUS = #{impLogisticsStatus.data_status}");
                 }
-               // if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
-               //     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
-               // }
+                // if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
+                //     SET("t.UPD_TM = #{impLogisticsStatus.upd_tm}");
+                // }
             }
         }.toString();
     }

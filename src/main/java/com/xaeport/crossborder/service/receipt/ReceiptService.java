@@ -13,6 +13,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class ReceiptService {
         try {
             String type = (String) map.get("type");
             Map<String, List<List<Map<String, String>>>> receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
+
             switch (type) {
                 case "CEB312"://订单回执代码
                     this.createImpRecorder(receipt, refileName);
@@ -55,6 +57,9 @@ public class ReceiptService {
                 case "CheckGoodsInfo"://核放单预订数据
                     this.createCheckGoodsInfo(receipt, refileName);
                     break;
+                case "TAX"://核放单预订数据
+                    this.createTax(receipt, refileName);
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -65,7 +70,133 @@ public class ReceiptService {
     }
 
     /**
-     * 插入订单回执报文数据
+     * 插入电子税单回执报文数据
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createTax(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> taxList = receipt.get("Tax");
+        List<List<Map<String, String>>> taxHeads = receipt.get("TaxHeadRd");
+        List<List<Map<String, String>>> taxLists = receipt.get("TaxListRd");
+
+        if (!StringUtils.isEmpty(taxList)) {
+            TaxHeadRd taxHeadRd;
+            TaxListRd taxListRd;
+            for (int i = 0; i < taxHeads.size(); i++) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                taxHeadRd = new TaxHeadRd();
+                String guid = IdUtils.getUUId();
+                taxHeadRd.setGuid(guid);
+                taxHeadRd.setCrt_tm(new Date());
+                taxHeadRd.setUpd_tm(new Date());
+                String updateMark = null;
+
+                List<Map<String, String>> taxHead = taxHeads.get(i);
+                for (Map<String, String> map : taxHead) {
+                    if (map.containsKey("guid")) {
+                        taxHeadRd.setPrivate_guid(map.get("guid"));
+                    }
+                    if (map.containsKey("returnTime")) {
+                        taxHeadRd.setReturn_time(map.get("returnTime"));
+                    }
+                    if (map.containsKey("invtNo")) {
+                        taxHeadRd.setInvt_no(map.get("invtNo"));
+                    }
+                    if (map.containsKey("taxNo")) {
+                        taxHeadRd.setTax_no(map.get("taxNo"));
+                    }
+                    if (map.containsKey("customsTax")) {
+                        taxHeadRd.setCustoms_tax(map.get("customsTax"));
+                    }
+                    if (map.containsKey("valueAddedTax")) {
+                        taxHeadRd.setValue_added_tax(map.get("valueAddedTax"));
+                    }
+                    if (map.containsKey("consumptionTax")) {
+                        taxHeadRd.setConsumption_tax(map.get("consumptionTax"));
+                    }
+                    if (map.containsKey("status")) {
+                        taxHeadRd.setStatus(map.get("status"));
+                    }
+                    if (map.containsKey("entDutyNo")) {
+                        taxHeadRd.setEntduty_no(map.get("entDutyNo"));
+                    }
+                    if (map.containsKey("note")) {
+                        taxHeadRd.setNote(map.get("note"));
+                    }
+                    if (map.containsKey("assureCode")) {
+                        taxHeadRd.setAssure_code(map.get("assureCode"));
+                    }
+                    if (map.containsKey("ebcCode")) {
+                        taxHeadRd.setEbc_code(map.get("ebcCode"));
+                    }
+                    if (map.containsKey("logisticsCode")) {
+                        taxHeadRd.setLogistics_code(map.get("logisticsCode"));
+                    }
+                    if (map.containsKey("agentCode")) {
+                        taxHeadRd.setAgent_code(map.get("agentCode"));
+                    }
+                    if (map.containsKey("customsCode")) {
+                        taxHeadRd.setCustoms_code(map.get("customsCode"));
+                    }
+                    if (map.containsKey("orderNo")) {
+                        taxHeadRd.setOrder_no(map.get("orderNo"));
+                    }
+                    if (map.containsKey("logisticsNo")) {
+                        taxHeadRd.setLogistics_no(map.get("logisticsNo"));
+                    }
+                }
+                this.receiptMapper.InsertTaxHeadRd(taxHeadRd);
+                long returnTime = Long.parseLong(taxHeadRd.getReturn_time());
+                String invtNo = taxHeadRd.getInvt_no();
+                ImpInventoryHead impInventoryHead = this.receiptMapper.findByInvtNo(invtNo);
+                if (!StringUtils.isEmpty(impInventoryHead)) {
+                    long taxPreTime = StringUtils.isEmpty(impInventoryHead.getTax_return_time()) ? 0 : Long.parseLong(impInventoryHead.getTax_return_time());
+                    if (returnTime >= taxPreTime) {
+                        this.receiptMapper.updateInventoryHeadTax(taxHeadRd);
+                        updateMark = "1";
+                    } else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
+
+                for (int j = 0; j < taxLists.size(); j++) {
+                    taxListRd = new TaxListRd();
+                    taxListRd.setHead_guid(guid);
+                    List<Map<String, String>> taxlist = taxLists.get(j);
+                    for (Map<String, String> map : taxlist) {
+                        if (map.containsKey("gnum")) {
+                            taxListRd.setG_num(map.get("gnum"));
+                        }
+                        if (map.containsKey("gcode")) {
+                            taxListRd.setG_code(map.get("gcode"));
+                        }
+                        if (map.containsKey("taxPrice")) {
+                            taxListRd.setTax_price(map.get("taxPrice"));
+                        }
+                        if (map.containsKey("customsTax")) {
+                            taxListRd.setCustoms_tax(map.get("customsTax"));
+                        }
+                        if (map.containsKey("valueAddedTax")) {
+                            taxListRd.setValue_added_tax(map.get("valueAddedTax"));
+                        }
+                        if (map.containsKey("consumptionTax")) {
+                            taxListRd.setConsumption_tax(map.get("consumptionTax"));
+                        }
+                    }
+                    this.receiptMapper.InsertTaxListRd(taxListRd);
+                    if (updateMark.equals("1")) {
+                        this.receiptMapper.updateInventoryListTax(taxHeadRd, taxListRd);
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    /**
+     * 插入预定数据回执报文数据
      */
     @Transactional(rollbackFor = NullPointerException.class)
     private void createCheckGoodsInfo(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
@@ -364,7 +495,6 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.createImpRecLogisticsStatus(impRecLogisticsStatus); //插入运单状态表数据
-                //this.updateImpLogisticsStatus(impRecLogisticsStatus);    //更新运单状态表状态
                 //运单状态收到回执后，更新运单表状态
                 this.updateImpLogisticsDataStatus(impRecLogisticsStatus, StatusCode.YDZTSBCG);    //更新运单表状态
             }
@@ -486,11 +616,11 @@ public class ReceiptService {
 
         boolean isContains = (impInventoryHead.getReturn_status()).contains("-");
         String MaxTimeReturnStatus = null;
-        if(isContains){
+        if (isContains) {
             MaxTimeReturnStatus = this.receiptMapper.queryMaxTimeReturnStatus(impInventoryHead.getCop_no());
-            if(!StringUtils.isEmpty(MaxTimeReturnStatus)){
+            if (!StringUtils.isEmpty(MaxTimeReturnStatus)) {
                 impInventoryHead.setReturn_status(MaxTimeReturnStatus);
-            }else {
+            } else {
                 impInventoryHead.setReturn_status("100");
             }
         }

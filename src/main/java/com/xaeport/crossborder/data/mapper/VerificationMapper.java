@@ -1,8 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
 
-import com.xaeport.crossborder.data.entity.ImpCrossBorderHead;
-import com.xaeport.crossborder.data.entity.ImpCrossborderBody;
 import com.xaeport.crossborder.data.entity.StatusRecord;
 import com.xaeport.crossborder.data.entity.Verify;
 import com.xaeport.crossborder.data.provider.VerificationSQLProvider;
