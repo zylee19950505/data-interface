@@ -36,6 +36,14 @@ public class DetailQueryService {
         return this.detailQueryMapper.queryInventoryQueryCount(paramMap);
     }
 
+    //queryInventoryExcelList
+        /*
+     * 查询清单数据
+     */
+    public List<ImpInventory> queryInventoryExcelList(Map<String, String> paramMap) throws Exception {
+        return this.detailQueryMapper.queryInventoryExcelList(paramMap);
+    }
+
     //根据唯一 Id 码查询清单详情
     public ImpInventoryDetail getImpInventoryDetail(String guid) {
         Map<String,String> paramMap =  new HashMap<>();

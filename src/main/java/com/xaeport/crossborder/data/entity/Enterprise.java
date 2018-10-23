@@ -27,6 +27,7 @@ public class Enterprise {
     private String ent_status;//企业状态（1 OR 0）
     private String port_str;//主管海关
     private String dxp_id;//企业dxp_id
+    private String ent_business_type;//企业业务类型
 
     public String getDxp_id() {
         return dxp_id;
@@ -210,5 +211,13 @@ public class Enterprise {
 
     public void setUpd_id(String upd_id) {
         this.upd_id = upd_id;
+    }
+
+    public String getEnt_business_type() {
+        return ent_business_type;
+    }
+
+    public void setEnt_business_type(String ent_business_type) {
+        this.ent_business_type = ent_business_type;
     }
 }

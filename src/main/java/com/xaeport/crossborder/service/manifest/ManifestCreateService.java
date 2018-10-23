@@ -1,6 +1,5 @@
 package com.xaeport.crossborder.service.manifest;
 
-import com.sun.tools.javac.comp.Check;
 import com.xaeport.crossborder.data.entity.CheckGoodsInfo;
 import com.xaeport.crossborder.data.entity.ManifestData;
 import com.xaeport.crossborder.data.entity.ManifestHead;
@@ -9,7 +8,7 @@ import com.xaeport.crossborder.tools.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,9 +29,18 @@ public class ManifestCreateService {
 
         ManifestHead manifestHead = new ManifestHead();
         ManifestData manifestData = new ManifestData();
+        String totalLogisticsNo = paramMap.get("totalLogisticsNo");
 
-        CheckGoodsInfo checkGoodsInfo = this.manifestCreateMapper.queryManifestSum(paramMap);
-        List<CheckGoodsInfo> checkGoodsInfoList = this.manifestCreateMapper.queryCheckGoodsList(paramMap);
+        CheckGoodsInfo checkGoodsInfo = null;
+        List<CheckGoodsInfo> checkGoodsInfoList = null;
+        if (!StringUtils.isEmpty(totalLogisticsNo)) {
+            checkGoodsInfo = this.manifestCreateMapper.queryManifestSum(paramMap);
+            checkGoodsInfoList = this.manifestCreateMapper.queryCheckGoodsList(paramMap);
+            manifestHead.setGoods_wt(checkGoodsInfo.getGrossWtSum());
+            manifestHead.setFact_weight(checkGoodsInfo.getNetWtSum());
+            manifestHead.setPack_no(checkGoodsInfo.getReleasePackSum());
+            manifestHead.setSum_goods_value(checkGoodsInfo.getGoodsValueSum());
+        }
 
         manifestHead.setAuto_id(IdUtils.getUUId());
         manifestHead.setManifest_no("H" + paramMap.get("ent_customs_code") + sdf.format(new Date()) + IdUtils.getShortUUId().substring(0, 3));
@@ -47,10 +55,6 @@ public class ManifestCreateService {
         manifestHead.setGoal_land("XK01");
 
         manifestHead.setBill_nos(paramMap.get("totalLogisticsNo"));
-        manifestHead.setGoods_wt(checkGoodsInfo.getGrossWtSum());
-        manifestHead.setFact_weight(checkGoodsInfo.getNetWtSum());
-        manifestHead.setPack_no(checkGoodsInfo.getReleasePackSum());
-        manifestHead.setSum_goods_value(checkGoodsInfo.getGoodsValueSum());
 
         manifestHead.setM_status("K01");
         manifestHead.setB_status("B01");
@@ -70,7 +74,9 @@ public class ManifestCreateService {
         manifestHead.setNote("");
 
         manifestData.setManifestHead(manifestHead);
-        manifestData.setCheckGoodsInfoList(checkGoodsInfoList);
+        if (!StringUtils.isEmpty(checkGoodsInfoList)) {
+            manifestData.setCheckGoodsInfoList(checkGoodsInfoList);
+        }
 
         return manifestData;
     }
@@ -80,7 +86,9 @@ public class ManifestCreateService {
         Map<String, String> rtnMap = new HashMap<String, String>();
         String manifestNo = entryHead.get("manifest_no");
         String bill_nos = entryHead.get("bill_nos");
-        this.manifestCreateMapper.updateCheckGoodsData(manifestNo,bill_nos);
+        if (!StringUtils.isEmpty(manifestNo) && !StringUtils.isEmpty(bill_nos)) {
+            this.manifestCreateMapper.updateCheckGoodsData(manifestNo, bill_nos);
+        }
         this.manifestCreateMapper.saveManifest(entryHead);
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑成功，请到“核放单管理”处进行后续操作");

@@ -37,6 +37,7 @@ public class EntManageProvider extends BaseSQLProvider {
                 SELECT("t.UPD_TM");
                 SELECT("t.CRT_ID");
                 SELECT("t.UPD_ID");
+                SELECT("t.ENT_BUSINESS_TYPE");
                 SELECT("t.STATUS as STATUS");
                 SELECT("DECODE(STATUS,'1','已激活','0','已冻结','') as ENT_STATUS");
                 SELECT("(select CUSTOMS_FULL_NAME from T_CUSTOMS c where t.PORT = c.CUSTOMS_CODE ) as PORT_STR");
@@ -109,6 +110,9 @@ public class EntManageProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(enterprise.getDxp_id())) {
                     SET("DXP_ID = #{dxp_id}");
                 }
+                if (!StringUtils.isEmpty(enterprise.getEnt_business_type())) {
+                    SET("ENT_BUSINESS_TYPE = #{ent_business_type}");
+                }
             }
         }.toString();
     }
@@ -171,6 +175,9 @@ public class EntManageProvider extends BaseSQLProvider {
                 }
                 if(!StringUtils.isEmpty(enterprise.getDxp_id())){
                     VALUES("DXP_ID","#{dxp_id}");
+                }
+                if(!StringUtils.isEmpty(enterprise.getEnt_business_type())){
+                    VALUES("ENT_BUSINESS_TYPE","#{ent_business_type}");
                 }
 
             }

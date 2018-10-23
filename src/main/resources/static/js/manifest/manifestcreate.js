@@ -64,29 +64,21 @@ sw.page.modules["manifest/manifestcreate"] = sw.page.modules["manifest/manifestc
             sw.alert("请先勾选要新建的核放单信息！");
             return;
         }
-        // sw.blockPage();
         var postData = {
             submitKeys: submitKeys
         };
-        // $("#manifestCreate").prop("disabled", true);
 
         sw.pageModule('manifest/manifestcreate').seeInventoryRec(submitKeys);
-        // sw.ajax("api/deliveryManage/submitCustom", "POST", postData, function (rsp) {
-        //     if (rsp.data.result == "true") {
-        //         sw.alert("提交海关成功", "提示", function () {
-        //         }, "modal-success");
-        //         $("#submitCustom").prop("disabled", false);
-        //         sw.page.modules["deliverymanage/deliveryDeclare"].query();
-        //     } else {
-        //         sw.alert(rsp.data.msg);
-        //     }
-        //     $.unblockUI();
-        // });
     },
 
     seeInventoryRec: function (submitKeys) {
         var url = "manifest/seeManifestInfo?type=HFDBTXX&isEdit=true&submitKeys=" + submitKeys;
-        sw.modelPopup(url, "核放单表头信息", false, 1000, 800);
+        sw.modelPopup(url, "核放单表头信息", false, 1000, 700);
+    },
+
+    privateManifestInfo: function () {
+        var url = "manifest/seeNewManifestInfo?type=HFDBTXX&isEdit=true";
+        sw.modelPopup(url, "核放单信息", false, 1000, 500);
     },
 
     init: function () {
@@ -100,6 +92,7 @@ sw.page.modules["manifest/manifestcreate"] = sw.page.modules["manifest/manifestc
         });
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-submit]").unbind("click").click(this.submitCustom);
+        $("[ws-download]").unbind("click").click(this.privateManifestInfo);
         $table = $("#query-manifestCreate-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {

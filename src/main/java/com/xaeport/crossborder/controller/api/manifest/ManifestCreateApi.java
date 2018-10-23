@@ -102,7 +102,53 @@ public class ManifestCreateApi extends BaseApi {
 
     //保存核放单信息
     @RequestMapping("/saveManifestInfo")
-    public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
+    public ResponseData saveManifestInfo(@Param("entryJson") String entryJson) {
+        //核放单json信息
+        LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) JSONUtils.parse(entryJson);
+        Map<String, String> rtnMap = new HashMap<>();
+        try {
+            // 保存详情信息
+            rtnMap = this.manifestCreateService.saveManifestInfo(entryHead);
+        } catch (Exception e) {
+            logger.error("保存核放单信息时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "保存核放单信息时发生异常");
+        }
+        return new ResponseData(rtnMap);
+    }
+
+    /**
+     * 新建核放单
+     **/
+    @RequestMapping(value = "/newManifestCreate", method = RequestMethod.GET)
+    public ResponseData saveNewManifestCreate(
+    ) {
+        Users users = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userId", users.getId());
+        paramMap.put("entId", users.getEnt_Id());
+        paramMap.put("roleId", users.getRoleId());
+        paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
+        paramMap.put("app_person", users.getLoginName());
+        paramMap.put("input_code", users.getEnt_Customs_Code());
+        paramMap.put("input_name", users.getEnt_Name());
+        paramMap.put("trade_code", users.getEnt_Customs_Code());
+        paramMap.put("trade_name", users.getEnt_Name());
+        ManifestData manifestData = null;
+        try {
+            //查询列表
+            manifestData = this.manifestCreateService.queryManifestData(paramMap);
+        } catch (Exception e) {
+            this.logger.error("自建核放单数据失败", e);
+            return new ResponseData("获取核放单数据错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(manifestData);
+
+    }
+
+    //保存核放单信息
+    @RequestMapping("/saveNewManifestInfo")
+    public ResponseData saveNewManifestInfo(@Param("entryJson") String entryJson) {
         //核放单json信息
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) JSONUtils.parse(entryJson);
         Map<String, String> rtnMap = new HashMap<>();

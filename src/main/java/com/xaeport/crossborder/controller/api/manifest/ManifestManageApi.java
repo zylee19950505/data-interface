@@ -95,25 +95,42 @@ public class ManifestManageApi extends BaseApi {
             @PathVariable(value = "manifest_no") String manifest_no
     ) {
         this.logger.debug(String.format("核放单删除[manifest_no:%s]", manifest_no));
-        this.manifestManageService.updateCheckGoodsInfo(manifest_no);
+        List<CheckGoodsInfo> checkGoodsInfoList = this.manifestManageService.queryCheckGoodsInfo(manifest_no);
+        if (!StringUtils.isEmpty(checkGoodsInfoList)) {
+            this.manifestManageService.updateCheckGoodsInfo(manifest_no);
+        }
         this.manifestManageService.manifestDelete(manifest_no);
         return new ResponseData();
     }
 
     @RequestMapping(value = "/preview", method = RequestMethod.GET)
-    public ResponseData getAssBillPreviewData(@RequestParam String manifest_no
+    public ResponseData getAssBillPreviewData(
+            @RequestParam String manifest_no
     ) {
         if (StringUtils.isEmpty(manifest_no)) return new ResponseData("核放单号为空", HttpStatus.FORBIDDEN);
 
         Map<String, String> map = new HashMap<>();
         ManifestPrint manifestPrint = new ManifestPrint();
         map.put("manifest_no", manifest_no);
+        List<CheckGoodsInfo> checkGoodsInfos = new ArrayList<>();
+        CheckGoodsInfo checkGoodsInfo = new CheckGoodsInfo();
 
         try {
             ManifestHead manifestHead = this.manifestManageService.queryManifestHead(map);
             List<CheckGoodsInfo> checkGoodsInfoList = this.manifestManageService.queryCheckGoodsInfoList(map);
             manifestPrint.setManifestHead(manifestHead);
-            manifestPrint.setCheckGoodsInfoList(checkGoodsInfoList);
+            if ((checkGoodsInfoList.size()) == 0) {
+                checkGoodsInfo.setEntry_id("0");
+                checkGoodsInfo.setPack_num("0");
+                checkGoodsInfo.setGross_wt("0");
+                checkGoodsInfo.setNet_wt("0");
+                checkGoodsInfo.setTotal_logistics_no("0");
+                checkGoodsInfo.setLogistics_no("0");
+                checkGoodsInfos.add(checkGoodsInfo);
+                manifestPrint.setCheckGoodsInfoList(checkGoodsInfos);
+            } else {
+                manifestPrint.setCheckGoodsInfoList(checkGoodsInfoList);
+            }
             return new ResponseData(manifestPrint);
         } catch (Exception e) {
             this.logger.error("核放单查询打印数据失败", e);

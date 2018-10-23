@@ -18,6 +18,8 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                 searching: false,
                 columns: [
                     {data: "ent_name", label: "企业名称"},
+                    {data: "ent_business_type", label: "业务类型"},
+
                     {data: "port_str", label: "主管海关"},
                     {data: "customs_code", label: "企业海关代码"},
                     {data: "ent_status", label: "企业状态"},
@@ -96,6 +98,8 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
                     $("select[name='ent_classify']").val(data.ent_classify);
                     $("input[name='dxp_id']").val(data.dxp_id);
 
+                    $("select[name='ent_business_type']").val(data.ent_business_type);
+
                     // $("input[name='business_license']").attr("disabled", "disabled");
                     // $("input[name='organization_code']").attr("disabled", "disabled");
                     // $("input[name='tax_registration_code']").attr("disabled", "disabled");
@@ -120,6 +124,8 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             var ent_classify = $("select[name='ent_classify']").val();
             var dxp_id = $("input[name='dxp_id']").val();
             var port = $("select[name='port']").val();
+
+            var ent_business_type = $("select[name='ent_business_type']").val();
 
             if (isEmpty(dxp_id) || ent_name.length < 3) {
                 hasErrorEnterprise("input[name='dxp_id'", "企业DXPID不能为空或小于3个字符");
@@ -181,6 +187,10 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
                 hasErrorEnterprise("select[name='ent_classify'", "企业分类不能为空");
                 return false;
             }
+            // if (isEmpty(ent_business_type)) {
+            //     hasErrorEnterprise("select[name='ent_business_type'", "企业业务类别");
+            //     return false;
+            // }
             return true;
         },
         entCreate: function () {
@@ -242,6 +252,8 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             $("input[name='customs_code']").val("");
             $("select[name='ent_classify']").val("");
             $("input[name='dxp_id']").val("");
+
+            $("select[name='ent_business_type']").val("");
         },
         loadSelectCode: function () {
             sw.selectOptionByType("ent_classify", "AGENT_CODE");

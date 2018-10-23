@@ -72,7 +72,7 @@ public class BaseApi {
     }
 
     /**
-     * 获取当前用户的企业ID
+     * 获取当前用户的企业代码
      *
      * @return
      */
@@ -82,7 +82,7 @@ public class BaseApi {
     }
 
     /**
-     * 获取当前用户的企业ID
+     * 获取当前用户的企业名称
      *
      * @return
      */

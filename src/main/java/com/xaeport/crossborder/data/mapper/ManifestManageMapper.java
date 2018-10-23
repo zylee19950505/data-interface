@@ -31,6 +31,9 @@ public interface ManifestManageMapper {
     @UpdateProvider(type = ManifestManageSQLProvider.class, method = "updateManifestManage")
     void updateManifestManage(@Param("manifestNo") String manifestNo);
 
+    //查询预订数据
+    @SelectProvider(type = ManifestManageSQLProvider.class, method = "queryCheckGoodsInfo")
+    List<CheckGoodsInfo> queryCheckGoodsInfo(@Param("manifest_no") String manifest_no);
 
     //更新预订数据状态
     @UpdateProvider(type = ManifestManageSQLProvider.class, method = "updateCheckGoodsInfo")

@@ -148,6 +148,18 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //根据核放单号更新预定数据状态
+    public String queryCheckGoodsInfo(@Param("manifest_no") String manifest_no) {
+        return new SQL() {
+            {
+                SELECT("t.*");
+                FROM("T_CHECK_GOODS_INFO t");
+                WHERE("t.MANIFEST_NO = #{manifest_no}");
+                WHERE("t.IS_MANIFEST = 'Y'");
+            }
+        }.toString();
+    }
+
     //根据核放单号删除核放单数据
     public String manifestDelete(@Param("manifest_no") String manifest_no) {
         return new SQL() {

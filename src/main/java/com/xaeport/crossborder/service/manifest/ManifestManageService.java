@@ -32,6 +32,11 @@ public class ManifestManageService {
     }
 
     //更新预订数据状态
+    public List<CheckGoodsInfo> queryCheckGoodsInfo(String manifest_no) {
+        return manifestManageMapper.queryCheckGoodsInfo(manifest_no);
+    }
+
+    //更新预订数据状态
     public void updateCheckGoodsInfo(String manifest_no) {
         manifestManageMapper.updateCheckGoodsInfo(manifest_no);
     }
