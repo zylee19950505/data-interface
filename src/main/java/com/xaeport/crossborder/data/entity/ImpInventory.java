@@ -62,6 +62,10 @@ public class ImpInventory {
     private String sum;//分单总数
     private String asscount;//分单总数
     private String no;
+    private String total_tax;//表体税额
+    private String country;
+    private String ent_customs_code;
+    private String ent_name;
 
     private int g_num;//序号: 从1开始连续序号，与关联的电子订单表体序号一一对应。
     private String head_guid;//表头编号: 企业系统生成36 位唯一序号（英文字母大写）
@@ -82,9 +86,34 @@ public class ImpInventory {
     private String price;//商品单价。赠品单价填写为 0。
     private String total_price;//商品总价，等于单价乘以数量。
     private String bodyNote;//促销活动，商品单价偏离市场价格的，可以在此说明。
+    private String single_tax;//表体税额
 
     private String maxtime_three_return_status;//最大时间的三位数字回执状态
     private String return_status_name;//回执状态转译中文意思
+
+    private String amount;
+    private String totalGrossWeight;
+    private String totalNetWeight;
+    private String totalTax;
+    private String totalPrice;
+    private String billNoCount;
+    private String product_name;
+
+    public String getEnt_customs_code() {
+        return ent_customs_code;
+    }
+
+    public void setEnt_customs_code(String ent_customs_code) {
+        this.ent_customs_code = ent_customs_code;
+    }
+
+    public String getEnt_name() {
+        return ent_name;
+    }
+
+    public void setEnt_name(String ent_name) {
+        this.ent_name = ent_name;
+    }
 
     public String getReturn_status_name() {
         return return_status_name;
@@ -720,5 +749,85 @@ public class ImpInventory {
 
     public void setReturn_status(String return_status) {
         this.return_status = return_status;
+    }
+
+    public String getTotal_tax() {
+        return total_tax;
+    }
+
+    public void setTotal_tax(String total_tax) {
+        this.total_tax = total_tax;
+    }
+
+    public String getSingle_tax() {
+        return single_tax;
+    }
+
+    public void setSingle_tax(String single_tax) {
+        this.single_tax = single_tax;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getTotalGrossWeight() {
+        return totalGrossWeight;
+    }
+
+    public void setTotalGrossWeight(String totalGrossWeight) {
+        this.totalGrossWeight = totalGrossWeight;
+    }
+
+    public String getTotalNetWeight() {
+        return totalNetWeight;
+    }
+
+    public void setTotalNetWeight(String totalNetWeight) {
+        this.totalNetWeight = totalNetWeight;
+    }
+
+    public String getTotalTax() {
+        return totalTax;
+    }
+
+    public void setTotalTax(String totalTax) {
+        this.totalTax = totalTax;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getBillNoCount() {
+        return billNoCount;
+    }
+
+    public void setBillNoCount(String billNoCount) {
+        this.billNoCount = billNoCount;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

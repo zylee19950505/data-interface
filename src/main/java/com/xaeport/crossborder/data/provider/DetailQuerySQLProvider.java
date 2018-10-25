@@ -20,7 +20,6 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
-//        final String gName = paramMap.get("gName");
 
         return new SQL() {
             {
@@ -67,9 +66,6 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(logisticsNo)) {
                     WHERE("t.logistics_No = #{logisticsNo}");
                 }
-//                if (!StringUtils.isEmpty(gName)) {
-//                    WHERE("t.guid in ( select tt.HEAD_GUID from T_IMP_INVENTORY_BODY tt where tt.g_name like '%'||#{gName}||'%' )");
-//                }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
@@ -77,9 +73,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                     WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!"-1".equals(end)) {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
+                    ORDER_BY("t.app_time desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn >= #{start}");
+                    ORDER_BY("t.app_time desc ) f  )  WHERE rn >= #{start}");
                 }
             }
         }.toString();
@@ -96,7 +92,6 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
-        final String gName = paramMap.get("gName");
 
         return new SQL() {
             {
@@ -120,78 +115,11 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(logisticsNo)) {
                     WHERE("t.logistics_No = #{logisticsNo}");
                 }
-                if (!StringUtils.isEmpty(gName)) {
-                    WHERE("t.guid in ( select tt.HEAD_GUID from T_IMP_INVENTORY_BODY tt where tt.g_name like '%'||#{gName}||'%' )");
-                }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-                }
-            }
-        }.toString();
-    }
-
-    //查询清单excel下载数据
-    public String queryInventoryExcelList(Map<String, String> paramMap) throws Exception {
-
-        final String startFlightTimes = paramMap.get("startFlightTimes");
-        final String endFlightTimes = paramMap.get("endFlightTimes");
-        final String billNo = paramMap.get("billNo");
-        final String orderNo = paramMap.get("orderNo");
-        final String logisticsNo = paramMap.get("logisticsNo");
-        final String returnStatus = paramMap.get("returnStatus");
-        final String gName = paramMap.get("gName");
-        final String entId = paramMap.get("entId");
-        final String roleId = paramMap.get("roleId");
-        final String dataStatus = paramMap.get("dataStatus");
-        final String end = paramMap.get("end");
-
-        return new SQL() {
-            {
-                SELECT(" * from ( select rownum rn, f.* from ( " +
-                        " SELECT " +
-                        "t.BILL_NO," +
-                        "t.GUID," +
-                        "t.ORDER_NO," +
-                        "t.LOGISTICS_NO," +
-                        "t.BUYER_NAME," +
-                        "t.BUYER_ID_NUMBER," +
-                        "t.BUYER_TELEPHONE," +
-                        "t.CONSIGNEE_ADDRESS");
-                FROM("T_IMP_INVENTORY_HEAD t");
-                if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
-                }
-                if (!StringUtils.isEmpty(dataStatus)) {
-                    WHERE("t.DATA_STATUS = #{dataStatus}");
-                }
-                if (!StringUtils.isEmpty(returnStatus)) {
-                    WHERE(splitJointIn("t.return_Status", returnStatus));
-                }
-                if (!StringUtils.isEmpty(billNo)) {
-                    WHERE("t.bill_No = #{billNo}");
-                }
-                if (!StringUtils.isEmpty(orderNo)) {
-                    WHERE("t.order_no = #{orderNo}");
-                }
-                if (!StringUtils.isEmpty(logisticsNo)) {
-                    WHERE("t.logistics_No = #{logisticsNo}");
-                }
-                if (!StringUtils.isEmpty(gName)) {
-                    WHERE("t.guid in ( select tt.HEAD_GUID from T_IMP_INVENTORY_BODY tt where tt.g_name like '%'||#{gName}||'%' )");
-                }
-                if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!StringUtils.isEmpty(endFlightTimes)) {
-                    WHERE("t.app_time <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!"-1".equals(end)) {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn between #{start} and #{end}");
-                } else {
-                    ORDER_BY("t.crt_tm desc ) f  )  WHERE rn >= #{start}");
                 }
             }
         }.toString();
