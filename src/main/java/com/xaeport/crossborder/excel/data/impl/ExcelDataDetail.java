@@ -14,7 +14,7 @@ import java.util.*;
 public class ExcelDataDetail implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
     private int orderNoIndex; //"订单编号";//head //list
-//    private int copNoIndex; //"企业内部编号";//head
+    //    private int copNoIndex; //"企业内部编号";//head
     private int logisticsNoIndex; //"物流运单编号";//head
     private int logisticsCodeIndex; //"物流企业代码";//head
     private int logisticsNameIndex; //"物流企业名称";//head
@@ -60,7 +60,7 @@ public class ExcelDataDetail implements ExcelData {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
-        Map<String,List<String>> impInventoryHeadMap = new LinkedHashMap<>();
+        Map<String, List<String>> impInventoryHeadMap = new LinkedHashMap<>();
         ImpInventoryBody impInventoryBody;
         this.getIndexValue(excelData.get(0));//初始化表头索引
         for (int i = 1, length = excelData.size(); i < length; i++) {
@@ -127,6 +127,7 @@ public class ExcelDataDetail implements ExcelData {
             impInventoryHead.setFreight(getDouble(value.get(freightIndex)));//运杂费
             impInventoryHead.setGross_weight(getDouble(value.get(grossWeightIndex)));//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(getDouble(value.get(netWeightIndex)));//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
+            impInventoryHead.setTotal_prices(value.get(total_PriceIndex));//取表体商品总价之和
 
             listData.add(impInventoryHead);
         }
@@ -228,7 +229,28 @@ public class ExcelDataDetail implements ExcelData {
      */
     public Map<String, List<String>> getMergeData(List<String> impInventoryHeadLists, Map<String, List<String>> impInventoryHeadMap) throws Exception {
         String orderNo = impInventoryHeadLists.get(orderNoIndex);
-        impInventoryHeadMap.put(orderNo, impInventoryHeadLists);
+        DecimalFormat df = new DecimalFormat("0.00000");
+        if (impInventoryHeadMap.containsKey(orderNo)) {
+            List<String> list = impInventoryHeadMap.get(orderNo);//存放每次合并的结果
+            String allTotalPrice = list.get(total_PriceIndex);
+            String addTotalPrice = impInventoryHeadLists.get(total_PriceIndex);
+            if (StringUtils.isEmpty(allTotalPrice)) {
+                allTotalPrice = "0";
+            }
+            if (StringUtils.isEmpty(addTotalPrice)) {
+                addTotalPrice = "0";
+            }
+            double total_value_Total = Double.parseDouble(allTotalPrice) + Double.parseDouble(addTotalPrice);//合并所有表体的总价
+            list.set(total_PriceIndex, df.format(total_value_Total));//商品价格
+            impInventoryHeadMap.put(orderNo, list);
+        } else {
+            String totalPrice = impInventoryHeadLists.get(total_PriceIndex);
+            if (StringUtils.isEmpty(totalPrice)) {
+                totalPrice = "0";
+                impInventoryHeadLists.set(total_PriceIndex, totalPrice);
+            }
+            impInventoryHeadMap.put(orderNo, impInventoryHeadLists);
+        }
         return impInventoryHeadMap;
     }
 

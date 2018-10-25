@@ -67,6 +67,7 @@ public class ImpInventoryHead {
     private String value_added_tax;//应征增值税
     private String consumption_tax;//应征消费税
     private String tax_return_time;//税额回执时间
+    private String total_prices;//商品总价
 
 
     public String getGuid() {
@@ -571,5 +572,13 @@ public class ImpInventoryHead {
 
     public void setTax_return_time(String tax_return_time) {
         this.tax_return_time = tax_return_time;
+    }
+
+    public String getTotal_prices() {
+        return total_prices;
+    }
+
+    public void setTotal_prices(String total_prices) {
+        this.total_prices = total_prices;
     }
 }
