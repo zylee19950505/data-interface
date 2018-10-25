@@ -4,7 +4,6 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.data.ResponseData;
@@ -14,23 +13,15 @@ import com.xaeport.crossborder.data.entity.ImpInventoryDetail;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.detaillistmanage.DetailQueryService;
-import com.xaeport.crossborder.tools.DateTools;
-import com.xaeport.crossborder.tools.DownloadUtils;
 import org.apache.ibatis.annotations.Param;
-import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController

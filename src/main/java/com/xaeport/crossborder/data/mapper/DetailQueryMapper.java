@@ -25,9 +25,6 @@ public interface DetailQueryMapper {
     @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryInventoryQueryCount")
     Integer queryInventoryQueryCount(Map<String, String> paramMap) throws Exception;
 
-    @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryInventoryExcelList")
-    List<ImpInventory> queryInventoryExcelList(Map<String, String> paramMap) throws Exception;
-
     //查询清单表头详情
     @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryImpInventoryHead")
     ImpInventoryHead queryImpInventoryHead(Map<String, String> paramMap);
