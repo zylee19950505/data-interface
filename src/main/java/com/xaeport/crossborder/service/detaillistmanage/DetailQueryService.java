@@ -2,10 +2,7 @@ package com.xaeport.crossborder.service.detaillistmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
-import com.xaeport.crossborder.data.entity.ImpInventory;
-import com.xaeport.crossborder.data.entity.ImpInventoryBody;
-import com.xaeport.crossborder.data.entity.ImpInventoryDetail;
-import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.DetailQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,9 +39,11 @@ public class DetailQueryService {
         paramMap.put("id",guid);
         ImpInventoryHead impInventoryHead =  detailQueryMapper.queryImpInventoryHead(paramMap);
         List<ImpInventoryBody> impInventoryBodies = detailQueryMapper.queryImpInventoryBodies(paramMap);
+        Verify verify = detailQueryMapper.queryVerifyDetail(paramMap);
         ImpInventoryDetail impInventoryDetail = new ImpInventoryDetail();
         impInventoryDetail.setImpInventoryHead(impInventoryHead);
         impInventoryDetail.setImpInventoryBodies(impInventoryBodies);
+        impInventoryDetail.setVerify(verify);
         return impInventoryDetail;
     }
 

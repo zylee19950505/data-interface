@@ -294,23 +294,23 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryList.get("country"))) {
                     SET("t.country = #{country}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
-                    SET("t.qty = #{g_qty}");
+                if (!StringUtils.isEmpty(entryList.get("qty"))) {
+                    SET("t.qty = #{qty}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
-                    SET("t.unit = #{g_unit}");
+                if (!StringUtils.isEmpty(entryList.get("unit"))) {
+                    SET("t.unit = #{unit}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
-                    SET("t.qty1 = #{qty_1}");
+                if (!StringUtils.isEmpty(entryList.get("qty1"))) {
+                    SET("t.qty1 = #{qty1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
-                    SET("t.unit1 = #{unit_1}");
+                if (!StringUtils.isEmpty(entryList.get("unit1"))) {
+                    SET("t.unit1 = #{unit1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
-                    SET("t.qty2 = #{qty_2}");
+                if (!StringUtils.isEmpty(entryList.get("qty2"))) {
+                    SET("t.qty2 = #{qty2}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
-                    SET("t.unit2 = #{unit_2}");
+                if (!StringUtils.isEmpty(entryList.get("unit2"))) {
+                    SET("t.unit2 = #{unit2}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("price"))) {
                     SET("t.price = #{price}");
@@ -430,23 +430,23 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryList.get("country"))) {
                     SET("t.country = #{country}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
-                    SET("t.qty = #{g_qty}");
+                if (!StringUtils.isEmpty(entryList.get("qty"))) {
+                    SET("t.qty = #{qty}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
-                    SET("t.unit = #{g_unit}");
+                if (!StringUtils.isEmpty(entryList.get("unit"))) {
+                    SET("t.unit = #{unit}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
-                    SET("t.qty1 = #{qty_1}");
+                if (!StringUtils.isEmpty(entryList.get("qty1"))) {
+                    SET("t.qty1 = #{qty1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
-                    SET("t.unit1 = #{unit_1}");
+                if (!StringUtils.isEmpty(entryList.get("unit1"))) {
+                    SET("t.unit1 = #{unit1}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
-                    SET("t.qty2 = #{qty_2}");
+                if (!StringUtils.isEmpty(entryList.get("qty2"))) {
+                    SET("t.qty2 = #{qty2}");
                 }
-                if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
-                    SET("t.unit2 = #{unit_2}");
+                if (!StringUtils.isEmpty(entryList.get("unit2"))) {
+                    SET("t.unit2 = #{unit2}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("price"))) {
                     SET("t.price = #{price}");
@@ -454,6 +454,20 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryList.get("total_price"))) {
                     SET("t.total_price = #{total_price}");
                 }
+            }
+        }.toString();
+    }
+
+    public String queryVerifyDetail(Map<String, String> paramMap) {
+        final String id = paramMap.get("id");
+        return new SQL(){
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.CB_HEAD_ID = #{id}");
+                WHERE("t.STATUS = 'N'");
             }
         }.toString();
     }
