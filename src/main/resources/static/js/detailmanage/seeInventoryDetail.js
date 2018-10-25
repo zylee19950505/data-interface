@@ -72,9 +72,9 @@ function inputChange(id) {
             // 修改字段为单价
             if (keys == "price") {// 单价
                 var dVal = parseFloat(val);
-                var qty = parseFloat($("#qty_" + gno).val());
+                var qty = parseFloat($("#g_qty_" + gno).val());
                 sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
-            } else if (keys == "qty") {// 数量
+            } else if (keys == "g_qty") {// 数量
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
                 sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
@@ -132,12 +132,12 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "g_name",
             "g_code",
             "g_model",
-            "qty",
-            "unit",
-            "qty1",
-            "unit1",
-            "qty2",
-            "unit2",
+            "g_qty",
+            "g_unit",
+            "qty_1",
+            "unit_1",
+            "qty_2",
+            "unit_2",
             "total_price",
             "no1"
         ]
@@ -199,31 +199,31 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit1_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit2_" + g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='g_unit_" + g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_1_" + g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td></tr>";
             $("#entryList").append(str);
             selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("unit1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitDetail("unit2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
+            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
+            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
         }
     },
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
             var result = JSON.parse(vertify.result);
-            var g_num = result.g_num;
+            var gno = result.gno;
             var field = result.field;
 
-            if (isNotEmpty(g_num)) {
-                $("#" + field + "_" + g_num).addClass("bg-red");
-                $("#" + field + "_" + g_num).parent().find(".select2-selection--single").addClass("bg-red");
+            if (isNotEmpty(gno)) {
+                $("#" + field + "_" + gno).addClass("bg-red");
+                $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
             } else {
                 $("#" + field).addClass("bg-red");
                 $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
@@ -344,11 +344,11 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "g_code": "商品编码",
             "g_model": "商品规格/型号",
             "country": "原产国（地区）",
-            "qty": "数量",
-            "unit": "计量单位",
-            "qty1": "第一法定数量",
-            "unit1": "第一法定单位",
-            "qty2": "第二法定数量",
+            "g_qty": "数量",
+            "g_unit": "计量单位",
+            "qty_1": "第一法定数量",
+            "unit_1": "第一法定单位",
+            "qty_2": "第二法定数量",
             // "unit2": "第二法定单位",
             "price": "单价",
             "total_price": "总价"
@@ -442,7 +442,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 this.detailParam.url = "/api/inventory/saveLogicalDetail";
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
-                this.detailParam.isShowError = true;
+                this.detailParam.isShowError = false;
                 break;
             }
 
