@@ -218,7 +218,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
     errorMessageShow: function (vertify) {
         if (vertify) {
             var result = JSON.parse(vertify.result);
-            var gno = result.gno;
+            var gno = result.g_num;
             var field = result.field;
 
             if (isNotEmpty(gno)) {
@@ -442,7 +442,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 this.detailParam.url = "/api/inventory/saveLogicalDetail";
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
-                this.detailParam.isShowError = false;
+                this.detailParam.isShowError = true;
                 break;
             }
 

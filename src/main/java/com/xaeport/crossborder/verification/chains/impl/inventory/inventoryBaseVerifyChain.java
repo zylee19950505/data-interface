@@ -94,7 +94,7 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             // 申报计量单位
             validateField = impCBBodyVer.getUnit();
             if (!loadData.getUnitCodeMap().containsKey(validateField)) {
-                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]申报计量单位不存在", g_num), "unit", g_num);
+                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]申报计量单位不存在", g_num), "g_unit", g_num);
                 return verificationResult;
             }
 
@@ -106,12 +106,12 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             * */
             if (StringUtils.isEmpty(g_code_unit2)) {
                 if (!g_code_unit1.equals(validateField)) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "unit", g_num);
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
                     return verificationResult;
                 }
             } else {
                 if (!g_code_unit1.equals(validateField) && !g_code_unit2.equals(validateField)) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "unit", g_num);
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
                     return verificationResult;
                 }
             }
@@ -119,18 +119,18 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             unit1 = impCBBodyVer.getUnit1();
             // 第一(法定)计量单位
             if (!loadData.getUnitCodeMap().containsKey(unit1)) {
-                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)计量单位错误", g_num), "unit1", g_num);
+                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)计量单位错误", g_num), "unit_1", g_num);
                 return verificationResult;
             }
             if (!g_code_unit1.equals(unit1)) {
-                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)计量单位错误", g_num), "unit1", g_num);
+                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)计量单位错误", g_num), "unit_1", g_num);
                 return verificationResult;
             }
             // 第一(法定)数量
             if (!StringUtils.isEmpty(unit1)) {
                 qty = Double.parseDouble(impCBBodyVer.getQty1());
                 if (qty <= 0) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)数量需大于0", g_num), "qty1", g_num);
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第一(法定)数量需大于0", g_num), "qty_1", g_num);
                     return verificationResult;
                 }
             }
@@ -141,13 +141,13 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             //  其次 如果不为空 进行校验
             if (!StringUtils.isEmpty(g_code_unit2) && !StringUtils.isEmpty(unit2)) {
                 if (!g_code_unit2.equals(unit2)) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二计量单位错误", g_num), "unit2", g_num);
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二计量单位错误", g_num), "unit_2", g_num);
                     return verificationResult;
                 }
             } else {
                 if (!StringUtils.isEmpty(unit2)) {
                     if (!unit2.equals(g_code_unit2)) {
-                        VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二计量单位错误", g_num), "unit2", g_num);
+                        VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二计量单位错误", g_num), "unit_2", g_num);
                         return verificationResult;
                     }
                 }
@@ -156,7 +156,7 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
                 // 第二(法定)数量
                 qty = Double.parseDouble(impCBBodyVer.getQty2());
                 if (qty <= 0) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二数量不能为空", g_num), "qty2", g_num);
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二数量不能为空", g_num), "qty_2", g_num);
                     return verificationResult;
                 }
             }
