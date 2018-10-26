@@ -1,19 +1,4 @@
-// 计算表头总价值
-function sumTotalPriceB() {
-    var totalPrice = 0;
-    $(".detailPage input[id^=total_Price]").each(function () {
-        var decTotal = $(this).val();
-        totalPrice = parseFloat(totalPrice) + parseFloat(decTotal);
-    });
-    $("#goods_Value").val(parseFloat(totalPrice).toFixed(4));
-    headChangeKeyValB["goods_Value"] = $("#goods_Value").val();
-}
-// 计算表体申报总价
-function sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal) {
-    var declTotal = parseFloat(dVal * g_qty).toFixed(4);
-    $("#total_Price_" + gno).val(declTotal);
-    listChangeKeyVal["total_Price"] = $("#total_Price_" + gno).val();
-}
+// 非空判断
 function isNotEmpty(obj) {
     /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
@@ -22,18 +7,21 @@ function isNotEmpty(obj) {
     /*]]>*/
     return true;
 }
+
 // 错误提示
 function hasError(errorMsg) {
     /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
     /*]]>*/
 }
+
 // 清楚错误提示
 function clearError() {
     /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
     /*]]>*/
 }
+
 // Select2初始化
 function selecterInitB(selectId, value, data) {
     $("#" + selectId).select2({
@@ -48,13 +36,35 @@ function selecterInitB(selectId, value, data) {
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
+
 // 表头变化
 var headChangeKeyValB = {};
+
 // 表体变化
 var listChangeKeyValsB = {};
+
 // 表体ID匹配正则
 var patternB = /^.*_[0-9]+$/;
-function inputChanged(id){
+
+// 计算表头总价值
+function sumTotalPriceB() {
+    var totalPrice = 0;
+    $(".detailPage input[id^=total_Price]").each(function () {
+        var decTotal = $(this).val();
+        totalPrice = parseFloat(totalPrice) + parseFloat(decTotal);
+    });
+    $("#goods_Value").val(parseFloat(totalPrice).toFixed(4));
+    headChangeKeyValB["goods_Value"] = $("#goods_Value").val();
+}
+
+// 计算表体申报总价
+function sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal) {
+    var declTotal = parseFloat(dVal * g_qty).toFixed(4);
+    $("#total_Price_" + gno).val(declTotal);
+    listChangeKeyVal["total_Price"] = $("#total_Price_" + gno).val();
+}
+
+function inputChanged(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -95,7 +105,6 @@ function inputChanged(id){
         } else {
             headChangeKeyValB[key] = val;
         }
-        //console.log(headChangeKeyValB, listChangeKeyVal);
     }).focus(function () {
         clearError();
     });
@@ -189,8 +198,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#note").val(entryHead.note);
 
     },
+
     //加载表体信息
-    // 装载表体信息
     fillEntryListInfo: function (entryLists) {
         for (var i = 0; i < entryLists.length; i++) {
             var g_num = entryLists[i].g_num;
@@ -208,9 +217,10 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "</tr>";
             $("#entryList").append(str);
             selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("unit_"+g_num,entryLists[i].unit,sw.dict.unitCodes);
+            selecterInitDetail("unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
         }
     },
+
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
@@ -227,6 +237,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             }
         }
     },
+
     // 保存订单编辑信息
     saveEntryInfo: function (orderNo, type, ieFlag) {
         if (!this.valiField()) {
@@ -255,8 +266,10 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             hasError(xhr.data);
         });
     },
+
     // 查询订单详情
     query: function () {
+
         // 表头变化
         headChangeKeyValB = {};
         // 表体变化
@@ -266,7 +279,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         var param = sw.getPageParams("ordermanage/seeOrderDetail");
         var guid = param.guid;
         var data = {
-            guid : guid
+            guid: guid
         };
         $.ajax({
             method: "GET",
@@ -298,6 +311,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             }
         });
     },
+
     //校验
     valiField: function () {
         // 校验表头
@@ -308,16 +322,16 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             "ebp_Name": "电商平台名称",
             "ebc_Code": "电商编号",
             "ebc_Name": "电商名称",
-            "buyer_Reg_No":"订购人注册号",
-            "buyer_Id_Number":"证件号码",
-            "buyer_Name":"订购人姓名",
-            "buyer_TelePhone":"订购人电话",
-            "consignee":"收货人姓名",
-            "consignee_Address":"收货地址",
-            "consignee_Telephone":"收货人电话",
+            "buyer_Reg_No": "订购人注册号",
+            "buyer_Id_Number": "证件号码",
+            "buyer_Name": "订购人姓名",
+            "buyer_TelePhone": "订购人电话",
+            "consignee": "收货人姓名",
+            "consignee_Address": "收货地址",
+            "consignee_Telephone": "收货人电话",
             "discount": "非现金支付金额",
             "tax_Total": "代扣税款",
-            "freight": "运杂费",
+            "freight": "运杂费"
         };
 
         // 校验表体
@@ -338,7 +352,6 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         for (fieldId in validataHeadField) {
             fieldName = validataHeadField[fieldId];
             fieldVal = $("#" + fieldId).val();
-
             if (!isNotEmpty(fieldVal)) {
                 hasError("[" + fieldName + "]不能为空");
                 return false;
@@ -354,7 +367,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 fieldId = $(fields[i]).attr("id");
                 fieldVal = $(fields[i]).val();
                 gno = fieldId.substring(fieldId.lastIndexOf("_") + 1, fieldId.length);
-                if ((!isNotEmpty(fieldVal))||fieldVal=="null") {
+                if ((!isNotEmpty(fieldVal)) || fieldVal == "null") {
                     hasError("序号[" + gno + "]-[" + validataListField[key] + "]不能为空");
                     return false;
                 }
@@ -425,9 +438,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
 
         } // 不可编辑状态
         if (isEdit == "false") {
-            this.detailParam.disableField = [
-
-            ];
+            this.detailParam.disableField = [];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
         } else {

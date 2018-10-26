@@ -257,6 +257,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("total_sum"))) {
+                    SET("t.total_prices = #{total_sum}");
+                }
             }
         }.toString();
     }
@@ -407,6 +410,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("total_sum"))) {
+                    SET("t.total_prices = #{total_sum}");
+                }
             }
         }.toString();
     }
@@ -460,7 +466,7 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     public String queryVerifyDetail(Map<String, String> paramMap) {
         final String id = paramMap.get("id");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT("t.CB_HEAD_ID");
                 SELECT("t.STATUS");

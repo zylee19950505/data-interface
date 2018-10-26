@@ -46,20 +46,33 @@ var listChangeKeyVals = {};
 // 表体ID匹配正则
 var pattern = /^.*_[0-9]+$/;
 
+// 计算表头总价值
+function sumTotalPricesInvent() {
+    var totalPrices = 0;
+    $(".detailPage input[id^=total_price]").each(function () {
+        var decTotal = $(this).val();
+        totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
+    });
+    debugger;
+    $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
+    headChangeKeyVal["total_sum"] = $("#total_sum").val();
+}
+
 // 计算表体申报总价
-function sumDeclTotal(dVal, qty, gno, listChangeKeyVal) {
+function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
     var declTotal = parseFloat(dVal * qty).toFixed(5);
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
 
-function inputChange(id) {
+function inputChangeInvent(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
         if (!isNotEmpty(val)) {
             return;
         }
+        debugger;
         if (pattern.test(key)) {
             var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));
@@ -73,11 +86,14 @@ function inputChange(id) {
             if (keys == "price") {// 单价
                 var dVal = parseFloat(val);
                 var qty = parseFloat($("#g_qty_" + gno).val());
-                sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
+                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
+                sumTotalPricesInvent();
             } else if (keys == "g_qty") {// 数量
+                console.log(keys);
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
-                sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
+                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
+                sumTotalPricesInvent();
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
@@ -87,11 +103,11 @@ function inputChange(id) {
         } else {
             headChangeKeyVal[key] = val;
         }
+        console.log(headChangeKeyVal, listChangeKeyVal);
     }).focus(function () {
         clearError();
     });
 }
-
 
 sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmanage/seeInventoryDetail"] || {
     detailParam: {
@@ -128,6 +144,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "country",
             "gross_weight",
             "note",
+            "total_sum",
+
             "g_num",
             "g_name",
             "g_code",
@@ -138,8 +156,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "unit_1",
             "qty_2",
             "unit_2",
-            "total_price",
-            "no1"
+            "total_price"
         ]
     },
     // 保存成功时回调查询
@@ -169,24 +186,26 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs)
-        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs)
+        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs);
+        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs);
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
         $("#buyer_telephone").val(entryHead.buyer_telephone);
         $("#consignee_address").val(entryHead.consignee_address);
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType)
+        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode)
+        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
         $("#traf_no").val(entryHead.traf_no);
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
         selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#note").val(entryHead.note);
+        $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
+
     },
 
     //加载表体信息
@@ -214,6 +233,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
         }
     },
+
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
@@ -231,7 +251,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         }
     },
 
-    // 保存订单编辑信息
+    // 保存清单编辑信息
     saveEntryInfo: function (orderNo, type, ieFlag) {
         if (!this.valiFieldInventory()) {
             return;
@@ -262,6 +282,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
     // 查询订单详情
     query: function () {
+
         // 表头变化
         headChangeKeyVal = {};
         // 表体变化
@@ -297,12 +318,13 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                     }
                     headChangeKeyVal["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChange(param.guid);
+                    inputChangeInvent(param.guid);
                     entryModule.disabledFieldInput();
                 }
             }
         });
     },
+
     //校验
     valiFieldInventory: function () {
         // 校验表头
@@ -333,7 +355,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "voyage_no": "航班航次号",
             "bill_no": "提运单号",
             "country": "起运国（地区）",
-            "gross_weight": "净重"
+            "gross_weight": "净重",
+            "total_sum": "商品总价"
             // "note":"备注",
         };
 
@@ -411,7 +434,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号
-                        "no1"
+                        "total_sum"//商品总价
 
                     ];
                 }
@@ -435,6 +458,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号
+                        "total_sum"//商品总价
 
                     ];
                 }
