@@ -43,13 +43,13 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
                     return row.amount;
                 }
                 },
-                // {
-                //     label: "商品总价", render: function (data, type, row) {
-                //     var priceSum = parseFloat(row.priceSum);
-                //     if (isNaN(priceSum)) return 0;
-                //     return priceSum.toFixed(2);
-                // }
-                // },
+                {
+                    label: "商品总价", render: function (data, type, row) {
+                    var totalPrice = parseFloat(row.totalPrice);
+                    if (isNaN(totalPrice)) return 0;
+                    return totalPrice.toFixed(2);
+                }
+                },
                 {
                     label: "币制", render: function (data, type, row) {
                     return row.currency;

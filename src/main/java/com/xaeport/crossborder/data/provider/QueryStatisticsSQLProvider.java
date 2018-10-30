@@ -32,6 +32,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
             {
                 SELECT("(SELECT a.CA_CN_NAME FROM T_COUNTRY_AREA a WHERE a.CA_CODE = t.COUNTRY) country," +
                         "count(t.INVT_NO) amount," +
+                        "sum(t.TOTAL_PRICES) totalPrice," +
                         "sum(t.GROSS_WEIGHT) totalGrossWeight," +
                         "sum(t.NET_WEIGHT) totalNetWeight," +
                         "(SELECT c.CURR_CN_NAME FROM T_CURRENCY c WHERE c.CURR_CODE = t.CURRENCY) currency," +
@@ -76,6 +77,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t.ENT_NAME," +
                         "t.ENT_CUSTOMS_CODE," +
+                        "sum(t.TOTAL_PRICES) totalPrice," +
                         "(select c.curr_cn_name from t_currency c where c.curr_code = t.CURRENCY) currency," +
                         "count(distinct t.BILL_NO) billNoCount," +
                         "count(t.INVT_NO) amount," +
@@ -152,45 +154,6 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-//    //贸易国统计数据总数
-//    public String queryTradeCountryCount(Map<String, String> paramMap) throws Exception {
-//
-//        final String startFlightTimes = paramMap.get("startFlightTimes");
-//        final String endFlightTimes = paramMap.get("endFlightTimes");
-//        final String ieFlag = paramMap.get("ieFlag");
-//        final String entId = paramMap.get("entId");
-//        final String dataStatus = paramMap.get("dataStatus");
-//        final String returnStatus = paramMap.get("returnStatus");
-//
-//        return new SQL() {
-//            {
-//                SELECT("COUNT(1)");
-//                FROM("T_IMP_INVENTORY_HEAD t");
-//                if (!StringUtils.isEmpty(ieFlag)) {
-//                    WHERE("t.IE_FLAG = #{ieFlag}");
-//                }
-//                if (!StringUtils.isEmpty(entId)) {
-//                    WHERE("t.ENT_ID = #{entId}");
-//                } else {
-//                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
-//                }
-//                if (!StringUtils.isEmpty(dataStatus)) {
-//                    WHERE("t.DATA_STATUS = #{dataStatus}");
-//                }
-//                if (!StringUtils.isEmpty(returnStatus)) {
-//                    WHERE("t.RETURN_STATUS = #{returnStatus}");
-//                }
-//                if (!StringUtils.isEmpty(startFlightTimes)) {
-//                    WHERE("t.APP_TIME >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
-//                }
-//                if (!StringUtils.isEmpty(endFlightTimes)) {
-//                    WHERE("t.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
-//                }
-//                GROUP_BY("t.COUNTRY,t.CURRENCY");
-//            }
-//        }.toString();
-//    }
-
     //查询清单页面数据
     public String queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
 
@@ -217,6 +180,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                         "t.value_added_tax," +
                         "t.gross_weight," +
                         "t.net_weight," +
+                        "t.TOTAL_PRICES total_prices," +
                         "t.buyer_name");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 if (!StringUtils.isEmpty(ieFlag)) {

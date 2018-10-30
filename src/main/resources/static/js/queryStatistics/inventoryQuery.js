@@ -74,6 +74,13 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
                 }
                 },
                 {
+                    label: "商品总价", render: function (data, type, row) {
+                    var total_prices = parseFloat(row.total_prices);
+                    if (isNaN(total_prices)) return 0;
+                    return total_prices.toFixed(2);
+                }
+                },
+                {
                     label: "税额", render: function (data, type, row) {
                     var value_added_tax = parseFloat(row.value_added_tax);
                     if (isNaN(value_added_tax)) return 0;
