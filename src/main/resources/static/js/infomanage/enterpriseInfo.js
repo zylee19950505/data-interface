@@ -21,7 +21,6 @@ sw.page.modules["infomanage/enterpriseInfo"] = sw.page.modules["infomanage/enter
     loadEnterprise: function () {
         var id = sw.user.enterpriseId;
         sw.ajax("enterprise/load/", "", "GET", function (rsp) {
-            debugger;
             var data = rsp.data;
             if (data !== null) {
                 $("input[name='ent_name']").val(data.ent_name);

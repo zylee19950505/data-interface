@@ -17,6 +17,7 @@ import java.util.List;
 public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 
     private LoadData loadData = SpringUtils.getBean(LoadData.class);
+
     @Override
     public VerificationResult executeVerification(ImpCBHeadVer impCBHeadVer) {
         VerificationResult verificationResult = new VerificationResult();
@@ -40,8 +41,8 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
         // 校验表单内毛重小于净重
         double gross_weight = Double.parseDouble(impCBHeadVer.getGross_weight());
         double net_weight = Double.parseDouble(impCBHeadVer.getNet_weight());
-        if (gross_weight < net_weight) {
-            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 毛重不能小于净重", "gross_weight");
+        if (net_weight > gross_weight) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 净重不能大于毛重", "net_weight");
             return verificationResult;
         }
 
@@ -67,7 +68,6 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 //        }
 
 
-
         String g_num;// 商品序号
         String g_code;// 商品编码
         String unit1;// 第一法定计量单位
@@ -82,11 +82,11 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 
             // 商品编码
             g_code = impCBBodyVer.getG_code();
-            if(StringUtils.isEmpty(g_code)){
+            if (StringUtils.isEmpty(g_code)) {
                 VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码不能为空", g_num), "g_code", g_num);
                 return verificationResult;
             }
-            if(!loadData.getProductCodeMap().containsKey(g_code)){
+            if (!loadData.getProductCodeMap().containsKey(g_code)) {
                 VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码不正确", g_num), "g_code", g_num);
                 return verificationResult;
             }
@@ -163,7 +163,7 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 
             // 生产国别
             code = impCBBodyVer.getCountry();
-            if(!loadData.getCountryAreaMap().containsKey(code)){
+            if (!loadData.getCountryAreaMap().containsKey(code)) {
                 VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]原产国（地区）不存在", g_num), "country", g_num);
                 return verificationResult;
             }

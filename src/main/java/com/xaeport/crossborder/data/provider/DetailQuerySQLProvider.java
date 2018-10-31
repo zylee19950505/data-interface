@@ -254,6 +254,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
                     SET("t.gross_weight = #{gross_weight}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
+                    SET("t.net_weight = #{net_weight}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
                 }
@@ -406,6 +409,9 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
                     SET("t.gross_weight = #{gross_weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
+                    SET("t.net_weight = #{net_weight}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");

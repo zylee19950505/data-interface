@@ -53,7 +53,6 @@ function sumTotalPricesInvent() {
         var decTotal = $(this).val();
         totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
     });
-    debugger;
     $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
     headChangeKeyVal["total_sum"] = $("#total_sum").val();
 }
@@ -72,7 +71,6 @@ function inputChangeInvent(id) {
         if (!isNotEmpty(val)) {
             return;
         }
-        debugger;
         if (pattern.test(key)) {
             var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));
@@ -142,6 +140,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "voyage_no",
             "bill_no",
             "country",
+            "net_weight",
             "gross_weight",
             "note",
             "total_sum",
@@ -202,6 +201,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
         selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
+        $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#note").val(entryHead.note);
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
@@ -355,7 +355,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             "voyage_no": "航班航次号",
             "bill_no": "提运单号",
             "country": "起运国（地区）",
-            "gross_weight": "净重",
+            "net_weight": "净重",
+            "gross_weight": "毛重",
             "total_sum": "商品总价"
             // "note":"备注",
         };
@@ -385,6 +386,16 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             if (!isNotEmpty(fieldVal)) {
                 hasError("[" + fieldName + "]不能为空");
                 return false;
+            }
+            if (fieldId == "net_weight") {
+                // var net_weight = parseFloat($("#net_weight").val()).toFixed(5);
+                // var gross_weight = parseFloat($("#gross_weight").val()).toFixed(5);
+                var net_weight = parseFloat($("#net_weight").val());
+                var gross_weight = parseFloat($("#gross_weight").val());
+                if (net_weight > gross_weight) {
+                    hasError("[净重]不能大于毛重");
+                    return false;
+                }
             }
         }
 

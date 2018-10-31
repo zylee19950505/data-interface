@@ -2,7 +2,6 @@
 sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querystatistics/customsStatistics"] || {
 
     query: function () {
-        debugger;
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();

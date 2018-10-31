@@ -161,6 +161,9 @@ public class WaybillQuerySQLProvider {
                 SET("t.APP_TYPE = '2'");
                 SET("t.DATA_STATUS = 'CBDS1'");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("order_no"))){
+                    SET("t.ORDER_NO = #{order_no}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
                     SET("t.LOGISTICS_CODE = #{logistics_code}");
                 }
