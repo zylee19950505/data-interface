@@ -5,7 +5,6 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.tools.DownloadUtils;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,9 +80,7 @@ public class DetailDeclareApi extends BaseApi {
 
     /**
      * 清单申报-提交海关
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
                                          HttpServletRequest request) {
@@ -94,8 +90,8 @@ public class DetailDeclareApi extends BaseApi {
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("dataStatus", StatusCode.QDSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.QDDSB + "," + StatusCode.QDCB + "," + StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("dataStatus", StatusCode.QDSBZ);//清单申报中
+        paramMap.put("dataStatusWhere", StatusCode.QDDSB);//清单待申报
         paramMap.put("currentUserId", currentUser.getId());
         paramMap.put("userId", currentUser.getId());
 
@@ -111,9 +107,7 @@ public class DetailDeclareApi extends BaseApi {
 
     /**
      * 清单报文下载
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/InvenXmlDownload", method = RequestMethod.POST)
     public ResponseData orderXmlDownload(@RequestParam(required = false) String submitKeys,
                                          HttpServletRequest request) {
@@ -123,13 +117,12 @@ public class DetailDeclareApi extends BaseApi {
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("dataStatus", StatusCode.QDBWSCZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
-        paramMap.put("dataStatusWhere", StatusCode.QDDSB + "," + StatusCode.QDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
+        paramMap.put("dataStatus", StatusCode.QDBWSCZ);//清单报文生成中
+        paramMap.put("dataStatusWhere", StatusCode.QDDSB);//清单待申报
         paramMap.put("userId", currentUser.getId());
 
         paramMap.put("submitKeys", submitKeys);//提运单号
 
-        // 调用订单申报Service 获取提交海关结果
         boolean flag = detailDeclareService.invenXmlDownload(paramMap);
         String inventoryZipPath = detailDeclareService.invenXml(this.getCurrentUserEntId());
         if (!StringUtils.isEmpty(inventoryZipPath)) {

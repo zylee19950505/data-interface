@@ -27,7 +27,6 @@ import java.util.Map;
 /*
  * 支付单模块
  */
-
 @RestController
 @RequestMapping("/api/paymentManage")
 public class PaymentDeclareApi extends BaseApi {
@@ -36,6 +35,7 @@ public class PaymentDeclareApi extends BaseApi {
 
     @Autowired
     PaymentDeclareSevice paymentDeclareSevice;
+
     /*
      * 支付单申报
      */
@@ -48,7 +48,7 @@ public class PaymentDeclareApi extends BaseApi {
             @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]",startFlightTimes, endFlightTimes, orderNo, payTransactionId));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
 
@@ -63,20 +63,20 @@ public class PaymentDeclareApi extends BaseApi {
         paramMap.put("payTransactionId", payTransactionId);
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
+
         if (!StringUtils.isEmpty(dataStatus)) {
             paramMap.put("dataStatus", dataStatus);
         } else {
-            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s", StatusCode.ZFDDSB,StatusCode.ZFDSBZ, StatusCode.ZFDYSB, StatusCode.ZFDCB,StatusCode.EXPORT,StatusCode.ZFDSBCG));
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s", StatusCode.ZFDDSB, StatusCode.ZFDSBZ, StatusCode.ZFDYSB, StatusCode.ZFDCB, StatusCode.EXPORT, StatusCode.ZFDSBCG));
         }
 
         paramMap.put("start", start);
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
-        // 固定参数
 
-        paramMap.put("entId",this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
 
         DataList<ImpPayment> dataList = null;
         List<ImpPayment> resultList = null;
@@ -99,12 +99,12 @@ public class PaymentDeclareApi extends BaseApi {
 
     /**
      * 订单单申报-提交海关
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
-    public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
-                                         HttpServletRequest request) {
+    public ResponseData saveSubmitCustom(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request
+    ) {
         this.logger.info("支付单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的订单单信息！");
@@ -112,9 +112,10 @@ public class PaymentDeclareApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.ZFDSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB + "," + StatusCode.ZFDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB + "," + StatusCode.EXPORT);//支付单待申报，已导入
+//        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB);//支付单待申报
         paramMap.put("currentUserId", currentUser.getId());
-        paramMap.put("submitKeys", submitKeys);//订单遍号
+        paramMap.put("submitKeys", submitKeys);//订单编号
 
         // 调用支付单申报Service获取提交海关结果
         boolean flag = paymentDeclareSevice.updateSubmitCustom(paramMap);
@@ -127,11 +128,14 @@ public class PaymentDeclareApi extends BaseApi {
 
     /**
      * 查询单条数据。
+     *
      * @param request
      * @return 返回的是一个实体对象。页面方便接收。
      */
     @RequestMapping(value = "/queryPaymentById", method = RequestMethod.POST)
-    public ImpPayment queryPaymentById(HttpServletRequest request) {
+    public ImpPayment queryPaymentById(
+            HttpServletRequest request
+    ) {
         String paytransactionid = request.getParameter("paytransactionid");
         ImpPayment impPayment = null;
         try {
@@ -141,11 +145,6 @@ public class PaymentDeclareApi extends BaseApi {
         }
         return impPayment;
     }
-
-
-
-
-
 
 
 }

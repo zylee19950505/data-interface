@@ -7,7 +7,6 @@ import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.OrderHeadAndList;
 import com.xaeport.crossborder.data.entity.OrderSum;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -31,7 +30,6 @@ import java.util.*;
 /*
  * 订单申报
  */
-
 @RestController
 @RequestMapping("/api/orderManage")
 public class OrderDeclareApi extends BaseApi {
@@ -54,16 +52,14 @@ public class OrderDeclareApi extends BaseApi {
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String dataStatus
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo,dataStatus));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
 
-        paramMap.put("billNo",billNo);
-        paramMap.put("dataStatus",dataStatus);
-
-       // paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.DDDSB, StatusCode.DDSBZ, StatusCode.DDYSB, StatusCode.DDCB, StatusCode.EXPORT, StatusCode.DDBWSCZ, StatusCode.DDBWXZWC));
+        paramMap.put("billNo", billNo);
+        paramMap.put("dataStatus", dataStatus);
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
@@ -83,21 +79,20 @@ public class OrderDeclareApi extends BaseApi {
 
     /**
      * 订单单申报-提交海关
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
-    public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
-                                         HttpServletRequest request) {
-        //this.log.debug(String.format("舱单申报-提交海关舱单Keys：%s", submitKeys));
+    public ResponseData saveSubmitCustom(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request) {
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的订单信息！");
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("opStatus", StatusCode.DDSBZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
-        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
+        paramMap.put("opStatus", StatusCode.DDSBZ);//订单申报中
+        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.EXPORT);//订单待申报，已导入
+//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
         paramMap.put("currentUserId", currentUser.getId());
         paramMap.put("submitKeys", submitKeys);//提运单号
 
@@ -112,25 +107,24 @@ public class OrderDeclareApi extends BaseApi {
 
     /**
      * 订单报文下载
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/orderXmlDownload", method = RequestMethod.POST)
-    public ResponseData orderXmlDownload(@RequestParam(required = false) String submitKeys,
-                                         HttpServletRequest request) {
+    public ResponseData orderXmlDownload(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request) {
         this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要下载的订单信息！");
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("opStatus", StatusCode.DDBWSCZ);//提交海关后,状态改为订单申报中,逻辑校验在这个之前
-        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.DDCB + "," + StatusCode.EXPORT);//可以申报的状态,订单待申报,订单重报,已经导入
+        paramMap.put("opStatus", StatusCode.DDBWSCZ);//订单报文生成中
+        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.EXPORT);//订单待申报，已导入
+//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
         paramMap.put("currentUserId", currentUser.getId());
 
-        paramMap.put("submitKeys", submitKeys);//订单编号
+        paramMap.put("submitKeys", submitKeys);//提运单号
 
-        // 调用订单申报Service 获取提交海关结果
         boolean flag = orderDeclareService.orderXmlDownload(paramMap);
         String orderZipPath = orderDeclareService.OrderXml(this.getCurrentUserEntId());
         if (!StringUtils.isEmpty(orderZipPath)) {
@@ -146,7 +140,8 @@ public class OrderDeclareApi extends BaseApi {
     @RequestMapping(value = "/downloadFile")
     public void excelModelDownload(
             HttpServletResponse response,
-            @RequestParam(value = "type") String type) {
+            @RequestParam(value = "type") String type
+    ) {
         File file = new File(type);
         DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_ZIP);
     }

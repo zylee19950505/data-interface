@@ -6,7 +6,6 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.LogisticsSum;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -27,26 +26,26 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/waybillManage")
-public class WaybillDeclareApi extends BaseApi{
+public class WaybillDeclareApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     WaybillDeclareService waybillService;
 
-    @RequestMapping(value = "/queryWaybillDeclare" , method = RequestMethod.GET)
+    @RequestMapping(value = "/queryWaybillDeclare", method = RequestMethod.GET)
     public ResponseData queryOrderDeclare1(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-               @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String logisticsNo,
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String dataStatus,//运单回执
             @RequestParam(required = false) String statusDataStatus,//运单状态回执
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes,logisticsNo,billNo, dataStatus,statusDataStatus));
+        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, dataStatus, statusDataStatus));
 
-        Map<String, String> map = new HashMap<String,String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
@@ -57,8 +56,7 @@ public class WaybillDeclareApi extends BaseApi{
 
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-        //map.put("logisticsNo", logisticsNo);
-        map.put("billNo",billNo);
+        map.put("billNo", billNo);
         map.put("dataStatus", dataStatus);
         map.put("statusDataStatus", statusDataStatus);
 
@@ -67,17 +65,16 @@ public class WaybillDeclareApi extends BaseApi{
         map.put("end", end);
         map.put("extra_search", extra_search);
 
-        map.put("entId",this.getCurrentUserEntId());
-        map.put("roleId",this.getCurrentUserRoleId());
-        // 固定参数
-       // map.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.YDDSB,StatusCode.YDSBZ,StatusCode.YDYSB, StatusCode.YDCB,StatusCode.EXPORT,StatusCode.YDZTDSB,StatusCode.YDZTYSB,StatusCode.YDZTSBZ,StatusCode.YDZTCB));
+        map.put("entId", this.getCurrentUserEntId());
+        map.put("roleId", this.getCurrentUserRoleId());
+
         DataList<LogisticsSum> dataList = null;
         List<LogisticsSum> logisticsSumList = null;
         try {
             //查询数据
             logisticsSumList = this.waybillService.queryWaybillDeclareDataList(map);
             //查询数据总数
-           // Integer count = this.waybillService.queryWaybillDeclareCount(map);
+            // Integer count = this.waybillService.queryWaybillDeclareCount(map);
             dataList = new DataList<>();
             dataList.setDraw(draw);
             dataList.setData(logisticsSumList);
@@ -93,69 +90,71 @@ public class WaybillDeclareApi extends BaseApi{
 
     /**
      * 运单申报-提交海关
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
-    public ResponseData saveSubmitCustom(@RequestParam(required = false) String submitKeys,
-                                         HttpServletRequest request) {
+    public ResponseData saveSubmitCustom(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request
+    ) {
         this.logger.info("运单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的提运单信息！");
         }
         //判断这个提运单里是否含有可以进行运单申报的运单(CBDS1和CBDS4)
         String billNo = this.waybillService.queryDateStatus(submitKeys);
-        if (!"true".equals(billNo)){
-            return rtnResponse("false","申报失败,提运单号"+billNo+"里没有符合运单申报的运单");
+        if (!"true".equals(billNo)) {
+            return rtnResponse("false", "申报失败,提运单号" + billNo + "里没有符合运单申报的运单");
         }
 
-            Users currentUser = this.getCurrentUsers();
-            Map<String, String> paramMap = new HashMap<>();
-            paramMap.put("dataStatus", StatusCode.YDSBZ);
-            paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.YDCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
-            paramMap.put("currentUserId", currentUser.getId());
-            /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
-            paramMap.put("submitKeys", submitKeys);//提运单号
+        Users currentUser = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("dataStatus", StatusCode.YDSBZ);
+        paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.EXPORT);//运单待申报,已导入
+//        paramMap.put("dataStatusWhere", StatusCode.YDDSB);//运单待申报,已导入
 
-            // 调用运单申报Service获取提交海关结果
-            boolean flag = waybillService.updateSubmitWaybill(paramMap);
-            if (flag) {
-                return rtnResponse("true", "运单申报海关提交成功！");
-            } else {
-                return rtnResponse("false", "运单申报海关提交失败！");
-            }
+        paramMap.put("currentUserId", currentUser.getId());
+            /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
+        paramMap.put("submitKeys", submitKeys);//提运单号
+
+        // 调用运单申报Service获取提交海关结果
+        boolean flag = waybillService.updateSubmitWaybill(paramMap);
+        if (flag) {
+            return rtnResponse("true", "运单申报海关提交成功！");
+        } else {
+            return rtnResponse("false", "运单申报海关提交失败！");
+        }
     }
+
     /**
      * 运单状态申报-提交海关
-     *
-     * @param submitKeys EntryHead.IDs
-     */
+     **/
     @RequestMapping(value = "/submitCustomToStatus", method = RequestMethod.POST)
-    public ResponseData submitCustomToStatus(@RequestParam(required = false) String submitKeys,
-                                         HttpServletRequest request) {
+    public ResponseData submitCustomToStatus(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request
+    ) {
         this.logger.info("运单状态申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
             return rtnResponse("false", "请先勾选要提交海关的提运单信息！");
         }
         //判断这个提运单里是否含有可以进行运单状态申报的运单
         String billNo = this.waybillService.queryStaDateStatus(submitKeys);
-        if (!"true".equals(billNo)){
-            return rtnResponse("false","运单状态申报失败,提运单"+billNo+"里没有符合运单状态申报的运单");
+        if (!"true".equals(billNo)) {
+            return rtnResponse("false", "运单状态申报失败,提运单" + billNo + "里没有符合运单状态申报的运单");
         }
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.YDZTSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB + "," + StatusCode.YDZTCB+","+StatusCode.EXPORT);//可以申报的状态,支付单待申报,支付单重报,已导入
+        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB + "," + StatusCode.EXPORT);//运单状态待申报,已导入
+//        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB);//运单状态待申报
+
         paramMap.put("currentUserId", currentUser.getId());
         /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
         paramMap.put("submitKeys", submitKeys);//运单编号
 
         // 调用运单申报Service获取提交海关结果
         boolean flag = waybillService.updateSubmitWaybillToStatus(paramMap);
-        //改变运单表的状态
-        //if (flag) {
-            //flag = waybillService.updateSubmitWaybill(paramMap);
-        //}
+
         if (flag) {
             return rtnResponse("true", "运单状态申报海关提交成功！");
         } else {
