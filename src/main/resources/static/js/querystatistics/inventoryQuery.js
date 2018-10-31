@@ -12,7 +12,7 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         var gName = $("[name='gName']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/queryStatistics/queryInventory", {
+        var url = sw.serializeObjectToURL("api/querystatistics/queryInventory", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
@@ -123,16 +123,16 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
             startStr: oSettings._iDisplayStart,
             length: oSettings._iDisplayLength
         };
-        sw.ajax("api/queryStatistics/load", "GET", paramJson, function (rsp) {
+        sw.ajax("api/querystatistics/load", "GET", paramJson, function (rsp) {
             if (rsp.status == 200) {
                 var fileName = rsp.data;
-                window.location.href = "/api/queryStatistics/query/downloadFile?fileName=" + fileName;
+                window.location.href = "/api/querystatistics/query/downloadFile?fileName=" + fileName;
             }
         })
     },
 
     EbusinessEnt:function () {
-        sw.ajax("api/queryStatistics/EbusinessEnt","GET","",function(rsp){
+        sw.ajax("api/querystatistics/EbusinessEnt","GET","",function(rsp){
             var result = rsp.data;
             for(var idx in result){
                 var id = result[idx].id;

@@ -1,8 +1,7 @@
 //清单查询
-sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querystatistics/customsStatistics"] || {
+sw.page.modules["querystatistics/countryStatistics"] = sw.page.modules["querystatistics/countryStatistics"] || {
 
     query: function () {
-        debugger;
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
@@ -10,7 +9,7 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
         var entId = $("[name='entId']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("customs/queryCustoms", {
+        var url = sw.serializeObjectToURL("country/queryTradeCountry", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
@@ -18,29 +17,33 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
         });
 
         // 数据表
-        sw.datatable("#query-customs-table", {
+        sw.datatable("#query-countryQuery-table", {
             ajax: sw.resolve("api", url),
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
                 {
-                    label: "电商企业名称", render: function (data, type, row) {
-                    return row.ent_name;
+                    label: "起运国（地区）", render: function (data, type, row) {
+                    return row.country;
                 }
                 },
                 {
-                    label: "企业编码", render: function (data, type, row) {
-                    return row.ent_customs_code;
-                }
-                },
-                {
-                    label: "提运单数", render: function (data, type, row) {
-                    return row.billNoCount;
-                }
-                },
-                {
-                    label: "放行清单数", render: function (data, type, row) {
+                    label: "清单量", render: function (data, type, row) {
                     return row.amount;
+                }
+                },
+                {
+                    label: "毛重(KG)", render: function (data, type, row) {
+                    var totalGrossWeight = parseFloat(row.totalGrossWeight);
+                    if (isNaN(totalGrossWeight)) return 0;
+                    return totalGrossWeight.toFixed(2);
+                }
+                },
+                {
+                    label: "净重(KG)", render: function (data, type, row) {
+                    var totalNetWeight = parseFloat(row.totalNetWeight);
+                    if (isNaN(totalNetWeight)) return 0;
+                    return totalNetWeight.toFixed(2);
                 }
                 },
                 {
@@ -61,20 +64,13 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
                     if (isNaN(totalTax)) return 0;
                     return totalTax.toFixed(2);
                 }
-                },
-                {
-                    label: "毛重(KG)", render: function (data, type, row) {
-                    var totalGrossWeight = parseFloat(row.totalGrossWeight);
-                    if (isNaN(totalGrossWeight)) return 0;
-                    return totalGrossWeight.toFixed(2);
-                }
                 }
             ]
         });
     },
 
     EbusinessEnt: function () {
-        sw.ajax("api/queryStatistics/EbusinessEnt", "GET", "", function (rsp) {
+        sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
             for (var idx in result) {
                 var id = result[idx].id;

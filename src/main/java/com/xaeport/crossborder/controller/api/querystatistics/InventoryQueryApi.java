@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/queryStatistics")
+@RequestMapping("/api/querystatistics")
 public class InventoryQueryApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());

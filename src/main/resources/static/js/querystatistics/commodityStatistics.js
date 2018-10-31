@@ -1,5 +1,5 @@
 //清单查询
-sw.page.modules["querystatistics/countryStatistics"] = sw.page.modules["querystatistics/countryStatistics"] || {
+sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querystatistics/commodityStatistics"] || {
 
     query: function () {
         // 获取查询表单参数
@@ -9,7 +9,7 @@ sw.page.modules["querystatistics/countryStatistics"] = sw.page.modules["querysta
         var entId = $("[name='entId']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("country/queryTradeCountry", {
+        var url = sw.serializeObjectToURL("commodity/queryCommodity", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
@@ -17,35 +17,33 @@ sw.page.modules["querystatistics/countryStatistics"] = sw.page.modules["querysta
         });
 
         // 数据表
-        sw.datatable("#query-countryQuery-table", {
+        sw.datatable("#query-commodity-table", {
             ajax: sw.resolve("api", url),
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
                 {
-                    label: "起运国（地区）", render: function (data, type, row) {
-                    return row.country;
+                    label: "商品品类", render: function (data, type, row) {
+                    return row.product_name;
                 }
                 },
                 {
-                    label: "清单量", render: function (data, type, row) {
+                    label: "商品编码", render: function (data, type, row) {
+                    return row.g_code;
+                }
+                },
+                {
+                    label: "商品数量", render: function (data, type, row) {
                     return row.amount;
                 }
                 },
-                {
-                    label: "毛重(KG)", render: function (data, type, row) {
-                    var totalGrossWeight = parseFloat(row.totalGrossWeight);
-                    if (isNaN(totalGrossWeight)) return 0;
-                    return totalGrossWeight.toFixed(2);
-                }
-                },
-                {
-                    label: "净重(KG)", render: function (data, type, row) {
-                    var totalNetWeight = parseFloat(row.totalNetWeight);
-                    if (isNaN(totalNetWeight)) return 0;
-                    return totalNetWeight.toFixed(2);
-                }
-                },
+                // {
+                //     label: "商品净重(KG)", render: function (data, type, row) {
+                //     var totalNetWeight = parseFloat(row.totalNetWeight);
+                //     if (isNaN(totalNetWeight)) return 0;
+                //     return totalNetWeight.toFixed(2);
+                // }
+                // },
                 {
                     label: "商品总价", render: function (data, type, row) {
                     var totalPrice = parseFloat(row.totalPrice);
@@ -70,7 +68,7 @@ sw.page.modules["querystatistics/countryStatistics"] = sw.page.modules["querysta
     },
 
     EbusinessEnt: function () {
-        sw.ajax("api/queryStatistics/EbusinessEnt", "GET", "", function (rsp) {
+        sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
             for (var idx in result) {
                 var id = result[idx].id;
