@@ -88,7 +88,6 @@ public class ReceiptService {
                 taxHeadRd.setGuid(guid);
                 taxHeadRd.setCrt_tm(new Date());
                 taxHeadRd.setUpd_tm(new Date());
-                String updateMark = null;
 
                 List<Map<String, String>> taxHead = taxHeads.get(i);
                 for (Map<String, String> map : taxHead) {
@@ -145,6 +144,7 @@ public class ReceiptService {
                     }
                 }
                 this.receiptMapper.InsertTaxHeadRd(taxHeadRd);
+
                 long returnTime = Long.parseLong(taxHeadRd.getReturn_time());
                 String invtNo = taxHeadRd.getInvt_no();
                 ImpInventoryHead impInventoryHead = this.receiptMapper.findByInvtNo(invtNo);
@@ -152,44 +152,64 @@ public class ReceiptService {
                     long taxPreTime = StringUtils.isEmpty(impInventoryHead.getTax_return_time()) ? 0 : Long.parseLong(impInventoryHead.getTax_return_time());
                     if (returnTime >= taxPreTime) {
                         this.receiptMapper.updateInventoryHeadTax(taxHeadRd);
-                        updateMark = "1";
+                        for (int j = 0; j < taxLists.size(); j++) {
+                            taxListRd = new TaxListRd();
+                            taxListRd.setHead_guid(guid);
+                            List<Map<String, String>> taxlist = taxLists.get(j);
+                            for (Map<String, String> map : taxlist) {
+                                if (map.containsKey("gnum")) {
+                                    taxListRd.setG_num(map.get("gnum"));
+                                }
+                                if (map.containsKey("gcode")) {
+                                    taxListRd.setG_code(map.get("gcode"));
+                                }
+                                if (map.containsKey("taxPrice")) {
+                                    taxListRd.setTax_price(map.get("taxPrice"));
+                                }
+                                if (map.containsKey("customsTax")) {
+                                    taxListRd.setCustoms_tax(map.get("customsTax"));
+                                }
+                                if (map.containsKey("valueAddedTax")) {
+                                    taxListRd.setValue_added_tax(map.get("valueAddedTax"));
+                                }
+                                if (map.containsKey("consumptionTax")) {
+                                    taxListRd.setConsumption_tax(map.get("consumptionTax"));
+                                }
+                            }
+                            this.receiptMapper.InsertTaxListRd(taxListRd);
+                            this.receiptMapper.updateInventoryListTax(taxHeadRd, taxListRd);
+                        }
                     } else {
-                        continue;
+                        for (int j = 0; j < taxLists.size(); j++) {
+                            taxListRd = new TaxListRd();
+                            taxListRd.setHead_guid(guid);
+                            List<Map<String, String>> taxlist = taxLists.get(j);
+                            for (Map<String, String> map : taxlist) {
+                                if (map.containsKey("gnum")) {
+                                    taxListRd.setG_num(map.get("gnum"));
+                                }
+                                if (map.containsKey("gcode")) {
+                                    taxListRd.setG_code(map.get("gcode"));
+                                }
+                                if (map.containsKey("taxPrice")) {
+                                    taxListRd.setTax_price(map.get("taxPrice"));
+                                }
+                                if (map.containsKey("customsTax")) {
+                                    taxListRd.setCustoms_tax(map.get("customsTax"));
+                                }
+                                if (map.containsKey("valueAddedTax")) {
+                                    taxListRd.setValue_added_tax(map.get("valueAddedTax"));
+                                }
+                                if (map.containsKey("consumptionTax")) {
+                                    taxListRd.setConsumption_tax(map.get("consumptionTax"));
+                                }
+                            }
+                            this.receiptMapper.InsertTaxListRd(taxListRd);
+                        }
                     }
                 } else {
                     continue;
                 }
-
-                for (int j = 0; j < taxLists.size(); j++) {
-                    taxListRd = new TaxListRd();
-                    taxListRd.setHead_guid(guid);
-                    List<Map<String, String>> taxlist = taxLists.get(j);
-                    for (Map<String, String> map : taxlist) {
-                        if (map.containsKey("gnum")) {
-                            taxListRd.setG_num(map.get("gnum"));
-                        }
-                        if (map.containsKey("gcode")) {
-                            taxListRd.setG_code(map.get("gcode"));
-                        }
-                        if (map.containsKey("taxPrice")) {
-                            taxListRd.setTax_price(map.get("taxPrice"));
-                        }
-                        if (map.containsKey("customsTax")) {
-                            taxListRd.setCustoms_tax(map.get("customsTax"));
-                        }
-                        if (map.containsKey("valueAddedTax")) {
-                            taxListRd.setValue_added_tax(map.get("valueAddedTax"));
-                        }
-                        if (map.containsKey("consumptionTax")) {
-                            taxListRd.setConsumption_tax(map.get("consumptionTax"));
-                        }
-                    }
-                    this.receiptMapper.InsertTaxListRd(taxListRd);
-                    if (updateMark.equals("1")) {
-                        this.receiptMapper.updateInventoryListTax(taxHeadRd, taxListRd);
-                    }
-                }
-
 
             }
         }

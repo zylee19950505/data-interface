@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CEB816Message xmlns="http://www.chinaport.gov.cn/ceb" version="1.0" guid="42ec4e3a-67e2-4cd4-aa94-f13391509052">
+    <Tax>
+        <TaxHeadRd>
+            <guid>42ec4e3a-67e2-4cd4-aa94-f13391509052</guid>
+            <returnTime>20181019102124900</returnTime>
+            <invtNo>4gfd5g54fd564g</invtNo>
+            <taxNo>90072018I600814218_0</taxNo>
+            <customsTax>0</customsTax>        应征关税
+            <valueAddedTax>30</valueAddedTax>应征增值税
+            <consumptionTax>0</consumptionTax>应征消费税
+            <status>1</status>
+            <entDutyNo></entDutyNo>
+            <note></note>
+            <assureCode>6104W60029</assureCode>
+            <ebcCode>6104W60029</ebcCode>
+            <logisticsCode>610138Z005</logisticsCode>
+            <agentCode>6104W60029</agentCode>
+            <customsCode>9007</customsCode>
+            <orderNo>804431764811</orderNo>
+            <logisticsNo>120279276296</logisticsNo>
+        </TaxHeadRd>
+        <TaxListRd>
+            <gnum>1</gnum>
+            <gcode>6109100021</gcode>
+            <taxPrice>100</taxPrice>
+            <customsTax>0.0</customsTax>        应征关税
+            <valueAddedTax>10</valueAddedTax>应征增值税
+            <consumptionTax>0.0</consumptionTax>应征消费税
+        </TaxListRd>
+        <TaxListRd>
+            <gnum>2</gnum>
+            <gcode>4203301090</gcode>
+            <taxPrice>100</taxPrice>
+            <customsTax>0.0</customsTax>
+            <valueAddedTax>5</valueAddedTax>
+            <consumptionTax>0.0</consumptionTax>
+        </TaxListRd>
+        <TaxListRd>
+            <gnum>3</gnum>
+            <gcode>6110300090</gcode>
+            <taxPrice>253.25</taxPrice>
+            <customsTax>0.0</customsTax>
+            <valueAddedTax>5</valueAddedTax>
+            <consumptionTax>0.0</consumptionTax>
+        </TaxListRd>
+		<TaxListRd>
+            <gnum>4</gnum>
+            <gcode>6110300090</gcode>
+            <taxPrice>253.25</taxPrice>
+            <customsTax>0.0</customsTax>
+            <valueAddedTax>10</valueAddedTax>
+            <consumptionTax>0.0</consumptionTax>
+        </TaxListRd>
+    </Tax>
+</CEB816Message>
