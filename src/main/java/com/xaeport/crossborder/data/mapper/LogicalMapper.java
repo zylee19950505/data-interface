@@ -11,6 +11,9 @@ import java.util.Map;
 @Mapper
 public interface LogicalMapper {
 
+    @SelectProvider(type = LogicalSQLProvider.class,method = "getOrderLogicData")
+    List<ImpCrossBorderHead> getOrderLogicData(Map<String,String> map);
+
     @SelectProvider(type = LogicalSQLProvider.class,method = "getInventoryLogicData")
     List<ImpCrossBorderHead> getInventoryLogicData(Map<String,String> map);
 

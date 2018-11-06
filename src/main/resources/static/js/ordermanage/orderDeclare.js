@@ -31,11 +31,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS1") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
-                        }
-                        else if (row.data_status == "CBDS2") {
+                        if (row.data_status == "CBDS2") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.bill_no + '" />';
                         }
@@ -77,8 +73,8 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     var textColor = "";
                     switch (row.data_status) {
                         case "CBDS1":
-                            value = "订单待申报";
-                            textColor = "text-yellow";
+                            value = "校验未通过";
+                            textColor = "text-red";
                             break;
                         case "CBDS2":
                             value = "订单待申报";

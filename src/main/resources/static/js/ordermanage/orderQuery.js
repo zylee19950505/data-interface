@@ -55,7 +55,6 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'
                 }
                 },
-
                 {data: "ebp_Name", label: "电商企业名称"},
                 {data: "ebc_Name", label: "电商平台名称"},
                 {data: "goods_Value", label: "总价"},
@@ -76,7 +75,6 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
                     } else {
                         value = row.return_status;
                     }
-
                     return '<a style="cursor:pointer" title="订单回执详情信息" ' +
                         'onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').returnOrderDetails('" + row.guid + "','" + row.order_No + "')" + '">' + value + '</a>';
                 }
@@ -97,7 +95,6 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
         $("[ws-search]").unbind("click").click(this.query).click();
     },
     seeOrderNoDetail: function (guid, order_No) {
-        console.log(guid, order_No)
         var url = "ordermanage/seeOrderDetail?type=DDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_No;
         sw.modelPopup(url, "查看订单详情", false, 1000, 930);
     },

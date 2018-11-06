@@ -11,6 +11,55 @@ import java.util.Map;
 
 public class VerificationSQLProvider extends BaseSQLProvider {
 
+    public String unverifiedByOrderHead() {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS,ORDER_TYPE,ORDER_NO");
+                SELECT("EBP_CODE,EBP_NAME,EBC_CODE,EBC_NAME");
+                SELECT("CURRENCY,BUYER_REG_NO,BUYER_NAME,BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_TELEPHONE");
+                SELECT("PAY_CODE,PAYNAME,PAY_TRANSACTION_ID,BATCH_NUMBERS");
+                SELECT("CONSIGNEE,CONSIGNEE_TELEPHONE,CONSIGNEE_ADDRESS,CONSIGNEE_DITRICT");
+                SELECT("BILL_NO,BUSINESS_TYPE");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
+                SELECT("to_char(GOODS_VALUE,'FM999999999990.00000') as GOODS_VALUE");
+                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
+                SELECT("to_char(DISCOUNT,'FM999999999990.00000') as DISCOUNT");
+                SELECT("to_char(TAX_TOTAL,'FM999999999990.00000') as TAX_TOTAL");
+                SELECT("to_char(ACTURAL_PAID,'FM999999999990.00000') as ACTURAL_PAID");
+                FROM("T_IMP_ORDER_HEAD t");
+                WHERE("t.DATA_STATUS = 'CBDS1' ");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.BILL_NO = t.BILL_NO and vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 1000");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByOrderBody(final Map<String, String> paramMap) {
+        final String headGuids = paramMap.get("headGuids");
+        return new SQL() {
+            {
+                SELECT("G_NUM");
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_NO");
+                SELECT("ITEM_NAME");
+                SELECT("ITEM_DESCRIBE");
+                SELECT("G_MODEL");
+                SELECT("BAR_CODE");
+                SELECT("UNIT");
+                SELECT("to_char(QTY,'FM999999999990.00000') as QTY");
+                SELECT("to_char(PRICE,'FM999999999990.00000') as PRICE");
+                SELECT("to_char(TOTAL_PRICE,'FM999999999990.00000') as TOTAL_PRICE");
+                SELECT("CURRENCY");
+                SELECT("COUNTRY");
+                SELECT("NOTE");
+                FROM("T_IMP_ORDER_BODY t");
+                WHERE(splitJointIn("t.HEAD_GUID", headGuids));
+            }
+        }.toString();
+    }
+
     public String unverifiedByInventoryHead() {
         return new SQL() {
             {
@@ -185,7 +234,43 @@ public class VerificationSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateEntryHeadStatus(@Param("guid") String guid, @Param("status") String status) {
+    public String updateOrderStatus(@Param("guid") String guid, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_ORDER_HEAD t");
+                WHERE("t.guid = #{guid}");
+                if (!StringUtils.isEmpty(status)) {
+                    SET("t.data_status = #{status}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updatePaymentStatus(@Param("guid") String guid, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_PAYMENT t");
+                WHERE("t.guid = #{guid}");
+                if (!StringUtils.isEmpty(status)) {
+                    SET("t.data_status = #{status}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateLogisticsStatus(@Param("guid") String guid, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.guid = #{guid}");
+                if (!StringUtils.isEmpty(status)) {
+                    SET("t.data_status = #{status}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateInventoryStatus(@Param("guid") String guid, @Param("status") String status) {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");

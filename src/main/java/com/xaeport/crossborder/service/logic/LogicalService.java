@@ -14,6 +14,10 @@ public class LogicalService {
     @Autowired
     LogicalMapper logicalMapper;
 
+    public List<ImpCrossBorderHead> getOrderLogicData(Map<String,String> map){
+        return logicalMapper.getOrderLogicData(map);
+    }
+
     public List<ImpCrossBorderHead> getInventoryLogicData(Map<String,String> map){
         return logicalMapper.getInventoryLogicData(map);
     }

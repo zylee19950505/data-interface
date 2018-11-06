@@ -195,6 +195,109 @@ public class OrderQuerySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //逻辑校验修改订单表头
+    public String updateOrderHeadByLogic(LinkedHashMap<String, String> entryHead) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_ORDER_HEAD t");
+                WHERE("t.GUID = #{entryhead_guid}");
+                SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("order_No"))) {
+                    SET("t.ORDER_NO = #{order_No}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("goods_Value"))) {
+                    SET("t.GOODS_VALUE = #{goods_Value}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("ebp_Code"))) {
+                    SET("t.EBP_CODE = #{ebp_Code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("ebp_Name"))) {
+                    SET("t.EBP_NAME = #{ebp_Name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("ebc_Code"))) {
+                    SET("t.EBC_CODE = #{ebc_Code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("ebc_Name"))) {
+                    SET("t.EBC_NAME = #{ebc_Name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("buyer_Reg_No"))) {
+                    SET("t.BUYER_REG_NO = #{buyer_Reg_No}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("buyer_Id_Number"))) {
+                    SET("t.BUYER_ID_NUMBER = #{buyer_Id_Number}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("buyer_Name"))) {
+                    SET("t.BUYER_NAME = #{buyer_Name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("buyer_TelePhone"))) {
+                    SET("t.BUYER_TELEPHONE = #{buyer_TelePhone}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee"))) {
+                    SET("t.CONSIGNEE = #{consignee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_Telephone"))) {
+                    SET("t.CONSIGNEE_TELEPHONE = #{consignee_Telephone}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_Address"))) {
+                    SET("t.CONSIGNEE_ADDRESS = #{consignee_Address}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("discount"))) {
+                    SET("t.DISCOUNT = #{discount}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("tax_Total"))) {
+                    SET("t.TAX_TOTAL = #{tax_Total}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("freight"))) {
+                    SET("t.FREIGHT = #{freight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_Ditrict"))) {
+                    SET("t.CONSIGNEE_DITRICT = #{consignee_Ditrict}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("note"))) {
+                    SET("t.NOTE = #{note}");
+                }
+            }
+        }.toString();
+    }
+
+    //逻辑校验修改订单表体数据
+    public String updateOrderBodyByLogic(LinkedHashMap<String, String> entryList) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_ORDER_BODY t");
+                WHERE("t.HEAD_GUID = #{entryhead_guid}");
+                WHERE("t.G_NUM = #{g_no}");
+                if (!StringUtils.isEmpty(entryList.get("order_No"))) {
+                    SET("t.ORDER_NO = #{order_No}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("item_Name"))) {
+                    SET("t.ITEM_NAME = #{item_Name}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("g_Model"))) {
+                    SET("t.G_MODEL = #{g_Model}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("qty"))) {
+                    SET("t.QTY = #{qty}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("price"))) {
+                    SET("t.PRICE = #{price}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("unit"))) {
+                    SET("t.UNIT = #{unit}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("total_Price"))) {
+                    SET("t.TOTAL_PRICE = #{total_Price}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("note"))) {
+                    SET("t.NOTE = #{note}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("country"))) {
+                    SET("t.COUNTRY = #{country}");
+                }
+            }
+        }.toString();
+    }
+
     /*修改邮件查询编辑信息(表头)
     * updateOrderHead
     * */
@@ -204,7 +307,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_ORDER_HEAD t");
                 WHERE("t.guid = #{entryhead_guid}");
                 SET("t.APP_TYPE = '2'");
-                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.DATA_STATUS = 'CBDS2'");
                 SET("t.UPD_TM = sysdate");
                 if (!StringUtils.isEmpty(entryHead.get("order_No"))) {
                     SET("t.ORDER_NO = #{order_No}");
@@ -273,7 +376,7 @@ public class OrderQuerySQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_ORDER_HEAD t");
                 WHERE("t.guid = #{entryhead_guid}");
                 SET("t.APP_TYPE = '2'");
-                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.DATA_STATUS = 'CBDS2'");
                 SET("t.UPD_TM = sysdate");
             }
         }.toString();
@@ -339,5 +442,20 @@ public class OrderQuerySQLProvider extends BaseSQLProvider {
         }.toString();
 
     }
+
+    public String queryVerifyDetail(Map<String, String> paramMap) {
+        final String id = paramMap.get("id");
+        return new SQL() {
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.CB_HEAD_ID = #{id}");
+                WHERE("t.STATUS = 'N'");
+            }
+        }.toString();
+    }
+
 
 }

@@ -71,19 +71,19 @@ public class VerificationThread implements Runnable {
                     verificationMapper.insertVerifyStatus(verify);// 添加校验状态
                     //TODO 1.跨境进口业务（订单）逻辑校验通过后，更新为订单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_ORDER.equals(impCBHeadVer.getBusiness_type())) {
-                        verificationMapper.updateEntryHeadStatus(verify.getCb_head_id(), StatusCode.DDDSB);
+                        verificationMapper.updateOrderStatus(verify.getCb_head_id(), StatusCode.DDDSB);
                     }
                     //TODO 1.跨境进口业务（支付单）逻辑校验通过后，更新为支付单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_PAYMENT.equals(impCBHeadVer.getBusiness_type())) {
-                        verificationMapper.updateEntryHeadStatus(verify.getCb_head_id(), StatusCode.ZFDDSB);
+                        verificationMapper.updatePaymentStatus(verify.getCb_head_id(), StatusCode.ZFDDSB);
                     }
                     //TODO 1.跨境进口业务（运单）逻辑校验通过后，更新为运单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_LOGISTICS.equals(impCBHeadVer.getBusiness_type())) {
-                        verificationMapper.updateEntryHeadStatus(verify.getCb_head_id(), StatusCode.YDDSB);
+                        verificationMapper.updateLogisticsStatus(verify.getCb_head_id(), StatusCode.YDDSB);
                     }
                     //TODO 1.跨境进口业务（清单）逻辑校验通过后，更新为清单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_INVENTORY.equals(impCBHeadVer.getBusiness_type())) {
-                        verificationMapper.updateEntryHeadStatus(verify.getCb_head_id(), StatusCode.QDDSB);
+                        verificationMapper.updateInventoryStatus(verify.getCb_head_id(), StatusCode.QDDSB);
                     }
                 } catch (Exception e) {
                     logger.error(String.format("更新业务数据时发生异常:[guid=%s, bill_no=%s,Order_no=%s,type=%s,code=%s,status=%s,result=%s]", impCBHeadVer.getGuid(), impCBHeadVer.getBill_no(), impCBHeadVer.getOrder_no(), verify.getType(), verify.getCode(), verify.getStatus(), verify.getResult()), e);
@@ -99,10 +99,10 @@ public class VerificationThread implements Runnable {
     }
 
     // 修改 entryhead 状态表
-    private void updateEntryHeadStatus(Verify verify, String status) throws Exception {
+    private void updateInventoryStatus(Verify verify, String status) throws Exception {
         try {
             // 修改状态为：舱单待申报
-            this.verificationMapper.updateEntryHeadStatus(verify.getCb_head_id(), status);
+            this.verificationMapper.updateInventoryStatus(verify.getCb_head_id(), status);
 
             StatusRecord statusRecord = new StatusRecord();
             statusRecord.setSr_id(IdUtils.getUUId());

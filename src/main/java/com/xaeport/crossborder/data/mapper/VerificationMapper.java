@@ -26,18 +26,41 @@ public interface VerificationMapper {
     void insertVerifyRecordByVerify(Verify verify);
 
 
-//    //更新清单表数据状态
-//    @Update("update entryhead set op_status=#{status} where entryhead_id=#{entryHeadId}")
-//    int updateEntryHeadStatus(@Param("entryHeadId") String entryHeadId, @Param("status") String status);
+
+
+    //更新订单表数据状态
+    @UpdateProvider(type = VerificationSQLProvider.class, method = "updateOrderStatus")
+    int updateOrderStatus(@Param("guid") String guid, @Param("status") String status);
+
+    //更新支付单表数据状态
+    @UpdateProvider(type = VerificationSQLProvider.class, method = "updatePaymentStatus")
+    int updatePaymentStatus(@Param("guid") String guid, @Param("status") String status);
+
+    //更新运单表数据状态
+    @UpdateProvider(type = VerificationSQLProvider.class, method = "updateLogisticsStatus")
+    int updateLogisticsStatus(@Param("guid") String guid, @Param("status") String status);
 
     //更新清单表数据状态
-    @UpdateProvider(type = VerificationSQLProvider.class, method = "updateEntryHeadStatus")
-    int updateEntryHeadStatus(@Param("guid") String guid, @Param("status") String status);
+    @UpdateProvider(type = VerificationSQLProvider.class, method = "updateInventoryStatus")
+    int updateInventoryStatus(@Param("guid") String guid, @Param("status") String status);
+
+
+
 
     //新增跨境状态历史记录表
     @InsertProvider(type = VerificationSQLProvider.class, method = "insertStatusRecord")
     void insertStatusRecord(@Param("statusRecord") StatusRecord statusRecord);
 
+
+
+
+    //获取未逻辑校验订单表头数据
+    @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByOrderHead")
+    List<ImpCBHeadVer> unverifiedByOrderHead();
+
+    //获取未逻辑校验订单表体数据
+    @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByOrderBody")
+    List<ImpCBBodyVer> unverifiedByOrderBody(Map<String, String> paramMap);
 
     //获取未逻辑校验清单表头数据
     @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByInventoryHead")

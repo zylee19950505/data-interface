@@ -8,11 +8,6 @@ import com.xaeport.crossborder.verification.tools.VerificationResultUtil;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by baozhe on 2017-8-09.
- * B类-正则校验-链节点
- * 用于验证字段符合某一正则表达式
- */
 public class inventoryRegularVerifyChain implements CrossBorderVerifyChain {
 
     private static String numberStringReg = "[0-9A-za-z]*";

@@ -100,10 +100,12 @@ public class DetailQueryService {
         return rtnMap;
 
     }
-    public boolean saveLogicalDetailByInventory(LinkedHashMap<String, String> entryHead,
-                                   List<LinkedHashMap<String, String>> entryLists,
-                                   Map<String, String> rtnMap,String notes){
-
+    public boolean saveLogicalDetailByInventory(
+            LinkedHashMap<String, String> entryHead,
+            List<LinkedHashMap<String, String>> entryLists,
+            Map<String, String> rtnMap,
+            String notes
+    ){
         if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");

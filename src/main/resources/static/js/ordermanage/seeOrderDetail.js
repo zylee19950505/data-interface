@@ -156,13 +156,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (billNo, status, type, ieFlag) {
-        if (type === "LJJY" && ieFlag === "I") {
-            //调到那个查询
-            sw.page.modules[this.detailParam.callBackUrl].loadPreview(billNo, status);
-        } else {
-            sw.page.modules[this.detailParam.callBackUrl].query();
-        }
+    callBackQuery: function (orderNo) {
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
     cancel: function () {
@@ -225,7 +220,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
     errorMessageShow: function (vertify) {
         if (vertify) {
             var result = JSON.parse(vertify.result);
-            var gno = result.gno;
+            var gno = result.g_num;
             var field = result.field;
 
             if (isNotEmpty(gno)) {
@@ -258,7 +253,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["ordermanage/seeOrderDetail"].callBackQuery(orderNo, "N", type, ieFlag);
+                sw.page.modules["ordermanage/seeOrderDetail"].callBackQuery(orderNo);
             } else {
                 hasError(rsp.data.msg);
             }
@@ -286,6 +281,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             url: "api/ordermanage/queryOrder/seeOrderDetail",
             data: data,
             success: function (data, status, xhr) {
+                debugger;
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["ordermanage/seeOrderDetail"];
 
@@ -371,16 +367,6 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                     hasError("序号[" + gno + "]-[" + validataListField[key] + "]不能为空");
                     return false;
                 }
-
-                if (key == "g_grosswt") {// 商品毛重
-                    var g_grosswt = parseFloat(fieldVal).toFixed(4);
-                    var g_netwt = parseFloat($("#g_netwt_" + gno).val()).toFixed(4);
-                    if (g_netwt > g_grosswt) {
-                        $(fields[i]).focus();
-                        hasError("序号[" + gno + "][毛重]不能小于净重");
-                        return false;
-                    }
-                }
             }
         }
 
@@ -394,20 +380,14 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         var orderNo = param.order_No;
         var type = param.type;
         var isEdit = param.isEdit;
-        /* $("#declareTime").val(declareTime);*/
 
-        if (type !== "LJJY") {
-            $(".ieDateHide").remove();
-        } else {
-            $(".ieDate").remove();
-            orderNo = param.order_No;
-        }
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
             format: "yyyy-mm-dd",
             autoclose: true
         });
+
         switch (type) {
             //订单查询
             case "DDCX": {
@@ -432,13 +412,28 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             }
             //逻辑校验(预留)
             case "LJJY": {
-
+                if(isEdit == "true"){
+                    this.detailParam.disableField = [
+                        "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
+                        "goods_Value",
+                        "total_Price",//商品总价，等于单价乘以数量。
+                        "g_num",
+                        "note"
+                    ]
+                }
+                //保存的路径
+                this.detailParam.url = "/api/order/saveLogicalDetail";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "ordermanage/orderLogicVerify";
+                this.detailParam.isShowError = true;
                 break;
             }
 
         } // 不可编辑状态
         if (isEdit == "false") {
-            this.detailParam.disableField = [];
+            this.detailParam.disableField = [
+
+            ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
         } else {

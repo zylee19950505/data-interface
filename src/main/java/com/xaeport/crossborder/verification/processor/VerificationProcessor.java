@@ -10,6 +10,8 @@ import com.xaeport.crossborder.verification.chains.impl.inventory.inventoryRegul
 //import com.xaeport.crossborder.verification.chains.impl.order.orderRegularVerifyChain;
 //import com.xaeport.crossborder.verification.chains.impl.payment.paymentBaseVerifyChain;
 //import com.xaeport.crossborder.verification.chains.impl.payment.paymentRegularVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.order.orderBaseVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.order.orderRegularVerifyChain;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import com.xaeport.crossborder.verification.entity.VerificationResult;
 import com.xaeport.crossborder.verification.tools.VerificationResultUtil;
@@ -35,11 +37,11 @@ public class VerificationProcessor {
     private final static List<CrossBorderVerifyChain> inventoryChainList = new ArrayList<CrossBorderVerifyChain>();// 清单校验连接
 
     static {
-//        // 字段校验
-//        orderChainList.add(new orderBaseVerifyChain());
-//        // 正则校验
-//        orderChainList.add(new orderRegularVerifyChain());
-//
+        // 字段校验
+        orderChainList.add(new orderBaseVerifyChain());
+        // 正则校验
+        orderChainList.add(new orderRegularVerifyChain());
+
 //        // 字段校验
 //        paymentChainList.add(new paymentBaseVerifyChain());
 //        // 正则校验

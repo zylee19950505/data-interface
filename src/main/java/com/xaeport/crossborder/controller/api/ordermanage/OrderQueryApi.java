@@ -18,15 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
-
 /*
  * 订单申报
  */
-
 @RestController
 @RequestMapping("/api/ordermanage/queryOrder")
 public class OrderQueryApi extends BaseApi {
-
 
 	private Log logger = LogFactory.getLog(this.getClass());
 
@@ -46,8 +43,6 @@ public class OrderQueryApi extends BaseApi {
 			@RequestParam(required = false) String start,
 			@RequestParam(required = false) String length,
 			@RequestParam(required = false) String draw
-
-
 	) {
 		this.logger.debug(String.format("查询邮件申报条件参数:[startDeclareTime:%s,endDeclareTime:%s,orderNo:%s,billNo:%s,orderStatus:%s,start:%s,length:%s,drew:%s]", startDeclareTime,endDeclareTime,orderNo,billNo,orderStatus,start,length,draw));
 		Map<String, String> paramMap = new HashMap<String, String>();
@@ -89,26 +84,17 @@ public class OrderQueryApi extends BaseApi {
 	public ResponseData queryOrderBodyList(
 			@RequestParam(required = false) String guid,
 			@RequestParam(required = false) String orderNo
-			/*@RequestParam(required = false) String start,
-			@RequestParam(required = false) String length,
-			@RequestParam(required = false) String draw*/
 	) {
 		this.logger.debug(String.format("查询邮件条件参数:[guid:%s,orderNo:%s]",guid,orderNo));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpOrderBody> dataList = new DataList<ImpOrderBody>();
 		paramMap.put("guid",guid);
 		paramMap.put("orderNo",orderNo);
-		/*paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
-		paramMap.put("length",length);*/
 		List<ImpOrderBody> resultList = new ArrayList<ImpOrderBody>();
 		try {
 			resultList = orderQueryService.queryOrderBodyList(paramMap);
-			/*//查询总数
-			Integer count = orderQueryService.queryOrderBodyListCount(paramMap);
-			dataList.setDraw(draw);*/
+			//查询总数
 			dataList.setData(resultList);
-			//dataList.setRecordsTotal(count);
-			//dataList.setRecordsFiltered(count);
 			return new ResponseData(dataList);
 		} catch (Exception e) {
 			this.logger.error("订单查询失败", e);

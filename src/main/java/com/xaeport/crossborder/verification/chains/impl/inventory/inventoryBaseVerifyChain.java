@@ -9,11 +9,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-/**
- * Created by baozhe on 2017-8-09.
- * B类-字段校验-链节点
- * 用于比较字段间数值一致性
- */
 public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 
     private LoadData loadData = SpringUtils.getBean(LoadData.class);

@@ -431,6 +431,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             format: "yyyy-mm-dd",
             autoclose: true
         });
+
         switch (type) {
             //订单查询
             case "QDCX": {

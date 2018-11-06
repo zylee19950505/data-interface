@@ -42,22 +42,23 @@ public interface DetailQueryMapper {
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHead")
     void updateImpInventoryHead(LinkedHashMap<String, String> entryHead);
 
-    //修改清单表头信息
-    @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHeadByLogic")
-    void updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead);
-
+    //修改清单表体数据（清单查询）
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHeadByList")
     void updateImpInventoryHeadByList(LinkedHashMap<String, String> entryHead);
 
-    //修改清单表体信息
+    //修改清单表体信息（清单查询）
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryBodies")
     void updateImpInventoryBodies(LinkedHashMap<String, String> entryList);
 
-    //修改清单表体信息
+    //修改清单表头信息（逻辑校验）
+    @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryHeadByLogic")
+    void updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead);
+
+    //修改清单表体信息（逻辑校验）
     @UpdateProvider(type = DetailQuerySQLProvider.class, method = "updateImpInventoryBodiesByLogic")
     void updateImpInventoryBodiesByLogic(LinkedHashMap<String, String> entryList);
 
-    //查询清单回执详情
+    //查询清单回执详情（清单查询）
     @SelectProvider(type = DetailQuerySQLProvider.class, method = "getImpInventoryRec")
     ImpInventoryHead getImpInventoryRec(Map<String, String> paramMap);
 

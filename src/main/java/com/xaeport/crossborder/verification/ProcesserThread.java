@@ -1,5 +1,7 @@
 package com.xaeport.crossborder.verification;
 
+import com.xaeport.crossborder.verification.DataThread.InventoryDataThread;
+import com.xaeport.crossborder.verification.DataThread.OrderDataThread;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,20 +46,29 @@ public class ProcesserThread implements Runnable {
          */
         try {
             // 初始化数据加载器（数据库数据加载器）
-            Thread dbDataThread = new Thread(new DBDataThread());
-            dbDataThread.start();
-        }catch (Exception e){
-            this.logger.error("数据加载过程中发生异常",e);
+            Thread inventoryDataThread = new Thread(new InventoryDataThread());
+            inventoryDataThread.start();
+            Thread orderDataThread = new Thread(new OrderDataThread());
+            orderDataThread.start();
+        } catch (Exception e) {
+            this.logger.error("数据加载过程中发生异常", e);
         }
 
-        try{
+        try {
             // 初始化校验线程，默认启动3个校验线程
             for (int i = 0; i < 3; i++) {
-                Thread verificationThread = new Thread(new VerificationThread());
-                verificationThread.start();
+                Thread verificationThread1 = new Thread(new VerificationThread());
+                verificationThread1.start();
+                Thread verificationThread2 = new Thread(new VerificationThread());
+                verificationThread2.start();
+//                Thread verificationThread3 = new Thread(new VerificationThread());
+//                verificationThread3.start();
+//                Thread verificationThread4 = new Thread(new VerificationThread());
+//                verificationThread4.start();
             }
-        }catch (Exception e){
-            this.logger.error("数据校验过程中发生异常",e);
+
+        } catch (Exception e) {
+            this.logger.error("数据校验过程中发生异常", e);
         }
     }
 
@@ -84,6 +95,7 @@ public class ProcesserThread implements Runnable {
 
     /**
      * 是否在处理数据, 即待处理队列及处理中队列均无数据时表示为fasle
+     *
      * @return
      */
     public static boolean isProcessing() {
