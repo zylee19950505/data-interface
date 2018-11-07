@@ -22,4 +22,12 @@ public class LogicalService {
         return logicalMapper.getInventoryLogicData(map);
     }
 
+    public List<ImpCrossBorderHead> getPaymentLogicData(Map<String,String> map){
+        return logicalMapper.getPaymentLogicData(map);
+    }
+
+    public List<ImpCrossBorderHead> getLogisticsLogicData(Map<String,String> map){
+        return logicalMapper.getLogisticsLogicData(map);
+    }
+
 }

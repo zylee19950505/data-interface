@@ -22,7 +22,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/waybillManage")
-public class WaybillQueryApi extends BaseApi{
+public class WaybillQueryApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -32,7 +32,7 @@ public class WaybillQueryApi extends BaseApi{
     /*
      * 运单查询
      */
-    @RequestMapping(value = "/queryWaybillQuery" , method = RequestMethod.GET)
+    @RequestMapping(value = "/queryWaybillQuery", method = RequestMethod.GET)
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
@@ -41,8 +41,8 @@ public class WaybillQueryApi extends BaseApi{
             @RequestParam(required = false) String logisticsStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单查询查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo,billNo, logisticsStatus));
-        Map<String, String> map = new HashMap<String,String>();
+        this.logger.debug(String.format("运单查询查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, logisticsStatus));
+        Map<String, String> map = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
@@ -61,8 +61,8 @@ public class WaybillQueryApi extends BaseApi{
         map.put("length", length);
         map.put("end", end);
         map.put("extra_search", extra_search);
-        map.put("entId",this.getCurrentUserEntId());
-        map.put("roleId",this.getCurrentUserRoleId());
+        map.put("entId", this.getCurrentUserEntId());
+        map.put("roleId", this.getCurrentUserRoleId());
         //查询的状态可以使运单申报成功和运单状态申报成功
         map.put("dataStatus", StatusCode.YDSBCG);
         map.put("staDataStatus", StatusCode.YDZTSBCG);
@@ -84,6 +84,7 @@ public class WaybillQueryApi extends BaseApi{
         }
         return new ResponseData(dataList);
     }
+
     /*
      * 运单详情查询
      */
@@ -91,26 +92,27 @@ public class WaybillQueryApi extends BaseApi{
     public ResponseData waybillQueryById(
             @RequestParam(required = false) String guid,
             @RequestParam(required = false) String logistics_no
-    ){
-        this.logger.debug(String.format("查询运单详情条件参数:[guid:%s,logistics_no:%s]",guid,logistics_no));
-        Map<String,String> paramMap = new HashMap<String,String>();
-        paramMap.put("guid",guid);
-        paramMap.put("logisticsno",logistics_no);
-        Logistics logistics;
+    ) {
+        this.logger.debug(String.format("查询运单详情条件参数:[guid:%s,logistics_no:%s]", guid, logistics_no));
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("guid", guid);
+        paramMap.put("logisticsno", logistics_no);
+        ImpLogisticsDetail impLogisticsDetail;
         try {
-            logistics = waybillService.waybillQueryById(paramMap);
+            impLogisticsDetail = waybillService.seeWaybillDetail(paramMap);
         } catch (Exception e) {
             this.logger.error("查询运单信息失败，logistics_no=" + logistics_no, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseData(logistics);
+        return new ResponseData(impLogisticsDetail);
     }
+
     /*
     * 查询编辑运单详情
     * */
     @RequestMapping("/saveBillDetail")
-    public ResponseData saveBillDetail(@Param("entryJson") String entryJson){
+    public ResponseData saveBillDetail(@Param("entryJson") String entryJson) {
         //订单信息json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
 
@@ -130,6 +132,7 @@ public class WaybillQueryApi extends BaseApi{
         return new ResponseData(rtnMap);
 
     }
+
     /*
     * 运单回执详情
     * */
@@ -137,10 +140,10 @@ public class WaybillQueryApi extends BaseApi{
     public ResponseData returnDetail(
             @RequestParam(required = false) String guid,
             @RequestParam(required = false) String logisticsNo
-    ){
-        Map<String,String> paramMap = new HashMap<String,String>();
-        paramMap.put("guId",guid);
-        paramMap.put("logisticsNo",logisticsNo);
+    ) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("guId", guid);
+        paramMap.put("logisticsNo", logisticsNo);
         ImpLogistics impLogistics;
         try {
             impLogistics = waybillService.queryReturnDetail(paramMap);
@@ -148,7 +151,6 @@ public class WaybillQueryApi extends BaseApi{
             this.logger.error("查询回执详情信息失败，logistics_no=" + logisticsNo, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseData(impLogistics);
     }
 

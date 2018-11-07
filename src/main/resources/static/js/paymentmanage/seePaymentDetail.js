@@ -1,9 +1,3 @@
-/**
- * Created on 2017-7-23.
- * zwf
- * 支付单单条数据查询
- */
-
 function isNotEmpty(obj) {
     /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
@@ -107,7 +101,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         $("#ebp_code").val(entryHead.ebp_code);
         $("#ebp_name").val(entryHead.ebp_name);
         $("#amount_paid").val(parseFloat(entryHead.amount_paid).toFixed(5));
-        selecterInitPayment("payer_id_type",entryHead.payer_id_type,sw.dict.certificateType)
+        selecterInitPayment("payer_id_type", entryHead.payer_id_type, sw.dict.certificateType);
         $("#payer_id_number").val(entryHead.payer_id_number);
         $("#payer_name").val(entryHead.payer_name);
         $("#pay_time").val(moment(entryHead.pay_time).format("YYYY-MM-DD"));
@@ -117,7 +111,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
     errorMessageShow: function (vertify) {
         if (vertify) {
             var result = JSON.parse(vertify.result);
-            var gno = result.gno;
+            var gno = result.g_num;
             var field = result.field;
 
             if (isNotEmpty(gno)) {
@@ -131,8 +125,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
     },
 
     // 保存订单编辑信息
-    saveEntryInfo: function (orderNo, type, ieFlag) {
-
+    saveEntryInfo: function (orderNo) {
         if (!this.valiField()) {
             return;
         }
@@ -157,7 +150,6 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
 
     // 查询订单详情
     query: function () {
-
         // 表头变化
         headChangeKeyVal = {};
 
@@ -165,9 +157,11 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         var param = sw.getPageParams("paymentmanage/seePaymentDetail");
         var paytransactionid = param.paytransactionid;
         var orderNo = param.orderNo;
+        var guid = param.guid;
         var data = {
-            paytransactionid: paytransactionid,
-            orderNo: orderNo
+            guid: guid,
+            orderNo: orderNo,
+            paytransactionid: paytransactionid
         };
         $.ajax({
             method: "GET",
@@ -176,15 +170,18 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["paymentmanage/seePaymentDetail"];
-                    var entryHead = data.data;
-                    // var vertify = data.data.verify;
+
+                    var entryHead = data.data.impPayment;
+                    var vertify = data.data.verify;
+
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
                     // 根据错误字段中的值加高亮显示
-                    // if (entryModule.detailParam.isShowError) {
-                    //     entryModule.errorMessageShow(vertify);
-                    // }
+                    if (entryModule.detailParam.isShowError) {
+                        entryModule.errorMessageShow(vertify);
+                    }
+
                     headChangeKeyVal["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
                     inputChangePayment(param.guid);
@@ -220,7 +217,6 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                 hasError("[" + fieldName + "]不能为空");
                 return false;
             }
-
         }
         return true;
     },
@@ -258,10 +254,22 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                 this.detailParam.isShowError = false;
                 break;
             }
-            //逻辑校验(预留)
             case "LJJY": {
                 // 不可编辑状态
-
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "order_no",//订单编号
+                        "pay_transaction_id",//支付交易编码
+                        "payer_id_type",//身份证件类型
+                        "note"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/payment/saveLogicalDetail";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "paymentmanage/paymentLogicVerify";
+                this.detailParam.isShowError = true;
                 break;
             }
 
@@ -279,16 +287,13 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["paymentmanage/seePaymentDetail"].saveEntryInfo(orderNo, type, sw.ie);
+            sw.page.modules["paymentmanage/seePaymentDetail"].saveEntryInfo(orderNo);
         });
         //点击取消
         $("#ws-page-back").click(function () {
             sw.page.modules["paymentmanage/seePaymentDetail"].cancel();
         });
     }
-
-
-
 
 
 }

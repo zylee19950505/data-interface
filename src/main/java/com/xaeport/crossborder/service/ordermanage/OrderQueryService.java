@@ -94,7 +94,7 @@ public class OrderQueryService {
 		if (saveOrderDetailByOrder(entryHead, entryLists, rtnMap,"订单查询-编辑-重报")) return rtnMap;
 
 		rtnMap.put("result", "true");
-		rtnMap.put("msg", "编辑信息成功，请到“订单申报”处重新进行申报！");
+		rtnMap.put("msg", "编辑信息成功，请到“订单申报”处确认是否校验通过！");
 		return rtnMap;
 
 	}

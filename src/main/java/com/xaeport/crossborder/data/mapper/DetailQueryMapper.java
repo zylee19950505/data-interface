@@ -20,9 +20,11 @@ public interface DetailQueryMapper {
     @Delete("DELETE FROM T_VERIFY_STATUS WHERE CB_HEAD_ID = #{guid}")
     int deleteVerifyStatus(String guid);
 
+    //查询清单数据
     @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryInventoryQueryList")
     List<ImpInventory> queryInventoryQueryList(Map<String, String> paramMap) throws Exception;
 
+    //查询清单数据总数
     @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryInventoryQueryCount")
     Integer queryInventoryQueryCount(Map<String, String> paramMap) throws Exception;
 

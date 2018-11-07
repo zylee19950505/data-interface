@@ -128,7 +128,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
 
     //打开一个页面，并且用路径传递参数
     queryWaybillbyid: function (guid, logistics_no) {
-        var url = "waybillmanage/seeWaybillDetail?type=ZFDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
+        var url = "waybillmanage/seeWaybillDetail?type=YDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
         sw.modelPopup(url, "运单详情信息", false, 900, 400);
     },
 

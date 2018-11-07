@@ -62,11 +62,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS1") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_no + '" />';
-                        }
-                        else if (row.data_status == "CBDS3") {
+                        if (row.data_status == "CBDS3") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
                         }
@@ -101,9 +97,9 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                 {
                     data: "data_status", label: "业务状态", render: function (data, type, row) {
                     switch (row.data_status) {
-                        case "CBDS1"://待申报
-                            textColor = "text-yellow";
-                            row.data_status = "支付单待申报";
+                        case "CBDS1"://未校验
+                            textColor = "text-red";
+                            row.data_status = "校验未通过";
                             break;
                         case "CBDS3"://支付单待申报
                             textColor = "text-yellow";

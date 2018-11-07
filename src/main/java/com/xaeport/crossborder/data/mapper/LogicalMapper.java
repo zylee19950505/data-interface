@@ -17,4 +17,10 @@ public interface LogicalMapper {
     @SelectProvider(type = LogicalSQLProvider.class,method = "getInventoryLogicData")
     List<ImpCrossBorderHead> getInventoryLogicData(Map<String,String> map);
 
+    @SelectProvider(type = LogicalSQLProvider.class,method = "getPaymentLogicData")
+    List<ImpCrossBorderHead> getPaymentLogicData(Map<String,String> map);
+
+    @SelectProvider(type = LogicalSQLProvider.class,method = "getLogisticsLogicData")
+    List<ImpCrossBorderHead> getLogisticsLogicData(Map<String,String> map);
+
 }

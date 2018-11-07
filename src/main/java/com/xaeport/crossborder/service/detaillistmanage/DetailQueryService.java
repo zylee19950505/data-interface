@@ -35,9 +35,9 @@ public class DetailQueryService {
 
     //根据唯一 Id 码查询清单详情
     public ImpInventoryDetail getImpInventoryDetail(String guid) {
-        Map<String,String> paramMap =  new HashMap<>();
-        paramMap.put("id",guid);
-        ImpInventoryHead impInventoryHead =  detailQueryMapper.queryImpInventoryHead(paramMap);
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("id", guid);
+        ImpInventoryHead impInventoryHead = detailQueryMapper.queryImpInventoryHead(paramMap);
         List<ImpInventoryBody> impInventoryBodies = detailQueryMapper.queryImpInventoryBodies(paramMap);
         Verify verify = detailQueryMapper.queryVerifyDetail(paramMap);
         ImpInventoryDetail impInventoryDetail = new ImpInventoryDetail();
@@ -48,25 +48,26 @@ public class DetailQueryService {
     }
 
     public ImpInventoryHead getImpInventoryRec(String guid) {
-        Map<String,String> paramMap =  new HashMap<>();
-        paramMap.put("id",guid);
-        ImpInventoryHead impInventoryHead =  detailQueryMapper.getImpInventoryRec(paramMap);
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("id", guid);
+        ImpInventoryHead impInventoryHead = detailQueryMapper.getImpInventoryRec(paramMap);
         return impInventoryHead;
     }
 
     @Transactional
-    public Map<String,String> saveInventoryDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
+    public Map<String, String> saveInventoryDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-        if (saveOrderDetail(entryHead, entryLists, rtnMap,"清单查询-编辑-重报")) return rtnMap;
+        if (saveOrderDetail(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
 
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“清单申报”处重新进行申报！");
         return rtnMap;
 
     }
+
     public boolean saveOrderDetail(LinkedHashMap<String, String> entryHead,
                                    List<LinkedHashMap<String, String>> entryLists,
-                                   Map<String, String> rtnMap,String notes){
+                                   Map<String, String> rtnMap, String notes) {
 
         if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
             rtnMap.put("result", "false");
@@ -91,21 +92,22 @@ public class DetailQueryService {
     }
 
     @Transactional
-    public Map<String,String> saveLogicalDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
+    public Map<String, String> saveLogicalDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-        if (saveLogicalDetailByInventory(entryHead, entryLists, rtnMap,"清单查询-编辑-重报")) return rtnMap;
+        if (saveLogicalDetailByInventory(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
 
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“清单申报”处确认是否校验通过！");
         return rtnMap;
 
     }
+
     public boolean saveLogicalDetailByInventory(
             LinkedHashMap<String, String> entryHead,
             List<LinkedHashMap<String, String>> entryLists,
             Map<String, String> rtnMap,
             String notes
-    ){
+    ) {
         if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");
@@ -128,16 +130,6 @@ public class DetailQueryService {
 
         return false;
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

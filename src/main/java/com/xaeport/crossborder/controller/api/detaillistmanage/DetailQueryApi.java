@@ -108,7 +108,7 @@ public class DetailQueryApi extends BaseApi {
         try {
             impInventoryDetail = detailQueryService.getImpInventoryDetail(guid);
         } catch (Exception e) {
-            this.logger.error("查询分单信息失败，entryHeadId=" + guid, e);
+            this.logger.error("查询清单信息失败，guid=" + guid, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(impInventoryDetail);

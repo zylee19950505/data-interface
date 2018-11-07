@@ -10,8 +10,12 @@ import com.xaeport.crossborder.verification.chains.impl.inventory.inventoryRegul
 //import com.xaeport.crossborder.verification.chains.impl.order.orderRegularVerifyChain;
 //import com.xaeport.crossborder.verification.chains.impl.payment.paymentBaseVerifyChain;
 //import com.xaeport.crossborder.verification.chains.impl.payment.paymentRegularVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.logistics.logisticsBaseVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.logistics.logisticsRegularVerifyChain;
 import com.xaeport.crossborder.verification.chains.impl.order.orderBaseVerifyChain;
 import com.xaeport.crossborder.verification.chains.impl.order.orderRegularVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.payment.paymentBaseVerifyChain;
+import com.xaeport.crossborder.verification.chains.impl.payment.paymentRegularVerifyChain;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import com.xaeport.crossborder.verification.entity.VerificationResult;
 import com.xaeport.crossborder.verification.tools.VerificationResultUtil;
@@ -42,15 +46,15 @@ public class VerificationProcessor {
         // 正则校验
         orderChainList.add(new orderRegularVerifyChain());
 
-//        // 字段校验
-//        paymentChainList.add(new paymentBaseVerifyChain());
-//        // 正则校验
-//        paymentChainList.add(new paymentRegularVerifyChain());
-//
-//        // 字段校验
-//        logisticsChainList.add(new logisticsBaseVerifyChain());
-//        // 正则校验
-//        logisticsChainList.add(new logisticsRegularVerifyChain());
+        // 字段校验
+        paymentChainList.add(new paymentBaseVerifyChain());
+        // 正则校验
+        paymentChainList.add(new paymentRegularVerifyChain());
+
+        // 字段校验
+        logisticsChainList.add(new logisticsBaseVerifyChain());
+        // 正则校验
+        logisticsChainList.add(new logisticsRegularVerifyChain());
 
         // 字段校验
         inventoryChainList.add(new inventoryBaseVerifyChain());

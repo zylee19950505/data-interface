@@ -1,28 +1,20 @@
-/**
- * Created on 2017-7-23.
- * zwf
- * 运单单条数据查询
- */
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
+
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
+
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
+
 // Select2初始化
 function selecterInitB(selectId, value, data) {
     $("#" + selectId).select2({
@@ -34,18 +26,18 @@ function selecterInitB(selectId, value, data) {
             return obj;
         }),
         placeholder: value,
-        // allowClear: true,
-        // tags:false,
         dropdownParent: $("#dialog-popup")
     }).val(value).trigger('change');
 }
+
 // 表头变化
 var headChangeKeyValB = {};
 // 表体变化
 var listChangeKeyValsB = {};
 // 表体ID匹配正则
 var patternB = /^.*_[0-9]+$/;
-function inputChangeBill(id){
+
+function inputChangeBill(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -53,7 +45,6 @@ function inputChangeBill(id){
             return;
         }
         headChangeKeyValB[key] = val;
-        //console.log(headChangeKeyValB, listChangeKeyVal);
     }).focus(function () {
         clearError();
     });
@@ -66,17 +57,23 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "logistics_no"//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
+            "logistics_no",
+            "order_no",
+            "logistics_code",
+            "logistics_name",
+            "consingee",
+            "consignee_telephone",
+            "consignee_address",
+            "freight",
+            "insured_fee",
+            "pack_no",
+            "weight",
+            "note"
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (logistics_no, status, type, ieFlag) {
-        if (type === "LJJY" && ieFlag === "I") {
-            //调到那个查询
-            sw.page.modules[this.detailParam.callBackUrl].loadPreview(logistics_no, status);
-        } else {
-            sw.page.modules[this.detailParam.callBackUrl].query();
-        }
+    callBackQuery: function (orderNo) {
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
     cancel: function () {
@@ -90,8 +87,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         }
     },
     // 装载表头信息
-
-        fillEntryHeadInfo: function (entryHead) {
+    fillEntryHeadInfo: function (entryHead) {
         $("#order_no").val(entryHead.orderNo);
         $("#logistics_no").val(entryHead.logisticsNo);
         $("#logistics_code").val(entryHead.logisticsCode);
@@ -109,7 +105,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     errorMessageShow: function (vertify) {
         if (vertify) {
             var result = JSON.parse(vertify.result);
-            var gno = result.gno;
+            var gno = result.g_num;
             var field = result.field;
 
             if (isNotEmpty(gno)) {
@@ -122,18 +118,13 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         }
     },
     // 保存订单编辑信息
-    saveEntryInfo: function (logistics_no, type, ieFlag) {
+    saveEntryInfo: function (logistics_no) {
         if (!this.valiField()) {
             return;
         }
-       // var entryLists = new Array();
-       // for (var key in listChangeKeyValsB) {
-        //    entryLists.push(listChangeKeyValsB[key]);
-      //  }
 
         var entryData = {
             entryHead: headChangeKeyValB
-           // entryList: entryLists
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
@@ -141,7 +132,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["waybillmanage/seeWaybillDetail"].callBackQuery(logistics_no, "N", type, ieFlag);
+                sw.page.modules["waybillmanage/seeWaybillDetail"].callBackQuery(logistics_no);
             } else {
                 hasError(rsp.data.msg);
             }
@@ -153,14 +144,12 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     query: function () {
         // 表头变化
         headChangeKeyValB = {};
-        // 表体变化
-        listChangeKeyValsB = {};
 
         //从路径上找参数
         var param = sw.getPageParams("waybillmanage/seeWaybillDetail");
         var guid = param.guid;
         var data = {
-            guid : guid
+            guid: guid
         };
         $.ajax({
             method: "GET",
@@ -171,16 +160,17 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
                     var entryModule = sw.page.modules["waybillmanage/seeWaybillDetail"];
 
                     var entryHead = data.data.logisticsHead;
-                        //var vertify = data.data.verify;
+                    var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
                     // 根据错误字段中的值加高亮显示
                     if (entryModule.detailParam.isShowError) {
-                        //entryModule.errorMessageShow(vertify);
+                        entryModule.errorMessageShow(vertify);
                     }
-                     headChangeKeyValB["entryhead_guid"] = param.guid;
+
+                    headChangeKeyValB["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
                     inputChangeBill(param.guid);
                     entryModule.disabledFieldInput();
@@ -192,18 +182,18 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     valiField: function () {
         // 校验表头
         var validataHeadField = {
-            "order_no":"订单编号",
-            "logistics_no":"物流运单编号",
-            "logistics_code":"物流企业代码",
-            "logistics_name":"物流企业名称",
-            "consingee":"收货人姓名",
-            "consignee_telephone":"收货人电话",
-            "consignee_address":"收货地址",
-            "freight":"运费",
-            "insured_fee":"保价费",
-            "pack_no":"件数",
-            "weight":"毛重"
-           /* "note":"备注",*/
+            "order_no": "订单编号",
+            "logistics_no": "物流运单编号",
+            "logistics_code": "物流企业代码",
+            "logistics_name": "物流企业名称",
+            "consingee": "收货人姓名",
+            "consignee_telephone": "收货人电话",
+            "consignee_address": "收货地址",
+            "freight": "运费",
+            "insured_fee": "保价费",
+            "pack_no": "件数",
+            "weight": "毛重"
+            /* "note":"备注",*/
         };
 
         var fieldId, fieldName, fieldVal;
@@ -226,17 +216,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         var type = param.type;
         var logistics_no = param.logistics_no;
         var isEdit = param.isEdit;
-        /* $("#declareTime").val(declareTime);*/
 
-        if (sw.ie === "E") {
-            $("#bzTr").removeClass() //备注
-        }
-        if (type !== "LJJY") {
-            $(".ieDateHide").remove();
-        } else {
-            $(".ieDate").remove();
-            orderNo = param.orderNo;
-        }
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -245,14 +225,14 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         });
         switch (type) {
             //支付单查询
-            case "ZFDCX": {
+            case "YDCX": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                    "logistics_no", //运单编号
-                    "order_no", //运单编号
-                     "pack_no"//件数
+                        "logistics_no", //运单编号
+                        "order_no", //运单编号
+                        "pack_no"//件数
                     ];
                 }
                 //保存的路径
@@ -264,42 +244,39 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
             }
             //逻辑校验(预留)
             case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "logistics_no", //运单编号
+                        "order_no", //运单编号
+                        "pack_no",//件数
+                        "note"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/logistics/saveLogicalDetail";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "waybillmanage/logisticsLogicVerify";
+                this.detailParam.isShowError = true;
                 break;
             }
 
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-                "ass_bill_no",
-                "owner_code",
-                "district_code",
-                "receive_name",
-                "send_id",
-                "tel",
-                "receive_city",
-                "wrap_type",
-                "curr_code",
-                "gross_wt",
-                "net_wt",
-                "send_country",
-                "send_name",
-                "send_city",
-                "main_gname",
-                "send_phone",
-                "owner_scc",
-                "agent_scc",
-                "total_value",
-                "g_no",
-                "g_name",
-                "g_model",
-                "code_ts",
-                "origin_country",
-                "g_grosswt",
-                "g_netwt",
-                "g_unit",
-                "g_qty",
-                "decl_price",
-                "decl_total"
+                "logistics_no",
+                "order_no",
+                "logistics_code",
+                "logistics_name",
+                "consingee",
+                "consignee_telephone",
+                "consignee_address",
+                "freight",
+                "insured_fee",
+                "pack_no",
+                "weight",
+                "note"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
@@ -312,7 +289,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["waybillmanage/seeWaybillDetail"].saveEntryInfo(logistics_no, type, sw.ie);
+            sw.page.modules["waybillmanage/seeWaybillDetail"].saveEntryInfo(logistics_no);
         });
         //点击取消
         $("#ws-page-back").click(function () {

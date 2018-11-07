@@ -1,7 +1,9 @@
 package com.xaeport.crossborder.verification;
 
 import com.xaeport.crossborder.verification.DataThread.InventoryDataThread;
+import com.xaeport.crossborder.verification.DataThread.LogisticsDataThread;
 import com.xaeport.crossborder.verification.DataThread.OrderDataThread;
+import com.xaeport.crossborder.verification.DataThread.PaymentDataThread;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,6 +52,10 @@ public class ProcesserThread implements Runnable {
             inventoryDataThread.start();
             Thread orderDataThread = new Thread(new OrderDataThread());
             orderDataThread.start();
+            Thread paymentDataThread = new Thread(new PaymentDataThread());
+            paymentDataThread.start();
+            Thread logisticsDataThread = new Thread(new LogisticsDataThread());
+            logisticsDataThread.start();
         } catch (Exception e) {
             this.logger.error("数据加载过程中发生异常", e);
         }

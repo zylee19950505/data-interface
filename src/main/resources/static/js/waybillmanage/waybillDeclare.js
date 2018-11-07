@@ -19,7 +19,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         var url = sw.serializeObjectToURL("api/waybillManage/queryWaybillDeclare", {
             startFlightTimes: startFlightTimes,
             endFlightTimes: endFlightTimes,
-            /*logisticsNo: logisticsNo,*/
             dataStatus: dataStatus,
             statusDataStatus: statusDataStatus,
             billNo: billNo
@@ -69,11 +68,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     data: null,
                     render: function (data, type, row) {
                         //运单状态已申报(此界面不显示此条信息)
-                        if (row.data_status == "CBDS1") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
-                        }
-                        else if (row.data_status == "CBDS4") {
+                        if (row.data_status == "CBDS4") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.bill_no + '" />';
                         }
@@ -124,8 +119,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     var textColor = "";
                     switch (row.data_status) {
                         case "CBDS1":
-                            value = "运单待申报";
-                            textColor = "text-yellow";
+                            value = "校验未通过";
+                            textColor = "text-red";
                             break;
                         case "CBDS4":
                             value = "运单待申报";
@@ -152,7 +147,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                             textColor = "text-red";
                             break;
                     }
-                    var result = "<span class="+textColor+">" + value + "</span>";
+                    var result = "<span class=" + textColor + ">" + value + "</span>";
                     return result
                 }
                 },
@@ -168,15 +163,33 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     label: "运单状态业务状态", render: function (data, type, row) {
                     var value = "";
                     var textColor = "";
-                    switch (row.sta_data_status){
-                        case "CBDS5": value = "运单状态待申报";textColor = "text-yellow";break;
-                        case "CBDS50":value = "运单状态申报中";textColor = "text-yellow";break;
-                        case "CBDS51":value = "运单状态已申报";textColor = "text-green";break;
-                        case "CBDS52":value = "运单状态申报成功";textColor = "text-green";break;
-                        case "CBDS53":value = "运单状态重报";textColor = "text-red";break;
-                        case "CBDS54":value = "运单状态申报失败";textColor = "text-red";break;
+                    switch (row.sta_data_status) {
+                        case "CBDS5":
+                            value = "运单状态待申报";
+                            textColor = "text-yellow";
+                            break;
+                        case "CBDS50":
+                            value = "运单状态申报中";
+                            textColor = "text-yellow";
+                            break;
+                        case "CBDS51":
+                            value = "运单状态已申报";
+                            textColor = "text-green";
+                            break;
+                        case "CBDS52":
+                            value = "运单状态申报成功";
+                            textColor = "text-green";
+                            break;
+                        case "CBDS53":
+                            value = "运单状态重报";
+                            textColor = "text-red";
+                            break;
+                        case "CBDS54":
+                            value = "运单状态申报失败";
+                            textColor = "text-red";
+                            break;
                     }
-                    var result = "<span class="+ textColor +">" + value + "</span>";
+                    var result = "<span class=" + textColor + ">" + value + "</span>";
                     return result
                 }
                 },
@@ -194,8 +207,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
     },
     // 提交海关
     submitCustom: function () {
-
-
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
             submitKeys += "," + $(this).val();
@@ -208,10 +219,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         }
 
         sw.confirm("请确认运单总数无误，提交海关", "确认", function () {
-
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
-
             var postData = {
                 submitKeys: submitKeys,
                 idCardValidate: idCardValidate,
@@ -234,6 +243,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
     },
     // 状态申报提交海关
     submitCustomToStatus: function () {
+
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
             submitKeys += "," + $(this).val();
@@ -246,10 +256,8 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         }
 
         sw.confirm("请确认运单总数无误，提交海关", "确认", function () {
-
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
-
             var postData = {
                 submitKeys: submitKeys,
                 idCardValidate: idCardValidate,
@@ -257,7 +265,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                 entryType: sw.type
             };
             $("#submitManifestBtn").prop("disabled", true);
-
 
             sw.ajax("api/waybillManage/submitCustomToStatus", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
@@ -274,7 +281,6 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
     },
 
     init: function () {
-
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
         $(".input-daterange").datepicker({
@@ -299,5 +305,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
             }
         });
     }
+
+
 };
 

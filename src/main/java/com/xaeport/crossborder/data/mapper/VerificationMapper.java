@@ -53,6 +53,13 @@ public interface VerificationMapper {
 
 
 
+    //获取未逻辑校验订单表头数据
+    @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByPayment")
+    List<ImpCBHeadVer> unverifiedByPayment();
+
+    //获取未逻辑校验订单表头数据
+    @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByLogistics")
+    List<ImpCBHeadVer> unverifiedByLogistics();
 
     //获取未逻辑校验订单表头数据
     @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByOrderHead")

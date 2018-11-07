@@ -29,7 +29,72 @@ public class VerificationSQLProvider extends BaseSQLProvider {
                 FROM("T_IMP_ORDER_HEAD t");
                 WHERE("t.DATA_STATUS = 'CBDS1' ");
                 WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.BILL_NO = t.BILL_NO and vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
-                WHERE("ROWNUM <= 1000");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByPayment() {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS");
+                SELECT("PAY_CODE,PAY_NAME,PAY_TRANSACTION_ID");
+                SELECT("ORDER_NO,EBP_CODE,EBP_NAME");
+                SELECT("PAYER_ID_TYPE,PAYER_ID_NUMBER,PAYER_NAME,TELEPHONE");
+                SELECT("to_char(AMOUNT_PAID,'FM999999999990.00000') as AMOUNT_PAID");
+                SELECT("CURRENCY,PAY_TIME,NOTE");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE,BUSINESS_TYPE");
+                FROM("T_IMP_PAYMENT t");
+                WHERE("t.DATA_STATUS = 'CBDS1' ");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByLogistics() {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS");
+                SELECT("LOGISTICS_CODE,LOGISTICS_NAME,LOGISTICS_NO,ORDER_NO");
+                SELECT("BILL_NO,CURRENCY,PACK_NO,GOODS_INFO");
+                SELECT("CONSINGEE,CONSIGNEE_ADDRESS,CONSIGNEE_TELEPHONE,VOYAGE_NO,NOTE");
+                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
+                SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
+                SELECT("to_char(WEIGHT,'FM999999999990.00000') as WEIGHT");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE,BUSINESS_TYPE");
+                FROM("T_IMP_LOGISTICS t");
+                WHERE("t.DATA_STATUS = 'CBDS1' ");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.BILL_NO = t.BILL_NO and vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByInventoryHead() {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS,EBP_CODE,EBP_NAME,EBC_CODE,EBC_NAME");
+                SELECT("ORDER_NO,LOGISTICS_NO,COP_NO,PRE_NO,EMS_NO,INVT_NO");
+                SELECT("LOGISTICS_CODE,LOGISTICS_NAME,ASSURE_CODE,IE_FLAG");
+                SELECT("CUSTOMS_CODE,PORT_CODE,CONSIGNEE_ADDRESS");
+                SELECT("AGENT_CODE,AGENT_NAME,AREA_CODE,AREA_NAME,TRADE_MODE,TRAF_MODE,TRAF_NO");
+                SELECT("BILL_NO,VOYAGE_NO,BUSINESS_TYPE");
+                SELECT("LOCT_NO,LICENSE_NO,COUNTRY,CURRENCY,WRAP_TYPE,PACK_NO,NOTE");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
+                SELECT("BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_NAME,BUYER_TELEPHONE");
+                SELECT("APP_TIME,DECL_TIME,IE_DATE");
+                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
+                SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
+                SELECT("to_char(GROSS_WEIGHT,'FM999999999990.00000') as GROSS_WEIGHT");
+                SELECT("to_char(NET_WEIGHT,'FM999999999990.00000') as NET_WEIGHT");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.DATA_STATUS = 'CBDS1' ");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.BILL_NO = t.BILL_NO and vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
                 ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
             }
         }.toString();
@@ -56,32 +121,6 @@ public class VerificationSQLProvider extends BaseSQLProvider {
                 SELECT("NOTE");
                 FROM("T_IMP_ORDER_BODY t");
                 WHERE(splitJointIn("t.HEAD_GUID", headGuids));
-            }
-        }.toString();
-    }
-
-    public String unverifiedByInventoryHead() {
-        return new SQL() {
-            {
-                SELECT("GUID,APP_TYPE,APP_STATUS,EBP_CODE,EBP_NAME,EBC_CODE,EBC_NAME");
-                SELECT("ORDER_NO,LOGISTICS_NO,COP_NO,PRE_NO,EMS_NO,INVT_NO");
-                SELECT("LOGISTICS_CODE,LOGISTICS_NAME,ASSURE_CODE,IE_FLAG");
-                SELECT("CUSTOMS_CODE,PORT_CODE,CONSIGNEE_ADDRESS");
-                SELECT("AGENT_CODE,AGENT_NAME,AREA_CODE,AREA_NAME,TRADE_MODE,TRAF_MODE,TRAF_NO");
-                SELECT("BILL_NO,VOYAGE_NO,BUSINESS_TYPE");
-                SELECT("LOCT_NO,LICENSE_NO,COUNTRY,CURRENCY,WRAP_TYPE,PACK_NO,NOTE");
-                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
-                SELECT("BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_NAME,BUYER_TELEPHONE");
-                SELECT("APP_TIME,DECL_TIME,IE_DATE");
-                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
-                SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
-                SELECT("to_char(GROSS_WEIGHT,'FM999999999990.00000') as GROSS_WEIGHT");
-                SELECT("to_char(NET_WEIGHT,'FM999999999990.00000') as NET_WEIGHT");
-                FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS = 'CBDS1' ");
-                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.BILL_NO = t.BILL_NO and vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
-                WHERE("ROWNUM <= 1000");
-                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
             }
         }.toString();
     }

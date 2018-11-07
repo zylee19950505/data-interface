@@ -112,7 +112,7 @@ public class WaybillQuerySQLProvider {
         }.toString();
 
     }
-    public String waybillQueryById(Map<String,String> paramMap){
+    public String seeWaybillDetail(Map<String,String> paramMap){
         final String guid = paramMap.get("guid");
         final String logisticsno = paramMap.get("logisticsno");
 
@@ -153,13 +153,13 @@ public class WaybillQuerySQLProvider {
         }.toString();
     }
 
-    public String updateBillHead(LinkedHashMap<String, String> entryHead){
+    public String updateLogistics(LinkedHashMap<String, String> entryHead){
         return new SQL(){
             {
                 UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.GUID = #{entryhead_guid}");
                 SET("t.APP_TYPE = '2'");
-                SET("t.DATA_STATUS = 'CBDS1'");
+                SET("t.DATA_STATUS = 'CBDS4'");
                 SET("t.UPD_TM = sysdate");
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))){
                     SET("t.ORDER_NO = #{order_no}");
@@ -219,8 +219,65 @@ public class WaybillQuerySQLProvider {
                 if (!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }
-
             }
         }.toString();
     }
+
+    public String updateLogisticsByLogic(LinkedHashMap<String, String> entryHead){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_LOGISTICS t");
+                WHERE("t.GUID = #{entryhead_guid}");
+                SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("order_no"))){
+                    SET("t.ORDER_NO = #{order_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
+                    SET("t.LOGISTICS_CODE = #{logistics_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_name"))){
+                    SET("t.LOGISTICS_NAME = #{logistics_name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consingee"))){
+                    SET("t.CONSINGEE = #{consingee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_telephone"))){
+                    SET("t.CONSIGNEE_TELEPHONE = #{consignee_telephone}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))){
+                    SET("t.CONSIGNEE_ADDRESS = #{consignee_address}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("freight"))){
+                    SET("t.FREIGHT = #{freight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("insured_fee"))){
+                    SET("t.INSURED_FEE = #{insured_fee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("pack_no"))){
+                    SET("t.PACK_NO = #{pack_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("weight"))){
+                    SET("t.WEIGHT = #{weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("note"))){
+                    SET("t.NOTE = #{note}");
+                }
+            }
+        }.toString();
+    }
+
+    public String queryVerifyDetail(Map<String, String> paramMap) {
+        final String guid = paramMap.get("guid");
+        return new SQL() {
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.CB_HEAD_ID = #{guid}");
+                WHERE("t.STATUS = 'N'");
+            }
+        }.toString();
+    }
+
 }

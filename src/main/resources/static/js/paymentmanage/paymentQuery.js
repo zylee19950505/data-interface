@@ -1,6 +1,5 @@
 /**
  * 支付单查询
- * Created by zwf
  */
 sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/paymentQuery"] || {
 
