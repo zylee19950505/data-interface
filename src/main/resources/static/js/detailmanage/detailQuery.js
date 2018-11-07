@@ -9,7 +9,6 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         var orderNo = $("[name='orderNo']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
         var returnStatus = $("[name='returnStatus']").val();
-        // var gName = $("[name='gName']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
@@ -18,8 +17,7 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             billNo: billNo,//提运单号
             orderNo: orderNo,//订单编号
             logisticsNo: logisticsNo,//物流运单编号
-            returnStatus: returnStatus,//回执状态
-            // gName: gName//商品名称
+            returnStatus: returnStatus//回执状态
         });
 
         // 数据表
@@ -105,29 +103,6 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         });
     },
 
-    // //导出excel
-    // download: function () {
-    //     var oTable = $('#query-detailQuery-table').dataTable();
-    //     var oSettings = oTable.fnSettings();
-    //     var paramJson = {
-    //         startFlightTimes: $("[name='startFlightTimes']").val(),
-    //         endFlightTimes: $("[name='endFlightTimes']").val(),
-    //         billNo: $("[name='billNo']").val(),
-    //         orderNo: $("[name='orderNo']").val(),
-    //         logisticsNo: $("[name='logisticsNo']").val(),
-    //         returnStatus: $("[name='returnStatus']").val(),
-    //         gName: $("[name='gName']").val(),
-    //         startStr: oSettings._iDisplayStart,
-    //         length: oSettings._iDisplayLength
-    //     };
-    //     sw.ajax("api/detailManage/load", "GET", paramJson, function (rsp) {
-    //         if (rsp.status == 200) {
-    //             var fileName = rsp.data;
-    //             window.location.href = "/api/detailManage/query/downloadFile?fileName=" + fileName;
-    //         }
-    //     })
-    // },
-
     init: function () {
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
@@ -148,13 +123,12 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         } else {
             var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
         }
-        sw.modelPopup(url, "查看清单详情", false, 1000, 930);
+        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
     },
 
     seeInventoryRec: function (guid, data_status) {
         var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
         sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
     }
-
 
 };

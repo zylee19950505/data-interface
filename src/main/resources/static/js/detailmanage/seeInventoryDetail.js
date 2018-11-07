@@ -203,8 +203,11 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
-        $("#note").val(entryHead.note);
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
+        $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
+        $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
+        $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
+        $("#note").val(entryHead.note);
 
     },
 
@@ -213,7 +216,8 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         for (var i = 0; i < entryLists.length; i++) {
             var g_num = entryLists[i].g_num;
             var str =
-                "<tr><td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
+                "<tr>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
@@ -225,7 +229,11 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
                 "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td></tr>";
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].customs_tax) ? 0 : entryLists[i].customs_tax).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].value_added_tax) ? 0 : entryLists[i].value_added_tax).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].consumption_tax) ? 0 : entryLists[i].consumption_tax).toFixed(5) + "' /></td>" +
+                "</tr>";
             $("#entryList").append(str);
             selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
             selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
@@ -446,8 +454,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号
-                        "total_sum"//商品总价
-
+                        "total_sum",//商品总价
+                        "customs_tax",
+                        "value_added_tax",
+                        "consumption_tax"
                     ];
                 }
                 //保存的路径
@@ -470,8 +480,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号
-                        "total_sum"//商品总价
-
+                        "total_sum",//商品总价
+                        "customs_tax",
+                        "value_added_tax",
+                        "consumption_tax"
                     ];
                 }
                 //保存的路径
@@ -485,9 +497,63 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-                // "ass_bill_no",
-                // "owner_code",
-                // "district_code",
+
+                "order_no",
+                "cop_no",
+                "logistics_no",
+
+                "invt_no",
+                "pre_no",
+                "total_sum",
+
+                "ebp_code",
+                "ebp_name",
+
+                "ebc_code",
+                "ebc_name",
+                "assure_code",
+
+                "customs_code",
+                "port_code",
+                "ie_date",
+
+                "buyer_id_number",
+                "buyer_name",
+                "buyer_telephone",
+
+                "consignee_address",
+                "freight",
+                "wrap_type",
+
+                "agent_code",
+                "agent_name",
+                "traf_mode",
+
+                "traf_no",
+                "voyage_no",
+                "bill_no",
+
+                "country",
+                "net_weight",
+                "gross_weight",
+                "note",
+
+                "g_num",
+                "g_name",
+                "g_code",
+                "g_model",
+                "g_qty",
+                "g_unit",
+                "qty_1",
+                "unit_1",
+                "qty_2",
+                "unit_2",
+                "price",
+                "total_price",
+
+                "customs_tax",
+                "value_added_tax",
+                "consumption_tax"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
