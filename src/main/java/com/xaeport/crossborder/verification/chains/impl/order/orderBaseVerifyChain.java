@@ -41,6 +41,16 @@ public class orderBaseVerifyChain implements CrossBorderVerifyChain {
                 return verificationResult;
             }
 
+            // 数量
+            validateField = impCBBodyVer.getQty();
+            if (!StringUtils.isEmpty(validateField)) {
+                qty = Double.parseDouble(validateField);
+                if (qty <= 0) {
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]数量需大于0", g_num), "qty", g_num);
+                    return verificationResult;
+                }
+            }
+
             // 生产国别
             code = impCBBodyVer.getCountry();
             if (!loadData.getCountryAreaMap().containsKey(code)) {

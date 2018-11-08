@@ -26,7 +26,37 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             return verificationResult;
         }
 
-        // 发件人国家
+        // 申报海关代码
+        code = impCBHeadVer.getCustoms_code();
+        if (!loadData.getCustomsMap().containsKey(code)) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 申报海关代码不存在", "customs_code");
+            return verificationResult;
+        }
+
+        // 口岸海关代码
+        code = impCBHeadVer.getPort_code();
+        if (!loadData.getCustomsMap().containsKey(code)) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 口岸海关代码不存在", "port_code");
+            return verificationResult;
+        }
+
+        // 运输方式
+        code = impCBHeadVer.getTraf_mode();
+        if (!loadData.getTrafModeMap().containsKey(code)) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 运输方式代码不存在", "traf_mode");
+            return verificationResult;
+        }
+
+        // 包装种类
+        code = impCBHeadVer.getWrap_type();
+        if (!StringUtils.isEmpty(code)) {
+            if (!loadData.getPackTypeMap().containsKey(code)) {
+                VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 包装种类代码不存在", "wrap_type");
+                return verificationResult;
+            }
+        }
+
+        // 起运国（地区）
         code = impCBHeadVer.getCountry();
         if (!loadData.getCountryAreaMap().containsKey(code)) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 起运国（地区）不存在", "country");
@@ -55,14 +85,6 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
 //            return verificationResult;
 //        }
 
-//        // 包装种类
-//        code = impCBHeadVer.getWrap_type();
-//        if(!loadData.getPackTypeMap().containsKey(code)){
-//            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 包装种类代码不存在", "wrap_type");
-//            return verificationResult;
-//        }
-
-
         String g_num;// 商品序号
         String g_code;// 商品编码
         String unit1;// 第一法定计量单位
@@ -84,6 +106,23 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             if (!loadData.getProductCodeMap().containsKey(g_code)) {
                 VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码不正确", g_num), "g_code", g_num);
                 return verificationResult;
+            }
+
+            // 原产国（地区）
+            code = impCBBodyVer.getCountry();
+            if (!loadData.getCountryAreaMap().containsKey(code)) {
+                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]原产国（地区）不存在", g_num), "country", g_num);
+                return verificationResult;
+            }
+
+            // 数量
+            validateField = impCBBodyVer.getQty();
+            if (!StringUtils.isEmpty(validateField)) {
+                qty = Double.parseDouble(validateField);
+                if (qty <= 0) {
+                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]数量需大于0", g_num), "g_qty", g_num);
+                    return verificationResult;
+                }
             }
 
             // 申报计量单位
@@ -154,13 +193,6 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
                     VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]第二数量不能为空", g_num), "qty_2", g_num);
                     return verificationResult;
                 }
-            }
-
-            // 生产国别
-            code = impCBBodyVer.getCountry();
-            if (!loadData.getCountryAreaMap().containsKey(code)) {
-                VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]原产国（地区）不存在", g_num), "country", g_num);
-                return verificationResult;
             }
 
         }

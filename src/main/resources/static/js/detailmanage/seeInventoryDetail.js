@@ -220,19 +220,19 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='g_unit_" + g_num + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='g_unit_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_1_" + g_num + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_1_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"10\" id='unit_2_" + g_num + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].customs_tax) ? 0 : entryLists[i].customs_tax).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].value_added_tax) ? 0 : entryLists[i].value_added_tax).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + parseFloat(isEmpty(entryLists[i].consumption_tax) ? 0 : entryLists[i].consumption_tax).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
             selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);

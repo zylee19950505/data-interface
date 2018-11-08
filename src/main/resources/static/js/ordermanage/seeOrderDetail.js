@@ -118,6 +118,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         isEdit: "true",
         disableField: [
             "order_No",
+            "bill_No",
             "goods_Value",
             "total_Price",
             "app_Type",
@@ -174,6 +175,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
     fillEntryHeadInfo: function (entryHead) {
         $("#guid").val(entryHead.guid);
         $("#order_No").val(entryHead.order_No);
+        $("#bill_No").val(entryHead.bill_No);
         $("#goods_Value").val(parseFloat(entryHead.goods_Value).toFixed(5));
         $("#ebp_Code").val(entryHead.ebp_Code);
         $("#ebp_Name").val(entryHead.ebp_Name);
@@ -200,15 +202,15 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             var g_num = entryLists[i].g_num;
             var str = "<tr>" +
                 "<td ><input class=\"form-control input-sm\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +//递增序号
-                "<td ><input class=\"form-control input-sm\" maxlength=\"255\" id='order_No_" + g_num + "' value='" + entryLists[i].order_No + "' /></td>" +//订单编号
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"10\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
+                "<td ><input class=\"form-control input-sm\" maxlength=\"60\" id='order_No_" + g_num + "' value='" + entryLists[i].order_No + "' /></td>" +//订单编号
+                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_Model_" + g_num + "' value='" + entryLists[i].g_Model + "' /></td>" +//商品规格型号
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"16\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(5) + "' /></td>" +//商品总价
-                "<td ><input class=\"form-control input-sm\" maxlength=\"16\" id='note_" + g_num + "' value='" + entryLists[i].note + "' /></td>" +//促销活动
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_Price_" + g_num + "' value='" + parseFloat(entryLists[i].total_Price).toFixed(5) + "' /></td>" +//商品总价
+                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='note_" + g_num + "' value='" + (isEmpty(entryLists[i].note) ? "" : entryLists[i].note) + "' /></td>" +//促销活动
                 "</tr>";
             $("#entryList").append(str);
             selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
@@ -312,6 +314,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
     valiField: function () {
         // 校验表头
         var validataHeadField = {
+            "bill_No": "提运单号",
             "order_No": "订单编号",
             "goods_Value": "商品总价",
             "ebp_Code": "电商平台编号",
@@ -395,7 +398,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-
+                        "bill_No",
                         "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
@@ -412,8 +415,9 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             }
             //逻辑校验(预留)
             case "LJJY": {
-                if(isEdit == "true"){
+                if (isEdit == "true") {
                     this.detailParam.disableField = [
+                        "bill_No",
                         "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
@@ -431,9 +435,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
 
         } // 不可编辑状态
         if (isEdit == "false") {
-            this.detailParam.disableField = [
-
-            ];
+            this.detailParam.disableField = [];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
         } else {

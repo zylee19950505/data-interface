@@ -15,6 +15,7 @@ public class FiledCheckTool {
     private static String numReg = "[0-9]+$";//数字的正则表达式
     private static String ChineseReg = "[\u4E00-\u9FA5]+";//中文正则表达式
     private static String halfAngleSymbolReg = "^[\\u0000-\\u00FF]+$";//半角符号正则表达式
+    private static String idCardReg = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
 //    private static String angleSymbolReg = "[\\uFF00-\\uFFFF]+$";//全角符号正则表达式
 
     private static Pattern meaninglessPattern = Pattern.compile(meaninglessReg);
@@ -23,6 +24,7 @@ public class FiledCheckTool {
     private static Pattern numPattern = Pattern.compile(numReg);
     private static Pattern ChinesePattern = Pattern.compile(ChineseReg);
     private static Pattern halfAngleSymbolPattern = Pattern.compile(halfAngleSymbolReg);
+    private static Pattern idCardPattern = Pattern.compile(idCardReg);
 //    private static Pattern angleSymbolPattern = Pattern.compile(angleSymbolReg);
 
     private static Matcher matcher;
@@ -34,10 +36,24 @@ public class FiledCheckTool {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
             return false;
         }
-
         matcher = meaninglessPattern.matcher(validateField.trim());
         boolean isMatcher = matcher.matches();
         if (isMatcher) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
+            return false;
+        }
+        return true;
+    }
+
+    //验证表头身份证号码格式
+    public static boolean checkFiledIdCardRegx(VerificationResult verificationResult, String validateField, String errorMsg, String field) {
+        if (StringUtils.isEmpty(validateField) || StringUtils.isEmpty(validateField.trim())) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
+            return false;
+        }
+        matcher = idCardPattern.matcher(validateField.trim());
+        boolean isMatcher = matcher.matches();
+        if (!isMatcher) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
             return false;
         }
@@ -50,7 +66,6 @@ public class FiledCheckTool {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
             return false;
         }
-
         if ((validateField.trim()).equals("9610") || (validateField.trim()).equals("1210")) {
             return true;
         }else {
@@ -89,7 +104,7 @@ public class FiledCheckTool {
         return true;
     }
 
-    //验证表头字段  电话号码的格式
+    //验证表头字段  电话号码的格式（数字，|,-）
     public static boolean checkFiledByPhoneRegx(VerificationResult verificationResult, String validateField, String errorMsg, String field) {
         if (StringUtils.isEmpty(validateField) || StringUtils.isEmpty(validateField.trim())) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
@@ -123,7 +138,7 @@ public class FiledCheckTool {
         }
     }
 
-    //验证表头字段  仅限英文，数字及符号
+    //验证表头字段  仅限英文，数字及符号（半角符号）
     public static boolean checkFiledEngSymbolNumRegx(VerificationResult verificationResult, String validateField, String errorMsg, String field) {
         if (StringUtils.isEmpty(validateField) || StringUtils.isEmpty(validateField.trim())) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
@@ -196,7 +211,6 @@ public class FiledCheckTool {
         matcher2 = numPattern.matcher(validateField.trim());
         boolean isMatcher_one = matcher.matches();
         boolean isMatcher_two = matcher2.find();
-
         if (isMatcher_one == true && isMatcher_two == false) {
             return true;
         } else {
@@ -205,7 +219,7 @@ public class FiledCheckTool {
         }
     }
 
-    //验证表体字段  仅限输入英文,数字及符号
+    //验证表体字段  仅限输入英文,数字及符号（半角符号）
     public static boolean checkFiledListEngSymbolNumRegx(VerificationResult verificationResult, String validateField, String gNo, String errorMsg, String field) {
         if (StringUtils.isEmpty(validateField) || StringUtils.isEmpty(validateField.trim())) {
             VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]%s", gNo, errorMsg), field, gNo);
@@ -213,7 +227,6 @@ public class FiledCheckTool {
         }
         matcher = halfAngleSymbolPattern.matcher(validateField.trim());
         boolean isMatcher = matcher.matches();
-
         if (!isMatcher) {
             VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]%s", gNo, errorMsg), field, gNo);
             return false;

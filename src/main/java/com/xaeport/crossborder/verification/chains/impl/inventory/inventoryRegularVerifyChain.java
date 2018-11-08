@@ -26,14 +26,155 @@ public class inventoryRegularVerifyChain implements CrossBorderVerifyChain {
             return verificationResult;
         }
 
+        // 物流企业名称
+        validateField = impCBHeadVer.getLogistics_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "物流企业名称填写错误,不能填写“空”，“无”，“/”字符", "logistics_name")) {
+            return verificationResult;
+        }
+
+        // 电商平台名称
+        validateField = impCBHeadVer.getEbp_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "电商平台名称填写错误,不能填写“空”，“无”，“/”字符", "ebp_name")) {
+            return verificationResult;
+        }
+
+        // 电商企业名称
+        validateField = impCBHeadVer.getEbc_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "电商企业名称填写错误,不能填写“空”，“无”，“/”字符", "ebc_name")) {
+            return verificationResult;
+        }
+
+        // 订购人姓名
+        validateField = impCBHeadVer.getBuyer_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "订购人姓名填写错误,不能填写“空”，“无”，“/”字符", "buyer_name")) {
+            return verificationResult;
+        }
+
+        // 订购人电话
+        validateField = impCBHeadVer.getBuyer_telephone();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "订购人电话填写错误,不能填写“空”，“无”，“/”字符", "buyer_telephone")) {
+            return verificationResult;
+        }
+
+        // 收件地址
+        validateField = impCBHeadVer.getConsignee_address();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "收件地址填写错误,不能填写“空”，“无”，“/”字符", "consignee_address")) {
+            return verificationResult;
+        }
+
+        // 申报企业名称
+        validateField = impCBHeadVer.getAgent_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "申报企业名称填写错误,不能填写“空”，“无”，“/”字符", "agent_name")) {
+            return verificationResult;
+        }
+
+        // 运输工具编号
+        validateField = impCBHeadVer.getTraf_no();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "运输工具编号填写错误,不能填写“空”，“无”，“/”字符", "traf_no")) {
+            return verificationResult;
+        }
+
+        // 航班航次号
+        validateField = impCBHeadVer.getVoyage_no();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "航班航次号填写错误,不能填写“空”，“无”，“/”字符", "voyage_no")) {
+            return verificationResult;
+        }
+
+        // 提运单号
+        validateField = impCBHeadVer.getBill_no();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "提运单号填写错误,不能填写“空”，“无”，“/”字符", "bill_no")) {
+            return verificationResult;
+        }
+
+        // 订单编号
+        validateField = impCBHeadVer.getOrder_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号填写错误,仅能填写半角英文，数字及符号", "order_no")) {
+            return verificationResult;
+        }
+
+        // 运单编号
+        validateField = impCBHeadVer.getLogistics_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流运单编号填写错误，仅能填写半角英文，数字及符号", "logistics_no")) {
+            return verificationResult;
+        }
+
+        // 物流企业代码
+        validateField = impCBHeadVer.getLogistics_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流企业代码填写错误，仅能填写半角英文，数字及符号", "logistics_code")) {
+            return verificationResult;
+        }
+
+        // 电商平台代码
+        validateField = impCBHeadVer.getEbp_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商平台代码填写错误,仅能填写半角英文，数字及符号", "ebp_code")) {
+            return verificationResult;
+        }
+
+        // 电商企业代码
+        validateField = impCBHeadVer.getEbc_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商企业代码填写错误,仅能填写半角英文，数字及符号", "ebc_code")) {
+            return verificationResult;
+        }
+
+        // 担保企业编号
+        validateField = impCBHeadVer.getAssure_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "担保企业编号填写错误,仅能填写半角英文，数字及符号", "assure_code")) {
+            return verificationResult;
+        }
+
+        // 订购人身份证号
+        validateField = impCBHeadVer.getBuyer_id_number();
+        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号格式错误，不符合规范", "buyer_id_number")) {
+            return verificationResult;
+        }
+
+        // 订购人电话
+        validateField = impCBHeadVer.getBuyer_telephone();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订购人电话填写错误,仅能填写半角英文，数字及符号", "buyer_telephone")) {
+            return verificationResult;
+        }
+
+        // 申报企业代码
+        validateField = impCBHeadVer.getAgent_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "申报企业代码填写错误,仅能填写半角英文，数字及符号", "agent_code")) {
+            return verificationResult;
+        }
+
+        // 运输工具编号
+        validateField = impCBHeadVer.getVoyage_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "运输工具编号填写错误,仅能填写半角英文，数字及符号", "voyage_no")) {
+            return verificationResult;
+        }
+
+        // 航班航次号
+        validateField = impCBHeadVer.getTraf_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "航班航次号填写错误,仅能填写半角英文，数字及符号", "traf_no")) {
+            return verificationResult;
+        }
+
+        // 提运单号
+        validateField = impCBHeadVer.getBill_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "提运单号填写错误,仅能填写半角英文，数字及符号", "bill_no")) {
+            return verificationResult;
+        }
+
+
         String g_num;
         for (ImpCBBodyVer impCBBodyVer : impCBHeadVer.getImpCBBodyVerList()) {
             g_num = String.valueOf(impCBBodyVer.getG_num());
+
             // 商品名称
             validateField = impCBBodyVer.getG_name();
-            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品名称错误", "g_name")) {
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品名称错误,不能填写“空”，“无”，“/”字符", "g_name")) {
                 return verificationResult;
             }
+
+            //商品规格型号
+            validateField = impCBBodyVer.getG_model();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品规格型号填写错误,不能填写“空”，“无”，“/”字符", "g_model")) {
+                return verificationResult;
+            }
+
         }
 
         verificationResult.setErrorFlag(false);
