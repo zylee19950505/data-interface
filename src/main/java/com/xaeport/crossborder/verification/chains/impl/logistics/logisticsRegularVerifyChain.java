@@ -22,49 +22,49 @@ public class logisticsRegularVerifyChain implements CrossBorderVerifyChain {
 
         // 物流企业名称
         validateField = impCBHeadVer.getLogistics_name();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "物流企业名称填写错误,不能填写“空”，“无”，“/”字符", "logistics_name")) {
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "物流企业名称错误：不能填写“空”，“无”，“/”字符", "logistics_name")) {
             return verificationResult;
         }
 
         // 收件人
         validateField = impCBHeadVer.getConsingee();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "收件人错误,不能填写“空”，“无”，“/”字符", "consingee")) {
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "收件人错误：不能填写“空”，“无”，“/”字符", "consingee")) {
             return verificationResult;
         }
 
         // 收件地址
         validateField = impCBHeadVer.getConsignee_address();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "收件地址错误,不能填写“空”，“无”，“/”字符", "consignee_address")) {
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "收件地址错误：不能填写“空”，“无”，“/”字符", "consignee_address")) {
             return verificationResult;
         }
 
         // 物流企业代码
         validateField = impCBHeadVer.getLogistics_code();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流企业代码错误，仅能填写半角英文，数字及符号", "logistics_code")) {
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流企业代码错误：仅能填写半角英文，数字及符号", "logistics_code")) {
             return verificationResult;
         }
 
         // 提运单号
         validateField = impCBHeadVer.getBill_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "提运单号错误,仅能填写半角英文，数字及符号", "bill_no")) {
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "提运单号错误：仅能填写半角英文，数字及符号", "bill_no")) {
             return verificationResult;
         }
 
         // 运单编号
         validateField = impCBHeadVer.getLogistics_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流运单编号错误，仅能填写半角英文，数字及符号", "logistics_no")) {
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "物流运单编号错误：仅能填写半角英文，数字及符号", "logistics_no")) {
             return verificationResult;
         }
 
         // 订单编号
         validateField = impCBHeadVer.getOrder_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号错误,仅能填写半角英文，数字及符号", "order_no")) {
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号错误：仅能填写半角英文，数字及符号", "order_no")) {
             return verificationResult;
         }
 
         // 收货人电话
         validateField = impCBHeadVer.getConsignee_telephone();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "收货人电话错误，仅能填写半角英文，数字及符号", "consignee_telephone")) {
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "收货人电话错误：仅能填写半角英文，数字及符号", "consignee_telephone")) {
             return verificationResult;
         }
 
