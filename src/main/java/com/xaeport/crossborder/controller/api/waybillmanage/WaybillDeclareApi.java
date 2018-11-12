@@ -46,7 +46,6 @@ public class WaybillDeclareApi extends BaseApi {
         this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, dataStatus, statusDataStatus));
 
         Map<String, String> map = new HashMap<String, String>();
-
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
         String extra_search = request.getParameter("extra_search");
@@ -74,12 +73,9 @@ public class WaybillDeclareApi extends BaseApi {
             //查询数据
             logisticsSumList = this.waybillService.queryWaybillDeclareDataList(map);
             //查询数据总数
-            // Integer count = this.waybillService.queryWaybillDeclareCount(map);
             dataList = new DataList<>();
             dataList.setDraw(draw);
             dataList.setData(logisticsSumList);
-            //dataList.setRecordsTotal(count);
-            //dataList.setRecordsFiltered(count);
         } catch (Exception e) {
             this.logger.error("查询运单申报数据失败", e);
             return new ResponseData("获取运单申报数据错误", HttpStatus.BAD_REQUEST);
@@ -105,15 +101,11 @@ public class WaybillDeclareApi extends BaseApi {
         if (!"true".equals(billNo)) {
             return rtnResponse("false", "申报失败,提运单号" + billNo + "里没有符合运单申报的运单");
         }
-
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.YDSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.YDDSB + "," + StatusCode.EXPORT);//运单待申报,已导入
-//        paramMap.put("dataStatusWhere", StatusCode.YDDSB);//运单待申报,已导入
-
+        paramMap.put("dataStatusWhere", StatusCode.YDDSB );//运单待申报,已导入
         paramMap.put("currentUserId", currentUser.getId());
-            /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
         paramMap.put("submitKeys", submitKeys);//提运单号
 
         // 调用运单申报Service获取提交海关结果
@@ -145,11 +137,8 @@ public class WaybillDeclareApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.YDZTSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB + "," + StatusCode.EXPORT);//运单状态待申报,已导入
-//        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB);//运单状态待申报
-
+        paramMap.put("dataStatusWhere", StatusCode.YDZTDSB);//运单状态待申报,已导入
         paramMap.put("currentUserId", currentUser.getId());
-        /* paramMap.put("enterpriseId", this.getCurrentUserEnterpriseId());*/  //暂时不获取企业id
         paramMap.put("submitKeys", submitKeys);//运单编号
 
         // 调用运单申报Service获取提交海关结果

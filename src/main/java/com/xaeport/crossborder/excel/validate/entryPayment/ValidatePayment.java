@@ -47,14 +47,14 @@ public class ValidatePayment extends ValidateBase {
     }
 
     public void initMap() {
-        indexMap.put(orderNoIndex, "订单编号,36");
+        indexMap.put(orderNoIndex, "订单编号,60");
         indexMap.put(payCodeIndex, "支付企业代码,18");
         indexMap.put(payNameIndex, "支付企业名称,100");
         indexMap.put(payTransactionIdIndex, "支付交易编码,60");
-        indexMap.put(ebpCodeIndex, "电商平台代码,50");
+        indexMap.put(ebpCodeIndex, "电商平台代码,18");
         indexMap.put(epbNameIndex, "电商平台名称,100");
         indexMap.put(amountPaidIndex, "支付金额,19");//double
-        indexMap.put(payerIdNumberIndex, "支付人证件号码,60");
+        indexMap.put(payerIdNumberIndex, "支付人证件号码,18");
         indexMap.put(payerNameIndex, "支付人姓名,60");
         indexMap.put(payTimeIndex, "支付时间,14");
 

@@ -23,6 +23,7 @@ public class logisticsBaseVerifyChain implements CrossBorderVerifyChain {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 申报类型错误", "business_type");
             return verificationResult;
         }
+
         verificationResult.setErrorFlag(false);
         return verificationResult;
     }

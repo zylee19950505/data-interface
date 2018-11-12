@@ -25,6 +25,7 @@ public class ImpPayment {
     private String amount_paid;//支付金额。
     private String currency;//限定为人民币，填写142。
     private Date pay_time;//支付时间， 格式:YYYYMMDDhhmmss。
+    private String pay_time_char;//支付时间， 格式:YYYYMMDDhhmmss。
     private String note;//备注
     private String data_status;//数据状态
     private String crt_id;//创建人ID
@@ -286,5 +287,13 @@ public class ImpPayment {
 
     public void setBusiness_type(String business_type) {
         this.business_type = business_type;
+    }
+
+    public String getPay_time_char() {
+        return pay_time_char;
+    }
+
+    public void setPay_time_char(String pay_time_char) {
+        this.pay_time_char = pay_time_char;
     }
 }

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
-public class WaybillImportSQLProvider extends BaseSQLProvider{
+public class WaybillImportSQLProvider extends BaseSQLProvider {
     /*
      * 导入插入impLogistics表数据
      */
@@ -40,9 +40,8 @@ public class WaybillImportSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(impLogistics.getBill_no())) {
                     VALUES("bill_no", "#{impLogistics.bill_no}");
                 }
-                //航班航次号
-                if (!StringUtils.isEmpty(impLogistics.getVoyage_no())){
-                    VALUES("voyage_no","#{impLogistics.voyage_no}");
+                if (!StringUtils.isEmpty(impLogistics.getVoyage_no())) {
+                    VALUES("voyage_no", "#{impLogistics.voyage_no}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getFreight())) {
                     VALUES("freight", "#{impLogistics.freight}");
@@ -89,17 +88,17 @@ public class WaybillImportSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(impLogistics.getUpd_tm())) {
                     VALUES("upd_tm", "#{impLogistics.upd_tm}");
                 }
-                if(!StringUtils.isEmpty(impLogistics.getEnt_id())){
-                    VALUES("ent_id","#{impLogistics.ent_id}");
+                if (!StringUtils.isEmpty(impLogistics.getEnt_id())) {
+                    VALUES("ent_id", "#{impLogistics.ent_id}");
                 }
-                if(!StringUtils.isEmpty(impLogistics.getEnt_name())){
-                    VALUES("ent_name","#{impLogistics.ent_name}");
+                if (!StringUtils.isEmpty(impLogistics.getEnt_name())) {
+                    VALUES("ent_name", "#{impLogistics.ent_name}");
                 }
-                if(!StringUtils.isEmpty(impLogistics.getEnt_customs_code())){
-                    VALUES("ent_customs_code","#{impLogistics.ent_customs_code}");
+                if (!StringUtils.isEmpty(impLogistics.getEnt_customs_code())) {
+                    VALUES("ent_customs_code", "#{impLogistics.ent_customs_code}");
                 }
-                if(!StringUtils.isEmpty(impLogistics.getBusiness_type())){
-                    VALUES("business_type","#{impLogistics.business_type}");
+                if (!StringUtils.isEmpty(impLogistics.getBusiness_type())) {
+                    VALUES("business_type", "#{impLogistics.business_type}");
                 }
 
             }
@@ -119,5 +118,5 @@ public class WaybillImportSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
-    
+
 }

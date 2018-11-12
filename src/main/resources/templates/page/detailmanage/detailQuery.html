@@ -42,19 +42,34 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">订单编号：</span>
+                                    <input type="text" name="orderNo" class="form-control" placeholder="请输入订单编号"/>
+                                </div>
+                            </div>
+
                             <div style="display: block">
 
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <span class="input-group-addon">订单编号：</span>
-                                        <input type="text" name="orderNo" class="form-control" placeholder="请输入订单编号"/>
+                                        <span class="input-group-addon">物流运单编号：</span>
+                                        <input type="text" name="logisticsNo" class="form-control"
+                                               placeholder="请输入物流运单编号"/>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <span class="input-group-addon">物流运单编号：</span>
-                                        <input type="text" name="logisticsNo" class="form-control" placeholder="请输入物流运单编号"/>
+                                        <span class="input-group-addon">电子口岸标识编号：</span>
+                                        <input type="text" name="preNo" class="form-control" placeholder="请输入电子口岸标识编号"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">海关清单编号：</span>
+                                        <input type="text" name="invtNo" class="form-control" placeholder="请输入海关清单编号"/>
                                     </div>
                                 </div>
 
@@ -62,20 +77,20 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">回执状态：</span>
                                         <select class="form-control" name="returnStatus">
-                                            <option value="" selected = "selected" >全部</option>
-                                            <option value="1" >暂存(1)</option>
-                                            <option value="100" >海关退单(100)</option>
-                                            <option value="120" >海关入库(120)</option>
-                                            <option value="2" >申报(2)</option>
-                                            <option value="3" >发送海关成功(3)</option>
-                                            <option value="300" >待人工审核(300)</option>
-                                            <option value="399" >海关审结(399)</option>
-                                            <option value="4" >发送海关失败(4)</option>
-                                            <option value="400" >待运抵(400)</option>
-                                            <option value="500" >查验(500)</option>
-                                            <option value="600" >挂起(600)</option>
-                                            <option value="700" >退运(700)</option>
-                                            <option value="800" >放行(800)</option>
+                                            <option value="" selected="selected">全部</option>
+                                            <option value="1">暂存(1)</option>
+                                            <option value="100">海关退单(100)</option>
+                                            <option value="120">海关入库(120)</option>
+                                            <option value="2">申报(2)</option>
+                                            <option value="3">发送海关成功(3)</option>
+                                            <option value="300">待人工审核(300)</option>
+                                            <option value="399">海关审结(399)</option>
+                                            <option value="4">发送海关失败(4)</option>
+                                            <option value="400">待运抵(400)</option>
+                                            <option value="500">查验(500)</option>
+                                            <option value="600">挂起(600)</option>
+                                            <option value="700">退运(700)</option>
+                                            <option value="800">放行(800)</option>
                                         </select>
                                     </div>
                                 </div>

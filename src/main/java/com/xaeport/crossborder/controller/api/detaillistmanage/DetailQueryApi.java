@@ -44,6 +44,8 @@ public class DetailQueryApi extends BaseApi {
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String preNo,
+            @RequestParam(required = false) String invtNo,
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
@@ -62,6 +64,8 @@ public class DetailQueryApi extends BaseApi {
         paramMap.put("billNo", billNo);
         paramMap.put("orderNo", orderNo);
         paramMap.put("logisticsNo", logisticsNo);
+        paramMap.put("preNo", preNo);
+        paramMap.put("invtNo", invtNo);
         //分页参数
         paramMap.put("start", start);
         paramMap.put("length", length);

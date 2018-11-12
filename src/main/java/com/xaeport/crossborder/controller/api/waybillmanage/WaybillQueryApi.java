@@ -36,8 +36,9 @@ public class WaybillQueryApi extends BaseApi {
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-            @RequestParam(required = false) String logisticsNo,
             @RequestParam(required = false) String billNo,
+            @RequestParam(required = false) String orderNo,
+            @RequestParam(required = false) String logisticsNo,
             @RequestParam(required = false) String logisticsStatus,
             HttpServletRequest request
     ) {
@@ -53,8 +54,9 @@ public class WaybillQueryApi extends BaseApi {
 
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-        map.put("logisticsNo", logisticsNo);
         map.put("billNo", billNo);
+        map.put("orderNo", orderNo);
+        map.put("logisticsNo", logisticsNo);
         map.put("logisticsStatus", logisticsStatus);
 
         map.put("start", start);

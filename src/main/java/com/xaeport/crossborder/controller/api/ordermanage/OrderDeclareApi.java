@@ -91,8 +91,7 @@ public class OrderDeclareApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("opStatus", StatusCode.DDSBZ);//订单申报中
-        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.EXPORT);//订单待申报，已导入
-//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
+        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
         paramMap.put("currentUserId", currentUser.getId());
         paramMap.put("submitKeys", submitKeys);//提运单号
 
@@ -119,8 +118,7 @@ public class OrderDeclareApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("opStatus", StatusCode.DDBWSCZ);//订单报文生成中
-        paramMap.put("opStatusWhere", StatusCode.DDDSB + "," + StatusCode.EXPORT);//订单待申报，已导入
-//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
+        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
         paramMap.put("currentUserId", currentUser.getId());
 
         paramMap.put("submitKeys", submitKeys);//提运单号

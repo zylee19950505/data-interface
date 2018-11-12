@@ -75,6 +75,7 @@ public class BaseOrderXml {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");//缩进
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         transformer.transform(new DOMSource(document), new StreamResult(os));//暂时输出到控制台了
         return os.toByteArray();

@@ -22,17 +22,19 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
+        var billNo = $("[name='billNo']").val();
+        var orderNo = $("[name='orderNo']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
         var logisticsStatus = $("[name='logisticsStatus']").val();//业务状态
-        var billNo = $("[name='billNo']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/waybillManage/queryWaybillQuery", {
             startFlightTimes: startFlightTimes,
             endFlightTimes: endFlightTimes,
+            billNo: billNo,
+            orderNo: orderNo,//订单编号
             logisticsNo: logisticsNo,
-            logisticsStatus: logisticsStatus,
-            billNo: billNo
+            logisticsStatus: logisticsStatus
         });
 
         sw.datatable("#query-waybillQuery-table", {
@@ -78,6 +80,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     return result;
                 }
                 },
+                {data: "order_no", label: "订单编号"},
                 {data: "consingee", label: "收货人姓名"},
                 {
                     label: "申报日期", render: function (data, type, row) {
@@ -99,6 +102,10 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
                     label: "物流状态时间", render: function (data, type, row) {
                     if (!isEmpty(row.logistics_time)) {
                         return moment(row.logistics_time).format("YYYY-MM-DD HH:mm:ss");
+                    } else if (!isEmpty(row.logistics_time_char)) {
+                        var data = row.logistics_time_char;
+                        var logistics_time = data.substr(0, 4) + "-" + data.substr(4, 2) + "-" + data.substr(6, 2) + "  " + data.substr(8, 2) + ":" + data.substr(10, 2) + ":" + data.substr(12, 2);
+                        return logistics_time;
                     }
                     return "";
                 }

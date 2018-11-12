@@ -127,7 +127,6 @@ public class BaseLogisticsXml {
         switch (flag) {
             //生成新快件 xml
             case "logistics": {
-//                Data.appendChild(this.waybill.getEntryHead(document, ceb411Message));
                 this.logisticsXml.getLogisticsList(document, rootElement, ceb511Message);
                 break;
             }
@@ -137,13 +136,4 @@ public class BaseLogisticsXml {
         return rootElement;
     }
 
-  /*  public BaseTransfer411 baseTransfer411(){
-        BaseTransfer411 baseTransfer411 = new BaseTransfer411();
-        baseTransfer411.setCopCode("1101180326");
-        baseTransfer411.setCopName("物流企业");
-        baseTransfer411.setDxpId("EXP2016522002580001");
-        baseTransfer411.setDxpMode("DXP");
-        baseTransfer411.setNote("test");
-        return baseTransfer411;
-    }*/
 }

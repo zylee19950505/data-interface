@@ -48,7 +48,7 @@ sw.page.modules["detailmanage/InventoryLogicVerify"] = sw.page.modules["detailma
                 {
                     label: "进口时间", render: function (data, type, row) {
                     if (!isEmpty(row.ie_date)) {
-                        return moment(row.ie_date).format("YYYY-MM-DD HH:mm:ss");
+                        return moment(row.ie_date).format("YYYY-MM-DD");
                     }
                     return "";
                 }

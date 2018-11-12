@@ -29,11 +29,28 @@ public class ImpLogisticsData {
     private Date upd_tm;//更新时间
     private String logistics_status;//物流签收状态，限定S
     private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+    private String logistics_time_char;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String return_status;   //回执状态
     private String return_info;//回执备注原因
     private String return_time;//回执时间
     private String return_status_name;//回执状态对应中文意思
+    private String order_no;
 
+    public String getLogistics_time_char() {
+        return logistics_time_char;
+    }
+
+    public void setLogistics_time_char(String logistics_time_char) {
+        this.logistics_time_char = logistics_time_char;
+    }
+
+    public String getOrder_no() {
+        return order_no;
+    }
+
+    public void setOrder_no(String order_no) {
+        this.order_no = order_no;
+    }
 
     public String getReturn_status_name() {
         return return_status_name;

@@ -45,16 +45,7 @@ public class ExcelDataWaybillStatus implements ExcelData {
             impLogistics.setLogistics_name(excelData.get(i).get(logisticsNameIndex));//物流企业名称
             //impLogisticsStatus.setLogistics_status(excelData.get(i).get(logisticsStatusIndex));//物流运单状态
             impLogistics.setNote(excelData.get(i).get(noteIndex));//备注
-
-            //对时间进行格式化。
-            String logisticsTime = excelData.get(i).get(logisticsTimeIndex);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            try {
-                Date LogisticsTime = sdf.parse(logisticsTime);
-                impLogistics.setLogistics_time(LogisticsTime);//物流状态时间
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            impLogistics.setLogistics_time_char(excelData.get(i).get(logisticsTimeIndex));//备注
 
             listData.add(impLogistics);
         }

@@ -71,6 +71,9 @@ public class PaymentImportSQLProvider {
                 if (!StringUtils.isEmpty(impPayment.getPay_time())) {
                     VALUES("PAY_TIME", "#{impPayment.pay_time}");
                 }
+                if (!StringUtils.isEmpty(impPayment.getPay_time_char())) {
+                    VALUES("PAY_TIME_CHAR", "#{impPayment.pay_time_char}");
+                }
                 if (!StringUtils.isEmpty(impPayment.getNote())) {
                     VALUES("NOTE", "#{impPayment.note}");
                 }
@@ -89,17 +92,17 @@ public class PaymentImportSQLProvider {
                 if (!StringUtils.isEmpty(impPayment.getUpd_tm())) {
                     VALUES("UPD_TM", "#{impPayment.upd_tm}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getEnt_id())){
-                    VALUES("ent_id","#{impPayment.ent_id}");
+                if (!StringUtils.isEmpty(impPayment.getEnt_id())) {
+                    VALUES("ent_id", "#{impPayment.ent_id}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getEnt_name())){
-                    VALUES("ent_name","#{impPayment.ent_name}");
+                if (!StringUtils.isEmpty(impPayment.getEnt_name())) {
+                    VALUES("ent_name", "#{impPayment.ent_name}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getEnt_customs_code())){
-                    VALUES("ent_customs_code","#{impPayment.ent_customs_code}");
+                if (!StringUtils.isEmpty(impPayment.getEnt_customs_code())) {
+                    VALUES("ent_customs_code", "#{impPayment.ent_customs_code}");
                 }
-                if(!StringUtils.isEmpty(impPayment.getBusiness_type())){
-                    VALUES("business_type","#{impPayment.business_type}");
+                if (!StringUtils.isEmpty(impPayment.getBusiness_type())) {
+                    VALUES("business_type", "#{impPayment.business_type}");
                 }
             }
         }.toString();
@@ -117,9 +120,10 @@ public class PaymentImportSQLProvider {
             }
         }.toString();
     }
-/*
-* 查询支付单流水号是否唯一isRepeatPaytransId
-* */
+
+    /*
+    * 查询支付单流水号是否唯一isRepeatPaytransId
+    * */
     public String isRepeatPaytransId(@Param("impPayment") ImpPayment impPayment) throws Exception {
         return new SQL() {
             {

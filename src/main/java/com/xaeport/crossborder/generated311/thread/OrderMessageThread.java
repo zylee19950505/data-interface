@@ -66,7 +66,7 @@ public class OrderMessageThread implements Runnable {
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
         String xmlHeadGuid = null;
-        String nameOrderNo = null;
+        String nameBillNo = null;
 
         while (true) {
             try {
@@ -96,7 +96,7 @@ public class OrderMessageThread implements Runnable {
 
                             impOrderHead = orderHeadLists.get(i);
                             xmlHeadGuid = orderHeadLists.get(0).getGuid();
-                            nameOrderNo = orderHeadLists.get(0).getOrder_No();
+                            nameBillNo = orderHeadLists.get(0).getBill_No();
                             entId = orderHeadLists.get(0).getEnt_id();
                             guid = impOrderHead.getGuid();
 
@@ -158,7 +158,7 @@ public class OrderMessageThread implements Runnable {
                         ceb311Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
-                        this.entryProcess(ceb311Message, nameOrderNo, xmlHeadGuid);
+                        this.entryProcess(ceb311Message, nameBillNo, xmlHeadGuid);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理订单[entId: %s]时发生异常", entId);
@@ -177,11 +177,11 @@ public class OrderMessageThread implements Runnable {
         }
     }
 
-    private void entryProcess(CEB311Message ceb311Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
+    private void entryProcess(CEB311Message ceb311Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成订单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB311_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB311_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseOrderXml.createXML(ceb311Message, "orderDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成订单申报报文[fileName: %s]", fileName));

@@ -43,7 +43,7 @@ public class VerificationSQLProvider extends BaseSQLProvider {
                 SELECT("ORDER_NO,EBP_CODE,EBP_NAME");
                 SELECT("PAYER_ID_TYPE,PAYER_ID_NUMBER,PAYER_NAME,TELEPHONE");
                 SELECT("to_char(AMOUNT_PAID,'FM999999999990.00000') as AMOUNT_PAID");
-                SELECT("CURRENCY,PAY_TIME,NOTE");
+                SELECT("CURRENCY,PAY_TIME,PAY_TIME_CHAR,NOTE");
                 SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE,BUSINESS_TYPE");
                 FROM("T_IMP_PAYMENT t");
                 WHERE("t.DATA_STATUS = 'CBDS1' ");

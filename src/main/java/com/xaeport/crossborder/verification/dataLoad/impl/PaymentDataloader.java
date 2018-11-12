@@ -15,7 +15,7 @@ public class PaymentDataloader implements PaymentLoader{
 
     @Override
     public List<ImpCBHeadVer> loadingData() {
-        // 加载至多1000条 状态为已导入且未校验过的数据
+        // 加载至多500条 状态为已导入且未校验过的数据
         List<ImpCBHeadVer> impCBHeadVers = this.verificationMapper.unverifiedByPayment();
 
         if (CollectionUtils.isEmpty(impCBHeadVers)) {

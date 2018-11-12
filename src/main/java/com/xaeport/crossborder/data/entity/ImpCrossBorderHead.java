@@ -36,6 +36,7 @@ public class ImpCrossBorderHead {
     private String buyer_telephone;//订购人电话。
     private String buyer_reg_no;//订购人的交易平台注册号。
     private String consignee;//收货人姓名，必须与电子运单的收货人姓名一致。
+    private String consingee;//收货人姓名（为运单表字段-mistake）
     private String consignee_telephone;//收货人联系电话，必须与电子运单的收货人电话一致
     private String consignee_address;//"收件地址。收货地址一致。"
     private String consignee_ditrict;//参照国家统计局公布的国家行政区划标准填制。
@@ -87,9 +88,11 @@ public class ImpCrossBorderHead {
     private String telephone;//支付人的电话号码。
     private String amount_paid;//支付金额。
     private Date pay_time;//支付时间， 格式:YYYYMMDDhhmmss。
+    private String pay_time_char;//支付时间， 格式:YYYYMMDDhhmmss。
 
     private String logistics_status;//物流签收状态，限定S
     private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+    private String logistics_time_char;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String weight;//单位为千克。
     private String goods_info;//配送的商品信息，包括商品名称、数量等。
 
@@ -765,5 +768,29 @@ public class ImpCrossBorderHead {
 
     public void setVs_result(String vs_result) {
         this.vs_result = vs_result;
+    }
+
+    public String getPay_time_char() {
+        return pay_time_char;
+    }
+
+    public void setPay_time_char(String pay_time_char) {
+        this.pay_time_char = pay_time_char;
+    }
+
+    public String getLogistics_time_char() {
+        return logistics_time_char;
+    }
+
+    public void setLogistics_time_char(String logistics_time_char) {
+        this.logistics_time_char = logistics_time_char;
+    }
+
+    public String getConsingee() {
+        return consingee;
+    }
+
+    public void setConsingee(String consingee) {
+        this.consingee = consingee;
     }
 }

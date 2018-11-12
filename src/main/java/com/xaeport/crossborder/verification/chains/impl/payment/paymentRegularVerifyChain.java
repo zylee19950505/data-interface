@@ -21,9 +21,57 @@ public class paymentRegularVerifyChain implements CrossBorderVerifyChain {
 
         String validateField = null;
 
+        // 支付企业名称
+        validateField = impCBHeadVer.getPay_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "支付企业名称错误，不能填写“空”，“无”，“/”字符", "pay_name")) {
+            return verificationResult;
+        }
+
+        // 电商平台代码
+        validateField = impCBHeadVer.getEbp_name();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "电商平台代码错误，不能填写“空”，“无”，“/”字符", "ebp_name")) {
+            return verificationResult;
+        }
+
         // 支付人真实姓名
         validateField = impCBHeadVer.getPayer_name();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "支付人姓名不能为空,/,无", "payer_name")) {
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "支付人姓名错误，不能填写“空”，“无”，“/”字符", "payer_name")) {
+            return verificationResult;
+        }
+
+        // 订单编号
+        validateField = impCBHeadVer.getOrder_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号填写错误,仅能填写半角英文，数字及符号", "order_no")) {
+            return verificationResult;
+        }
+
+        // 支付企业代码
+        validateField = impCBHeadVer.getPay_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "支付企业代码填写错误,仅能填写半角英文，数字及符号", "pay_code")) {
+            return verificationResult;
+        }
+
+        // 支付交易编码
+        validateField = impCBHeadVer.getPay_transaction_id();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "支付交易编码填写错误,仅能填写半角英文，数字及符号", "pay_transaction_id")) {
+            return verificationResult;
+        }
+
+        // 电商平台代码
+        validateField = impCBHeadVer.getEbp_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商平台代码填写错误,仅能填写半角英文，数字及符号", "ebp_code")) {
+            return verificationResult;
+        }
+
+        // 支付人身份证号
+        validateField = impCBHeadVer.getPayer_id_number();
+        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "支付人身份证号格式错误，不符合规范", "payer_id_number")) {
+            return verificationResult;
+        }
+
+        // 支付时间
+        validateField = impCBHeadVer.getPay_time_char();
+        if (!FiledCheckTool.checkFiledTimeRegx(verificationResult, validateField, "支付时间格式错误，不符合规范", "pay_time")) {
             return verificationResult;
         }
 

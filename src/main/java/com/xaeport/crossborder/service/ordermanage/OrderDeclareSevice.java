@@ -49,14 +49,14 @@ public class OrderDeclareSevice {
         List<OrderSum> result = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
 
-        if(!StringUtils.isEmpty(orderSums)){
-            for(OrderSum orderSum :orderSums){
-                str = String.format("%s%s",orderSum.getBill_no(),orderSum.getTotalCount());
+        if (!StringUtils.isEmpty(orderSums)) {
+            for (OrderSum orderSum : orderSums) {
+                str = String.format("%s%s", orderSum.getBill_no(), orderSum.getTotalCount());
                 hashValue = str.hashCode();
-                if(list.contains(hashValue)){
+                if (list.contains(hashValue)) {
                     orderSum.setNo("0");
                     result.add(orderSum);
-                }else{
+                } else {
                     list.add(hashValue);
                     orderSum.setNo("1");
                     result.add(orderSum);

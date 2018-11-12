@@ -28,14 +28,13 @@ public class DetailDeclareMessageThread implements Runnable {
     //无参数的构造方法。
     public DetailDeclareMessageThread() {
     }
+
     //有参数的构造方法。
     public DetailDeclareMessageThread(DetailDeclareMapper detailDeclareMapper, AppConfiguration appConfiguration, BaseDetailDeclareXML baseDetailDeclareXML) {
         this.detailDeclareMapper = detailDeclareMapper;
         this.appConfiguration = appConfiguration;
         this.baseDetailDeclareXML = baseDetailDeclareXML;
     }
-
-
 
     @Override
     public void run() {
@@ -56,9 +55,9 @@ public class DetailDeclareMessageThread implements Runnable {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
         String xmlHeadGuid = null;
-        String nameOrderNo = null;
+        String nameBillNo = null;
 
-        while (true){
+        while (true) {
 
             try {
                 impInventoryHeadLists = detailDeclareMapper.findWaitGenerated(paramMap);
@@ -76,8 +75,6 @@ public class DetailDeclareMessageThread implements Runnable {
 
                 Map<String, List<ImpInventoryHead>> inventoryXmlMap = BusinessUtils.getEntIdInventoryMap(impInventoryHeadLists);
 
-
-
                 for (String entId : inventoryXmlMap.keySet()) {
                     try {
                         inventoryHeadLists = inventoryXmlMap.get(entId);
@@ -88,7 +85,7 @@ public class DetailDeclareMessageThread implements Runnable {
 
                             impInventoryHead = inventoryHeadLists.get(i);
                             xmlHeadGuid = inventoryHeadLists.get(0).getGuid();
-                            nameOrderNo = inventoryHeadLists.get(0).getOrder_no();
+                            nameBillNo = inventoryHeadLists.get(0).getBill_no();
                             entId = inventoryHeadLists.get(0).getEnt_id();
                             guid = impInventoryHead.getGuid();
 
@@ -151,7 +148,6 @@ public class DetailDeclareMessageThread implements Runnable {
                             }
 
                             inventoryHeads.add(inventoryHead);
-
                             impInventoryBodyList = this.detailDeclareMapper.querydetailDeclareListByGuid(guid);
 
                             for (int j = 0; j < impInventoryBodyList.size(); j++) {
@@ -167,7 +163,7 @@ public class DetailDeclareMessageThread implements Runnable {
                         ceb621Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
-                        this.entryProcess(ceb621Message, nameOrderNo, xmlHeadGuid);
+                        this.entryProcess(ceb621Message, nameBillNo, xmlHeadGuid);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理订单[entId: %s]时发生异常", entId);
@@ -175,7 +171,7 @@ public class DetailDeclareMessageThread implements Runnable {
                     }
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 try {
                     Thread.sleep(5000);
                     logger.error("生成清单621报文时发生异常，等待5秒重新开始获取数据", e);
@@ -185,12 +181,13 @@ public class DetailDeclareMessageThread implements Runnable {
             }
         }
     }
-    private void entryProcess(CEB621Message ceb621Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
+
+    private void entryProcess(CEB621Message ceb621Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB621_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare",xmlHeadGuid);//flag
+            String fileName = "CEB621_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
+            byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成清单621申报报文[fileName: %s]", fileName));
         } catch (Exception e) {
@@ -198,6 +195,7 @@ public class DetailDeclareMessageThread implements Runnable {
             this.logger.error(exceptionMsg, e);
         }
     }
+
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "inventory" + File.separator + sdf.format(new Date()) + File.separator + fileName;

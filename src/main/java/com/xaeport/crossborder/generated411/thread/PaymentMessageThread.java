@@ -101,7 +101,7 @@ public class PaymentMessageThread implements Runnable {
                             paymentHead.setTelephone(StringUtils.isEmpty(impPayment.getTelephone()) ? "" : impPayment.getTelephone());
                             paymentHead.setAmountPaid(impPayment.getAmount_paid());
                             paymentHead.setCurrency(impPayment.getCurrency());
-                            paymentHead.setPayTime(sdf.format(impPayment.getPay_time()));
+                            paymentHead.setPayTime(impPayment.getPay_time_char());
                             paymentHead.setNote(StringUtils.isEmpty(impPayment.getNote()) ? "" : impPayment.getNote());
 
                             try {

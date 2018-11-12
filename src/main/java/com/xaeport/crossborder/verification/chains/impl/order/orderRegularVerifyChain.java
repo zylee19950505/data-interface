@@ -99,6 +99,18 @@ public class orderRegularVerifyChain implements CrossBorderVerifyChain {
             return verificationResult;
         }
 
+        // 订购人电话
+        validateField = impCBHeadVer.getBuyer_telephone();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订购人电话错误,仅能填写半角英文，数字及符号", "buyer_TelePhone")) {
+            return verificationResult;
+        }
+
+        // 收件人电话
+        validateField = impCBHeadVer.getConsignee_telephone();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "收件人电话错误,仅能填写半角英文，数字及符号", "consignee_Telephone")) {
+            return verificationResult;
+        }
+
         // 订购人身份证号
         validateField = impCBHeadVer.getBuyer_id_number();
         if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号格式错误，不符合规范", "buyer_Id_Number")) {

@@ -13,6 +13,7 @@ public class WaybillQuerySQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String billNo = paramMap.get("billNo");
+        final String orderNo = paramMap.get("orderNo");
         final String logisticsStatus = paramMap.get("logisticsStatus");
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
@@ -37,6 +38,7 @@ public class WaybillQuerySQLProvider {
                         " t.RETURN_STATUS as returnStatus_status,"+
                         " t.RETURN_INFO as returnStatus_info,"+
                         " t.LOGISTICS_TIME,"+
+                        " t.LOGISTICS_TIME_CHAR,"+
                         " (select ss.status_name from t_status ss " +
                         " where ss.status_code = t.return_status ) return_status_name");
                 FROM("T_IMP_LOGISTICS t");
@@ -49,6 +51,9 @@ public class WaybillQuerySQLProvider {
                 }
                 if (!StringUtils.isEmpty(billNo)){
                     WHERE("t.bill_no = #{billNo}");
+                }
+                if (!StringUtils.isEmpty(orderNo)){
+                    WHERE("t.order_no = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(logisticsStatus)){
                     if(logisticsStatus.equals("-")){
@@ -77,6 +82,7 @@ public class WaybillQuerySQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String billNo =  paramMap.get("billNo");
+        final String orderNo = paramMap.get("orderNo");
         final String logisticsStatus = paramMap.get("logisticsStatus");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
@@ -94,6 +100,9 @@ public class WaybillQuerySQLProvider {
                 }
                 if (!StringUtils.isEmpty(billNo)){
                     WHERE("t.bill_no = #{billNo}");
+                }
+                if (!StringUtils.isEmpty(orderNo)){
+                    WHERE("t.order_no = #{orderNo}");
                 }
                 if (!StringUtils.isEmpty(logisticsStatus)){
                     if(logisticsStatus.equals("-")){
@@ -125,6 +134,8 @@ public class WaybillQuerySQLProvider {
                 SELECT("t.LOGISTICS_CODE as logisticscode");
                 SELECT("t.LOGISTICS_NAME as logisticsname");
                 SELECT("t.LOGISTICS_NO as logisticsno");
+                SELECT("t.LOGISTICS_TIME as logisticsTime");
+                SELECT("t.LOGISTICS_TIME_CHAR as logisticsTimeChar");
                 SELECT("t.ORDER_NO as orderno");
                 SELECT("t.BILL_NO as billno");
                 SELECT("t.FREIGHT as freight");
@@ -161,14 +172,23 @@ public class WaybillQuerySQLProvider {
                 SET("t.APP_TYPE = '2'");
                 SET("t.DATA_STATUS = 'CBDS4'");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("bill_no"))){
+                    SET("t.BILL_NO = #{bill_no}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))){
                     SET("t.ORDER_NO = #{order_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))){
+                    SET("t.LOGISTICS_NO = #{logistics_no}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
                     SET("t.LOGISTICS_CODE = #{logistics_code}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("logistics_name"))){
                     SET("t.LOGISTICS_NAME = #{logistics_name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_time"))){
+                    SET("t.LOGISTICS_TIME_CHAR = #{logistics_time}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("consingee"))){
                     SET("t.CONSINGEE = #{consingee}");
@@ -229,14 +249,23 @@ public class WaybillQuerySQLProvider {
                 UPDATE("T_IMP_LOGISTICS t");
                 WHERE("t.GUID = #{entryhead_guid}");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("bill_no"))){
+                    SET("t.BILL_NO = #{bill_no}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))){
                     SET("t.ORDER_NO = #{order_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))){
+                    SET("t.LOGISTICS_NO = #{logistics_no}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("logistics_code"))){
                     SET("t.LOGISTICS_CODE = #{logistics_code}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("logistics_name"))){
                     SET("t.LOGISTICS_NAME = #{logistics_name}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("logistics_time"))){
+                    SET("t.LOGISTICS_TIME_CHAR = #{logistics_time}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("consingee"))){
                     SET("t.CONSINGEE = #{consingee}");

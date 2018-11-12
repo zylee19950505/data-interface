@@ -447,7 +447,6 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-
                         "order_no",//订单编号。
                         "cop_no",//企业内部编号
                         "logistics_no",//物流运单编号
@@ -473,10 +472,7 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-
-                        "order_no",//订单编号。
                         "cop_no",//企业内部编号
-                        "logistics_no",//物流运单编号
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号

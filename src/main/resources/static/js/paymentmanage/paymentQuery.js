@@ -75,6 +75,10 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
                     label: "支付时间", render: function (data, type, row) {
                     if (!isEmpty(row.pay_time)) {
                         return moment(row.pay_time).format("YYYY-MM-DD HH:mm:ss");
+                    } else if (!isEmpty(row.pay_time_char)) {
+                        var data = row.pay_time_char;
+                        var pay_time = data.substr(0, 4) + "-" + data.substr(4, 2) + "-" + data.substr(6, 2) + "  " + data.substr(8, 2) + ":" + data.substr(10, 2) + ":" + data.substr(12, 2);
+                        return pay_time;
                     }
                     return "";
                 }

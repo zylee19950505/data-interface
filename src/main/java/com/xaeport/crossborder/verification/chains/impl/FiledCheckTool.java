@@ -15,7 +15,8 @@ public class FiledCheckTool {
     private static String numReg = "[0-9]+$";//数字的正则表达式
     private static String ChineseReg = "[\u4E00-\u9FA5]+";//中文正则表达式
     private static String halfAngleSymbolReg = "^[\\u0000-\\u00FF]+$";//半角符号正则表达式
-    private static String idCardReg = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+    private static String idCardReg = "^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";//18位身份证号码正则表达式
+    private static String TimeReg = "^((?:19|20)\\d\\d)(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0\\d|1\\d|2[0-3])(0\\d|[1-5]\\d)(0\\d|[1-5]\\d)$";//时间yyyyMMddHHmmss正则表达式
 //    private static String angleSymbolReg = "[\\uFF00-\\uFFFF]+$";//全角符号正则表达式
 
     private static Pattern meaninglessPattern = Pattern.compile(meaninglessReg);
@@ -25,6 +26,7 @@ public class FiledCheckTool {
     private static Pattern ChinesePattern = Pattern.compile(ChineseReg);
     private static Pattern halfAngleSymbolPattern = Pattern.compile(halfAngleSymbolReg);
     private static Pattern idCardPattern = Pattern.compile(idCardReg);
+    private static Pattern TimePattern = Pattern.compile(TimeReg);
 //    private static Pattern angleSymbolPattern = Pattern.compile(angleSymbolReg);
 
     private static Matcher matcher;
@@ -52,6 +54,21 @@ public class FiledCheckTool {
             return false;
         }
         matcher = idCardPattern.matcher(validateField.trim());
+        boolean isMatcher = matcher.matches();
+        if (!isMatcher) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
+            return false;
+        }
+        return true;
+    }
+
+    //验证表头  时间yyyyMMddHHmmss正则表达式
+    public static boolean checkFiledTimeRegx(VerificationResult verificationResult, String validateField, String errorMsg, String field) {
+        if (StringUtils.isEmpty(validateField) || StringUtils.isEmpty(validateField.trim())) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);
+            return false;
+        }
+        matcher = TimePattern.matcher(validateField.trim());
         boolean isMatcher = matcher.matches();
         if (!isMatcher) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, String.format("表头: %s", errorMsg), field);

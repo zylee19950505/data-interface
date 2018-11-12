@@ -14,6 +14,7 @@ public class ImpLogistics {
     private String logistics_no;//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
     private String logistics_status;//物流签收状态，限定S
     private Date logistics_time;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+    private String logistics_time_char;//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
     private String bill_no;//直购进口为海运提单、空运总单或汽车载货清单
     private String voyage_no;//直购进口必填。货物进出境的运输工具的航次编号。保税进口免填。
     private String freight;//商品运输费用，无则填0。
@@ -39,6 +40,10 @@ public class ImpLogistics {
     private String rec_return_info;//回执备注原因
     private String rec_return_time;//回执时间
     private String business_type;//业务类型
+
+    private String ent_id;//导入企业ID码
+    private String ent_name;//导入企业名称
+    private String ent_customs_code;//导入企业海关十位
 
     public String getRec_return_status() {
         return rec_return_status;
@@ -71,10 +76,6 @@ public class ImpLogistics {
     public void setRec_return_time(String rec_return_time) {
         this.rec_return_time = rec_return_time;
     }
-
-    private String ent_id;//导入企业ID码
-    private String ent_name;//导入企业名称
-    private String ent_customs_code;//导入企业海关十位
 
     public String getVoyage_no() {
         return voyage_no;
@@ -338,5 +339,13 @@ public class ImpLogistics {
 
     public void setBusiness_type(String business_type) {
         this.business_type = business_type;
+    }
+
+    public String getLogistics_time_char() {
+        return logistics_time_char;
+    }
+
+    public void setLogistics_time_char(String logistics_time_char) {
+        this.logistics_time_char = logistics_time_char;
     }
 }

@@ -33,13 +33,13 @@ sw.page.modules["waybillmanage/logisticsLogicVerify"] = sw.page.modules["waybill
                 }
                 },
                 {
-                    label: "订单编号", render: function (data, type, row) {
-                    return row.order_no;
+                    label: "运单编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('waybillmanage/logisticsLogicVerify').seeLogisticsLogicDetail('" + row.guid + "','" + row.logistics_no + "')" + '">' + row.logistics_no + '</a>';
                 }
                 },
                 {
-                    label: "运单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('waybillmanage/logisticsLogicVerify').seeLogisticsLogicDetail('" + row.guid + "','" + row.logistics_no + "')" + '">' + row.logistics_no + '</a>';
+                    label: "订单编号", render: function (data, type, row) {
+                    return row.order_no;
                 }
                 },
                 {

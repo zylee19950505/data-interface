@@ -8,6 +8,8 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
         var billNo = $("[name='billNo']").val();
         var orderNo = $("[name='orderNo']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
+        var preNo = $("[name='preNo']").val();
+        var invtNo = $("[name='invtNo']").val();
         var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
@@ -17,6 +19,8 @@ sw.page.modules["detailmanage/detailQuery"] = sw.page.modules["detailmanage/deta
             billNo: billNo,//提运单号
             orderNo: orderNo,//订单编号
             logisticsNo: logisticsNo,//物流运单编号
+            preNo: preNo,//电子口岸标识编号
+            invtNo: invtNo,//海关清单编号
             returnStatus: returnStatus//回执状态
         });
 

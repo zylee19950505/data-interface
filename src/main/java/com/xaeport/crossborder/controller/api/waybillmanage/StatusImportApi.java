@@ -90,44 +90,32 @@ public class StatusImportApi extends BaseApi {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("物流运单编号【" + logisticsNo + "】不存在,请检查");
                 }
-                //运单状态时间只能为数字logistics_time
-               String logisticsTime =  this.statusImportService.jugerLogisticsTime(excelMap);
+
+                //判断物流时间是否符合时间规范（yyyyMMddHHmmss）14位数字组成
+                String logisticsTime = this.statusImportService.checkLogisticsTime(excelMap);
                 if (!"true".equals(logisticsTime)) {
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号【" + logisticsTime + "】物流时间格式不正确,必须为14位纯数字,请检查");
-                }
-                //判断运单表里是是否存在这个运单编号
-                String logisticsNoCount = this.statusImportService.getLogisticsStatusNoCount(excelMap);
-                if (!logisticsNoCount.equals("0")) {
-                    httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号【" + logisticsNoCount + "】不存在,不能导入");
+                    return new ResponseData("物流运单编号【" + logisticsTime + "】物流时间格式不符合yyyyMMddHHmmss时间规范");
                 }
 
                 //判断运单是否申报成功,是否有回执
                 String logisticsSuccess = this.statusImportService.getLogisticsSuccess(excelMap);
                 if (!"true".equals(logisticsSuccess)) {
-                    //这个没变的话,就说明没有收到回执,或者状态还没有变为CBDS42
                     httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("物流运单编号【" + logisticsSuccess + "】申报未成功或者未收到回执");//申报未成功或者未收到回执
+                    return new ResponseData("物流运单编号【" + logisticsSuccess + "】申报未成功");
                 }
 
-                flag = this.statusImportService.createWaybillForm(excelMap, user);//数据创建对应的数据(现在更改运单表)
+                //修改运单表状态为S，设置物流时间
+                flag = this.statusImportService.createWaybillForm(excelMap, user);
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
-                    //有回执,也申报成功了,就把运单状态改为CBDS5
-                    //this.statusImportService.updateLogisticsStatus(excelMap);
-                    this.statusImportService.updateLogistics(excelMap);
+                    //有回执,也申报成功了,就把运单状态改为CBDS5（运单状态待申报）
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData(String.format("跨境电子商务运单状态导入成功！"));
-                } /*else if (flag == 1) {
-                    httpSession.removeAttribute("userIdCode");
-                    return new ResponseData("同一批物流运单编号不可重复！");
-                } */
-                else {
+                } else {
                     httpSession.removeAttribute("userIdCode");
                     return new ResponseData("入库失败");
                 }
-
             }
         } catch (IOException e) {
             this.log.error(String.format("导入文件模板错误，文件名:%s", fileName), e);

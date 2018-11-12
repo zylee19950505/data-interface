@@ -104,7 +104,8 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         selecterInitPayment("payer_id_type", entryHead.payer_id_type, sw.dict.certificateType);
         $("#payer_id_number").val(entryHead.payer_id_number);
         $("#payer_name").val(entryHead.payer_name);
-        $("#pay_time").val(moment(entryHead.pay_time).format("YYYY-MM-DD"));
+        // $("#pay_time").val(moment(entryHead.pay_time).format("YYYY-MM-DD HH:mm:ss"));
+        $("#pay_time").val(isEmpty(entryHead.pay_time_char) ? moment(entryHead.pay_time).format("YYYY-MM-DD HH:mm:ss") : entryHead.pay_time_char);
         $("#note").val(entryHead.note);
     },
     // 标记问题字段
@@ -204,7 +205,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
             "payer_id_type": "支付人证件类型",
             "payer_id_number": "支付人证件号码",
             "payer_name": "支付人姓名",
-            "pay_time": "支付时间",
+            "pay_time": "支付时间"
             // "note": "备注"
         };
 
@@ -259,10 +260,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "order_no",//订单编号
-                        "pay_transaction_id",//支付交易编码
-                        "payer_id_type",//身份证件类型
-                        "note"
+                        "payer_id_type"//身份证件类型
                     ];
                 }
                 //保存的路径

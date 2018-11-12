@@ -10,9 +10,12 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据
     public String queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
+
         final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
+        final String preNo = paramMap.get("preNo");
+        final String invtNo = paramMap.get("invtNo");
         final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
@@ -66,6 +69,12 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(logisticsNo)) {
                     WHERE("t.logistics_No = #{logisticsNo}");
                 }
+                if (!StringUtils.isEmpty(preNo)) {
+                    WHERE("t.pre_no = #{preNo}");
+                }
+                if (!StringUtils.isEmpty(invtNo)) {
+                    WHERE("t.invt_no = #{invtNo}");
+                }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
@@ -83,9 +92,12 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据总数
     public String queryInventoryQueryCount(Map<String, String> paramMap) throws Exception {
+
         final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
+        final String preNo = paramMap.get("preNo");
+        final String invtNo = paramMap.get("invtNo");
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String entId = paramMap.get("entId");
@@ -114,6 +126,12 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(logisticsNo)) {
                     WHERE("t.logistics_No = #{logisticsNo}");
+                }
+                if (!StringUtils.isEmpty(preNo)) {
+                    WHERE("t.pre_no = #{preNo}");
+                }
+                if (!StringUtils.isEmpty(invtNo)) {
+                    WHERE("t.invt_no = #{invtNo}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.app_time >= to_date(#{startFlightTimes}||' 00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -166,7 +184,6 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                 WHERE("t.GUID = #{id}");
             }
         }.toString();
-
     }
 
     //修改清单表头信息

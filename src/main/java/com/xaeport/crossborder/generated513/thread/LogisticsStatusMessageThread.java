@@ -31,6 +31,7 @@ public class LogisticsStatusMessageThread implements Runnable {
     //无参数的构造方法。
     public LogisticsStatusMessageThread() {
     }
+
     //有参数的构造方法。
     public LogisticsStatusMessageThread(WaybillDeclareMapper waybillDeclareMapper, AppConfiguration appConfiguration, BaseLogisticsStatusXml baseLogisticsStatusXml) {
         this.waybillDeclareMapper = waybillDeclareMapper;
@@ -39,22 +40,21 @@ public class LogisticsStatusMessageThread implements Runnable {
     }
 
 
-
     @Override
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("dataStatus", StatusCode.YDZTSBZ);//在map中添加状态（dataStatus）为：运单状态申报中（CBDS50）
 
         CEB513Message ceb513Message = new CEB513Message();
-
         List<ImpLogistics> impLogisticsStatusLists;
-        List<ImpLogistics> logisticsStatusLists;;
+        List<ImpLogistics> logisticsStatusLists;
+        ;
         List<LogisticsStatusHead> logisticsStatusHeadsLists;
         LogisticsStatusHead logisticsStatusHead;
         ImpLogistics lmpLogisticsStatus;
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-        String nameLogisticsNo = null;
+        String nameBillNo = null;
         String xmlHeadGuid = null;
 
         while (true) {
@@ -86,7 +86,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                             lmpLogisticsStatus = logisticsStatusLists.get(i);
                             xmlHeadGuid = logisticsStatusLists.get(0).getGuid();
 
-                            nameLogisticsNo = logisticsStatusLists.get(0).getLogistics_no();
+                            nameBillNo = logisticsStatusLists.get(0).getBill_no();
                             entId = logisticsStatusLists.get(0).getEnt_id();
                             guid = lmpLogisticsStatus.getGuid();
 
@@ -99,12 +99,10 @@ public class LogisticsStatusMessageThread implements Runnable {
                             logisticsStatusHead.setLogisticsName(lmpLogisticsStatus.getLogistics_name());//物流企业在海关注册登记的名称。
                             logisticsStatusHead.setLogisticsNo(lmpLogisticsStatus.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
                             logisticsStatusHead.setLogisticsStatus(StringUtils.isEmpty(lmpLogisticsStatus.getLogistics_status()) ? "S" : lmpLogisticsStatus.getLogistics_status());//物流签收状态，限定S
-                            logisticsStatusHead.setLogisticsTime(sdf.format(lmpLogisticsStatus.getLogistics_time()));//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
+                            logisticsStatusHead.setLogisticsTime(lmpLogisticsStatus.getLogistics_time_char());//物流状态发生的实际时间。格式:YYYYMMDDhhmmss。
                             logisticsStatusHead.setNote(lmpLogisticsStatus.getNote());//备注
 
                             try {
-                                // 更新运单状态
-                               // this.waybillDeclareMapper.updateToLogisticsStatus(guid, StatusCode.YDZTYSB);
                                 //更改运单表
                                 this.waybillDeclareMapper.updateToLogistics(lmpLogisticsStatus.getLogistics_no(), StatusCode.YDZTYSB);
                                 this.logger.debug(String.format("更新运单状态的状态为已申报[guid: %s]状态为: %s", guid, StatusCode.YDZTYSB));
@@ -123,7 +121,7 @@ public class LogisticsStatusMessageThread implements Runnable {
                         ceb513Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
-                        this.entryProcess(ceb513Message, nameLogisticsNo, xmlHeadGuid);
+                        this.entryProcess(ceb513Message, nameBillNo, xmlHeadGuid);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理运单状态[entId: %s]时发生异常", entId);
@@ -143,11 +141,11 @@ public class LogisticsStatusMessageThread implements Runnable {
         }
     }
 
-    private void entryProcess(CEB513Message ceb513Message, String nameLogisticsNo, String xmlHeadGuid) throws TransformerException, IOException {
+    private void entryProcess(CEB513Message ceb513Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成运单状态申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB513_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB513_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsStatusXml.createXML(ceb513Message, "logisticsStatus", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成运单状态513申报报文[fileName: %s]", fileName));

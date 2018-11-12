@@ -60,15 +60,18 @@ public class ExcelDataPayment implements ExcelData {
             impPayment.setPayer_id_number(excelData.get(i).get(payerIdNumberIndex));//支付人证件号码
             impPayment.setPayer_name(excelData.get(i).get(payerNameIndex));//支付人姓名
 
+            //TODO
+            impPayment.setPay_time_char(excelData.get(i).get(payTimeIndex));//支付人姓名
+
             //对时间进行格式化。
-            String dataPayment = excelData.get(i).get(payTimeIndex);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            try {
-                Date date=sdf.parse(dataPayment);
-                impPayment.setPay_time(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+//            String dataPayment = excelData.get(i).get(payTimeIndex);
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+//            try {
+//                Date date=sdf.parse(dataPayment);
+//                impPayment.setPay_time(date);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
 
             impPayment.setNote(excelData.get(i).get(noteIndex));//备注
             impPayment.setAmount_paid(getDouble(excelData.get(i).get(amountPaidIndex)));//支付金额

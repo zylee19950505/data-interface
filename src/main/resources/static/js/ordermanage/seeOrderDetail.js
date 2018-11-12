@@ -418,11 +418,9 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         "bill_No",
-                        "order_No",//交易平台的订单编号，同一交易平台的订单编号应唯一。订单编号长度不能超过60位。
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
-                        "g_num",
-                        "note"
+                        "g_num"
                     ]
                 }
                 //保存的路径

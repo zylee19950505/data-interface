@@ -65,7 +65,7 @@ public class ValidateDetail extends ValidateBase {
         indexMap.put(logisticsNameIndex, "物流企业名称,100");
         indexMap.put(gnameIndex, "商品名称,250");
         indexMap.put(gcodeIndex, "商品编码,20");
-        indexMap.put(gmodelIndex, "商品规格型号,250");
+        indexMap.put(gmodelIndex, "商品规格型号,510");
 //        indexMap.put(wrapTypeIndex, "包装种类,1");
         indexMap.put(qtyIndex, "数量,19");
         indexMap.put(unitIndex, "计量单位,10");
@@ -82,7 +82,7 @@ public class ValidateDetail extends ValidateBase {
         indexMap.put(customsCodeIndex, "申报海关代码,4");
         indexMap.put(portCodeIndex, "口岸海关代码,4");
 //        indexMap.put(ieDateIndex, "进口日期,14");
-        indexMap.put(buyer_Id_NumberIndex, "订购人证件号码,60");
+        indexMap.put(buyer_Id_NumberIndex, "订购人证件号码,18");
         indexMap.put(buyer_NameIndex, "订购人姓名,60");
         indexMap.put(buyerTelephoneIndex, "订购人电话,30");
         indexMap.put(consignee_AddressIndex, "收件地址,200");

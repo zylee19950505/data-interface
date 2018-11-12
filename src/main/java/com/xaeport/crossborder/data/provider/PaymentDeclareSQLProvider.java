@@ -36,6 +36,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                                 "    t.PAYER_NAME," +
                                 "    t.AMOUNT_PAID," +
                                 "    t.PAY_TIME," +
+                                "    t.PAY_TIME_CHAR," +
                                 "    t.NOTE," +
                                 "    t.RETURN_STATUS," +
                                 "    t.RETURN_INFO," +
@@ -151,7 +152,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("TELEPHONE," +
                         "to_char(AMOUNT_PAID,'FM999999999990.00000') as AMOUNT_PAID," +
                         "CURRENCY," +
-                        "PAY_TIME");
+                        "PAY_TIME," +
+                        "PAY_TIME_CHAR");
                 SELECT("NOTE," +
                         "DATA_STATUS," +
                         "ENT_ID," +

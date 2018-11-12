@@ -14,10 +14,10 @@ import java.util.Map;
 @Mapper
 public interface DetailDeclareMapper {
 
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "queryInventoryDeclareList")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "queryInventoryDeclareList")
     List<ImpInventory> queryInventoryDeclareList(Map<String, String> paramMap) throws Exception;
 
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "queryInventoryDeclareCount")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "queryInventoryDeclareCount")
     Integer queryInventoryDeclareCount(Map<String, String> paramMap) throws Exception;
 
     /*
@@ -29,36 +29,36 @@ public interface DetailDeclareMapper {
     /*
      * 根据状态查找订单
      * */
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGenerated")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "findWaitGenerated")
     List<ImpInventoryHead> findWaitGenerated(Map<String, String> paramMap);
 
     /*
- * 根据状态查找订单
- * */
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGeneratedByXml")
+    * 根据状态查找订单
+    * */
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "findWaitGeneratedByXml")
     List<ImpInventoryHead> findWaitGeneratedByXml(Map<String, String> paramMap);
 
     /*
      * 根据状态查找订单
      * */
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "findWaitGeneratedByXmlCount")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "findWaitGeneratedByXmlCount")
     double findWaitGeneratedByXmlCount(Map<String, String> paramMap);
 
     /*
      * 根据id查找标题信息
      * */
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "querydetailDeclareListByGuid")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "querydetailDeclareListByGuid")
     List<ImpInventoryBody> querydetailDeclareListByGuid(@Param("headGuid") String headGuid);
 
     /*
      * 修改申报状态
      * */
-    @UpdateProvider(type = DetailDeclareSQLProvider.class,method = "updateEntryHeadDetailStatus")
-    void updateEntryHeadDetailStatus(@Param("headGuid") String headGuid,@Param("QDYSB") String QDYSB);
+    @UpdateProvider(type = DetailDeclareSQLProvider.class, method = "updateEntryHeadDetailStatus")
+    void updateEntryHeadDetailStatus(@Param("headGuid") String headGuid, @Param("QDYSB") String QDYSB);
 
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "queryEntId")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "queryEntId")
     String queryEntId(@Param("crt_id") String crt_id);
 
-    @SelectProvider(type = DetailDeclareSQLProvider.class,method = "queryCompany")
+    @SelectProvider(type = DetailDeclareSQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 }

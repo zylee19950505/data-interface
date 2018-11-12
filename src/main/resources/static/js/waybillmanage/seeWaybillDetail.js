@@ -88,6 +88,8 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
+        $("#bill_no").val(entryHead.billNo);
+        $("#logistics_time").val(isEmpty(entryHead.logisticsTimeChar) ? moment(entryHead.logisticsTime).format("YYYY-MM-DD HH:mm:ss") : entryHead.logisticsTimeChar);
         $("#order_no").val(entryHead.orderNo);
         $("#logistics_no").val(entryHead.logisticsNo);
         $("#logistics_code").val(entryHead.logisticsCode);
@@ -122,7 +124,6 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         if (!this.valiField()) {
             return;
         }
-
         var entryData = {
             entryHead: headChangeKeyValB
         };
@@ -144,7 +145,6 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     query: function () {
         // 表头变化
         headChangeKeyValB = {};
-
         //从路径上找参数
         var param = sw.getPageParams("waybillmanage/seeWaybillDetail");
         var guid = param.guid;
@@ -182,6 +182,7 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
     valiField: function () {
         // 校验表头
         var validataHeadField = {
+            "bill_no": "提运单号",
             "order_no": "订单编号",
             "logistics_no": "物流运单编号",
             "logistics_code": "物流企业代码",
@@ -230,6 +231,8 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
+                        "bill_no",//提运单号
+                        "logistics_time", //物流时间
                         "logistics_no", //运单编号
                         "order_no", //运单编号
                         "pack_no"//件数
@@ -248,10 +251,9 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "logistics_no", //运单编号
-                        "order_no", //运单编号
-                        "pack_no",//件数
-                        "note"
+                        "bill_no",//提运单号
+                        "logistics_time", //物流时间
+                        "pack_no"//件数
                     ];
                 }
                 //保存的路径
@@ -265,6 +267,8 @@ sw.page.modules["waybillmanage/seeWaybillDetail"] = sw.page.modules["waybillmana
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
+                "bill_no",
+                "logistics_time",
                 "logistics_no",
                 "order_no",
                 "logistics_code",

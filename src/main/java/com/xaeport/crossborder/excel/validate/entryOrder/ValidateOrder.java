@@ -81,7 +81,7 @@ public class ValidateOrder extends ValidateBase {
         indexMap.put(ebc_CodeIndex, "电商企业代码,18");
         indexMap.put(ebc_NameIndex, "电商企业名称,100");
         indexMap.put(buyer_Reg_NoIndex, "订购人注册号,60");
-        indexMap.put(buyer_Id_NumberIndex, "订购人证件号码,60");
+        indexMap.put(buyer_Id_NumberIndex, "订购人证件号码,18");
         indexMap.put(buyer_NameIndex, "订购人姓名,60");
         indexMap.put(buyer_TelephoneIndex, "订购人电话,30");
         indexMap.put(consigneeIndex, "收货人姓名,100");

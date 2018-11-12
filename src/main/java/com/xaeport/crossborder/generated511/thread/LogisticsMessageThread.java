@@ -31,13 +31,13 @@ public class LogisticsMessageThread implements Runnable {
     //无参数的构造方法。
     public LogisticsMessageThread() {
     }
+
     //有参数的构造方法。
     public LogisticsMessageThread(WaybillDeclareMapper waybillDeclareMapper, AppConfiguration appConfiguration, BaseLogisticsXml baseLogisticsXml) {
         this.waybillDeclareMapper = waybillDeclareMapper;
         this.appConfiguration = appConfiguration;
         this.baseLogisticsXml = baseLogisticsXml;
     }
-
 
 
     @Override
@@ -54,7 +54,7 @@ public class LogisticsMessageThread implements Runnable {
         ImpLogistics impLogistics;
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-        String nameLogisticsNo = null;
+        String nameBillNo = null;
         String xmlHeadGuid = null;
 
         while (true) {
@@ -85,7 +85,7 @@ public class LogisticsMessageThread implements Runnable {
 
                             impLogistics = logisticsLists.get(i);
                             xmlHeadGuid = logisticsLists.get(0).getGuid();
-                            nameLogisticsNo = logisticsLists.get(0).getLogistics_no();
+                            nameBillNo = logisticsLists.get(0).getBill_no();
                             entId = logisticsLists.get(0).getEnt_id();
 
                             guid = impLogistics.getGuid();
@@ -130,7 +130,7 @@ public class LogisticsMessageThread implements Runnable {
                         ceb511Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
-                        this.entryProcess(ceb511Message, nameLogisticsNo, xmlHeadGuid);
+                        this.entryProcess(ceb511Message, nameBillNo, xmlHeadGuid);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理运单[headGuid: %s]时发生异常", entId);
@@ -150,11 +150,11 @@ public class LogisticsMessageThread implements Runnable {
         }
     }
 
-    private void entryProcess(CEB511Message ceb511Message, String nameLogisticsNo, String xmlHeadGuid) throws TransformerException, IOException {
+    private void entryProcess(CEB511Message ceb511Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成运单申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
-            String fileName = "CEB511_" + nameLogisticsNo + "_" + sdf.format(new Date()) + ".xml";
+            String fileName = "CEB511_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsXml.createXML(ceb511Message, "logistics", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成运单申报报文[fileName: %s]", fileName));

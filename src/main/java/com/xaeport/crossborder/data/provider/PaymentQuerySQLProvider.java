@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class PaymentQuerySQLProvider extends BaseSQLProvider {
 
-
     //支付单查询数据
     public String queryPaymentQueryList(Map<String, String> paramMap) throws Exception {
         final String orderNo = paramMap.get("orderNo");
@@ -34,6 +33,7 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                                 "    t.PAYER_NAME," +
                                 "    t.AMOUNT_PAID," +
                                 "    t.PAY_TIME," +
+                                "    t.PAY_TIME_CHAR," +
                                 "    t.NOTE," +
                                 "    t.RETURN_STATUS," +
                                 "    t.RETURN_INFO," +
@@ -160,7 +160,7 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
 
     }
 
-    //修改清单表头信息
+    //修改支付单表头信息
     public String updateImpPayment(LinkedHashMap<String, String> entryHead) {
         return new SQL() {
             {
@@ -169,6 +169,9 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                 SET("t.APP_TYPE = '2'");
                 SET("t.DATA_STATUS = 'CBDS3'");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
+                    SET("t.bill_no = #{bill_no}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
                     SET("t.order_no = #{order_no}");
                 }
@@ -199,8 +202,11 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("payer_name"))) {
                     SET("t.payer_name = #{payer_name}");
                 }
+//                if (!StringUtils.isEmpty(entryHead.get("pay_time"))) {
+//                    SET("t.pay_time = to_date(#{pay_time},'yyyy-MM-dd')");
+//                }
                 if (!StringUtils.isEmpty(entryHead.get("pay_time"))) {
-                    SET("t.pay_time = to_date(#{pay_time},'yyyy-MM-dd')");
+                    SET("t.pay_time_char = #{pay_time}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");
@@ -209,7 +215,7 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //修改清单表头信息
+    //修改支付单表头信息
     public String updateImpPaymentByLogic(
             LinkedHashMap<String, String> entryHead
     ) {
@@ -218,6 +224,9 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_PAYMENT t");
                 WHERE("t.GUID = #{entryhead_guid}");
                 SET("t.UPD_TM = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
+                    SET("t.bill_no = #{bill_no}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
                     SET("t.order_no = #{order_no}");
                 }
@@ -248,8 +257,11 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("payer_name"))) {
                     SET("t.payer_name = #{payer_name}");
                 }
+//                if (!StringUtils.isEmpty(entryHead.get("pay_time"))) {
+//                    SET("t.pay_time = to_date(#{pay_time},'yyyy-MM-dd')");
+//                }
                 if (!StringUtils.isEmpty(entryHead.get("pay_time"))) {
-                    SET("t.pay_time = to_date(#{pay_time},'yyyy-MM-dd')");
+                    SET("t.pay_time_char = #{pay_time}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.note = #{note}");

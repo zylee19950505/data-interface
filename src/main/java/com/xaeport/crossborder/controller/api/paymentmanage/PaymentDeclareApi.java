@@ -51,7 +51,6 @@ public class PaymentDeclareApi extends BaseApi {
         this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
-
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
         String extra_search = request.getParameter("extra_search");
@@ -112,8 +111,7 @@ public class PaymentDeclareApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("dataStatus", StatusCode.ZFDSBZ);
-        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB + "," + StatusCode.EXPORT);//支付单待申报，已导入
-//        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB);//支付单待申报
+        paramMap.put("dataStatusWhere", StatusCode.ZFDDSB);//支付单待申报
         paramMap.put("currentUserId", currentUser.getId());
         paramMap.put("submitKeys", submitKeys);//订单编号
 
