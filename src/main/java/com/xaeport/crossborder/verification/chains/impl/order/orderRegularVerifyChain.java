@@ -69,12 +69,6 @@ public class orderRegularVerifyChain implements CrossBorderVerifyChain {
             return verificationResult;
         }
 
-        // 提运单号
-        validateField = impCBHeadVer.getBill_no();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "提运单号错误,不能填写“空”，“无”，“/”字符", "bill_No")) {
-            return verificationResult;
-        }
-
         // 订单编号
         validateField = impCBHeadVer.getOrder_no();
         if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号错误,仅能填写半角英文，数字及符号", "order_No")) {
@@ -113,7 +107,7 @@ public class orderRegularVerifyChain implements CrossBorderVerifyChain {
 
         // 订购人身份证号
         validateField = impCBHeadVer.getBuyer_id_number();
-        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号格式错误，不符合规范", "buyer_Id_Number")) {
+        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号错误，格式不符合规范", "buyer_Id_Number")) {
             return verificationResult;
         }
 
