@@ -101,7 +101,7 @@ public class ManifestManageThread implements Runnable {
     private void entryProcess(CEBManifestMessage cebManifestMessage, String manifestNo) {
         try {
             // 生成核放单申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "Manifest_" + manifestNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseManifestXML.createXML(cebManifestMessage);
             saveXmlFile(fileName, xmlByte);

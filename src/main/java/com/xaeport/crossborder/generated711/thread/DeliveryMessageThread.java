@@ -51,7 +51,7 @@ public class DeliveryMessageThread implements Runnable {
         String nameBillNo;
         String entId;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
 
         while (true) {
 
@@ -129,7 +129,7 @@ public class DeliveryMessageThread implements Runnable {
     private void entryProcess(CEB711Message ceb711Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB711_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseDeliveryXML.createXML(ceb711Message, "DeliveryDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);

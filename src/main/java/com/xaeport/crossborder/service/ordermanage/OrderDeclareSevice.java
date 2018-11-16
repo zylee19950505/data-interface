@@ -116,8 +116,8 @@ public class OrderDeclareSevice {
         OrderHead orderHead;
         String entId;
         String guid;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-        SimpleDateFormat sdflong = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdflong = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String xmlHeadGuid = null;
         String nameOrderNo = null;
         String orderZipPath = null;
@@ -248,7 +248,7 @@ public class OrderDeclareSevice {
         String sendFilePathAnd = "";
         try {
             // 生成订单申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB311_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseOrderXml.createXML(ceb311Message, "orderDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte, sendFilePath);

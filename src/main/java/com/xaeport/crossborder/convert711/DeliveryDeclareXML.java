@@ -26,7 +26,7 @@ public class DeliveryDeclareXML {
     public void getEntryHead(Document document, CEB711Message ceb711Message, Element rootElement) {
 
         ImpDeliveryHead impDeliveryHead = ceb711Message.getImpDeliveryHead();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 
         Element Delivery;
         Element DeliveryHead;

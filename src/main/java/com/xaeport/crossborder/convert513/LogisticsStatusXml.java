@@ -26,7 +26,7 @@ public class LogisticsStatusXml {
      */
     public void getLogisticsList(Document document, Element rootElement, CEB513Message ceb513Message) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         List<LogisticsStatusHead> logisticsStatusHead = ceb513Message.getLogisticsStatusHeadList();
 
         Element LogisticsStatus;

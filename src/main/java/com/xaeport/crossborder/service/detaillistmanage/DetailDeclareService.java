@@ -117,8 +117,8 @@ public class DetailDeclareService {
         String entId;
         String guid;
         SimpleDateFormat sdfshort = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-        SimpleDateFormat sdflong = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdflong = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String xmlHeadGuid = null;
         String nameOrderNo = null;
         String orderZipPath = null;
@@ -268,7 +268,7 @@ public class DetailDeclareService {
         String sendFilePathAnd = "";
         try {
             // 生成清单申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB621_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte, sendFilePath);

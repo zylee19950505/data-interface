@@ -28,7 +28,7 @@ public class OrderXml {
      */
     public void getEntryHead(Document document, CEB311Message ceb311Message, Element rootElement) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         List<OrderHead> orderHeadList = ceb311Message.getOrderHeadList();
 
         Element Order;

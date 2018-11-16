@@ -64,7 +64,7 @@ public class OrderMessageThread implements Runnable {
         ImpOrderBody impOrderBody;
         OrderHead orderHead;
         String guid;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlHeadGuid = null;
         String nameBillNo = null;
 
@@ -180,7 +180,7 @@ public class OrderMessageThread implements Runnable {
     private void entryProcess(CEB311Message ceb311Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成订单申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB311_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseOrderXml.createXML(ceb311Message, "orderDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);

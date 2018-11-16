@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
+    <!-- 本地开发控制栏彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+
+    <!-- Console 输出设置 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <charset>UTF-8</charset>
-            <pattern>%d %highlight(%-5level) %-4relative --- [%thread{10}] %cyan(%logger{15} +%line) : %msg %n</pattern>
-        </encoder>
+        <layout>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </layout>
     </appender>
+
+
+    <!--<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<encoder>-->
+            <!--<charset>UTF-8</charset>-->
+            <!--<pattern>%d %highlight(%-5level) %-4relative -&#45;&#45; [%thread{10}] %cyan(%logger{15} +%line) : %msg %n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/app.log</file>
 
@@ -25,4 +44,5 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
+
 </configuration>

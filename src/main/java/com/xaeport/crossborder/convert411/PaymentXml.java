@@ -27,7 +27,7 @@ public class PaymentXml {
      */
     public void getPaymentList(Document document, Element rootElement, CEB411Message ceb411Message) {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         List<PaymentHead> paymentHeadList = ceb411Message.getPaymentHeadList();
 
         Element Payment;

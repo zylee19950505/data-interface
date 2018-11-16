@@ -47,7 +47,7 @@ public class PaymentMessageThread implements Runnable {
         PaymentHead paymentHead;
         ImpPayment impPayment;
         String guid;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlHeadGuid = null;
         String nameOrderNo = null;
 
@@ -146,7 +146,7 @@ public class PaymentMessageThread implements Runnable {
     private void entryProcess(CEB411Message ceb411Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成支付单申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB411_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.basePaymentXml.createXML(ceb411Message, "payment", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);

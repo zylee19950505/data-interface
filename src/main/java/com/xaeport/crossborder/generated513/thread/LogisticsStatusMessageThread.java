@@ -53,7 +53,7 @@ public class LogisticsStatusMessageThread implements Runnable {
         LogisticsStatusHead logisticsStatusHead;
         ImpLogistics lmpLogisticsStatus;
         String guid;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String nameBillNo = null;
         String xmlHeadGuid = null;
 
@@ -144,7 +144,7 @@ public class LogisticsStatusMessageThread implements Runnable {
     private void entryProcess(CEB513Message ceb513Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成运单状态申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB513_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsStatusXml.createXML(ceb513Message, "logisticsStatus", xmlHeadGuid);
             saveXmlFile(fileName, xmlByte);

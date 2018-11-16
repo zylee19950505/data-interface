@@ -53,7 +53,7 @@ public class DetailDeclareMessageThread implements Runnable {
         InventoryHead inventoryHead;
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddhhmmss");
+        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlHeadGuid = null;
         String nameBillNo = null;
 
@@ -185,7 +185,7 @@ public class DetailDeclareMessageThread implements Runnable {
     private void entryProcess(CEB621Message ceb621Message, String nameBillNo, String xmlHeadGuid) throws TransformerException, IOException {
         try {
             // 生成申报报文
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB621_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseDetailDeclareXML.createXML(ceb621Message, "DetailDeclare", xmlHeadGuid);//flag
             saveXmlFile(fileName, xmlByte);
