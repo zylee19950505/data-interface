@@ -14,6 +14,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,12 +44,12 @@ public class OrderLogicApi extends BaseApi {
             HttpServletRequest request
     ) {
         try {
-            Map<String,String> map = new HashMap<>();
-            map.put("bill_no",bill_no);
-            map.put("order_no",order_no);
+            Map<String, String> map = new HashMap<>();
+            map.put("bill_no", bill_no);
+            map.put("order_no", order_no);
             map.put("data_status", StatusCode.EXPORT);
             map.put("type", VerifyType.LOGIC);
-            map.put("status",status);
+            map.put("status", status);
             map.put("entId", this.getCurrentUserEntId());
             map.put("roleId", this.getCurrentUserRoleId());
 
@@ -85,6 +86,19 @@ public class OrderLogicApi extends BaseApi {
         return new ResponseData(rtnMap);
     }
 
+    //逻辑校验删除运单
+    @RequestMapping(value = "/order/deleteLogical", method = RequestMethod.POST)
+    public ResponseData deleteVerifyIdCard(String submitKeys) {
+        if (StringUtils.isEmpty(submitKeys))
+            return new ResponseData("未提交订单数据", HttpStatus.FORBIDDEN);
+        try {
+            this.logicalService.deleteLogicalByOrder(submitKeys, this.getCurrentUserEntId());
+        } catch (Exception e) {
+            this.log.error("逻辑校验删除订单失败，submitKeys=" + submitKeys, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData("");
+    }
 
 
 }

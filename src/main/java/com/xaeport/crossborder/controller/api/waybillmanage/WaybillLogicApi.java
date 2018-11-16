@@ -15,6 +15,7 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,6 +85,21 @@ public class WaybillLogicApi extends BaseApi {
         }
         return new ResponseData(rtnMap);
     }
+
+    //逻辑校验删除运单
+    @RequestMapping(value = "/logistics/deleteLogical", method = RequestMethod.POST)
+    public ResponseData deleteVerifyIdCard(String submitKeys) {
+        if (StringUtils.isEmpty(submitKeys))
+            return new ResponseData("未提交运单数据", HttpStatus.FORBIDDEN);
+        try {
+            this.logicalService.deleteLogicalByLogistics(submitKeys, this.getCurrentUserEntId());
+        } catch (Exception e) {
+            this.log.error("逻辑校验删除运单失败，submitKeys=" + submitKeys, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData("");
+    }
+
 
 
 

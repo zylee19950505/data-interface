@@ -58,7 +58,7 @@ sw.page.modules["paymentmanage/paymentLogicVerify"] = sw.page.modules["paymentma
 
         $("[ws-search]").unbind("click").click(this.query);
         $(".btn[ws-search]").click();
-        // $("[ws-delete]").unbind("click").click(this.deleteVerify);
+        $("[ws-delete]").unbind("click").click(this.deleteVerify);
         // $("[ws-back]").unbind("click").click(this.back);
 
         $table = $("#query-logic-table");
@@ -71,6 +71,27 @@ sw.page.modules["paymentmanage/paymentLogicVerify"] = sw.page.modules["paymentma
                 var checkbox = $("tbody :checkbox", $table);
                 $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
             }
+        });
+    },
+
+    deleteVerify: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要删除支付单信息！");
+            return;
+        }
+        var postData = {
+            submitKeys: submitKeys
+        };
+        sw.confirm("确定删除该支付单", "确认", function () {
+            sw.ajax("api/payment/deleteLogical", "POST", postData, function (rsp) {
+                sw.pageModule("paymentmanage/paymentLogicVerify").query();
+            });
         });
     },
 

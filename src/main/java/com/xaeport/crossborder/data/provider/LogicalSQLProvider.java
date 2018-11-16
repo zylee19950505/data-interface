@@ -7,6 +7,101 @@ import java.util.Map;
 
 public class LogicalSQLProvider {
 
+    public String queryDeleteOrderByGuids(Map<String, String> paramMap) throws Exception {
+        final String type = paramMap.get("type");
+        if (StringUtils.isEmpty(type)) throw new Exception("校验类型 type 为空");
+        final String headGuid = paramMap.get("headGuid");
+        final String entId = paramMap.get("entId");
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_IMP_ORDER_HEAD t");
+                LEFT_OUTER_JOIN("T_VERIFY_STATUS vs ON t.GUID = vs.CB_HEAD_ID and vs.type = #{type}");
+                if (!StringUtils.isEmpty(headGuid)) {
+                    String headGuidStr = headGuid.replace(",", "','");
+                    WHERE("t.GUID in ('" + headGuidStr + "')");
+                }
+                if (!StringUtils.isEmpty(entId)) WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(dataStatus)) WHERE("t.DATA_STATUS = #{dataStatus}");
+                WHERE("(vs.STATUS is null OR vs.STATUS = 'N')");
+                ORDER_BY("t.BILL_NO asc");
+                ORDER_BY("t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String queryDeleteInventoryByGuids(Map<String, String> paramMap) throws Exception {
+        final String type = paramMap.get("type");
+        if (StringUtils.isEmpty(type)) throw new Exception("校验类型 type 为空");
+        final String headGuid = paramMap.get("headGuid");
+        final String entId = paramMap.get("entId");
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                LEFT_OUTER_JOIN("T_VERIFY_STATUS vs ON t.GUID = vs.CB_HEAD_ID and vs.type = #{type}");
+                if (!StringUtils.isEmpty(headGuid)) {
+                    String headGuidStr = headGuid.replace(",", "','");
+                    WHERE("t.GUID in ('" + headGuidStr + "')");
+                }
+                if (!StringUtils.isEmpty(entId)) WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(dataStatus)) WHERE("t.DATA_STATUS = #{dataStatus}");
+                WHERE("(vs.STATUS is null OR vs.STATUS = 'N')");
+                ORDER_BY("t.BILL_NO asc");
+                ORDER_BY("t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String queryDeleteLogisticsByGuids(Map<String, String> paramMap) throws Exception {
+        final String type = paramMap.get("type");
+        if (StringUtils.isEmpty(type)) throw new Exception("校验类型 type 为空");
+        final String headGuid = paramMap.get("headGuid");
+        final String entId = paramMap.get("entId");
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_IMP_LOGISTICS t");
+                LEFT_OUTER_JOIN("T_VERIFY_STATUS vs ON t.GUID = vs.CB_HEAD_ID and vs.type = #{type}");
+                if (!StringUtils.isEmpty(headGuid)) {
+                    String headGuidStr = headGuid.replace(",", "','");
+                    WHERE("t.GUID in ('" + headGuidStr + "')");
+                }
+                if (!StringUtils.isEmpty(entId)) WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(dataStatus)) WHERE("t.DATA_STATUS = #{dataStatus}");
+                WHERE("(vs.STATUS is null OR vs.STATUS = 'N')");
+                ORDER_BY("t.BILL_NO asc");
+                ORDER_BY("t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String queryDeletePaymentByGuids(Map<String, String> paramMap) throws Exception {
+        final String type = paramMap.get("type");
+        if (StringUtils.isEmpty(type)) throw new Exception("校验类型 type 为空");
+        final String headGuid = paramMap.get("headGuid");
+        final String entId = paramMap.get("entId");
+        final String dataStatus = paramMap.get("dataStatus");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_IMP_PAYMENT t");
+                LEFT_OUTER_JOIN("T_VERIFY_STATUS vs ON t.GUID = vs.CB_HEAD_ID and vs.type = #{type}");
+                if (!StringUtils.isEmpty(headGuid)) {
+                    String headGuidStr = headGuid.replace(",", "','");
+                    WHERE("t.GUID in ('" + headGuidStr + "')");
+                }
+                if (!StringUtils.isEmpty(entId)) WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(dataStatus)) WHERE("t.DATA_STATUS = #{dataStatus}");
+                WHERE("(vs.STATUS is null OR vs.STATUS = 'N')");
+                ORDER_BY("t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
     public String getOrderLogicData(Map<String, String> map) {
         final String bill_no = map.get("bill_no");
         final String order_no = map.get("order_no");
