@@ -124,7 +124,7 @@ public class inventoryRegularVerifyChain implements CrossBorderVerifyChain {
 
         // 运输工具编号
         validateField = impCBHeadVer.getTraf_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "运输工具编号错误：仅能填写半角英文，数字及符号", "traf_no")) {
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "运输工具编号错误：不能填写“空”，“无”，“/”字符", "traf_no")) {
             return verificationResult;
         }
 

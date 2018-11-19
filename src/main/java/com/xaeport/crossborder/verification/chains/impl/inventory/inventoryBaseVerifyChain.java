@@ -135,20 +135,20 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
             g_code_unit1 = loadData.getProductCodeUnit1(g_code);// 第一(法定)计量单位
             g_code_unit2 = loadData.getProductCodeUnit2(g_code);// 第二(法定)计量单位
 
-            /*
-            * 申报计量单位 要么和第一计量单位一致，要么和第二计量单位一致
-            * */
-            if (StringUtils.isEmpty(g_code_unit2)) {
-                if (!g_code_unit1.equals(validateField)) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
-                    return verificationResult;
-                }
-            } else {
-                if (!g_code_unit1.equals(validateField) && !g_code_unit2.equals(validateField)) {
-                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
-                    return verificationResult;
-                }
-            }
+//            /*
+//            * 申报计量单位 要么和第一计量单位一致，要么和第二计量单位一致
+//            * */
+//            if (StringUtils.isEmpty(g_code_unit2)) {
+//                if (!g_code_unit1.equals(validateField)) {
+//                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
+//                    return verificationResult;
+//                }
+//            } else {
+//                if (!g_code_unit1.equals(validateField) && !g_code_unit2.equals(validateField)) {
+//                    VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]商品编码与计量单位不匹配", g_num), "g_unit", g_num);
+//                    return verificationResult;
+//                }
+//            }
 
             unit1 = impCBBodyVer.getUnit1();
             // 第一(法定)计量单位
