@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sysmanage")
-public class UserManageApi extends BaseApi{
+public class UserManageApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -38,18 +38,18 @@ public class UserManageApi extends BaseApi{
             @RequestParam(required = false) String email
 
     ) {
-        this.logger.debug(String.format("用户列表查询及条件检索条件[id: %s, ic: %s, loginName: %s, phone: %s, email: %s]", id, ic, loginName , phone, email));
-        Map<String,String> paramMap = new HashMap<String,String>();
+        this.logger.debug(String.format("用户列表查询及条件检索条件[id: %s, ic: %s, loginName: %s, phone: %s, email: %s]", id, ic, loginName, phone, email));
+        Map<String, String> paramMap = new HashMap<String, String>();
         List<Map<String, String>> userList = null;
         try {
-            paramMap.put("id",id);
-            paramMap.put("ic",ic);
-            paramMap.put("loginName",loginName);
-            paramMap.put("phone",phone);
-            paramMap.put("email",email);
+            paramMap.put("id", id);
+            paramMap.put("ic", ic);
+            paramMap.put("loginName", loginName);
+            paramMap.put("phone", phone);
+            paramMap.put("email", email);
             userList = this.userMaService.userList(paramMap);
         } catch (Exception e) {
-            this.logger.error(e,e);
+            this.logger.error(e, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(userList);
@@ -168,7 +168,7 @@ public class UserManageApi extends BaseApi{
 
         boolean isCreate = false;
         try {
-            isCreate = this.userMaService.userCreate(currentUsers, users,userRole);
+            isCreate = this.userMaService.userCreate(currentUsers, users, userRole);
         } catch (Exception e) {
             this.logger.debug(String.format("用户新增失败[id: %s]", id));
         }
@@ -228,7 +228,7 @@ public class UserManageApi extends BaseApi{
 
         boolean isEdit = false;
         try {
-            isEdit = this.userMaService.userEdit(currentUsers, users,userRole);
+            isEdit = this.userMaService.userEdit(currentUsers, users, userRole);
         } catch (Exception e) {
             this.logger.debug(String.format("用户修改失败[id: %s]", id));
         }

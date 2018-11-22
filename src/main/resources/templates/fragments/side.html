@@ -9,7 +9,7 @@
         <ul id="homepage-menu" class="sidebar-menu">
             <li class="treeview" th:each="sub,no:${subMenuList}" th:class="${no.index==0}? 'active'">
                 <a href="javascript:void(0);" th:attr="m_Id=${sub.m_Id}">
-                    <i class="fa fa-folder-open"></i>
+                    <i th:class="${sub.m_icon}"></i>
                     <span th:text="${sub.m_Name}"></span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
@@ -18,7 +18,7 @@
                 <ul class="treeview-menu">
                     <li th:each="child:${childMenuList}" th:if="${child.pId}==${sub.m_Id}">
                         <a href="javascript:void(0);" th:attr="m_Id=${child.m_Id}" th:contextmenu="${child.m_Url}">
-                            <i class="fa fa-folder-open"></i>
+                            <i th:class="${child.m_icon}"></i>
                             <span th:text="${child.m_Name}" th:remove="tag"></span>
                             <span class="pull-right-container" th:if="${child.m_Owner}==1">
                               <i class="fa fa-angle-left pull-right"></i>
@@ -27,7 +27,7 @@
                         <ul class="treeview-menu">
                             <li th:each="child2:${childMenuList}" th:if="${child2.pId}==${child.m_Id}">
                                 <a href="javascript:void(0);" th:attr="m_Id=${child2.m_Id}" th:contextmenu="${child2.m_Url}">
-                                    <i class="fa fa-folder-open"></i>
+                                    <i th:class="${child2.m_icon}"></i>
                                     <span th:text="${child2.m_Name}" th:remove="tag"></span>
                                 </a>
                             </li>

@@ -21,18 +21,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sysmanage")
-public class RoleManageApi extends BaseApi{
-    
+public class RoleManageApi extends BaseApi {
+
     private Log logger = LogFactory.getLog(this.getClass());
-    /*@Autowired
-    private SaveLog saveLog;*/
 
     /**
      * 角色管理—角色列表查询及条件检索
      */
     @RequestMapping(value = "/role", method = RequestMethod.GET)
     public ResponseData roleList(
-            @RequestParam(value = "r_Name",required = false) String r_Name
+            @RequestParam(value = "r_Name", required = false) String r_Name
     ) {
         this.logger.debug(String.format("角色权限组列表查询条件[r_Name: %s]", r_Name));
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -42,9 +40,7 @@ public class RoleManageApi extends BaseApi{
         try {
             roleList = this.roleMaService.roleList(paramMap);
         } catch (Exception e) {
-            this.logger.debug(String.format("角色列表查询失败[r_Name: %s]",r_Name));
-        } finally {
-         /*   saveLog.saveSystemLog(SystemLogEnum.JSGL.getMenuCode(), SystemLogEnum.METHOD_SELECT);*/
+            this.logger.debug(String.format("角色列表查询失败[r_Name: %s]", r_Name));
         }
         return new ResponseData(roleList);
     }
@@ -73,7 +69,6 @@ public class RoleManageApi extends BaseApi{
         }
         this.logger.debug(String.format("角色权限删除[r_Id: %s]", r_Id));
         this.roleMaService.roleDelete(r_Id);
-       /* saveLog.saveSystemLog(SystemLogEnum.JSGL.getMenuCode(), SystemLogEnum.METHOD_DELETE);*/
         return new ResponseData(1);
     }
 
@@ -112,8 +107,6 @@ public class RoleManageApi extends BaseApi{
             isCreate = this.roleMaService.roleCreate(role, mIds);
         } catch (Exception e) {
             this.logger.debug(String.format("角色权限新增失败[role: %s, mIds: %s]", role, mIds));
-        } finally {
-           /* saveLog.saveSystemLog(SystemLogEnum.JSGL.getMenuCode(), SystemLogEnum.METHOD_SAVE);*/
         }
         if (isCreate) {
             return rtnResponse("true", "新增角色成功");
@@ -152,8 +145,6 @@ public class RoleManageApi extends BaseApi{
             isEdit = this.roleMaService.roleEdit(role, mIds);
         } catch (Exception e) {
             this.logger.debug(String.format("修改角色信息失败[r_Id: %s]", r_Id));
-        } finally {
-            //saveLog.saveSystemLog(SystemLogEnum.JSGL.getMenuCode(), SystemLogEnum.METHOD_UPDATE);
         }
         if (isEdit) {
             return rtnResponse("true", "修改角色成功");
@@ -197,5 +188,5 @@ public class RoleManageApi extends BaseApi{
         boolean isRepeat = this.roleMaService.isRoleRepeat(r_Name, hasAdmin);
         return isRepeat;
     }
-    
+
 }

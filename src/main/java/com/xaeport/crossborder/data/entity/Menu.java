@@ -20,7 +20,7 @@ public class Menu {
     private Date createTime;
     private String updatorId;
     private Date updateTime;
-
+    private String m_icon;
 
     public String getM_Id() {
         return m_Id;
@@ -132,5 +132,13 @@ public class Menu {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getM_icon() {
+        return m_icon;
+    }
+
+    public void setM_icon(String m_icon) {
+        this.m_icon = m_icon;
     }
 }
