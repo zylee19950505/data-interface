@@ -33,7 +33,7 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                         label: "操作",
                         render: function (data, type, row) {
                             var code =
-                                '<button class="btn btn-sm btn-primary" title="信息修改" onclick="'
+                                '<button class="btn btn-sm btn-info" title="信息修改" onclick="'
                                 + "javascript:sw.loadWorkspace('sysmanage/entEdit?eId=" + row.id
                                 + "');" + '"><i class="fa fa-edit"></i> </button> ';
                             if (row.status == "1") {

@@ -3,10 +3,10 @@
 <body>
 
 
-<aside class="main-sidebar" th:fragment="sidebar">
+<aside class="main-sidebar" th:fragment="sidebar" style="background-color: #000000 !important;">
 
-    <section class="sidebar">
-        <ul id="homepage-menu" class="sidebar-menu">
+    <section class="sidebar" style=" ">
+        <ul id="homepage-menu" class="sidebar-menu" style=" background-color: #000000;">
             <li class="treeview" th:each="sub,no:${subMenuList}" th:class="${no.index==0}? 'active'">
                 <a href="javascript:void(0);" th:attr="m_Id=${sub.m_Id}">
                     <i th:class="${sub.m_icon}"></i>
@@ -15,7 +15,7 @@
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu" style=" background-color: #272727;">
                     <li th:each="child:${childMenuList}" th:if="${child.pId}==${sub.m_Id}">
                         <a href="javascript:void(0);" th:attr="m_Id=${child.m_Id}" th:contextmenu="${child.m_Url}">
                             <i th:class="${child.m_icon}"></i>
@@ -24,7 +24,7 @@
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu" style=" background-color: #3C3C3C;">
                             <li th:each="child2:${childMenuList}" th:if="${child2.pId}==${child.m_Id}">
                                 <a href="javascript:void(0);" th:attr="m_Id=${child2.m_Id}" th:contextmenu="${child2.m_Url}">
                                     <i th:class="${child2.m_icon}"></i>

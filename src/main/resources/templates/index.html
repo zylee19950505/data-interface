@@ -41,24 +41,24 @@
          background-attachment: scroll;
          background-size: cover;
          min-height: 1000px;">
-        <div class="col-xs-1" style="border: 1px solid red;"></div>
+        <div class="col-xs-1"></div>
 
         <div class="col-xs-10">
             <!-- 标题 -->
-            <div class="row text-center" style="padding-top: 50px;border: 1px solid red;">
+            <div class="row text-center" style="padding-top: 50px;">
                 <span style="color: #ffffff;font-size: 40px;white-space:nowrap;">中国(西安)跨境电子商务综合实验区</span>
             </div>
             <!-- 副标题 -->
-            <div class="row text-center" style="padding-top: 10px;border: 1px solid red;">
+            <div class="row text-center" style="padding-top: 10px;">
                 <span style="color:#ffffff;font-size: 45px;white-space:nowrap;">跨境电商通关服务平台</span>
             </div>
             <!-- 登录框 -->
             <div class="row text-center"
-                 style="padding-top: 180px;border: 1px solid red;">
+                 style="padding-top: 180px;">
 
                     <div class="login" style="margin:0 auto;">
                         <form th:action="@{/login}" method="post"
-                              style="background: white;padding:30px;margin:0 auto;border: 1px solid red;">
+                              style="background: white;padding:30px;margin:0 auto;">
 
                             <div th:if="${param.error}">
                                 <span class="text-red">*</span>
@@ -109,7 +109,7 @@
 
             </div>
         </div>
-        <div class="col-xs-1" style="border: 1px solid red;"></div>
+        <div class="col-xs-1"></div>
 
     </div>
     <div class="footer text-center">

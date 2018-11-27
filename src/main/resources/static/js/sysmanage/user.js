@@ -36,7 +36,7 @@ sw.page.modules["sysmanage/user"] = sw.page.modules["sysmanage/user"] || {
                             return " ";
                         }
                         var code =
-                            '<button ' + ' class="btn btn-sm btn-primary" title="用户修改" onclick="'
+                            '<button ' + ' class="btn btn-sm btn-info" title="用户修改" onclick="'
                             + "javascript:sw.loadWorkspace('sysmanage/userEdit?id=" + row.ID
                             + "');" + '"><i class="fa fa-edit"></i> </button> ' +
                             '<button ' + ' class="btn btn-sm btn-warning" title="密码重置" onclick="'

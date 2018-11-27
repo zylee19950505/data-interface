@@ -60,7 +60,7 @@ sw.page.modules["sysmanage/role"] = sw.page.modules["sysmanage/role"] || {
                         label: "操作",
                         render: function (data, type, row) {
                             var code =
-                                '<button class="btn btn-sm btn-primary" title="分配权限" onclick="' + "sw.loadWorkspace('sysmanage/roleEdit?r_Id=" + row.R_ID + "');" + '"><i class="fa fa-user"></i> </button> ' +
+                                '<button class="btn btn-sm btn-info" title="分配权限" onclick="' + "sw.loadWorkspace('sysmanage/roleEdit?r_Id=" + row.R_ID + "');" + '"><i class="fa fa-user"></i> </button> ' +
                                 '<button class="btn btn-sm btn-danger" title="删除" onclick="' + "sw.page.modules['sysmanage/role'].delete('" + row.R_ID + "', '" + row.R_NAME + "')" + '"><i class="fa fa-remove"></i> </button>';
                             return code;
                         }

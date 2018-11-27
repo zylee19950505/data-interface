@@ -29,7 +29,7 @@ logging:
 
 
 appConfig:
-  systemName: 跨境通关辅助系统
+  systemName: 跨境电商通关服务平台
 #  domain: localhost
   entryDocu: false
 

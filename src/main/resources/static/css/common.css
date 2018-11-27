@@ -13,11 +13,11 @@ textarea {
 table thead tr th {
     text-align: center;
     border-bottom: 1px solid #ccc !important;
-    background-color: #AFD7ED;
+    background-color: #65cfef !important;
 }
 
 .table {
-    background-color: #E0FFFF !important;
+    background-color: #ECFFFF !important;
     text-align: center;
 }
 

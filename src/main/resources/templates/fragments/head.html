@@ -4,12 +4,12 @@
 
 <header class="main-header" th:fragment="header">
 
-    <a href="javascript:void(0);" class="logo">
+    <a href="javascript:void(0);" class="logo" style="background-color: #00a7d0;">
         <span class="logo-mini">C B</span>
-        <span class="logo-lg" th:text="${pageName}"></span>
+        <span class="logo-lg" th:text="${pageName}" style="font-family: 'SimSun';"></span>
     </a>
 
-    <nav class="navbar navbar-static-top">
+    <nav class="navbar navbar-static-top" style="background-color: #00c0ef !important;">
 
         <a href="javascript:void(0);" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle</span>
@@ -18,30 +18,25 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-                <li class="dropdown user user-menu">
-                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                <li class="dropdown user user-menu" style="background-color: #00c0ef;">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #00c0ef !important;">
 
                         <i class="fa fa-user" style="font-size: 16px"></i>
                         <span th:text="${user.loginName}" class="hidden-xs">Alan.Woo</span>
                     </a>
                     <ul class="dropdown-menu">
 
-                        <li class="user-header" style="color:#fff;">
+                        <li class="user-header" style="color: #fff;background-color: #00c0ef;">
                             <i class="fa fa-user" style="font-size:75px;padding: 5px"></i>
-
-
                             <p>
                             <div th:text="${user.loginName}"></div>
-                            <!--tel :-->
-                            <!--<small th:text="${user.phone}"></small>-->
                             </p>
                         </li>
 
-                        <li class="user-body">
-                            <div class="row">
-                            </div>
-
-                        </li>
+                        <!--<li class="user-body" style="background-color: #00c0ef;">-->
+                            <!--<div class="row">-->
+                            <!--</div>-->
+                        <!--</li>-->
 
                         <li class="user-footer">
                             <div class="pull-left">
@@ -55,6 +50,7 @@
 
                             </div>
                         </li>
+
                     </ul>
                 </li>
             </ul>
