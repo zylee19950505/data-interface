@@ -5,78 +5,17 @@ body {
     overflow: hidden;
 }
 
-.version {
-    position: absolute;
-    float: left;
-    font-family: Georgia;
-    font-size: 12px;
-    color: #fff;
-    margin: 10px 0 0 10px;
-}
-
-.wrap {
-    margin: 0 auto;
-    width: 1400px;
-    overflow: hidden;
-    zoom: 1;
-}
-
-.side {
-    float: right;
-    overflow: hidden;
-    z-index: 999;
-}
-
-.side .bg {
-    background: #fff;
-    /*opacity: 0.3;*/
-    width: 460px;
-    height: 800px;
-    position: absolute;
-    z-index: -10;
-    top: 0;
-}
-
-.title {
-    color: #000;
-    text-align: center;
-    margin: 150px 0 0 0;
-}
-
-.login {
-    width: 460px;
-    z-index: 999;
-    overflow: hidden;
-}
-
-.login form {
-    padding: 110px 90px 90px 90px;
-    background: none;
-    opacity: 1;
-    color: white;
-}
-
-.login label {
-    font-weight: normal;
-}
-
-#loginBackground {
-    display: none;
-    position: absolute;
-    z-index: -20;
-}
-
-.authCode {
-    background-color: #F5F5F5 !important;;
-}
-
 .footer {
+    padding-top: 8px;
+    font-family: 微软雅黑;
+    font-size: 13pt;
+    color: #226AD6;
+    text-align: center;
+    vertical-align: middle;
     position: fixed;
-    bottom: 8%;
-    margin-left: 4%;
-    color: #737373;
-    /*left: 0;
-    height: 20px;
-    width: 100%;*/
-   /* background-color: yellow;*/
+    bottom: 0%;
+    height: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    opacity: 0.8;
 }
