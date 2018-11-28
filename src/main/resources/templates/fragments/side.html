@@ -3,28 +3,28 @@
 <body>
 
 
-<aside class="main-sidebar" th:fragment="sidebar" style="background-color: #000000 !important;">
+<aside class="main-sidebar" th:fragment="sidebar" style="background-color: #0c2347 !important;">
 
     <section class="sidebar" style=" ">
-        <ul id="homepage-menu" class="sidebar-menu" style=" background-color: #000000;">
+        <ul id="homepage-menu" class="sidebar-menu" style=" background-color: #0c2347;">
             <li class="treeview" th:each="sub,no:${subMenuList}" th:class="${no.index==0}? 'active'">
                 <a href="javascript:void(0);" th:attr="m_Id=${sub.m_Id}">
-                    <i th:class="${sub.m_icon}"></i>
-                    <span th:text="${sub.m_Name}"></span>
+                    <i th:class="${sub.m_icon}" style="color: #fff;"></i>
+                    <span th:text="${sub.m_Name}" style="color: #fff;"></span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu" style=" background-color: #272727;">
+                <ul class="treeview-menu" style=" background-color: #182e51;">
                     <li th:each="child:${childMenuList}" th:if="${child.pId}==${sub.m_Id}">
                         <a href="javascript:void(0);" th:attr="m_Id=${child.m_Id}" th:contextmenu="${child.m_Url}">
                             <i th:class="${child.m_icon}"></i>
-                            <span th:text="${child.m_Name}" th:remove="tag"></span>
+                            <span th:text="${child.m_Name}" th:remove="tag" style="color: #cccccc !important;"></span>
                             <span class="pull-right-container" th:if="${child.m_Owner}==1">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu" style=" background-color: #3C3C3C;">
+                        <ul class="treeview-menu" style=" background-color: #233757;">
                             <li th:each="child2:${childMenuList}" th:if="${child2.pId}==${child.m_Id}">
                                 <a href="javascript:void(0);" th:attr="m_Id=${child2.m_Id}" th:contextmenu="${child2.m_Url}">
                                     <i th:class="${child2.m_icon}"></i>

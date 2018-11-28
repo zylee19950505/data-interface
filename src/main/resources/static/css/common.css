@@ -13,11 +13,11 @@ textarea {
 table thead tr th {
     text-align: center;
     border-bottom: 1px solid #ccc !important;
-    background-color: #8be4ff !important;
+    background-color: #cfe4ff !important;
 }
 
 .table {
-    background-color: #ECFFFF !important;
+    background-color: #f1f7ff !important;
     text-align: center;
 }
 
@@ -142,7 +142,19 @@ table thead tr th {
     padding-left: 5px;
 }
 
+/*数据下拉横线示意*/
+.box.box-primary{
+    border-top-color: #95bfff;
+}
 
+/*datable左下角页面颜色*/
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color:#95bfff;
+    border-color:#95bfff;
+}
 
 
 
