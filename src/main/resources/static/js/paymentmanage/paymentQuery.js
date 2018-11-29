@@ -110,12 +110,12 @@ sw.page.modules["paymentmanage/paymentQuery"] = sw.page.modules["paymentmanage/p
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
-            format: "yyyymmdd",
+            format: "yyyy-mm-dd",
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();

@@ -66,11 +66,11 @@ sw.page.modules["detailmanage/InventoryLogicVerify"] = sw.page.modules["detailma
 
     //初始化
     init: function () {
-        $("[name='ie_date']").val("");
+        $("[name='ie_date']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
-            format: "yyyymmdd",
+            format: "yyyy-mm-dd",
             autoclose: true
         });
 

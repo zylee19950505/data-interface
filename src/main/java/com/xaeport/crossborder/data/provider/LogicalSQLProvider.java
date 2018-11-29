@@ -170,7 +170,7 @@ public class LogicalSQLProvider {
                     WHERE("t.voyage_no = #{voyage_no}");
                 }
                 if (!StringUtils.isEmpty(ie_date)) {
-                    WHERE("t.ie_date = #{ie_date}");
+                    WHERE("t.ie_date >= to_date(#{ie_date} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 ORDER_BY("t.bill_no asc");
                 ORDER_BY("t.order_no asc");

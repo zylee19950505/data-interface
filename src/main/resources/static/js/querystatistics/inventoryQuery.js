@@ -144,13 +144,13 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYYMMDD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         this.EbusinessEnt();
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
-            format: "yyyymmdd",
+            format: "yyyy-mm-dd",
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query);
