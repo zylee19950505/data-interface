@@ -1,0 +1,58 @@
+<section class="content-header">
+    <h1>新建入库核注清单</h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i>保税进口入区</a></li>
+        <li class="active">新建入库核注清单</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-solid box-default">
+                <div class="box-header with-border" style="background-color: #95bfff;color: #fff;">
+                    <i class="fa fa-file-excel-o"></i>
+                    <h3 class="box-title">导入货物清单</h3>
+                    <div class="box-tools pull-right">
+                    </div>
+                </div>
+                <div class="box-body">
+                    <form role="form" class="panel-body" id="import">
+                        <!--<div class="form-group form-inline" hidden="hidden">
+                            <div class="input-group input-daterange importBox">
+                                <span class="input-group-addon import_in" style="border-width: 1px;"><span
+                                        class="color-red">* </span>进口日期：</span>
+                                <input class="form-control import_input" type="text" name="importTime" id="importTime"
+                                       placeholder="请选择申报时间"/>
+                            </div>
+                            <span class="color-red"> * 默认当天</span>
+                        </div>-->
+                       <!-- <div class="form-group form-inline">
+                            <div class="input-group importBox">
+                                <span class="input-group-addon import_in"><span class="color-red">* </span>提运单号：</span>
+                                <input type="text" class="form-control import_input" name="billNo" id="billNo"
+                                       placeholder="请输入提运单号"/>
+                                &lt;!&ndash;<input type="text" hidden="hidden" id="typeId" name="type"/>
+                                <input type="text" hidden="hidden" id="flagId" name="flag"/>&ndash;&gt;
+                            </div>
+                        </div>-->
+                        <div class="form-group form-inline">
+                            <div class="input-group importBox importBorder">
+                                <span class="input-group-addon import_in borderNone">导入Excel文件：</span>
+                                <input type="file" name="file" id="file"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 20px">
+                            <button class="btn btn-sm btn-info" type="button" id="orderImport">导入货物清单</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer" style="border-top: 3px solid #95bfff;">
+        <label>模板下载：
+            <a type="button" onclick="sw.pageModule('ordermanage/orderImport').downLoad()">核注清单表体模板.xls</a>
+        </label>
+    </div>
+</section>
