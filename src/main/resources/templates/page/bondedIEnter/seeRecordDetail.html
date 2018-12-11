@@ -1,0 +1,197 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>进境备案清单详情</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">主管海关(申报地海关)</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="order_no"/>
+            </td>
+            <td class="headTitle">申报单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="cop_no"/>
+            </td>
+            <td class="headTitle">申报单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="logistics_no"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">录入单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="invt_no"/>
+            </td>
+            <td class="headTitle">录入单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="pre_no"/>
+            </td>
+            <td class="headTitle">进出口岸</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="total_sum"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">进出口标志</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="ebp_code"/>
+            </td>
+            <td class="headTitle">征免性质</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="ebp_name"/>
+            </td>
+            <td class="headTitle">报关/转关关系标志</td>
+            <td>
+                <input class="form-control input-sm" maxlength="20" id="321"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">经停港/指运港</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="ebc_code"/>
+            </td>
+            <td class="headTitle">报关标志</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="ebc_name"/>
+            </td>
+            <td class="headTitle">报关单类型</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="assure_code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">毛重</td>
+            <td>
+                <select class="form-control input-sm" id="customs_code"/>
+            </td>
+            <td class="headTitle">净重</td>
+            <td>
+                <select class="form-control input-sm" id="port_code"/>
+            </td>
+            <td class="headTitle">进出口日期</td>
+            <td>
+                <div class="input-group input-daterange" style="width:100%">
+                    <input class="form-control input-sm" type="text" id="ie_date"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">消费使用/生产销售单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="buyer_id_number"/>
+            </td>
+            <td class="headTitle">消费使用/生产销售单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="buyer_name"/>
+            </td>
+            <td class="headTitle">件数</td>
+            <td><input class="form-control input-sm" maxlength="30" id="buyer_telephone"/></td>
+        </tr>
+        <tr>
+            <td class="headTitle">起运国/运抵国</td>
+            <td >
+                <input class="form-control input-sm" maxlength="200" id="consignee_address"/>
+            </td>
+            <td class="headTitle">监管方式</td>
+            <td >
+                <input class="form-control input-sm" maxlength="19" id="freight"/>
+            </td>
+            <td class="headTitle">境内收发货人编号</td>
+            <td>
+                <select class="form-control input-sm" id="wrap_type"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">运输方式代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="agent_code"/>
+            </td>
+            <td class="headTitle">境内收发货人名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="agent_name"/>
+            </td>
+            <td class="headTitle">单据类型</td>
+            <td>
+                <select class="form-control input-sm" id="traf_mode"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">包装种类</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="traf_no"/>
+            </td>
+            <td class="headTitle">备案清单类型</td>
+            <td>
+                <input class="form-control input-sm" maxlength="32" id="voyage_no"/>
+            </td>
+            <td class="headTitle">贸易国别</td>
+            <td>
+                <input class="form-control input-sm" maxlength="37" id="bill_no"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">起运港代码</td>
+            <td>
+                <select class="form-control input-sm" id="country"/>
+            </td>
+            <td class="headTitle">入境口岸代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="net_weight"/>
+            </td>
+            <td class="headTitle">存放地点</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="gross_weight"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">起运日期</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="customs_tax"/>
+            </td>
+            <td class="headTitle">备注</td>
+            <td colspan="4">
+                <input class="form-control input-sm" maxlength="19" id="value_added_tax"/>
+            </td>
+        </tr>
+    </table>
+
+    <div class="entryTitle">
+        <span>表体信息</span>
+    </div>
+    <table id="entryList" class="listDetail" border="1px solid balck">
+        <tr style="height: 30px">
+            <th width="3%">备案序号</th>
+            <th>商品序号</th>
+            <th>商品料号</th>
+            <th>商品编码</th>
+            <th>检验检疫编码</th>
+            <th width="5%">商品名称</th>
+            <th>商品规格型号</th>
+            <th width="5%">申报计量单位</th>
+            <th>申报数量</th>
+            <th width="5%">申报单价</th>
+            <th>申报总价</th>
+            <th width="5%">币制</th>
+        </tr>
+    </table>
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

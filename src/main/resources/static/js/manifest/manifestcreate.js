@@ -91,8 +91,8 @@ sw.page.modules["manifest/manifestcreate"] = sw.page.modules["manifest/manifestc
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        $("[ws-submit]").unbind("click").click(this.submitCustom);
-        $("[ws-download]").unbind("click").click(this.privateManifestInfo);
+        $("#manifestCreate").unbind("click").click(this.submitCustom);
+        $("#privateCreate").unbind("click").click(this.privateManifestInfo);
         $table = $("#query-manifestCreate-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {

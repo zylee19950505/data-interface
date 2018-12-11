@@ -285,11 +285,11 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             });
             $("#ws-page-back").click(this.back);
         }
-    }
+    };
 
 
 function hasErrorEnterprise(selecter, errorMsg) {
     $(selecter).parent().addClass("has-error");
     $(selecter).parent().find(".help-block").removeClass("hidden").html(errorMsg);
     $(selecter).focus();
-}
+};
