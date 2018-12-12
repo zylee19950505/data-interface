@@ -45,75 +45,76 @@
                         <div class="col-md-6">
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 统一编号</label>
-                                <input type="hidden" name="id"/>
-                                <input type="text" class="form-control input-sm" name="ent_name"
-                                       maxlength="100" readonly="readonly" placeholder="请填写统一编号"/>
-                                <small class="help-block"></small>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b ">
-                                <label><strong class="text-red">*</strong> 仓库账册号</label>
-                                <input type="text" class="form-control input-sm" name="ent_code"
-                                       maxlength="50" readonly="readonly" placeholder="请填写仓库账册号"/>
+                                <input type="hidden" id="id"/>
+                                <input type="text" class="form-control input-sm" id="etps_preent_no"
+                                       maxlength="18" readonly="readonly" placeholder="请填写统一编号"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
-                                <label><strong class="text-red">*</strong> 企业内部编号</label>
-                                <input type="text" class="form-control input-sm" name="ent_legal"
+                                <label><strong class="text-red">*</strong> 仓库账册号</label>
+                                <input type="text" class="form-control input-sm" id="bws_no"
+                                       maxlength="64" readonly="readonly" placeholder="请填写仓库账册号"/>
+                                <small class="help-block hidden"></small>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b ">
+                                <label><strong class="text-red">*</strong> 企业内部编号???</label>
+                                <input type="text" class="form-control input-sm" id="qynbbh"
                                        maxlength="50" readonly="readonly" placeholder="请填写企业内部编号"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 申报类型</label>
-                                <input type="text" class="form-control input-sm" name="ent_phone"
-                                       maxlength="50" readonly="readonly" placeholder="请填写申报类型"/>
+                                <input type="text" class="form-control input-sm" id="dcl_typecd"
+                                       maxlength="1" readonly="readonly" placeholder="请填写申报类型"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 区域场所类别</label>
-                                <input type="text" class="form-control input-sm" name="ent_unique_code"
-                                       maxlength="30" readonly="readonly" placeholder="请填写区域场所类别"/>
+                                <input type="text" class="form-control input-sm" id="bwl_typecd"
+                                       maxlength="1" readonly="readonly" placeholder="请填写区域场所类别"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 主管海关</label>
-                                <input type="text" class="form-control input-sm" name="org_code"
-                                       maxlength="20" readonly="readonly" placeholder="请填写主管海关"/>
+                                <!--<input type="text" class="form-control input-sm" id="master_cuscd"-->
+                                       <!--maxlength="4" readonly="readonly" placeholder="请填写主管海关"/>-->
+                                <select class="form-control input-sm" name="master__cuscd" id="master__cuscd" disabled="disabled"></select>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 经营企业编号</label>
-                                <input type="text" class="form-control input-sm" name="business_code"
-                                       maxlength="50" readonly="readonly" placeholder="请填写经营企业编号"/>
+                                <input type="text" class="form-control input-sm" id="bizop_etpsno"
+                                       maxlength="10" readonly="readonly" placeholder="请填写经营企业编号"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 经营企业名称</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写经营企业名称"/>
+                                <input type="text" class="form-control input-sm" id="bizop_etps_nm"
+                                       maxlength="512" readonly="readonly" placeholder="请填写经营企业名称"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 仓库容积(立方米)</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写仓库容积(立方米)"/>
+                                <input type="text" class="form-control input-sm" id="house_volume"
+                                       maxlength="19" readonly="readonly" placeholder="请填写仓库容积(立方米)"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 结束有效日期</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
+                                <input type="text" class="form-control input-sm" id="finish_valid_date"
                                        maxlength="50" readonly="readonly" placeholder="请填写结束有效日期"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
-                                <label><strong class="text-red">*</strong> 录入单位名称</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
+                                <label><strong class="text-red">*</strong> 录入单位名称???</label>
+                                <input type="text" class="form-control input-sm" id="dxp_id"
                                        maxlength="50" readonly="readonly" placeholder="请填写录入单位名称"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 账册用途</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写账册用途"/>
+                                <input type="text" class="form-control input-sm" id="usage_typecd"
+                                       maxlength="1" readonly="readonly" placeholder="请填写账册用途"/>
                                 <small class="help-block hidden"></small>
                             </div>
                         </div>
@@ -121,74 +122,74 @@
                         <div class="col-md-6">
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 申报企业编号</label>
-                                <input type="text" class="form-control input-sm" name="tax_code"
-                                       maxlength="20" readonly="readonly" placeholder="请填写申报企业编号"/>
+                                <input type="text" class="form-control input-sm" id="dcl_etpsno"
+                                       maxlength="10" readonly="readonly" placeholder="请填写申报企业编号"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 申报企业名称</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写申报企业名称"/>
+                                <input type="text" class="form-control input-sm" id="dcl_etps_nm"
+                                       maxlength="512" readonly="readonly" placeholder="请填写申报企业名称"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 申报单位类型代码</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写申报单位类型代码"/>
+                                <input type="text" class="form-control input-sm" id="dcl_etps_typecd"
+                                       maxlength="25" readonly="readonly" placeholder="请填写申报单位类型代码"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 联系人</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写联系人"/>
+                                <input type="text" class="form-control input-sm" id="contact_er"
+                                       maxlength="10" readonly="readonly" placeholder="请填写联系人"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 联系电话</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写联系电话"/>
+                                <input type="text" class="form-control input-sm" id="contact_tele"
+                                       maxlength="15" readonly="readonly" placeholder="请填写联系电话"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 企业类型</label>
-                                <input type="text" class="form-control input-sm" name="customs_code"
-                                       maxlength="10" readonly="readonly" placeholder="请填写企业类型"/>
+                                <input type="text" class="form-control input-sm" id="house_typecd"
+                                       maxlength="1" readonly="readonly" placeholder="请填写企业类型"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 仓库面积(平方米)</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写仓库面积(平方米)"/>
+                                <input type="text" class="form-control input-sm" id="house_area"
+                                       maxlength="19" readonly="readonly" placeholder="请填写仓库面积(平方米)"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 仓库编号</label>
-                                <input type="text" class="form-control input-sm" name="credit_code"
-                                       maxlength="18" readonly="readonly" placeholder="请填写仓库编号"/>
+                                <input type="text" class="form-control input-sm" id="house_no"
+                                       maxlength="20" readonly="readonly" placeholder="请填写仓库编号"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 仓库地址</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写仓库地址"/>
+                                <input type="text" class="form-control input-sm" id="house_address"
+                                       maxlength="100" readonly="readonly" placeholder="请填写仓库地址"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 记帐模式</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写记帐模式"/>
+                                <input type="text" class="form-control input-sm" id="append_typecd"
+                                       maxlength="1" readonly="readonly" placeholder="请填写记帐模式"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
-                                <label><strong class="text-red">*</strong> 录入单位名称</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
+                                <label><strong class="text-red">*</strong> 录入单位名称???</label>
+                                <input type="text" class="form-control input-sm" id="lrqymc2"
                                        maxlength="50" readonly="readonly" placeholder="请填写企业DXPID"/>
                                 <small class="help-block hidden"></small>
                             </div>
                             <div class="form-group col-xs-12 margin_b ">
                                 <label><strong class="text-red">*</strong> 备注</label>
-                                <input type="text" class="form-control input-sm" name="dxp_id"
-                                       maxlength="50" readonly="readonly" placeholder="请填写备注"/>
+                                <input type="text" class="form-control input-sm" id="rmk"
+                                       maxlength="255" readonly="readonly" placeholder="请填写备注"/>
                                 <small class="help-block hidden"></small>
                             </div>
                         </div>
