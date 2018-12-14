@@ -1,9 +1,9 @@
 package com.xaeport.crossborder.verification;
 
-import com.xaeport.crossborder.verification.DataThread.InventoryDataThread;
-import com.xaeport.crossborder.verification.DataThread.LogisticsDataThread;
-import com.xaeport.crossborder.verification.DataThread.OrderDataThread;
-import com.xaeport.crossborder.verification.DataThread.PaymentDataThread;
+import com.xaeport.crossborder.verification.datathread.InventoryDataThread;
+import com.xaeport.crossborder.verification.datathread.LogisticsDataThread;
+import com.xaeport.crossborder.verification.datathread.OrderDataThread;
+import com.xaeport.crossborder.verification.datathread.PaymentDataThread;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

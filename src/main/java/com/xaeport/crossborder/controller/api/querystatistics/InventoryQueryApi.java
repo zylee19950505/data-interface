@@ -12,7 +12,7 @@ import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.service.queryStatistics.InventoryQueryService;
+import com.xaeport.crossborder.service.querystatistics.InventoryQueryService;
 import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.DownloadUtils;
 import org.apache.poi.hssf.usermodel.*;

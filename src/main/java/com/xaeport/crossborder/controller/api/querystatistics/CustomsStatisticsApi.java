@@ -8,7 +8,7 @@ import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.service.queryStatistics.CustomsStatisticsService;
+import com.xaeport.crossborder.service.querystatistics.CustomsStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
