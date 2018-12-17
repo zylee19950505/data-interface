@@ -44,8 +44,6 @@ sw.page.modules["sysmanage/books"] = sw.page.modules["sysmanage/books"] || {
     },
 
     init: function () {
-        debugger;
-
         $("[ws-search]").unbind("click").click(this.query).click();
     }
 };
@@ -85,7 +83,8 @@ sw.page.modules["sysmanage/booksEdit"] = sw.page.modules["sysmanage/booksEdit"] 
                 $("input[name='house_area']").val(data.house_area);
                 $("input[name='house_volume']").val(data.house_volume);
                 $("input[name='house_address']").val(data.house_address);
-                $("input[name='finish_valid_date']").val(data.finish_valid_date);
+                // $("input[name='finish_valid_date']").val(data.finish_valid_date);
+                $("input[name='finish_valid_date']").val(moment(data.finish_valid_date).format("YYYY-MM-DD"));
                 $("select[name='append_typecd']").val(data.append_typecd);
                 $("select[name='usage_typecd']").val(data.usage_typecd);
                 $("input[name='rmk']").val(data.rmk);
@@ -250,7 +249,7 @@ sw.page.modules["sysmanage/booksEdit"] = sw.page.modules["sysmanage/booksEdit"] 
                 sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 sw.pageModule("sysmanage/booksEdit").back();
                 sw.page.modules['sysmanage/books'].query();
-                sw.page.modules['sysmanage/books'].clearBooksInfo();
+                // sw.page.modules['sysmanage/books'].clearBooksInfo();
             } else {
                 $("#errorMsg").html(rsp.data.msg).removeClass("hidden");
             }
@@ -297,7 +296,12 @@ sw.page.modules["sysmanage/booksEdit"] = sw.page.modules["sysmanage/booksEdit"] 
 
     },
     init: function () {
-        debugger;
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            autoclose: true
+        });
         var params = sw.getPageParams("sysmanage/booksEdit");
         this.loadSelectCode();
         if (!params) {

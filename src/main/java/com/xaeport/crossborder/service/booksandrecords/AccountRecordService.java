@@ -31,6 +31,7 @@ public class AccountRecordService {
         bwlHeadType.setId(id);
         bwlHeadType.setCrt_time(new Date());
         bwlHeadType.setUpd_time(new Date());
+        bwlHeadType.setInput_date(new Date());
         try {
             flag = this.accountRecordMapper.crtAccountInfo(bwlHeadType);
         } catch (Exception e) {

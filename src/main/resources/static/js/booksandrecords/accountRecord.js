@@ -44,8 +44,6 @@ sw.page.modules["booksandrecords/accountRecord"] = sw.page.modules["booksandreco
     },
 
     init: function () {
-        debugger;
-
         $("[ws-search]").unbind("click").click(this.query).click();
     }
 };
@@ -61,6 +59,7 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
             var data = rsp.data;
             console.log(data);
             if (data !== null) {
+
                 $("input[name='id']").val(data.id);
 
                 $("input[name='etps_preent_no']").val(data.etps_preent_no);
@@ -85,7 +84,7 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
                 $("input[name='house_area']").val(data.house_area);
                 $("input[name='house_volume']").val(data.house_volume);
                 $("input[name='house_address']").val(data.house_address);
-                $("input[name='finish_valid_date']").val(data.finish_valid_date);
+                $("input[name='finish_valid_date']").val(moment(data.finish_valid_date).format("YYYY-MM-DD"));
                 $("select[name='append_typecd']").val(data.append_typecd);
                 $("select[name='usage_typecd']").val(data.usage_typecd);
                 $("input[name='rmk']").val(data.rmk);
@@ -95,6 +94,7 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
     },
 
     validateAccount: function () {
+
         var etps_preent_no = $("input[name='etps_preent_no']").val();
         var bws_no = $("input[name='bws_no']").val();
         var dcl_typecd = $("select[name='dcl_typecd']").val();
@@ -215,12 +215,11 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
             hasErrorAccount("select[name='usage_typecd'", "账册用途不能为空");
             return false;
         }
-
         return true;
     },
 
     createAccount: function () {
-        var entData = sw.serialize("#accountInfo");
+        var entData = sw.serialize("#AccountInfo");
         if (!sw.page.modules["booksandrecords/accountEdit"].validateAccount()) {
             return;
         }
@@ -241,7 +240,7 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
 
     accountupdate: function () {
         var params = sw.getPageParams("booksandrecords/accountEdit");
-        var entData = sw.serialize("#accountInfo");
+        var entData = sw.serialize("#AccountInfo");
         if (!sw.page.modules["booksandrecords/accountEdit"].validateAccount()) {
             return;
         }
@@ -297,7 +296,12 @@ sw.page.modules["booksandrecords/accountEdit"] = sw.page.modules["booksandrecord
 
     },
     init: function () {
-        debugger;
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            autoclose: true
+        });
         var params = sw.getPageParams("booksandrecords/accountEdit");
         this.loadSelectCode();
         if (!params) {

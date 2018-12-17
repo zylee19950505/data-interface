@@ -115,6 +115,7 @@ public class BooksManageSerivce {
         bwlHeadType.setId(id);
         bwlHeadType.setCrt_time(new Date());
         bwlHeadType.setUpd_time(new Date());
+        bwlHeadType.setInput_date(new Date());
         try {
             flag = this.booksManageMapper.crtBooksInfo(bwlHeadType);
         } catch (Exception e) {

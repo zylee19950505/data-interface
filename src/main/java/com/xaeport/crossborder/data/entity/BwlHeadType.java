@@ -1,5 +1,7 @@
 package com.xaeport.crossborder.data.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class BwlHeadType {
@@ -33,6 +35,7 @@ public class BwlHeadType {
     private String tax_typecd;//退税标志代码
     private Date putrec_appr_time;//备案批准时间
     private Date chg_appr_time;//变更批准时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date finish_valid_date;//结束有效日期
     private String pause_chg_markcd;//暂停变更标记代码
     private String emapv_stucd;//审核状态代码

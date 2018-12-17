@@ -54,8 +54,11 @@ public class AccountRecordApi extends BaseApi {
             @ModelAttribute BwlHeadType bwlHeadType, BindingResult bindingResult
     ) {
         Users user = this.getCurrentUsers();
+        bwlHeadType.setCrt_user(user.getId());
+        bwlHeadType.setUpd_user(user.getId());
         bwlHeadType.setCrt_ent_id(user.getEnt_Id());
         bwlHeadType.setCrt_ent_name(user.getEnt_Name());
+        bwlHeadType.setChg_tms_cnt("0");
         String id = accountRecordService.crtAccountInfo(bwlHeadType);
         if (!StringUtils.isEmpty(id)) {
             return rtnResponse("true", "账册新增成功");
@@ -70,6 +73,7 @@ public class AccountRecordApi extends BaseApi {
         Users user = this.getCurrentUsers();
         bwlHeadType.setUpd_user(user.getId());
         bwlHeadType.setUpd_time(new Date());
+        bwlHeadType.setInput_date(new Date());
         String id = bwlHeadType.getId();
         if (StringUtils.isEmpty(id)) {
             return rtnResponse("false", "修改账册息时ID不能为空");
