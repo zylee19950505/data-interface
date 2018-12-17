@@ -157,6 +157,12 @@ public class ReadExcel {
                                 return map;
                             }
                             break;
+                        case "enterInventory":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadEnterInventory.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
                     }
 
                 }
