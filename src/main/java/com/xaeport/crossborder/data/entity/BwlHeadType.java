@@ -1,5 +1,7 @@
 package com.xaeport.crossborder.data.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class BwlHeadType {
@@ -33,6 +35,7 @@ public class BwlHeadType {
     private String tax_typecd;//退税标志代码
     private Date putrec_appr_time;//备案批准时间
     private Date chg_appr_time;//变更批准时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date finish_valid_date;//结束有效日期
     private String pause_chg_markcd;//暂停变更标记代码
     private String emapv_stucd;//审核状态代码
@@ -49,6 +52,8 @@ public class BwlHeadType {
     private String crt_user;//创建人
     private Date upd_time;//更新时间
     private String upd_user;//更新人
+    private String crt_ent_id;//创建人所属企业ID
+    private String crt_ent_name;//创建人所属企业名称
 
     public String getId() {
         return id;
@@ -384,5 +389,21 @@ public class BwlHeadType {
 
     public void setUpd_user(String upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public String getCrt_ent_id() {
+        return crt_ent_id;
+    }
+
+    public void setCrt_ent_id(String crt_ent_id) {
+        this.crt_ent_id = crt_ent_id;
+    }
+
+    public String getCrt_ent_name() {
+        return crt_ent_name;
+    }
+
+    public void setCrt_ent_name(String crt_ent_name) {
+        this.crt_ent_name = crt_ent_name;
     }
 }

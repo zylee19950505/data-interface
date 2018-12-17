@@ -1,0 +1,241 @@
+<div class="box box-default" id="AccountInfo">
+    <div class="box-header with-border">
+        <h3 class="box-title">企业信息</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 统一编号</label>
+                    <input type="hidden" name="id"/>
+                    <input type="text" class="form-control input-sm" name="etps_preent_no"
+                           maxlength="18" placeholder="请填写统一编号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库账册号</label>
+                    <input type="text" class="form-control input-sm" name="bws_no"
+                           maxlength="64" placeholder="请填写仓库账册号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 申报类型代码</label>
+                    <select class="form-control input-sm" name="dcl_typecd">
+                        <option value="">请选择申报类型</option>
+                        <option value="1">备案申请（1）</option>
+                        <option value="2">变更申请（2）</option>
+                        <option value="3">海关修改（3）</option>
+                    </select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 区域场所类别</label>
+                    <select class="form-control input-sm" name="bwl_typecd">
+                        <option value="">请选择区域场所类别</option>
+                        <option value="A">保税物流中心A（A）</option>
+                        <option value="B">保税物流中心B（B）</option>
+                        <option value="D">公共保税仓库（D）</option>
+                        <option value="E">液体保税仓库（E）</option>
+                        <option value="F">寄售维修保税仓库（F）</option>
+                        <option value="G">暂为空（G）</option>
+                        <option value="H">特殊商品保税仓库（H）</option>
+                        <option value="I">备料保税仓库（I）</option>
+                        <option value="P">出口配送监管仓（P）</option>
+                        <option value="J">为国内结转监管仓（J）</option>
+                        <option value="K">保税区（K）</option>
+                        <option value="L">出口加工区（L）</option>
+                        <option value="M">保税物流园区（M）</option>
+                        <option value="N">保税港区（N）</option>
+                        <option value="P">综合保税区（P）</option>
+                        <option value="Q">跨境工业园区（Q）</option>
+                        <option value="S">特殊区域设备账册（S）</option>
+                    </select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 主管海关</label>
+                    <select class="form-control input-sm" name="master_cuscd" id="master_cuscd"></select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 经营企业编号</label>
+                    <input type="text" class="form-control input-sm" name="bizop_etpsno"
+                           maxlength="10" placeholder="请填写经营企业编号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 经营企业名称</label>
+                    <input type="text" class="form-control input-sm" name="bizop_etps_nm"
+                           maxlength="512" placeholder="请填写经营企业名称"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 经营企业社会信用代码</label>
+                    <input type="text" class="form-control input-sm" name="bizop_etps_sccd"
+                           maxlength="18" placeholder="请填写仓库账册号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库编号</label>
+                    <input type="text" class="form-control input-sm" name="house_no"
+                           maxlength="20" placeholder="请填写仓库编号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库名称</label>
+                    <input type="text" class="form-control input-sm" name="house_nm"
+                           maxlength="512" placeholder="请填写仓库编号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 申报企业编号</label>
+                    <input type="text" class="form-control input-sm" name="dcl_etpsno"
+                           maxlength="10" placeholder="请填写申报企业编号"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 申报企业名称</label>
+                    <input type="text" class="form-control input-sm" name="dcl_etps_nm"
+                           maxlength="512" placeholder="请填写申报企业名称"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 变更次数</label>
+                    <input type="text" class="form-control input-sm" name="chg_tms_cnt"
+                           maxlength="19" placeholder="" readonly="readonly"/>
+                    <small class="help-block hidden"></small>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 申报企业社会信用代码</label>
+                    <input type="text" class="form-control input-sm" name="dcl_etps_sccd"
+                           maxlength="18" placeholder="请填写申报企业名称"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 申报单位类型代码</label>
+                    <select class="form-control input-sm" name="dcl_etps_typecd">
+                        <option value="">请选择申报单位类型代码</option>
+                        <option value="1">企业（1）</option>
+                        <option value="2">代理公司（2）</option>
+                        <option value="3">报关行（3）</option>
+                    </select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 联系人</label>
+                    <input type="text" class="form-control input-sm" name="contact_er"
+                           maxlength="10" placeholder="请填写联系人"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 联系电话</label>
+                    <input type="text" class="form-control input-sm" name="contact_tele"
+                           maxlength="15" placeholder="请填写联系电话"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 企业类型代码</label>
+                    <!--<input type="text" class="form-control input-sm" name="house_typecd"-->
+                           <!--maxlength="1" placeholder="请填写企业类型"/>-->
+                    <select class="form-control input-sm" name="house_typecd">
+                        <option value="">请选择企业类型</option>
+                        <option value="A">保税物流中心A（A）</option>
+                        <option value="B">保税物流中心B（B）</option>
+                        <option value="D">公共保税仓库（D）</option>
+                        <option value="E">液体保税仓库（E）</option>
+                        <option value="F">寄售维修保税仓库（F）</option>
+                        <option value="G">暂为空（G）</option>
+                        <option value="H">特殊商品保税仓库（H）</option>
+                        <option value="I">备料保税仓库（I）</option>
+                        <option value="P">出口配送监管仓（P）</option>
+                        <option value="J">为国内结转监管仓（J）</option>
+                        <option value="K">保税区（K）</option>
+                        <option value="L">出口加工区（L）</option>
+                        <option value="M">保税物流园区（M）</option>
+                        <option value="N">保税港区（N）</option>
+                        <option value="P">综合保税区（P）</option>
+                        <option value="Q">跨境工业园区（Q）</option>
+                        <option value="S">特殊区域设备账册（S）</option>
+                    </select>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库面积（平方米）</label>
+                    <input type="text" class="form-control input-sm" name="house_area"
+                           maxlength="19" placeholder="请填写仓库面积（平方米）"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库容积（立方米）</label>
+                    <input type="text" class="form-control input-sm" name="house_volume"
+                           maxlength="19" placeholder="请填写仓库容积（立方米）"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 仓库地址</label>
+                    <input type="text" class="form-control input-sm" name="house_address"
+                           maxlength="100" placeholder="请填写仓库地址"/>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 结束有效日期</label>
+                    <!--<input type="text" class="form-control input-sm" name="finish_valid_date"-->
+                           <!--maxlength="14" placeholder="请填写结束有效日期"/>-->
+                    <div class="input-group input-daterange" style="width:100%">
+                        <input class="form-control import_input" type="text" placeholder="请填写结束有效日期"
+                               name="finish_valid_date" id="finish_valid_date"/>
+                    </div>
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 记账模式代码</label>
+                    <select class="form-control input-sm" name="append_typecd">
+                        <option value="">请选择记账模式代码</option>
+                        <option value="1">可累计（1）</option>
+                        <option value="2">不累计（2）</option>
+                    </select>
+
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red">*</strong> 账册用途</label>
+                    <select class="form-control input-sm" name="usage_typecd">
+                        <option value="1">跨境电商（1）</option>
+                    </select>
+
+                    <small class="help-block hidden"></small>
+                </div>
+                <div class="form-group col-xs-12 margin_b ">
+                    <label><strong class="text-red"></strong> 备注</label>
+                    <input type="text" class="form-control input-sm" name="rmk"
+                           maxlength="255" placeholder="请填写备注"/>
+                    <small class="help-block hidden"></small>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red hidden" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center btnPadding">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="放弃并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

@@ -283,7 +283,6 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             url: "api/ordermanage/queryOrder/seeOrderDetail",
             data: data,
             success: function (data, status, xhr) {
-                debugger;
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["ordermanage/seeOrderDetail"];
 
