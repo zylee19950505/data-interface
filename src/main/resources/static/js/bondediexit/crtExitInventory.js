@@ -3,24 +3,10 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
 
     query: function () {
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
-        var orderNo = $("[name='orderNo']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
-        var preNo = $("[name='preNo']").val();
-        var invtNo = $("[name='invtNo']").val();
         var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
-            startFlightTimes: startFlightTimes,//申报开始时间
-            endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
-            orderNo: orderNo,//订单编号
-            logisticsNo: logisticsNo,//物流运单编号
-            preNo: preNo,//电子口岸标识编号
-            invtNo: invtNo,//海关清单编号
+        var url = sw.serializeObjectToURL("api/bondediexit/querycrtexitinventory", {
             returnStatus: returnStatus//回执状态
         });
 
@@ -63,24 +49,49 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS6") {
+                        if (row.return_status == "800") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
+                                row.invt_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "bill_no", label: "跨境清单编号"}//订单编号要点击查看订单详情
-
+                {
+                    label: "跨境清单编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/crtExitInventory').seeExitInfo('" + row.guid + "','" + row.order_no + "')" + '">' + row.invt_no + '</a>'
+                }
+                }
             ]
         });
     },
 
+    // 提交海关
+    crtExitInventoryData: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要新建的跨境清单信息！");
+            return;
+        }
+        var postData = {
+            submitKeys: submitKeys
+        };
+
+        sw.pageModule('bondediexit/crtExitInventory').seeExitInventoryDetail(submitKeys);
+    },
+
+    seeExitInventoryDetail: function (submitKeys) {
+        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCX&isEdit=true&mark=crt&submitKeys=" + submitKeys;
+        sw.modelPopup(url, "新建出区核注清单信息", false, 1000, 700);
+    },
+
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -88,22 +99,24 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
+        $("#crtExitInventory").unbind("click").click(this.crtExitInventoryData);
         $(".btn[ws-search]").click();
+        $table = $("#query-crtExitInventory-table");
+        $table.on("change", ":checkbox", function () {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                $(":checkbox", $table).prop("checked", $(this).prop("checked"));
+            } else {
+                //复选
+                var checkbox = $("tbody :checkbox", $table);
+                $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        });
     },
 
-    seeInventoryDetail: function (guid, order_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        }
+    seeExitInfo: function (guid, order_no) {
+        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
-
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
     }
 
 };

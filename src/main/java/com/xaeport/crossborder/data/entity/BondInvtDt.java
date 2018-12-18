@@ -7,8 +7,8 @@ public class BondInvtDt {
     private String id;//ID
     private String bond_invt_no;//保税清单编号
     private String chg_tms_cnt;//变更次数
-    private String gds_seqno;//商品序号
-    private String putrec_seqno;//备案序号
+    private int gds_seqno;//商品序号
+    private int putrec_seqno;//备案序号
     private String gds_mtno;//商品料号
     private String gdecd;//商品编码
     private String gds_nm;//商品名称
@@ -69,19 +69,19 @@ public class BondInvtDt {
         this.chg_tms_cnt = chg_tms_cnt;
     }
 
-    public String getGds_seqno() {
+    public int getGds_seqno() {
         return gds_seqno;
     }
 
-    public void setGds_seqno(String gds_seqno) {
+    public void setGds_seqno(int gds_seqno) {
         this.gds_seqno = gds_seqno;
     }
 
-    public String getPutrec_seqno() {
+    public int getPutrec_seqno() {
         return putrec_seqno;
     }
 
-    public void setPutrec_seqno(String putrec_seqno) {
+    public void setPutrec_seqno(int putrec_seqno) {
         this.putrec_seqno = putrec_seqno;
     }
 
