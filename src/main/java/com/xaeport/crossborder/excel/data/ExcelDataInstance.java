@@ -30,6 +30,10 @@ public class ExcelDataInstance {
                 excelData = new ExcelDataDetail();
                 break;
             }
+            case "enterInventory": {
+                excelData = new ExcelDataEnterInstance();
+                break;
+            }
 
         }
         return excelData;

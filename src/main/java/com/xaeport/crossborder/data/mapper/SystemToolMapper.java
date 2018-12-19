@@ -30,7 +30,7 @@ public interface SystemToolMapper {
     @Select("select curr_code from T_CURRENCY c ")
     List<String> findAllCurrencyCode();
 
-    @Select("select ca_code from country_area c")
+    @Select("select ca_code from T_COUNTRY_AREA c")
     List<String> findAllCountryCode();
 
     @Select("select unit_code from T_UNIT_CODE c ")

@@ -8,7 +8,7 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
             format: "yyyy-mm-dd",
             autoclose: true
         });
-        $("[ws-search]").unbind("click").click(this.ImportList);
+        $("#ImportList").unbind("click").click(this.ImportList);
     },
 
     //导入运单
@@ -31,8 +31,14 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
             success: function (rsp) {
                 $.unblockUI();
                 if (rsp.status === 200) {
-                    sw.alert(rsp.data, "提示", "", "modal-info");
+                    sw.alert(rsp.data.msg, "提示", "", "modal-info");
                     $("#import").find("input[name='file']").val("");
+
+                    if (rsp.data.data != "" || rsp.data.data != null || rsp.data.data != undefined){
+
+
+
+                    }
                 }
             },
             error: function (xhr, status, error) {
