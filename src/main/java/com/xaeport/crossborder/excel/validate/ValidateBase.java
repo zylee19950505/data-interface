@@ -3,6 +3,7 @@ package com.xaeport.crossborder.excel.validate;
 import com.xaeport.crossborder.data.entity.UnitCode;
 import com.xaeport.crossborder.data.mapper.SystemToolMapper;
 import com.xaeport.crossborder.tools.SpringUtils;
+import org.apache.poi.hssf.record.CountryRecord;
 import org.apache.poi.ss.usermodel.Cell;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 public abstract class ValidateBase {
 
     protected Map<String, String> unitMap = new HashMap<>();
+    protected Map<String, String> countryMap = new HashMap<>();
 
     //校验导出数据
     public abstract int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num);
@@ -28,6 +30,19 @@ public abstract class ValidateBase {
 
     //申报计量单位转化
     public abstract int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num);
+
+    //初始化国家信息参数
+    public void initCountryCode() {
+        SystemToolMapper systemToolMapper = SpringUtils.getBean(SystemToolMapper.class);
+        List<String> countryCode = systemToolMapper.findAllCountryCode();
+        if (countryCode.isEmpty()) return;
+        for (String countryCd  : countryCode) {
+            countryMap.put(countryCd,countryCd);
+        }
+    }
+    public int getCountryCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
+        return 0;
+    }
 
     //校验订单号不能超过15条
     public abstract int checkRowAmount(List list, Map<String, Object> map);

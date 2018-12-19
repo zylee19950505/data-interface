@@ -80,6 +80,7 @@ public class ReadExcel {
     private Map<String, Object> getSheetData(Sheet sheet, String type) {
         ValidateBase excelCheck = ValidateInstance.getValidateObject(type);
         excelCheck.initUnitCode();//初始化申报计量单位参数
+        excelCheck.initCountryCode();
         Map<String, Object> map = new HashMap<>();
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0, len = sheet.getPhysicalNumberOfRows(); i < len; i++) {
@@ -115,6 +116,12 @@ public class ReadExcel {
 
                     if (i > 0) {
                         int flag = excelCheck.getUnitCode(cell, map, i, z);
+                        if (flag < 0) {
+                            return map;
+                        }
+                    }
+                    if (i > 0) {
+                        int flag = excelCheck.getCountryCode(cell, map, i, z);
                         if (flag < 0) {
                             return map;
                         }
