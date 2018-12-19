@@ -62,6 +62,17 @@ public class BondInvtBsc {
     private String levy_bl_amt;//计征金额 保税展示交易、一纳成品内销时，计算计征金额并反填此字段
     private String dcl_typecd;//申报类型 1-备案申请 2-变更申请 3-删除申请。备用字段，企业自主发起变更、删除功能转用，此功能明年上线。
 
+    private String status;
+    private String return_status;
+    private String return_time;
+    private String return_info;
+    private Date crt_time;
+    private String crt_user;
+    private Date upd_time;
+    private String upd_user;
+    private String crt_ent_id;
+    private String crt_ent_name;
+
     public String getId() {
         return id;
     }
@@ -476,5 +487,85 @@ public class BondInvtBsc {
 
     public void setDcl_typecd(String dcl_typecd) {
         this.dcl_typecd = dcl_typecd;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getReturn_status() {
+        return return_status;
+    }
+
+    public void setReturn_status(String return_status) {
+        this.return_status = return_status;
+    }
+
+    public String getReturn_time() {
+        return return_time;
+    }
+
+    public void setReturn_time(String return_time) {
+        this.return_time = return_time;
+    }
+
+    public String getReturn_info() {
+        return return_info;
+    }
+
+    public void setReturn_info(String return_info) {
+        this.return_info = return_info;
+    }
+
+    public Date getCrt_time() {
+        return crt_time;
+    }
+
+    public void setCrt_time(Date crt_time) {
+        this.crt_time = crt_time;
+    }
+
+    public String getCrt_user() {
+        return crt_user;
+    }
+
+    public void setCrt_user(String crt_user) {
+        this.crt_user = crt_user;
+    }
+
+    public Date getUpd_time() {
+        return upd_time;
+    }
+
+    public void setUpd_time(Date upd_time) {
+        this.upd_time = upd_time;
+    }
+
+    public String getUpd_user() {
+        return upd_user;
+    }
+
+    public void setUpd_user(String upd_user) {
+        this.upd_user = upd_user;
+    }
+
+    public String getCrt_ent_id() {
+        return crt_ent_id;
+    }
+
+    public void setCrt_ent_id(String crt_ent_id) {
+        this.crt_ent_id = crt_ent_id;
+    }
+
+    public String getCrt_ent_name() {
+        return crt_ent_name;
+    }
+
+    public void setCrt_ent_name(String crt_ent_name) {
+        this.crt_ent_name = crt_ent_name;
     }
 }

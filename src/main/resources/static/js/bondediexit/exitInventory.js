@@ -2,26 +2,19 @@
 sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exitInventory"] || {
 
     query: function () {
+        debugger;
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
-        var orderNo = $("[name='orderNo']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
-        var preNo = $("[name='preNo']").val();
-        var invtNo = $("[name='invtNo']").val();
-        var returnStatus = $("[name='returnStatus']").val();
+        var entry_dcl_time = $("[name='entry_dcl_time']").val();
+        var status = $("[name='status']").val();
+        var return_status = $("[name='return_status']").val();
+        var bond_invt_no = $("[name='bond_invt_no']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
-            startFlightTimes: startFlightTimes,//申报开始时间
-            endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
-            orderNo: orderNo,//订单编号
-            logisticsNo: logisticsNo,//物流运单编号
-            preNo: preNo,//电子口岸标识编号
-            invtNo: invtNo,//海关清单编号
-            returnStatus: returnStatus//回执状态
+        var url = sw.serializeObjectToURL("api/bondediexit/queryexitinventory", {
+            entry_dcl_time: entry_dcl_time,//申报时间
+            status: status,//系统数据状态
+            return_status: return_status,//回执状态
+            bond_invt_no: bond_invt_no//核注清单编号
         });
 
         // 数据表
@@ -63,7 +56,7 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS6") {
+                        if (row.data_status == "BDDS2") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.bill_no + '" />';
                         }
@@ -72,20 +65,36 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                         }
                     }
                 },
-                {data: "bill_no", label: "核注清单编号"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "申报状态"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "申报时间"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执状态"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执时间"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执备注"},//订单编号要点击查看订单详情
 
+                // {
+                //     label: "核注清单编号", render: function (data, type, row) {
+                //     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.id + "','" + row.bond_invt_no + "')" + '">' + row.bond_invt_no + '</a>'
+                // }
+                // },
+                {
+                    data: "bond_invt_no", label: "核注清单编号"
+                },
+                {
+                    data: "status", label: "申报状态"
+                },
+                {
+                    data: "entry_dcl_time", label: "申报时间"
+                },
+                {
+                    data: "return_status", label: "回执状态"
+                },
+                {
+                    data: "return_time", label: "回执时间"
+                },
+                {
+                    data: "return_info", label: "回执备注"
+                }
             ]
         });
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
+        $("[name='entry_dcl_time']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -93,23 +102,29 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
-        $(".btn[ws-search]").click();
+        // $(".btn[ws-search]").click();
+        $table = $("#query-crtExitInventory-table");
+        $table.on("change", ":checkbox", function () {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                $(":checkbox", $table).prop("checked", $(this).prop("checked"));
+            } else {
+                //复选
+                var checkbox = $("tbody :checkbox", $table);
+                $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        });
     },
 
-    seeInventoryDetail: function (guid, order_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        }
+    seeExitInventoryInfo: function (id, bond_invt_no) {
+        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCX&isEdit=true&id=" + id + "&bond_invt_no=" + bond_invt_no;
         sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
-
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
     }
+
+    // seeInventoryRec: function (guid, data_status) {
+    //     var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
+    //     sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
+    // }
 
 };
 

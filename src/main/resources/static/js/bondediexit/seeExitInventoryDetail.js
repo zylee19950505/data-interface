@@ -1,29 +1,23 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
-function selecterInitDetail(selectId, value, data) {
+function selectEInvenDetail(selectId, value, data) {
     $("#" + selectId).select2({
         data: $.map(data, function (val, key) {
             var obj = {
@@ -38,10 +32,10 @@ function selecterInitDetail(selectId, value, data) {
 }
 
 // 表头变化
-var headChangeKeyVal = {};
+var headChangeKeyValEInven = {};
 
 // 表体变化
-var listChangeKeyVals = {};
+var listChangeKeyValsEInven = {};
 
 // 表体ID匹配正则
 var pattern = /^.*_[0-9]+$/;
@@ -54,17 +48,17 @@ function sumTotalPricesInvent() {
         totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
     });
     $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
-    headChangeKeyVal["total_sum"] = $("#total_sum").val();
+    headChangeKeyValEInven["total_sum"] = $("#total_sum").val();
 }
 
 // 计算表体申报总价
-function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
+function sumEInventTotal(dVal, qty, gno, listChangeKeyVal) {
     var declTotal = parseFloat(dVal * qty).toFixed(5);
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
 
-function inputChangeInvent(id) {
+function inputChangeEInvent(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -75,8 +69,8 @@ function inputChangeInvent(id) {
             var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));
             var listChangeKeyVal;
-            if (listChangeKeyVals[gno]) {
-                listChangeKeyVal = listChangeKeyVals[gno];
+            if (listChangeKeyValsEInven[gno]) {
+                listChangeKeyVal = listChangeKeyValsEInven[gno];
             } else {
                 listChangeKeyVal = {};
             }
@@ -84,82 +78,70 @@ function inputChangeInvent(id) {
             if (keys == "price") {// 单价
                 var dVal = parseFloat(val);
                 var qty = parseFloat($("#g_qty_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
+                sumEInventTotal(dVal, qty, gno, listChangeKeyVal);
                 sumTotalPricesInvent();
             } else if (keys == "g_qty") {// 数量
                 console.log(keys);
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
+                sumEInventTotal(dVal, qty, gno, listChangeKeyVal);
                 sumTotalPricesInvent();
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
             listChangeKeyVal["g_no"] = gno;
             listChangeKeyVal["entryhead_guid"] = id;
-            listChangeKeyVals[gno] = listChangeKeyVal;
+            listChangeKeyValsEInven[gno] = listChangeKeyVal;
         } else {
-            headChangeKeyVal[key] = val;
+            headChangeKeyValEInven[key] = val;
         }
-        console.log(headChangeKeyVal, listChangeKeyVal);
+        console.log(headChangeKeyValEInven, listChangeKeyVal);
     }).focus(function () {
         clearError();
     });
 }
 
-sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmanage/seeInventoryDetail"] || {
+sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondediexit/seeExitInventoryDetail"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "order_no",
-            "cop_no",
-            "logistics_no",
-            "invt_no",
-            "pre_no",
-            "ebp_code",
-            "ebp_name",
-            "ebc_code",
-            "ebc_name",
-            "assure_code",
-            "customs_code",
-            "port_code",
-            "ie_date",
-            "buyer_id_number",
-            "buyer_name",
-            "buyer_telephone",
-            "consignee_address",
-            "freight",
-            "wrap_type",
-            "agent_code",
-            "agent_name",
-            "traf_mode",
-            "traf_no",
-            "voyage_no",
-            "bill_no",
-            "country",
-            "net_weight",
-            "gross_weight",
-            "note",
-            "total_sum",
+            "bizop_etpsno",
+            "bizop_etps_nm",
+            "dcl_etpsno",
+            "dcl_etps_nm",
+            "putrec_no",
+            "rcvgd_etpsno",
+            "rcvgd_etps_nm",
+            "dcl_plc_cuscd",
+            "impexp_markcd",
+            "mtpck_endprd_markcd",
+            "supv_modecd",
+            "trsp_modecd",
+            "dclcus_flag",
+            "stship_trsarv_natcd",
+            "bond_invt_typecd",
+            "dcl_typecd",
+            "rmk",
 
-            "g_num",
-            "g_name",
-            "g_code",
-            "g_model",
-            "g_qty",
-            "g_unit",
-            "qty_1",
-            "unit_1",
-            "qty_2",
-            "unit_2",
-            "total_price"
+            "body_putrec_seqno",
+            "body_gds_seqno",
+            "body_gds_mtno",
+            "body_gdecd",
+            "body_gds_nm",
+            "body_gds_spcf_model_desc",
+            "body_dcl_unitcd",
+            "body_dcl_qty",
+            "body_dcl_uprc_amt",
+            "body_dcl_total_amt",
+            "body_dcl_currcd",
+            "body_usd_stat_total_amt"
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (orderNo) {
+    callBackQuery: function () {
         sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
@@ -168,77 +150,66 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["detailmanage/seeInventoryDetail"].detailParam.disableField;
+        var disableField = sw.page.modules["bondediexit/seeExitInventoryDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
     },
     // 装载表头信息
-    fillEntryHeadInfo: function (entryHead) {
-        $("#order_no").val(entryHead.order_no);
-        $("#cop_no").val(entryHead.cop_no);
-        $("#logistics_no").val(entryHead.logistics_no);
-        $("#invt_no").val(entryHead.invt_no);
-        $("#pre_no").val(entryHead.pre_no);
-        $("#ebp_code").val(entryHead.ebp_code);
-        $("#ebp_name").val(entryHead.ebp_name);
-        $("#ebc_code").val(entryHead.ebc_code);
-        $("#ebc_name").val(entryHead.ebc_name);
-        $("#assure_code").val(entryHead.assure_code);
-        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs);
-        $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
-        $("#buyer_id_number").val(entryHead.buyer_id_number);
-        $("#buyer_name").val(entryHead.buyer_name);
-        $("#buyer_telephone").val(entryHead.buyer_telephone);
-        $("#consignee_address").val(entryHead.consignee_address);
-        $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
-        $("#agent_code").val(entryHead.agent_code);
-        $("#agent_name").val(entryHead.agent_name);
-        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
-        $("#traf_no").val(entryHead.traf_no);
-        $("#voyage_no").val(entryHead.voyage_no);
-        $("#bill_no").val(entryHead.bill_no);
-        selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
-        $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
-        $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
-        $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
-        $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
-        $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
-        $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
-        $("#note").val(entryHead.note);
+    fillNewBondInvtBsc: function (entryHead) {
+        $("#bizop_etpsno").val(entryHead.bizop_etpsno);
+        $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
+        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
+        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
+        $("#putrec_no").val(entryHead.putrec_no);
+        // $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
+        // $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
+        // $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
+        // $("#impexp_markcd").val(entryHead.impexp_markcd);
+        // $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
+        // $("#supv_modecd").val(entryHead.supv_modecd);
+        // $("#trsp_modecd").val(entryHead.trsp_modecd);
+        // $("#dclcus_flag").val(entryHead.dclcus_flag);
+        // $("#stship_trsarv_natcd").val(entryHead.stship_trsarv_natcd);
+        // $("#bond_invt_typecd").val(entryHead.bond_invt_typecd);
+        // $("#dcl_typecd").val(entryHead.dcl_typecd);
+        // $("#rmk").val(entryHead.rmk);
+
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        // selectEInvenDetail("xxx", entryHead.customs_code, sw.customs.xxx);
+        // selectEInvenDetail("port_code", entryHead.port_code, sw.dict.customs);
+        // selectEInvenDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
 
     },
 
     //加载表体信息
-    fillEntryListInfo: function (entryLists) {
+    fillNewBondInvtDtList: function (entryLists) {
         for (var i = 0; i < entryLists.length; i++) {
-            var g_num = entryLists[i].g_num;
+            var gds_seqno = entryLists[i].gds_seqno;
             var str =
                 "<tr>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='g_unit_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_1_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
+                "<td hidden='hidden'><input class=\"form-control input-sm\" maxlength=\"36\" id='body_id_" + gds_seqno + "' value='" + entryLists[i].id + "'/></td>" +
+                "<td ><input class=\"form-control input-sm listCount\" maxlength=\"19\" id='body_gds_seqno_" + gds_seqno + "' value='" + entryLists[i].gds_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='body_putrec_seqno_" + gds_seqno + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"32\" id='body_gds_mtno_" + gds_seqno + "' value='" + entryLists[i].gds_mtno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='body_gdecd_" + gds_seqno + "' value='" + entryLists[i].gdecd + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_nm_" + gds_seqno + "' value='" + entryLists[i].gds_nm + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_spcf_model_desc_" + gds_seqno + "' value='" + entryLists[i].gds_spcf_model_desc + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='body_dcl_unitcd_" + gds_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_qty_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_qty).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_uprc_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_total_amt).toFixed(5) + "' /></td>" +
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"100\" id='body_dcl_currcd_" + gds_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_usd_stat_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
+            // selectEInvenDetail("country_" + gds_seqno, entryLists[i].country, sw.dict.countryArea);
+            // selectEInvenDetail("g_unit_" + gds_seqno, entryLists[i].unit, sw.dict.unitCodes);
+            // selectEInvenDetail("unit_1_" + gds_seqno, entryLists[i].unit1, sw.dict.unitCodes);
+            selectEInvenDetail("body_dcl_unitcd_" + gds_seqno, entryLists[i].dcl_unitcd, sw.dict.unitCodes);
+            selectEInvenDetail("body_dcl_currcd_" + gds_seqno, entryLists[i].dcl_currcd, sw.dict.currency);
         }
     },
 
@@ -260,26 +231,75 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
     },
 
     // 保存清单编辑信息
-    saveEntryInfo: function (orderNo, type, ieFlag) {
-        if (!this.valiFieldInventory()) {
+    saveExitInventoryInfo: function () {
+        debugger;
+        if (!this.valiFieldExitInventory()) {
             return;
         }
-        var entryLists = new Array();
-        for (var key in listChangeKeyVals) {
-            entryLists.push(listChangeKeyVals[key]);
+        var BondInvtBsc = {
+            bizop_etpsno: $("#bizop_etpsno").val(),
+            bizop_etps_nm: $("#bizop_etps_nm").val(),
+            dcl_etpsno: $("#dcl_etpsno").val(),
+            dcl_etps_nm: $("#dcl_etps_nm").val(),
+            putrec_no: $("#putrec_no").val(),
+            rcvgd_etpsno: $("#rcvgd_etpsno").val(),
+            rcvgd_etps_nm: $("#rcvgd_etps_nm").val(),
+            dcl_plc_cuscd: $("#dcl_plc_cuscd").val(),
+            impexp_markcd: $("#impexp_markcd").val(),
+            mtpck_endprd_markcd: $("#mtpck_endprd_markcd").val(),
+            supv_modecd: $("#supv_modecd").val(),
+            trsp_modecd: $("#trsp_modecd").val(),
+            dclcus_flag: $("#dclcus_flag").val(),
+            stship_trsarv_natcd: $("#stship_trsarv_natcd").val(),
+            bond_invt_typecd: $("#bond_invt_typecd").val(),
+            dcl_typecd: $("#dcl_typecd").val(),
+            rmk: $("#rmk").val()
+        };
+
+        var BondInvtDtList = new Array();
+
+        for (var i = 1; i <= $(".listCount").length; i++) {
+            var body_id = $("#body_id_" + i).val();
+            var body_gds_seqno = $("#body_gds_seqno_" + i).val();
+            var body_putrec_seqno = $("#body_putrec_seqno_" + i).val();
+            var body_gds_mtno = $("#body_gds_mtno_" + i).val();
+            var body_gdecd = $("#body_gdecd_" + i).val();
+            var body_gds_nm = $("#body_gds_nm_" + i).val();
+            var body_gds_spcf_model_desc = $("#body_gds_spcf_model_desc_" + i).val();
+            var body_dcl_qty = $("#body_dcl_qty_" + i).val();
+            var body_dcl_uprc_amt = $("#body_dcl_uprc_amt_" + i).val();
+            var body_dcl_total_amt = $("#body_dcl_total_amt_" + i).val();
+            var body_dcl_currcd = $("#body_dcl_currcd_" + i).val();
+            var body_usd_stat_total_amt = $("#body_usd_stat_total_amt_" + i).val();
+            var BondInvtDt = {
+                id: body_id,
+                gds_seqno: body_gds_seqno,
+                putrec_seqno: body_putrec_seqno,
+                gds_mtno: body_gds_mtno,
+                gdecd: body_gdecd,
+                gds_nm: body_gds_nm,
+                gds_spcf_model_desc: body_gds_spcf_model_desc,
+                dcl_qty: body_dcl_qty,
+                dcl_uprc_amt: body_dcl_uprc_amt,
+                dcl_total_amt: body_dcl_total_amt,
+                dcl_currcd: body_dcl_currcd,
+                usd_stat_total_amt: body_usd_stat_total_amt
+            };
+            BondInvtDtList.push(BondInvtDt);
         }
 
         var entryData = {
-            entryHead: headChangeKeyVal,
-            entryList: entryLists
+            BondInvtBsc: BondInvtBsc,
+            BondInvtDtList: BondInvtDtList
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
+            debugger;
             if (rsp.data.result) {
-                sw.page.modules["detailmanage/seeInventoryDetail"].cancel();
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["detailmanage/seeInventoryDetail"].callBackQuery(orderNo);
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -289,101 +309,123 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
     },
 
     // 查询订单详情
-    query: function () {
+    query: function (mark) {
 
         // 表头变化
-        headChangeKeyVal = {};
+        headChangeKeyValEInven = {};
         // 表体变化
-        listChangeKeyVals = {};
+        listChangeKeyValsEInven = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("detailmanage/seeInventoryDetail");
-        var guid = param.guid;
+        var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
+        var invtNo = param.submitKeys;
         var data = {
-            guid: guid
+            invtNo: invtNo
         };
-        $.ajax({
-            method: "GET",
-            url: "api/detailManage/seeOrderDetail",
-            data: data,
-            success: function (data, status, xhr) {
-                if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["detailmanage/seeInventoryDetail"];
 
-                    var entryHead = data.data.impInventoryHead;
-                    var entryLists = data.data.impInventoryBodies;
-                    var vertify = data.data.verify;
+        if (mark == "crt") {
+            $.ajax({
+                method: "GET",
+                url: "api/bondediexit/crtexitinventory",
+                data: data,
+                success: function (data, status, xhr) {
+                    if (xhr.status == 200) {
+                        debugger;
+                        var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
 
-                    if (isNotEmpty(entryHead)) {
-                        entryModule.fillEntryHeadInfo(entryHead);
+                        var entryHead = data.data.bondInvtBsc;
+                        var entryLists = data.data.bondInvtDtList;
+                        // var vertify = data.data.verify;
+
+                        if (isNotEmpty(entryHead)) {
+                            entryModule.fillNewBondInvtBsc(entryHead);
+                        }
+                        if (isNotEmpty(entryLists)) {
+                            entryModule.fillNewBondInvtDtList(entryLists);
+                        }
+                        // 根据错误字段中的值加高亮显示
+                        if (entryModule.detailParam.isShowError) {
+                            entryModule.errorMessageShow(vertify);
+                        }
+                        headChangeKeyValEInven["entryhead_guid"] = param.guid;
+                        // 添加输入框内容变更事件，捕获数据变更信息
+                        inputChangeEInvent(param.guid);
+                        entryModule.disabledFieldInput();
                     }
-                    if (isNotEmpty(entryLists)) {
-                        entryModule.fillEntryListInfo(entryLists);
-                    }
-                    // 根据错误字段中的值加高亮显示
-                    if (entryModule.detailParam.isShowError) {
-                        entryModule.errorMessageShow(vertify);
-                    }
-                    headChangeKeyVal["entryhead_guid"] = param.guid;
-                    // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChangeInvent(param.guid);
-                    entryModule.disabledFieldInput();
                 }
-            }
-        });
+            });
+        } else if (mark == "upd") {
+            $.ajax({
+                method: "GET",
+                url: "api/bondediexit/seeOrderDetail",
+                data: data,
+                success: function (data, status, xhr) {
+                    if (xhr.status == 200) {
+                        var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
+
+                        var entryHead = data.data.impInventoryHead;
+                        var entryLists = data.data.impInventoryBodies;
+                        var vertify = data.data.verify;
+
+                        if (isNotEmpty(entryHead)) {
+                            entryModule.fillEntryHeadInfo(entryHead);
+                        }
+                        if (isNotEmpty(entryLists)) {
+                            entryModule.fillEntryListInfo(entryLists);
+                        }
+                        // 根据错误字段中的值加高亮显示
+                        if (entryModule.detailParam.isShowError) {
+                            entryModule.errorMessageShow(vertify);
+                        }
+                        debugger;
+                        headChangeKeyValEInven["entryhead_guid"] = param.guid;
+                        // 添加输入框内容变更事件，捕获数据变更信息
+                        inputChangeEInvent(param.guid);
+                        entryModule.disabledFieldInput();
+                    }
+                }
+            });
+        }
+
     },
 
     //校验
-    valiFieldInventory: function () {
+    valiFieldExitInventory: function () {
         // 校验表头
         var validataHeadField = {
-            "order_no": "订单编号",
-            "cop_no": "企业内部编号",
-            "logistics_no": "物流运单编号",
-            // "invt_no": "海关清单编号",
-            // "pre_no": "电子口岸标识编号",
-            "ebp_code": "电商平台代码",
-            "ebp_name": "电商平台名称",
-            "ebc_code": "电商企业代码",
-            "ebc_name": "电商企业名称",
-            "assure_code": "担保企业编号",
-            "customs_code": "申报海关代码",
-            "port_code": "口岸海关代码",
-            "ie_date": "进口日期",
-            "buyer_id_number": "订购人证件号码",
-            "buyer_name": "订购人姓名",
-            "buyer_telephone": "订购人电话",
-            "consignee_address": "收件地址",
-            "freight": "运费",
-            // "wrap_type": "包装种类",
-            "agent_code": "申报企业代码",
-            "agent_name": "申报企业名称",
-            "traf_mode": "运输方式",
-            "traf_no": "运输工具编号",
-            "voyage_no": "航班航次号",
-            "bill_no": "提运单号",
-            "country": "起运国（地区）",
-            "net_weight": "净重",
-            "gross_weight": "毛重",
-            "total_sum": "商品总价"
-            // "note":"备注",
+            "bizop_etpsno": "经营企业编号",
+            "bizop_etps_nm": "经营企业名称",
+            "dcl_etpsno": "申报企业编号",
+            "dcl_etps_nm": "申报企业名称",
+            "putrec_no": "备案编号",
+            "rcvgd_etpsno": "收货企业编号",
+            "rcvgd_etps_nm": "收货企业名称",
+            "dcl_plc_cuscd": "申报地关区代码",
+            "impexp_markcd": "进出口标记代码",
+            "mtpck_endprd_markcd": "料件成品标记代码",
+            "supv_modecd": "监管方式代码",
+            "trsp_modecd": "运输方式代码",
+            "dclcus_flag": "是否报关标志",
+            "stship_trsarv_natcd": "起运运抵国别代码",
+            "bond_invt_typecd": "清单类型",
+            "dcl_typecd": "申报类型"
+            // "rmk": "备注"
         };
 
         // 校验表体
         var validataListField = {
-            "g_num": "序号",
-            "g_name": "商品名称",
-            "g_code": "商品编码",
-            "g_model": "商品规格/型号",
-            "country": "原产国（地区）",
-            "g_qty": "数量",
-            "g_unit": "计量单位",
-            "qty_1": "第一法定数量",
-            "unit_1": "第一法定单位",
-            "qty_2": "第二法定数量",
-            // "unit2": "第二法定单位",
-            "price": "单价",
-            "total_price": "总价"
+            "body_putrec_seqno": "备案序号",
+            "body_gds_seqno": "商品序号",
+            "body_gds_mtno": "商品料号",
+            "body_gdecd": "商品编码",
+            "body_gds_nm": "商品名称",
+            "body_gds_spcf_model_desc": "商品规格型号",
+            "body_dcl_unitcd": "申报计量单位",
+            "body_dcl_qty": "申报数量",
+            "body_dcl_uprc_amt": "申报单价",
+            "body_dcl_total_amt": "申报总价",
+            "body_dcl_currcd": "币制",
+            "body_usd_stat_total_amt": "美元统计总金额"
         };
 
         var fieldId, fieldName, fieldVal;
@@ -427,11 +469,11 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("detailmanage/seeInventoryDetail");
-        var guid = param.guid;
-        var orderNo = param.orderNo;
+        var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
+        var invtNo = param.submitKeys;
         var type = param.type;
         var isEdit = param.isEdit;
+        var mark = param.mark;
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -442,114 +484,73 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
 
         switch (type) {
             //订单查询
-            case "QDCX": {
+            case "CQHZQDCX": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "order_no",//订单编号。
-                        "cop_no",//企业内部编号
-                        "logistics_no",//物流运单编号
-                        "invt_no",//海关清单编号
-                        "pre_no",//电子口岸标识编号
-                        "g_num",//表体序号
-                        "total_sum",//商品总价
-                        "customs_tax",
-                        "value_added_tax",
-                        "consumption_tax"
+                        "bizop_etpsno",
+                        "bizop_etps_nm"
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/detailManage/saveInventoryDetail";
+                this.detailParam.url = "/api/bondediexit/saveExitInventory";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                this.detailParam.callBackUrl = "bondediexit/crtExitInventory";
                 this.detailParam.isShowError = false;
                 break;
             }
             //逻辑校验(预留)
             case "LJJY": {
-                // 不可编辑状态
-                if (isEdit == "true") {
-                    this.detailParam.disableField = [
-                        //当前禁用的字段,需要禁用的字段值在这里改
-                        "cop_no",//企业内部编号
-                        "invt_no",//海关清单编号
-                        "pre_no",//电子口岸标识编号
-                        "g_num",//表体序号
-                        "total_sum",//商品总价
-                        "customs_tax",
-                        "value_added_tax",
-                        "consumption_tax"
-                    ];
-                }
-                //保存的路径
-                this.detailParam.url = "/api/inventory/saveLogicalDetail";
-                //返回之后的查询路径
-                this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
-                this.detailParam.isShowError = true;
-                break;
+                // // 不可编辑状态
+                // if (isEdit == "true") {
+                //     this.detailParam.disableField = [
+                //         //当前禁用的字段,需要禁用的字段值在这里改
+                //         "bizop_etpsno",
+                //         "bizop_etps_nm"
+                //     ];
+                // }
+                // //保存的路径
+                // this.detailParam.url = "/api/bondediexit/saveLogicalDetail";
+                // //返回之后的查询路径
+                // this.detailParam.callBackUrl = "bondediexit/InventoryLogicVerify";
+                // this.detailParam.isShowError = true;
+                // break;
             }
 
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-
-                "order_no",
-                "cop_no",
-                "logistics_no",
-
-                "invt_no",
-                "pre_no",
-                "total_sum",
-
-                "ebp_code",
-                "ebp_name",
-
-                "ebc_code",
-                "ebc_name",
-                "assure_code",
-
-                "customs_code",
-                "port_code",
-                "ie_date",
-
-                "buyer_id_number",
-                "buyer_name",
-                "buyer_telephone",
-
-                "consignee_address",
-                "freight",
-                "wrap_type",
-
-                "agent_code",
-                "agent_name",
-                "traf_mode",
-
-                "traf_no",
-                "voyage_no",
-                "bill_no",
-
-                "country",
-                "net_weight",
-                "gross_weight",
-                "note",
-
-                "g_num",
-                "g_name",
-                "g_code",
-                "g_model",
-                "g_qty",
-                "g_unit",
-                "qty_1",
-                "unit_1",
-                "qty_2",
-                "unit_2",
-                "price",
-                "total_price",
-
-                "customs_tax",
-                "value_added_tax",
-                "consumption_tax"
+                // "bizop_etpsno",
+                // "bizop_etps_nm",
+                // "dcl_etpsno",
+                // "dcl_etps_nm",
+                // "putrec_no",
+                // "rcvgd_etpsno",
+                // "rcvgd_etps_nm",
+                // "dcl_plc_cuscd",
+                // "impexp_markcd",
+                // "mtpck_endprd_markcd",
+                // "supv_modecd",
+                // "trsp_modecd",
+                // "dclcus_flag",
+                // "stship_trsarv_natcd",
+                // "bond_invt_typecd",
+                // "dcl_typecd",
+                // "rmk",
+                //
+                // "putrec_seqno",
+                // "gds_seqno",
+                // "gds_mtno",
+                // "gdecd",
+                // "gds_nm",
+                // "gds_spcf_model_desc",
+                // "dcl_unitcd",
+                // "dcl_qty",
+                // "dcl_uprc_amt",
+                // "dcl_total_amt",
+                // "dcl_currcd",
+                // "usd_stat_total_amt"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
@@ -558,15 +559,15 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
             $("#btnDiv").removeClass("hidden");
         }
         // 查询详情
-        this.query();
+        this.query(mark);
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["detailmanage/seeInventoryDetail"].saveEntryInfo(orderNo, type, sw.ie);
+            sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo();
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["detailmanage/seeInventoryDetail"].cancel();
+            sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
         });
     },
 

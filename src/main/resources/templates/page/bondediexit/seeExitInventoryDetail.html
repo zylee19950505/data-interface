@@ -1,6 +1,6 @@
 <div class="detailPage">
     <div class="entryTitle">
-        <span>出区核注清单详情</span>
+        <span>出区核注清单表头信息</span>
     </div>
     <div class="text-center">
         <small class="help-block text-red">
@@ -11,113 +11,131 @@
         <tr>
             <td class="headTitle">经营企业编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="60" id="order_no"/>
+                <input class="form-control input-sm" maxlength="10" id="bizop_etpsno"/>
             </td>
             <td class="headTitle">经营企业名称</td>
             <td>
-                <input class="form-control input-sm" maxlength="20" id="cop_no"/>
+                <input class="form-control input-sm" maxlength="512" id="bizop_etps_nm"/>
             </td>
             <td class="headTitle">申报企业编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="60" id="logistics_no"/>
+                <input class="form-control input-sm" maxlength="10" id="dcl_etpsno"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">申报企业名称</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="invt_no"/>
+                <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
             </td>
             <td class="headTitle">备案编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="pre_no"/>
+                <input class="form-control input-sm" maxlength="64" id="putrec_no"/>
             </td>
             <td class="headTitle">收货企业编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="19" id="total_sum"/>
+                <input class="form-control input-sm" maxlength="10" id="rcvgd_etpsno"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">收货企业名称</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="ebp_code"/>
+                <input class="form-control input-sm" maxlength="512" id="rcvgd_etps_nm"/>
             </td>
             <td class="headTitle">进出口口岸代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="100" id="ebp_name"/>
+                <select class="form-control input-sm" maxlength="100" id="xxx"/>
             </td>
             <td class="headTitle">申报地关区代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="20" id="321"/>
+                <select class="form-control input-sm" maxlength="20" id="dcl_plc_cuscd"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">进出口标记代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="ebc_code"/>
+                <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
+                    <option value="E" selected = "selected" >进口（E）</option>
+                </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="100" id="ebc_name"/>
+                <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
+                    <option value="I" selected = "selected" >料件（I）</option>
+                </select>
             </td>
             <td class="headTitle">监管方式代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="30" id="assure_code"/>
+                <select class="form-control input-sm" id="supv_modecd">
+                    <option value="1210">保税电商（1210）</option>
+                    <option value="1239">保税电商A（1239）</option>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="headTitle">运输方式代码</td>
             <td>
-                <select class="form-control input-sm" id="customs_code"/>
+                <select class="form-control input-sm" id="trsp_modecd"/>
             </td>
             <td class="headTitle">是否报关标志</td>
             <td>
-                <select class="form-control input-sm" id="port_code"/>
+                <select class="form-control input-sm" id="dclcus_flag">
+                    <option value="2" selected = "selected" >非报关（2）</option>
+                </select>
             </td>
             <td class="headTitle">报关类型代码</td>
             <td>
-                <div class="input-group input-daterange" style="width:100%">
-                    <input class="form-control input-sm" type="text" id="ie_date"/>
-                </div>
+                <select class="form-control input-sm" id="dclcus_typecd" readonly="readonly">
+                    <option value="1" selected = "selected" ></option>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="headTitle">报关单类型</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="buyer_id_number"/>
+                <select class="form-control input-sm" maxlength="18" id="x1" readonly="readonly">
+                    <option value="3" selected = "selected" ></option>
+                </select>
             </td>
             <td class="headTitle">起运运抵国别代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="60" id="buyer_name"/>
+                <select class="form-control input-sm" maxlength="60" id="stship_trsarv_natcd"/>
             </td>
             <td class="headTitle">清单类型</td>
-            <td><input class="form-control input-sm" maxlength="30" id="buyer_telephone"/></td>
+            <td>
+                <select class="form-control input-sm" maxlength="30" id="bond_invt_typecd">
+                    <option value="8" selected = "selected" >保税电商（8）</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td class="headTitle">申报类型</td>
-            <td >
-                <input class="form-control input-sm" maxlength="200" id="consignee_address"/>
+            <td>
+                <select class="form-control input-sm" name="dcl_typecd" id="dcl_typecd">
+                    <option value="1" selected = "selected" >备案申请（1）</option>
+                </select>
             </td>
             <td class="headTitle">备注</td>
             <td colspan="4">
-                <input class="form-control input-sm" maxlength="19" id="freight"/>
+                <input class="form-control input-sm" maxlength="2000" id="rmk"/>
             </td>
         </tr>
     </table>
 
     <div class="entryTitle">
-        <span>核注清单表体信息</span>
+        <span>出区核注清单表体信息</span>
     </div>
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
-            <th width="3%">备案序号</th>
-            <th>商品序号</th>
-            <th>商品料号</th>
+            <th hidden="hidden">id</th>
+            <th width="5%">备案序号</th>
+            <th width="3%">商品序号</th>
+            <th width="5%">商品料号</th>
             <th>商品编码</th>
             <th>商品名称</th>
             <th width="5%">商品规格型号</th>
             <th>申报计量单位</th>
             <th width="5%">申报数量</th>
-            <th>申报单价</th>
+            <th width="5%">申报单价</th>
             <th width="5%">申报总价</th>
             <th>币制</th>
             <th width="5%">美元统计总金额</th>
