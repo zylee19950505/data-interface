@@ -16,10 +16,10 @@ public class EnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtDt.getBond_invt_no())){
                     VALUES("BOND_INVT_NO","#{bondInvtDt.bond_invt_no}");
                 }
-                if(!StringUtils.isEmpty(bondInvtDt.getGds_seqno())){
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtDt.getGds_seqno()))){
                     VALUES("gds_seqno","#{bondInvtDt.gds_seqno}");
                 }
-                if(!StringUtils.isEmpty(bondInvtDt.getPutrec_seqno())){
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))){
                     VALUES("putrec_seqno","#{bondInvtDt.putrec_seqno}");
                 }
                 if(!StringUtils.isEmpty(bondInvtDt.getGds_mtno())){

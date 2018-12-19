@@ -48,7 +48,7 @@ public class CrtEnterInventoryService {
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
             bondInvtDt.setId(dtId);
-            bondInvtDt.setPutrec_seqno(String.valueOf(count));
+            bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(String.valueOf(count));
             bondInvtDt.setBond_invt_no(uuId);
             this.crtEnterInventoryMapper.insertEnterInventory(bondInvtDt);
