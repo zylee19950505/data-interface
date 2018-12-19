@@ -5,11 +5,13 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtExitInventoryMapper;
 import com.xaeport.crossborder.tools.IdUtils;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,13 +33,23 @@ public class CrtExitInventoryService {
         return this.crtExitInventoryMapper.queryCrtEInventoryCount(paramMap);
     }
 
+    public String queryCustomsByEndId(String ent_id){
+        return this.crtExitInventoryMapper.queryCustomsByEndId(ent_id);
+    }
+
     //查表头
     public BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
+        bondInvtBsc.setId(IdUtils.getUUId());
+        bondInvtBsc.setEtps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
         bondInvtBsc.setBizop_etpsno(paramMap.get("bizop_etpsno"));
         bondInvtBsc.setBizop_etps_nm(paramMap.get("bizop_etps_nm"));
         bondInvtBsc.setDcl_etpsno(paramMap.get("dcl_etpsno"));
         bondInvtBsc.setDcl_etps_nm(paramMap.get("dcl_etps_nm"));
+//        bondInvtBsc.setBizop_etps_sccd(paramMap.get("ent_code"));
+//        bondInvtBsc.setDcl_etps_sccd(paramMap.get("ent_code"));
+//        bondInvtBsc.setRvsngd_etps_sccd(paramMap.get("ent_code"));
+        bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
         return bondInvtBsc;
     }
@@ -52,6 +64,7 @@ public class CrtExitInventoryService {
         for (int i = 0; i < impInventoryBodyList.size(); i++) {
             bondInvtDt = new BondInvtDt();
             bondInvtDt.setId(IdUtils.getUUId());
+            bondInvtDt.setHead_etps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
             bondInvtDt.setGds_seqno(i + 1);
             bondInvtDt.setPutrec_seqno(i + 1);
             bondInvtDt.setGds_mtno("456");
@@ -69,15 +82,15 @@ public class CrtExitInventoryService {
         return bondInvtDtList;
     }
 
-    public Map<String, String> saveBondInvt(LinkedHashMap<String, String> BondInvtBsc,ArrayList<LinkedHashMap<String, String>> BondInvtDtList){
+    public Map<String, String> saveBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> BondInvtDtList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
-        this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc);
+        this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
 
         if (!CollectionUtils.isEmpty(BondInvtDtList)) {
             // 更新表体数据
             for (LinkedHashMap<String, String> BondInvtDt : BondInvtDtList) {
                 if (!CollectionUtils.isEmpty(BondInvtDt)) {
-                    this.crtExitInventoryMapper.saveBondInvtDt(BondInvtDt);
+                    this.crtExitInventoryMapper.saveBondInvtDt(BondInvtDt, userInfo);
                 }
             }
         }

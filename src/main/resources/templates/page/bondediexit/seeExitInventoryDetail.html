@@ -54,7 +54,7 @@
             <td class="headTitle">进出口标记代码</td>
             <td>
                 <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
-                    <option value="E" selected = "selected" >进口（E）</option>
+                    <option value="E" selected = "selected" >出口（E）</option>
                 </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
@@ -119,6 +119,60 @@
                 <input class="form-control input-sm" maxlength="2000" id="rmk"/>
             </td>
         </tr>
+        <tr hidden="hidden">
+            <!--保税清单编号-->
+            <!--<input hidden="hidden" id="bond_invt_no"/>-->
+            <!--表头ID码-->
+            <input hidden="hidden" id="id"/>
+            <!--企业内部清单编号-->
+            <input hidden="hidden" id="etps_inner_invt_no"/>
+            <!--经营企业社会信用代码-->
+            <!--<input hidden="hidden" id="bizop_etps_sccd"/>-->
+            <!--&lt;!&ndash;收发货企业社会信用代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rvsngd_etps_sccd"/>-->
+            <!--&lt;!&ndash;申报企业社会信用代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="dcl_etps_sccd"/>-->
+
+            <!--&lt;!&ndash;关联清单编号&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_invt_no"/>-->
+            <!--&lt;!&ndash;关联备案编号&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_putrec_no"/>-->
+            <!--&lt;!&ndash;关联报关单编号&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_entry_no"/>-->
+            <!--&lt;!&ndash;关联报关单境内收发货人社会信用代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_entry_bizop_etps_sccd"/>-->
+            <!--&lt;!&ndash;关联报关单境内收发货人编号&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_entry_bizop_etpsno"/>-->
+            <!--&lt;!&ndash;关联报关单境内收发货人名称&ndash;&gt;-->
+            <!--<input hidden="hidden" id="rlt_entry_bizop_etps_nm"/>-->
+
+            <!--&lt;!&ndash;进出境关别&ndash;&gt;-->
+            <!--<input hidden="hidden" id="impexp_portcd"/>-->
+            <!--&lt;!&ndash;申请编号&ndash;&gt;-->
+            <!--<input hidden="hidden" id="apply_no"/>-->
+            <!--&lt;!&ndash;预核扣时间&ndash;&gt;-->
+            <!--<input hidden="hidden" id="prevd_time"/>-->
+            <!--正式核扣时间-->
+            <!--<input hidden="hidden" id="formal_vrfded_time"/>-->
+            <!--&lt;!&ndash;清单进出卡口状态代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="invt_iochkpt_stucd"/>-->
+            <!--&lt;!&ndash;核扣标记代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="vrfded_markcd"/>-->
+            <!--&lt;!&ndash;清单状态代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="invt_stucd"/>-->
+            <!--&lt;!&ndash;核扣方式代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="vrfded_modecd"/>-->
+            <!--&lt;!&ndash;核算代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="du_code"/>-->
+            <!--&lt;!&ndash;报关状态&ndash;&gt;-->
+            <!--<input hidden="hidden" id="entry_stucd"/>-->
+            <!--&lt;!&ndash;核放单生成标志代码&ndash;&gt;-->
+            <!--<input hidden="hidden" id="passport_used_typecd"/>-->
+            <!--&lt;!&ndash;报关单同步修改标志&ndash;&gt;-->
+            <!--<input hidden="hidden" id="need_entry_modified"/>-->
+            <!--&lt;!&ndash;计征金额&ndash;&gt;-->
+            <!--<input hidden="hidden" id="levy_bl_amt"/>-->
+        </tr>
     </table>
 
     <div class="entryTitle">
@@ -127,6 +181,7 @@
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
             <th hidden="hidden">id</th>
+            <th hidden="hidden">etps_inner_invt_no</th>
             <th width="5%">备案序号</th>
             <th width="3%">商品序号</th>
             <th width="5%">商品料号</th>

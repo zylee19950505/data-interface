@@ -7,6 +7,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.service.bondedIExit.CrtExitInventoryService;
+import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -85,11 +86,14 @@ public class CrtExitInventoryApi extends BaseApi {
         Map<String, String> paramMap = new HashMap<>();
 
         paramMap.put("invtNo", invtNo);
-        paramMap.put("ent_id",users.getEnt_Id());
+        paramMap.put("ent_id", users.getEnt_Id());
+        paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
         paramMap.put("bizop_etpsno", users.getEnt_Customs_Code());
         paramMap.put("bizop_etps_nm", users.getEnt_Name());
         paramMap.put("dcl_etpsno", users.getEnt_Customs_Code());
         paramMap.put("dcl_etps_nm", users.getEnt_Name());
+        paramMap.put("ent_code", users.getEnt_Code());
+        paramMap.put("etps_inner_invt_no", users.getEnt_Customs_Code() + IdUtils.getShortUUId());
 
         BondInvt bondInvt = new BondInvt();
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
@@ -118,10 +122,12 @@ public class CrtExitInventoryApi extends BaseApi {
         //出区核注清单表体
         ArrayList<LinkedHashMap<String, String>> BondInvtDtList = (ArrayList<LinkedHashMap<String, String>>) object.get("BondInvtDtList");
 
+        Users userInfo = this.getCurrentUsers();
+
         Map<String, String> map = new HashMap<>();
         try {
             // 保存详情信息
-            map = this.crtExitInventoryService.saveBondInvt(BondInvtBsc,BondInvtDtList);
+            map = this.crtExitInventoryService.saveBondInvt(BondInvtBsc, BondInvtDtList, userInfo);
         } catch (Exception e) {
             logger.error("保存核放单信息时发生异常", e);
             map.put("result", "false");

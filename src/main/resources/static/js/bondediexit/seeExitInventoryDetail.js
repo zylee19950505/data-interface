@@ -125,7 +125,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "bond_invt_typecd",
             "dcl_typecd",
             "rmk",
+            "etps_inner_invt_no",
 
+            "body_id",
+            "body_etps_inner_invt_no",
             "body_putrec_seqno",
             "body_gds_seqno",
             "body_gds_mtno",
@@ -162,23 +165,11 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
-        // $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
-        // $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
-        // $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
-        // $("#impexp_markcd").val(entryHead.impexp_markcd);
-        // $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
-        // $("#supv_modecd").val(entryHead.supv_modecd);
-        // $("#trsp_modecd").val(entryHead.trsp_modecd);
-        // $("#dclcus_flag").val(entryHead.dclcus_flag);
-        // $("#stship_trsarv_natcd").val(entryHead.stship_trsarv_natcd);
-        // $("#bond_invt_typecd").val(entryHead.bond_invt_typecd);
-        // $("#dcl_typecd").val(entryHead.dcl_typecd);
-        // $("#rmk").val(entryHead.rmk);
+        $("#id").val(entryHead.id);
+        $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
+        $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
 
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        // selectEInvenDetail("xxx", entryHead.customs_code, sw.customs.xxx);
-        // selectEInvenDetail("port_code", entryHead.port_code, sw.dict.customs);
-        // selectEInvenDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
 
@@ -191,18 +182,19 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             var str =
                 "<tr>" +
                 "<td hidden='hidden'><input class=\"form-control input-sm\" maxlength=\"36\" id='body_id_" + gds_seqno + "' value='" + entryLists[i].id + "'/></td>" +
-                "<td ><input class=\"form-control input-sm listCount\" maxlength=\"19\" id='body_gds_seqno_" + gds_seqno + "' value='" + entryLists[i].gds_seqno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='body_putrec_seqno_" + gds_seqno + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"32\" id='body_gds_mtno_" + gds_seqno + "' value='" + entryLists[i].gds_mtno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='body_gdecd_" + gds_seqno + "' value='" + entryLists[i].gdecd + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_nm_" + gds_seqno + "' value='" + entryLists[i].gds_nm + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_spcf_model_desc_" + gds_seqno + "' value='" + entryLists[i].gds_spcf_model_desc + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='body_dcl_unitcd_" + gds_seqno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_qty_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_qty).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_uprc_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_total_amt).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"100\" id='body_dcl_currcd_" + gds_seqno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_usd_stat_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "' /></td>" +
+                "<td hidden='hidden'><input class=\"form-control input-sm\" maxlength=\"64\" id='body_etpsInnerInvtNo_" + gds_seqno + "' value='" + entryLists[i].head_etps_inner_invt_no + "'/></td>" +
+                "<td ><input class=\"form-control input-sm listCount\" maxlength=\"19\" id='body_putrec_seqno_" + gds_seqno + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm \" maxlength=\"19\" id='body_gds_seqno_" + gds_seqno + "' value='" + entryLists[i].gds_seqno + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"32\" id='body_gds_mtno_" + gds_seqno + "' value='" + entryLists[i].gds_mtno + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='body_gdecd_" + gds_seqno + "' value='" + entryLists[i].gdecd + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_nm_" + gds_seqno + "' value='" + entryLists[i].gds_nm + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"512\" id='body_gds_spcf_model_desc_" + gds_seqno + "' value='" + entryLists[i].gds_spcf_model_desc + "'/></td>" +
+                "<td readonly='readonly'><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='body_dcl_unitcd_" + gds_seqno + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_qty_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_qty).toFixed(5) + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_uprc_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(5) + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_dcl_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].dcl_total_amt).toFixed(5) + "'/></td>" +
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"100\" id='body_dcl_currcd_" + gds_seqno + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"25\" id='body_usd_stat_total_amt_" + gds_seqno + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "'/></td>" +
                 "</tr>";
             $("#entryList").append(str);
             // selectEInvenDetail("country_" + gds_seqno, entryLists[i].country, sw.dict.countryArea);
@@ -237,6 +229,8 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             return;
         }
         var BondInvtBsc = {
+            id: $("#id").val(),
+            etps_inner_invt_no: $("#etps_inner_invt_no").val(),
             bizop_etpsno: $("#bizop_etpsno").val(),
             bizop_etps_nm: $("#bizop_etps_nm").val(),
             dcl_etpsno: $("#dcl_etpsno").val(),
@@ -260,12 +254,14 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
         for (var i = 1; i <= $(".listCount").length; i++) {
             var body_id = $("#body_id_" + i).val();
+            var body_head_etps_inner_invt_no = $("#body_etpsInnerInvtNo_" + i).val();
             var body_gds_seqno = $("#body_gds_seqno_" + i).val();
             var body_putrec_seqno = $("#body_putrec_seqno_" + i).val();
             var body_gds_mtno = $("#body_gds_mtno_" + i).val();
             var body_gdecd = $("#body_gdecd_" + i).val();
             var body_gds_nm = $("#body_gds_nm_" + i).val();
             var body_gds_spcf_model_desc = $("#body_gds_spcf_model_desc_" + i).val();
+            var body_dcl_unitcd = $("#body_dcl_unitcd_" + i).val();
             var body_dcl_qty = $("#body_dcl_qty_" + i).val();
             var body_dcl_uprc_amt = $("#body_dcl_uprc_amt_" + i).val();
             var body_dcl_total_amt = $("#body_dcl_total_amt_" + i).val();
@@ -273,12 +269,14 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             var body_usd_stat_total_amt = $("#body_usd_stat_total_amt_" + i).val();
             var BondInvtDt = {
                 id: body_id,
+                head_etps_inner_invt_no: body_head_etps_inner_invt_no,
                 gds_seqno: body_gds_seqno,
                 putrec_seqno: body_putrec_seqno,
                 gds_mtno: body_gds_mtno,
                 gdecd: body_gdecd,
                 gds_nm: body_gds_nm,
                 gds_spcf_model_desc: body_gds_spcf_model_desc,
+                dcl_unitcd: body_dcl_unitcd,
                 dcl_qty: body_dcl_qty,
                 dcl_uprc_amt: body_dcl_uprc_amt,
                 dcl_total_amt: body_dcl_total_amt,
@@ -489,8 +487,20 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "bizop_etpsno",
-                        "bizop_etps_nm"
+                        "body_id",
+                        "body_etps_inner_invt_no",
+                        // "body_putrec_seqno",
+                        "body_gds_seqno",
+                        "body_gds_mtno",
+                        "body_gdecd",
+                        "body_gds_nm",
+                        "body_gds_spcf_model_desc",
+                        "body_dcl_unitcd",
+                        "body_dcl_qty",
+                        "body_dcl_uprc_amt",
+                        "body_dcl_total_amt",
+                        "body_dcl_currcd",
+                        "body_usd_stat_total_amt"
                     ];
                 }
                 //保存的路径
