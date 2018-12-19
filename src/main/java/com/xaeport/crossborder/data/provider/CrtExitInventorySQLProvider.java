@@ -1,11 +1,9 @@
 package com.xaeport.crossborder.data.provider;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CrtExitInventorySQLProvider extends BaseSQLProvider{

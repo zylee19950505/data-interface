@@ -1,85 +1,91 @@
-//package com.xaeport.crossborder.controller.api.bondedIExit;
-//
-//import com.alibaba.druid.support.logging.Log;
-//import com.alibaba.druid.support.logging.LogFactory;
-//import com.xaeport.crossborder.configuration.AppConfiguration;
-//import com.xaeport.crossborder.configuration.SystemConstants;
-//import com.xaeport.crossborder.controller.api.BaseApi;
-//import com.xaeport.crossborder.data.ResponseData;
-//import com.xaeport.crossborder.data.entity.DataList;
-//import com.xaeport.crossborder.data.entity.OrderSum;
-//import com.xaeport.crossborder.data.entity.Users;
-//import com.xaeport.crossborder.data.status.StatusCode;
-//import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
-//import com.xaeport.crossborder.tools.DownloadUtils;
-//import com.xaeport.crossborder.tools.GetIpAddr;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.util.StringUtils;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//import java.io.File;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-//
-///*
-// * 订单申报
-// */
-//@RestController
-//@RequestMapping("/api/orderManage")
-//public class ExitInventoryApi extends BaseApi {
-//
-//    private Log logger = LogFactory.getLog(this.getClass());
-//
-//    @Autowired
-//    AppConfiguration appConfiguration;
-//    @Autowired
-//    OrderDeclareSevice orderDeclareService;
-//
-//    /*
-//     * 邮件申报查询
-//     */
-//    @RequestMapping("/queryOrderDeclare")
-//    public ResponseData queryOrderDeclare(
-//            //身份验证
-//            @RequestParam(required = false) String startFlightTimes,
-//            @RequestParam(required = false) String endFlightTimes,
-//            @RequestParam(required = false) String billNo,
-//            @RequestParam(required = false) String dataStatus
-//    ) {
-//        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
-//        Map<String, String> paramMap = new HashMap<String, String>();
-//        //查询参数
-//        paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-//        paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-//
-//        paramMap.put("billNo", billNo);
-//        paramMap.put("dataStatus", dataStatus);
-//
-//        paramMap.put("entId", this.getCurrentUserEntId());
-//        paramMap.put("roleId", this.getCurrentUserRoleId());
-//
-//        DataList<OrderSum> dataList = new DataList<>();
-//        List<OrderSum> resultList = new ArrayList<OrderSum>();
-//        try {
-//            //查询列表
-//            resultList = orderDeclareService.queryOrderDeclareList(paramMap);
-//        } catch (Exception e) {
-//            this.logger.error("查询订单申报数据失败", e);
-//            return new ResponseData("获取订单申报数据错误", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseData(resultList);
-//    }
-//
-//
+package com.xaeport.crossborder.controller.api.bondediexit;
+
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.controller.api.BaseApi;
+import com.xaeport.crossborder.data.ResponseData;
+import com.xaeport.crossborder.data.entity.BondInvtBsc;
+import com.xaeport.crossborder.data.entity.DataList;
+import com.xaeport.crossborder.service.bondedIExit.ExitInventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+/*
+ * 订单申报
+ */
+@RestController
+@RequestMapping("/api/bondediexit")
+public class ExitInventoryApi extends BaseApi {
+
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    @Autowired
+    AppConfiguration appConfiguration;
+    @Autowired
+    ExitInventoryService exitInventoryService;
+
+    @RequestMapping(value = "/queryexitinventory", method = RequestMethod.GET)
+    public ResponseData queryCrtExitInventory(
+            @RequestParam(required = false) String entry_dcl_time,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String return_status,
+            @RequestParam(required = false) String bond_invt_no,
+            HttpServletRequest request
+    ) {
+        this.logger.debug(String.format("查询出区核注清单数据参数:[bond_invt_no:%s]", bond_invt_no));
+        Map<String, String> paramMap = new HashMap<String, String>();
+
+        String startStr = request.getParameter("start");
+        String length = request.getParameter("length");
+        String extra_search = request.getParameter("extra_search");
+        String draw = request.getParameter("draw");
+        String start = String.valueOf((Integer.parseInt(startStr) + 1));
+        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+
+        paramMap.put("start", start);
+        paramMap.put("length", length);
+        paramMap.put("end", end);
+        paramMap.put("extra_search", extra_search);
+
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("entry_dcl_time", entry_dcl_time);
+        paramMap.put("status", status);
+        paramMap.put("return_status", return_status);
+        paramMap.put("bond_invt_no", bond_invt_no);
+
+        DataList<BondInvtBsc> dataList = null;
+        List<BondInvtBsc> resultList = null;
+        try {
+            //查询列表
+            resultList = this.exitInventoryService.queryEInventoryList(paramMap);
+            //查询总数
+            Integer count = this.exitInventoryService.queryEInventoryCount(paramMap);
+            dataList = new DataList<>();
+            dataList.setDraw(draw);
+            dataList.setData(resultList);
+            dataList.setRecordsTotal(count);
+            dataList.setRecordsFiltered(count);
+        } catch (Exception e) {
+            this.logger.error("查询出区核注清单数据失败", e);
+            return new ResponseData("查询出区核注清单数据错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(dataList);
+
+    }
+
+
 //    /**
 //     * 订单单申报-提交海关
 //     **/
@@ -146,5 +152,5 @@
 //        File file = new File(type);
 //        DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_ZIP);
 //    }
-//
-//}
+
+}

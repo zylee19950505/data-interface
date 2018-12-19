@@ -35,7 +35,7 @@ public class CrtExitInventoryApi extends BaseApi {
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询出区核注清单数据参数:[returnStatus:%s]", returnStatus));
+        this.logger.debug(String.format("查询跨境清单数据参数:[returnStatus:%s]", returnStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -67,8 +67,8 @@ public class CrtExitInventoryApi extends BaseApi {
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {
-            this.logger.error("查询出区核注清单数据失败", e);
-            return new ResponseData("查询出区核注清单数据错误", HttpStatus.BAD_REQUEST);
+            this.logger.error("查询跨境清单数据失败", e);
+            return new ResponseData("查询跨境清单数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
 
@@ -102,7 +102,7 @@ public class CrtExitInventoryApi extends BaseApi {
             bondInvt.setBondInvtDtList(bondInvtDtList);
         } catch (Exception e) {
             this.logger.error("获取出区核注清单数据失败", e);
-            return new ResponseData("获取核注清单数据错误", HttpStatus.BAD_REQUEST);
+            return new ResponseData("获取出区核注清单数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(bondInvt);
 
