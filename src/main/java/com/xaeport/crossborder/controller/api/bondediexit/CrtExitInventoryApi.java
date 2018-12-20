@@ -80,12 +80,12 @@ public class CrtExitInventoryApi extends BaseApi {
      **/
     @RequestMapping(value = "/crtexitinventory", method = RequestMethod.GET)
     public ResponseData crtexitinventory(
-            @RequestParam(required = false) String invtNo
+            @RequestParam(required = false) String dataInfo
     ) {
         Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
 
-        paramMap.put("invtNo", invtNo);
+        paramMap.put("invtNo", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
         paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
         paramMap.put("bizop_etpsno", users.getEnt_Customs_Code());

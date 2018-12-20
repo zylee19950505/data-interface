@@ -36,6 +36,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider{
                         "from t_status ss " +
                         "where ss.status_code = t.return_status) return_status_name");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -96,6 +97,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider{
         return new SQL(){
             {
                 INSERT_INTO("T_BOND_INVT_BSC");
+                VALUES("flag","'EXIT'");
                 if(!StringUtils.isEmpty(BondInvtBsc.get("id"))){
                     VALUES("id","#{BondInvtBsc.id}");
                 }

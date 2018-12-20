@@ -58,7 +58,7 @@ function sumEInventTotal(dVal, qty, gno, listChangeKeyVal) {
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
 
-function inputChangeEInvent(id) {
+function inputChangeEInvent(etps_inner_invt_no) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -75,22 +75,22 @@ function inputChangeEInvent(id) {
                 listChangeKeyVal = {};
             }
             // 修改字段为单价
-            if (keys == "price") {// 单价
+            if (keys == "body_dcl_uprc_amt") {// 单价
                 var dVal = parseFloat(val);
-                var qty = parseFloat($("#g_qty_" + gno).val());
+                var qty = parseFloat($("#body_dcl_qty_" + gno).val());
                 sumEInventTotal(dVal, qty, gno, listChangeKeyVal);
                 sumTotalPricesInvent();
-            } else if (keys == "g_qty") {// 数量
+            } else if (keys == "body_dcl_qty") {// 数量
                 console.log(keys);
                 var qty = parseFloat(val);
-                var dVal = parseFloat($("#price_" + gno).val());
+                var dVal = parseFloat($("#body_dcl_uprc_amt_" + gno).val());
                 sumEInventTotal(dVal, qty, gno, listChangeKeyVal);
                 sumTotalPricesInvent();
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
-            listChangeKeyVal["g_no"] = gno;
-            listChangeKeyVal["entryhead_guid"] = id;
+            listChangeKeyVal["body_gds_seqno"] = gno;
+            listChangeKeyVal["etps_inner_invt_no"] = etps_inner_invt_no;
             listChangeKeyValsEInven[gno] = listChangeKeyVal;
         } else {
             headChangeKeyValEInven[key] = val;
@@ -158,6 +158,35 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
     },
+
+    fillBondInvtBsc: function (entryHead) {
+        $("#bizop_etpsno").val(entryHead.bizop_etpsno);
+        $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
+        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
+        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
+        $("#putrec_no").val(entryHead.putrec_no);
+
+        $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
+        $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
+        $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
+        $("#impexp_markcd").val(entryHead.impexp_markcd);
+        $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
+        $("#supv_modecd").val(entryHead.supv_modecd);
+        $("#trsp_modecd").val(entryHead.trsp_modecd);
+        $("#dclcus_flag").val(entryHead.dclcus_flag);
+        $("#stship_trsarv_natcd").val(entryHead.stship_trsarv_natcd);
+        $("#bond_invt_typecd").val(entryHead.bond_invt_typecd);
+        $("#dcl_typecd").val(entryHead.dcl_typecd);
+        $("#rmk").val(entryHead.rmk);
+        $("#id").val(entryHead.id);
+        $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
+
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+
+    },
+
     // 装载表头信息
     fillNewBondInvtBsc: function (entryHead) {
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
@@ -205,26 +234,25 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         }
     },
 
-    // 标记问题字段
-    errorMessageShow: function (vertify) {
-        if (vertify) {
-            var result = JSON.parse(vertify.result);
-            var gno = result.g_num;
-            var field = result.field;
-
-            if (isNotEmpty(gno)) {
-                $("#" + field + "_" + gno).addClass("bg-red");
-                $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
-            } else {
-                $("#" + field).addClass("bg-red");
-                $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
-            }
-        }
-    },
+    // // 标记问题字段
+    // errorMessageShow: function (vertify) {
+    //     if (vertify) {
+    //         var result = JSON.parse(vertify.result);
+    //         var gno = result.g_num;
+    //         var field = result.field;
+    //
+    //         if (isNotEmpty(gno)) {
+    //             $("#" + field + "_" + gno).addClass("bg-red");
+    //             $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
+    //         } else {
+    //             $("#" + field).addClass("bg-red");
+    //             $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
+    //         }
+    //     }
+    // },
 
     // 保存清单编辑信息
     saveExitInventoryInfo: function () {
-        debugger;
         if (!this.valiFieldExitInventory()) {
             return;
         }
@@ -249,9 +277,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             dcl_typecd: $("#dcl_typecd").val(),
             rmk: $("#rmk").val()
         };
-
         var BondInvtDtList = new Array();
-
         for (var i = 1; i <= $(".listCount").length; i++) {
             var body_id = $("#body_id_" + i).val();
             var body_head_etps_inner_invt_no = $("#body_etpsInnerInvtNo_" + i).val();
@@ -285,13 +311,41 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             };
             BondInvtDtList.push(BondInvtDt);
         }
-
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             BondInvtDtList: BondInvtDtList
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             debugger;
+            if (rsp.data.result) {
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
+                setTimeout(function () {
+                    sw.alert(rsp.data.msg, "提示", null, "modal-info");
+                }, 500);
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].callBackQuery();
+            } else {
+                hasError(rsp.data.msg);
+            }
+        }, function (status, err, xhr) {
+            hasError(xhr.data);
+        });
+    },
+
+    // 保存清单编辑信息
+    updateExitInventoryInfo: function () {
+        if (!this.valiFieldExitInventory()) {
+            return;
+        }
+        var BondInvtDtList = new Array();
+        for (var key in listChangeKeyValsEInven) {
+            BondInvtDtList.push(listChangeKeyValsEInven[key]);
+        }
+
+        var entryData = {
+            BondInvtBsc: headChangeKeyValEInven,
+            BondInvtDtList: BondInvtDtList
+        };
+        sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
                 sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
                 setTimeout(function () {
@@ -316,9 +370,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
         //从路径上找参数
         var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
-        var invtNo = param.submitKeys;
+        var dataInfo = param.submitKeys;
         var data = {
-            invtNo: invtNo
+            dataInfo: dataInfo
         };
 
         if (mark == "crt") {
@@ -328,12 +382,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 data: data,
                 success: function (data, status, xhr) {
                     if (xhr.status == 200) {
-                        debugger;
                         var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
 
                         var entryHead = data.data.bondInvtBsc;
                         var entryLists = data.data.bondInvtDtList;
-                        // var vertify = data.data.verify;
 
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillNewBondInvtBsc(entryHead);
@@ -341,13 +393,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         if (isNotEmpty(entryLists)) {
                             entryModule.fillNewBondInvtDtList(entryLists);
                         }
-                        // 根据错误字段中的值加高亮显示
-                        if (entryModule.detailParam.isShowError) {
-                            entryModule.errorMessageShow(vertify);
-                        }
-                        headChangeKeyValEInven["entryhead_guid"] = param.guid;
+                        // headChangeKeyValEInven["entryhead_guid"] = param.submitKeys;
                         // 添加输入框内容变更事件，捕获数据变更信息
-                        inputChangeEInvent(param.guid);
+                        // inputChangeEInvent(param.guid);
                         entryModule.disabledFieldInput();
                     }
                 }
@@ -355,30 +403,25 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         } else if (mark == "upd") {
             $.ajax({
                 method: "GET",
-                url: "api/bondediexit/seeOrderDetail",
+                url: "api/bondediexit/exitinventory",
                 data: data,
                 success: function (data, status, xhr) {
                     if (xhr.status == 200) {
                         var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
 
-                        var entryHead = data.data.impInventoryHead;
-                        var entryLists = data.data.impInventoryBodies;
-                        var vertify = data.data.verify;
+                        var entryHead = data.data.bondInvtBsc;
+                        var entryLists = data.data.bondInvtDtList;
 
                         if (isNotEmpty(entryHead)) {
-                            entryModule.fillEntryHeadInfo(entryHead);
+                            entryModule.fillBondInvtBsc(entryHead);
                         }
                         if (isNotEmpty(entryLists)) {
-                            entryModule.fillEntryListInfo(entryLists);
+                            entryModule.fillNewBondInvtDtList(entryLists);
                         }
-                        // 根据错误字段中的值加高亮显示
-                        if (entryModule.detailParam.isShowError) {
-                            entryModule.errorMessageShow(vertify);
-                        }
-                        debugger;
-                        headChangeKeyValEInven["entryhead_guid"] = param.guid;
+
+                        headChangeKeyValEInven["etps_inner_invt_no"] = param.submitKeys;
                         // 添加输入框内容变更事件，捕获数据变更信息
-                        inputChangeEInvent(param.guid);
+                        inputChangeEInvent(param.submitKeys);
                         entryModule.disabledFieldInput();
                     }
                 }
@@ -461,14 +504,13 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 }
             }
         }
-
         return true;
     },
 
     init: function () {
         //从路径上获取参数
         var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
-        var invtNo = param.submitKeys;
+        var dataInfo = param.submitKeys;
         var type = param.type;
         var isEdit = param.isEdit;
         var mark = param.mark;
@@ -481,8 +523,8 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         });
 
         switch (type) {
-            //订单查询
-            case "CQHZQDCX": {
+            //出区核注清单查询
+            case "CQHZQDCJ": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
@@ -510,22 +552,35 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 this.detailParam.isShowError = false;
                 break;
             }
-            //逻辑校验(预留)
-            case "LJJY": {
-                // // 不可编辑状态
-                // if (isEdit == "true") {
-                //     this.detailParam.disableField = [
-                //         //当前禁用的字段,需要禁用的字段值在这里改
-                //         "bizop_etpsno",
-                //         "bizop_etps_nm"
-                //     ];
-                // }
-                // //保存的路径
-                // this.detailParam.url = "/api/bondediexit/saveLogicalDetail";
-                // //返回之后的查询路径
-                // this.detailParam.callBackUrl = "bondediexit/InventoryLogicVerify";
-                // this.detailParam.isShowError = true;
-                // break;
+            //出区核注清单修改
+            case "CQHZQDXG": {
+                debugger;
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+
+                        "body_id",
+                        "body_etps_inner_invt_no",
+                        "body_gds_seqno",
+                        "body_gds_mtno",
+                        "body_gdecd",
+                        "body_gds_nm",
+                        "body_gds_spcf_model_desc",
+                        "body_dcl_unitcd",
+                        "body_dcl_qty",
+                        "body_dcl_uprc_amt",
+                        "body_dcl_total_amt",
+                        "body_dcl_currcd",
+                        "body_usd_stat_total_amt"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondediexit/updateExitInventory";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitInventory";
+                this.detailParam.isShowError = false;
+                break;
             }
 
         } // 不可编辑状态
@@ -533,34 +588,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             this.detailParam.disableField = [
                 // "bizop_etpsno",
                 // "bizop_etps_nm",
-                // "dcl_etpsno",
-                // "dcl_etps_nm",
-                // "putrec_no",
-                // "rcvgd_etpsno",
-                // "rcvgd_etps_nm",
-                // "dcl_plc_cuscd",
-                // "impexp_markcd",
-                // "mtpck_endprd_markcd",
-                // "supv_modecd",
-                // "trsp_modecd",
-                // "dclcus_flag",
-                // "stship_trsarv_natcd",
-                // "bond_invt_typecd",
-                // "dcl_typecd",
-                // "rmk",
-                //
-                // "putrec_seqno",
-                // "gds_seqno",
-                // "gds_mtno",
-                // "gdecd",
-                // "gds_nm",
-                // "gds_spcf_model_desc",
-                // "dcl_unitcd",
-                // "dcl_qty",
-                // "dcl_uprc_amt",
-                // "dcl_total_amt",
-                // "dcl_currcd",
-                // "usd_stat_total_amt"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
@@ -569,12 +596,22 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             $("#btnDiv").removeClass("hidden");
         }
         // 查询详情
-        this.query(mark);
 
-        //点击保存(未确认数据)
-        $("#ws-page-apply").click(function () {
-            sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo();
-        });
+        if(mark == "crt"){
+            this.query(mark);
+
+            //点击保存(未确认数据)
+            $("#ws-page-apply").click(function () {
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo();
+            });
+        }else if(mark == "upd"){
+            this.query(mark);
+
+            $("#ws-page-apply").click(function () {
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].updateExitInventoryInfo();
+            });
+        }
+
         //点击取消
         $("#ws-page-back").click(function () {
             sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
