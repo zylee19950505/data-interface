@@ -139,6 +139,15 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String updateInventoryByInvtNo(String invtNo){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD");
+                WHERE(splitJointIn("INVT_NO",invtNo));
+                SET("IS_BOND_INVT_EXIT = ''");
+            }
+        }.toString();
+    }
 
     public String updateBondInvtBsc(
             @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc,

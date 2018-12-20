@@ -165,6 +165,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
+        $("#invt_no").val(entryHead.invt_no);
 
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
@@ -189,6 +190,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
     // 装载表头信息
     fillNewBondInvtBsc: function (entryHead) {
+        $("#invt_no").val(entryHead.invt_no);
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -258,6 +260,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         }
         var BondInvtBsc = {
             id: $("#id").val(),
+            invt_no: $("#invt_no").val(),
             etps_inner_invt_no: $("#etps_inner_invt_no").val(),
             bizop_etpsno: $("#bizop_etpsno").val(),
             bizop_etps_nm: $("#bizop_etps_nm").val(),

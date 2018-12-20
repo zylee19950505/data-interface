@@ -72,7 +72,6 @@ public class CrtExitInventoryApi extends BaseApi {
             return new ResponseData("查询跨境清单数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
-
     }
 
     /**

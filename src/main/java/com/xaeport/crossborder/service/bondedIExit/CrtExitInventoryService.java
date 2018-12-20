@@ -46,6 +46,7 @@ public class CrtExitInventoryService {
         bondInvtBsc.setBizop_etps_nm(paramMap.get("bizop_etps_nm"));
         bondInvtBsc.setDcl_etpsno(paramMap.get("dcl_etpsno"));
         bondInvtBsc.setDcl_etps_nm(paramMap.get("dcl_etps_nm"));
+        bondInvtBsc.setInvt_no(paramMap.get("invtNo"));
 //        bondInvtBsc.setBizop_etps_sccd(paramMap.get("ent_code"));
 //        bondInvtBsc.setDcl_etps_sccd(paramMap.get("ent_code"));
 //        bondInvtBsc.setRvsngd_etps_sccd(paramMap.get("ent_code"));
@@ -84,6 +85,8 @@ public class CrtExitInventoryService {
 
     public Map<String, String> saveBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> BondInvtDtList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
+
+        this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc);
         this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
 
         if (!CollectionUtils.isEmpty(BondInvtDtList)) {

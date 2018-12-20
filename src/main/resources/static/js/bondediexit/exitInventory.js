@@ -48,7 +48,7 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 {

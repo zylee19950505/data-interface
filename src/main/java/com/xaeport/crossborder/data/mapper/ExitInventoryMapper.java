@@ -28,6 +28,9 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteDataByCode")
     List<BondInvtBsc> queryDeleteDataByCode(Map<String, String> paramMap);
 
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateInventoryByInvtNo")
+    void updateInventoryByInvtNo(String invtNo);
+
     @Delete("DELETE FROM T_BOND_INVT_DT WHERE HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
     void deleteBondInvtDtByNo(String etpsInnerInvtNo);
 

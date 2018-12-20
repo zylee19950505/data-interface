@@ -37,6 +37,9 @@ public interface CrtExitInventoryMapper {
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
     List<ImpInventoryBody> queryImpInventoryBodyList(String dataList) throws Exception;
 
+    @UpdateProvider(type = CrtExitInventorySQLProvider.class, method = "updateInventoryDataByBondInvt")
+    void updateInventoryDataByBondInvt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc);
+
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtBsc")
     void saveBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 

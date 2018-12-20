@@ -73,6 +73,7 @@ public class BondInvtBsc {
     private String crt_ent_id;
     private String crt_ent_name;
     private String flag;
+    private String invt_no;
 
     public String getId() {
         return id;
@@ -576,5 +577,13 @@ public class BondInvtBsc {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public String getInvt_no() {
+        return invt_no;
+    }
+
+    public void setInvt_no(String invt_no) {
+        this.invt_no = invt_no;
     }
 }

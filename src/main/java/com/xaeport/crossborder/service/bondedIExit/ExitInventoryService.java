@@ -54,8 +54,11 @@ public class ExitInventoryService {
             bondInvtBscList = this.exitInventoryMapper.queryDeleteDataByCode(paramMap);
             if (CollectionUtils.isEmpty(bondInvtBscList)) return;
             String etpsInnerInvtNo;
+            String invtNo;
             for (int i = 0; i < bondInvtBscList.size(); i++) {
                 etpsInnerInvtNo = bondInvtBscList.get(i).getEtps_inner_invt_no();
+                invtNo = bondInvtBscList.get(i).getInvt_no();
+                this.exitInventoryMapper.updateInventoryByInvtNo(invtNo);
                 this.exitInventoryMapper.deleteBondInvtDtByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteBondInvtBscByNo(etpsInnerInvtNo);
             }

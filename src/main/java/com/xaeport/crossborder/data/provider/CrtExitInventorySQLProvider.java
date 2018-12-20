@@ -63,6 +63,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider{
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -93,11 +94,26 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider{
         }.toString();
     }
 
+    public String updateInventoryDataByBondInvt(
+            @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc
+    ){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD");
+                WHERE(splitJointIn("INVT_NO",BondInvtBsc.get("invt_no")));
+                SET("IS_BOND_INVT_EXIT = 'Y'");
+            }
+        }.toString();
+    }
+
     public String saveBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo){
         return new SQL(){
             {
                 INSERT_INTO("T_BOND_INVT_BSC");
                 VALUES("flag","'EXIT'");
+                if(!StringUtils.isEmpty(BondInvtBsc.get("invt_no"))){
+                    VALUES("invt_no","#{BondInvtBsc.invt_no}");
+                }
                 if(!StringUtils.isEmpty(BondInvtBsc.get("id"))){
                     VALUES("id","#{BondInvtBsc.id}");
                 }
