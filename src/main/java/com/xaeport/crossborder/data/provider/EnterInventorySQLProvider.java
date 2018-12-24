@@ -166,9 +166,9 @@ public class EnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getStatus())){
                     SET("t.STATUS = #{bondInvtBsc.status}");
                 }
-                /*if (!StringUtils.isEmpty(bondInvtBsc.getFlag())){
+                if (!StringUtils.isEmpty(bondInvtBsc.getFlag())){
                     SET("t.FLAG = #{bondInvtBsc.flag}");
-                }*/
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getBizop_etpsno())){
                     SET("t.BIZOP_ETPSNO = #{bondInvtBsc.bizop_etpsno}");
                 }
