@@ -44,4 +44,6 @@ public interface UserMapper {
     @SelectProvider(type= UserSQLProvider.class,method = "changePassword")
     Integer changePassword(@Param("newPassword") String newPassword, @Param("updateTime") Date updateTime, @Param("userId") String userId);
 
+    @Select("select t.ENT_ID from T_USERS t where t.id = #{id}")
+    String getEnterpriseId(@Param("id") String id);
 }

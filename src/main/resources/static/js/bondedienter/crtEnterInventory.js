@@ -22,7 +22,7 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
         }
 
         var options = {
-            url: "/crtEnterInven/uploadFile",
+            url: "api/crtEnterInven/uploadFile",
             type: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -31,14 +31,15 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
             success: function (rsp) {
                 $.unblockUI();
                 if (rsp.status === 200) {
-                    sw.alert(rsp.data.msg, "提示", "", "modal-info");
+                    sw.alert(rsp.data.msg, "提示", function(){
+                        console.log(rsp.data.data)
+                        if (rsp.data.data != "" || rsp.data.data != null || rsp.data.data != undefined){
+                            //显示表体详情和表头信息
+                            var url = "bondedIEnter/seeEnterInventoryDetail?type=XJHFD&isEdit=true&etps_inner_invt_no=" + rsp.data.data;
+                            sw.modelPopup(url, "入区核注清单详情", false, 1000, 930);
+                        }
+                    }, "modal-info");
                     $("#import").find("input[name='file']").val("");
-
-                    if (rsp.data.data != "" || rsp.data.data != null || rsp.data.data != undefined){
-
-
-
-                    }
                 }
             },
             error: function (xhr, status, error) {
