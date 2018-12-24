@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
+import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.CrtExitInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
@@ -30,12 +31,12 @@ public interface CrtExitInventoryMapper {
     @Select("SELECT t.PORT FROM T_ENTERPRISE t WHERE t.ID = #{ent_id}")
     String queryCustomsByEndId(String ent_id);
 
-    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryGuids")
-    List<String> queryGuids(String invtNos);
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryInvtNos")
+    List<ImpInventoryHead> queryInvtNos(String invtNos);
 
-    //查询清单数据总数
-    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
-    List<ImpInventoryBody> queryImpInventoryBodyList(String dataList) throws Exception;
+//    //查询清单数据总数
+//    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
+//    List<ImpInventoryBody> queryImpInventoryBodyList(String dataList) throws Exception;
 
     @UpdateProvider(type = CrtExitInventorySQLProvider.class, method = "updateInventoryDataByBondInvt")
     void updateInventoryDataByBondInvt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc);
@@ -43,8 +44,8 @@ public interface CrtExitInventoryMapper {
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtBsc")
     void saveBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
-    @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtDt")
-    void saveBondInvtDt(@Param("BondInvtDt") LinkedHashMap<String, String> BondInvtDt, @Param("userInfo") Users userInfo);
+    @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveNemsInvtCbecBillType")
+    void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
 
 
 }

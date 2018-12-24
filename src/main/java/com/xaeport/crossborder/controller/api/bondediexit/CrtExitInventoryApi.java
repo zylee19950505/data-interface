@@ -94,20 +94,20 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("ent_code", users.getEnt_Code());
         paramMap.put("etps_inner_invt_no", users.getEnt_Customs_Code() + IdUtils.getShortUUId());
 
-        BondInvt bondInvt = new BondInvt();
+        ExitBondInvt exitBondInvt = new ExitBondInvt();
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
+        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
         try {
             //查询列表
             bondInvtBsc = this.crtExitInventoryService.queryBondInvtBsc(paramMap);
-            bondInvtDtList = this.crtExitInventoryService.queryBondInvtDtList(paramMap);
-            bondInvt.setBondInvtBsc(bondInvtBsc);
-            bondInvt.setBondInvtDtList(bondInvtDtList);
+            nemsInvtCbecBillTypeList = this.crtExitInventoryService.queryNemsInvtCbecBillTypeList(paramMap);
+            exitBondInvt.setBondInvtBsc(bondInvtBsc);
+            exitBondInvt.setNemsInvtCbecBillTypeList(nemsInvtCbecBillTypeList);
         } catch (Exception e) {
             this.logger.error("获取出区核注清单数据失败", e);
             return new ResponseData("获取出区核注清单数据错误", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(bondInvt);
+        return new ResponseData(exitBondInvt);
 
     }
 
@@ -119,14 +119,14 @@ public class CrtExitInventoryApi extends BaseApi {
         //出区核注清单表头
         LinkedHashMap<String, String> BondInvtBsc = (LinkedHashMap<String, String>) object.get("BondInvtBsc");
         //出区核注清单表体
-        ArrayList<LinkedHashMap<String, String>> BondInvtDtList = (ArrayList<LinkedHashMap<String, String>>) object.get("BondInvtDtList");
+        ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList = (ArrayList<LinkedHashMap<String, String>>) object.get("nemsInvtCbecBillTypeList");
 
         Users userInfo = this.getCurrentUsers();
 
         Map<String, String> map = new HashMap<>();
         try {
             // 保存详情信息
-            map = this.crtExitInventoryService.saveBondInvt(BondInvtBsc, BondInvtDtList, userInfo);
+            map = this.crtExitInventoryService.saveExitBondInvt(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo);
         } catch (Exception e) {
             logger.error("保存核放单信息时发生异常", e);
             map.put("result", "false");

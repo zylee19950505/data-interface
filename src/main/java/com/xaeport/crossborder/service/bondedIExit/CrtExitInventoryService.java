@@ -33,7 +33,7 @@ public class CrtExitInventoryService {
         return this.crtExitInventoryMapper.queryCrtEInventoryCount(paramMap);
     }
 
-    public String queryCustomsByEndId(String ent_id){
+    public String queryCustomsByEndId(String ent_id) {
         return this.crtExitInventoryMapper.queryCustomsByEndId(ent_id);
     }
 
@@ -56,44 +56,35 @@ public class CrtExitInventoryService {
     }
 
     //查表体
-    public List<BondInvtDt> queryBondInvtDtList(Map<String, String> paramMap) throws Exception {
-        List<String> list = this.crtExitInventoryMapper.queryGuids(paramMap.get("invtNo"));
-        String dataList = list.stream().collect(Collectors.joining(","));
-        List<ImpInventoryBody> impInventoryBodyList = this.crtExitInventoryMapper.queryImpInventoryBodyList(dataList);
-        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
-        BondInvtDt bondInvtDt;
-        for (int i = 0; i < impInventoryBodyList.size(); i++) {
-            bondInvtDt = new BondInvtDt();
-            bondInvtDt.setId(IdUtils.getUUId());
-            bondInvtDt.setHead_etps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
-            bondInvtDt.setGds_seqno(i + 1);
-            bondInvtDt.setPutrec_seqno(i + 1);
-            bondInvtDt.setGds_mtno("456");
-            bondInvtDt.setGdecd(impInventoryBodyList.get(i).getG_code());
-            bondInvtDt.setGds_nm(impInventoryBodyList.get(i).getG_name());
-            bondInvtDt.setDcl_unitcd(impInventoryBodyList.get(i).getUnit());
-            bondInvtDt.setDcl_qty(impInventoryBodyList.get(i).getQty());
-            bondInvtDt.setDcl_uprc_amt(impInventoryBodyList.get(i).getPrice());
-            bondInvtDt.setDcl_total_amt(impInventoryBodyList.get(i).getTotal_price());
-            bondInvtDt.setDcl_currcd(impInventoryBodyList.get(i).getCurrency());
-            bondInvtDt.setGds_spcf_model_desc(impInventoryBodyList.get(i).getG_model());
-            bondInvtDt.setUsd_stat_total_amt("6.8962");
-            bondInvtDtList.add(bondInvtDt);
+    public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
+        String InvtNos = paramMap.get("invtNo");
+        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(InvtNos);
+        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
+        NemsInvtCbecBillType nemsInvtCbecBillType;
+        for (int i = 0; i < impInventoryHeadList.size(); i++) {
+            nemsInvtCbecBillType = new NemsInvtCbecBillType();
+            nemsInvtCbecBillType.setId(IdUtils.getUUId());
+            nemsInvtCbecBillType.setNo(i + 1);
+            nemsInvtCbecBillType.setSeq_no("");
+            nemsInvtCbecBillType.setBond_invt_no("");
+            nemsInvtCbecBillType.setCbec_bill_no(impInventoryHeadList.get(i).getInvt_no());
+            nemsInvtCbecBillType.setHead_etps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
+            nemsInvtCbecBillTypeList.add(nemsInvtCbecBillType);
         }
-        return bondInvtDtList;
+        return nemsInvtCbecBillTypeList;
     }
 
-    public Map<String, String> saveBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> BondInvtDtList, Users userInfo) {
+    public Map<String, String> saveExitBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
 
         this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc);
         this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
 
-        if (!CollectionUtils.isEmpty(BondInvtDtList)) {
+        if (!CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
             // 更新表体数据
-            for (LinkedHashMap<String, String> BondInvtDt : BondInvtDtList) {
-                if (!CollectionUtils.isEmpty(BondInvtDt)) {
-                    this.crtExitInventoryMapper.saveBondInvtDt(BondInvtDt, userInfo);
+            for (LinkedHashMap<String, String> nemsInvtCbecBillType : nemsInvtCbecBillTypeList) {
+                if (!CollectionUtils.isEmpty(nemsInvtCbecBillType)) {
+                    this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
                 }
             }
         }

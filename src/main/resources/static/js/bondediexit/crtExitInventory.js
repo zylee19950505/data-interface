@@ -67,7 +67,6 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
         });
     },
 
-    // 提交海关
     crtExitInventoryData: function () {
         var submitKeys = "";
         $(".submitKey:checked").each(function () {

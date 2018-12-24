@@ -2,7 +2,6 @@
 sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exitInventory"] || {
 
     query: function () {
-        debugger;
         // 获取查询表单参数
         var entry_dcl_time = $("[name='entry_dcl_time']").val();
         var status = $("[name='status']").val();

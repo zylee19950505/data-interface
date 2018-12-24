@@ -127,13 +127,13 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryBondInvtDtList(Map<String, String> paramMap) {
+    public String queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) {
 
         final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
         return new SQL() {
             {
                 SELECT("*");
-                FROM("T_BOND_INVT_DT");
+                FROM("T_NEMS_INVT_CBEC_BILL_TYPE");
                 WHERE("HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
             }
         }.toString();
@@ -225,47 +225,23 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateBondInvtDt(
-            @Param("BondInvtDt") LinkedHashMap<String, String> BondInvtDt,
+    public String updateNemsInvtCbecBillType(
+            @Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType,
             @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
-                UPDATE("T_BOND_INVT_DT");
-                WHERE("HEAD_ETPS_INNER_INVT_NO = #{BondInvtDt.etps_inner_invt_no}");
-                WHERE("GDS_SEQNO = #{BondInvtDt.body_gds_seqno}");
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_putrec_seqno"))){
-                    SET("PUTREC_SEQNO = #{BondInvtDt.body_putrec_seqno}");
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{nemsInvtCbecBillType.head_etps_inner_invt_no}");
+                WHERE("NO = #{nemsInvtCbecBillType.body_no}");
+                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_seqNo"))){
+                    SET("SEQ_NO = #{nemsInvtCbecBillType.body_seqNo}");
                 }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_gds_mtno"))){
-                    SET("GDS_MTNO = #{BondInvtDt.body_gds_mtno}");
+                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_bondInvtNo"))){
+                    SET("BOND_INVT_NO = #{nemsInvtCbecBillType.body_bondInvtNo}");
                 }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_gdecd"))){
-                    SET("GDECD = #{BondInvtDt.body_gdecd}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_gds_nm"))){
-                    SET("GDS_NM = #{BondInvtDt.body_gds_nm}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_gds_spcf_model_desc"))){
-                    SET("GDS_SPCF_MODEL_DESC = #{BondInvtDt.body_gds_spcf_model_desc}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_dcl_unitcd"))){
-                    SET("DCL_UNITCD = #{BondInvtDt.body_dcl_unitcd}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_dcl_qty"))){
-                    SET("DCL_QTY = #{BondInvtDt.body_dcl_qty}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_dcl_uprc_amt"))){
-                    SET("DCL_UPRC_AMT = #{BondInvtDt.body_dcl_uprc_amt}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_dcl_total_amt"))){
-                    SET("DCL_TOTAL_AMT = #{BondInvtDt.body_dcl_total_amt}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_dcl_currcd"))){
-                    SET("DCL_CURRCD = #{BondInvtDt.body_dcl_currcd}");
-                }
-                if(!StringUtils.isEmpty(BondInvtDt.get("body_usd_stat_total_amt"))){
-                    SET("USD_STAT_TOTAL_AMT = #{BondInvtDt.body_usd_stat_total_amt}");
+                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_cbecBillNo"))){
+                    SET("CBEC_BILL_NO = #{nemsInvtCbecBillType.body_cbecBillNo}");
                 }
                 if(!StringUtils.isEmpty(userInfo.getId())){
                     SET("UPD_TIME = sysdate");
@@ -277,7 +253,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateBondInvtBscByInvtDt(
+    public String updateBondInvtBscByList(
             @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc,
             @Param("userInfo") Users userInfo
     ) {

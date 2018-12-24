@@ -1,3 +1,68 @@
+<!--<script type="text/javascript" src="bootstrap-table.js"></script>-->
+<!--<script rel="stylesheet" href="bootstrap-table.css"></script>-->
+<!--<script>-->
+
+    <!--goPage(1, 6);-->
+
+    <!--function goPage(pno, psize) {-->
+        <!--var itable = document.getElementById("table_body_result");//通过ID找到表格-->
+        <!--var num = itable.rows.length;//表格所有行数(所有记录数)-->
+        <!--var totalPage = 0;//总页数-->
+        <!--var pageSize = psize;//每页显示行数-->
+        <!--//总共分几页-->
+        <!--if (num / pageSize > parseInt(num / pageSize)) {-->
+            <!--totalPage = parseInt(num / pageSize) + 1;-->
+        <!--} else {-->
+            <!--totalPage = parseInt(num / pageSize);-->
+        <!--}-->
+        <!--var currentPage = pno;//当前页数-->
+        <!--var startRow = (currentPage - 1) * pageSize + 1;//开始显示的行  1-->
+        <!--var endRow = currentPage * pageSize;//结束显示的行   15-->
+        <!--endRow = (endRow > num) ? num : endRow;-->
+        <!--//遍历显示数据实现分页-->
+        <!--for (var i = 1; i < (num + 1); i++) {-->
+            <!--var irow = itable.rows[i - 1];-->
+            <!--if (i >= startRow && i <= endRow) {-->
+                <!--irow.className = "show-list";-->
+            <!--} else {-->
+                <!--irow.className = "show-list tr_hide";-->
+            <!--}-->
+        <!--}-->
+        <!--var tempStr = "";-->
+        <!--if (currentPage > 1) {-->
+            <!--tempStr += "<li class='prev'><a href='javascript:void(0)' onClick=\"goPage(" + (currentPage - 1) + "," + psize + ")\"><<&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><li>";-->
+            <!--for (var j = 1; j <= totalPage; j++) {-->
+                <!--if (currentPage == j) {-->
+                    <!--tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";-->
+                <!--} else {-->
+                    <!--tempStr += "<li><a href='javascript:void(0)' onClick=\"goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";-->
+                <!--}-->
+
+            <!--}-->
+        <!--} else {-->
+            <!--tempStr += "<<&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";-->
+            <!--for (var j = 1; j <= totalPage; j++) {-->
+                <!--if (currentPage == j) {-->
+                    <!--tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";-->
+                <!--} else {-->
+                    <!--tempStr += "<li><a href='javascript:void(0)' onClick=\"goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";-->
+                <!--}-->
+
+            <!--}-->
+        <!--}-->
+        <!--if (currentPage < totalPage) {-->
+            <!--tempStr += "<li class='next'><a href='javascript:void(0)' onClick=\"goPage(" + (currentPage + 1) + "," + psize + ")\">>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><li>";-->
+            <!--for (var j = 1; j <= totalPage; j++) {-->
+            <!--}-->
+        <!--} else {-->
+            <!--tempStr += "  >>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";-->
+            <!--for (var j = 1; j <= totalPage; j++) {-->
+            <!--}-->
+        <!--}-->
+        <!--document.getElementById("barcon").innerHTML = tempStr;-->
+    <!--}-->
+<!--</script>-->
+
 <div class="detailPage">
     <div class="entryTitle">
         <span>出区核注清单表头信息</span>
@@ -54,13 +119,13 @@
             <td class="headTitle">进出口标记代码</td>
             <td>
                 <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
-                    <option value="E" selected = "selected" >出口（E）</option>
+                    <option value="E" selected="selected">出口（E）</option>
                 </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
             <td>
                 <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
-                    <option value="I" selected = "selected" >料件（I）</option>
+                    <option value="I" selected="selected">料件（I）</option>
                 </select>
             </td>
             <td class="headTitle">监管方式代码</td>
@@ -79,13 +144,13 @@
             <td class="headTitle">是否报关标志</td>
             <td>
                 <select class="form-control input-sm" id="dclcus_flag">
-                    <option value="2" selected = "selected" >非报关（2）</option>
+                    <option value="2" selected="selected">非报关（2）</option>
                 </select>
             </td>
             <td class="headTitle">报关类型代码</td>
             <td>
                 <select class="form-control input-sm" id="dclcus_typecd" readonly="readonly">
-                    <option value="1" selected = "selected" ></option>
+                    <option value="1" selected="selected"></option>
                 </select>
             </td>
         </tr>
@@ -93,7 +158,7 @@
             <td class="headTitle">报关单类型</td>
             <td>
                 <select class="form-control input-sm" maxlength="18" id="x1" readonly="readonly">
-                    <option value="3" selected = "selected" ></option>
+                    <option value="3" selected="selected"></option>
                 </select>
             </td>
             <td class="headTitle">起运运抵国别代码</td>
@@ -103,7 +168,7 @@
             <td class="headTitle">清单类型</td>
             <td>
                 <select class="form-control input-sm" maxlength="30" id="bond_invt_typecd">
-                    <option value="8" selected = "selected" >保税电商（8）</option>
+                    <option value="8" selected="selected">保税电商（8）</option>
                 </select>
             </td>
         </tr>
@@ -111,7 +176,7 @@
             <td class="headTitle">申报类型</td>
             <td>
                 <select class="form-control input-sm" name="dcl_typecd" id="dcl_typecd">
-                    <option value="1" selected = "selected" >备案申请（1）</option>
+                    <option value="1" selected="selected">备案申请（1）</option>
                 </select>
             </td>
             <td class="headTitle">备注</td>
@@ -182,22 +247,21 @@
     </div>
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
-            <th hidden="hidden">id</th>
-            <th hidden="hidden">etps_inner_invt_no</th>
-            <th width="5%">备案序号</th>
-            <th width="3%">商品序号</th>
-            <th width="5%">商品料号</th>
-            <th>商品编码</th>
-            <th>商品名称</th>
-            <th width="5%">商品规格型号</th>
-            <th>申报计量单位</th>
-            <th width="5%">申报数量</th>
-            <th width="5%">申报单价</th>
-            <th width="5%">申报总价</th>
-            <th>币制</th>
-            <th width="5%">美元统计总金额</th>
+            <!--ID编号-->
+            <th>id</th>
+            <!--No-->
+            <th>序号</th>
+            <!--SEQ_NO-->
+            <th>预录入统一编号</th>
+            <!--BOND_INVT_NO-->
+            <th>核注清单编号</th>
+            <!--CBEC_BILL_NO-->
+            <th>电商清单编号</th>
+            <!--HEAD_ETPS_INNER_INVT_NO-->
+            <th>表头关联编号</th>
         </tr>
     </table>
+    <ul class="pagination" id="barcon" name="barcon"></ul>
     <div class="text-center">
         <small class="help-block text-red" id="errorMsg"></small>
     </div>

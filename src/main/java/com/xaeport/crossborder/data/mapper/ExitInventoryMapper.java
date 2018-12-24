@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.BondInvtDt;
+import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.ExitInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
@@ -22,8 +23,8 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryBondInvtBsc")
     BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception;
 
-    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryBondInvtDtList")
-    List<BondInvtDt> queryBondInvtDtList(Map<String, String> paramMap) throws Exception;
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryNemsInvtCbecBillTypeList")
+    List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception;
 
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteDataByCode")
     List<BondInvtBsc> queryDeleteDataByCode(Map<String, String> paramMap);
@@ -31,8 +32,8 @@ public interface ExitInventoryMapper {
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateInventoryByInvtNo")
     void updateInventoryByInvtNo(String invtNo);
 
-    @Delete("DELETE FROM T_BOND_INVT_DT WHERE HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
-    void deleteBondInvtDtByNo(String etpsInnerInvtNo);
+    @Delete("DELETE FROM T_NEMS_INVT_CBEC_BILL_TYPE WHERE HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
+    void deleteNemsInvtCbecBillTypeByNo(String etpsInnerInvtNo);
 
     @Delete("DELETE FROM T_BOND_INVT_BSC WHERE ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
     void deleteBondInvtBscByNo(String etpsInnerInvtNo);
@@ -45,11 +46,11 @@ public interface ExitInventoryMapper {
     void updateBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
     //修改清单表体信息（清单查询）
-    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtDt")
-    void updateBondInvtDt(@Param("BondInvtDt") LinkedHashMap<String, String> BondInvtDt, @Param("userInfo") Users userInfo);
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateNemsInvtCbecBillType")
+    void updateNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
 
     //修改清单表体数据（清单查询）
-    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscByInvtDt")
-    void updateBondInvtBscByInvtDt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscByList")
+    void updateBondInvtBscByList(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
 }

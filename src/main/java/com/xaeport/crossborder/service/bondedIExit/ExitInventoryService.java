@@ -4,6 +4,7 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.BondInvtDt;
+import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.ExitInventoryMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -38,8 +39,8 @@ public class ExitInventoryService {
         return this.exitInventoryMapper.queryBondInvtBsc(paramMap);
     }
 
-    public List<BondInvtDt> queryBondInvtDtList(Map<String, String> paramMap) throws Exception {
-        return this.exitInventoryMapper.queryBondInvtDtList(paramMap);
+    public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
+        return this.exitInventoryMapper.queryNemsInvtCbecBillTypeList(paramMap);
     }
 
     //删除清单逻辑校验未通过数据
@@ -59,7 +60,7 @@ public class ExitInventoryService {
                 etpsInnerInvtNo = bondInvtBscList.get(i).getEtps_inner_invt_no();
                 invtNo = bondInvtBscList.get(i).getInvt_no();
                 this.exitInventoryMapper.updateInventoryByInvtNo(invtNo);
-                this.exitInventoryMapper.deleteBondInvtDtByNo(etpsInnerInvtNo);
+                this.exitInventoryMapper.deleteNemsInvtCbecBillTypeByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteBondInvtBscByNo(etpsInnerInvtNo);
             }
         } catch (Exception e) {
@@ -84,9 +85,9 @@ public class ExitInventoryService {
     }
 
     @Transactional
-    public Map<String, String> updateExitInventory(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> BondInvtDtList, Users userInfo) {
+    public Map<String, String> updateExitInventory(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-        if (saveOrderDetail(BondInvtBsc, BondInvtDtList, userInfo, rtnMap, "出区核注清单-编辑")) return rtnMap;
+        if (saveExitBondInvt(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo, rtnMap, "出区核注清单-编辑")) return rtnMap;
 
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“出区核注清单”处重新进行申报！");
@@ -94,13 +95,13 @@ public class ExitInventoryService {
 
     }
 
-    public boolean saveOrderDetail(
+    public boolean saveExitBondInvt(
             LinkedHashMap<String, String> BondInvtBsc,
-            List<LinkedHashMap<String, String>> BondInvtDtList,
+            List<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList,
             Users userInfo,
             Map<String, String> rtnMap, String notes
     ) {
-        if ((CollectionUtils.isEmpty(BondInvtBsc) && BondInvtBsc.size() < 1) && CollectionUtils.isEmpty(BondInvtDtList)) {
+        if ((CollectionUtils.isEmpty(BondInvtBsc) && BondInvtBsc.size() < 1) && CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");
             return true;
@@ -110,14 +111,14 @@ public class ExitInventoryService {
             // 更新表头数据
             this.exitInventoryMapper.updateBondInvtBsc(BondInvtBsc,userInfo);
         }
-        if (!CollectionUtils.isEmpty(BondInvtDtList)) {
+        if (!CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
             // 更新表体数据
-            for (LinkedHashMap<String, String> BondInvtDt : BondInvtDtList) {
-                if (!CollectionUtils.isEmpty(BondInvtDt) && BondInvtDt.size() > 2) {
-                    exitInventoryMapper.updateBondInvtDt(BondInvtDt,userInfo);
+            for (LinkedHashMap<String, String> nemsInvtCbecBillType : nemsInvtCbecBillTypeList) {
+                if (!CollectionUtils.isEmpty(nemsInvtCbecBillType) && nemsInvtCbecBillType.size() > 2) {
+                    exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType,userInfo);
                 }
             }
-            this.exitInventoryMapper.updateBondInvtBscByInvtDt(BondInvtBsc,userInfo);
+            this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc,userInfo);
         }
         return false;
     }
