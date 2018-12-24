@@ -45,6 +45,7 @@ public class BondInvtDt {
     private String crt_user;//创建人
     private Date upd_time;//更新时间
     private String upd_user;//更新人
+    private String head_etps_inner_invt_no;//表头唯一关联码
 
     public String getHead_etps_inner_invt_no() {
         return head_etps_inner_invt_no;
@@ -348,5 +349,13 @@ public class BondInvtDt {
 
     public void setUpd_user(String upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public String getHead_etps_inner_invt_no() {
+        return head_etps_inner_invt_no;
+    }
+
+    public void setHead_etps_inner_invt_no(String head_etps_inner_invt_no) {
+        this.head_etps_inner_invt_no = head_etps_inner_invt_no;
     }
 }

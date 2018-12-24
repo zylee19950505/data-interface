@@ -41,7 +41,7 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 {
@@ -67,7 +67,6 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
         });
     },
 
-    // 提交海关
     crtExitInventoryData: function () {
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
@@ -87,7 +86,7 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
     },
 
     seeExitInventoryDetail: function (submitKeys) {
-        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCX&isEdit=true&mark=crt&submitKeys=" + submitKeys;
+        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCJ&isEdit=true&mark=crt&submitKeys=" + submitKeys;
         sw.modelPopup(url, "新建出区核注清单信息", false, 1000, 700);
     },
 

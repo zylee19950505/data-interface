@@ -93,5 +93,27 @@ public class StatusCode {
 	public final static String FX = "800";//放行
 	public final static String JG = "899";//结关
 
+	public final static String RQHZQDDSB = "BDDS1";//入区核注清单待申报
+	public final static String RQHZQDSBZ = "BDDS10";//入区核注清单申报中
+	public final static String RQHZQDYSB = "BDDS11";//入区核注清单已申报
+	public final static String RQHZQDSBCG = "BDDS12";//入区核注清单申报成功
+
+	public final static String RQHFDDSB = "BDDS3";//入区核放单待申报
+	public final static String RQHFDSBZ = "BDDS30";//入区核放单申报中
+	public final static String RQHFDYSB = "BDDS31";//入区核放单已申报
+	public final static String RQHFDSBCG = "BDDS32";//入区核放单申报成功
+
+	public final static String CQHZQDDSB = "BDDS2";//出区核注清单待申报
+	public final static String CQHZQDSBZ = "BDDS20";//出区核注清单申报中
+	public final static String CQHZQDYSB = "BDDS21";//出区核注清单已申报
+	public final static String CQHZQDSBCG = "BDDS22";//出区核注清单申报成功
+
+	public final static String CQHFDDSB = "BDDS4";//出区核放单待申报
+	public final static String CQHFDSBZ = "BDDS40";//出区核放单申报中
+	public final static String CQHFDYSB = "BDDS41";//出区核放单已申报
+	public final static String CQHFDSBCG = "BDDS42";//出区核放单申报成功
+
+
+
 
 }

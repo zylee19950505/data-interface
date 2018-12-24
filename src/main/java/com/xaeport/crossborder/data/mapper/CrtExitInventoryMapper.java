@@ -2,11 +2,10 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
+import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.CrtExitInventorySQLProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,21 +22,30 @@ public interface CrtExitInventoryMapper {
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryCrtEInventoryCount")
     Integer queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception;
 
+    @Select("SELECT t.MASTER_CUSCD FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id}")
+    String queryDcl_plc_cuscd(String ent_id);
+
     @Select("SELECT t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id}")
     String queryBws_no(String ent_id);
 
-    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryGuids")
-    List<String> queryGuids(String invtNos);
+    @Select("SELECT t.PORT FROM T_ENTERPRISE t WHERE t.ID = #{ent_id}")
+    String queryCustomsByEndId(String ent_id);
 
-    //查询清单数据总数
-    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
-    List<ImpInventoryBody> queryImpInventoryBodyList(String dataList) throws Exception;
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryInvtNos")
+    List<ImpInventoryHead> queryInvtNos(String invtNos);
+
+//    //查询清单数据总数
+//    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
+//    List<ImpInventoryBody> queryImpInventoryBodyList(String dataList) throws Exception;
+
+    @UpdateProvider(type = CrtExitInventorySQLProvider.class, method = "updateInventoryDataByBondInvt")
+    void updateInventoryDataByBondInvt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc);
 
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtBsc")
-    void saveBondInvtBsc(LinkedHashMap<String, String> BondInvtBsc);
+    void saveBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
-    @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtDt")
-    void saveBondInvtDt(LinkedHashMap<String, String> BondInvtDt);
+    @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveNemsInvtCbecBillType")
+    void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
 
 
 }
