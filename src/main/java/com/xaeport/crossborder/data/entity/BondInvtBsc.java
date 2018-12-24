@@ -6,7 +6,7 @@ public class BondInvtBsc {
 
     private String id;//ID
     private String bond_invt_no;//保税清单编号 QD+4位主管海关+2位年份+1位进出口标志+9位流水号,首次备案填写清单预录入编号
-    private String chg_tms_cnt;//变更次数 首次备案时为0
+    private int chg_tms_cnt;//变更次数 首次备案时为0
     private String invt_preent_no;//清单预录入编号 企业端生成的清单预录入号
     private String putrec_no;//备案编号 清单对应电子账册号或手册等
     private String etps_inner_invt_no;//企业内部清单编号 由企业自行编写，必须保证每份清单具有唯一编号
@@ -91,11 +91,11 @@ public class BondInvtBsc {
         this.bond_invt_no = bond_invt_no;
     }
 
-    public String getChg_tms_cnt() {
+    public int getChg_tms_cnt() {
         return chg_tms_cnt;
     }
 
-    public void setChg_tms_cnt(String chg_tms_cnt) {
+    public void setChg_tms_cnt(int chg_tms_cnt) {
         this.chg_tms_cnt = chg_tms_cnt;
     }
 

@@ -9,6 +9,7 @@ public class BondInvtDt {
     private String chg_tms_cnt;//变更次数
     private int gds_seqno;//商品序号
     private int putrec_seqno;//备案序号
+    private String head_etps_inner_invt_no;//备案序号
     private String gds_mtno;//商品料号
     private String gdecd;//商品编码
     private String gds_nm;//商品名称
@@ -45,6 +46,14 @@ public class BondInvtDt {
     private Date upd_time;//更新时间
     private String upd_user;//更新人
     private String head_etps_inner_invt_no;//表头唯一关联码
+
+    public String getHead_etps_inner_invt_no() {
+        return head_etps_inner_invt_no;
+    }
+
+    public void setHead_etps_inner_invt_no(String head_etps_inner_invt_no) {
+        this.head_etps_inner_invt_no = head_etps_inner_invt_no;
+    }
 
     public String getId() {
         return id;
