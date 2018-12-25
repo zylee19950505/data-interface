@@ -12,6 +12,8 @@ public class PassPortAcmp {
     private String crt_user;
     private Date upd_time;
     private String upd_user;
+    private String head_etps_preent_no;
+    private int no;
 
     public String getId() {
         return id;
@@ -75,5 +77,21 @@ public class PassPortAcmp {
 
     public void setUpd_user(String upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public String getHead_etps_preent_no() {
+        return head_etps_preent_no;
+    }
+
+    public void setHead_etps_preent_no(String head_etps_preent_no) {
+        this.head_etps_preent_no = head_etps_preent_no;
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 }

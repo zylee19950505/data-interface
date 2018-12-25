@@ -108,9 +108,9 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
             {
                 INSERT_INTO("T_BOND_INVT_BSC");
                 VALUES("flag", "'EXIT'");
-                if (!StringUtils.isEmpty(BondInvtBsc.get("invt_no"))) {
-                    VALUES("invt_no", "#{BondInvtBsc.invt_no}");
-                }
+//                if (!StringUtils.isEmpty(BondInvtBsc.get("invt_no"))) {
+//                    VALUES("invt_no", "#{BondInvtBsc.invt_no}");
+//                }
                 if (!StringUtils.isEmpty(BondInvtBsc.get("id"))) {
                     VALUES("id", "#{BondInvtBsc.id}");
                 }

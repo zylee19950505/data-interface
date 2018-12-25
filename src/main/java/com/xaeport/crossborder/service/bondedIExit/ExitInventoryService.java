@@ -51,15 +51,20 @@ public class ExitInventoryService {
         paramMap.put("entId", entId);
         paramMap.put("status", StatusCode.CQHZQDDSB);
         List<BondInvtBsc> bondInvtBscList;
+        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
         try {
-            bondInvtBscList = this.exitInventoryMapper.queryDeleteDataByCode(paramMap);
+            bondInvtBscList = this.exitInventoryMapper.queryDeleteHeadByCode(paramMap);
+            nemsInvtCbecBillTypeList = this.exitInventoryMapper.queryDeleteListByCode(paramMap);
             if (CollectionUtils.isEmpty(bondInvtBscList)) return;
+            if (CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) return;
             String etpsInnerInvtNo;
             String invtNo;
+            for (int i = 0; i < nemsInvtCbecBillTypeList.size(); i++) {
+                invtNo = nemsInvtCbecBillTypeList.get(i).getCbec_bill_no();
+                this.exitInventoryMapper.updateInventoryByInvtNo(invtNo);
+            }
             for (int i = 0; i < bondInvtBscList.size(); i++) {
                 etpsInnerInvtNo = bondInvtBscList.get(i).getEtps_inner_invt_no();
-                invtNo = bondInvtBscList.get(i).getInvt_no();
-                this.exitInventoryMapper.updateInventoryByInvtNo(invtNo);
                 this.exitInventoryMapper.deleteNemsInvtCbecBillTypeByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteBondInvtBscByNo(etpsInnerInvtNo);
             }

@@ -177,7 +177,7 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
 
     seeExitInventoryInfo: function (etpsInnerInvtNo) {
         var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDXG&isEdit=true&mark=upd&submitKeys=" + etpsInnerInvtNo;
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
+        sw.modelPopup(url, "查看出区核注清单详情", false, 1100, 930);
     }
 
     // seeInventoryRec: function (guid, data_status) {

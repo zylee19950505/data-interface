@@ -54,6 +54,16 @@ public class PassPortHead {
     private Date upd_time;
     private String upd_user;
 
+    private String etps_preent_no;
+    private String dcl_etpsno;
+    private String dcl_etps_nm;
+    private String input_code;
+    private String input_name;
+    private String areain_oriact_no;
+    private String crt_ent_id;
+    private String crt_ent_name;
+    private String bond_invt_no;
+
     public String getId() {
         return id;
     }
@@ -412,5 +422,77 @@ public class PassPortHead {
 
     public void setUpd_user(String upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public String getEtps_preent_no() {
+        return etps_preent_no;
+    }
+
+    public void setEtps_preent_no(String etps_preent_no) {
+        this.etps_preent_no = etps_preent_no;
+    }
+
+    public String getDcl_etpsno() {
+        return dcl_etpsno;
+    }
+
+    public void setDcl_etpsno(String dcl_etpsno) {
+        this.dcl_etpsno = dcl_etpsno;
+    }
+
+    public String getDcl_etps_nm() {
+        return dcl_etps_nm;
+    }
+
+    public void setDcl_etps_nm(String dcl_etps_nm) {
+        this.dcl_etps_nm = dcl_etps_nm;
+    }
+
+    public String getInput_code() {
+        return input_code;
+    }
+
+    public void setInput_code(String input_code) {
+        this.input_code = input_code;
+    }
+
+    public String getInput_name() {
+        return input_name;
+    }
+
+    public void setInput_name(String input_name) {
+        this.input_name = input_name;
+    }
+
+    public String getAreain_oriact_no() {
+        return areain_oriact_no;
+    }
+
+    public void setAreain_oriact_no(String areain_oriact_no) {
+        this.areain_oriact_no = areain_oriact_no;
+    }
+
+    public String getCrt_ent_id() {
+        return crt_ent_id;
+    }
+
+    public void setCrt_ent_id(String crt_ent_id) {
+        this.crt_ent_id = crt_ent_id;
+    }
+
+    public String getCrt_ent_name() {
+        return crt_ent_name;
+    }
+
+    public void setCrt_ent_name(String crt_ent_name) {
+        this.crt_ent_name = crt_ent_name;
+    }
+
+    public String getBond_invt_no() {
+        return bond_invt_no;
+    }
+
+    public void setBond_invt_no(String bond_invt_no) {
+        this.bond_invt_no = bond_invt_no;
     }
 }

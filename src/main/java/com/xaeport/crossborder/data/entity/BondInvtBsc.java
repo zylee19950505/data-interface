@@ -74,6 +74,15 @@ public class BondInvtBsc {
     private String crt_ent_name;
     private String flag;
     private String invt_no;
+    private String sum;
+
+    public String getSum() {
+        return sum;
+    }
+
+    public void setSum(String sum) {
+        this.sum = sum;
+    }
 
     public String getId() {
         return id;

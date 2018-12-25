@@ -587,12 +587,34 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 this.detailParam.isShowError = false;
                 break;
             }
-
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-                // "bizop_etpsno",
-                // "bizop_etps_nm",
+                "bizop_etpsno",
+                "bizop_etps_nm",
+                "dcl_etpsno",
+                "dcl_etps_nm",
+                "putrec_no",
+                "rcvgd_etpsno",
+                "rcvgd_etps_nm",
+                "dcl_plc_cuscd",
+                "impexp_markcd",
+                "mtpck_endprd_markcd",
+                "supv_modecd",
+                "trsp_modecd",
+                "dclcus_flag",
+                "stship_trsarv_natcd",
+                "bond_invt_typecd",
+                "dcl_typecd",
+                "rmk",
+                "etps_inner_invt_no",
+
+                "body_id",
+                "body_no",
+                "body_seqNo",
+                "body_bondInvtNo",
+                "body_cbecBillNo",
+                "body_etpsInnerInvtNo"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");

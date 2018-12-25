@@ -139,11 +139,11 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateInventoryByInvtNo(String invtNo){
-        return new SQL(){
+    public String updateInventoryByInvtNo(String invtNo) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD");
-                WHERE(splitJointIn("INVT_NO",invtNo));
+                WHERE(splitJointIn("INVT_NO", invtNo));
                 SET("IS_BOND_INVT_EXIT = ''");
             }
         }.toString();
@@ -158,67 +158,67 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 UPDATE("T_BOND_INVT_BSC");
                 WHERE("ETPS_INNER_INVT_NO = #{BondInvtBsc.etps_inner_invt_no}");
                 SET("STATUS = 'BDDS2'");
-                if(!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_no"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_no"))) {
                     SET("BOND_INVT_NO = #{BondInvtBsc.bond_invt_no}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("invt_preent_no"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("invt_preent_no"))) {
                     SET("INVT_PREENT_NO = #{BondInvtBsc.invt_preent_no}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("putrec_no"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("putrec_no"))) {
                     SET("PUTREC_NO = #{BondInvtBsc.putrec_no}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("bizop_etpsno"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bizop_etpsno"))) {
                     SET("BIZOP_ETPSNO = #{BondInvtBsc.bizop_etpsno}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("bizop_etps_nm"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bizop_etps_nm"))) {
                     SET("BIZOP_ETPS_NM = #{BondInvtBsc.bizop_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("dcl_etpsno"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_etpsno"))) {
                     SET("DCL_ETPSNO = #{BondInvtBsc.dcl_etpsno}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("dcl_etps_nm"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_etps_nm"))) {
                     SET("DCL_ETPS_NM = #{BondInvtBsc.dcl_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etpsno"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etpsno"))) {
                     SET("RCVGD_ETPSNO = #{BondInvtBsc.rcvgd_etpsno}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etps_nm"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etps_nm"))) {
                     SET("RCVGD_ETPS_NM = #{BondInvtBsc.rcvgd_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("dcl_plc_cuscd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_plc_cuscd"))) {
                     SET("DCL_PLC_CUSCD = #{BondInvtBsc.dcl_plc_cuscd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("impexp_markcd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("impexp_markcd"))) {
                     SET("IMPEXP_MARKCD = #{BondInvtBsc.impexp_markcd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("mtpck_endprd_markcd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("mtpck_endprd_markcd"))) {
                     SET("MTPCK_ENDPRD_MARKCD = #{BondInvtBsc.mtpck_endprd_markcd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("supv_modecd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("supv_modecd"))) {
                     SET("SUPV_MODECD = #{BondInvtBsc.supv_modecd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("trsp_modecd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("trsp_modecd"))) {
                     SET("TRSP_MODECD = #{BondInvtBsc.trsp_modecd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("dclcus_flag"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dclcus_flag"))) {
                     SET("DCLCUS_FLAG = #{BondInvtBsc.dclcus_flag}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("stship_trsarv_natcd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("stship_trsarv_natcd"))) {
                     SET("STSHIP_TRSARV_NATCD = #{BondInvtBsc.stship_trsarv_natcd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_typecd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_typecd"))) {
                     SET("BOND_INVT_TYPECD = #{BondInvtBsc.bond_invt_typecd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("dcl_typecd"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_typecd"))) {
                     SET("DCL_TYPECD = #{BondInvtBsc.dcl_typecd}");
                 }
-                if(!StringUtils.isEmpty(BondInvtBsc.get("rmk"))){
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rmk"))) {
                     SET("RMK = #{BondInvtBsc.rmk}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_TIME = sysdate");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_USER = #{userInfo.id}");
                 }
             }
@@ -234,19 +234,19 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
                 WHERE("HEAD_ETPS_INNER_INVT_NO = #{nemsInvtCbecBillType.head_etps_inner_invt_no}");
                 WHERE("NO = #{nemsInvtCbecBillType.body_no}");
-                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_seqNo"))){
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_seqNo"))) {
                     SET("SEQ_NO = #{nemsInvtCbecBillType.body_seqNo}");
                 }
-                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_bondInvtNo"))){
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_bondInvtNo"))) {
                     SET("BOND_INVT_NO = #{nemsInvtCbecBillType.body_bondInvtNo}");
                 }
-                if(!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_cbecBillNo"))){
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("body_cbecBillNo"))) {
                     SET("CBEC_BILL_NO = #{nemsInvtCbecBillType.body_cbecBillNo}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_TIME = sysdate");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_USER = #{userInfo.id}");
                 }
             }
@@ -268,20 +268,28 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryDeleteDataByCode(Map<String, String> paramMap) throws Exception {
+    public String queryDeleteHeadByCode(Map<String, String> paramMap) throws Exception {
         final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
-        final String entId = paramMap.get("entId");
-        final String status = paramMap.get("status");
         return new SQL() {
             {
                 SELECT("*");
-                FROM("T_BOND_INVT_BSC t");
+                FROM("T_BOND_INVT_BSC");
                 if (!StringUtils.isEmpty(etpsInnerInvtNo)) {
-                    String str = etpsInnerInvtNo.replace(",", "','");
-                    WHERE("t.ETPS_INNER_INVT_NO in ('" + str + "')");
+                    WHERE(splitJointIn("ETPS_INNER_INVT_NO", etpsInnerInvtNo));
                 }
-                if (!StringUtils.isEmpty(entId)) WHERE("t.CRT_ENT_ID = #{entId}");
-                if (!StringUtils.isEmpty(status)) WHERE("t.STATUS = #{status}");
+            }
+        }.toString();
+    }
+
+    public String queryDeleteListByCode(Map<String, String> paramMap) throws Exception {
+        final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(etpsInnerInvtNo)) {
+                    WHERE(splitJointIn("HEAD_ETPS_INNER_INVT_NO", etpsInnerInvtNo));
+                }
             }
         }.toString();
     }

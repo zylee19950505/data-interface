@@ -26,8 +26,11 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryNemsInvtCbecBillTypeList")
     List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception;
 
-    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteDataByCode")
-    List<BondInvtBsc> queryDeleteDataByCode(Map<String, String> paramMap);
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteHeadByCode")
+    List<BondInvtBsc> queryDeleteHeadByCode(Map<String, String> paramMap);
+
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteListByCode")
+    List<NemsInvtCbecBillType> queryDeleteListByCode(Map<String, String> paramMap);
 
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateInventoryByInvtNo")
     void updateInventoryByInvtNo(String invtNo);
