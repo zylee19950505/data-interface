@@ -3,25 +3,15 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
 
     query: function () {
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
-        var orderNo = $("[name='orderNo']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
-        var preNo = $("[name='preNo']").val();
+        var dataStatus = $("[name='dataStatus']").val();
+        var recordDataStatus = $("[name='recordDataStatus']").val();
         var invtNo = $("[name='invtNo']").val();
-        var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
-            startFlightTimes: startFlightTimes,//申报开始时间
-            endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
-            orderNo: orderNo,//订单编号
-            logisticsNo: logisticsNo,//物流运单编号
-            preNo: preNo,//电子口岸标识编号
-            invtNo: invtNo,//海关清单编号
-            returnStatus: returnStatus//回执状态
+        var url = sw.serializeObjectToURL("api/crtEnterManifest/queryCrtEnterManifest", {
+            dataStatus: dataStatus,
+            recordDataStatus: recordDataStatus,
+            invtNo: invtNo//核注清单编号
         });
 
         // 数据表
@@ -78,8 +68,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -87,22 +75,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
-        $(".btn[ws-search]").click();
-    },
-
-    seeInventoryDetail: function (guid, order_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
-
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
     }
 
 };

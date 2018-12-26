@@ -405,22 +405,12 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         });
 
         switch (type) {
-            //订单查询
+            //新建
             case "XJHFD": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        // "order_no",//订单编号。
-                        // "cop_no",//企业内部编号
-                        // "logistics_no",//物流运单编号
-                        // "invt_no",//海关清单编号
-                        // "pre_no",//电子口岸标识编号
-                        // "g_num",//表体序号
-                        // "total_sum",//商品总价
-                        // "customs_tax",
-                        // "value_added_tax",
-                        // "consumption_tax"
                         "dclcus_type",
                         "invt_type",
                         "dcl_typecd",
@@ -444,6 +434,44 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 //返回之后的查询路径
                 //this.detailParam.callBackUrl = "detailmanage/detailQuery";
                 //this.detailParam.isShowError = false;
+                //点击取消
+                $("#ws-page-back").click(function () {
+                    sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
+                });
+                break;
+            }
+            case "RQHZQD": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "dclcus_type",
+                        "invt_type",
+                        "dcl_typecd",
+
+                        "putrec_seqno",
+                        "gds_seqno",
+                        "gds_mtno",
+                        "gdecd",
+                        "gds_nm",
+                        "gds_spcf_model_desc",
+                        "dcl_unitcd",
+                        "dcl_qty",
+                        "dcl_uprc_amt",
+                        "dcl_total_amt",
+                        "dcl_currcd",
+                        "usd_stat_total_amt"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/crtEnterInven/saveInventoryDetail";
+                //返回之后的查询路径
+                //this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                //this.detailParam.isShowError = false;
+                //点击取消
+                $("#ws-page-back").click(function () {
+                    sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].callBackQuery();
+                });
                 break;
             }
 
@@ -521,10 +549,10 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#ws-page-apply").click(function () {
             sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].saveEntryInfo(etps_inner_invt_no, type, sw.ie);
         });
-        //点击取消
+       /* //点击取消
         $("#ws-page-back").click(function () {
             sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
-        });
+        });*/
     },
 
 
