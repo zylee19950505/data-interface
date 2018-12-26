@@ -114,16 +114,16 @@ public class ExitInventoryService {
         String entryHeadId = BondInvtBsc.get("entryhead_guid");
         if (!CollectionUtils.isEmpty(BondInvtBsc) && BondInvtBsc.size() > 1) {
             // 更新表头数据
-            this.exitInventoryMapper.updateBondInvtBsc(BondInvtBsc,userInfo);
+            this.exitInventoryMapper.updateBondInvtBsc(BondInvtBsc, userInfo);
         }
         if (!CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
             // 更新表体数据
             for (LinkedHashMap<String, String> nemsInvtCbecBillType : nemsInvtCbecBillTypeList) {
                 if (!CollectionUtils.isEmpty(nemsInvtCbecBillType) && nemsInvtCbecBillType.size() > 2) {
-                    exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType,userInfo);
+                    exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
                 }
             }
-            this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc,userInfo);
+            this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc, userInfo);
         }
         return false;
     }

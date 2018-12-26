@@ -142,13 +142,15 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
     },
-    // 装载表头信息
-    fillNewPassPortHead: function (entryHead) {
+
+    //装在出区核放单真实数据
+    fillPassPortHead: function (entryHead) {
         $("#id").val(entryHead.id);
-        // $("#passport_no").val(entryHead.passport_no);
-        // $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
-        // $("#rlt_no").val(entryHead.rlt_no);
-        // $("#dcl_typecd").val(entryHead.dcl_typecd);
+
+        $("#passport_no").val(entryHead.passport_no);
+        $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
+        $("#dcl_typecd").val(entryHead.dcl_typecd);
+
         $("#areain_oriact_no").val(entryHead.areain_oriact_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -157,22 +159,39 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#input_name").val(entryHead.input_name);
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
-        // $("#io_typecd").val(entryHead.io_typecd);
-        // $("#vehicle_no").val(entryHead.vehicle_no);
-        // $("#vehicle_wt").val(entryHead.vehicle_wt);
-        // $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt);
-        // $("#container_type").val(entryHead.container_type);
-        // $("#container_wt").val(entryHead.container_wt);
-        // $("#total_wt").val(entryHead.total_wt);
-        // $("#passport_typecd").val(entryHead.passport_typecd);
-        // $("#bind_typecd").val(entryHead.bind_typecd);
-        // $("#areain_etpsno").val(entryHead.areain_etpsno);
-        // $("#areain_etps_nm").val(entryHead.areain_etps_nm);
-        // $("#dcl_er_conc").val(entryHead.dcl_er_conc);
-        // $("#total_gross_wt").val(entryHead.total_gross_wt);
-        // $("#total_net_wt").val(entryHead.total_net_wt);
-        // $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
-        // $("#rmk").val(entryHead.rmk);
+        $("#rlt_no").val(entryHead.rlt_no);
+
+        $("#io_typecd").val(entryHead.io_typecd);
+        $("#vehicle_no").val(entryHead.vehicle_no);
+        $("#vehicle_wt").val(entryHead.vehicle_wt);
+        $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt);
+        $("#container_type").val(entryHead.container_type);
+        $("#container_wt").val(entryHead.container_wt);
+        $("#total_wt").val(entryHead.total_wt);
+        $("#passport_typecd").val(entryHead.passport_typecd);
+        $("#bind_typecd").val(entryHead.bind_typecd);
+        $("#areain_etpsno").val(entryHead.areain_etpsno);
+        $("#areain_etps_nm").val(entryHead.areain_etps_nm);
+        $("#dcl_er_conc").val(entryHead.dcl_er_conc);
+        $("#total_gross_wt").val(entryHead.total_gross_wt);
+        $("#total_net_wt").val(entryHead.total_net_wt);
+        $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
+        $("#rmk").val(entryHead.rmk);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+    },
+
+    // 装载出区核放单新数据
+    fillNewPassPortHead: function (entryHead) {
+        $("#id").val(entryHead.id);
+        $("#areain_oriact_no").val(entryHead.areain_oriact_no);
+        $("#master_cuscd").val(entryHead.master_cuscd);
+        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
+        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
+        $("#input_code").val(entryHead.input_code);
+        $("#input_name").val(entryHead.input_name);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
+        $("#bond_invt_no").val(entryHead.bond_invt_no);
+        $("#rlt_no").val(entryHead.rlt_no);
         selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
 
@@ -210,7 +229,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
 
     // 保存订单编辑信息
     saveExitManifestInfo: function () {
-        if (!this.valiFieldInventory()) {
+        if (!this.valiFieldPassPort()) {
             return;
         }
         var passPortHead = {
@@ -284,25 +303,25 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
 
     // 保存清单编辑信息
     updateExitManifestInfo: function () {
-        if (!this.valiFieldExitInventory()) {
+        if (!this.valiFieldPassPort()) {
             return;
         }
-        var nemsInvtCbecBillTypeList = new Array();
-        for (var key in listChangeKeyValsEInven) {
-            nemsInvtCbecBillTypeList.push(listChangeKeyValsEInven[key]);
+        var passPortAcmpList = new Array();
+        for (var key in listChangeKeyValsEManifest) {
+            passPortAcmpList.push(listChangeKeyValsEManifest[key]);
         }
 
         var entryData = {
-            BondInvtBsc: headChangeKeyValEInven,
-            nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
+            passPortHead: headChangeKeyValEManifest,
+            passPortAcmpList: passPortAcmpList
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-                sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
+                sw.page.modules["bondediexit/seeExitManifestDetail"].cancel();
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondediexit/seeExitInventoryDetail"].callBackQuery();
+                sw.page.modules["bondediexit/seeExitManifestDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -337,7 +356,6 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         var entryHead = data.data.passPortHead;
                         var entryLists = data.data.passPortAcmpList;
 
-                        debugger;
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillNewPassPortHead(entryHead);
                         }
@@ -352,33 +370,33 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 }
             });
         }
-        // else if (mark == "upd") {
-        //     $.ajax({
-        //         method: "GET",
-        //         url: "api/bondediexit/exitinventory",
-        //         data: data,
-        //         success: function (data, status, xhr) {
-        //             if (xhr.status == 200) {
-        //                 var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
-        //                 var entryHead = data.data.bondInvtBsc;
-        //                 var entryLists = data.data.nemsInvtCbecBillTypeList;
-        //                 if (isNotEmpty(entryHead)) {
-        //                     entryModule.fillBondInvtBsc(entryHead);
-        //                 }
-        //                 if (isNotEmpty(entryLists)) {
-        //                     entryModule.fillNemsInvtCbecBillTypeList(entryLists);
-        //                 }
-        //                 headChangeKeyValEInven["etps_inner_invt_no"] = param.submitKeys;
-        //                 // 添加输入框内容变更事件，捕获数据变更信息
-        //                 inputChangeEInvent(param.submitKeys);
-        //                 entryModule.disabledFieldInput();
-        //             }
-        //         }
-        //     });
-        // }
+        else if (mark == "upd") {
+            $.ajax({
+                method: "GET",
+                url: "api/bondediexit/exitmanifest",
+                data: data,
+                success: function (data, status, xhr) {
+                    if (xhr.status == 200) {
+                        var entryModule = sw.page.modules["bondediexit/seeExitManifestDetail"];
+                        var entryHead = data.data.passPortHead;
+                        var entryLists = data.data.passPortAcmpList;
+                        if (isNotEmpty(entryHead)) {
+                            entryModule.fillPassPortHead(entryHead);
+                        }
+                        if (isNotEmpty(entryLists)) {
+                            entryModule.fillNewPassPortAcmp(entryLists);
+                        }
+                        headChangeKeyValEManifest["etps_preent_no"] = param.submitKeys;
+                        // 添加输入框内容变更事件，捕获数据变更信息
+                        inputChangeEManifest(param.submitKeys);
+                        entryModule.disabledFieldInput();
+                    }
+                }
+            });
+        }
     },
     //校验
-    valiFieldInventory: function () {
+    valiFieldPassPort: function () {
         // 校验表头
         var validataHeadField = {
             "rlt_tb_typecd": "关联单证类型代码",
@@ -446,7 +464,6 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
     },
 
     init: function () {
-        debugger;
         //从路径上获取参数
         var param = sw.getPageParams("bondediexit/seeExitManifestDetail");
         var dataInfo = param.submitKeys;
@@ -469,6 +486,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
+                        "rlt_no",
 
                         "body_id",
                         "body_no",
@@ -485,32 +503,62 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 break;
             }
             //出区核放单修改
-            // case "CQHFDXG": {
-            //     // 不可编辑状态
-            //     if (isEdit == "true") {
-            //         this.detailParam.disableField = [
-            //             //当前禁用的字段,需要禁用的字段值在这里改
-            //             "passport_no",
-            //
-            //             "body_id",
-            //             "body_no",
-            //             "body_rtlTbTypecd",
-            //             "body_rtlNo",
-            //             "body_headEtpsPreentNo"
-            //         ];
-            //     }
-            //     //保存的路径
-            //     this.detailParam.url = "/api/bondediexit/saveExitManifest";
-            //     //返回之后的查询路径
-            //     this.detailParam.callBackUrl = "bondediexit/crtExitManifest";
-            //     this.detailParam.isShowError = false;
-            //     break;
-            // }
+            case "CQHFDXG": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "passport_no",
+                        "rlt_no",
+
+                        "body_id",
+                        "body_no",
+                        "body_rtlTbTypecd",
+                        "body_rtlNo",
+                        "body_headEtpsPreentNo"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondediexit/updateExitManifest";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitManifest";
+                this.detailParam.isShowError = false;
+                break;
+            }
         } // 不可编辑状态
         if (isEdit == "false") {
             this.detailParam.disableField = [
-                //
-                //
+                "id",
+                "passport_no",
+                "rlt_tb_typecd",
+                "rlt_no",
+                "dcl_typecd",
+                "master_cuscd",
+                "dcl_etpsno",
+                "dcl_etps_nm",
+                "input_code",
+                "input_name",
+                "areain_oriact_no",
+                "io_typecd",
+                "vehicle_no",
+                "vehicle_wt",
+                "vehicle_frame_wt",
+                "container_type",
+                "container_wt",
+                "total_wt",
+                "passport_typecd",
+                "bind_typecd",
+                "areain_etpsno",
+                "areain_etps_nm",
+                "dcl_er_conc",
+                "total_gross_wt",
+                "total_net_wt",
+                "vehicle_ic_no",
+                "rmk",
+                "bond_invt_no",
+
+                "body_rlt_tb_typecd",
+                "body_rlt_no"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
@@ -521,14 +569,13 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
 
         if (mark == "crt") {
             this.query(mark);
-
-            //点击保存(未确认数据)
+            //创建出区核放单数据
             $("#ws-page-apply").click(function () {
                 sw.page.modules["bondediexit/seeExitManifestDetail"].saveExitManifestInfo();
             });
         } else if (mark == "upd") {
             this.query(mark);
-
+            //修改出区核放单数据
             $("#ws-page-apply").click(function () {
                 sw.page.modules["bondediexit/seeExitManifestDetail"].updateExitManifestInfo();
             });

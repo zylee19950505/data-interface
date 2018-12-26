@@ -66,7 +66,7 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                 },
                 {
                     label: "企业内部清单编码", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
                 }
                 },
                 {
@@ -175,15 +175,14 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
         });
     },
 
-    seeExitInventoryInfo: function (etpsInnerInvtNo) {
-        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDXG&isEdit=true&mark=upd&submitKeys=" + etpsInnerInvtNo;
+    seeExitInventoryInfo: function (etpsInnerInvtNo, status) {
+        if (status == "BDDS2") {
+            var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDXG&isEdit=true&mark=upd&submitKeys=" + etpsInnerInvtNo;
+        } else {
+            var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDXG&isEdit=false&mark=upd&submitKeys=" + etpsInnerInvtNo;
+        }
         sw.modelPopup(url, "查看出区核注清单详情", false, 1100, 930);
     }
-
-    // seeInventoryRec: function (guid, data_status) {
-    //     var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-    //     sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
-    // }
 
 };
 

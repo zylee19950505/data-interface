@@ -1,4 +1,301 @@
 package com.xaeport.crossborder.data.provider;
 
-public class ExitManifestSQLProvider {
+import com.xaeport.crossborder.data.entity.Users;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.jdbc.SQL;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+import org.springframework.util.StringUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class ExitManifestSQLProvider extends BaseSQLProvider {
+
+    public String queryExitManifestData(Map<String, String> paramMap) {
+        final String end = paramMap.get("end");
+        final String endId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
+        final String dcl_time = paramMap.get("dcl_time");
+        final String status = paramMap.get("status");
+        final String return_status = paramMap.get("return_status");
+        final String passport_no = paramMap.get("passport_no");
+        final String rlt_no = paramMap.get("rlt_no");
+
+        return new SQL() {
+            {
+                SELECT(" * from ( select rownum rn, f.* from ( " +
+                        "SELECT " +
+                        "t.PASSPORT_NO," +
+                        "t.RLT_NO," +
+                        "t.STATUS," +
+                        "t.RETURN_STATUS," +
+                        "t.RETURN_DATE," +
+                        "t.RETURN_INFO," +
+                        "t.ETPS_PREENT_NO," +
+                        "t.BOND_INVT_NO");
+                FROM("T_PASS_PORT_HEAD t");
+                if (!roleId.equals("admin")) {
+                    WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dcl_time)) {
+                    WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(status)) {
+                    WHERE("t.status = #{status}");
+                }
+                if (!StringUtils.isEmpty(return_status)) {
+                    WHERE("t.return_status = #{return_status}");
+                }
+                if (!StringUtils.isEmpty(passport_no)) {
+                    WHERE("t.passport_no = #{passport_no}");
+                }
+                if (!StringUtils.isEmpty(rlt_no)) {
+                    WHERE("t.rlt_no = #{rlt_no}");
+                }
+                if (!"-1".equals(end)) {
+                    ORDER_BY("t.crt_time desc ) f  )  WHERE rn between #{start} and #{end}");
+                } else {
+                    ORDER_BY("t.crt_time desc ) f  )  WHERE rn >= #{start}");
+                }
+            }
+        }.toString();
+    }
+
+    public String queryExitManifestCount(Map<String, String> paramMap) {
+
+        final String endId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
+        final String dcl_time = paramMap.get("dcl_time");
+        final String status = paramMap.get("status");
+        final String return_status = paramMap.get("return_status");
+        final String passport_no = paramMap.get("passport_no");
+        final String rlt_no = paramMap.get("rlt_no");
+
+        return new SQL() {
+            {
+                SELECT("COUNT(1)");
+                FROM("T_PASS_PORT_HEAD t");
+                if (!roleId.equals("admin")) {
+                    WHERE("t.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(dcl_time)) {
+                    WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(status)) {
+                    WHERE("t.status = #{status}");
+                }
+                if (!StringUtils.isEmpty(return_status)) {
+                    WHERE("t.return_status = #{return_status}");
+                }
+                if (!StringUtils.isEmpty(passport_no)) {
+                    WHERE("t.passport_no = #{passport_no}");
+                }
+                if (!StringUtils.isEmpty(rlt_no)) {
+                    WHERE("t.rlt_no = #{rlt_no}");
+                }
+            }
+        }.toString();
+    }
+
+    /*
+     * 提交海关清单
+     */
+    public String updateSubmitCustom(Map<String, String> paramMap) {
+        final String submitKeys = paramMap.get("submitKeys");
+        final String statusWhere = paramMap.get("statusWhere");
+        final String status = paramMap.get("status");
+        final String userId = paramMap.get("userId");
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE(splitJointIn("t.ETPS_PREENT_NO", submitKeys));
+                WHERE(splitJointIn("t.STATUS", statusWhere));
+                SET("t.STATUS = #{status}");
+                SET("t.DCL_TIME = sysdate");
+                SET("t.UPD_TIME = sysdate");
+                SET("t.UPD_USER = #{userId}");
+            }
+        }.toString();
+    }
+
+    public String queryPassPortHeadList(Map<String, String> paramMap) throws Exception {
+        final String etps_preent_no = paramMap.get("etps_preent_no");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_PASS_PORT_HEAD");
+                if (!StringUtils.isEmpty(etps_preent_no)) {
+                    WHERE(splitJointIn("ETPS_PREENT_NO", etps_preent_no));
+                }
+            }
+        }.toString();
+    }
+
+    public String queryPassPortAcmpList(Map<String, String> paramMap) throws Exception {
+        final String etps_preent_no = paramMap.get("etps_preent_no");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(etps_preent_no)) {
+                    WHERE(splitJointIn("HEAD_ETPS_PREENT_NO", etps_preent_no));
+                }
+            }
+        }.toString();
+    }
+
+    public String queryPassPortHead(Map<String, String> paramMap) throws Exception {
+        final String etps_preent_no = paramMap.get("etps_preent_no");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_PASS_PORT_HEAD");
+                if (!StringUtils.isEmpty(etps_preent_no)) {
+                    WHERE(splitJointIn("ETPS_PREENT_NO", etps_preent_no));
+                }
+            }
+        }.toString();
+    }
+
+    public String queryPassPortAcmp(Map<String, String> paramMap) throws Exception {
+        final String etps_preent_no = paramMap.get("etps_preent_no");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(etps_preent_no)) {
+                    WHERE(splitJointIn("HEAD_ETPS_PREENT_NO", etps_preent_no));
+                }
+            }
+        }.toString();
+    }
+
+    public String updateBondInvtBsc(String bondInvtNo) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC t");
+                WHERE(splitJointIn("BOND_INVT_NO", bondInvtNo));
+                SET("t.PASSPORT_USED_TYPECD = ''");
+            }
+        }.toString();
+    }
+
+    public String updatePassPortHead(
+            @Param("passPortHead") LinkedHashMap<String, String> passPortHead,
+            @Param("userInfo") Users userInfo
+    ){
+        return new SQL(){
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                SET("t.STATUS = 'BDDS4'");
+                if(!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))){
+                    SET("rlt_tb_typecd = #{passPortHead.rlt_tb_typecd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("rlt_no"))){
+                    SET("rlt_no = #{passPortHead.rlt_no}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("dcl_typecd"))){
+                    SET("dcl_typecd = #{passPortHead.dcl_typecd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("master_cuscd"))){
+                    SET("master_cuscd = #{passPortHead.master_cuscd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))){
+                    SET("dcl_etpsno = #{passPortHead.dcl_etpsno}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))){
+                    SET("dcl_etps_nm = #{passPortHead.dcl_etps_nm}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("input_code"))){
+                    SET("input_code = #{passPortHead.input_code}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("input_name"))){
+                    SET("input_name = #{passPortHead.input_name}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("areain_oriact_no"))){
+                    SET("areain_oriact_no = #{passPortHead.areain_oriact_no}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("io_typecd"))){
+                    SET("io_typecd = #{passPortHead.io_typecd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("vehicle_no"))){
+                    SET("vehicle_no = #{passPortHead.vehicle_no}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("vehicle_wt"))){
+                    SET("vehicle_wt = #{passPortHead.vehicle_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("vehicle_frame_wt"))){
+                    SET("vehicle_frame_wt = #{passPortHead.vehicle_frame_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("container_type"))){
+                    SET("container_type = #{passPortHead.container_type}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("container_wt"))){
+                    SET("container_wt = #{passPortHead.container_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("total_wt"))){
+                    SET("total_wt = #{passPortHead.total_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("passport_typecd"))){
+                    SET("passport_typecd = #{passPortHead.passport_typecd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("bind_typecd"))){
+                    SET("bind_typecd = #{passPortHead.bind_typecd}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("areain_etpsno"))){
+                    SET("areain_etpsno = #{passPortHead.areain_etpsno}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("areain_etps_nm"))){
+                    SET("areain_etps_nm = #{passPortHead.areain_etps_nm}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("dcl_er_conc"))){
+                    SET("dcl_er_conc = #{passPortHead.dcl_er_conc}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("total_gross_wt"))){
+                    SET("total_gross_wt = #{passPortHead.total_gross_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("total_net_wt"))){
+                    SET("total_net_wt = #{passPortHead.total_net_wt}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("vehicle_ic_no"))){
+                    SET("vehicle_ic_no = #{passPortHead.vehicle_ic_no}");
+                }
+                if(!StringUtils.isEmpty(passPortHead.get("rmk"))){
+                    SET("rmk = #{passPortHead.rmk}");
+                }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    SET("upd_time = sysdate");
+                }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    SET("upd_user = #{userInfo.id}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updatePassPortAcmp(
+            @Param("passPortHead") LinkedHashMap<String, String> passPortHead,
+            @Param("userInfo") Users userInfo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_ACMP");
+                WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.head_etps_preent_no}");
+                if (!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))) {
+                    SET("RTL_TB_TYPECD = #{passPortHead.rlt_tb_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.get("rlt_no"))) {
+                    SET("RTL_NO = #{passPortHead.rlt_no}");
+                }
+                if (!StringUtils.isEmpty(userInfo.getId())) {
+                    SET("UPD_TIME = sysdate");
+                }
+                if (!StringUtils.isEmpty(userInfo.getId())) {
+                    SET("UPD_USER = #{userInfo.id}");
+                }
+            }
+        }.toString();
+    }
+
 }

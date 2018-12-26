@@ -3,25 +3,19 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
 
     query: function () {
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
-        var orderNo = $("[name='orderNo']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
-        var preNo = $("[name='preNo']").val();
-        var invtNo = $("[name='invtNo']").val();
-        var returnStatus = $("[name='returnStatus']").val();
+        var dcl_time = $("[name='dcl_time']").val();
+        var status = $("[name='status']").val();
+        var return_status = $("[name='return_status']").val();
+        var passport_no = $("[name='passport_no']").val();
+        var rlt_no = $("[name='rlt_no']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
-            startFlightTimes: startFlightTimes,//申报开始时间
-            endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
-            orderNo: orderNo,//订单编号
-            logisticsNo: logisticsNo,//物流运单编号
-            preNo: preNo,//电子口岸标识编号
-            invtNo: invtNo,//海关清单编号
-            returnStatus: returnStatus//回执状态
+        var url = sw.serializeObjectToURL("api/bondediexit/queryExitManifest", {
+            dcl_time: dcl_time,//申报时间
+            status: status,//系统数据状态
+            return_status: return_status,//回执状态
+            passport_no: passport_no,//核放单编号
+            rlt_no: rlt_no//核注清单编号
         });
 
         // 数据表
@@ -55,7 +49,7 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
                 {
@@ -63,30 +57,111 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS6") {
+                        if (row.status == "BDDS4") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
+                                row.etps_preent_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "bill_no", label: "核放单编号"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "核注清单编号"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "申报状态"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "申报时间"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执状态"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执时间"},//订单编号要点击查看订单详情
-                {data: "bill_no", label: "回执备注"},//订单编号要点击查看订单详情
-
+                {
+                    label: "企业内部编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitManifest').updateExitManifest('" + row.etps_preent_no + "','" + row.status + "')" + '">' + row.etps_preent_no + '</a>'
+                }
+                },
+                // {
+                //     data: "etps_preent_no", label: "企业内部编号"
+                // },
+                {
+                    data: "rlt_no", label: "核注清单编号"
+                },
+                {
+                    data: "passport_no", label: "核放单编号"
+                },
+                {
+                    data: "status", label: "申报状态"
+                },
+                {
+                    data: "dcl_time", label: "申报时间"
+                },
+                {
+                    data: "return_status", label: "回执状态"
+                },
+                {
+                    data: "return_date", label: "回执时间"
+                },
+                {
+                    data: "return_info", label: "回执备注"
+                }
             ]
         });
     },
 
+    deleteEPassPort: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要删除的出区核放单信息！");
+            return;
+        }
+        var postData = {
+            submitKeys: submitKeys
+        };
+        sw.confirm("确定删除该出区核注清单", "确认", function () {
+            sw.ajax("api/bondediexit/exitmanifest/deleteExitManifest", "POST", postData, function (rsp) {
+                sw.pageModule("bondediexit/exitManifest").query();
+            });
+        });
+    },
+
+    // 提交海关
+    submitCustomEPassPort: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要提交海关的出区核放单信息！");
+            return;
+        }
+        sw.confirm("请确认数据无误并提交海关", "确认", function () {
+            sw.blockPage();
+            var postData = {
+                submitKeys: submitKeys
+            };
+            $("#submitCustom").prop("disabled", true);
+            sw.ajax("api/bondediexit/exitmanifest/submitCustom", "POST", postData, function (rsp) {
+                if (rsp.data.result == "true") {
+                    sw.alert("提交海关成功", "提示", function () {
+                    }, "modal-success");
+                    $("#submitCustom").prop("disabled", false);
+                    sw.page.modules["bondediexit/exitManifest"].query();
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
+        });
+    },
+
+    updateExitManifest: function (submitKeys,status) {
+        if(status == "BDDS4"){
+            var url = "bondediexit/seeExitManifestDetail?type=CQHFDXG&isEdit=true&mark=upd&submitKeys=" + submitKeys;
+        }else {
+            var url = "bondediexit/seeExitManifestDetail?type=CQHFDXG&isEdit=false&mark=upd&submitKeys=" + submitKeys;
+        }
+        sw.modelPopup(url, "出区核放单详情", false, 1000, 600);
+    },
+
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
-        $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -94,22 +169,21 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
-        $(".btn[ws-search]").click();
-    },
 
-    seeInventoryDetail: function (guid, order_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
+        $("[ws-delete]").unbind("click").click(this.deleteEPassPort);
+        $("[ws-submit]").unbind("click").click(this.submitCustomEPassPort);
 
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
+        $table = $("#query-exitManifest-table");
+        $table.on("change", ":checkbox", function () {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                $(":checkbox", $table).prop("checked", $(this).prop("checked"));
+            } else {
+                //复选
+                var checkbox = $("tbody :checkbox", $table);
+                $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        });
     }
 
 };

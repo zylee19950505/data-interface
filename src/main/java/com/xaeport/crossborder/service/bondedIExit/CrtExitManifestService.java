@@ -46,6 +46,7 @@ public class CrtExitManifestService {
         passPortHead.setInput_name(paramMap.get("input_name"));
         passPortHead.setEtps_preent_no(paramMap.get("etps_preent_no"));
         passPortHead.setBond_invt_no(paramMap.get("bond_invt_no"));
+        passPortHead.setRlt_no(paramMap.get("bond_invt_no"));
         return passPortHead;
     }
 

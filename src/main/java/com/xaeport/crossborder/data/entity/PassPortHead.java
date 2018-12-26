@@ -63,6 +63,7 @@ public class PassPortHead {
     private String crt_ent_id;
     private String crt_ent_name;
     private String bond_invt_no;
+    private String return_info;
 
     public String getId() {
         return id;
@@ -494,5 +495,13 @@ public class PassPortHead {
 
     public void setBond_invt_no(String bond_invt_no) {
         this.bond_invt_no = bond_invt_no;
+    }
+
+    public String getReturn_info() {
+        return return_info;
+    }
+
+    public void setReturn_info(String return_info) {
+        this.return_info = return_info;
     }
 }

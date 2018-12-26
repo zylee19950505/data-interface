@@ -1,150 +1,189 @@
-//package com.xaeport.crossborder.controller.api.bondedIExit;
-//
-//import com.alibaba.druid.support.logging.Log;
-//import com.alibaba.druid.support.logging.LogFactory;
-//import com.xaeport.crossborder.configuration.AppConfiguration;
-//import com.xaeport.crossborder.configuration.SystemConstants;
-//import com.xaeport.crossborder.controller.api.BaseApi;
-//import com.xaeport.crossborder.data.ResponseData;
-//import com.xaeport.crossborder.data.entity.DataList;
-//import com.xaeport.crossborder.data.entity.OrderSum;
-//import com.xaeport.crossborder.data.entity.Users;
-//import com.xaeport.crossborder.data.status.StatusCode;
-//import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
-//import com.xaeport.crossborder.tools.DownloadUtils;
-//import com.xaeport.crossborder.tools.GetIpAddr;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.util.StringUtils;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//import java.io.File;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-//
-///*
-// * 订单申报
-// */
-//@RestController
-//@RequestMapping("/api/orderManage")
-//public class ExitManifestApi extends BaseApi {
-//
-//    private Log logger = LogFactory.getLog(this.getClass());
-//
-//    @Autowired
-//    AppConfiguration appConfiguration;
-//    @Autowired
-//    OrderDeclareSevice orderDeclareService;
-//
-//    /*
-//     * 邮件申报查询
-//     */
-//    @RequestMapping("/queryOrderDeclare")
-//    public ResponseData queryOrderDeclare(
-//            //身份验证
-//            @RequestParam(required = false) String startFlightTimes,
-//            @RequestParam(required = false) String endFlightTimes,
-//            @RequestParam(required = false) String billNo,
-//            @RequestParam(required = false) String dataStatus
-//    ) {
-//        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
-//        Map<String, String> paramMap = new HashMap<String, String>();
-//        //查询参数
-//        paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-//        paramMap.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
-//
-//        paramMap.put("billNo", billNo);
-//        paramMap.put("dataStatus", dataStatus);
-//
-//        paramMap.put("entId", this.getCurrentUserEntId());
-//        paramMap.put("roleId", this.getCurrentUserRoleId());
-//
-//        DataList<OrderSum> dataList = new DataList<>();
-//        List<OrderSum> resultList = new ArrayList<OrderSum>();
-//        try {
-//            //查询列表
-//            resultList = orderDeclareService.queryOrderDeclareList(paramMap);
-//        } catch (Exception e) {
-//            this.logger.error("查询订单申报数据失败", e);
-//            return new ResponseData("获取订单申报数据错误", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseData(resultList);
-//    }
-//
-//
-//    /**
-//     * 订单单申报-提交海关
-//     **/
-//    @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
-//    public ResponseData saveSubmitCustom(
-//            @RequestParam(required = false) String submitKeys,
-//            HttpServletRequest request) {
-//        this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
-//        if (StringUtils.isEmpty(submitKeys)) {
-//            return rtnResponse("false", "请先勾选要提交海关的订单信息！");
-//        }
-//        Users currentUser = this.getCurrentUsers();
-//        Map<String, String> paramMap = new HashMap<>();
-//        paramMap.put("opStatus", StatusCode.DDSBZ);//订单申报中
-//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
-//        paramMap.put("currentUserId", currentUser.getId());
-//        paramMap.put("submitKeys", submitKeys);//提运单号
-//
-//        // 调用订单申报Service 获取提交海关结果
-//        boolean flag = orderDeclareService.updateSubmitCustom(paramMap);
-//        if (flag) {
-//            return rtnResponse("true", "订单申报海关提交成功！");
-//        } else {
-//            return rtnResponse("false", "订单申报海关提交失败！");
-//        }
-//    }
-//
-//    /**
-//     * 订单报文下载
-//     **/
-//    @RequestMapping(value = "/orderXmlDownload", method = RequestMethod.POST)
-//    public ResponseData orderXmlDownload(
-//            @RequestParam(required = false) String submitKeys,
-//            HttpServletRequest request) {
-//        this.logger.info("订单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
-//        if (StringUtils.isEmpty(submitKeys)) {
-//            return rtnResponse("false", "请先勾选要下载的订单信息！");
-//        }
-//        Users currentUser = this.getCurrentUsers();
-//        Map<String, String> paramMap = new HashMap<>();
-//        paramMap.put("opStatus", StatusCode.DDBWSCZ);//订单报文生成中
-//        paramMap.put("opStatusWhere", StatusCode.DDDSB);//订单待申报
-//        paramMap.put("currentUserId", currentUser.getId());
-//
-//        paramMap.put("submitKeys", submitKeys);//提运单号
-//
-//        boolean flag = orderDeclareService.orderXmlDownload(paramMap);
-//        String orderZipPath = orderDeclareService.OrderXml(this.getCurrentUserEntId());
-//        if (!StringUtils.isEmpty(orderZipPath)) {
-//            return rtnResponse("1" + orderZipPath, "订单报文生成提交成功");
-//        } else {
-//            return rtnResponse("0" + orderZipPath, "订单报文生成提交失败");
-//        }
-//    }
-//
-//    /**
-//     * excel 跨境电子商务进口订单模板下载
-//     */
-//    @RequestMapping(value = "/downloadFile")
-//    public void excelModelDownload(
-//            HttpServletResponse response,
-//            @RequestParam(value = "type") String type
-//    ) {
-//        File file = new File(type);
-//        DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_ZIP);
-//    }
-//
-//}
+package com.xaeport.crossborder.controller.api.bondediexit;
+
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.druid.support.logging.Log;
+import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.controller.api.BaseApi;
+import com.xaeport.crossborder.data.ResponseData;
+import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.status.StatusCode;
+import com.xaeport.crossborder.service.bondedIExit.ExitManifestService;
+import com.xaeport.crossborder.tools.GetIpAddr;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+
+
+/*
+ * 订单申报
+ */
+@RestController
+@RequestMapping("/api/bondediexit")
+public class ExitManifestApi extends BaseApi {
+
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    @Autowired
+    AppConfiguration appConfiguration;
+    @Autowired
+    ExitManifestService exitManifestService;
+
+    /*
+     * 查询出区核放单
+     */
+    @RequestMapping(value = "/queryExitManifest", method = RequestMethod.GET)
+    public ResponseData queryExitManifest(
+            @RequestParam(required = false) String dcl_time,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String return_status,
+            @RequestParam(required = false) String passport_no,
+            @RequestParam(required = false) String rlt_no,
+            HttpServletRequest request
+    ) {
+        this.logger.debug(String.format("查询出区核放单条件参数:[dcl_time:%s,status:%s,return_status:%s,passport_no:%s]", dcl_time, status, return_status, passport_no));
+        Map<String, String> paramMap = new HashMap<String, String>();
+
+        String startStr = request.getParameter("start");
+        String length = request.getParameter("length");
+        String extra_search = request.getParameter("extra_search");
+        String draw = request.getParameter("draw");
+        String start = String.valueOf((Integer.parseInt(startStr) + 1));
+        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+
+        paramMap.put("start", start);
+        paramMap.put("length", length);
+        paramMap.put("end", end);
+        paramMap.put("extra_search", extra_search);
+
+        paramMap.put("dcl_time", dcl_time);
+        paramMap.put("status", status);
+        paramMap.put("return_status", return_status);
+        paramMap.put("passport_no", passport_no);
+        paramMap.put("rlt_no", rlt_no);
+
+        paramMap.put("entId", this.getCurrentUserEntId());
+        paramMap.put("roleId", this.getCurrentUserRoleId());
+
+        DataList<PassPortHead> dataList = null;
+        List<PassPortHead> resultList = null;
+        try {
+            //查询列表
+            resultList = this.exitManifestService.queryExitManifestData(paramMap);
+            //查询总数
+            Integer count = this.exitManifestService.queryExitManifestCount(paramMap);
+            dataList = new DataList<>();
+            dataList.setDraw(draw);
+            dataList.setData(resultList);
+            dataList.setRecordsTotal(count);
+            dataList.setRecordsFiltered(count);
+        } catch (Exception e) {
+            this.logger.error("出区核放单-查询出区核放单数据失败", e);
+            return new ResponseData("出区核放单-获取出区核放单数据错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(dataList);
+    }
+
+
+    @RequestMapping(value = "/exitmanifest", method = RequestMethod.GET)
+    public ResponseData exitInventory(
+            @RequestParam(required = false) String dataInfo
+    ) {
+        Map<String, String> paramMap = new HashMap<>();
+
+        paramMap.put("etps_preent_no", dataInfo);
+
+        PassPort passPort = new PassPort();
+        PassPortHead passPortHead = new PassPortHead();
+        List<PassPortAcmp> passPortAcmpList = new ArrayList<>();
+        try {
+            //查询列表
+            passPortHead = this.exitManifestService.queryPassPortHead(paramMap);
+            passPortAcmpList = this.exitManifestService.queryPassPortAcmp(paramMap);
+            passPort.setPassPortHead(passPortHead);
+            passPort.setPassPortAcmpList(passPortAcmpList);
+        } catch (Exception e) {
+            this.logger.error("获取出区核放单数据失败", e);
+            return new ResponseData("获取出区核放单数据错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(passPort);
+    }
+
+    //修改出区核注清单信息
+    @RequestMapping("/updateExitManifest")
+    public ResponseData updateExitManifest(@Param("entryJson") String entryJson) {
+        //出区核注清单json信息
+        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        // 出区核注清单表头
+        LinkedHashMap<String, String> passPortHead = (LinkedHashMap<String, String>) object.get("passPortHead");
+
+        // 出区核注清单表体
+        ArrayList<LinkedHashMap<String, String>> passPortAcmpList = (ArrayList<LinkedHashMap<String, String>>) object.get("passPortAcmpList");
+
+        Users userInfo = this.getCurrentUsers();
+
+        Map<String, String> rtnMap = new HashMap<>();
+        try {
+            // 保存详情信息
+            rtnMap = exitManifestService.updateExitManifest(passPortHead, passPortAcmpList, userInfo);
+        } catch (Exception e) {
+            logger.error("修改出区核放单数据时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "修改出区核放单数据时发生异常");
+        }
+        return new ResponseData(rtnMap);
+    }
+
+
+    /**
+     * 清单申报-提交海关
+     **/
+    @RequestMapping(value = "/exitmanifest/submitCustom", method = RequestMethod.POST)
+    public ResponseData submitCustom(
+            @RequestParam(required = false) String submitKeys,
+            HttpServletRequest request
+    ) {
+        this.logger.info("清单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        if (StringUtils.isEmpty(submitKeys)) {
+            return rtnResponse("false", "请先勾选要提交海关的出区核注清单信息！");
+        }
+        Users user = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("status", StatusCode.CQHFDSBZ);//申报中
+        paramMap.put("statusWhere", StatusCode.CQHFDDSB);//待申报
+        paramMap.put("userId", user.getId());
+        paramMap.put("submitKeys", submitKeys);//清单唯一编码
+        // 调用清单申报Service获取提交海关结果
+        boolean flag = exitManifestService.updateSubmitCustom(paramMap);
+        if (flag) {
+            return rtnResponse("true", "出区核放单申报海关提交成功！");
+        } else {
+            return rtnResponse("false", "出区核放单申报海关提交失败！");
+        }
+    }
+
+    //删除出区核放单数据
+    @RequestMapping(value = "/exitmanifest/deleteExitManifest", method = RequestMethod.POST)
+    public ResponseData deleteExitManifest(
+            @RequestParam(required = false) String submitKeys
+    ) {
+        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
+        try {
+            this.exitManifestService.deleteExitManifest(submitKeys, this.getCurrentUserEntId());
+        } catch (Exception e) {
+            this.logger.error("删除出区核放单失败，submitKeys=" + submitKeys, e);
+            return new ResponseData("删除出区核放单失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData("");
+    }
+
+}

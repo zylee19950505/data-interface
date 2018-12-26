@@ -132,9 +132,9 @@ public class ExitInventoryApi extends BaseApi {
             // 保存详情信息
             rtnMap = exitInventoryService.updateExitInventory(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo);
         } catch (Exception e) {
-            logger.error("保存清单详细信息时发生异常", e);
+            logger.error("修改出区核注清单信息时发生异常", e);
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "保存清单详细信息时发生异常");
+            rtnMap.put("msg", "修改出区核注清单信息时发生异常");
         }
         return new ResponseData(rtnMap);
     }

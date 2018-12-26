@@ -46,6 +46,7 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtNo)) {
                     WHERE("t.bond_invt_no = #{bondInvtNo}");
                 }
+                WHERE("t.PASSPORT_USED_TYPECD is null");
                 if (!"-1".equals(end)) {
                     ORDER_BY("t.crt_time desc ) f  )  WHERE rn between #{start} and #{end}");
                 } else {
@@ -81,6 +82,7 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtNo)) {
                     WHERE("t.bond_invt_no = #{bondInvtNo}");
                 }
+                WHERE("t.PASSPORT_USED_TYPECD is null");
             }
         }.toString();
     }
