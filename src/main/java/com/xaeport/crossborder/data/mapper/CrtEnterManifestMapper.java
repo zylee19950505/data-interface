@@ -11,6 +11,9 @@ import java.util.Map;
 @Mapper
 public interface CrtEnterManifestMapper {
 
-    @SelectProvider(type = CrtEnterManifestSQLProvider.class,method = "queryCrtEnterManifest")
-    List<BondInvtBsc> queryCrtEnterManifest(Map<String, String> paramMap);
+    @SelectProvider(type = CrtEnterManifestSQLProvider.class,method = "queryCrtEnterManifestList")
+    List<BondInvtBsc> queryCrtEnterManifestList(Map<String, String> paramMap);
+
+    @SelectProvider(type = CrtEnterManifestSQLProvider.class,method = "queryCrtEnterManifestCount")
+    Integer queryCrtEnterManifestCount(Map<String, String> paramMap);
 }
