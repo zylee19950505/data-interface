@@ -14,7 +14,11 @@ public class CrtEnterManifestService {
     @Autowired
     CrtEnterManifestMapper crtEnterManifestMapper;
 
-    public List<BondInvtBsc> queryCrtEnterManifest(Map<String, String> paramMap) {
-        return crtEnterManifestMapper.queryCrtEnterManifest(paramMap);
+    public List<BondInvtBsc> queryCrtEnterManifestList(Map<String, String> paramMap) {
+        return crtEnterManifestMapper.queryCrtEnterManifestList(paramMap);
+    }
+
+    public Integer queryCrtEnterManifestCount(Map<String, String> paramMap) {
+        return crtEnterManifestMapper.queryCrtEnterManifestCount(paramMap);
     }
 }

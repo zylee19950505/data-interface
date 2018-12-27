@@ -5,6 +5,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
+import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.service.bondedIExit.CrtEnterManifestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,16 +52,20 @@ public class CrtEnterManifestApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
 
+        DataList<BondInvtBsc> dataList = new DataList<>();
         List<BondInvtBsc> resultList = new ArrayList<BondInvtBsc>();
         try {
             //查询列表
-            resultList = this.crtEnterManifestService.queryCrtEnterManifest(paramMap);
+            resultList = this.crtEnterManifestService.queryCrtEnterManifestList(paramMap);
+            Integer count = this.crtEnterManifestService.queryCrtEnterManifestCount(paramMap);
+            dataList.setDraw(draw);
+            dataList.setData(resultList);
+            dataList.setRecordsTotal(count);
+            dataList.setRecordsFiltered(count);
+            return new ResponseData(dataList);
         } catch (Exception e) {
             this.logger.error("查询入区核放单数据失败", e);
             return new ResponseData("查询入区核放单数据失败", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(resultList);
-
     }
-
 }

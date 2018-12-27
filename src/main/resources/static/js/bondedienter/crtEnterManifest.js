@@ -1,6 +1,5 @@
-//清单查询
+//新建入区核注清单
 sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter/crtEnterManifest"] || {
-
     query: function () {
         // 获取查询表单参数
         var dataStatus = $("[name='dataStatus']").val();
@@ -15,7 +14,7 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
         });
 
         // 数据表
-        sw.datatable("#query-crtEnterManifest-table", {
+        var table = sw.datatable("#query-crtEnterManifest-table", {
             ordering: false,
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
@@ -53,20 +52,26 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS6") {
+                        if (row.status == "BDDS1") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
+                                row.etps_inner_invt_no + '" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                {data: "logistics_no", label: "核注清单编号"}
+                /*{
+                    label: "企业内部清单编码", render: function (data, type, row) {
+                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
+                    }
+                },*/
+                {
+                    data: "etps_inner_invt_no", label: "核注清单编号"
+                }
             ]
         });
     },
-
     init: function () {
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -76,6 +81,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
         });
         $("[ws-search]").unbind("click").click(this.query).click();
     }
-
 };
+
 
