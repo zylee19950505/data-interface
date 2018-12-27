@@ -7,33 +7,48 @@ sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenm
         //初始化时间
         $("[name='importTime']").val(moment(new Date()).format("YYYYMMDD"));
 
+        this.emsNo();
+
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
             format: "yyyymmdd",
             autoclose: true
         });
-        $("#detailImport").unbind("click").click(this.detailImport);
+        $("#detailImport").unbind("click").click(this.bondInvenImport);
     },
 
-    //导入运单
-    detailImport: function () {
+    //加载发件人信息
+    emsNo: function () {
+        sw.ajax("accountrecord/getemsnos", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var emsNo = data[idx].bws_no;
+                var option = $("<option>").text(emsNo).val(emsNo);
+                $("#emsNo").append(option);
+            }
+            $(".emsNo").chosen({
+                width: '100%',
+                no_results_text: "没有找到有关",
+                allow_single_deselect: true,
+                search_contains: true
+            });
+        });
+    },
+
+    //导入保税清单数据
+    bondInvenImport: function () {
 
         var importTime = $("[name='importTime']").val();
+        var emsNo = $("[name='emsNo']").val();
         var file = $("#file").val();
-        var voyageNo = $("[name='voyageNo']").val();
-        var billNo = $("[name='billNo']").val();
 
-        if (isEmpty(voyageNo)) {
-            sw.alert("请填写航班号", "提示", "", "modal-info");
-            return false;
-        }
         if (isEmpty(importTime)) {
             sw.alert("请选择进口时间", "提示", "", "modal-info");
             return false;
         }
-        if (isEmpty(billNo)) {
-            sw.alert("请填写提运单号", "提示", "", "modal-info");
+        if (isEmpty(emsNo)) {
+            sw.alert("请选择账册编码", "提示", "", "modal-info");
             return false;
         }
         if (isEmpty(file)) {
@@ -43,7 +58,7 @@ sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenm
 
 
         var options = {
-            url: "/detailImport/uploadFile",
+            url: "/bondinvenmanage/bondinvenimport/uploadFile",
             type: "POST",
             dataType: "json",
             beforeSend: function () {
@@ -65,7 +80,7 @@ sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenm
 
     //模板下载
     downLoad: function () {
-        var type = "Detail";
-        window.location.href = "/detailImport/downloadFile?type=" + type;
+        var type = "BondInven";
+        window.location.href = "/bondinvenmanage/bondinvenimport/downloadFile?type=" + type;
     }
 };

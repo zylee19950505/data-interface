@@ -316,4 +316,22 @@ public class AccountRecordSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
+
+    public String getEmsNos(Map<String, String> paramMap){
+        final String ent_id = paramMap.get("ent_id");
+        final String ent_name = paramMap.get("ent_name");
+
+        return new SQL(){
+            {
+                SELECT("ID");
+                SELECT("BWS_NO");
+                SELECT("ETPS_PREENT_NO");
+                FROM("T_BWL_HEAD_TYPE");
+                WHERE("CRT_ENT_ID = #{ent_id}");
+                WHERE("CRT_ENT_NAME = #{ent_name}");
+                ORDER_BY("CRT_TIME");
+            }
+        }.toString();
+    }
+
 }

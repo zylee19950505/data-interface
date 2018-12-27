@@ -12,7 +12,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider{
     /*
      * 导入插入ImpInventoryHead数据
      */
-    public String insertImpInventoryHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception {
+    public String insertImpBondInvenHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_INVENTORY_HEAD");
@@ -194,7 +194,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider{
     /*
      * 导入插入impInventoryBody数据
      */
-    public String insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) throws Exception {
+    public String insertImpBondInvenBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) throws Exception {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_INVENTORY_BODY");
@@ -274,7 +274,8 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider{
             {
                 SELECT("count(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.order_no = #{impInventoryHead.order_no}");
+                WHERE("t.ORDER_NO = #{impInventoryHead.order_no}");
+                WHERE("t.BUSINESS_TYPE = 'BONDINVEN'");
             }
         }.toString();
     }

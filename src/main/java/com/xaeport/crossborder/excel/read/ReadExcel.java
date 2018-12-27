@@ -170,6 +170,12 @@ public class ReadExcel {
                                 return map;
                             }
                             break;
+                        case "bondInven":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadBondInven.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
                     }
 
                 }

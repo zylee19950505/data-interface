@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.excel.validate;
 
 
+import com.xaeport.crossborder.excel.validate.entryBondInven.ValidateBondInven;
 import com.xaeport.crossborder.excel.validate.entryDetail.ValidateDetail;
 import com.xaeport.crossborder.excel.validate.entryEnterInstance.ValidateEnterInstance;
 import com.xaeport.crossborder.excel.validate.entryOrder.ValidateOrder;
@@ -39,6 +40,10 @@ public class ValidateInstance {
             }
             case "enterInventory": {
                 validateBase = new ValidateEnterInstance();
+                break;
+            }
+            case "bondInven": {
+                validateBase = new ValidateBondInven();
                 break;
             }
         }

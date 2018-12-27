@@ -28,4 +28,7 @@ public interface AccountRecordMapper {
     @UpdateProvider(type = AccountRecordSQLProvider.class, method = "accountUpdate")
     boolean accountUpdate(@Param("bwlHeadType") BwlHeadType bwlHeadType) throws Exception;
 
+    @SelectProvider(type = AccountRecordSQLProvider.class, method = "getEmsNos")
+    List<BwlHeadType> getEmsNos(Map<String, String> map) throws Exception;
+
 }

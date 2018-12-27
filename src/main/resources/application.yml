@@ -35,6 +35,7 @@ appConfig:
    Waybill: "model/跨境电子商务进口运单模板.xlsx"
    WaybillStatus: "model/跨境电子商务进口运单状态模板.xlsx"
    Detail: "model/跨境电子商务进口清单模板.xlsx"
+   BondInven: "model/跨境电子进口保税清单模板.xlsx"
    BondedI: "model/跨境电子进口核注清单表体模板.xlsx"
   agentExeFolder: "model/xaeport_agent.exe"
 

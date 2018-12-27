@@ -63,6 +63,9 @@ public class AccountRecordService {
         return this.accountRecordMapper.getAccountById(id);
     }
 
-
+    //getemsNos
+    public List<BwlHeadType> getEmsNos(Map<String, String> map) throws Exception {
+        return this.accountRecordMapper.getEmsNos(map);
+    }
 
 }

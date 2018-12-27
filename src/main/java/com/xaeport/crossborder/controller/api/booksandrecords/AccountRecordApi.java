@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.PAData;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -91,6 +90,23 @@ public class AccountRecordApi extends BaseApi {
     ) {
         BwlHeadType bwlHeadType = this.accountRecordService.getAccountById(id);
         return new ResponseData(bwlHeadType);
+    }
+
+
+    //查询企业所属账册编码参数表
+    @RequestMapping(value = "/getemsnos", method = RequestMethod.GET)
+    public ResponseData getSendName() {
+        Map<String, String> map = new HashMap<>();
+        map.put("ent_id", this.getCurrentUserEntId());
+        map.put("ent_name", this.getCurrentUserEntName());
+        List<BwlHeadType> bwlHeadTypeList;
+        try {
+            bwlHeadTypeList = this.accountRecordService.getEmsNos(map);
+        } catch (Exception e) {
+            this.logger.error("账册编号加载失败，entId =" + this.getCurrentUserEntId(), e);
+            return new ResponseData("账册编号参数加载失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(bwlHeadTypeList);
     }
 
 

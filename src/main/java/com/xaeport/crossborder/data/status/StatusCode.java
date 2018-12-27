@@ -113,6 +113,12 @@ public class StatusCode {
 	public final static String CQHFDYSB = "BDDS41";//出区核放单已申报
 	public final static String CQHFDSBCG = "BDDS42";//出区核放单申报成功
 
+	public final static String BSQDDSB = "BDDS5";//保税清单待申报
+	public final static String BSQDSBZ = "BDDS50";//保税清单申报中
+	public final static String BSQDYSB = "BDDS51";//保税清单已申报
+	public final static String BSQDSBCG = "BDDS52";//保税清单申报成功
+	public final static String BSQDCB = "BDDS53";//保税清单重报
+	public final static String BSQDSBSB = "BDDS54";//保税清单申报失败
 
 
 

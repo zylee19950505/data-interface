@@ -38,7 +38,7 @@ public class BondinvenImportApi extends BaseApi {
     AppConfiguration appConfiguration;
     @Autowired
     BondinvenImportService bondinvenImportService;
-    
+
     /**
      * 新快件上传
      *
@@ -47,31 +47,27 @@ public class BondinvenImportApi extends BaseApi {
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(
-            @RequestParam(value = "voyageNo", required = false) String voyageNo,//航班号
             @RequestParam(value = "importTime", required = false) String importTime,//进口时间
-            @RequestParam(value = "billNo", required = false) String billNo,//提运单号
+            @RequestParam(value = "emsNo", required = false) String emsNo,//账册编号
             @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
             HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-        if (voyageNo.isEmpty()) return new ResponseData("航班航次号不能为空");
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
-        if (billNo.isEmpty()) return new ResponseData("提运单号不能为空");
+        if (emsNo.isEmpty()) return new ResponseData("账册编号不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
 
         String fileName = file.getOriginalFilename();
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
-        if (voyageNo.length() > 32) return new ResponseData("航班航次号长度超过32位，请重新输入");
-        if (billNo.length() > 37) return new ResponseData("提运单号长度超过37位，请重新输入");
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
 
         //获取企业信息
         Users user = this.getCurrentUsers();
 
-        int curValue = this.getHashingValue(String.format("%s%s", importTime, user.getId()));
+        int curValue = this.getHashingValue(String.format("%s%s%s", importTime, emsNo, user.getId()));
         if (this.isRepeatSubmit(httpSession.getAttribute("importTime"), curValue)) return new ResponseData("不允许重复提交");
-        httpSession.setAttribute("importTime", this.getHashingValue(String.format("%s%s", importTime, user.getId())));
+        httpSession.setAttribute("importTime", this.getHashingValue(String.format("%s%s%s", importTime, emsNo, user.getId())));
 
         InputStream inputStream;
         ReadExcel readExcel = new ReadExcel();
@@ -80,7 +76,7 @@ public class BondinvenImportApi extends BaseApi {
         long startTime = System.currentTimeMillis();
         try {
             inputStream = file.getInputStream();
-            String type = "detail";
+            String type = "bondInven";
             map = readExcel.readExcelData(inputStream, fileName, type);//读取excel数据
             if (CollectionUtils.isEmpty(map)) return new ResponseData(String.format("导入<%s>为空", fileName));//获取excel为空
             if (map.containsKey("error")) {
@@ -100,11 +96,11 @@ public class BondinvenImportApi extends BaseApi {
                     return new ResponseData("订单号【" + orderNoCount + "】不能重复");
                 }
 
-                flag = this.bondinvenImportService.createDetailForm(excelMap, importTime, user, voyageNo, billNo);//数据创建对应的数据
+                flag = this.bondinvenImportService.createBondInvenForm(excelMap, importTime, user, emsNo);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");
-                    return new ResponseData(String.format("跨境电子商务进口保税清单导入成功！"));
+                    return new ResponseData(String.format("跨境电子进口保税清单导入成功！"));
                 } else {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("入库失败");

@@ -34,6 +34,10 @@ public class ExcelDataInstance {
                 excelData = new ExcelDataEnterInstance();
                 break;
             }
+            case "bondInven": {
+                excelData = new ExcelDataBondInven();
+                break;
+            }
 
         }
         return excelData;

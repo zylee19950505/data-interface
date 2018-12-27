@@ -16,14 +16,14 @@ public interface BondinvenImportMapper {
     /*
      * 导入插入ImpInventoryHead数据
      */
-    @InsertProvider(type = BondinvenImportSQLProvider.class, method = "insertImpInventoryHead")
-    boolean insertImpInventoryHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
+    @InsertProvider(type = BondinvenImportSQLProvider.class, method = "insertImpBondInvenHead")
+    boolean insertImpBondInvenHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
 
     /*
      * 导入插入impInventoryBody数据
      */
-    @InsertProvider(type = BondinvenImportSQLProvider.class, method = "insertImpInventoryBody")
-    boolean insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) throws Exception;
+    @InsertProvider(type = BondinvenImportSQLProvider.class, method = "insertImpBondInvenBody")
+    boolean insertImpBondInvenBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) throws Exception;
 
     /*
      * 查询有无重复订单号表头信息
