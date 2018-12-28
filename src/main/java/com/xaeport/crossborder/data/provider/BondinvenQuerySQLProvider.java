@@ -1,6 +1,5 @@
 package com.xaeport.crossborder.data.provider;
 
-import com.xaeport.crossborder.data.provider.BaseSQLProvider;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -39,15 +38,6 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
                         "t.app_time," +
                         "t.return_status," +
                         "t.cop_no," +
-//                        "(SELECT return_status " +
-//                        "from t_imp_rec_inventory tt " +
-//                        "where tt.cop_no = t.cop_no " +
-//                        "and tt.return_time = " +
-//                        "(select max(zz.return_time) " +
-//                        "from t_imp_rec_inventory zz " +
-//                        "where zz.cop_no = tt.cop_no " +
-//                        "and length(zz.return_status) = 3) " +
-//                        "and rownum = 1) maxtime_three_return_status," +
                         "(select ss.status_name " +
                         "from t_status ss " +
                         "where ss.status_code = t.return_status) return_status_name");

@@ -136,21 +136,16 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的运单信息！");
+            sw.alert("请先勾选要提交海关的支付单信息！");
             return;
         }
 
-        sw.confirm("请确认运单数据无误，提交海关", "确认", function () {
-
-            var idCardValidate = $("[name='idCardValidate']").val();
+        sw.confirm("请确认支付单数据无误，提交海关", "确认", function () {
             sw.blockPage();
-
             var postData = {
                 submitKeys: submitKeys
             };
-
             $("#submitPaymentBtn").prop("disabled", true);
-
             sw.ajax("api/paymentManage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {

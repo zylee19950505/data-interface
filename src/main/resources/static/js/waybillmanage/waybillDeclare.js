@@ -214,7 +214,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的舱单信息！");
+            sw.alert("请先勾选要提交海关的运单信息！");
             return;
         }
 
@@ -251,11 +251,11 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的舱单信息！");
+            sw.alert("请勾选要提交海关的运单状态信息！");
             return;
         }
 
-        sw.confirm("请确认运单总数无误，提交海关", "确认", function () {
+        sw.confirm("请确认数据无误，提交海关", "确认", function () {
             var idCardValidate = $("[name='idCardValidate']").val();
             sw.blockPage();
             var postData = {

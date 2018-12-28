@@ -8,32 +8,62 @@ sw.page.modules["bondinvenmanage/bondinvendeclare"] = sw.page.modules["bondinven
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
+        var orderNo = $("[name='orderNo']").val();
+        var logisticsNo = $("[name='logisticsNo']").val();
         var dataStatus = $("[name='dataStatus']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailDeclare", {
+        var url = sw.serializeObjectToURL("api/bondinvenmanage/querybondinvendeclare", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
+            orderNo: orderNo,//订单编号
+            logisticsNo: logisticsNo,//物流编号
             dataStatus: dataStatus//业务状态
         });
 
         // 数据表
-        sw.datatable("#query-detailDeclare-table", {
-            ajax: url,
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+        sw.datatable("#query-BondInvenDeclare-table", {
+            sLoadingRecords: true,
+            ordering: false,
+            bSort: false, //排序功能
+            serverSide: true,////服务器端获取数据
+            pagingType: 'simple_numbers',
+            ajax: function (data, callback, setting) {
+                $.ajax({
+                    type: 'GET',
+                    url: sw.resolve(url),
+                    data: data,
+                    cache: false,
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("tbody").html('<tr class="odd"><td valign="top" colspan="13" class="dataTables_empty">载入中...</td></tr>');
+                    },
+                    success: function (res) {
+                        var returnData = {};
+                        returnData.data = res.data.data;
+                        returnData.recordsFiltered = res.data.recordsFiltered;
+                        returnData.draw = res.data.draw;
+                        returnData.recordsTotal = res.data.recordsTotal;
+                        returnData.start = data.start;
+                        returnData.length = data.length;
+                        callback(returnData);
+                    },
+                    error: function (xhr, status, error) {
+                        sw.showErrorMessage(xhr, status, error);
+                    }
+                });
+            },
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
-                //还需判断下状态
                 {
                     label: '<input type="checkbox" name="cb-check-all"/>',
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.data_status == "CBDS6") {
+                        if (row.data_status == "BDDS5") {
                             return '<input type="checkbox" class="submitKey" value="' +
-                                row.bill_no + '" />';
+                                row.guid + '" />';
                         }
                         else {
                             return "";
@@ -41,73 +71,60 @@ sw.page.modules["bondinvenmanage/bondinvendeclare"] = sw.page.modules["bondinven
                     }
                 },
                 {
-                    label: "提运单号", render: function (data, type, row) {
-                    if (row.no == "1") {
-                        return row.bill_no;
-                    } else {
-                        return "";
-                    }
+                    label: "订单编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondinvenmanage/bondinvendeclare').seeBondInvenDetail('" + row.guid + "','" + row.order_no + "','" + row.data_status + "')" + '">' + row.order_no + '</a>'
+                }
+                },
+                {data: "logistics_no", label: "物流编号"},
+                {
+                    label: "电商平台名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.ebp_name + '">' + row.ebp_name + '</div>';
+                }
+                },
+                {
+                    label: "电商企业名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.ebc_name + '">' + row.ebc_name + '</div>';
+                }
+                },
+                {
+                    label: "物流企业名称", render: function (data, type, row) {
+                    return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
+                        'title="' + row.logistics_name + '">' + row.logistics_name + '</div>';
                 }
                 },
                 {
                     label: "申报日期", render: function (data, type, row) {
-                    if (row.no == "1") {
-                        return isEmpty(row.app_time)?"":moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
+                    if (!isEmpty(row.app_time)) {
+                        return moment(row.app_time).format("YYYY-MM-DD HH:mm:ss");
                     }
                     return "";
                 }
                 },
                 {
-                    label: "清单总数", render: function (data, type, row) {
-                    if (row.no == "1") {
-                        return row.sum;
-                    } else {
-                        return "";
-                    }
-                }
-                },
-                {
-                    label: "业务状态", render: function (data, type, row) {
-                    var textColor = "";
-                    var value = "";
+                    data: "data_status", label: "业务状态", render: function (data, type, row) {
                     switch (row.data_status) {
-                        case "CBDS1"://待申报
-                            textColor = "text-red";
-                            value = "校验未通过";
-                            break;
-                        case "CBDS6":
+                        case "BDDS5"://保税清单待申报
                             textColor = "text-yellow";
-                            value = "清单待申报";
+                            row.data_status = "保税清单待申报";
                             break;
-                        case "CBDS60":
+                        case "BDDS50"://保税清单申报中
                             textColor = "text-green";
-                            value = "清单申报中";
+                            row.data_status = "保税清单申报中";
                             break;
-                        case "CBDS61":
+                        case "BDDS51"://保税清单已申报
                             textColor = "text-green";
-                            value = "清单已申报";
-                            break;
-                        case "CBDS62":
-                            textColor = "text-green";
-                            value = "清单申报成功";
-                            break;
-                        case "InvenDoing":
-                            textColor = "text-green";
-                            value = "清单报文生成中";
-                            break;
-                        case "InvenOver":
-                            textColor = "text-green";
-                            value = "清单报文下载完成";
+                            row.data_status = "保税清单已申报";
                             break;
                     }
-
-                    return "<span class='" + textColor + "'>" + value + "</span>";
+                    return "<span class='" + textColor + "'>" + row.data_status + "</span>";
                 }
-                },
-                {data: "asscount", label: "清单数量"}
-                ]
+                }
+            ]
         });
     },
+
     // 提交海关
     submitCustom: function () {
         var submitKeys = "";
@@ -117,30 +134,21 @@ sw.page.modules["bondinvenmanage/bondinvendeclare"] = sw.page.modules["bondinven
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要提交海关的清单信息！");
+            sw.alert("请先勾选要提交海关的保税清单信息！");
             return;
         }
-
-        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
-
-            var idCardValidate = $("[name='idCardValidate']").val();
+        sw.confirm("请确认数据无误，提交海关", "确认", function () {
             sw.blockPage();
-
             var postData = {
-                submitKeys: submitKeys,
-                idCardValidate: idCardValidate,
-                ieFlag: sw.ie,
-                entryType: sw.type
+                submitKeys: submitKeys
             };
-
-            $("#submitManifestBtn").prop("disabled", true);
-
-            sw.ajax("api/detailManage/submitCustom", "POST", postData, function (rsp) {
+            $("#submitByBondInven").prop("disabled", true);
+            sw.ajax("api/bondinvenmanage/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
                     }, "modal-success");
-                    $("#submitManifestBtn").prop("disabled", false);
-                    sw.page.modules["detailmanage/detailDeclare"].query();
+                    $("#submitByBondInven").prop("disabled", false);
+                    sw.page.modules["bondinvenmanage/bondinvendeclare"].query();
                 } else {
                     sw.alert(rsp.data.msg);
                 }
@@ -149,45 +157,17 @@ sw.page.modules["bondinvenmanage/bondinvendeclare"] = sw.page.modules["bondinven
         });
     },
 
-    // 报文下载
-    InvenXmlDownLoad: function () {
-        var submitKeys = "";
-        $(".submitKey:checked").each(function () {
-            submitKeys += "," + $(this).val();
-        });
-        if (submitKeys.length > 0) {
-            submitKeys = submitKeys.substring(1);
+    seeBondInvenDetail: function (guid, order_no, dataStatus) {
+        if (dataStatus == 'BDDS5') {
+            var url = "bondinvenmanage/seebondinvendetail?type=BSQDSB&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         } else {
-            sw.alert("请先勾选要生成报文的清单信息！");
-            return;
+            var url = "bondinvenmanage/seebondinvendetail?type=BSQDSB&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
         }
-        sw.confirm("请确认分单总数无误，提交海关", "确认", function () {
-            var idCardValidate = $("[name='idCardValidate']").val();//身份证校验状态
-            sw.blockPage();
-            var postData = {
-                submitKeys: submitKeys,
-                idCardValidate: idCardValidate,
-                ieFlag: sw.ie,
-                entryType: sw.type
-            };
-            $("#InvenXmlDownload").prop("disabled", true);
-            sw.ajax("api/detailManage/InvenXmlDownload", "POST", postData, function (rsp) {
-                var str = rsp.data.result;
-                if (str.substring(0, 1) == "1") {
-                    sw.alert("清单报文生成中", "提示", function () {
-                    }, "modal-success");
-                    $("#InvenXmlDownload").prop("disabled", false);
-                    sw.page.modules["detailmanage/detailDeclare"].query();
-                    window.location.href = "/api/detailManage/downloadFile?type=" + str.substring(1);
-                } else {
-                    sw.alert(rsp.data.msg);
-                }
-                $.unblockUI();
-            });
-        });
+        sw.modelPopup(url, "查看保税清单详情", false, 1100, 930);
     },
 
     init: function () {
+
         $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
@@ -196,10 +176,11 @@ sw.page.modules["bondinvenmanage/bondinvendeclare"] = sw.page.modules["bondinven
             format: "yyyy-mm-dd",
             autoclose: true
         });
+
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-submit]").unbind("click").click(this.submitCustom);
-        $("[ws-download]").unbind("click").click(this.InvenXmlDownLoad);
-        $table = $("#query-detailDeclare-table");
+
+        $table = $("#query-BondInvenDeclare-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {
                 //全选

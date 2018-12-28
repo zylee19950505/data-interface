@@ -102,21 +102,21 @@ public class BondinvenQueryApi extends BaseApi {
         return new ResponseData(dataList);
     }
 
-    @RequestMapping("/seebondinvendetail")
-    public ResponseData seeOrderDetail(
-            @RequestParam(required = false) String guid
-    ) {
-        if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
-        this.logger.debug(String.format("查询保税清单条件参数:[guid:%s]", guid));
-        ImpInventoryDetail impInventoryDetail;
-        try {
-            impInventoryDetail = bondinvenQueryService.getImpInventoryDetail(guid);
-        } catch (Exception e) {
-            this.logger.error("查询保税清单信息失败，guid=" + guid, e);
-            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseData(impInventoryDetail);
-    }
+//    @RequestMapping("/seebondinvendetail")
+//    public ResponseData seeOrderDetail(
+//            @RequestParam(required = false) String guid
+//    ) {
+//        if (StringUtils.isEmpty(guid)) return new ResponseData("订单为空", HttpStatus.FORBIDDEN);
+//        this.logger.debug(String.format("查询保税清单条件参数:[guid:%s]", guid));
+//        ImpInventoryDetail impInventoryDetail;
+//        try {
+//            impInventoryDetail = bondinvenQueryService.getImpInventoryDetail(guid);
+//        } catch (Exception e) {
+//            this.logger.error("查询保税清单信息失败，guid=" + guid, e);
+//            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseData(impInventoryDetail);
+//    }
 
     @RequestMapping("/seebondinvenrec")
     public ResponseData seeInventoryRec(

@@ -1,6 +1,6 @@
 <div class="detailPage">
     <div class="entryTitle">
-        <span>保税清单详情</span>
+        <span>保税清单表头信息</span>
     </div>
     <div class="text-center">
         <small class="help-block text-red">
@@ -42,12 +42,8 @@
                 <input class="form-control input-sm" maxlength="18" id="ebp_code"/>
             </td>
             <td class="headTitle">电商平台名称</td>
-            <td>
+            <td colspan="4">
                 <input class="form-control input-sm" maxlength="100" id="ebp_name"/>
-            </td>
-            <td class="headTitle"></td>
-            <td>
-                <input class="form-control input-sm" maxlength="20" id="321"/>
             </td>
         </tr>
         <tr>
@@ -121,23 +117,19 @@
             </td>
         </tr>
         <tr>
-            <td class="headTitle">运输工具编号</td>
+            <td class="headTitle">区内企业编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="100" id="traf_no"/>
+                <input class="form-control input-sm" maxlength="18" id="area_code"/>
             </td>
-            <td class="headTitle">航班航次号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="32" id="voyage_no"/>
-            </td>
-            <td class="headTitle">提运单号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="37" id="bill_no"/>
+            <td class="headTitle">区内企业名称</td>
+            <td colspan="4">
+                <input class="form-control input-sm" maxlength="100" id="area_name"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">起运国（地区）</td>
             <td>
-                <select class="form-control input-sm" id="country"/>
+                <select class="form-control input-sm" id="head_country"/>
             </td>
             <td class="headTitle">净重</td>
             <td>
@@ -171,11 +163,12 @@
     </table>
 
     <div class="entryTitle">
-        <span>商品信息</span>
+        <span>保税清单表体信息</span>
     </div>
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
             <th width="3%">序号</th>
+            <th>账册料号</th>
             <th>商品名称</th>
             <th>商品编码</th>
             <th>商品规格<br/>/型号</th>

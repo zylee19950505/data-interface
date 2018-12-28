@@ -17,7 +17,7 @@ function clearError() {
 }
 
 // Select2初始化
-function selecterInitDetail(selectId, value, data) {
+function selecterInitBondInven(selectId, value, data) {
     $("#" + selectId).select2({
         data: $.map(data, function (val, key) {
             var obj = {
@@ -32,23 +32,23 @@ function selecterInitDetail(selectId, value, data) {
 }
 
 // 表头变化
-var headChangeKeyVal = {};
+var headChangeValBondInven = {};
 
 // 表体变化
-var listChangeKeyVals = {};
+var listChangeValBondInven = {};
 
 // 表体ID匹配正则
 var pattern = /^.*_[0-9]+$/;
 
 // 计算表头总价值
-function sumTotalPricesInvent() {
+function sumTotalBondInvent() {
     var totalPrices = 0;
     $(".detailPage input[id^=total_price]").each(function () {
         var decTotal = $(this).val();
         totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
     });
     $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
-    headChangeKeyVal["total_sum"] = $("#total_sum").val();
+    headChangeValBondInven["total_sum"] = $("#total_sum").val();
 }
 
 // 计算表体申报总价
@@ -58,7 +58,7 @@ function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
 
-function inputChangeInvent(id) {
+function inputChangeBondInvent(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -69,8 +69,8 @@ function inputChangeInvent(id) {
             var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));
             var listChangeKeyVal;
-            if (listChangeKeyVals[gno]) {
-                listChangeKeyVal = listChangeKeyVals[gno];
+            if (listChangeValBondInven[gno]) {
+                listChangeKeyVal = listChangeValBondInven[gno];
             } else {
                 listChangeKeyVal = {};
             }
@@ -79,27 +79,28 @@ function inputChangeInvent(id) {
                 var dVal = parseFloat(val);
                 var qty = parseFloat($("#g_qty_" + gno).val());
                 sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
+                sumTotalBondInvent();
             } else if (keys == "g_qty") {// 数量
                 console.log(keys);
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
                 sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
+                sumTotalBondInvent();
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
             listChangeKeyVal["g_no"] = gno;
             listChangeKeyVal["entryhead_guid"] = id;
-            listChangeKeyVals[gno] = listChangeKeyVal;
+            listChangeValBondInven[gno] = listChangeKeyVal;
         } else {
-            headChangeKeyVal[key] = val;
+            headChangeValBondInven[key] = val;
         }
-        console.log(headChangeKeyVal, listChangeKeyVal);
+        console.log(headChangeValBondInven, listChangeKeyVal);
     }).focus(function () {
         clearError();
     });
 }
+
 /**
  * 保税清单详情查询
  * Created by lzy on 2018-12-26
@@ -133,16 +134,16 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
             "agent_code",
             "agent_name",
             "traf_mode",
-            "traf_no",
-            "voyage_no",
-            "bill_no",
-            "country",
+            "area_code",
+            "area_name",
+            "head_country",
             "net_weight",
             "gross_weight",
             "note",
             "total_sum",
 
             "g_num",
+            "g_itemRecordNo",
             "g_name",
             "g_code",
             "g_model",
@@ -156,7 +157,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         ]
     },
     // 保存成功时回调查询
-    callBackQuery: function (orderNo) {
+    callBackQuery: function () {
         sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
@@ -171,7 +172,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         }
     },
     // 装载表头信息
-    fillEntryHeadInfo: function (entryHead) {
+    fillBondInvenHead: function (entryHead) {
         $("#order_no").val(entryHead.order_no);
         $("#cop_no").val(entryHead.cop_no);
         $("#logistics_no").val(entryHead.logistics_no);
@@ -182,22 +183,21 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs);
+        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
+        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.customs);
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
         $("#buyer_telephone").val(entryHead.buyer_telephone);
         $("#consignee_address").val(entryHead.consignee_address);
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
+        selecterInitBondInven("wrap_type", entryHead.wrap_type, sw.dict.packType);
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
-        $("#traf_no").val(entryHead.traf_no);
-        $("#voyage_no").val(entryHead.voyage_no);
-        $("#bill_no").val(entryHead.bill_no);
-        selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
+        selecterInitBondInven("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
+        $("#area_code").val(entryHead.area_code);
+        $("#area_name").val(entryHead.area_name);
+        selecterInitBondInven("head_country", entryHead.country, sw.dict.countryArea);
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
@@ -209,12 +209,13 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
     },
 
     //加载表体信息
-    fillEntryListInfo: function (entryLists) {
+    fillBondInvenList: function (entryLists) {
         for (var i = 0; i < entryLists.length; i++) {
             var g_num = entryLists[i].g_num;
             var str =
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"30\" id='g_itemRecordNo_" + g_num + "' value='" + entryLists[i].item_record_no + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
@@ -232,10 +233,10 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
+            selecterInitBondInven("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
+            selecterInitBondInven("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+            selecterInitBondInven("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
+            selecterInitBondInven("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
         }
     },
 
@@ -245,7 +246,6 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
             var result = JSON.parse(vertify.result);
             var gno = result.g_num;
             var field = result.field;
-
             if (isNotEmpty(gno)) {
                 $("#" + field + "_" + gno).addClass("bg-red");
                 $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
@@ -257,17 +257,16 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
     },
 
     // 保存清单编辑信息
-    saveEntryInfo: function (orderNo, type, ieFlag) {
+    saveBondInvenInfo: function () {
         if (!this.valiFieldInventory()) {
             return;
         }
         var entryLists = new Array();
-        for (var key in listChangeKeyVals) {
-            entryLists.push(listChangeKeyVals[key]);
+        for (var key in listChangeValBondInven) {
+            entryLists.push(listChangeValBondInven[key]);
         }
-
         var entryData = {
-            entryHead: headChangeKeyVal,
+            entryHead: headChangeValBondInven,
             entryList: entryLists
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
@@ -276,7 +275,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondinvenmanage/seebondinvendetail"].callBackQuery(orderNo);
+                sw.page.modules["bondinvenmanage/seebondinvendetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -289,9 +288,9 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
     query: function () {
 
         // 表头变化
-        headChangeKeyVal = {};
+        headChangeValBondInven = {};
         // 表体变化
-        listChangeKeyVals = {};
+        listChangeValBondInven = {};
 
         //从路径上找参数
         var param = sw.getPageParams("bondinvenmanage/seebondinvendetail");
@@ -301,7 +300,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         };
         $.ajax({
             method: "GET",
-            url: "api/detailManage/seeOrderDetail",
+            url: "api/bondinvenmanage/seebondinvendetail",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
@@ -312,18 +311,18 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                     var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
-                        entryModule.fillEntryHeadInfo(entryHead);
+                        entryModule.fillBondInvenHead(entryHead);
                     }
                     if (isNotEmpty(entryLists)) {
-                        entryModule.fillEntryListInfo(entryLists);
+                        entryModule.fillBondInvenList(entryLists);
                     }
                     // 根据错误字段中的值加高亮显示
                     if (entryModule.detailParam.isShowError) {
                         entryModule.errorMessageShow(vertify);
                     }
-                    headChangeKeyVal["entryhead_guid"] = param.guid;
+                    headChangeValBondInven["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChangeInvent(param.guid);
+                    inputChangeBondInvent(param.guid);
                     entryModule.disabledFieldInput();
                 }
             }
@@ -356,10 +355,11 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
             "agent_code": "申报企业代码",
             "agent_name": "申报企业名称",
             "traf_mode": "运输方式",
-            "traf_no": "运输工具编号",
-            "voyage_no": "航班航次号",
-            "bill_no": "提运单号",
-            "country": "起运国（地区）",
+
+            "area_code": "区内企业编号",
+            "area_name": "区内企业名称",
+
+            "head_country": "起运国（地区）",
             "net_weight": "净重",
             "gross_weight": "毛重",
             "total_sum": "商品总价"
@@ -369,6 +369,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         // 校验表体
         var validataListField = {
             "g_num": "序号",
+            "g_itemRecordNo": "账册料号",
             "g_name": "商品名称",
             "g_code": "商品编码",
             "g_model": "商品规格/型号",
@@ -393,8 +394,6 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 return false;
             }
             if (fieldId == "net_weight") {
-                // var net_weight = parseFloat($("#net_weight").val()).toFixed(5);
-                // var gross_weight = parseFloat($("#gross_weight").val()).toFixed(5);
                 var net_weight = parseFloat($("#net_weight").val());
                 var gross_weight = parseFloat($("#gross_weight").val());
                 if (net_weight > gross_weight) {
@@ -439,7 +438,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
 
         switch (type) {
             //订单查询
-            case "QDCX": {
+            case "BSQDSB": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
@@ -453,39 +452,65 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                         "total_sum",//商品总价
                         "customs_tax",
                         "value_added_tax",
-                        "consumption_tax"
+                        "consumption_tax",
+                        "head_country"
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/detailManage/saveInventoryDetail";
+                this.detailParam.url = "/api/bondinvenmanage/savebondinvenbefore";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                this.detailParam.callBackUrl = "bondinvenmanage/bondinvendeclare";
                 this.detailParam.isShowError = false;
                 break;
             }
-            //逻辑校验(预留)
-            case "LJJY": {
+            case "BSQDCX": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
+                        "order_no",//订单编号。
                         "cop_no",//企业内部编号
+                        "logistics_no",//物流运单编号
                         "invt_no",//海关清单编号
                         "pre_no",//电子口岸标识编号
                         "g_num",//表体序号
                         "total_sum",//商品总价
                         "customs_tax",
                         "value_added_tax",
-                        "consumption_tax"
+                        "consumption_tax",
+                        "head_country"
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/inventory/saveLogicalDetail";
+                this.detailParam.url = "/api/bondinvenmanage/savebondinvenafter";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
-                this.detailParam.isShowError = true;
+                this.detailParam.callBackUrl = "bondinvenmanage/bondinvenquery";
+                this.detailParam.isShowError = false;
                 break;
             }
+            // //逻辑校验(预留)
+            // case "LJJY": {
+            //     // 不可编辑状态
+            //     if (isEdit == "true") {
+            //         this.detailParam.disableField = [
+            //             //当前禁用的字段,需要禁用的字段值在这里改
+            //             "cop_no",//企业内部编号
+            //             "invt_no",//海关清单编号
+            //             "pre_no",//电子口岸标识编号
+            //             "g_num",//表体序号
+            //             "total_sum",//商品总价
+            //             "customs_tax",
+            //             "value_added_tax",
+            //             "consumption_tax"
+            //         ];
+            //     }
+            //     //保存的路径
+            //     this.detailParam.url = "/api/inventory/saveLogicalDetail";
+            //     //返回之后的查询路径
+            //     this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
+            //     this.detailParam.isShowError = true;
+            //     break;
+            // }
 
         } // 不可编辑状态
         if (isEdit == "false") {
@@ -494,44 +519,35 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "order_no",
                 "cop_no",
                 "logistics_no",
-
                 "invt_no",
                 "pre_no",
                 "total_sum",
-
                 "ebp_code",
                 "ebp_name",
-
                 "ebc_code",
                 "ebc_name",
                 "assure_code",
-
                 "customs_code",
                 "port_code",
                 "ie_date",
-
                 "buyer_id_number",
                 "buyer_name",
                 "buyer_telephone",
-
                 "consignee_address",
                 "freight",
                 "wrap_type",
-
                 "agent_code",
                 "agent_name",
                 "traf_mode",
-
-                "traf_no",
-                "voyage_no",
-                "bill_no",
-
-                "country",
+                "area_code",
+                "area_name",
+                "head_country",
                 "net_weight",
                 "gross_weight",
                 "note",
 
                 "g_num",
+                "g_itemRecordNo",
                 "g_name",
                 "g_code",
                 "g_model",
@@ -543,6 +559,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "unit_2",
                 "price",
                 "total_price",
+                "country",
 
                 "customs_tax",
                 "value_added_tax",
@@ -559,7 +576,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondinvenmanage/seebondinvendetail"].saveEntryInfo(orderNo, type, sw.ie);
+            sw.page.modules["bondinvenmanage/seebondinvendetail"].saveBondInvenInfo();
         });
         //点击取消
         $("#ws-page-back").click(function () {
