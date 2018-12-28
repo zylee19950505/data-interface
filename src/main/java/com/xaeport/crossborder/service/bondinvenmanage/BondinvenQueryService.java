@@ -22,50 +22,50 @@ public class BondinvenQueryService {
     /*
      * 查询清单数据
      */
-    public List<ImpInventory> queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
-        return this.bondinvenQueryMapper.queryInventoryQueryList(paramMap);
+    public List<ImpInventory> queryBondInvenQueryData(Map<String, String> paramMap) throws Exception {
+        return this.bondinvenQueryMapper.queryBondInvenQueryData(paramMap);
     }
 
     /*
      * 查询清单总数
      */
-    public Integer queryInventoryQueryCount(Map<String, String> paramMap) throws Exception {
-        return this.bondinvenQueryMapper.queryInventoryQueryCount(paramMap);
+    public Integer queryBondInvenQueryCount(Map<String, String> paramMap) throws Exception {
+        return this.bondinvenQueryMapper.queryBondInvenQueryCount(paramMap);
     }
 
-    //根据唯一 Id 码查询清单详情
-    public ImpInventoryDetail getImpInventoryDetail(String guid) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("id", guid);
-        ImpInventoryHead impInventoryHead = bondinvenQueryMapper.queryImpInventoryHead(paramMap);
-        List<ImpInventoryBody> impInventoryBodies = bondinvenQueryMapper.queryImpInventoryBodies(paramMap);
-        Verify verify = bondinvenQueryMapper.queryVerifyDetail(paramMap);
-        ImpInventoryDetail impInventoryDetail = new ImpInventoryDetail();
-        impInventoryDetail.setImpInventoryHead(impInventoryHead);
-        impInventoryDetail.setImpInventoryBodies(impInventoryBodies);
-        impInventoryDetail.setVerify(verify);
-        return impInventoryDetail;
-    }
+//    //根据唯一 Id 码查询清单详情
+//    public ImpInventoryDetail getImpInventoryDetail(String guid) {
+//        Map<String, String> paramMap = new HashMap<>();
+//        paramMap.put("id", guid);
+//        ImpInventoryHead impInventoryHead = bondinvenQueryMapper.queryImpInventoryHead(paramMap);
+//        List<ImpInventoryBody> impInventoryBodies = bondinvenQueryMapper.queryImpInventoryBodies(paramMap);
+//        Verify verify = bondinvenQueryMapper.queryVerifyDetail(paramMap);
+//        ImpInventoryDetail impInventoryDetail = new ImpInventoryDetail();
+//        impInventoryDetail.setImpInventoryHead(impInventoryHead);
+//        impInventoryDetail.setImpInventoryBodies(impInventoryBodies);
+//        impInventoryDetail.setVerify(verify);
+//        return impInventoryDetail;
+//    }
 
-    public ImpInventoryHead getImpInventoryRec(String guid) {
+    public ImpInventoryHead getImpBondInvenRec(String guid) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("id", guid);
-        ImpInventoryHead impInventoryHead = bondinvenQueryMapper.getImpInventoryRec(paramMap);
+        ImpInventoryHead impInventoryHead = bondinvenQueryMapper.getImpBondInvenRec(paramMap);
         return impInventoryHead;
     }
 
     @Transactional
-    public Map<String, String> saveInventoryDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
+    public Map<String, String> saveBondInvenAfter(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-        if (saveOrderDetail(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
+        if (saveBondInvenAfterDetail(entryHead, entryLists, rtnMap, "保税清单查询-编辑-重报")) return rtnMap;
 
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“清单申报”处重新进行申报！");
+        rtnMap.put("msg", "编辑信息成功，请到“保税清单申报”处重新进行申报！");
         return rtnMap;
 
     }
 
-    public boolean saveOrderDetail(LinkedHashMap<String, String> entryHead,
+    public boolean saveBondInvenAfterDetail(LinkedHashMap<String, String> entryHead,
                                    List<LinkedHashMap<String, String>> entryLists,
                                    Map<String, String> rtnMap, String notes) {
 
@@ -77,59 +77,59 @@ public class BondinvenQueryService {
         String entryHeadId = entryHead.get("entryhead_guid");
         if (!CollectionUtils.isEmpty(entryHead) && entryHead.size() > 1) {
             // 更新表头数据
-            this.bondinvenQueryMapper.updateImpInventoryHead(entryHead);
+            this.bondinvenQueryMapper.updateImpBondInvenHeadAfter(entryHead);
         }
         if (!CollectionUtils.isEmpty(entryLists)) {
             // 更新表体数据
             for (LinkedHashMap<String, String> entryList : entryLists) {
                 if (!CollectionUtils.isEmpty(entryList) && entryList.size() > 2) {
-                    bondinvenQueryMapper.updateImpInventoryBodies(entryList);
+                    bondinvenQueryMapper.updateImpBondInvenBodyAfter(entryList);
                 }
             }
-            this.bondinvenQueryMapper.updateImpInventoryHeadByList(entryHead);
+            this.bondinvenQueryMapper.updateImpBondInvenHeadByList(entryHead);
         }
         return false;
     }
 
-    @Transactional
-    public Map<String, String> saveLogicalDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
-        Map<String, String> rtnMap = new HashMap<String, String>();
-        if (saveLogicalDetailByInventory(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
-
-        rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功，请到“清单申报”处确认是否校验通过！");
-        return rtnMap;
-
-    }
-
-    public boolean saveLogicalDetailByInventory(
-            LinkedHashMap<String, String> entryHead,
-            List<LinkedHashMap<String, String>> entryLists,
-            Map<String, String> rtnMap,
-            String notes
-    ) {
-        if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
-            rtnMap.put("result", "false");
-            rtnMap.put("msg", "未发现需要修改数据！");
-            return true;
-        }
-        String guid = entryHead.get("entryhead_guid");
-        if (!CollectionUtils.isEmpty(entryHead) && entryHead.size() > 1) {
-            // 更新表头数据
-            this.bondinvenQueryMapper.updateImpInventoryHeadByLogic(entryHead);
-        }
-        if (!CollectionUtils.isEmpty(entryLists)) {
-            // 更新表体数据
-            for (LinkedHashMap<String, String> entryList : entryLists) {
-                if (!CollectionUtils.isEmpty(entryList) && entryList.size() > 2) {
-                    bondinvenQueryMapper.updateImpInventoryBodiesByLogic(entryList);
-                }
-            }
-        }
-        bondinvenQueryMapper.deleteVerifyStatus(guid);
-
-        return false;
-    }
+//    @Transactional
+//    public Map<String, String> saveLogicalDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
+//        Map<String, String> rtnMap = new HashMap<String, String>();
+//        if (saveLogicalDetailByInventory(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
+//
+//        rtnMap.put("result", "true");
+//        rtnMap.put("msg", "编辑信息成功，请到“清单申报”处确认是否校验通过！");
+//        return rtnMap;
+//
+//    }
+//
+//    public boolean saveLogicalDetailByInventory(
+//            LinkedHashMap<String, String> entryHead,
+//            List<LinkedHashMap<String, String>> entryLists,
+//            Map<String, String> rtnMap,
+//            String notes
+//    ) {
+//        if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
+//            rtnMap.put("result", "false");
+//            rtnMap.put("msg", "未发现需要修改数据！");
+//            return true;
+//        }
+//        String guid = entryHead.get("entryhead_guid");
+//        if (!CollectionUtils.isEmpty(entryHead) && entryHead.size() > 1) {
+//            // 更新表头数据
+//            this.bondinvenQueryMapper.updateImpInventoryHeadByLogic(entryHead);
+//        }
+//        if (!CollectionUtils.isEmpty(entryLists)) {
+//            // 更新表体数据
+//            for (LinkedHashMap<String, String> entryList : entryLists) {
+//                if (!CollectionUtils.isEmpty(entryList) && entryList.size() > 2) {
+//                    bondinvenQueryMapper.updateImpInventoryBodiesByLogic(entryList);
+//                }
+//            }
+//        }
+//        bondinvenQueryMapper.deleteVerifyStatus(guid);
+//
+//        return false;
+//    }
 
 
 }

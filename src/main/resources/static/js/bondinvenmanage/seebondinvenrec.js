@@ -65,7 +65,7 @@ sw.page.modules["bondinvenmanage/seebondinvenrec"] = sw.page.modules["bondinvenm
             "cop_no",
             "return_status",
             "return_info",
-            "return_time",
+            "return_time"
         ]
     },
     // 保存成功时回调查询
@@ -86,7 +86,7 @@ sw.page.modules["bondinvenmanage/seebondinvenrec"] = sw.page.modules["bondinvenm
     // 装载表头信息
 
     fillInventoryRec: function (entryHead) {
-        $("#bill_no").val(entryHead.bill_no);
+        $("#ems_no").val(entryHead.ems_no);
         $("#order_no").val(entryHead.order_no);
         $("#logistics_no").val(entryHead.logistics_no);
         $("#cop_no").val(entryHead.cop_no);
@@ -123,7 +123,7 @@ sw.page.modules["bondinvenmanage/seebondinvenrec"] = sw.page.modules["bondinvenm
         };
         $.ajax({
             method: "GET",
-            url: "api/detailManage/seeInventoryRec",
+            url: "api/bondinvenmanage/seebondinvenrec",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
@@ -145,7 +145,6 @@ sw.page.modules["bondinvenmanage/seebondinvenrec"] = sw.page.modules["bondinvenm
     init: function () {
         //从路径上获取参数
         var param = sw.getPageParams("bondinvenmanage/seebondinvenrec");
-        var paytransactionid = param.paytransactionid;
         var type = param.type;
         var isEdit = param.isEdit;
         var guid = param.guid;
@@ -158,7 +157,7 @@ sw.page.modules["bondinvenmanage/seebondinvenrec"] = sw.page.modules["bondinvenm
         });
         switch (type) {
             //支付单查询
-            case "QDCX": {
+            case "BSQDHZ": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [

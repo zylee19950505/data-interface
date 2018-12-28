@@ -4,6 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.data.ResponseData;
@@ -41,7 +42,6 @@ public class BondinvenQueryApi extends BaseApi {
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
-            @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String logisticsNo,
             @RequestParam(required = false) String preNo,
@@ -61,7 +61,6 @@ public class BondinvenQueryApi extends BaseApi {
 
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
-        paramMap.put("billNo", billNo);
         paramMap.put("orderNo", orderNo);
         paramMap.put("logisticsNo", logisticsNo);
         paramMap.put("preNo", preNo);
@@ -71,11 +70,12 @@ public class BondinvenQueryApi extends BaseApi {
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
+        paramMap.put("business_type", SystemConstants.T_IMP_BOND_INVEN);
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         //类型参数
-        paramMap.put("dataStatus", StatusCode.QDSBCG);
+        paramMap.put("dataStatus", StatusCode.BSQDSBCG);
         if (!StringUtils.isEmpty(returnStatus)) {
             paramMap.put("returnStatus", returnStatus);
         } else {
@@ -87,9 +87,9 @@ public class BondinvenQueryApi extends BaseApi {
         List<ImpInventory> resultList = null;
         try {
             //查询列表
-            resultList = this.bondinvenQueryService.queryInventoryQueryList(paramMap);
+            resultList = this.bondinvenQueryService.queryBondInvenQueryData(paramMap);
             //查询总数
-            Integer count = this.bondinvenQueryService.queryInventoryQueryCount(paramMap);
+            Integer count = this.bondinvenQueryService.queryBondInvenQueryCount(paramMap);
             dataList = new DataList<>();
             dataList.setDraw(draw);
             dataList.setData(resultList);
@@ -126,7 +126,7 @@ public class BondinvenQueryApi extends BaseApi {
         this.logger.debug(String.format("查询保税清单条件参数:[guid:%s]", guid));
         ImpInventoryHead impInventoryHead;
         try {
-            impInventoryHead = bondinvenQueryService.getImpInventoryRec(guid);
+            impInventoryHead = bondinvenQueryService.getImpBondInvenRec(guid);
         } catch (Exception e) {
             this.logger.error("查询保税回执信息失败，entryHeadId=" + guid, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
@@ -134,8 +134,8 @@ public class BondinvenQueryApi extends BaseApi {
         return new ResponseData(impInventoryHead);
     }
 
-    //保存清单信息
-    @RequestMapping("/savebondinvendetail")
+    //保存保税清单信息
+    @RequestMapping("/savebondinvenafter")
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         //清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
@@ -149,7 +149,7 @@ public class BondinvenQueryApi extends BaseApi {
         Map<String, String> rtnMap = new HashMap<>();
         try {
             // 保存详情信息
-            rtnMap = bondinvenQueryService.saveInventoryDetail(entryHead, entryLists);
+            rtnMap = bondinvenQueryService.saveBondInvenAfter(entryHead, entryLists);
         } catch (Exception e) {
             logger.error("保存保税清单详细信息时发生异常", e);
             rtnMap.put("result", "false");

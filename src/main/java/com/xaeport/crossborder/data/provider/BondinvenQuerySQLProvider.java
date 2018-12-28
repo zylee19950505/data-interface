@@ -9,9 +9,8 @@ import java.util.Map;
 public class BondinvenQuerySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据
-    public String queryInventoryQueryList(Map<String, String> paramMap) throws Exception {
+    public String queryBondInvenQueryData(Map<String, String> paramMap) throws Exception {
 
-        final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String preNo = paramMap.get("preNo");
@@ -23,6 +22,7 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
+        final String business_type = paramMap.get("business_type");
 
         return new SQL() {
             {
@@ -45,14 +45,14 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
+                if (!StringUtils.isEmpty(business_type)){
+                    WHERE("t.BUSINESS_TYPE = #{business_type}");
+                }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
-                }
-                if (!StringUtils.isEmpty(billNo)) {
-                    WHERE("t.bill_No = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
@@ -82,9 +82,8 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
     }
 
     //查询清单页面数据总数
-    public String queryInventoryQueryCount(Map<String, String> paramMap) throws Exception {
+    public String queryBondInvenQueryCount(Map<String, String> paramMap) throws Exception {
 
-        final String billNo = paramMap.get("billNo");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
         final String preNo = paramMap.get("preNo");
@@ -95,6 +94,7 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
+        final String business_type = paramMap.get("business_type");
 
         return new SQL() {
             {
@@ -103,14 +103,14 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
+                if (!StringUtils.isEmpty(business_type)){
+                    WHERE("t.BUSINESS_TYPE = #{business_type}");
+                }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
                 }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
-                }
-                if (!StringUtils.isEmpty(billNo)) {
-                    WHERE("t.bill_No = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");
@@ -134,37 +134,37 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //查询清单表头信息
-    public String queryImpInventoryHead(Map<String, String> paramMap) {
-        final String id = paramMap.get("id");
-        return new SQL() {
-            {
-                SELECT("*");
-                FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.GUID = #{id}");
-            }
-        }.toString();
-
-    }
-
-    //查询清单表体信息
-    public String queryImpInventoryBodies(Map<String, String> paramMap) {
-        final String id = paramMap.get("id");
-        return new SQL() {
-            {
-                SELECT("*");
-                FROM("T_IMP_INVENTORY_BODY t");
-                WHERE("t.HEAD_GUID = #{id}");
-            }
-        }.toString();
-    }
+//    //查询清单表头信息
+//    public String queryImpInventoryHead(Map<String, String> paramMap) {
+//        final String id = paramMap.get("id");
+//        return new SQL() {
+//            {
+//                SELECT("*");
+//                FROM("T_IMP_INVENTORY_HEAD t");
+//                WHERE("t.GUID = #{id}");
+//            }
+//        }.toString();
+//
+//    }
+//
+//    //查询清单表体信息
+//    public String queryImpInventoryBodies(Map<String, String> paramMap) {
+//        final String id = paramMap.get("id");
+//        return new SQL() {
+//            {
+//                SELECT("*");
+//                FROM("T_IMP_INVENTORY_BODY t");
+//                WHERE("t.HEAD_GUID = #{id}");
+//            }
+//        }.toString();
+//    }
 
     //查询清单回执信息
-    public String getImpInventoryRec(Map<String, String> paramMap) {
+    public String getImpBondInvenRec(Map<String, String> paramMap) {
         final String id = paramMap.get("id");
         return new SQL() {
             {
-                SELECT("BILL_NO");
+                SELECT("EMS_NO");
                 SELECT("ORDER_NO");
                 SELECT("LOGISTICS_NO");
                 SELECT("COP_NO");
@@ -178,14 +178,14 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
     }
 
     //修改清单表头信息
-    public String updateImpInventoryHead(LinkedHashMap<String, String> entryHead) {
+    public String updateImpBondInvenHeadAfter(LinkedHashMap<String, String> entryHead) {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.GUID = #{entryhead_guid}");
                 SET("t.PRE_NO = '' ");
                 SET("t.INVT_NO = '' ");
-                SET("t.DATA_STATUS = 'CBDS6'");
+                SET("t.DATA_STATUS = 'BDDS5'");
                 SET("t.UPD_TM = sysdate ");
                 if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
                     SET("t.order_no = #{order_no}");
@@ -247,17 +247,14 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("traf_mode"))) {
                     SET("t.traf_mode = #{traf_mode}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("traf_no"))) {
-                    SET("t.traf_no = #{traf_no}");
+                if (!StringUtils.isEmpty(entryHead.get("area_code"))) {
+                    SET("t.area_code = #{area_code}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("voyage_no"))) {
-                    SET("t.voyage_no = #{voyage_no}");
+                if (!StringUtils.isEmpty(entryHead.get("area_name"))) {
+                    SET("t.area_name = #{area_name}");
                 }
-                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
-                    SET("t.bill_no = #{bill_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("country"))) {
-                    SET("t.country = #{country}");
+                if (!StringUtils.isEmpty(entryHead.get("head_country"))) {
+                    SET("t.country = #{head_country}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
                     SET("t.gross_weight = #{gross_weight}");
@@ -276,221 +273,224 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
     }
 
     //修改清单表头信息
-    public String updateImpInventoryHeadByList(LinkedHashMap<String, String> entryHead) {
+    public String updateImpBondInvenHeadByList(LinkedHashMap<String, String> entryHead) {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.GUID = #{entryhead_guid}");
                 SET("t.PRE_NO = '' ");
                 SET("t.INVT_NO = '' ");
-                SET("t.DATA_STATUS = 'CBDS6'");
+                SET("t.DATA_STATUS = 'BDDS5'");
                 SET("t.UPD_TM = sysdate ");
             }
         }.toString();
     }
 
     //修改清单表体信息
-    public String updateImpInventoryBodies(LinkedHashMap<String, String> entryList) {
+    public String updateImpBondInvenBodyAfter(LinkedHashMap<String, String> entryList) {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_BODY t");
                 WHERE("t.HEAD_GUID = #{entryhead_guid}");
                 WHERE("t.G_NUM = #{g_no}");
                 if (!StringUtils.isEmpty(entryList.get("g_name"))) {
-                    SET("t.g_name = #{g_name}");
+                    SET("t.G_NAME = #{g_name}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("g_itemRecordNo"))) {
+                    SET("t.ITEM_RECORD_NO = #{g_itemRecordNo}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("g_code"))) {
-                    SET("t.g_code = #{g_code}");
+                    SET("t.G_CODE = #{g_code}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("g_model"))) {
-                    SET("t.g_model = #{g_model}");
+                    SET("t.G_MODEL = #{g_model}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("country"))) {
-                    SET("t.country = #{country}");
+                    SET("t.COUNTRY = #{country}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
-                    SET("t.qty = #{g_qty}");
+                    SET("t.QTY = #{g_qty}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
-                    SET("t.unit = #{g_unit}");
+                    SET("t.UNIT = #{g_unit}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
-                    SET("t.qty1 = #{qty_1}");
+                    SET("t.QTY1 = #{qty_1}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
-                    SET("t.unit1 = #{unit_1}");
+                    SET("t.UNIT1 = #{unit_1}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
-                    SET("t.qty2 = #{qty_2}");
+                    SET("t.QTY2 = #{qty_2}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
-                    SET("t.unit2 = #{unit_2}");
+                    SET("t.UNIT2 = #{unit_2}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("price"))) {
-                    SET("t.price = #{price}");
+                    SET("t.PRICE = #{price}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("total_price"))) {
-                    SET("t.total_price = #{total_price}");
+                    SET("t.TOTAL_PRICE = #{total_price}");
                 }
             }
         }.toString();
     }
 
-    //修改清单表头信息
-    public String updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead) {
-        return new SQL() {
-            {
-                UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.GUID = #{entryhead_guid}");
-                SET("t.UPD_TM = sysdate ");
-                if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
-                    SET("t.order_no = #{order_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("cop_no"))) {
-                    SET("t.cop_no = #{cop_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))) {
-                    SET("t.logistics_no = #{logistics_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("ebp_code"))) {
-                    SET("t.ebp_code = #{ebp_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("ebp_name"))) {
-                    SET("t.ebp_name = #{ebp_name}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("ebc_code"))) {
-                    SET("t.ebc_code = #{ebc_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("ebc_name"))) {
-                    SET("t.ebc_name = #{ebc_name}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("assure_code"))) {
-                    SET("t.assure_code = #{assure_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("customs_code"))) {
-                    SET("t.customs_code = #{customs_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("port_code"))) {
-                    SET("t.port_code = #{port_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("ie_date"))) {
-                    SET("t.ie_date = to_date(#{ie_date},'yyyy-MM-dd')");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_id_number"))) {
-                    SET("t.buyer_id_number = #{buyer_id_number}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_name"))) {
-                    SET("t.buyer_name = #{buyer_name}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("buyer_telephone"))) {
-                    SET("t.buyer_telephone = #{buyer_telephone}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))) {
-                    SET("t.consignee_address = #{consignee_address}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("freight"))) {
-                    SET("t.freight = #{freight}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("wrap_type"))) {
-                    SET("t.wrap_type = #{wrap_type}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("agent_code"))) {
-                    SET("t.agent_code = #{agent_code}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("agent_name"))) {
-                    SET("t.agent_name = #{agent_name}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("traf_mode"))) {
-                    SET("t.traf_mode = #{traf_mode}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("traf_no"))) {
-                    SET("t.traf_no = #{traf_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("voyage_no"))) {
-                    SET("t.voyage_no = #{voyage_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
-                    SET("t.bill_no = #{bill_no}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("country"))) {
-                    SET("t.country = #{country}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
-                    SET("t.gross_weight = #{gross_weight}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
-                    SET("t.net_weight = #{net_weight}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("note"))) {
-                    SET("t.note = #{note}");
-                }
-                if (!StringUtils.isEmpty(entryHead.get("total_sum"))) {
-                    SET("t.total_prices = #{total_sum}");
-                }
-            }
-        }.toString();
-    }
-
-    //修改清单表体信息
-    public String updateImpInventoryBodiesByLogic(LinkedHashMap<String, String> entryList) {
-        return new SQL() {
-            {
-                UPDATE("T_IMP_INVENTORY_BODY t");
-                WHERE("t.HEAD_GUID = #{entryhead_guid}");
-                WHERE("t.G_NUM = #{g_no}");
-                if (!StringUtils.isEmpty(entryList.get("g_name"))) {
-                    SET("t.g_name = #{g_name}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("g_code"))) {
-                    SET("t.g_code = #{g_code}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("g_model"))) {
-                    SET("t.g_model = #{g_model}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("country"))) {
-                    SET("t.country = #{country}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
-                    SET("t.qty = #{g_qty}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
-                    SET("t.unit = #{g_unit}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
-                    SET("t.qty1 = #{qty_1}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
-                    SET("t.unit1 = #{unit_1}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
-                    SET("t.qty2 = #{qty_2}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
-                    SET("t.unit2 = #{unit_2}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("price"))) {
-                    SET("t.price = #{price}");
-                }
-                if (!StringUtils.isEmpty(entryList.get("total_price"))) {
-                    SET("t.total_price = #{total_price}");
-                }
-            }
-        }.toString();
-    }
-
-    public String queryVerifyDetail(Map<String, String> paramMap) {
-        final String id = paramMap.get("id");
-        return new SQL() {
-            {
-                SELECT("t.CB_HEAD_ID");
-                SELECT("t.STATUS");
-                SELECT("t.RESULT");
-                FROM("T_VERIFY_STATUS t");
-                WHERE("t.CB_HEAD_ID = #{id}");
-                WHERE("t.STATUS = 'N'");
-            }
-        }.toString();
-    }
+//    //修改清单表头信息
+//    public String updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead) {
+//        return new SQL() {
+//            {
+//                UPDATE("T_IMP_INVENTORY_HEAD t");
+//                WHERE("t.GUID = #{entryhead_guid}");
+//                SET("t.UPD_TM = sysdate ");
+//                if (!StringUtils.isEmpty(entryHead.get("order_no"))) {
+//                    SET("t.order_no = #{order_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("cop_no"))) {
+//                    SET("t.cop_no = #{cop_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("logistics_no"))) {
+//                    SET("t.logistics_no = #{logistics_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("ebp_code"))) {
+//                    SET("t.ebp_code = #{ebp_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("ebp_name"))) {
+//                    SET("t.ebp_name = #{ebp_name}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("ebc_code"))) {
+//                    SET("t.ebc_code = #{ebc_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("ebc_name"))) {
+//                    SET("t.ebc_name = #{ebc_name}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("assure_code"))) {
+//                    SET("t.assure_code = #{assure_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("customs_code"))) {
+//                    SET("t.customs_code = #{customs_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("port_code"))) {
+//                    SET("t.port_code = #{port_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("ie_date"))) {
+//                    SET("t.ie_date = to_date(#{ie_date},'yyyy-MM-dd')");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("buyer_id_number"))) {
+//                    SET("t.buyer_id_number = #{buyer_id_number}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("buyer_name"))) {
+//                    SET("t.buyer_name = #{buyer_name}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("buyer_telephone"))) {
+//                    SET("t.buyer_telephone = #{buyer_telephone}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("consignee_address"))) {
+//                    SET("t.consignee_address = #{consignee_address}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("freight"))) {
+//                    SET("t.freight = #{freight}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("wrap_type"))) {
+//                    SET("t.wrap_type = #{wrap_type}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("agent_code"))) {
+//                    SET("t.agent_code = #{agent_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("agent_name"))) {
+//                    SET("t.agent_name = #{agent_name}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("traf_mode"))) {
+//                    SET("t.traf_mode = #{traf_mode}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("traf_no"))) {
+//                    SET("t.traf_no = #{traf_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("voyage_no"))) {
+//                    SET("t.voyage_no = #{voyage_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("bill_no"))) {
+//                    SET("t.bill_no = #{bill_no}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("country"))) {
+//                    SET("t.country = #{country}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
+//                    SET("t.gross_weight = #{gross_weight}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
+//                    SET("t.net_weight = #{net_weight}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("note"))) {
+//                    SET("t.note = #{note}");
+//                }
+//                if (!StringUtils.isEmpty(entryHead.get("total_sum"))) {
+//                    SET("t.total_prices = #{total_sum}");
+//                }
+//            }
+//        }.toString();
+//    }
+//
+//    //修改清单表体信息
+//    public String updateImpInventoryBodiesByLogic(LinkedHashMap<String, String> entryList) {
+//        return new SQL() {
+//            {
+//                UPDATE("T_IMP_INVENTORY_BODY t");
+//                WHERE("t.HEAD_GUID = #{entryhead_guid}");
+//                WHERE("t.G_NUM = #{g_no}");
+//                if (!StringUtils.isEmpty(entryList.get("g_name"))) {
+//                    SET("t.g_name = #{g_name}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("g_code"))) {
+//                    SET("t.g_code = #{g_code}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("g_model"))) {
+//                    SET("t.g_model = #{g_model}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("country"))) {
+//                    SET("t.country = #{country}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("g_qty"))) {
+//                    SET("t.qty = #{g_qty}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("g_unit"))) {
+//                    SET("t.unit = #{g_unit}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("qty_1"))) {
+//                    SET("t.qty1 = #{qty_1}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("unit_1"))) {
+//                    SET("t.unit1 = #{unit_1}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("qty_2"))) {
+//                    SET("t.qty2 = #{qty_2}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("unit_2"))) {
+//                    SET("t.unit2 = #{unit_2}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("price"))) {
+//                    SET("t.price = #{price}");
+//                }
+//                if (!StringUtils.isEmpty(entryList.get("total_price"))) {
+//                    SET("t.total_price = #{total_price}");
+//                }
+//            }
+//        }.toString();
+//    }
+//
+//    public String queryVerifyDetail(Map<String, String> paramMap) {
+//        final String id = paramMap.get("id");
+//        return new SQL() {
+//            {
+//                SELECT("t.CB_HEAD_ID");
+//                SELECT("t.STATUS");
+//                SELECT("t.RESULT");
+//                FROM("T_VERIFY_STATUS t");
+//                WHERE("t.CB_HEAD_ID = #{id}");
+//                WHERE("t.STATUS = 'N'");
+//            }
+//        }.toString();
+//    }
 
 
 }

@@ -22,47 +22,47 @@ public interface BondinvenQueryMapper {
     int deleteVerifyStatus(String guid);
 
     //查询清单数据
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryInventoryQueryList")
-    List<ImpInventory> queryInventoryQueryList(Map<String, String> paramMap) throws Exception;
+    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryBondInvenQueryData")
+    List<ImpInventory> queryBondInvenQueryData(Map<String, String> paramMap) throws Exception;
 
     //查询清单数据总数
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryInventoryQueryCount")
-    Integer queryInventoryQueryCount(Map<String, String> paramMap) throws Exception;
+    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryBondInvenQueryCount")
+    Integer queryBondInvenQueryCount(Map<String, String> paramMap) throws Exception;
 
-    //查询清单表头详情
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryImpInventoryHead")
-    ImpInventoryHead queryImpInventoryHead(Map<String, String> paramMap);
+//    //查询清单表头详情
+//    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryImpInventoryHead")
+//    ImpInventoryHead queryImpInventoryHead(Map<String, String> paramMap);
+//
+//    //查询清单表体详情
+//    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryImpInventoryBodies")
+//    List<ImpInventoryBody> queryImpInventoryBodies(Map<String, String> paramMap);
 
-    //查询清单表体详情
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryImpInventoryBodies")
-    List<ImpInventoryBody> queryImpInventoryBodies(Map<String, String> paramMap);
-
-    //查询清单表头详情
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryVerifyDetail")
-    Verify queryVerifyDetail(Map<String, String> paramMap);
+//    //查询清单表头详情
+//    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "queryVerifyDetail")
+//    Verify queryVerifyDetail(Map<String, String> paramMap);
 
     //修改清单表头信息
-    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryHead")
-    void updateImpInventoryHead(LinkedHashMap<String, String> entryHead);
+    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpBondInvenHeadAfter")
+    void updateImpBondInvenHeadAfter(LinkedHashMap<String, String> entryHead);
 
     //修改清单表体数据（清单查询）
-    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryHeadByList")
-    void updateImpInventoryHeadByList(LinkedHashMap<String, String> entryHead);
+    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpBondInvenHeadByList")
+    void updateImpBondInvenHeadByList(LinkedHashMap<String, String> entryHead);
 
     //修改清单表体信息（清单查询）
-    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryBodies")
-    void updateImpInventoryBodies(LinkedHashMap<String, String> entryList);
+    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpBondInvenBodyAfter")
+    void updateImpBondInvenBodyAfter(LinkedHashMap<String, String> entryList);
 
-    //修改清单表头信息（逻辑校验）
-    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryHeadByLogic")
-    void updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead);
-
-    //修改清单表体信息（逻辑校验）
-    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryBodiesByLogic")
-    void updateImpInventoryBodiesByLogic(LinkedHashMap<String, String> entryList);
+//    //修改清单表头信息（逻辑校验）
+//    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryHeadByLogic")
+//    void updateImpInventoryHeadByLogic(LinkedHashMap<String, String> entryHead);
+//
+//    //修改清单表体信息（逻辑校验）
+//    @UpdateProvider(type = BondinvenQuerySQLProvider.class, method = "updateImpInventoryBodiesByLogic")
+//    void updateImpInventoryBodiesByLogic(LinkedHashMap<String, String> entryList);
 
     //查询清单回执详情（清单查询）
-    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "getImpInventoryRec")
-    ImpInventoryHead getImpInventoryRec(Map<String, String> paramMap);
+    @SelectProvider(type = BondinvenQuerySQLProvider.class, method = "getImpBondInvenRec")
+    ImpInventoryHead getImpBondInvenRec(Map<String, String> paramMap);
 
 }

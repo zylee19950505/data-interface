@@ -8,7 +8,6 @@ sw.page.modules["bondinvenmanage/bondinvenquery"] = sw.page.modules["bondinvenma
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
         var orderNo = $("[name='orderNo']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
         var preNo = $("[name='preNo']").val();
@@ -16,10 +15,9 @@ sw.page.modules["bondinvenmanage/bondinvenquery"] = sw.page.modules["bondinvenma
         var returnStatus = $("[name='returnStatus']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
+        var url = sw.serializeObjectToURL("api/bondinvenmanage/querybondinvenquery", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
             orderNo: orderNo,//订单编号
             logisticsNo: logisticsNo,//物流运单编号
             preNo: preNo,//电子口岸标识编号
@@ -61,10 +59,9 @@ sw.page.modules["bondinvenmanage/bondinvenquery"] = sw.page.modules["bondinvenma
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "bill_no", label: "提运单号"},//订单编号要点击查看订单详情
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeInventoryDetail('" + row.guid + "','" + row.order_no + "','" + row.return_status + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondinvenmanage/bondinvenquery').seeBondInvenInfo('" + row.guid + "','" + row.order_no + "','" + row.return_status + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {data: "logistics_no", label: "物流运单编号"},
@@ -103,7 +100,7 @@ sw.page.modules["bondinvenmanage/bondinvenquery"] = sw.page.modules["bondinvenma
                     } else {
                         value = row.return_status;
                     }
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('detailmanage/detailQuery').seeInventoryRec('" + row.guid + "','" + row.data_status + "')" + '">' + value + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondinvenmanage/bondinvenquery').seeBondInvenRec('" + row.guid + "','" + row.data_status + "')" + '">' + value + '</a>'
                 }
                 }
             ]
@@ -120,22 +117,21 @@ sw.page.modules["bondinvenmanage/bondinvenquery"] = sw.page.modules["bondinvenma
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
         $(".btn[ws-search]").click();
     },
 
-    seeInventoryDetail: function (guid, order_no, return_status) {
+    seeBondInvenInfo: function (guid, order_no, return_status) {
         if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+            var url = "bondinvenmanage/seebondinvendetail?type=BSQDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
+            var url = "bondinvenmanage/seebondinvendetail?type=BSQDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
         }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
+        sw.modelPopup(url, "查看保税清单详情", false, 1100, 930);
     },
 
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
+    seeBondInvenRec: function (guid, data_status) {
+        var url = "bondinvenmanage/seebondinvenrec?type=BSQDHZ&isEdit=true&guid=" + guid + "&data_status=" + data_status;
+        sw.modelPopup(url, "查看保税清单回执详情", false, 800, 300);
     }
 
 };
