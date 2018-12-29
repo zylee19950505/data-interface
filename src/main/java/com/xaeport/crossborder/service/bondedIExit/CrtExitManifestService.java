@@ -2,10 +2,7 @@ package com.xaeport.crossborder.service.bondedIExit;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
-import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.PassPortAcmp;
-import com.xaeport.crossborder.data.entity.PassPortHead;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtExitManifestMapper;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +19,22 @@ public class CrtExitManifestService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
-    //查询跨境清单数据
+    //查询出区核注清单数据
     public List<BondInvtBsc> queryEInventoryList(Map<String, String> paramMap) throws Exception {
         return this.crtExitManifestMapper.queryEInventoryList(paramMap);
     }
 
-    //查询跨境清单总数
+    //查询出区核注清单数据总数
     public Integer queryEInventoryCount(Map<String, String> paramMap) throws Exception {
         return this.crtExitManifestMapper.queryEInventoryCount(paramMap);
     }
 
-    //查表头
+    //查询出区核注清单数据数据是否重复
+    public Integer queryBondinvtIsRepeat(Map<String, String> paramMap) throws Exception {
+        return this.crtExitManifestMapper.queryBondinvtIsRepeat(paramMap);
+    }
+
+    //获取出区核放单表头数据
     public PassPortHead queryPassPortHead(Map<String, String> paramMap) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
 
@@ -50,7 +52,7 @@ public class CrtExitManifestService {
         return passPortHead;
     }
 
-    //查表体
+    //获取出区核放单表体数据
     public List<PassPortAcmp> queryPassPortAcmpList(Map<String, String> paramMap) throws Exception {
         List<PassPortAcmp> passPortAcmpList = new ArrayList<>();
         PassPortAcmp passPortAcmp;
@@ -64,7 +66,17 @@ public class CrtExitManifestService {
         return passPortAcmpList;
     }
 
+    //创建插入出区核放单数据
+    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList) {
+        this.crtExitManifestMapper.updateBondInvt(passPortHead);
+        this.crtExitManifestMapper.insertPassPortHead(passPortHead);
 
+        for (PassPortAcmp passPortAcmp : passPortAcmpList) {
+            this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp);
+        }
+    }
+
+    //保存更新出区核放单数据
     public Map<String, String> saveExitManifest(LinkedHashMap<String, String> passPortHead, ArrayList<LinkedHashMap<String, String>> passPortAcmpList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
 

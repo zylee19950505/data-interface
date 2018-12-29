@@ -68,8 +68,21 @@ sw.page.modules["bondediexit/crtExitManifest"] = sw.page.modules["bondediexit/cr
     },
 
     crtExitManifest: function (submitKeys) {
-        var url = "bondediexit/seeExitManifestDetail?type=CQHFDCJ&isEdit=true&mark=crt&submitKeys=" + submitKeys;
-        sw.modelPopup(url, "新建出区核放单", false, 1000, 600);
+        var getData = {
+            submitKeys: submitKeys
+        };
+
+        sw.ajax("api/bondediexit/querybondinvtisrepeat", "GET", getData, function (rsp) {
+            if (rsp.data != "0") {
+                sw.alert("该核注清单已生成核放单信息,请在出区核放单界面查看！");
+                sw.page.modules["bondediexit/crtExitManifest"].query();
+            } else {
+                var url = "bondediexit/seeExitManifestDetail?type=CQHFDCJ&isEdit=true&mark=crt&submitKeys=" + submitKeys;
+                sw.modelPopup(url, "新建出区核放单", false, 1000, 600);
+                sw.page.modules["bondediexit/crtExitManifest"].query();
+            }
+        });
+
     },
 
     init: function () {

@@ -82,8 +82,25 @@ public class CrtExitManifestApi extends BaseApi {
 
     }
 
+    @RequestMapping(value="/querybondinvtisrepeat",method = RequestMethod.GET)
+    public ResponseData queryBondinvtIsRepeat(
+            @RequestParam(required = false) String submitKeys
+    ){
+        Map<String,String> map = new HashMap<>();
+        map.put("submitKeys",submitKeys);
+        Integer count;
+
+        try{
+            count = crtExitManifestService.queryBondinvtIsRepeat(map);
+        }catch (Exception e){
+            this.logger.error("查询出区核注清单数据失败",e);
+            return new ResponseData("查询出区核注清单数据失败",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(count);
+    }
+
     /**
-     * 新建核放单
+     * 新建出区核放单（预先插入获取数据）
      **/
     @RequestMapping(value = "/crtexitmanifest", method = RequestMethod.GET)
     public ResponseData saveSubmitCustom(
@@ -108,6 +125,7 @@ public class CrtExitManifestApi extends BaseApi {
             passPortAcmpList = this.crtExitManifestService.queryPassPortAcmpList(paramMap);
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortAcmpList(passPortAcmpList);
+            this.crtExitManifestService.insertPassHeadData(passPortHead,passPortAcmpList);
         } catch (Exception e) {
             this.logger.error("新建出区核放单数据失败", e);
             return new ResponseData("获取出区核放单数据错误", HttpStatus.BAD_REQUEST);
@@ -116,7 +134,7 @@ public class CrtExitManifestApi extends BaseApi {
 
     }
 
-    //保存核放单信息
+    //保存更新出区核放单信息
     @RequestMapping(value = "/saveExitManifest", method = RequestMethod.POST)
     public ResponseData saveManifestInfo(
             @Param("entryJson") String entryJson
