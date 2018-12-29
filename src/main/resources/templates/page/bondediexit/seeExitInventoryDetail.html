@@ -1,4 +1,3 @@
-
 <div class="detailPage">
     <div class="entryTitle">
         <span>出区核注清单表头信息</span>
@@ -44,7 +43,7 @@
             </td>
             <td class="headTitle">进出口口岸代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="100" id="xxx"/>
+                <select class="form-control input-sm" id="impexp_portcd"/>
             </td>
             <td class="headTitle">申报地关区代码</td>
             <td>
@@ -201,7 +200,14 @@
         <tbody id="table_body_result">
         </tbody>
     </table>
-    <ul class="pagination" id="barcon" name="barcon"></ul>
+    <div class="row">
+        <div class="col-sm-5">
+            <div style="margin: 20px 0px 0px 0px;font-size: 15px;font-weight: 600" id="listData"></div>
+        </div>
+        <div class="col-sm-7">
+            <ul class="pagination" id="barcon" name="barcon" style="margin: 20px 0px 0px 211px"></ul>
+        </div>
+    </div>
     <div class="text-center">
         <small class="help-block text-red" id="errorMsg"></small>
     </div>

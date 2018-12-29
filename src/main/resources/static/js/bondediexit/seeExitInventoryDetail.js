@@ -115,6 +115,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "putrec_no",
             "rcvgd_etpsno",
             "rcvgd_etps_nm",
+            "impexp_portcd",
             "dcl_plc_cuscd",
             "impexp_markcd",
             "mtpck_endprd_markcd",
@@ -173,6 +174,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
 
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
@@ -191,6 +193,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
 
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
@@ -199,9 +202,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
     //加载表体信息
     fillNemsInvtCbecBillTypeList: function (entryLists) {
-        
+
         for (var i = 0; i < entryLists.length; i++) {
-            
+
             var no = entryLists[i].no;
             var str =
                 "<tr>" +
@@ -214,7 +217,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 "</tr>";
             $("#table_body_result").append(str);
         }
-        this.goPage(1,5);
+        this.goPage(1, 5);
     },
 
     // // 标记问题字段
@@ -250,6 +253,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             putrec_no: $("#putrec_no").val(),
             rcvgd_etpsno: $("#rcvgd_etpsno").val(),
             rcvgd_etps_nm: $("#rcvgd_etps_nm").val(),
+            impexp_portcd: $("#impexp_portcd").val(),
             dcl_plc_cuscd: $("#dcl_plc_cuscd").val(),
             impexp_markcd: $("#impexp_markcd").val(),
             mtpck_endprd_markcd: $("#mtpck_endprd_markcd").val(),
@@ -280,12 +284,13 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
+        debugger;
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
-            
+
             if (rsp.data.result) {
                 sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
                 setTimeout(function () {
@@ -406,6 +411,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "putrec_no": "备案编号",
             "rcvgd_etpsno": "收货企业编号",
             "rcvgd_etps_nm": "收货企业名称",
+            "impexp_portcd": "进出口口岸代码",
             "dcl_plc_cuscd": "申报地关区代码",
             "impexp_markcd": "进出口标记代码",
             "mtpck_endprd_markcd": "料件成品标记代码",
@@ -467,7 +473,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     },
 
     goPage: function (pno, psize) {
-        
+
         var itable = document.getElementById("table_body_result");//通过ID找到表格
         var num = itable.rows.length;//表格所有行数(所有记录数)
         var totalPage = 0;//总页数
@@ -485,7 +491,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         //遍历显示数据实现分页
         for (var i = 1; i < (num + 1); i++) {
             var irow = itable.rows[i - 1];
-            
+
             if (i >= startRow && i <= endRow) {
                 // irow.style.display = "block";
                 $(irow).show();
@@ -496,35 +502,39 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         }
         var tempStr = "";
         if (currentPage > 1) {
-            tempStr += "<li class='prev'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + (currentPage - 1) + "," + psize + ")\"><<&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><li>";
+            tempStr += "<li class='prev'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + (currentPage - 1) + "," + psize + ")\"> 上一页&nbsp;&nbsp;</a><li>";
             for (var j = 1; j <= totalPage; j++) {
                 if (currentPage == j) {
-                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";
+                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else if (j == 1 || j == totalPage) {
+                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
                 } else {
-                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";
-                }
-
-            }
-        } else {
-            tempStr += "<li> <a href='javascript:void(0)'> <<&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>";
-            for (var j = 1; j <= totalPage; j++) {
-                if (currentPage == j) {
-                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";
-                } else {
-                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;&nbsp;</a><li>";
+                    tempStr += "<li><a hidden='hidden' href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
                 }
 
             }
         }
+        else {
+            tempStr += "<li> <a href='javascript:void(0)'> 上一页&nbsp;&nbsp;</a></li>";
+            for (var j = 1; j <= totalPage; j++) {
+                if (currentPage == j) {
+                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else if (j == 1 || j == totalPage) {
+                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else {
+                    tempStr += "<li><a hidden='hidden' href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                }
+
+            }
+        }
+
         if (currentPage < totalPage) {
-            tempStr += "<li class='next'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + (currentPage + 1) + "," + psize + ")\">>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a><li>";
-            for (var j = 1; j <= totalPage; j++) {
-            }
+            tempStr += "<li class='next'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondediexit/seeExitInventoryDetail'].goPage(" + (currentPage + 1) + "," + psize + ")\"> 下一页&nbsp;&nbsp;</a><li>";
         } else {
-            tempStr += "<li> <a href='javascript:void(0)'> >>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>";
-            for (var j = 1; j <= totalPage; j++) {
-            }
+            tempStr += "<li> <a href='javascript:void(0)'> 下一页&nbsp;&nbsp;</a></li>";
         }
+
+        $("#listData").text("核注清单数据共计" + num + "条");
         document.getElementById("barcon").innerHTML = tempStr;
     },
 
@@ -567,7 +577,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             }
             //出区核注清单修改
             case "CQHZQDXG": {
-                
+
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
@@ -597,6 +607,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 "putrec_no",
                 "rcvgd_etpsno",
                 "rcvgd_etps_nm",
+                "impexp_portcd",
                 "dcl_plc_cuscd",
                 "impexp_markcd",
                 "mtpck_endprd_markcd",

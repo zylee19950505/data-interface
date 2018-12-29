@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -82,19 +83,19 @@ public class CrtExitManifestApi extends BaseApi {
 
     }
 
-    @RequestMapping(value="/querybondinvtisrepeat",method = RequestMethod.GET)
+    @RequestMapping(value = "/querybondinvtisrepeat", method = RequestMethod.GET)
     public ResponseData queryBondinvtIsRepeat(
             @RequestParam(required = false) String submitKeys
-    ){
-        Map<String,String> map = new HashMap<>();
-        map.put("submitKeys",submitKeys);
+    ) {
+        Map<String, String> map = new HashMap<>();
+        map.put("submitKeys", submitKeys);
         Integer count;
 
-        try{
+        try {
             count = crtExitManifestService.queryBondinvtIsRepeat(map);
-        }catch (Exception e){
-            this.logger.error("查询出区核注清单数据失败",e);
-            return new ResponseData("查询出区核注清单数据失败",HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            this.logger.error("查询出区核注清单数据失败", e);
+            return new ResponseData("查询出区核注清单数据失败", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(count);
     }
@@ -108,13 +109,16 @@ public class CrtExitManifestApi extends BaseApi {
     ) {
         Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dateNowStr = sdf.format(date);
 
         paramMap.put("bond_invt_no", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
 
         paramMap.put("input_name", users.getEnt_Name());
         paramMap.put("input_code", users.getEnt_Customs_Code());
-        paramMap.put("etps_preent_no", users.getEnt_Customs_Code() + IdUtils.getShortUUId());
+        paramMap.put("etps_preent_no", "HFD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
 
         PassPort passPort = new PassPort();
         PassPortHead passPortHead = new PassPortHead();
@@ -125,7 +129,7 @@ public class CrtExitManifestApi extends BaseApi {
             passPortAcmpList = this.crtExitManifestService.queryPassPortAcmpList(paramMap);
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortAcmpList(passPortAcmpList);
-            this.crtExitManifestService.insertPassHeadData(passPortHead,passPortAcmpList);
+            this.crtExitManifestService.insertPassHeadData(passPortHead, passPortAcmpList);
         } catch (Exception e) {
             this.logger.error("新建出区核放单数据失败", e);
             return new ResponseData("获取出区核放单数据错误", HttpStatus.BAD_REQUEST);

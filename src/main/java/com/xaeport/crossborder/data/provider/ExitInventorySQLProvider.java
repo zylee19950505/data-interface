@@ -185,6 +185,9 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etps_nm"))) {
                     SET("RCVGD_ETPS_NM = #{BondInvtBsc.rcvgd_etps_nm}");
                 }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("impexp_portcd"))) {
+                    SET("IMPEXP_PORTCD = #{BondInvtBsc.impexp_portcd}");
+                }
                 if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_plc_cuscd"))) {
                     SET("DCL_PLC_CUSCD = #{BondInvtBsc.dcl_plc_cuscd}");
                 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -84,6 +85,10 @@ public class CrtExitInventoryApi extends BaseApi {
         Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
 
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dateNowStr = sdf.format(date);
+
         paramMap.put("invtNo", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
         paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
@@ -92,7 +97,7 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("dcl_etpsno", users.getEnt_Customs_Code());
         paramMap.put("dcl_etps_nm", users.getEnt_Name());
         paramMap.put("ent_code", users.getEnt_Code());
-        paramMap.put("etps_inner_invt_no", users.getEnt_Customs_Code() + IdUtils.getShortUUId());
+        paramMap.put("etps_inner_invt_no", "HZQD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
 
         ExitBondInvt exitBondInvt = new ExitBondInvt();
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
