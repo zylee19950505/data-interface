@@ -114,8 +114,12 @@
                     <option value="1" selected="selected">备案申请（1）</option>
                 </select>
             </td>
+            <td class="headTitle">企业内部编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="etps_inner_invt_no" readonly="readonly"/>
+            </td>
             <td class="headTitle">备注</td>
-            <td colspan="4">
+            <td>
                 <input class="form-control input-sm" maxlength="2000" id="rmk"/>
             </td>
         </tr>
@@ -125,7 +129,7 @@
             <!--表头ID码-->
             <input hidden="hidden" id="id"/>
             <!--企业内部清单编号-->
-            <input hidden="hidden" id="etps_inner_invt_no"/>
+            <!--<input hidden="hidden" id="etps_inner_invt_no"/>-->
             <!--所绑定清单编号-->
             <input hidden="hidden" id="invt_no"/>
             <!--经营企业社会信用代码-->

@@ -76,7 +76,12 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     data: "status", label: "申报状态"
                 },
                 {
-                    data: "entry_dcl_time", label: "申报时间"
+                    label: "申报时间", render: function (data, type, row) {
+                    if (!isEmpty(row.invt_dcl_time)) {
+                        return moment(row.invt_dcl_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
                 },
                 {
                     data: "return_status", label: "回执状态"

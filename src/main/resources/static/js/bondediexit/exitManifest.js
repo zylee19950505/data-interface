@@ -71,9 +71,6 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitManifest').updateExitManifest('" + row.etps_preent_no + "','" + row.status + "')" + '">' + row.etps_preent_no + '</a>'
                 }
                 },
-                // {
-                //     data: "etps_preent_no", label: "企业内部编号"
-                // },
                 {
                     data: "rlt_no", label: "核注清单编号"
                 },
@@ -84,7 +81,12 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     data: "status", label: "申报状态"
                 },
                 {
-                    data: "dcl_time", label: "申报时间"
+                    label: "申报时间", render: function (data, type, row) {
+                    if (!isEmpty(row.dcl_time)) {
+                        return moment(row.dcl_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
                 },
                 {
                     data: "return_status", label: "回执状态"

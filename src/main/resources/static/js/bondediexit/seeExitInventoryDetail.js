@@ -582,12 +582,12 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        // "body_id",
-                        "body_no"
-                        // "body_seqNo",
-                        // "body_bondInvtNo",
-                        // "body_cbecBillNo",
-                        // "body_etpsInnerInvtNo"
+                        "body_id",
+                        "body_no",
+                        "body_seqNo",
+                        "body_bondInvtNo",
+                        "body_cbecBillNo",
+                        "body_etpsInnerInvtNo"
                     ];
                 }
                 //保存的路径

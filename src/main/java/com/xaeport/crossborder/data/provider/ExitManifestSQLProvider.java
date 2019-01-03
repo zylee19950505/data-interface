@@ -28,12 +28,14 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                         "t.PASSPORT_NO," +
                         "t.RLT_NO," +
                         "t.STATUS," +
+                        "t.DCL_TIME," +
                         "t.RETURN_STATUS," +
                         "t.RETURN_DATE," +
                         "t.RETURN_INFO," +
                         "t.ETPS_PREENT_NO," +
                         "t.BOND_INVT_NO");
                 FROM("T_PASS_PORT_HEAD t");
+                WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -75,6 +77,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_PASS_PORT_HEAD t");
+                WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

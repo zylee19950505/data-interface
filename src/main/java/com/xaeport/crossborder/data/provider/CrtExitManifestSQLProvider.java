@@ -122,6 +122,7 @@ public class CrtExitManifestSQLProvider {
             {
                 INSERT_INTO("T_PASS_PORT_HEAD");
                 VALUES("status", "'BDDS4'");
+                VALUES("FLAG","'EXIT'");
                 if (!StringUtils.isEmpty(passPortHead.getId())) {
                     VALUES("id", "#{passPortHead.id}");
                 }
