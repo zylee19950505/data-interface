@@ -21,42 +21,31 @@
                 </div>
                 <div class="box-body">
                     <form class="form-inline" role="form">
+
                         <div class="col-md-12">
-                            <!--<div class="form-group">-->
-                                <!--<div class="input-group">-->
-                                    <!--<span class="input-group-addon">序号：</span>-->
-                                    <!--<select class="form-control" name="dataStatus">-->
-                                        <!--<option value="" selected = "selected" >全部</option>-->
-                                        <!--<option value="CBDS7" >待申报</option>-->
-                                        <!--<option value="CBDS70" >申报中</option>-->
-                                        <!--<option value="CBDS71" >已申报</option>-->
-                                        <!--<option value="CBDS72" >申报成功</option>-->
-                                        <!--&lt;!&ndash;<option value="CBDS73" >退单</option>&ndash;&gt;-->
-                                    <!--</select>-->
-                                <!--</div>-->
-                            <!--</div>-->
+
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">序号:</span>
-                                    <input type="text" class="form-control" name="billNo" placeholder="请输入序号" />
+                                    <span class="input-group-addon">商品序号:</span>
+                                    <input type="text" class="form-control" name="gds_seqno" placeholder="请输入商品序号" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">料号:</span>
-                                    <input type="text" class="form-control" name="billNo" placeholder="请输入料号" />
+                                    <span class="input-group-addon">商品料号:</span>
+                                    <input type="text" class="form-control" name="gds_mtno" placeholder="请输入商品料号" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon">税号:</span>
-                                    <input type="text" class="form-control" name="billNo" placeholder="请输入税号" />
+                                    <span class="input-group-addon">商品税号:</span>
+                                    <input type="text" class="form-control" name="gdecd" placeholder="请输入商品税号" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">商品名称:</span>
-                                    <input type="text" class="form-control" name="billNo" placeholder="请输入商品名称" />
+                                    <input type="text" class="form-control" name="gds_nm" placeholder="请输入商品名称" />
                                 </div>
                             </div>
 
@@ -78,15 +67,15 @@
                 <div class="box-header with-border">
                     <i class="fa fa-search"></i>
                     <h3 class="box-title">账册信息</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-sm btn-info pull-right" type="button" ws-submit="" id="submitCustom"
-                                    data-toggle="tooltip-disabled">导出表格
-                        </button>
-                    </div>
+                    <!--<div class="box-tools pull-right">-->
+                        <!--<button class="btn btn-sm btn-info pull-right" type="button" ws-submit="" id="submitCustom"-->
+                                    <!--data-toggle="tooltip-disabled">导出表格-->
+                        <!--</button>-->
+                    <!--</div>-->
                 </div>
                 <div class="box-body">
                     <div style="text-align: center">
-                        <table id="query-accountQuery-table" align="center"
+                        <table id="query-accountquery-table" align="center"
                                class="table table-striped table-bordered table-hover table-condensed"
                                width="100%">
                         </table>

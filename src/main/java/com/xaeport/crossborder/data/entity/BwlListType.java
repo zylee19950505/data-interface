@@ -45,6 +45,7 @@ public class BwlListType {
     private String upd_user;//更新人
 
     private double surplus;//剩余量
+    private String dcl_unitcd_name;//申报计量单位中文名称
 
     public String getId() {
         return id;
@@ -340,5 +341,13 @@ public class BwlListType {
 
     public void setSurplus(double surplus) {
         this.surplus = surplus;
+    }
+
+    public String getDcl_unitcd_name() {
+        return dcl_unitcd_name;
+    }
+
+    public void setDcl_unitcd_name(String dcl_unitcd_name) {
+        this.dcl_unitcd_name = dcl_unitcd_name;
     }
 }

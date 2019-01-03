@@ -3,7 +3,6 @@ package com.xaeport.crossborder.data.provider;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
-import com.xaeport.crossborder.data.provider.BaseSQLProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
