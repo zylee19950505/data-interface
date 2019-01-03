@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.parser;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,21 +34,21 @@ public class ExpParser {
         String sample = new String(expPath, "UTF-8").trim();
         //判断回执报文类型
         if (sample.contains("<CEB312Message")) {//订单回执
-            type = "CEB312";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_ORDER;
         } else if (sample.contains("<CEB412Message")) {//支付单回执
-            type = "CEB412";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_PAYMENT;
         } else if (sample.contains("<CEB512Message")) {//运单回执
-            type = "CEB512";
+            type =SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS;
         } else if (sample.contains("<CEB514Message")) {//运单状态回执
-            type = "CEB514";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS_STATUS;
         } else if (sample.contains("<CEB622Message")) {//清单回执
-            type = "CEB622";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_INVENTORY;
         } else if (sample.contains("<CEB712Message")) {//入库明细单回执
-            type = "CEB712";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_DELIVERY;
         } else if (sample.contains("<CheckGoodsInfo")) {//预订数据报文
-            type = "CheckGoodsInfo";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_SUBSCRIPTION;
         } else if (sample.contains("<CEB816Message")) {//电子税单回执
-            type = "TAX";
+            type = SystemConstants.RECEIPT_REPORT_TYPE_TAX;
         }
         return type;
     }
@@ -59,29 +60,29 @@ public class ExpParser {
         mapData.put("type", type);
         Map<String, List<List<Map<String, String>>>> map = null;
         switch (type) {
-            case "CEB312"://订单回执报文
-                map = this.parserHolder.getParser("ceb312").expParser(expPath, "OrderReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_ORDER://订单回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_ORDER).expParser(expPath, "OrderReturn");
                 break;
-            case "CEB412"://支付单回执报文
-                map = this.parserHolder.getParser("ceb412").expParser(expPath, "PaymentReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_PAYMENT://支付单回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_PAYMENT).expParser(expPath, "PaymentReturn");
                 break;
-            case "CEB512"://运单回执报文
-                map = this.parserHolder.getParser("ceb512").expParser(expPath, "LogisticsReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS://运单回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS).expParser(expPath, "LogisticsReturn");
                 break;
-            case "CEB514"://运单状态回执报文
-                map = this.parserHolder.getParser("ceb514").expParser(expPath, "LogisticsStatusReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS_STATUS://运单状态回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS_STATUS).expParser(expPath, "LogisticsStatusReturn");
                 break;
-            case "CEB622"://清单回执报文
-                map = this.parserHolder.getParser("ceb622").expParser(expPath, "InventoryReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_INVENTORY://清单回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_INVENTORY).expParser(expPath, "InventoryReturn");
                 break;
-            case "CEB712"://入库明细单回执
-                map = this.parserHolder.getParser("ceb712").expParser(expPath, "DeliveryReturn");
+            case SystemConstants.RECEIPT_REPORT_TYPE_DELIVERY://入库明细单回执
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_DELIVERY).expParser(expPath, "DeliveryReturn");
                 break;
-            case "CheckGoodsInfo"://预定数据报文
-                map = this.parserHolder.getParser("CheckGoodsInfo").expParser(expPath, "CheckGoodsInfoHead");
+            case SystemConstants.RECEIPT_REPORT_TYPE_SUBSCRIPTION://预定数据报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_SUBSCRIPTION).expParser(expPath, "CheckGoodsInfoHead");
                 break;
-            case "TAX"://电子税单回执报文
-                map = this.parserHolder.getParser("TAX").expParser(expPath, "Tax", "TaxHeadRd", "TaxListRd");
+            case SystemConstants.RECEIPT_REPORT_TYPE_TAX://电子税单回执报文
+                map = this.parserHolder.getParser(SystemConstants.RECEIPT_REPORT_TYPE_TAX).expParser(expPath, "Tax", "TaxHeadRd", "TaxListRd");
                 break;
         }
         mapData.put("Receipt", map);

@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.parser;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -17,14 +18,14 @@ public class ParserHolder {
     @PostConstruct
     public void initParser() {
         map = new HashMap<>();
-        map.put("ceb312", new Ceb312Parser());//订单回执报文
-        map.put("ceb412", new Ceb412Parser());//支付单回执报文
-        map.put("ceb512", new Ceb512Parser());//运单回执报文
-        map.put("ceb514", new Ceb514Parser());//运单状态回执报文
-        map.put("ceb622", new Ceb622Parser());//清单回执报文
-        map.put("ceb712", new Ceb712Parser());//入库明细单回执报文
-        map.put("CheckGoodsInfo", new CheckGoodsInfoParser());//核放单预订数据报文
-        map.put("TAX", new Ceb816Parser());//电子税单报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_ORDER, new CebParser());//订单回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_PAYMENT, new CebParser());//支付单回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS, new CebParser());//运单回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS_STATUS, new CebParser());//运单状态回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_INVENTORY, new CebParser());//清单回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_DELIVERY, new CebParser());//入库明细单回执报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_SUBSCRIPTION, new CebParser());//核放单预订数据报文
+        map.put(SystemConstants.RECEIPT_REPORT_TYPE_TAX, new CebParser());//电子税单报文
     }
 
     public BaseParser getParser(String parserType) {
