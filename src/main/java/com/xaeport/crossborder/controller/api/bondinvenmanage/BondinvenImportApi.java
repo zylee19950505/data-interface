@@ -101,6 +101,9 @@ public class BondinvenImportApi extends BaseApi {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");
                     return new ResponseData(String.format("跨境电子进口保税清单导入成功！"));
+                } else if (flag == 3) {
+                    httpSession.removeAttribute("importTime");
+                    return new ResponseData("该账号库存余量不足");
                 } else {
                     httpSession.removeAttribute("importTime");
                     return new ResponseData("入库失败");

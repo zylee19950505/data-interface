@@ -11,14 +11,14 @@ import java.util.Map;
 public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
     //查询清单页面数据
-    public String queryCrtEInventoryList(
-            Map<String, String> paramMap
-    ) throws Exception {
+    public String queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
 
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String returnStatus = paramMap.get("returnStatus");
+        final String businessType = paramMap.get("businessType");
+
         return new SQL() {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
@@ -38,6 +38,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                         "where ss.status_code = t.return_status) return_status_name");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -54,18 +55,19 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
     }
 
     //查询清单页面数据总数
-    public String queryCrtEInventoryCount(
-            Map<String, String> paramMap
-    ) throws Exception {
+    public String queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception {
 
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String returnStatus = paramMap.get("returnStatus");
+        final String businessType = paramMap.get("businessType");
+
         return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

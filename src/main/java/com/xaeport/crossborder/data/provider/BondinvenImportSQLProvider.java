@@ -2,12 +2,57 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.BaseSQLProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
-public class BondinvenImportSQLProvider extends BaseSQLProvider{
+public class BondinvenImportSQLProvider extends BaseSQLProvider {
+
+    public String setPrevdRedcQty(
+            @Param("qtySum") double qtySum,
+            @Param("item_record_no") String item_record_no,
+            @Param("emsNo") String emsNo
+    ){
+        return new SQL(){
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{item_record_no}");
+                SET("PREVD_REDC_QTY = #{qtySum}");
+            }
+        }.toString();
+    }
+
+    /*
+     * 查询保税清单库存是否允许导入
+     */
+    public String checkStockSurplus(@Param("user") Users user, @Param("item_record_no") String g_code, @Param("emsNo") String emsNo) {
+        return new SQL() {
+            {
+                SELECT("(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
+                SELECT("DCL_UNITCD");
+                FROM("T_BWL_LIST_TYPE t");
+                WHERE("t.BWS_NO = #{emsNo}");
+                WHERE("t.GDS_MTNO = #{item_record_no}");
+            }
+        }.toString();
+    }
+
+    /*
+     * 查询有无重复订单号表头信息
+     */
+    public String isRepeatOrderNo(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception {
+        return new SQL() {
+            {
+                SELECT("count(1)");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.ORDER_NO = #{impInventoryHead.order_no}");
+                WHERE("t.BUSINESS_TYPE = 'BONDINVEN'");
+            }
+        }.toString();
+    }
 
     /*
      * 导入插入ImpInventoryHead数据
@@ -172,20 +217,20 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(impInventoryHead.getUpd_tm())) {
                     VALUES("upd_tm", "#{impInventoryHead.upd_tm}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getEnt_id())){
-                    VALUES("ent_id","#{impInventoryHead.ent_id}");
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_id())) {
+                    VALUES("ent_id", "#{impInventoryHead.ent_id}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getEnt_name())){
-                    VALUES("ent_name","#{impInventoryHead.ent_name}");
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_name())) {
+                    VALUES("ent_name", "#{impInventoryHead.ent_name}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getEnt_customs_code())){
-                    VALUES("ent_customs_code","#{impInventoryHead.ent_customs_code}");
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_customs_code())) {
+                    VALUES("ent_customs_code", "#{impInventoryHead.ent_customs_code}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getBusiness_type())){
-                    VALUES("business_type","#{impInventoryHead.business_type}");
+                if (!StringUtils.isEmpty(impInventoryHead.getBusiness_type())) {
+                    VALUES("business_type", "#{impInventoryHead.business_type}");
                 }
-                if(!StringUtils.isEmpty(impInventoryHead.getTotal_prices())){
-                    VALUES("total_prices","#{impInventoryHead.total_prices}");
+                if (!StringUtils.isEmpty(impInventoryHead.getTotal_prices())) {
+                    VALUES("total_prices", "#{impInventoryHead.total_prices}");
                 }
             }
         }.toString();
@@ -265,20 +310,5 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
-
-    /*
-     * 查询有无重复订单号表头信息
-     */
-    public String isRepeatOrderNo(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception {
-        return new SQL() {
-            {
-                SELECT("count(1)");
-                FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.ORDER_NO = #{impInventoryHead.order_no}");
-                WHERE("t.BUSINESS_TYPE = 'BONDINVEN'");
-            }
-        }.toString();
-    }
-
 
 }

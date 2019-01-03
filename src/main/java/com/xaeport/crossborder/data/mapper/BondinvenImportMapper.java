@@ -1,13 +1,12 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.BwlListType;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
 import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface BondinvenImportMapper {
@@ -31,5 +30,10 @@ public interface BondinvenImportMapper {
     @SelectProvider(type = BondinvenImportSQLProvider.class, method = "isRepeatOrderNo")
     int isRepeatOrderNo(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
 
+    @SelectProvider(type = BondinvenImportSQLProvider.class, method = "checkStockSurplus")
+    BwlListType checkStockSurplus(@Param("user") Users user, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
+
+    @UpdateProvider(type = BondinvenImportSQLProvider.class, method = "setPrevdRedcQty")
+    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
 
 }

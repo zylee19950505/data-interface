@@ -3,6 +3,7 @@ package com.xaeport.crossborder.controller.api.bondediexit;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
@@ -55,6 +56,7 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("returnStatus", returnStatus);
+        paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
 
         DataList<ImpInventory> dataList = null;
         List<ImpInventory> resultList = null;

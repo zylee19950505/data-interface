@@ -14,6 +14,7 @@ public class ImpInventoryBody {
     private String bar_code;//条形码: 商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。
     private String country;//原产国（地区）: 填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 国家（地区）代码表。
     private String currency;//限定为人民币，填写142。
+    private double quantity;//申报数量
     private String qty;//商品实际数量
     private String qty1;//按照商品编码规则对应的法定计量单位的实际数量填写。
     private String qty2;//第二法定数量
@@ -26,6 +27,14 @@ public class ImpInventoryBody {
     private String customs_tax;//应征关税
     private String value_added_tax;//应征增值税
     private String consumption_tax;//应征消费税
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
 
     public int getG_num() {
         return g_num;

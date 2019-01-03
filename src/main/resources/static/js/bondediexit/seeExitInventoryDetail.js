@@ -208,12 +208,12 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             var no = entryLists[i].no;
             var str =
                 "<tr>" +
-                "<td ><input class=\"form-control input-sm listCount\" maxlength=\"36\" id='body_id_" + no + "' value='" + entryLists[i].id + "'/></td>" +
+                "<td hidden='hidden'><input class=\"form-control input-sm listCount\" maxlength=\"36\" id='body_id_" + no + "' value='" + entryLists[i].id + "'/></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"20\" id='body_no_" + no + "' value='" + entryLists[i].no + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_seqNo_" + no + "' value='" + entryLists[i].seq_no + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"64\" id='body_bondInvtNo_" + no + "' value='" + entryLists[i].bond_invt_no + "'/></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_seqNo_" + no + "' value='" + (isEmpty(entryLists[i].seq_no) ? "" : entryLists[i].seq_no) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"64\" id='body_bondInvtNo_" + no + "' value='" + (isEmpty(entryLists[i].bond_invt_no) ? "" : entryLists[i].bond_invt_no) + "'/></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_cbecBillNo_" + no + "' value='" + entryLists[i].cbec_bill_no + "'/></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"64\" id='body_etpsInnerInvtNo_" + no + "' value='" + entryLists[i].head_etps_inner_invt_no + "' /></td>" +
+                "<td hidden='hidden'><input class=\"form-control input-sm\" maxlength=\"64\" id='body_etpsInnerInvtNo_" + no + "' value='" + entryLists[i].head_etps_inner_invt_no + "' /></td>" +
                 "</tr>";
             $("#table_body_result").append(str);
         }

@@ -114,8 +114,8 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
     },
 
     seeExitInfo: function (guid, order_no) {
-        var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
+        var url = "bondinvenmanage/seebondinvendetail?type=BSQDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
+        sw.modelPopup(url, "查看进口保税清单详情", false, 1100, 930);
     }
 
 };

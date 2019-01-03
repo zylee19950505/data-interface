@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class ExcelDataBondInven implements ExcelData{
+public class ExcelDataBondInven implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
 
     private int orderNoIndex; //"订单编号";//head //list
@@ -123,6 +123,8 @@ public class ExcelDataBondInven implements ExcelData{
         impInventoryBody.setG_code(inventoryBodies.get(gCodeIndex));//商品编码
         impInventoryBody.setG_name(inventoryBodies.get(gNameIndex));//商品名称
         impInventoryBody.setG_model(inventoryBodies.get(gModelIndex));//商品规格型号
+
+        impInventoryBody.setQuantity(Double.parseDouble(inventoryBodies.get(qtyIndex)));
 
         impInventoryBody.setUnit(inventoryBodies.get(unitIndex));//计量单位
         impInventoryBody.setQty(getDouble(inventoryBodies.get(qtyIndex)));//商品实际数量

@@ -44,6 +44,8 @@ public class BwlListType {
     private Date upd_time;//更新时间
     private String upd_user;//更新人
 
+    private double surplus;//剩余量
+
     public String getId() {
         return id;
     }
@@ -330,5 +332,13 @@ public class BwlListType {
 
     public void setUpd_user(String upd_user) {
         this.upd_user = upd_user;
+    }
+
+    public double getSurplus() {
+        return surplus;
+    }
+
+    public void setSurplus(double surplus) {
+        this.surplus = surplus;
     }
 }
