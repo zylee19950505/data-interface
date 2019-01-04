@@ -625,7 +625,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','InvenOver')");
+                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','BDDS51','BDDS52','InvenOver')");
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }

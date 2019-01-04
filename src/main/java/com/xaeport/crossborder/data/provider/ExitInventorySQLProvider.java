@@ -136,6 +136,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("*");
                 FROM("T_NEMS_INVT_CBEC_BILL_TYPE");
                 WHERE("HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
+                ORDER_BY("NO");
             }
         }.toString();
     }

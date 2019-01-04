@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.receipt;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -632,7 +633,12 @@ public class ReceiptService {
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
         impInventoryHead.setUpd_tm(new Date());
         //清单申报成功
-        impInventoryHead.setData_status(StatusCode.QDSBCG);
+        String type = this.receiptMapper.queryBusiTypeByCopNo(impRecInventory.getCop_no());
+        if (type.equals(SystemConstants.T_IMP_BOND_INVEN)) {
+            impInventoryHead.setData_status(StatusCode.BSQDSBCG);
+        } else {
+            impInventoryHead.setData_status(StatusCode.QDSBCG);
+        }
 
         boolean isContains = (impInventoryHead.getReturn_status()).contains("-");
         String MaxTimeReturnStatus = null;

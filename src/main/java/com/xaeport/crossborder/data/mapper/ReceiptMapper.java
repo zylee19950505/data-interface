@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ReceiptMapper {
 
+    @Select("SELECT BUSINESS_TYPE FROM T_IMP_INVENTORY_HEAD WHERE COP_NO = #{copNo}")
+    String queryBusiTypeByCopNo(@Param("copNo") String copNo);
+
     //插入电子税单表头数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "InsertTaxHeadRd")
     void InsertTaxHeadRd(@Param("taxHeadRd") TaxHeadRd taxHeadRd);
