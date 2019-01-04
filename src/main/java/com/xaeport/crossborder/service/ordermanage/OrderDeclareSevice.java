@@ -4,7 +4,7 @@ package com.xaeport.crossborder.service.ordermanage;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.order311.BaseOrderXml;
+import com.xaeport.crossborder.convert.order.BaseOrderXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;

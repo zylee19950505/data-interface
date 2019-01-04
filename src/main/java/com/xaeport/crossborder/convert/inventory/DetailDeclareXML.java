@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.inventory621;
+package com.xaeport.crossborder.convert.inventory;
 
 
 import com.xaeport.crossborder.data.entity.*;
@@ -9,9 +9,6 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -264,7 +261,7 @@ public class DetailDeclareXML {
             InventoryHead.appendChild(freight);
             InventoryHead.appendChild(insuredFee);
             InventoryHead.appendChild(currency);
-            if(!StringUtils.isEmpty(inventoryHeads.get(i).getWrapType())){
+            if (!StringUtils.isEmpty(inventoryHeads.get(i).getWrapType())) {
                 wrapType = document.createElement("ceb:wrapType");
                 wrapType.setTextContent(inventoryHeads.get(i).getWrapType());
                 InventoryHead.appendChild(wrapType);
@@ -314,7 +311,7 @@ public class DetailDeclareXML {
 
         for (int i = 0; i < inventoryBodyList.size(); i++) {
 
-            if((inventoryBodyList.get(i).getHead_guid()).equals(headGuid)){
+            if ((inventoryBodyList.get(i).getHead_guid()).equals(headGuid)) {
                 InventoryList = document.createElement("ceb:InventoryList");
 
                 gnum = document.createElement("ceb:gnum");
@@ -399,21 +396,6 @@ public class DetailDeclareXML {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

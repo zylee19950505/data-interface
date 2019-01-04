@@ -1,8 +1,9 @@
-package com.xaeport.crossborder.convert.logstatus513;
+package com.xaeport.crossborder.convert.delivery;
+
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.CEB513Message;
+import com.xaeport.crossborder.data.entity.CEB711Message;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,14 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 
 /**
- * 生成新快件和舱单的公共部分
- * Created by zwj on 2017/07/18.
+ *
  */
 @Component
-public class BaseLogisticsStatusXml {
+public class BaseDeliveryXML {
+
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
-    LogisticsStatusXml logisticsStatusXml;
+    DeliveryDeclareXML deliveryDeclareXML;
     @Autowired
     AppConfiguration appConfiguration;
 
@@ -55,42 +56,36 @@ public class BaseLogisticsStatusXml {
     /**
      * 创建clientDxp数据报文
      *
-     * @param
+     * @param ceb711Message
      */
-    public byte[] createXML(CEB513Message ceb513Message, String flag, String xmlHeadGuid) throws TransformerException {
+    public byte[] createXML(CEB711Message ceb711Message, String flag, String xmlHeadGuid) throws TransformerException {
         Document document = this.getDocument();
-        Element rootElement = document.createElement("ceb:CEB513Message");
+        Element rootElement = document.createElement("ceb:CEB711Message");
 
         rootElement.setAttribute("guid", xmlHeadGuid);
         rootElement.setAttribute("version", "1.0");
         rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
-        this.getLogistics(document, ceb513Message, flag, rootElement);
-
-        BaseTransfer baseTransfer = ceb513Message.getBaseTransfer();//创建<ceb:BaseTransfer>节点。
-        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer));//在<ceb:BaseTransfer>节点下添加内容
+        this.getInventory(document, ceb711Message, flag, rootElement);
+        //添加<ceb:BaseTransfer>节点
+        BaseTransfer baseTransfer = ceb711Message.getBaseTransfer();
+        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer));
 
         document.appendChild(rootElement);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");//换行
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");//缩进
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         transformer.transform(new DOMSource(document), new StreamResult(os));//暂时输出到控制台了
         return os.toByteArray();
     }
 
-    /**
-     * 构建 BaseTransfer4 节点
-     *
-     * @param document
-     * @param baseTransfer
-     * @return
-     */
-    public Element getBaseTransfer(Document document, BaseTransfer baseTransfer) {
+    //创建<ceb:BaseTransfer> 节点
+    private Element getBaseTransfer(Document document, BaseTransfer baseTransfer) {
 
-        Element baseTransfer513Element = document.createElement("ceb:BaseTransfer");
+        Element BaseTrElement = document.createElement("ceb:BaseTransfer");
 
         Element copCode = document.createElement("ceb:copCode");
         copCode.setTextContent(baseTransfer.getCopCode());
@@ -102,31 +97,32 @@ public class BaseLogisticsStatusXml {
         dxpMode.setTextContent(baseTransfer.getDxpMode());
 
         Element dxpId = document.createElement("ceb:dxpId");
-//        dxpId.setTextContent(baseTransfer.getDxpId());
-        dxpId.setTextContent("DXPENT0000018755");
+        dxpId.setTextContent(baseTransfer.getDxpId());
+//        dxpId.setTextContent("DXPENT0000018755");
 
         Element note = document.createElement("ceb:note");
         note.setTextContent(baseTransfer.getNote());
 
-        baseTransfer513Element.appendChild(copCode);
-        baseTransfer513Element.appendChild(copName);
-        baseTransfer513Element.appendChild(dxpMode);
-        baseTransfer513Element.appendChild(dxpId);
-        baseTransfer513Element.appendChild(note);
-        return baseTransfer513Element;
+        BaseTrElement.appendChild(copCode);
+        BaseTrElement.appendChild(copName);
+        BaseTrElement.appendChild(dxpMode);
+        BaseTrElement.appendChild(dxpId);
+        BaseTrElement.appendChild(note);
+
+        return BaseTrElement;
     }
 
     /**
-     * 构建Data 节点
+     * 构建InventoryHead 节点
      *
-     * @param
+     * @param ceb711Message
      * @return
      */
-    public Element getLogistics(Document document, CEB513Message ceb513Message, String flag, Element rootElement) {
+    public Element getInventory(Document document, CEB711Message ceb711Message, String flag, Element rootElement) {
         switch (flag) {
-            //生成新快件 xml
-            case "logisticsStatus": {
-                this.logisticsStatusXml.getLogisticsList(document, rootElement, ceb513Message);
+            //生成订单 .xml
+            case "DeliveryDeclare": {
+                this.deliveryDeclareXML.getEntryHead(document, ceb711Message, rootElement);
                 break;
             }
         }

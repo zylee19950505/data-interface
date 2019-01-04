@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.delivery711;
+package com.xaeport.crossborder.convert.delivery;
 
 
 import com.xaeport.crossborder.data.entity.*;

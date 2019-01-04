@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.logstatus513.BaseLogisticsStatusXml;
+import com.xaeport.crossborder.convert.logstatus.BaseLogisticsStatusXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;

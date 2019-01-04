@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.delivery711.BaseDeliveryXML;
+import com.xaeport.crossborder.convert.delivery.BaseDeliveryXML;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;

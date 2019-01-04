@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.logstatus513;
+package com.xaeport.crossborder.convert.logstatus;
 
 
 import com.xaeport.crossborder.data.entity.CEB513Message;

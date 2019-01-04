@@ -1,8 +1,7 @@
-package com.xaeport.crossborder.convert.payment411;
+package com.xaeport.crossborder.convert.payment;
 
 
 import com.xaeport.crossborder.data.entity.CEB411Message;
-import com.xaeport.crossborder.data.entity.ImpPayment;
 import com.xaeport.crossborder.data.entity.PaymentHead;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

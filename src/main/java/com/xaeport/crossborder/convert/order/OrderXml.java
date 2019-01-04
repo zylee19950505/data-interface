@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.order311;
+package com.xaeport.crossborder.convert.order;
 
 
 import com.xaeport.crossborder.data.entity.*;
@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

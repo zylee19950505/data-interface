@@ -3,7 +3,7 @@ package com.xaeport.crossborder.service.bondinvenmanage;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.inventory621.BaseDetailDeclareXML;
+import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;

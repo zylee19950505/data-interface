@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.logistics511.BaseLogisticsXml;
+import com.xaeport.crossborder.convert.logistics.BaseLogisticsXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.UserMapper;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;

@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.payment411.BasePaymentXml;
+import com.xaeport.crossborder.convert.payment.BasePaymentXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.PaymentDeclareMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;

@@ -1,15 +1,12 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.order311.BaseOrderXml;
+import com.xaeport.crossborder.convert.order.BaseOrderXml;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.service.ordermanage.OrderDeclareSevice;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
-import com.xaeport.crossborder.tools.MessageUtils;
-import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -24,34 +21,25 @@ import java.util.*;
 public class OrderMessageThread implements Runnable {
 
     private Log logger = LogFactory.getLog(this.getClass());
-    private AppConfiguration appConfiguration = SpringUtils.getBean(AppConfiguration.class);
-    private OrderDeclareMapper orderDeclareMapper = SpringUtils.getBean(OrderDeclareMapper.class);
-    private BaseOrderXml baseOrderXml = SpringUtils.getBean(BaseOrderXml.class);
-    private static OrderMessageThread manifestGenMsgThread;
+    private OrderDeclareMapper orderDeclareMapper;
+    private AppConfiguration appConfiguration;
+    private BaseOrderXml baseOrderXml;
 
-    public OrderMessageThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, MessageUtils messageUtils, BaseOrderXml baseOrderXml, OrderDeclareSevice orderDeclareSevice) {
+    //无参数的构造方法。
+    private OrderMessageThread() {
+    }
+
+    //有参数的构造方法。
+    public OrderMessageThread(OrderDeclareMapper orderDeclareMapper, AppConfiguration appConfiguration, BaseOrderXml baseOrderXml) {
         this.orderDeclareMapper = orderDeclareMapper;
         this.appConfiguration = appConfiguration;
         this.baseOrderXml = baseOrderXml;
     }
 
-    private OrderMessageThread() {
-        super();
-    }
-
-    public static OrderMessageThread getInstance() {
-        if (manifestGenMsgThread == null) {
-            manifestGenMsgThread = new OrderMessageThread();
-        }
-        return manifestGenMsgThread;
-    }
-
-
     @Override
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("dataStatus", StatusCode.DDSBZ);//订单申报中
-
 
         CEB311Message ceb311Message = new CEB311Message();
 
@@ -84,7 +72,6 @@ public class OrderMessageThread implements Runnable {
                 }
 
                 Map<String, List<ImpOrderHead>> orderXmlMap = BusinessUtils.getEntIdOrderMap(impOrderHeadLists);
-
 
                 for (String entId : orderXmlMap.keySet()) {
                     try {
@@ -142,7 +129,6 @@ public class OrderMessageThread implements Runnable {
                             }
 
                             orderHeadList.add(orderHead);
-
                             impOrderBodyList = this.orderDeclareMapper.queryOrderListByGuid(guid);
 
                             for (int j = 0; j < impOrderBodyList.size(); j++) {

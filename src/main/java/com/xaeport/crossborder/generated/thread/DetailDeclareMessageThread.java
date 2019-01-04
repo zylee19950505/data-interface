@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.generated.thread;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.inventory621.BaseDetailDeclareXML;
+import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.DetailDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -143,7 +143,7 @@ public class DetailDeclareMessageThread implements Runnable {
                                 this.detailDeclareMapper.updateEntryHeadDetailStatus(guid, StatusCode.QDYSB);
                                 this.logger.debug(String.format("更新清单[guid: %s]状态为: %s", guid, StatusCode.QDYSB));
                             } catch (Exception e) {
-                                String exceptionMsg = String.format("更改订单[headGuid: %s]状态时发生异常", inventoryHead.getGuid());
+                                String exceptionMsg = String.format("更改清单[headGuid: %s]状态时发生异常", inventoryHead.getGuid());
                                 this.logger.error(exceptionMsg, e);
                             }
 
@@ -166,7 +166,7 @@ public class DetailDeclareMessageThread implements Runnable {
                         this.entryProcess(ceb621Message, nameBillNo, xmlHeadGuid);
 
                     } catch (Exception e) {
-                        String exceptionMsg = String.format("处理订单[entId: %s]时发生异常", entId);
+                        String exceptionMsg = String.format("处理跨境清单[entId: %s]时发生异常", entId);
                         this.logger.error(exceptionMsg, e);
                     }
                 }

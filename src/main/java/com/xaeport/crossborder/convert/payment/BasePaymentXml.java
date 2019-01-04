@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.convert.payment411;
+package com.xaeport.crossborder.convert.payment;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.data.entity.BaseTransfer411;
