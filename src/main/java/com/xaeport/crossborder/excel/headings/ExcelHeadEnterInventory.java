@@ -19,6 +19,8 @@ public class ExcelHeadEnterInventory {
     public final static String lawf_qty = "法定数量";//list
     public final static String secd_lawf_qty = "第二法定数量";//list
     public final static String secd_lawf_unitcd = "第二法定计量单位";//list
+    public final static String gross_wt= "毛重";//list
+    public final static String net_wt= "净重";//list
     public final static String dcl_total_amt = "总价";//list
     public final static String dcl_qty = "数量";//list
     public final static String natcd = "原产国(地区)";//list
@@ -38,6 +40,8 @@ public class ExcelHeadEnterInventory {
         inventoryList.add("法定数量");
         inventoryList.add("第二法定数量");
         inventoryList.add("第二法定计量单位");
+        inventoryList.add("毛重");
+        inventoryList.add("净重");
         inventoryList.add("总价");
         inventoryList.add("数量");
         inventoryList.add("原产国(地区)");

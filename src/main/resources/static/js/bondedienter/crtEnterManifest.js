@@ -52,25 +52,162 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.status == "BDDS1") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.etps_inner_invt_no + '" />';
+                        if (row.status == "BDDS12") {
+                            return '<input type="checkbox" onclick="checkboxVerify()" class="submitKey" value="' + row.bond_invt_no + '/'+ row.original_nm + '/'+ + row.usable_nm + '/'+row.bound_nm+'" />';
                         }
                         else {
                             return "";
                         }
                     }
                 },
-                /*{
-                    label: "企业内部清单编码", render: function (data, type, row) {
-                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
-                    }
+               /* {
+                    data: "etps_inner_invt_no", label: "核注清单编号"
                 },*/
                 {
-                    data: "etps_inner_invt_no", label: "核注清单编号"
-                }
-            ]
+                    data: "bond_invt_no", label: "核注清单编号"
+                },
+                {
+                    data: "original_nm", label: "原有数量"
+                },
+                {
+                    data: "usable_nm", label: "可绑定数量"
+                },
+                {
+                    data: null,
+                    label: "绑定数量",render: function(data,type,row){
+                        /*return "<input id='id_"+row.bond_invt_no+"' value='"+row.bound_nm+"' />";*/
+                        return "<input id='id_"+row.bond_invt_no+"' value='' />";
+                    }
+                },
+                ]
         });
+
+    },
+    // 创建核放单
+    createEnterManifest: function () {
+        var submitKeys = "";
+        $(".submitKey:checked").each(function () {
+            submitKeys += "," + $(this).val();
+        });
+        console.log(submitKeys);
+        if (submitKeys.length > 0) {
+            submitKeys = submitKeys.substring(1);
+        } else {
+            sw.alert("请先勾选要核放单的入区核注清单信息！");
+            return;
+        }
+        //将submitKeys切割放入数组里
+       var list = submitKeys.split(",");
+
+        console.log(list)
+
+        //
+        var bind_typecd = "";
+
+        if (list.length == 1) {
+            console.log(list);
+            var subList = list[0].split("/");
+            var invtNo = subList[0];
+            var originalNm = subList[1];
+            var usableNm = subList[2];
+            console.log("invtNo:"+invtNo);
+            console.log("originalNm:"+originalNm);
+            console.log("usableNm:"+usableNm);
+
+            console.log($("#id_"+invtNo).val());
+            var editBoundNm = $("#id_"+invtNo).val();
+            if (editBoundNm > usableNm) {
+                sw.alert("不可大于可绑定数量！");
+                return;
+            } else if (editBoundNm == originalNm){
+                //一车一票
+                bind_typecd = "YCYP";
+                var postData = {
+                    invtNo:invtNo,
+                    editBoundNm:editBoundNm,
+                    bind_typecd:bind_typecd
+                }
+                $("#crtEnterManifest").prop("disabled", true);
+
+                sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
+                    if (rsp.data.result == "true") {
+                       // sw.alert("提交海关成功", "提示", function () {
+                       // }, "modal-success");
+                        $("#crtEnterManifest").prop("disabled", false);
+                        sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
+                    } else {
+                        sw.alert(rsp.data.msg);
+                    }
+                    $.unblockUI();
+                });
+
+
+               // sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
+
+            }else if (editBoundNm < originalNm) {
+                //一票多车
+                bind_typecd = "YPDC"
+                //单独的页面
+                //sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd)
+            }
+
+        }else{
+            //存储所有的核注清单编号
+            var invtNo = "";
+            for (var i = 0; i < list.length; i++) {
+                var subList = list[i].split("/");
+                var bondInvtNo = subList[0];
+                var originalNm = subList[1];
+                var usableNm = subList[2];
+                if (originalNm != usableNm) {
+                    sw.alert(invtNo+"已经做过核放单!");
+                    return;
+                }
+                invtNo += "/"+bondInvtNo;
+            } 
+            //一车多票
+            invtNo = invtNo.substring(1);
+            bind_typecd = "YCDP"
+            var postData = {
+                invtNo:invtNo,
+                bind_typecd:bind_typecd
+            }
+            $("#crtEnterManifest").prop("disabled", true);
+
+            sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
+                if (rsp.data.result == "true") {
+                    // sw.alert("提交海关成功", "提示", function () {
+                    // }, "modal-success");
+                    $("#crtEnterManifest").prop("disabled", false);
+                    sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
+        }
+      /*  sw.confirm("请确认数据无误并提交海关", "确认", function () {
+
+            sw.blockPage();
+
+            var postData = {
+                submitKeys: submitKeys
+            };
+
+            $("#submitCustom").prop("disabled", true);
+
+            sw.ajax("api/enterInventory/enterinventory/submitCustom", "POST", postData, function (rsp) {
+                if (rsp.data.result == "true") {
+                    sw.alert("提交海关成功", "提示", function () {
+                    }, "modal-success");
+                    $("#submitCustom").prop("disabled", false);
+                    sw.page.modules["bondediexit/exitInventory"].query();
+                } else {
+                    sw.alert(rsp.data.msg);
+                }
+                $.unblockUI();
+            });
+        });*/
     },
     init: function () {
         $(".input-daterange").datepicker({
@@ -80,7 +217,56 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
+        $("[ws-submit]").unbind("click").click(this.createEnterManifest);
+       /* $table = $("#query-crtEnterManifest-table");
+        $table.on("change", ":checkbox", function () {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                $(":checkbox", $table).prop("checked", $(this).prop("checked"));
+            } else {
+                //复选
+                var checkbox = $("tbody :checkbox", $table);
+                $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        });*/
+    },
+    crtEnterManifest: function (bondInvtNo,type) {
+        var url = "bondedIEnter/seeEnterManifestDetail?type="+type+"&isEdit=true&bond_invt_no=" + bondInvtNo;
+        sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
     }
 };
 
+//多选校验
+function checkboxVerify(){
+    var count = $(".submitKey:checked").length;
+    $(":input[id^='id_']").val("").attr("disabled",true);
+    if(count > 1) {
+        var submitVal = "";
+        $(".submitKey:checked").each(function () {
+            submitVal += "," + $(this).val();
+        });
+        console.log(submitVal);
+        if (submitVal.length > 0) {
+            submitVal.substring(1);
+        }
+        var list = submitVal.split(",");
+        for (var i = 0; i < list.length; i++) {
+            var subList = list[i].split("/");
+            var invtNo = subList[0];
+            var usableNm = subList[2];
+            $("#id_"+invtNo).val(usableNm).attr("disabled",true);
+        }
+    }
+    else if (count == 1){
+        var submitVal = "";
+        submitVal = $(".submitKey:checked").val();
+        var list = submitVal.split("/");
+        var invtNo = list[0];
+        var usableNm = list[2];
+        $("#id_"+invtNo).val(usableNm).attr("disabled",false);
+    }
+    else{
+        $(":input[id^='id_']").attr("disabled",true);
+    }
+}
 

@@ -47,9 +47,14 @@ public class CrtEnterInventoryService {
         //目前先设置uuid(用来关联表体和表头的信息)
         String uuId = IdUtils.getUUId();
         int count = 1;
+        int original_nm = 0;
         for (int i = 0;i < list.size();i++){
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
+
+            //设置表头原有数量
+            original_nm += Integer.parseInt(bondInvtDt.getDcl_qty());
+
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(String.valueOf(count));
@@ -76,6 +81,12 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getEnt_name());//申报企业名称
         bondInvtBsc.setDcl_plc_cuscd(enterpriseDetail.getPort());//主管海关
         bondInvtBsc.setCrt_user(user.getId());
+
+        //设置核注清单原有数量,可绑定数量,绑定数量
+        bondInvtBsc.setOriginal_nm(original_nm);
+        bondInvtBsc.setUsable_nm(original_nm);
+        bondInvtBsc.setBound_nm(original_nm);
+
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);
 
         //是否需要返回保税清单编号,以供保存和取消时使用
