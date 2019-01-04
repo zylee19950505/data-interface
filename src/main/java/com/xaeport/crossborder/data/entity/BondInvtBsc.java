@@ -76,6 +76,35 @@ public class BondInvtBsc {
     private String invt_no;
     private String sum;
 
+
+    private int original_nm;//核注清单原有可绑定数量
+    private int usable_nm;//核注清单可绑定数量
+    private int bound_nm;//绑定数量
+
+    public int getBound_nm() {
+        return bound_nm;
+    }
+
+    public void setBound_nm(int bound_nm) {
+        this.bound_nm = bound_nm;
+    }
+
+    public int getOriginal_nm() {
+        return original_nm;
+    }
+
+    public void setOriginal_nm(int original_nm) {
+        this.original_nm = original_nm;
+    }
+
+    public int getUsable_nm() {
+        return usable_nm;
+    }
+
+    public void setUsable_nm(int usable_nm) {
+        this.usable_nm = usable_nm;
+    }
+
     public String getSum() {
         return sum;
     }

@@ -50,6 +50,12 @@ public class CrtEnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtDt.getNatcd())){
                     VALUES("natcd","#{bondInvtDt.natcd}");
                 }
+                if(!StringUtils.isEmpty(bondInvtDt.getGross_wt())){
+                    VALUES("GROSS_WT","#{bondInvtDt.gross_wt}");
+                }
+                if(!StringUtils.isEmpty(bondInvtDt.getNet_wt())){
+                    VALUES("NET_WT","#{bondInvtDt.net_wt}");
+                }
                 if(!StringUtils.isEmpty(bondInvtDt.getDcl_total_amt())){
                     VALUES("dcl_total_amt","#{bondInvtDt.dcl_total_amt}");
                 }
@@ -105,6 +111,15 @@ public class CrtEnterInventorySQLProvider {
                 VALUES("crt_time","sysdate");
                 if(!StringUtils.isEmpty(bondInvtBsc.getCrt_user())){
                     VALUES("crt_user","#{bondInvtBsc.crt_user}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getOriginal_nm()))){
+                    VALUES("ORIGINAL_NM","#{bondInvtBsc.original_nm}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getUsable_nm()))){
+                    VALUES("USABLE_NM","#{bondInvtBsc.usable_nm}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getBound_nm()))){
+                    VALUES("BOUND_NM","#{bondInvtBsc.bound_nm}");
                 }
 
 

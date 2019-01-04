@@ -92,53 +92,25 @@ function inputChange(id) {
     });
 }
 
+//数据字典
+var bind_typecdList = {
+    "1":"一车多票",
+    "2":"一票一车",
+    "3":"一票多车"
+};
 
-sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManifestInfo"] || {
+sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bondedIEnter/seeEnterManifestDetail"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "auto_id",
-            "manifest_no",
-            "customs_code",
-            "biz_type",
-            "biz_mode",
-            "i_e_flag",
-            "i_e_mark",
-
-            "trade_mode",
-            "delivery_way",
-
-            "start_land",
-            "goal_land",
-
-            "goods_wt",
-            "fact_weight",
-            "pack_no",
-            "sum_goods_value",
-
-            "m_satus",
-            "b_status",
-            "status",
-            "port_status",
-
-            "input_name",
-            "input_code",
-            "trade_name",
-            "trade_code",
-
-            "app_person",
-            "region_code",
-            "plat_from",
-            "note",
-            "extend_field_3",
-
-            "car_no",
-            "car_wt",
-            "ic_code"
-
+            "etps_preent_no",
+            "bond_invt_no",
+            "bind_typecd",
+            "total_gross_wt",
+            "total_net_wt"
         ]
     },
     // 保存成功时回调查询
@@ -151,75 +123,42 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["manifest/seeManifestInfo"].detailParam.disableField;
+        var disableField = sw.page.modules["bondedIEnter/seeEnterManifestDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
     },
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
-        $("#auto_id").val(entryHead.auto_id);
-        $("#bill_nos").val(entryHead.bill_nos);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
+        $("#bond_invt_no").val(entryHead.bond_invt_no);
 
-        $("#manifest_no").val(entryHead.manifest_no);
-        $("#customs_code").val(entryHead.customs_code);
-        $("#biz_type").val(entryHead.biz_type);
-        $("#biz_mode").val(entryHead.biz_mode);
-        $("#i_e_flag").val(entryHead.i_e_flag);
-        $("#i_e_mark").val(entryHead.i_e_mark);
+        $("#master_cuscd").val(entryHead.master_cuscd);
+        // $("#bind_typecd").val(entryHead.bind_typecd);
+        selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
+        $("#areain_etpsno").val(entryHead.areain_etpsno);
+        $("#areain_etps_nm").val(entryHead.areain_etps_nm);
+        $("#vehicle_no").val(entryHead.vehicle_no);
+        $("#vehicle_wt").val(entryHead.vehicle_wt);
 
-        $("#trade_mode").val(entryHead.trade_mode);
-        $("#delivery_way").val(entryHead.delivery_way);
+        $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt);
+        $("#container_wt").val(entryHead.container_wt);
 
-        $("#start_land").val(entryHead.start_land);
-        $("#goal_land").val(entryHead.goal_land);
+        $("#total_wt").val(entryHead.total_wt);
+        $("#total_gross_wt").val(entryHead.total_gross_wt);
 
-        $("#goods_wt").val(entryHead.goods_wt);
-        $("#fact_weight").val(entryHead.fact_weight);
-        $("#pack_no").val(entryHead.pack_no);
-        $("#sum_goods_value").val(entryHead.sum_goods_value);
+        $("#total_net_wt").val(entryHead.total_net_wt);
+        $("#dcl_er_conc").val(entryHead.dcl_er_conc);
+        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
+        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
 
-        $("#m_status").val(entryHead.m_status);
-        $("#b_status").val(entryHead.b_status);
-        $("#status").val(entryHead.status);
-        $("#port_status").val(entryHead.port_status);
-
-        // $("#input_name").val(entryHead.input_name);
-        $("#input_name").val("");
-        // $("#input_code").val(entryHead.input_code);
-        $("#input_code").val("");
-        // $("#trade_name").val(entryHead.trade_name);
-        $("#trade_name").val("");
-        // $("#trade_code").val(entryHead.trade_code);
-        $("#trade_code").val("");
-
-        $("#app_person").val(entryHead.app_person);
-        $("#region_code").val(entryHead.region_code);
-        $("#plat_from").val(entryHead.plat_from);
-        $("#note").val(entryHead.note);
-        $("#extend_field_3").val(entryHead.extend_field_3);
-
-        $("#car_no").val(entryHead.car_no);
-        $("#car_wt").val(entryHead.car_wt);
-        $("#ic_code").val(entryHead.ic_code);
+        $("#input_code").val(entryHead.input_code);
+        $("#input_name").val(entryHead.input_name);
+        $("#rmk").val(entryHead.rmk);
 
     },
 
 
-    //加载表体信息
-    fillEntryListInfo: function (entryLists) {
-        for (var i = 0; i < entryLists.length; i++) {
-            var str =
-                "<tr><td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_total_logistics_no_" + i + "' value='" + entryLists[i].total_logistics_no + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_totalSum_" + i + "' value='" + parseFloat(entryLists[i].totalSum).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_releaseSum_" + i + "' value='" + parseFloat(entryLists[i].releaseSum).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_releasePackSum_" + i + "' value='" + parseFloat(entryLists[i].releasePackSum).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_grossWtSum_" + i + "' value='" + parseFloat(entryLists[i].grossWtSum).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_etWtSum_" + i + "' value='" + parseFloat(entryLists[i].netWtSum).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='list_goodsValueSum_" + i + "' value='" + parseFloat(entryLists[i].goodsValueSum).toFixed(5) + "' /></td></tr>";
-            $("#entryList").append(str);
-        }
-    },
 
     // 标记问题字段
     errorMessageShow: function (vertify) {
@@ -238,59 +177,43 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
     },
 
     // 保存订单编辑信息
-    saveManifestInfo: function (totalLogisticsNo) {
+    saveManifestDetail: function (bond_invt_no) {
         if (!this.valiFieldInventory()) {
             return;
         }
         var entryData = {
-            auto_id: $("#auto_id").val(),
-            bill_nos: $("#bill_nos").val(),
+            etps_preent_no: $("#etps_preent_no").val(),
+            bond_invt_no: $("#bond_invt_no").val(),
 
-            manifest_no: $("#manifest_no").val(),
-            customs_code: $("#customs_code").val(),
-            biz_type: $("#biz_type").val(),
-            biz_mode: $("#biz_mode").val(),
-            i_e_flag: $("#i_e_flag").val(),
-            i_e_mark: $("#i_e_mark").val(),
+            master_cuscd: $("#master_cuscd").val(),
+            bind_typecd: $("#bind_typecd").val(),
+            areain_etpsno: $("#areain_etpsno").val(),
+            areain_etps_nm: $("#areain_etps_nm").val(),
+            vehicle_no: $("#vehicle_no").val(),
+            vehicle_wt: $("#vehicle_wt").val(),
 
-            trade_mode: $("#trade_mode").val(),
-            delivery_way: $("#delivery_way").val(),
+            vehicle_frame_wt: $("#vehicle_frame_wt").val(),
+            container_type: $("#container_type").val(),
 
-            start_land: $("#start_land").val(),
-            goal_land: $("#goal_land").val(),
+            container_wt: $("#container_wt").val(),
+            total_wt: $("#total_wt").val(),
 
-            goods_wt: $("#goods_wt").val(),
-            fact_weight: $("#fact_weight").val(),
-            pack_no: $("#pack_no").val(),
-            sum_goods_value: $("#sum_goods_value").val(),
+            total_gross_wt: $("#total_gross_wt").val(),
+            total_net_wt: $("#total_net_wt").val(),
+            dcl_er_conc: $("#dcl_er_conc").val(),
+            dcl_etpsno: $("#dcl_etpsno").val(),
 
-            m_status: $("#m_status").val(),
-            b_status: $("#b_status").val(),
-            status: $("#status").val(),
-            port_status: $("#port_status").val(),
-
-            input_name: $("#input_name").val(),
+            dcl_etps_nm: $("#dcl_etps_nm").val(),
             input_code: $("#input_code").val(),
-            trade_name: $("#input_name").val(),
-            trade_code: $("#input_code").val(),
-
-            app_person: $("#app_person").val(),
-            region_code: $("#region_code").val(),
-            plat_from: $("#plat_from").val(),
-            note: $("#note").val(),
-            extend_field_3: $("#extend_field_3").val(),
-
-            car_no: $("#car_no").val(),
-            car_wt: $("#car_wt").val(),
-            ic_code: $("#ic_code").val()
+            input_name: $("#input_name").val()
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-                sw.page.modules["manifest/seeManifestInfo"].cancel();
+                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["manifest/seeManifestInfo"].callBackQuery();
+                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -307,36 +230,27 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("manifest/seeManifestInfo");
-        var totalLogisticsNo = param.submitKeys;
+        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var bond_invt_no = param.bond_invt_no;
 
         var data = {
-            totalLogisticsNo: totalLogisticsNo
+            bond_invt_no: bond_invt_no
         };
         $.ajax({
             method: "GET",
-            url: "api/manifest/manifestCreate",
+            url: "api/crtEnterManifest/queryManifestOneCar",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["manifest/seeManifestInfo"];
-                    var entryHead = data.data.manifestHead;
-                    var entryLists = data.data.checkGoodsInfoList;
-                    var vertify = data.data.verify;
-
+                    var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetail"];
+                    var entryHead = data.data;
+                    //var vertify = data.data.verify;
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillManifestInfo(entryHead);
                     }
-                    if (isNotEmpty(entryLists)) {
-                        entryModule.fillEntryListInfo(entryLists);
-                    }
-                    // 根据错误字段中的值加高亮显示
-                    if (entryModule.detailParam.isShowError) {
-                        entryModule.errorMessageShow(vertify);
-                    }
-                    headChangeKeyVal["entryhead_guid"] = param.guid;
+                    headChangeKeyVal["entryhead_guid"] = param.bond_invt_no;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChange(param.submitKeys);
+                    inputChange(param.bond_invt_no);
                     entryModule.disabledFieldInput();
                 }
             }
@@ -346,42 +260,20 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
     valiFieldInventory: function () {
         // 校验表头
         var validataHeadField = {
-            "manifest_no": "核放单号",
-            "customs_code": "申报地海关",
-            "biz_type": "申报地海关",
-            "biz_mode": "申报地海关",
-            "i_e_flag": "申报地海关",
-            "i_e_mark": "出入区标志",
-
-            "trade_mode": "出入区方式",
-            "delivery_way": "运载方式",
-
-            "start_land": "起始地",
-            "goal_land": "目的地",
-
-            "goods_wt": "总毛重",
-            "fact_weight": "总净重",
-            "pack_no": "总件数",
-            "sum_goods_value": "总货值",
-
-            "m_status": "人工操作状态",
-            "b_status": "b_status",
-            "status": "status",
-            "port_status": "卡口状态",
-
-            "input_name": "录入单位名称",
-            "input_code": "录入单位代码",
-            // "trade_name": "trade_name",
-            // "trade_code": "trade_code",
-
-            "app_person": "申请人",
-            "region_code": "区域标志",
-            "plat_from": "数据来源",
-            "extend_field_3": "extend_field_3",
-
-            "car_no": "车牌号",
-            "car_wt": "车自重",
-            "ic_code": "IC卡号"
+            "master_cuscd":"主管关区代码",
+           "areain_etpsno":"区内企业编码",
+           "areain_etps_nm":"区内企业名称",
+           "vehicle_no":"承运车车牌号",
+           "vehicle_wt":"车自重",
+           "vehicle_frame_wt":"车架重",
+           "container_type":"集装箱箱型",
+           "container_wt":"集装箱重",
+           "total_wt":"总重量",
+           "dcl_er_conc":"申请人及联系方式",
+           "dcl_etpsno":"申报企业编号",
+           "dcl_etps_nm":"申报企业名称",
+           "input_code":"录入单位代码",
+           "input_name":"录入单位名称"
         };
 
         var fieldId, fieldName, fieldVal;
@@ -400,79 +292,57 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("manifest/seeManifestInfo");
-        var totalLogisticsNo = param.submitKeys;
+        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var bond_invt_no = param.bond_invt_no;
         var type = param.type;
         var isEdit = param.isEdit;
-
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
             format: "yyyy-mm-dd",
             autoclose: true
         });
+        debugger;
         switch (type) {
             //订单查询
-            case "HFDBTXX": {
+            case "YCYP": {
                 // 不可编辑状态
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "auto_id",
-                        "manifest_no",//核放单号
-                        "customs_code",//申报地海关
-                        "biz_type",
-                        "biz_mode",
-                        "i_e_flag",
-                        "i_e_mark",//出入区标志
-
-                        "trade_mode",//出入区方式
-                        "delivery_way",//运载方式
-
-                        "start_land",//起始地
-                        "goal_land",//目的地
-
-                        "goods_wt",//总毛重
-                        "fact_weight",//总净重
-                        "pack_no",//总件数
-                        "sum_goods_value",//总货值
-
-                        "m_status",
-                        "b_status",
-                        "status",
-                        "port_status",
-
-                        // "input_name",
-                        // "input_code",
-                        "trade_name",
-                        "trade_code",
-
-                        "app_person",
-                        "region_code",
-                        "plat_from",
-                        "note",
-                        "extend_field_3",
-
-                        "list_total_logistics_no",
-                        "list_totalSum",
-                        "list_releaseSum",
-                        "list_releasePackSum",
-                        "list_grossWtSum",
-                        "list_etWtSum",
-                        "list_goodsValueSum"
-
+                        "etps_preent_no",//核放单编号
+                        "bond_invt_no",//核注清单编号
+                        "bind_typecd",//绑定类型代码
+                        "total_gross_wt",//总毛重
+                        "total_net_wt"//总净重
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/manifest/saveManifestInfo";
+                this.detailParam.url = "/api/crtEnterManifest/saveEnterManifestDetailOneCar";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "manifest/detailQuery";
+                this.detailParam.callBackUrl = "bondedIEnter/seeEnterManifestDetail";
                 this.detailParam.isShowError = false;
                 break;
             }
-            //逻辑校验(预留)
-            case "LJJY": {
+            //一车多票
+            case "YCDP": {
                 // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "etps_preent_no",//核放单编号
+                        "bond_invt_no",//核注清单编号
+                        "bind_typecd",//绑定类型代码
+                        "total_gross_wt",//总毛重
+                        "total_net_wt"//总净重
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/crtEnterManifest/saveEnterManifestDetailOneCar";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondedIEnter/seeEnterManifestDetail";
+                this.detailParam.isShowError = false;
+                break;
 
             }
         } // 不可编辑状态
@@ -487,7 +357,7 @@ sw.page.modules["manifest/seeManifestInfo"] = sw.page.modules["manifest/seeManif
         this.query();
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["manifest/seeManifestInfo"].saveManifestInfo(totalLogisticsNo);
+            sw.page.modules["bondedIEnter/seeEnterManifestDetail"].saveManifestDetail(bond_invt_no);
         });
         //点击取消
         $("#ws-page-back").click(function () {
