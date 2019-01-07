@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.BondInvtDt;
-import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.ExitInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -55,5 +52,21 @@ public interface ExitInventoryMapper {
     //修改清单表体数据（清单查询）
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscByList")
     void updateBondInvtBscByList(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
+
+
+
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "findWaitGenerated")
+    List<BondInvtBsc> findWaitGenerated(Map<String, String> paramMap);
+
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscStatus")
+    void updateBondInvtBscStatus(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo, @Param("status") String status);
+
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryBondInvtListByHeadNo")
+    List<NemsInvtCbecBillType> queryBondInvtListByHeadNo(@Param("head_etps_inner_invt_no") String head_etps_inner_invt_no);
+
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryCompany")
+    BaseTransfer queryCompany(@Param("ent_id") String ent_id);
+
+
 
 }

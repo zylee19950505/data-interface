@@ -3,6 +3,8 @@ package com.xaeport.crossborder.generated;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert.bondinven.BaseBondInvenXML;
 import com.xaeport.crossborder.convert.delivery.BaseDeliveryXML;
+import com.xaeport.crossborder.convert.exitbondinvt.EBaseBondInvtXML;
+import com.xaeport.crossborder.convert.exitpassport.EBasePassPortXML;
 import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
 import com.xaeport.crossborder.convert.logistics.BaseLogisticsXml;
 import com.xaeport.crossborder.convert.logstatus.BaseLogisticsStatusXml;
@@ -50,6 +52,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private ManifestManageThread manifestManageThread;
     //保税清单线程
     private BondInvenMessageThread bondInvenMessageThread;
+    //出区核注清单线程
+    private EBondInvtThread eBondInvtThread;
+//    //出区核放单线程
+//    private EPassPortThread ePassPortThread;
 
     //订单
     @Autowired
@@ -72,6 +78,12 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //保税清单
     @Autowired
     BondinvenDeclareMapper bondinvenDeclareMapper;
+    //出区核注清单
+    @Autowired
+    ExitInventoryMapper exitInventoryMapper;
+    //出区核放单
+    @Autowired
+    ExitManifestMapper exitManifestMapper;
 
     //订单报文
     @Autowired
@@ -91,12 +103,18 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //跨境清单报文
     @Autowired
     BaseDetailDeclareXML baseDetailDeclareXML;
-    //跨境核放单
+    //跨境核放单报文
     @Autowired
     BaseManifestXML baseManifestXML;
     //保税清单报文
     @Autowired
     BaseBondInvenXML baseBondInvenXML;
+    //出区核注清单报文
+    @Autowired
+    EBaseBondInvtXML eBaseBondInvtXML;
+    //出区核放单报文
+    @Autowired
+    EBasePassPortXML eBasePassPortXML;
 
     //系统配置文件参数
     @Autowired
@@ -140,6 +158,14 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         this.logger.debug("保税清单报文生成启动器初始化开始");
         bondInvenMessageThread = new BondInvenMessageThread(this.bondinvenDeclareMapper, this.appConfiguration, this.baseBondInvenXML);
         executorService.execute(bondInvenMessageThread);
+
+        this.logger.debug("进口出区核注清单报文生成启动器初始化开始");
+        eBondInvtThread = new EBondInvtThread(this.exitInventoryMapper, this.appConfiguration, this.eBaseBondInvtXML);
+        executorService.execute(eBondInvtThread);
+
+//        this.logger.debug("进口出区核放单报文生成启动器初始化开始");
+//        ePassPortThread = new EPassPortThread(this.exitManifestMapper, this.appConfiguration, this.eBasePassPortXML);
+//        executorService.execute(ePassPortThread);
 
     }
 }
