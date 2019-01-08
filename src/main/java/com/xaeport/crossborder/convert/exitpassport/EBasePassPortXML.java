@@ -2,9 +2,7 @@ package com.xaeport.crossborder.convert.exitpassport;
 
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.bondinven.BondInvenXML;
-import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.CEB621Message;
+import com.xaeport.crossborder.data.entity.PassPortMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class EBasePassPortXML {
 
     private Log log = LogFactory.getLog(this.getClass());
     @Autowired
-    BondInvenXML bondInvenXML;
+    EPassPortXML ePassPortXML;
     @Autowired
     AppConfiguration appConfiguration;
 
@@ -57,23 +55,40 @@ public class EBasePassPortXML {
     /**
      * 创建clientDxp数据报文
      *
-     * @param ceb621Message
+     * @param passPortMessage
      */
-    public byte[] createXML(CEB621Message ceb621Message, String flag, String xmlHeadGuid) throws TransformerException {
+    public byte[] createXML(PassPortMessage passPortMessage, String flag, String xmlHeadGuid) throws TransformerException {
         Document document = this.getDocument();
-        Element rootElement = document.createElement("ceb:CEB621Message");
+        Element rootElement = document.createElement("Signature");
 
-        rootElement.setAttribute("guid", xmlHeadGuid);
-        rootElement.setAttribute("version", "1.0");
-        rootElement.setAttribute("xmlns:ceb", "http://www.chinaport.gov.cn/ceb");
+        rootElement.setAttribute("schemaLocation", "http://www.chinaport.gov.cn/sas SAS101.xsd");
+        rootElement.setAttribute("xmlns:sas", "http://www.chinaport.gov.cn/sas");
         rootElement.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
-        this.getInventory(document, ceb621Message, flag, rootElement);
-        //添加<ceb:BaseTransfer>节点
-        BaseTransfer baseTransfer = ceb621Message.getBaseTransfer();
-        rootElement.appendChild(this.getBaseTransfer(document, baseTransfer));
+        Element SignedInfo = document.createElement("SignedInfo");
+        Element SignatureValue = document.createElement("SignatureValue");
+        Element KeyInfo = document.createElement("KeyInfo");
+        Element Object = document.createElement("Object");
+        Object.setAttribute("Id", "String");
+
+        //设置SignedInfo节点数据
+        this.getSignedInfo(document, SignedInfo);
+        //设置KeyInfo节点数据
+        this.getKeyInfo(document, KeyInfo);
+        //设置package节点数据
+        Element Package = document.createElement("Package");
+        this.getEnvelopInfo(document, Package);
+        this.getDataInfo(document, passPortMessage, flag, Package);
+        Object.appendChild(Package);
+
+        //追加母节点Signature子节点数据
+        rootElement.appendChild(SignedInfo);
+        rootElement.appendChild(SignatureValue);
+        rootElement.appendChild(KeyInfo);
+        rootElement.appendChild(Object);
 
         document.appendChild(rootElement);
+
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -83,51 +98,94 @@ public class EBasePassPortXML {
         return os.toByteArray();
     }
 
-    //创建<ceb:BaseTransfer> 节点
-    private Element getBaseTransfer(Document document, BaseTransfer baseTransfer) {
+    //创建SignedInfo报文节点
+    private Element getSignedInfo(Document document, Element SignedInfo) {
+        Element CanonicalizationMethod = document.createElement("CanonicalizationMethod");
+        CanonicalizationMethod.setAttribute("Algorithm", "http://www.w3.org/TR/2001/REC-xml-c14n-20010315");
 
-        Element BaseTrElement = document.createElement("ceb:BaseTransfer");
+        Element SignatureMethod = document.createElement("SignatureMethod");
+        SignatureMethod.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#rsa-sha1");
 
-        Element copCode = document.createElement("ceb:copCode");
-        copCode.setTextContent(baseTransfer.getCopCode());
+        Element Reference = document.createElement("Reference");
+        Reference.setAttribute("URI", "String");
 
-        Element copName = document.createElement("ceb:copName");
-        copName.setTextContent(baseTransfer.getCopName());
+        Element DigestMethod = document.createElement("DigestMethod");
+        DigestMethod.setAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#sha1");
+        Element DigestValue = document.createElement("DigestValue");
 
-        Element dxpMode = document.createElement("ceb:dxpMode");
-        dxpMode.setTextContent(baseTransfer.getDxpMode());
+        Reference.appendChild(DigestMethod);
+        Reference.appendChild(DigestValue);
 
-        Element dxpId = document.createElement("ceb:dxpId");
-//        dxpId.setTextContent(baseTransfer.getDxpId());
-        dxpId.setTextContent("DXPENT0000018755");
+        SignedInfo.appendChild(CanonicalizationMethod);
+        SignedInfo.appendChild(SignatureMethod);
+        SignedInfo.appendChild(Reference);
 
-        Element note = document.createElement("ceb:note");
-        note.setTextContent(baseTransfer.getNote());
+        return SignedInfo;
+    }
 
-        BaseTrElement.appendChild(copCode);
-        BaseTrElement.appendChild(copName);
-        BaseTrElement.appendChild(dxpMode);
-        BaseTrElement.appendChild(dxpId);
-        BaseTrElement.appendChild(note);
+    //创建KeyInfo报文节点
+    private Element getKeyInfo(Document document, Element KeyInfo) {
+        Element KeyName = document.createElement("KeyName");
+        KeyName.setTextContent("aa");
+        KeyInfo.appendChild(KeyName);
+        return KeyInfo;
+    }
 
-        return BaseTrElement;
+    //创建EnvelopInfo报文节点
+    private Element getEnvelopInfo(Document document, Element Package) {
+        Element EnvelopInfo = document.createElement("EnvelopInfo");
+
+        Element version = document.createElement("version");
+        version.setTextContent("1.0");
+
+        Element message_id = document.createElement("message_id");
+        message_id.setTextContent("XAHZ900818I000000290201812110000000002");
+
+        Element file_name = document.createElement("file_name");
+        file_name.setTextContent("XAHZ900818I000000290201812110000000002.zip");
+
+        Element message_type = document.createElement("message_type");
+        message_type.setTextContent("SAS121");
+
+        Element sender_id = document.createElement("sender_id");
+        sender_id.setTextContent("DXPENT0000018755");
+
+        Element receiver_id = document.createElement("receiver_id");
+        receiver_id.setTextContent("DXPEDCSAS0000001");
+
+        Element send_time = document.createElement("send_time");
+        send_time.setTextContent("2018-12-11T09:02:35");
+
+        Element Ic_Card = document.createElement("Ic_Card");
+        Ic_Card.setTextContent("8600000198447");
+
+        EnvelopInfo.appendChild(version);
+        EnvelopInfo.appendChild(message_id);
+        EnvelopInfo.appendChild(file_name);
+        EnvelopInfo.appendChild(message_type);
+        EnvelopInfo.appendChild(sender_id);
+        EnvelopInfo.appendChild(receiver_id);
+        EnvelopInfo.appendChild(send_time);
+        EnvelopInfo.appendChild(Ic_Card);
+        Package.appendChild(EnvelopInfo);
+        return Package;
     }
 
     /**
      * 构建InventoryHead 节点
      *
-     * @param ceb621Message
+     * @param passPortMessage
      * @return
      */
-    public Element getInventory(Document document, CEB621Message ceb621Message, String flag, Element rootElement) {
+    public Element getDataInfo(Document document, PassPortMessage passPortMessage, String flag, Element Package) {
         switch (flag) {
-            //生成保税清单xml报文
-            case "BondInven": {
-                this.bondInvenXML.getBondInvenHead(document, ceb621Message, rootElement);
+            //生成出区核放单xml报文
+            case "EPassPort": {
+                this.ePassPortXML.getDataInfo(document, passPortMessage, Package);
                 break;
             }
         }
-        return rootElement;
+        return Package;
     }
 
 }

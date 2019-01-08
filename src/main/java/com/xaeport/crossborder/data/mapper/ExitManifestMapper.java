@@ -43,7 +43,6 @@ public interface ExitManifestMapper {
     @Delete("DELETE FROM T_PASS_PORT_HEAD WHERE ETPS_PREENT_NO = #{etpsPreentNo}")
     void deletePassPortHead(String etpsPreentNo);
 
-
     //修改出区核放单表头信息
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortHead")
     void updatePassPortHead(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("userInfo") Users userInfo);
@@ -51,5 +50,15 @@ public interface ExitManifestMapper {
     //修改出区核放单表体
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortAcmp")
     void updatePassPortAcmp(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("userInfo") Users userInfo);
+
+
+    @SelectProvider(type = ExitManifestSQLProvider.class, method = "findWaitGenerated")
+    List<PassPortHead> findWaitGenerated(Map<String, String> paramMap);
+
+    @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortHeadStatus")
+    void updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status);
+
+    @SelectProvider(type = ExitManifestSQLProvider.class, method = "queryPassPortAcmpByHeadNo")
+    List<PassPortAcmp> queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo);
 
 }

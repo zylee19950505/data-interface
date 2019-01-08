@@ -3,7 +3,6 @@ package com.xaeport.crossborder.data.provider;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -297,6 +296,67 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_USER = #{userInfo.id}");
                 }
+            }
+        }.toString();
+    }
+
+
+    public String findWaitGenerated(Map<String, String> paramMap) {
+        final String status = paramMap.get("status");
+        return new SQL() {
+            {
+                SELECT("PASSPORT_TYPECD");
+                SELECT("MASTER_CUSCD");
+                SELECT("DCL_TYPECD");
+                SELECT("IO_TYPECD");
+                SELECT("BIND_TYPECD");
+                SELECT("RLT_TB_TYPECD");
+                SELECT("RLT_NO");
+                SELECT("AREAIN_ETPSNO");
+                SELECT("AREAIN_ETPS_NM");
+                SELECT("VEHICLE_NO");
+                SELECT("VEHICLE_IC_NO");
+                SELECT("VEHICLE_WT");
+                SELECT("VEHICLE_FRAME_WT");
+                SELECT("CONTAINER_WT");
+                SELECT("TOTAL_WT");
+                SELECT("TOTAL_GROSS_WT");
+                SELECT("TOTAL_NET_WT");
+                SELECT("DCL_ER_CONC");
+                SELECT("DCL_ETPSNO");
+                SELECT("DCL_ETPS_NM");
+                SELECT("INPUT_CODE");
+                SELECT("INPUT_NAME");
+                SELECT("ETPS_PREENT_NO");
+                FROM("T_PASS_PORT_HEAD t");
+                WHERE("t.status = #{status}");
+                ORDER_BY("t.CRT_TIME asc,t.ETPS_PREENT_NO asc");
+            }
+        }.toString();
+    }
+
+    public String updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{etpsPreentNo}");
+                SET("t.STATUS = #{status}");
+                SET("t.UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    public String queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo) {
+
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("PASSPORT_NO");
+                SELECT("RTL_TB_TYPECD");
+                SELECT("RTL_NO");
+                SELECT("HEAD_ETPS_PREENT_NO");
+                FROM("T_PASS_PORT_ACMP t");
+                WHERE("t.HEAD_ETPS_PREENT_NO = #{etpsPreentNo}");
             }
         }.toString();
     }

@@ -54,8 +54,8 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private BondInvenMessageThread bondInvenMessageThread;
     //出区核注清单线程
     private EBondInvtThread eBondInvtThread;
-//    //出区核放单线程
-//    private EPassPortThread ePassPortThread;
+    //出区核放单线程
+    private EPassPortThread ePassPortThread;
 
     //订单
     @Autowired
@@ -163,9 +163,9 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         eBondInvtThread = new EBondInvtThread(this.exitInventoryMapper, this.appConfiguration, this.eBaseBondInvtXML);
         executorService.execute(eBondInvtThread);
 
-//        this.logger.debug("进口出区核放单报文生成启动器初始化开始");
-//        ePassPortThread = new EPassPortThread(this.exitManifestMapper, this.appConfiguration, this.eBasePassPortXML);
-//        executorService.execute(ePassPortThread);
+        this.logger.debug("进口出区核放单报文生成启动器初始化开始");
+        ePassPortThread = new EPassPortThread(this.exitManifestMapper, this.appConfiguration, this.eBasePassPortXML);
+        executorService.execute(ePassPortThread);
 
     }
 }
