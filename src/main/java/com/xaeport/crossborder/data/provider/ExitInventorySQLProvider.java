@@ -339,6 +339,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
 //                SELECT("InvtType");
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.status = #{status}");
+                WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TIME asc,t.ETPS_INNER_INVT_NO asc");
             }
         }.toString();

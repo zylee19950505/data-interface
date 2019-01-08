@@ -51,6 +51,7 @@ public class BondinvenImportService {
         return flag;
     }
 
+    //检查对应库存余量是否大于导入商品数量
     public int checkStockSurplus(Map<String, Object> excelMap, Users user, String emsNo) {
         int flag = 0;
         List<ImpInventoryBody> impInventoryBodyList = (List<ImpInventoryBody>) excelMap.get("ImpInventoryBody");
@@ -98,6 +99,7 @@ public class BondinvenImportService {
         }
     }
 
+    //确认保税清单库存无误后，设置账册表体预减数量
     public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemRecordNoData, String emsNo) {
         List<ImpInventoryBody> impBondInvenBodyList;
         String item_record_no;
@@ -109,6 +111,7 @@ public class BondinvenImportService {
         }
     }
 
+    //根据料号对商品进行分批处理
     public Map<String, List<ImpInventoryBody>> classifyByGcode(List<ImpInventoryBody> impInventoryBodyList) {
         Map<String, List<ImpInventoryBody>> itemRecordNoDataListMap = new HashMap<String, List<ImpInventoryBody>>();
         String itemRecordNo = null;

@@ -99,9 +99,6 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    /*
-     * 提交海关清单
-     */
     public String updateSubmitCustom(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
         final String statusWhere = paramMap.get("statusWhere");
@@ -330,6 +327,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 SELECT("ETPS_PREENT_NO");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.status = #{status}");
+                WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TIME asc,t.ETPS_PREENT_NO asc");
             }
         }.toString();

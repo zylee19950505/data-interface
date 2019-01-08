@@ -34,7 +34,7 @@ public class CrtExitManifestApi extends BaseApi {
     CrtExitManifestService crtExitManifestService;
 
     /*
-     *  预订数据查询
+     *  出区核注清单数据查询
      */
     @RequestMapping(value = "/queryCrtExitManifest", method = RequestMethod.GET)
     public ResponseData queryDeliveryDeclare(
@@ -42,7 +42,7 @@ public class CrtExitManifestApi extends BaseApi {
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询出区核放单数据条件参数:[bondInvtNo:%s]", bondInvtNo));
+        this.logger.debug(String.format("查询出区核注清单数据条件参数:[bondInvtNo:%s,returnStatus:%s]", bondInvtNo, returnStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -83,6 +83,7 @@ public class CrtExitManifestApi extends BaseApi {
 
     }
 
+    //查询该核注清单已生成核放单信息
     @RequestMapping(value = "/querybondinvtisrepeat", method = RequestMethod.GET)
     public ResponseData queryBondinvtIsRepeat(
             @RequestParam(required = false) String submitKeys
@@ -90,7 +91,6 @@ public class CrtExitManifestApi extends BaseApi {
         Map<String, String> map = new HashMap<>();
         map.put("submitKeys", submitKeys);
         Integer count;
-
         try {
             count = crtExitManifestService.queryBondinvtIsRepeat(map);
         } catch (Exception e) {
@@ -115,7 +115,6 @@ public class CrtExitManifestApi extends BaseApi {
 
         paramMap.put("bond_invt_no", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
-
         paramMap.put("input_name", users.getEnt_Name());
         paramMap.put("input_code", users.getEnt_Customs_Code());
         paramMap.put("etps_preent_no", "HFD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
@@ -151,7 +150,6 @@ public class CrtExitManifestApi extends BaseApi {
         ArrayList<LinkedHashMap<String, String>> passPortAcmpList = (ArrayList<LinkedHashMap<String, String>>) object.get("passPortAcmpList");
 
         Users userInfo = this.getCurrentUsers();
-
         Map<String, String> map = new HashMap<>();
         try {
             // 保存详情信息

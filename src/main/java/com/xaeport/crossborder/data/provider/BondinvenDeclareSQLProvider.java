@@ -15,12 +15,10 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
-
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
-
         return new SQL() {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
@@ -64,16 +62,13 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
 
     //查询保税清单页面数据总数
     public String queryBondInvenDeclareCount(Map<String, String> paramMap) throws Exception {
-
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String orderNo = paramMap.get("orderNo");
         final String logisticsNo = paramMap.get("logisticsNo");
-
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
-
         return new SQL() {
             {
                 SELECT("COUNT(1)");
@@ -303,15 +298,9 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-
-
-
-
-
-
-    public String findWaitGenerated(Map<String,String> paramMap){
+    public String findWaitGenerated(Map<String, String> paramMap) {
         final String dataStatus = paramMap.get("dataStatus");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT("GUID");
                 SELECT("APP_TYPE");
@@ -377,8 +366,8 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateEntryHeadDetailStatus(@Param("headGuid") String headGuid, @Param("dataStatus") String dataStatus){
-        return new SQL(){
+    public String updateEntryHeadDetailStatus(@Param("headGuid") String headGuid, @Param("dataStatus") String dataStatus) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.GUID = #{headGuid}");
@@ -388,9 +377,8 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String querydetailDeclareListByGuid(@Param("headGuid")String headGuid){
-
-        return new SQL(){
+    public String querydetailDeclareListByGuid(@Param("headGuid") String headGuid) {
+        return new SQL() {
             {
                 SELECT("G_NUM");
                 SELECT("HEAD_GUID");
@@ -419,8 +407,8 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryCompany(@Param("ent_id") String ent_id){
-        return new SQL(){
+    public String queryCompany(@Param("ent_id") String ent_id) {
+        return new SQL() {
             {
                 SELECT("t.CUSTOMS_CODE as copCode");
                 SELECT("t.ENT_NAME as copName");
@@ -431,7 +419,6 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
                 WHERE("t.id = #{ent_id}");
             }
         }.toString();
-
     }
 
 }

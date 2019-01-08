@@ -18,10 +18,12 @@ public class AccountQueryService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
+    //查询账册商品数据
     public List<BwlListType> queryBwlListTypeData(Map<String, String> paramMap) {
         return this.accountQueryMapper.queryBwlListTypeData(paramMap);
     }
 
+    //查询账册商品数据总数
     public Integer queryBwlListTypeCount(Map<String, String> paramMap) {
         return this.accountQueryMapper.queryBwlListTypeCount(paramMap);
     }

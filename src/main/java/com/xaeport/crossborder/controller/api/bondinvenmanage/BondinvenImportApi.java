@@ -40,10 +40,10 @@ public class BondinvenImportApi extends BaseApi {
     BondinvenImportService bondinvenImportService;
 
     /**
-     * 新快件上传
-     *
-     * @param importTime //进口时间
-     * @param file       // 上传的文件
+     * 保税清单excel新快件上传
+     * @param importTime // 进口时间
+     * @param emsNo // 账册编号
+     * @param file // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(
@@ -122,7 +122,7 @@ public class BondinvenImportApi extends BaseApi {
     }
 
     /**
-     * excel 跨境电子商务进口订单模板下载
+     * excel 跨境电子进口保税清单模板下载
      */
     @RequestMapping(value = "/downloadFile")
     public void excelModelDownload(HttpServletResponse response,

@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
- * 跨境企业信息表
- */
 @RestController
 @RequestMapping("/accountrecord")
 public class AccountRecordApi extends BaseApi {
@@ -30,6 +27,7 @@ public class AccountRecordApi extends BaseApi {
     @Autowired
     AccountRecordService accountRecordService;
 
+    //查询该企业下所有账册数据
     @RequestMapping(value = "/allaccountinfo", method = RequestMethod.GET)
     public ResponseData queryAllAccountsInfo(
             @RequestParam(required = false) String accountinfo
@@ -48,6 +46,7 @@ public class AccountRecordApi extends BaseApi {
         }
     }
 
+    //新建账册信息
     @RequestMapping(value = "/crtaccountinfo", method = RequestMethod.POST)
     public ResponseData crtAccountInfo(
             @ModelAttribute BwlHeadType bwlHeadType, BindingResult bindingResult
@@ -65,6 +64,7 @@ public class AccountRecordApi extends BaseApi {
         return rtnResponse("false", "账册新增失败");
     }
 
+    //修改账册信息
     @RequestMapping(value = "/accountupdate/{id}", method = RequestMethod.PUT)
     public ResponseData accountUpdate(
             @ModelAttribute BwlHeadType bwlHeadType, BindingResult bindingResult
@@ -84,6 +84,7 @@ public class AccountRecordApi extends BaseApi {
         return rtnResponse("false", "账册信息修改失败");
     }
 
+    //加载账册信息
     @RequestMapping(value = "/loadaccount/{id}", method = RequestMethod.GET)
     public ResponseData loadBooks(
             @PathVariable(name = "id") String id
@@ -91,7 +92,6 @@ public class AccountRecordApi extends BaseApi {
         BwlHeadType bwlHeadType = this.accountRecordService.getAccountById(id);
         return new ResponseData(bwlHeadType);
     }
-
 
     //查询企业所属账册编码参数表
     @RequestMapping(value = "/getemsnos", method = RequestMethod.GET)

@@ -43,7 +43,7 @@ public interface BondinvenDeclareMapper {
     @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateImpBondInvenHead")
     void updateImpBondInvenHead(LinkedHashMap<String, String> entryHead);
 
-    //修改清单表头数据根据表体（保税清单申报）
+    //修改保税清单表头数据根据表体（保税清单申报）
     @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateImpBondInvenHeadByList")
     void updateImpBondInvenHeadByList(LinkedHashMap<String, String> entryHead);
 
@@ -51,19 +51,19 @@ public interface BondinvenDeclareMapper {
     @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateImpBondInvenBodies")
     void updateImpBondInvenBodies(LinkedHashMap<String, String> entryList);
 
-
-
-
-
+    //查询需要生成报文的保税清单数据表头（申报中状态）
     @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "findWaitGenerated")
     List<ImpInventoryHead> findWaitGenerated(Map<String, String> paramMap);
 
+    //更新保税清单数据为申报中
     @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateEntryHeadDetailStatus")
     void updateEntryHeadDetailStatus(@Param("headGuid") String headGuid, @Param("dataStatus") String dataStatus);
 
+    //查询需要生成报文的保税清单表体数据
     @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "querydetailDeclareListByGuid")
     List<ImpInventoryBody> querydetailDeclareListByGuid(@Param("headGuid") String headGuid);
 
+    //查询企业信息
     @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 

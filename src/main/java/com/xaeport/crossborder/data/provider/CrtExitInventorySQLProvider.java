@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
-    //查询清单页面数据
+    //查询保税清单页面数据
     public String queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
 
         final String end = paramMap.get("end");
@@ -54,7 +54,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    //查询清单页面数据总数
+    //查询保税清单页面数据总数
     public String queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception {
 
         final String entId = paramMap.get("entId");
@@ -78,14 +78,12 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryInvtNos(
-            String invtNos
-    ) throws Exception{
-        return new SQL(){
+    public String queryInvtNos(String invtNos) throws Exception {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("T_IMP_INVENTORY_HEAD");
-                WHERE(splitJointIn("INVT_NO",invtNos));
+                WHERE(splitJointIn("INVT_NO", invtNos));
             }
         }.toString();
     }

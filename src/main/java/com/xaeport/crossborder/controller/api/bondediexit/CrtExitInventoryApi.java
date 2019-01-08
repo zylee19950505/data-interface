@@ -31,14 +31,14 @@ public class CrtExitInventoryApi extends BaseApi {
     CrtExitInventoryService crtExitInventoryService;
 
     /*
-     *  数据查询
+     *  保税清单数据查询
      */
     @RequestMapping(value = "/querycrtexitinventory", method = RequestMethod.GET)
     public ResponseData queryCrtExitInventory(
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询跨境清单数据参数:[returnStatus:%s]", returnStatus));
+        this.logger.debug(String.format("查询进口保税清单数据参数:[returnStatus:%s]", returnStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -71,14 +71,14 @@ public class CrtExitInventoryApi extends BaseApi {
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {
-            this.logger.error("查询跨境清单数据失败", e);
-            return new ResponseData("查询跨境清单数据错误", HttpStatus.BAD_REQUEST);
+            this.logger.error("查询进口保税清单数据失败", e);
+            return new ResponseData("查询进口保税清单数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
     }
 
     /**
-     * 新建
+     * 新建出区核注清单数据
      **/
     @RequestMapping(value = "/crtexitinventory", method = RequestMethod.GET)
     public ResponseData crtexitinventory(
@@ -118,7 +118,7 @@ public class CrtExitInventoryApi extends BaseApi {
 
     }
 
-    //保存核注清单信息
+    //保存出区核注清单信息
     @RequestMapping("/saveExitInventory")
     public ResponseData saveManifestInfo(@Param("entryJson") String entryJson) {
         //出区核注清单json信息
@@ -135,9 +135,9 @@ public class CrtExitInventoryApi extends BaseApi {
             // 保存详情信息
             map = this.crtExitInventoryService.saveExitBondInvt(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo);
         } catch (Exception e) {
-            logger.error("保存核放单信息时发生异常", e);
+            logger.error("保存出区核注清单时发生异常", e);
             map.put("result", "false");
-            map.put("msg", "保存核放单信息时发生异常");
+            map.put("msg", "保存出区核注清单时发生异常");
         }
         return new ResponseData(map);
     }

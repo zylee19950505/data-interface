@@ -18,6 +18,7 @@ logging:
     com.xaeport.crossborder.data.mapper.ManifestManageMapper: info
     com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper: info
     com.xaeport.crossborder.data.mapper.ExitInventoryMapper: info
+    com.xaeport.crossborder.data.mapper.ExitManifestMapper: info
 
   config: classpath:config/logback-spring.xml
 

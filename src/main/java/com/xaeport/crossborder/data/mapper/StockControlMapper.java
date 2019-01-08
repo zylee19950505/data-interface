@@ -11,9 +11,11 @@ import java.util.Map;
 @Mapper
 public interface StockControlMapper {
 
+    //查询账册表体数据
     @SelectProvider(type = StockControlSQLProvider.class, method = "queryStockControlData")
     List<BwlListType> queryStockControlData(Map<String, String> paramMap);
 
+    //查询账册表体数据总数
     @SelectProvider(type = StockControlSQLProvider.class, method = "queryStockControlCount")
     Integer queryStockControlCount(Map<String, String> paramMap);
 
