@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -327,16 +328,9 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("DCLCUS_FLAG");
                 SELECT("DCLCUS_TYPECD");
                 SELECT("VRFDED_MARKCD");
-//                SELECT("InputCode");
-//                SELECT("InputName");
-//                SELECT("InputTime");
-//                SELECT("ListStat");
-//                SELECT("CorrEntryDclEtpsNo");
-//                SELECT("CorrEntryDclEtpsNm");
-//                SELECT("DecType");
-//                SELECT("AddTime");
                 SELECT("STSHIP_TRSARV_NATCD");
-//                SELECT("InvtType");
+                SELECT("CRT_ENT_ID");
+                SELECT("CRT_ENT_NAME");
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.status = #{status}");
                 WHERE("rownum <= 100");

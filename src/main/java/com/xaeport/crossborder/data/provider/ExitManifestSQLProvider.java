@@ -331,12 +331,15 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 SELECT("TOTAL_WT");
                 SELECT("TOTAL_GROSS_WT");
                 SELECT("TOTAL_NET_WT");
+                SELECT("DCL_TIME");
                 SELECT("DCL_ER_CONC");
                 SELECT("DCL_ETPSNO");
                 SELECT("DCL_ETPS_NM");
                 SELECT("INPUT_CODE");
                 SELECT("INPUT_NAME");
                 SELECT("ETPS_PREENT_NO");
+                SELECT("CRT_ENT_ID");
+                SELECT("CRT_ENT_NAME");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.status = #{status}");
                 WHERE("rownum <= 100");

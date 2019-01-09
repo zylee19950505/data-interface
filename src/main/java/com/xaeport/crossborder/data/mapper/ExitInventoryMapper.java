@@ -79,6 +79,9 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 
+    //查询企业DxpId
+    @Select("SELECT DXP_ID FROM T_ENTERPRISE WHERE ID = #{entId}")
+    String getDxpId(String entId);
 
 
 }

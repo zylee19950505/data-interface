@@ -124,12 +124,11 @@ public class EBondInvtThread implements Runnable {
 
                         for (int j = 0; j < nemsInvtCbecBillTypeList.size(); j++) {
                             invtListType = new InvtListType();
-                            invtListType.setBondInvtNo(StringUtils.isEmpty(nemsInvtCbecBillTypeList.get(j).getBond_invt_no())?"":nemsInvtCbecBillTypeList.get(j).getBond_invt_no());
-                            invtListType.setSeqNo(StringUtils.isEmpty(nemsInvtCbecBillTypeList.get(j).getSeq_no())?"":nemsInvtCbecBillTypeList.get(j).getSeq_no());
+                            invtListType.setBondInvtNo(StringUtils.isEmpty(nemsInvtCbecBillTypeList.get(j).getBond_invt_no()) ? "" : nemsInvtCbecBillTypeList.get(j).getBond_invt_no());
+                            invtListType.setSeqNo(StringUtils.isEmpty(nemsInvtCbecBillTypeList.get(j).getSeq_no()) ? "" : nemsInvtCbecBillTypeList.get(j).getSeq_no());
                             invtListType.setCbecBillNo(nemsInvtCbecBillTypeList.get(j).getCbec_bill_no());
                             invtListTypeList.add(invtListType);
                         }
-
 
                         invtMessage.setInvtHeadType(invtHeadType);
                         invtMessage.setInvtListTypeList(invtListTypeList);
@@ -137,7 +136,7 @@ public class EBondInvtThread implements Runnable {
                         invtMessage.setSysId("Z8");
 
                         //开始生成报文
-                        this.entryProcess(invtMessage, xmlName);
+                        this.entryProcess(invtMessage, xmlName, bondInvtBsc);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理企业[headEtpsInnerInvtNo: %s]核注清单数据时发生异常", headEtpsInnerInvtNo);
@@ -156,12 +155,13 @@ public class EBondInvtThread implements Runnable {
         }
     }
 
-    private void entryProcess(InvtMessage invtMessage, String xmlName) throws TransformerException, IOException {
+    private void entryProcess(InvtMessage invtMessage, String xmlName, BondInvtBsc bondInvtBsc) throws TransformerException, IOException {
         try {
             // 生成申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-            String fileName = "InvtMessage_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.eBaseBondInvtXML.createXML(invtMessage, "EBondInvt", xmlName);//flag
+            String fileName = "INVT_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".xml";
+            EnvelopInfo envelopInfo = this.setEnvelopInfo(xmlName, bondInvtBsc);
+            byte[] xmlByte = this.eBaseBondInvtXML.createXML(invtMessage, "EBondInvt", envelopInfo);//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成出区核注清单清单报文[fileName: %s]", fileName));
         } catch (Exception e) {
@@ -186,5 +186,21 @@ public class EBondInvtThread implements Runnable {
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("出区核注清单发送完毕" + fileName);
         this.logger.debug(String.format("出区核注清单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+    }
+
+    private EnvelopInfo setEnvelopInfo(String xmlName, BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String fileName = "INVT_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".zip";
+        SimpleDateFormat sdfXml = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        EnvelopInfo envelopInfo = new EnvelopInfo();
+        envelopInfo.setVersion("1.0");
+        envelopInfo.setMessage_id(bondInvtBsc.getEtps_inner_invt_no());
+        envelopInfo.setFile_name(fileName);
+        envelopInfo.setMessage_type("INV101");
+        envelopInfo.setSender_id(this.exitInventoryMapper.getDxpId(bondInvtBsc.getCrt_ent_id()));
+        envelopInfo.setReceiver_id("DXPEDCSAS0000001");
+        envelopInfo.setSend_time(sdfXml.format(bondInvtBsc.getInvt_dcl_time()));
+        envelopInfo.setIc_Card("8600000198447");
+        return envelopInfo;
     }
 }

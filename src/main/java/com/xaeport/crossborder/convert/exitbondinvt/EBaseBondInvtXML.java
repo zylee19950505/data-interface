@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.convert.exitbondinvt;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.data.entity.EnvelopInfo;
 import com.xaeport.crossborder.data.entity.InvtMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,7 +57,7 @@ public class EBaseBondInvtXML {
      *
      * @param invtMessage
      */
-    public byte[] createXML(InvtMessage invtMessage, String flag, String xmlName) throws TransformerException {
+    public byte[] createXML(InvtMessage invtMessage, String flag, EnvelopInfo envelopInfo) throws TransformerException {
         Document document = this.getDocument();
         Element rootElement = document.createElement("Signature");
 
@@ -76,7 +77,7 @@ public class EBaseBondInvtXML {
         this.getKeyInfo(document, KeyInfo);
         //设置package节点数据
         Element Package = document.createElement("Package");
-        this.getEnvelopInfo(document, Package);
+        this.getEnvelopInfo(document, Package, envelopInfo);
         this.getDataInfo(document, invtMessage, flag, Package);
         Object.appendChild(Package);
 
@@ -131,32 +132,32 @@ public class EBaseBondInvtXML {
     }
 
     //创建EnvelopInfo报文节点
-    private Element getEnvelopInfo(Document document, Element Package) {
+    private Element getEnvelopInfo(Document document, Element Package, EnvelopInfo envelopInfo) {
         Element EnvelopInfo = document.createElement("EnvelopInfo");
 
         Element version = document.createElement("version");
-        version.setTextContent("1.0");
+        version.setTextContent(envelopInfo.getVersion());
 
         Element message_id = document.createElement("message_id");
-        message_id.setTextContent("XAHZ900818I000000290201812110000000002");
+        message_id.setTextContent(envelopInfo.getMessage_id());
 
         Element file_name = document.createElement("file_name");
-        file_name.setTextContent("XAHZ900818I000000290201812110000000002.zip");
+        file_name.setTextContent(envelopInfo.getFile_name());
 
         Element message_type = document.createElement("message_type");
-        message_type.setTextContent("INV101");
+        message_type.setTextContent(envelopInfo.getMessage_type());
 
         Element sender_id = document.createElement("sender_id");
-        sender_id.setTextContent("DXPENT0000018755");
+        sender_id.setTextContent(envelopInfo.getSender_id());
 
         Element receiver_id = document.createElement("receiver_id");
-        receiver_id.setTextContent("DXPEDCSAS0000001");
+        receiver_id.setTextContent(envelopInfo.getReceiver_id());
 
         Element send_time = document.createElement("send_time");
-        send_time.setTextContent("2018-12-11T09:02:35");
+        send_time.setTextContent(envelopInfo.getSend_time());
 
         Element Ic_Card = document.createElement("Ic_Card");
-        Ic_Card.setTextContent("8600000198447");
+        Ic_Card.setTextContent(envelopInfo.getIc_Card());
 
         EnvelopInfo.appendChild(version);
         EnvelopInfo.appendChild(message_id);

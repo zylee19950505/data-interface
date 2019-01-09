@@ -125,7 +125,7 @@ public class EPassPortThread implements Runnable {
                         passPortMessage.setOperCusRegCode("6101380018");
 
                         //开始生成报文
-                        this.entryProcess(passPortMessage, xmlName);
+                        this.entryProcess(passPortMessage, xmlName, passPortHead);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理企业[etpsPreentNo: %s]出区核放单数据时发生异常", etpsPreentNo);
@@ -144,16 +144,17 @@ public class EPassPortThread implements Runnable {
         }
     }
 
-    private void entryProcess(PassPortMessage passPortMessage, String xmlName) throws TransformerException, IOException {
+    private void entryProcess(PassPortMessage passPortMessage, String xmlName, PassPortHead passPortHead) throws TransformerException, IOException {
         try {
             // 生成申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-            String fileName = "passPortMessage_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".xml";
-            byte[] xmlByte = this.eBasePassPortXML.createXML(passPortMessage, "EPassPort", xmlName);//flag
+            String fileName = "PASSPORT_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".xml";
+            EnvelopInfo envelopInfo = this.setEnvelopInfo(xmlName, passPortHead);
+            byte[] xmlByte = this.eBasePassPortXML.createXML(passPortMessage, "EPassPort", envelopInfo);//flag
             saveXmlFile(fileName, xmlByte);
             this.logger.debug(String.format("完成生成出区核放单报文[fileName: %s]", fileName));
         } catch (Exception e) {
-            String exceptionMsg = String.format("处理出区核放单[headGuid: %s]时发生异常", xmlName);
+            String exceptionMsg = String.format("处理出区核放单[etpsPreentNo: %s]时发生异常", xmlName);
             this.logger.error(exceptionMsg, e);
         }
     }
@@ -174,5 +175,21 @@ public class EPassPortThread implements Runnable {
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("出区核放单发送完毕" + fileName);
         this.logger.debug(String.format("出区核放单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+    }
+
+    private EnvelopInfo setEnvelopInfo(String xmlName, PassPortHead passPortHead) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String fileName = "PASSPORT_" + "Exit_" + xmlName + "_" + sdf.format(new Date()) + ".zip";
+        SimpleDateFormat sdfXml = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        EnvelopInfo envelopInfo = new EnvelopInfo();
+        envelopInfo.setVersion("1.0");
+        envelopInfo.setMessage_id(passPortHead.getEtps_preent_no());
+        envelopInfo.setFile_name(fileName);
+        envelopInfo.setMessage_type("SAS121");
+        envelopInfo.setSender_id(this.exitManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
+        envelopInfo.setReceiver_id("DXPEDCSAS0000001");
+        envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
+        envelopInfo.setIc_Card("8600000198447");
+        return envelopInfo;
     }
 }

@@ -77,4 +77,8 @@ public interface ExitManifestMapper {
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "queryPassPortAcmpByHeadNo")
     List<PassPortAcmp> queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo);
 
+    //查询企业DxpId
+    @Select("SELECT DXP_ID FROM T_ENTERPRISE WHERE ID = #{entId}")
+    String getDxpId(String entId);
+
 }
