@@ -122,7 +122,7 @@ public class ExitManifestApi extends BaseApi {
         // 出区核注清单表头
         LinkedHashMap<String, String> passPortHead = (LinkedHashMap<String, String>) object.get("passPortHead");
         // 出区核注清单表体
-        ArrayList<LinkedHashMap<String, String>> passPortAcmpList = (ArrayList<LinkedHashMap<String, String>>) object.get("passPortAcmpList");
+        LinkedHashMap<String, String> passPortAcmpList = (LinkedHashMap<String, String>) object.get("passPortAcmpList");
 
         Users userInfo = this.getCurrentUsers();
         Map<String, String> rtnMap = new HashMap<>();
@@ -158,7 +158,11 @@ public class ExitManifestApi extends BaseApi {
         paramMap.put("userId", user.getId());
         paramMap.put("submitKeys", submitKeys);//清单唯一编码
         // 调用清单申报Service获取提交海关结果
-        boolean flag = exitManifestService.updateSubmitCustom(paramMap);
+        boolean flag;
+        flag = exitManifestService.queryDataFull(paramMap);
+        if (flag) {
+            flag = exitManifestService.updateSubmitCustom(paramMap);
+        }
         if (flag) {
             return rtnResponse("true", "出区核放单申报海关提交成功！");
         } else {

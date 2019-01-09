@@ -59,11 +59,15 @@ public interface ExitManifestMapper {
 
     //修改出区核放单表体信息
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortAcmp")
-    void updatePassPortAcmp(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("userInfo") Users userInfo);
+    void updatePassPortAcmp(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("passPortAcmpList") LinkedHashMap<String, String> passPortAcmpList, @Param("userInfo") Users userInfo);
 
     //查找可以生成报文的已申报状态表头数据
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "findWaitGenerated")
     List<PassPortHead> findWaitGenerated(Map<String, String> paramMap);
+
+    //查询数据是否填写完整
+    @SelectProvider(type = ExitManifestSQLProvider.class, method = "queryDataFull")
+    List<String> queryDataFull(Map<String, String> paramMap);
 
     //更新出区核放单数据为已申报状态
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortHeadStatus")

@@ -51,7 +51,7 @@ public class EBondInvtThread implements Runnable {
         InvtListType invtListType;
         List<InvtListType> invtListTypeList;
         String headEtpsInnerInvtNo = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlName = null;
 
@@ -91,7 +91,7 @@ public class EBondInvtThread implements Runnable {
                         invtHeadType.setDclEtpsSccd(bondInvtBsc.getDcl_etps_sccd());
                         invtHeadType.setDclEtpsno(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
-                        invtHeadType.setInvtDclTime(sdfSfm.format(bondInvtBsc.getInvt_dcl_time()));
+                        invtHeadType.setInvtDclTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setImpexpPortcd(bondInvtBsc.getImpexp_portcd());
                         invtHeadType.setDclPlcCuscd(bondInvtBsc.getDcl_plc_cuscd());
                         invtHeadType.setImpexpMarkcd(bondInvtBsc.getImpexp_markcd());
@@ -101,14 +101,14 @@ public class EBondInvtThread implements Runnable {
                         invtHeadType.setDclcusFlag(bondInvtBsc.getDclcus_flag());
                         invtHeadType.setDclcusTypecd(bondInvtBsc.getDclcus_typecd());
                         invtHeadType.setVrfdedMarkcd(bondInvtBsc.getVrfded_markcd());
-                        invtHeadType.setInputCode("导入企业代码");
-                        invtHeadType.setInputName("导入企业名称");
-                        invtHeadType.setInputTime("导入时间");
+                        invtHeadType.setInputCode("6101380018");
+                        invtHeadType.setInputName("西安口岸电子科技有限公司");
+                        invtHeadType.setInputTime("20181210");
                         invtHeadType.setListStat("");
                         invtHeadType.setCorrEntryDclEtpsNo(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setCorrEntryDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
                         invtHeadType.setDecType("");
-                        invtHeadType.setAddTime(sdfSfm.format(bondInvtBsc.getInvt_dcl_time()));
+                        invtHeadType.setAddTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setStshipTrsarvNatcd(bondInvtBsc.getStship_trsarv_natcd());
                         invtHeadType.setInvtType("8");
                         try {

@@ -34,9 +34,13 @@ public interface CrtExitInventoryMapper {
     @Select("SELECT t.PORT FROM T_ENTERPRISE t WHERE t.ID = #{ent_id}")
     String queryCustomsByEndId(String ent_id);
 
+    //根据保税清单编码查询对应guid
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryGuidByInvtNos")
+    List<String> queryGuidByInvtNos(String invtNos);
+
     //根据保税清单编码查询对应保税清单表头数据
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryInvtNos")
-    List<ImpInventoryHead> queryInvtNos(String invtNos);
+    List<ImpInventoryHead> queryInvtNos(String guids);
 
 //    //查询保税清单数据表体数据
 //    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")

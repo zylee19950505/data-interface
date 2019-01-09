@@ -78,12 +78,22 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryInvtNos(String invtNos) throws Exception {
+    public String queryGuidByInvtNos(String invtNos) throws Exception {
+        return new SQL() {
+            {
+                SELECT("guid");
+                FROM("T_IMP_INVENTORY_HEAD");
+                WHERE(splitJointIn("INVT_NO", invtNos));
+            }
+        }.toString();
+    }
+
+    public String queryInvtNos(String guids) throws Exception {
         return new SQL() {
             {
                 SELECT("*");
                 FROM("T_IMP_INVENTORY_HEAD");
-                WHERE(splitJointIn("INVT_NO", invtNos));
+                WHERE(splitJointIn("GUID", guids));
             }
         }.toString();
     }

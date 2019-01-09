@@ -117,6 +117,17 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String queryDataFull(Map<String, String> paramMap){
+        final String submitKeys = paramMap.get("submitKeys");
+        return new SQL(){
+            {
+                SELECT("STATUS");
+                FROM("T_PASS_PORT_HEAD");
+                WHERE(splitJointIn("ETPS_PREENT_NO",submitKeys));
+            }
+        }.toString();
+    }
+
     public String queryPassPortHeadList(Map<String, String> paramMap) throws Exception {
         final String etps_preent_no = paramMap.get("etps_preent_no");
         return new SQL() {
@@ -275,17 +286,18 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
 
     public String updatePassPortAcmp(
             @Param("passPortHead") LinkedHashMap<String, String> passPortHead,
+            @Param("passPortAcmpList") LinkedHashMap<String, String> passPortAcmpList,
             @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
                 UPDATE("T_PASS_PORT_ACMP");
-                WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.head_etps_preent_no}");
-                if (!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))) {
-                    SET("RTL_TB_TYPECD = #{passPortHead.rlt_tb_typecd}");
+                WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                if (!StringUtils.isEmpty(passPortAcmpList.get("rlt_tb_typecd"))) {
+                    SET("RTL_TB_TYPECD = #{passPortAcmpList.rlt_tb_typecd}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.get("rlt_no"))) {
-                    SET("RTL_NO = #{passPortHead.rlt_no}");
+                if (!StringUtils.isEmpty(passPortAcmpList.get("rlt_no"))) {
+                    SET("RTL_NO = #{passPortAcmpList.rlt_no}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_TIME = sysdate");

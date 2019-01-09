@@ -73,6 +73,18 @@ public class ExitManifestService {
         }
     }
 
+    //查询数据是否填写完整
+    public boolean queryDataFull(Map<String,String> paramMap){
+        boolean flag;
+        List<String> status = this.exitManifestMapper.queryDataFull(paramMap);
+        if(status.contains("INIT")){
+            flag = false;
+        }else {
+            flag = true;
+        }
+        return flag;
+    }
+
     //更新修改出区核放单数据为申报中状态（提交海关）
     @Transactional
     public boolean updateSubmitCustom(Map<String, String> paramMap) {
@@ -90,7 +102,7 @@ public class ExitManifestService {
 
     //修改出区核放单数据
     @Transactional
-    public Map<String, String> updateExitManifest(LinkedHashMap<String, String> passPortHead, ArrayList<LinkedHashMap<String, String>> passPortAcmpList, Users userInfo) {
+    public Map<String, String> updateExitManifest(LinkedHashMap<String, String> passPortHead, LinkedHashMap<String, String> passPortAcmpList, Users userInfo) {
         Map<String, String> rtnMap = new HashMap<String, String>();
         if (saveExitManifest(passPortHead, passPortAcmpList, userInfo, rtnMap, "出区核放单-编辑")) return rtnMap;
         rtnMap.put("result", "true");
@@ -101,7 +113,7 @@ public class ExitManifestService {
     //更新修改出区核放单数据
     public boolean saveExitManifest(
             LinkedHashMap<String, String> passPortHead,
-            List<LinkedHashMap<String, String>> passPortAcmpList,
+            LinkedHashMap<String, String> passPortAcmpList,
             Users userInfo,
             Map<String, String> rtnMap, String notes
     ) {
@@ -110,18 +122,22 @@ public class ExitManifestService {
             rtnMap.put("msg", "未发现需要修改数据！");
             return true;
         }
-        String entryHeadId = passPortHead.get("entryhead_guid");
         if (!CollectionUtils.isEmpty(passPortHead) && passPortHead.size() > 1) {
             // 更新表头数据
             this.exitManifestMapper.updatePassPortHead(passPortHead, userInfo);
         }
-        if (!CollectionUtils.isEmpty(passPortAcmpList)) {
+
+//        if (!CollectionUtils.isEmpty(passPortHead)) {
+//            exitManifestMapper.updatePassPortAcmp(passPortHead, userInfo);
+//        }
+
+        if (!CollectionUtils.isEmpty(passPortAcmpList) && !CollectionUtils.isEmpty(passPortHead)) {
             // 更新表体数据
-            for (LinkedHashMap<String, String> passPortAcmp : passPortAcmpList) {
-                if (!CollectionUtils.isEmpty(passPortAcmp)) {
-                    exitManifestMapper.updatePassPortAcmp(passPortHead, userInfo);
-                }
-            }
+//            for (LinkedHashMap<String, String> passPortAcmp : passPortAcmpList) {
+//                if (!CollectionUtils.isEmpty(passPortAcmpList)) {
+            exitManifestMapper.updatePassPortAcmp(passPortHead, passPortAcmpList, userInfo);
+//                }
+//            }
         }
         return false;
     }

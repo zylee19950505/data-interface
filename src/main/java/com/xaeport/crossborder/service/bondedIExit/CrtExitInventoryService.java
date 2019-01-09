@@ -58,7 +58,9 @@ public class CrtExitInventoryService {
     //获取出区核注清单表体数据
     public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
         String InvtNos = paramMap.get("invtNo");
-        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(InvtNos);
+        List<String> guidStrs = this.crtExitInventoryMapper.queryGuidByInvtNos(InvtNos);
+        String guids = String.join(",", guidStrs);
+        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(guids);
         List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
         NemsInvtCbecBillType nemsInvtCbecBillType;
         for (int i = 0; i < impInventoryHeadList.size(); i++) {

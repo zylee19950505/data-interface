@@ -285,7 +285,6 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             passPortHead: passPortHead,
             passPortAcmpList: passPortAcmpList
         };
-
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
                 sw.page.modules["bondediexit/seeExitManifestDetail"].cancel();
@@ -306,10 +305,15 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         if (!this.valiFieldPassPort()) {
             return;
         }
-        var passPortAcmpList = new Array();
-        for (var key in listChangeKeyValsEManifest) {
-            passPortAcmpList.push(listChangeKeyValsEManifest[key]);
-        }
+        // var passPortAcmpList = new Array();
+        // for (var key in listChangeKeyValsEManifest) {
+        //     passPortAcmpList.push(listChangeKeyValsEManifest[key]);
+        // }
+
+        var passPortAcmpList = {
+            rlt_tb_typecd: $("#rlt_tb_typecd").val(),
+            rlt_no: $("#rlt_no").val()
+        };
 
         var entryData = {
             passPortHead: headChangeKeyValEManifest,

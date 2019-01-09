@@ -73,7 +73,27 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     data: "bond_invt_no", label: "核注清单编号"
                 },
                 {
-                    data: "status", label: "申报状态"
+                    data: "status", label: "申报状态", render: function (data, type, row) {
+                    switch (row.status) {
+                        case "BDDS2"://出区核注清单待申报
+                            textColor = "text-yellow";
+                            row.status = "核注清单待申报";
+                            break;
+                        case "BDDS20"://出区核注清单申报中
+                            textColor = "text-green";
+                            row.status = "核注清单申报中";
+                            break;
+                        case "BDDS21"://出区核注清单已申报
+                            textColor = "text-green";
+                            row.status = "核注清单已申报";
+                            break;
+                        case "BDDS22"://出区核注清单申报成功
+                            textColor = "text-green";
+                            row.status = "核注清单申报成功";
+                            break;
+                    }
+                    return "<span class='" + textColor + "'>" + row.status + "</span>";
+                }
                 },
                 {
                     label: "申报时间", render: function (data, type, row) {
@@ -110,15 +130,11 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
         }
 
         sw.confirm("请确认数据无误并提交海关", "确认", function () {
-
             sw.blockPage();
-
             var postData = {
                 submitKeys: submitKeys
             };
-
             $("#submitCustom").prop("disabled", true);
-
             sw.ajax("api/bondediexit/exitinventory/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
@@ -155,18 +171,15 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
     },
 
     init: function () {
-
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
             format: "yyyy-mm-dd",
             autoclose: true
         });
-
         $("[ws-search]").unbind("click").click(this.query).click();
         $("[ws-delete]").unbind("click").click(this.deleteByCode);
         $("[ws-submit]").unbind("click").click(this.submitCustomByCode);
-
         $table = $("#query-exitInventory-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {

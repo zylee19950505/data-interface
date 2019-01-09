@@ -67,12 +67,12 @@ public class CrtExitManifestService {
     }
 
     //创建并预插入出区核放单数据（用户未保存确认前）
-    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList) {
+    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList, Users userInfo) {
         this.crtExitManifestMapper.updateBondInvt(passPortHead);
-        this.crtExitManifestMapper.insertPassPortHead(passPortHead);
+        this.crtExitManifestMapper.insertPassPortHead(passPortHead, userInfo);
 
         for (PassPortAcmp passPortAcmp : passPortAcmpList) {
-            this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp);
+            this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp, userInfo);
         }
     }
 

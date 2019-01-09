@@ -116,12 +116,13 @@ public class CrtExitManifestSQLProvider {
 
     //创建插入出区核放单表头
     public String insertPassPortHead(
-            @Param("passPortHead") PassPortHead passPortHead
+            @Param("passPortHead") PassPortHead passPortHead,
+            @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
                 INSERT_INTO("T_PASS_PORT_HEAD");
-                VALUES("status", "'BDDS4'");
+                VALUES("status", "'INIT'");
                 VALUES("FLAG","'EXIT'");
                 if (!StringUtils.isEmpty(passPortHead.getId())) {
                     VALUES("id", "#{passPortHead.id}");
@@ -153,13 +154,26 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.getRlt_no())) {
                     VALUES("rlt_no", "#{passPortHead.rlt_no}");
                 }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    VALUES("CRT_USER", "#{userInfo.id}");
+                }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    VALUES("CRT_TIME", "sysdate");
+                }
+                if(!StringUtils.isEmpty(userInfo.getEnt_Id())){
+                    VALUES("CRT_ENT_ID", "#{userInfo.ent_Id}");
+                }
+                if(!StringUtils.isEmpty(userInfo.getEnt_Name())){
+                    VALUES("CRT_ENT_NAME", "#{userInfo.ent_Name}");
+                }
             }
         }.toString();
     }
 
     //创建插入出区核放单表体
     public String insertPassPortAcmp(
-            @Param("passPortAcmp") PassPortAcmp passPortAcmp
+            @Param("passPortAcmp") PassPortAcmp passPortAcmp,
+            @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
@@ -172,6 +186,12 @@ public class CrtExitManifestSQLProvider {
                 }
                 if (!StringUtils.isEmpty(passPortAcmp.getHead_etps_preent_no())) {
                     VALUES("head_etps_preent_no", "#{passPortAcmp.head_etps_preent_no}");
+                }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    VALUES("CRT_USER", "#{userInfo.id}");
+                }
+                if(!StringUtils.isEmpty(userInfo.getId())){
+                    VALUES("CRT_TIME", "sysdate");
                 }
             }
         }.toString();

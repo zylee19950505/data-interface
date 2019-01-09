@@ -31,16 +31,16 @@ public interface CrtExitManifestMapper {
     BondInvtBsc queryBondInvtBsc(String bond_invt_no) throws Exception;
 
     //修改核注清单表状态为“已生成核放单”状态
-    @UpdateProvider(type = CrtExitManifestSQLProvider.class,method = "updateBondInvt")
+    @UpdateProvider(type = CrtExitManifestSQLProvider.class, method = "updateBondInvt")
     void updateBondInvt(@Param("passPortHead") PassPortHead passPortHead);
 
     //创建并预插入出区核放单表头（用户未确认保存前）
     @InsertProvider(type = CrtExitManifestSQLProvider.class, method = "insertPassPortHead")
-    void insertPassPortHead(@Param("passPortHead") PassPortHead passPortHead);
+    void insertPassPortHead(@Param("passPortHead") PassPortHead passPortHead, @Param("userInfo") Users userInfo);
 
     //创建并预插入出区核放单表体（用户未确认保存前）
     @InsertProvider(type = CrtExitManifestSQLProvider.class, method = "insertPassPortAcmp")
-    void insertPassPortAcmp(@Param("passPortAcmp") PassPortAcmp passPortAcmp);
+    void insertPassPortAcmp(@Param("passPortAcmp") PassPortAcmp passPortAcmp, @Param("userInfo") Users userInfo);
 
     //修改核注清单表状态为“已生成核放单”状态
     @UpdateProvider(type = CrtExitManifestSQLProvider.class, method = "updateBondInvtStatus")

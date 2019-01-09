@@ -111,6 +111,7 @@ management:
     enabled: false
 
 server:
+  max-http-post-size: 819200
   port: 8000
   session:
       timeout: 7200

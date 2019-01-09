@@ -112,6 +112,7 @@ public class CrtExitManifestApi extends BaseApi {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateNowStr = sdf.format(date);
+        Users userInfo = this.getCurrentUsers();
 
         paramMap.put("bond_invt_no", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
@@ -128,7 +129,7 @@ public class CrtExitManifestApi extends BaseApi {
             passPortAcmpList = this.crtExitManifestService.queryPassPortAcmpList(paramMap);
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortAcmpList(passPortAcmpList);
-            this.crtExitManifestService.insertPassHeadData(passPortHead, passPortAcmpList);
+            this.crtExitManifestService.insertPassHeadData(passPortHead, passPortAcmpList, userInfo);
         } catch (Exception e) {
             this.logger.error("新建出区核放单数据失败", e);
             return new ResponseData("获取出区核放单数据错误", HttpStatus.BAD_REQUEST);
