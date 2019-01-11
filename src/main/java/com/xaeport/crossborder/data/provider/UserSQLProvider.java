@@ -1,9 +1,11 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.TiedCard;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by lzy on 2018/7/4.
@@ -96,6 +98,68 @@ public class UserSQLProvider extends BaseSQLProvider {
                 SET("password = #{newPassword}");
                 SET("updatetime = #{updateTime}");
                 WHERE("id = #{userId}");
+            }
+        }.toString();
+    }
+
+    public String getBandOprHis(Map<String, String> paramMap) {
+        final String userId = paramMap.get("userId");
+        return new SQL() {
+            {
+                SELECT("t.TC_ID");
+                SELECT("t.U_ID");
+                SELECT("t.CARD_NO");
+                SELECT("to_char(t.CREATE_TIME,'yyyy-MM-dd HH24:mi:ss') as CREATE_TIME");
+                SELECT("t.REMARK");
+                SELECT("u.LOGINNAME");
+                FROM("T_TIED_CARD t");
+                LEFT_OUTER_JOIN("T_USERS u ON t.U_ID = u.ID");
+                WHERE("t.U_ID = #{userId}");
+                ORDER_BY("t.CREATE_TIME desc");
+            }
+        }.toString();
+    }
+
+    public String updateIcCardByUserId(
+            @Param("userId") String userId,
+            @Param("icCardNo") String icCardNo,
+            @Param("icCardPwd") String icCardPwd
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_USERS");
+                WHERE("ID = #{userId}");
+                SET("IC_CARD = #{icCardNo}");
+                SET("IC_PWD = #{icCardPwd}");
+                SET("UPDATETIME = sysdate");
+            }
+        }.toString();
+    }
+
+    public String insertTiedCard(@Param("tiedCard") TiedCard tiedCard) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_TIED_CARD");
+                VALUES("TC_ID", "#{tiedCard.tcId}");
+                VALUES("U_ID", "#{tiedCard.uId}");
+                VALUES("CARD_NO", "#{tiedCard.cardNo}");
+                VALUES("CREATE_TIME", "#{tiedCard.createTime}");
+                VALUES("REMARK", "#{tiedCard.remark}");
+            }
+        }.toString();
+    }
+
+    public String checkUserHasIcCard(@Param("userId") String userId) {
+        return new SQL() {
+            {
+                SELECT("COUNT(1)");
+                FROM("T_USERS u");
+                WHERE("id = #{userId}");
+                WHERE("(" +
+                        "u.IC_CARD IS NOT NULL " +
+                        "OR " +
+                        "((select ROLEID from t_user_role t2 where t2.USERINFOID = #{userId}) = 'admin')" +
+                        ")");
             }
         }.toString();
     }

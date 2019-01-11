@@ -2,7 +2,6 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -39,7 +38,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(entry_dcl_time)) {
                     WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -78,7 +77,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(entry_dcl_time)) {
                     WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");

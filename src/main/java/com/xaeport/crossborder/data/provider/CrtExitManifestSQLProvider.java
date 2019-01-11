@@ -37,7 +37,7 @@ public class CrtExitManifestSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");
@@ -73,7 +73,7 @@ public class CrtExitManifestSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");

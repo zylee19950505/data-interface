@@ -36,7 +36,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dcl_time)) {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -78,7 +78,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dcl_time)) {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");

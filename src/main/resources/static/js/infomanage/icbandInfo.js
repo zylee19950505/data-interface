@@ -1,25 +1,25 @@
 /**
  * 重新绑定IC卡
  */
-sw.page.modules["infomanage/bindingIC"] = sw.page.modules["infomanage/bindingIC"] || {
+sw.page.modules["infomanage/icbandInfo"] = sw.page.modules["infomanage/icbandInfo"] || {
         loadUserIc: function () {
             sw.ajax("api/userIc", "GET", {}, function (rsp) {
                 $("#icCardNo").val(rsp.data.msg);
             });
         },
         rebandIc: function () {
-            sw.checkinfo("information/icband",true);
+            sw.checkinfo("infomanage/icband",true);
         },
         loadBandOprHis: function () {
             var url = sw.serializeObjectToURL("api/bandOprHis", {});
             // 数据表
-            sw.datatable("#query-conveyance-table", {
+            sw.datatable("#query-icbandinfo-table", {
                 ajax: url,
                 searching : false,
                 columns: [
                     {data: "CREATE_TIME", label: "日期"},
                     {data: "REMARK", label: "操作"},
-                    {data: "USERNAME", label: "操作人"}
+                    {data: "LOGINNAME", label: "操作人"}
                 ]
             });
         },
