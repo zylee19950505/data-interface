@@ -61,6 +61,15 @@ public class ReceiptService {
                 case "TAX"://核放单预订数据
                     this.createTax(receipt, refileName);
                     break;
+                case "COMMON"://核注清单处理成功回执
+                    this.createInvtCommon(receipt, refileName);
+                    break;
+                case "INV201"://核注清单(报文回执/审核回执)
+                    this.createInvtHdeAppr(receipt, refileName);
+                    break;
+                case "INV202"://核注清单生成报关单回执
+                    this.createInvtInvAppr(receipt, refileName);
+                    break;
             }
         } catch (Exception e) {
             flag = false;
@@ -301,6 +310,148 @@ public class ReceiptService {
         }
     }
 
+
+    /**
+     * 插入核注清单处理成功回执数据
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtCommon(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("CommonResponeMessage");
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtCommon recBondInvtCommon;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtCommon = new RecBondInvtCommon();
+                recBondInvtCommon.setGuid(IdUtils.getUUId());
+                recBondInvtCommon.setCrt_tm(new Date());
+                recBondInvtCommon.setUpd_tm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("SeqNo")) {
+                        recBondInvtCommon.setGuid(map.get("SeqNo"));
+                    }
+                    if (map.containsKey("EtpsPreentNo")) {
+                        recBondInvtCommon.setEtps_preent_no(map.get("EtpsPreentNo"));
+                    }
+                    if (map.containsKey("CheckInfo")) {
+                        recBondInvtCommon.setCheck_info(map.get("CheckInfo"));
+                    }
+                    if (map.containsKey("DealFlag")) {
+                        recBondInvtCommon.setDeal_flag(map.get("DealFlag"));
+                    }
+                }
+                this.receiptMapper.createInvtCommon(recBondInvtCommon); //插入订单状态表数据
+                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+    /**
+     * 根据核注清单处理成功回执更新状态
+     */
+    private void updateBondInvtStatusByCommon(RecBondInvtCommon recBondInvtCommon) throws Exception {
+        BondInvtBsc bondInvtBsc = new BondInvtBsc();
+        bondInvtBsc.setEtps_inner_invt_no(recBondInvtCommon.getEtps_preent_no());
+        bondInvtBsc.setInvt_preent_no(recBondInvtCommon.getSeq_no());
+        bondInvtBsc.setReturn_status(recBondInvtCommon.getDeal_flag());
+        bondInvtBsc.setReturn_info(recBondInvtCommon.getCheck_info());
+        bondInvtBsc.setStatus(StatusCode.CQHZQDSBCG);
+        bondInvtBsc.setUpd_time(new Date());
+        boolean flag;
+        flag = this.receiptMapper.updateBondInvtStatusByCommon(bondInvtBsc);
+        if (flag) {
+            this.receiptMapper.updateNemsInvtByCommon(bondInvtBsc);
+        }
+    }
+
+    /**
+     * 核注清单(报文回执/审核回执)
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("HdeApprResult");
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtHdeAppr recBondInvtHdeAppr;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtHdeAppr = new RecBondInvtHdeAppr();
+                recBondInvtHdeAppr.setGuid(IdUtils.getUUId());
+                recBondInvtHdeAppr.setCrt_tm(new Date());
+                recBondInvtHdeAppr.setUpd_tm(new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("etpsPreentNo")) {
+                        recBondInvtHdeAppr.setEtps_preent_no(map.get("etpsPreentNo"));
+                    }
+                    if (map.containsKey("businessId")) {
+                        recBondInvtHdeAppr.setBusiness_id(map.get("businessId"));
+                    }
+                    if (map.containsKey("tmsCnt")) {
+                        recBondInvtHdeAppr.setTms_cnt(map.get("tmsCnt"));
+                    }
+                    if (map.containsKey("typecd")) {
+                        recBondInvtHdeAppr.setTypecd(map.get("typecd"));
+                    }
+                    if (map.containsKey("manageResult")) {
+                        recBondInvtHdeAppr.setManage_result(map.get("manageResult"));
+                    }
+                    if (map.containsKey("manageDate")) {
+                        recBondInvtHdeAppr.setManage_date(sdf.parse(map.get("manageDate")));
+                    }
+                    if (map.containsKey("rmk")) {
+                        recBondInvtHdeAppr.setRmk(map.get("rmk"));
+                    }
+                }
+                this.receiptMapper.createInvtHdeAppr(recBondInvtHdeAppr); //插入订单状态表数据
+//                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+    /**
+     * 核注清单生成报关单回执
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtInvAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("InvApprResult");
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtInvAppr recBondInvtInvAppr;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtInvAppr = new RecBondInvtInvAppr();
+                recBondInvtInvAppr.setGuid(IdUtils.getUUId());
+                recBondInvtInvAppr.setCrt_tm(new Date());
+                recBondInvtInvAppr.setUpd_tm(new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("invPreentNo")) {
+                        recBondInvtInvAppr.setInv_preent_no(map.get("invPreentNo"));
+                    }
+                    if (map.containsKey("businessId")) {
+                        recBondInvtInvAppr.setBusiness_id(map.get("businessId"));
+                    }
+                    if (map.containsKey("entrySeqNo")) {
+                        recBondInvtInvAppr.setEntry_seq_no(map.get("entrySeqNo"));
+                    }
+                    if (map.containsKey("manageResult")) {
+                        recBondInvtInvAppr.setManage_result(map.get("manageResult"));
+                    }
+                    if (map.containsKey("createDate")) {
+                        recBondInvtInvAppr.setCreate_date(sdf.parse(map.get("createDate")));
+                    }
+                    if (map.containsKey("reason")) {
+                        recBondInvtInvAppr.setReason(map.get("reason"));
+                    }
+                }
+                this.receiptMapper.createInvtInvAppr(recBondInvtInvAppr); //插入订单状态表数据
+//                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+
     /**
      * 插入订单回执报文数据
      */
@@ -420,6 +571,7 @@ public class ReceiptService {
         impPayment.setUpd_tm(new Date());
         this.receiptMapper.updateImpPayment(impPayment);  //更新支付单表中的回执状态
     }
+
 
     /**
      * 插入运单回执报文数据
@@ -547,6 +699,7 @@ public class ReceiptService {
         this.receiptMapper.updateImpLogisticsDataStatus(impRecLogisticsStatus, ydztsbcg);
     }
 
+
     /**
      * 插入清单回执报文数据
      */
@@ -615,7 +768,6 @@ public class ReceiptService {
         }
     }
 
-
     /**
      * 根据清单回执更新清单表
      */
@@ -654,6 +806,7 @@ public class ReceiptService {
         this.receiptMapper.updateImpInventory(impInventoryHead);  //更新支付单表中的回执状态
 
     }
+
 
     /**
      * 插入入库明细单回执报文数据

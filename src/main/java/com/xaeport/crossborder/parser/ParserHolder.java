@@ -25,6 +25,10 @@ public class ParserHolder {
         map.put("ceb712", new Ceb712Parser());//入库明细单回执报文
         map.put("CheckGoodsInfo", new CheckGoodsInfoParser());//核放单预订数据报文
         map.put("TAX", new Ceb816Parser());//电子税单报文
+        map.put("invCommon",new invCommonParser());//核注清单处理成功回执
+        map.put("inv201msg",new Inv201MsgParser());//核注清单报文回执
+        map.put("inv201chk",new Inv201ChkParser());//核注清单审核回执
+        map.put("inv202customs",new Inv202CustomsParser());//核注清单生成报关单回执
     }
 
     public BaseParser getParser(String parserType) {

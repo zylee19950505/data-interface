@@ -328,6 +328,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("DCLCUS_TYPECD");
                 SELECT("VRFDED_MARKCD");
                 SELECT("STSHIP_TRSARV_NATCD");
+                SELECT("CRT_USER");
                 SELECT("CRT_ENT_ID");
                 SELECT("CRT_ENT_NAME");
                 FROM("T_BOND_INVT_BSC t");

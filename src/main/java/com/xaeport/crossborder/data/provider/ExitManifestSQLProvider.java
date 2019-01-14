@@ -338,6 +338,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 SELECT("INPUT_CODE");
                 SELECT("INPUT_NAME");
                 SELECT("ETPS_PREENT_NO");
+                SELECT("CRT_USER");
                 SELECT("CRT_ENT_ID");
                 SELECT("CRT_ENT_NAME");
                 FROM("T_PASS_PORT_HEAD t");

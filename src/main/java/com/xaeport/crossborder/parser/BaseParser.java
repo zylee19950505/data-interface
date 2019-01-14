@@ -24,7 +24,7 @@ public abstract class BaseParser {
     public abstract Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws IOException, DocumentException;
 
     /**
-     * 解析回值报文
+     * 解析回执报文
      *
      * @param xmlPath
      * @param map

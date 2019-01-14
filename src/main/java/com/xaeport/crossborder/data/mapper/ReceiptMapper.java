@@ -12,6 +12,25 @@ public interface ReceiptMapper {
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_INVENTORY_HEAD WHERE COP_NO = #{copNo}")
     String queryBusiTypeByCopNo(@Param("copNo") String copNo);
 
+    //插入核注清单处理成功回执数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtCommon")
+    void createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon);
+    //根据核注清单处理成功回执更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByCommon")
+    boolean updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+    //根据核注清单处理成功回执更新表体数据
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemsInvtByCommon")
+    void updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //核注清单(报文回执/审核回执)
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtHdeAppr")
+    void createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr);
+    //核注清单生成报关单回执
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtInvAppr")
+    void createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr);
+
+
+
     //插入电子税单表头数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "InsertTaxHeadRd")
     void InsertTaxHeadRd(@Param("taxHeadRd") TaxHeadRd taxHeadRd);

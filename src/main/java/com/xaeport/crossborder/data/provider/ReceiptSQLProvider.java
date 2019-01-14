@@ -7,6 +7,158 @@ import org.springframework.util.StringUtils;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    //插入核注清单处理成功回执数据
+    public String createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_COMMON");
+                if (!StringUtils.isEmpty(recBondInvtCommon.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtCommon.GUID}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getSeq_no())) {
+                    VALUES("SEQ_NO", "#{recBondInvtCommon.SEQ_NO}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recBondInvtCommon.ETPS_PREENT_NO}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getCheck_info())) {
+                    VALUES("CHECK_INFO", "#{recBondInvtCommon.CHECK_INFO}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getDeal_flag())) {
+                    VALUES("DEAL_FLAG", "#{recBondInvtCommon.DEAL_FLAG}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recBondInvtCommon.CRT_TM}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recBondInvtCommon.UPD_TM}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
+                    WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    VALUES("INVT_PREENT_NO", "#{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    VALUES("RETURN_STATUS", "#{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    VALUES("RETURN_INFO", "#{bondInvtBsc.return_info}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
+                    VALUES("STATUS", "#{bondInvtBsc.status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
+                    VALUES("upd_time", "#{bondInvtBsc.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态
+    public String updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
+                    WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    VALUES("SEQ_NO", "#{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
+                    VALUES("UPD_TIME", "#{bondInvtBsc.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
+
+    //核注清单(报文回执/审核回执)
+    public String createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_HDEAPPR");
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtHdeAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recBondInvtHdeAppr.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recBondInvtHdeAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getTms_cnt())) {
+                    VALUES("TMS_CNT", "#{recBondInvtHdeAppr.tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getTypecd())) {
+                    VALUES("TYPECD", "#{recBondInvtHdeAppr.typecd}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recBondInvtHdeAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_date())) {
+                    VALUES("MANAGE_DATE", "#{recBondInvtHdeAppr.manage_date}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getRmk())) {
+                    VALUES("RMK", "#{recBondInvtHdeAppr.rmk}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recBondInvtHdeAppr.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recBondInvtHdeAppr.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+    //核注清单生成报关单回执
+    public String createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_INVAPPR");
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtInvAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getInv_preent_no())) {
+                    VALUES("INV_PREENT_NO", "#{recBondInvtInvAppr.inv_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recBondInvtInvAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getEntry_seq_no())) {
+                    VALUES("ENTRY_SEQ_NO", "#{recBondInvtInvAppr.entry_seq_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recBondInvtInvAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getCreate_date())) {
+                    VALUES("CREATE_DATE", "#{recBondInvtInvAppr.create_date}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getReason())) {
+                    VALUES("REASON", "#{recBondInvtInvAppr.reason}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recBondInvtInvAppr.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recBondInvtInvAppr.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+
     //插入电子税单表头
     public String InsertTaxHeadRd(
             @Param("taxHeadRd") TaxHeadRd taxHeadRd

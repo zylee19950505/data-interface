@@ -48,6 +48,12 @@ public class ExpParser {
             type = "CheckGoodsInfo";
         } else if (sample.contains("<CEB816Message")) {//电子税单回执
             type = "TAX";
+        } else if (sample.contains("<CommonResponeMessage")) {//核注清单处理成功回执
+            type = "COMMON";
+        } else if (sample.contains("<INV201")) {//核注清单(报文回执/审核回执)
+            type = "INV201";
+        } else if (sample.contains("<INV202")) {//核注清单生成报关单回执
+            type = "INV202";
         }
         return type;
     }
@@ -82,6 +88,15 @@ public class ExpParser {
                 break;
             case "TAX"://电子税单回执报文
                 map = this.parserHolder.getParser("TAX").expParser(expPath, "Tax", "TaxHeadRd", "TaxListRd");
+                break;
+            case "COMMON"://核注清单处理成功回执
+                map = this.parserHolder.getParser("invCommon").expParser(expPath, "SeqNo", "EtpsPreentNo", "CheckInfo", "DealFlag");
+                break;
+            case "INV201"://核注清单(报文回执/审核回执)
+                map = this.parserHolder.getParser("inv201msg").expParser(expPath, "EnvelopInfo", "HdeApprResult");
+                break;
+            case "INV202"://核注清单生成报关单回执
+                map = this.parserHolder.getParser("inv202customs").expParser(expPath, "EnvelopInfo", "InvApprResult");
                 break;
         }
         mapData.put("Receipt", map);
