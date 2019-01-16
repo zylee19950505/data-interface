@@ -2,10 +2,12 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpDeliveryHead;
+import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
@@ -123,22 +125,17 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String findLogisticsData(final Map<String, String> paramMap) {
-        final String dataStatus = paramMap.get("dataStatus");
+    public String findCheckGoodsInfo() {
         return new SQL() {
             {
-                SELECT("LOGISTICS_CODE," +
-                        "LOGISTICS_NAME," +
-                        "LOGISTICS_NO," +
-                        "VOYAGE_NO," +
-                        "BILL_NO," +
-                        "NOTE," +
-                        "ENT_ID," +
-                        "ENT_NAME," +
-                        "ENT_CUSTOMS_CODE," +
-                        "GUID");
-                FROM("T_IMP_LOGISTICS t");
-                WHERE("data_Status = #{dataStatus}");
+                SELECT("GUID");
+                SELECT("TOTAL_LOGISTICS_NO");
+                SELECT("LOGISTICS_NO");
+                SELECT("ORDER_NO");
+                SELECT("LOGISTICS_CODE");
+                SELECT("LOGISTICS_NAME");
+                FROM("T_CHECK_GOODS_INFO t");
+                WHERE("STATUS = '11'");
                 WHERE("IS_DELIVERY IS NULL");
                 WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
@@ -184,11 +181,11 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
     }
 
 
-    public String updateLogistics(String guid) {
+    public String updateCheckGoodsInfoStatus(String guid) {
         return new SQL() {
             {
-                UPDATE("T_IMP_LOGISTICS t");
-                WHERE("t.guid = #{guid}");
+                UPDATE("T_CHECK_GOODS_INFO t");
+                WHERE("t.GUID = #{guid}");
                 SET("t.IS_DELIVERY = 'Y'");
             }
         }.toString();
@@ -322,6 +319,62 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 WHERE("t.guid = #{guid}");
                 SET("t.data_status = #{dataStatus}");
                 SET("t.upd_tm = sysdate");
+            }
+        }.toString();
+    }
+
+    //根据运单表航班号更新运单的航班号
+    public String updateDeliveryByLogistics(String billNo) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_DELIVERY_HEAD");
+                WHERE("BILL_NO = #{billNo}");
+                SET("VOYAGE_NO = (" +
+                        "SELECT VOYAGE_NO FROM T_IMP_LOGISTICS WHERE BILL_NO = #{billNo} and rownum = 1 " +
+                        ")");
+            }
+        }.toString();
+    }
+
+    public String querydeliverytofill(String billNodata) {
+        return new SQL() {
+            {
+                SELECT("BILL_NO");
+                SELECT("LOGISTICS_CODE");
+                SELECT("LOGISTICS_NAME");
+                SELECT("VOYAGE_NO");
+                FROM("T_IMP_DELIVERY_HEAD");
+                WHERE(splitJointIn("BILL_NO", billNodata));
+                GROUP_BY("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
+            }
+        }.toString();
+    }
+
+    public String fillDeliveryInfo(
+            @Param("deliveryHead") LinkedHashMap<String, String> deliveryHead,
+            @Param("userInfo") Users userInfo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_DELIVERY_HEAD");
+                WHERE("BILL_NO = #{deliveryHead.bill_no}");
+                WHERE("LOGISTICS_CODE = #{deliveryHead.logistics_code}");
+                WHERE("LOGISTICS_NAME = #{deliveryHead.logistics_name}");
+                SET("VOYAGE_NO = #{deliveryHead.voyage_no}");
+                SET("UPD_ID = #{userInfo.id}");
+                SET("UPD_TM = sysdate");
+            }
+        }.toString();
+    }
+
+    public String queryDeliveryByEmptyVoyage(String billNos){
+        return new SQL(){
+            {
+                SELECT("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
+                FROM("T_IMP_DELIVERY_HEAD");
+                WHERE(splitJointIn("BILL_NO", billNos));
+                WHERE("VOYAGE_NO IS NULL");
+                GROUP_BY("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
             }
         }.toString();
     }
