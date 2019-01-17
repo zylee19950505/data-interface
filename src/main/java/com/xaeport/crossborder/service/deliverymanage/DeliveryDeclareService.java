@@ -61,7 +61,13 @@ public class DeliveryDeclareService {
             } else {
                 List<String> billNoData = this.deliveryDeclareMapper.queryDeliveryByEmptyVoyage(str);
                 for (String billNo : billNoData) {
-                    deliveryDeclareMapper.updateDeliveryByLogistics(billNo);
+                    voyage = deliveryDeclareMapper.queryLigisticsInfo(billNo);
+                    voyageNo = deliveryDeclareMapper.queryDeliveryInfo(billNo);
+                    if (!StringUtils.isEmpty(voyage)) {
+                        deliveryDeclareMapper.updateDeliveryByLogistics(billNo, voyage);
+                    } else if (StringUtils.isEmpty(voyage)) {
+                        deliveryDeclareMapper.updateDeliveryByLogistics(billNo, voyageNo);
+                    }
                 }
                 deliveryDeclareMapper.updateSubmitCustom(paramMap);
                 flag = 1;
@@ -74,12 +80,21 @@ public class DeliveryDeclareService {
     }
 
     public void updateDeliveryInfoByLogistic(List<String> billNoList, Map<String, String> paramMap) {
+        String voyage = null;
+        String voyageNo = null;
         for (String billNo : billNoList) {
-            deliveryDeclareMapper.updateDeliveryByLogistics(billNo);
+            voyage = deliveryDeclareMapper.queryLigisticsInfo(billNo);
+            voyageNo = deliveryDeclareMapper.queryDeliveryInfo(billNo);
+            if (!StringUtils.isEmpty(voyage)) {
+                deliveryDeclareMapper.updateDeliveryByLogistics(billNo, voyage);
+            } else if (StringUtils.isEmpty(voyage)) {
+                deliveryDeclareMapper.updateDeliveryByLogistics(billNo, voyageNo);
+            }
         }
         deliveryDeclareMapper.updateSubmitCustom(paramMap);
     }
 
+    //数据申报进行
     public void setDeliveryData(String entId, String submitKeys) {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(entId);
         deliveryDeclareMapper.setDeliveryData(enterprise, submitKeys);

@@ -64,9 +64,6 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_DELIVERY_HEAD t");
-//                if (!roleId.equals("admin")) {
-//                    WHERE("t.ent_id = #{entId}");
-//                }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
                 }
@@ -83,10 +80,8 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    /*
- * 根据订单状态查找数据
- * findWaitGenerated
- * */
+
+    //根据入库明细单状态查找数据
     public String findWaitGenerated(Map<String, String> paramMap) {
         final String dataStatus = paramMap.get("dataStatus");
         return new SQL() {
@@ -125,6 +120,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //从预订数据获取能够生成入库明细单的数据
     public String findCheckGoodsInfo() {
         return new SQL() {
             {
@@ -135,17 +131,16 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_CODE");
                 SELECT("LOGISTICS_NAME");
                 FROM("T_CHECK_GOODS_INFO t");
-                WHERE("STATUS = '11'");
+                WHERE("STATUS = '23'");
                 WHERE("IS_DELIVERY IS NULL");
                 WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
-
             }
         }.toString();
     }
 
     /*
-     * 入库明细单申报--提交海关updateSubmitCustom
+     * 入库明细单申报--提交海关操作
      * */
     public String updateSubmitCustom(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
@@ -166,10 +161,12 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //提交后海关操作后进行的入库明细单数据补充
     public String setDeliveryData(@Param("enterprise") Enterprise enterprise, @Param("submitKeys") String submitKeys) {
         return new SQL() {
             {
                 UPDATE("T_IMP_DELIVERY_HEAD t");
+                WHERE("DATA_STATUS = 'CBDS7'");
                 WHERE(splitJointIn("t.BILL_NO", submitKeys));
                 SET("t.OPERATOR_CODE = #{enterprise.customs_code}");
                 SET("t.OPERATOR_NAME = #{enterprise.ent_name}");
@@ -180,7 +177,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-
+    //更新预定数据状态为“已生成入库明细单”
     public String updateCheckGoodsInfoStatus(String guid) {
         return new SQL() {
             {
@@ -191,6 +188,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //插入入库明细单数据
     public String insertImpDelivery(@Param("impDeliveryHead") ImpDeliveryHead impDeliveryHead) {
         return new SQL() {
             {
@@ -324,18 +322,18 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
     }
 
     //根据运单表航班号更新运单的航班号
-    public String updateDeliveryByLogistics(String billNo) {
+    public String updateDeliveryByLogistics(@Param("billNo") String billNo,@Param("voyage") String voyage) {
         return new SQL() {
             {
                 UPDATE("T_IMP_DELIVERY_HEAD");
+                WHERE("DATA_STATUS = 'CBDS7'");
                 WHERE("BILL_NO = #{billNo}");
-                SET("VOYAGE_NO = (" +
-                        "SELECT VOYAGE_NO FROM T_IMP_LOGISTICS WHERE BILL_NO = #{billNo} and rownum = 1 " +
-                        ")");
+                SET("VOYAGE_NO = #{voyage}");
             }
         }.toString();
     }
 
+    //查询需要填充数据的入库明细单项
     public String querydeliverytofill(String billNodata) {
         return new SQL() {
             {
@@ -344,12 +342,14 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_NAME");
                 SELECT("VOYAGE_NO");
                 FROM("T_IMP_DELIVERY_HEAD");
+                WHERE("DATA_STATUS = 'CBDS7'");
                 WHERE(splitJointIn("BILL_NO", billNodata));
                 GROUP_BY("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
             }
         }.toString();
     }
 
+    //填充入库明细单航班航次数据
     public String fillDeliveryInfo(
             @Param("deliveryHead") LinkedHashMap<String, String> deliveryHead,
             @Param("userInfo") Users userInfo
@@ -360,6 +360,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 WHERE("BILL_NO = #{deliveryHead.bill_no}");
                 WHERE("LOGISTICS_CODE = #{deliveryHead.logistics_code}");
                 WHERE("LOGISTICS_NAME = #{deliveryHead.logistics_name}");
+                WHERE("DATA_STATUS = 'CBDS7'");
                 SET("VOYAGE_NO = #{deliveryHead.voyage_no}");
                 SET("UPD_ID = #{userInfo.id}");
                 SET("UPD_TM = sysdate");
@@ -367,14 +368,16 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryDeliveryByEmptyVoyage(String billNos){
-        return new SQL(){
+    //查询航班号为空的入库明细单数据项
+    public String queryDeliveryByEmptyVoyage(String billNos) {
+        return new SQL() {
             {
-                SELECT("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
+                SELECT("BILL_NO");
                 FROM("T_IMP_DELIVERY_HEAD");
+                WHERE("DATA_STATUS = 'CBDS7'");
                 WHERE(splitJointIn("BILL_NO", billNos));
                 WHERE("VOYAGE_NO IS NULL");
-                GROUP_BY("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME,VOYAGE_NO");
+                GROUP_BY("BILL_NO,LOGISTICS_CODE,LOGISTICS_NAME");
             }
         }.toString();
     }

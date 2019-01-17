@@ -61,11 +61,11 @@ public interface DeliveryDeclareMapper {
     void setDeliveryCopNo(@Param("impDeliveryHead") ImpDeliveryHead impDeliveryHead);
 
     //根据提运单号查询运单数据的航班航次号
-    @Select("SELECT VOYAGE_NO FROM T_IMP_LOGISTICS WHERE BILL_NO = #{billNo} AND ROWNUM = 1")
+    @Select("select * from (SELECT VOYAGE_NO FROM T_IMP_LOGISTICS WHERE BILL_NO = #{billNo} ORDER BY VOYAGE_NO NULLS LAST) where rownum = 1")
     String queryLigisticsInfo(String billNo);
 
     //根据提运单号查询入库明细单数据的航班航次号
-    @Select("SELECT VOYAGE_NO FROM T_IMP_DELIVERY_HEAD WHERE BILL_NO = #{billNo} AND ROWNUM = 1")
+    @Select("select * from (SELECT VOYAGE_NO FROM T_IMP_DELIVERY_HEAD WHERE BILL_NO = #{billNo} ORDER BY VOYAGE_NO NULLS LAST) where rownum = 1")
     String queryDeliveryInfo(String billNo);
 
     //根据提运单号查询入库明细单数据的航班航次号
@@ -74,7 +74,7 @@ public interface DeliveryDeclareMapper {
 
     //根据运单表航班号更新运单的航班号
     @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateDeliveryByLogistics")
-    void updateDeliveryByLogistics(String billNo);
+    void updateDeliveryByLogistics(@Param("billNo") String billNo,@Param("voyage") String voyage);
 
     //查询入库明细单待填写数据
     @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "querydeliverytofill")

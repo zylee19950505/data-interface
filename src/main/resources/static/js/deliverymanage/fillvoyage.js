@@ -55,7 +55,6 @@ sw.page.modules["deliverymanage/fillvoyage"] = sw.page.modules["deliverymanage/f
 
     //加载入库明细单表头信息
     fillDeliveryInfo: function (entryLists) {
-        debugger;
         for (var i = 0; i < entryLists.length; i++) {
             var no = i + 1;
             var str =
@@ -81,7 +80,7 @@ sw.page.modules["deliverymanage/fillvoyage"] = sw.page.modules["deliverymanage/f
             var bill_no = $("#bill_no_" + i).val();
             var logistics_code = $("#logistics_code_" + i).val();
             var logistics_name = $("#logistics_name_" + i).val();
-            var voyage_no = $("#voyage_no_" + i).val();
+            var voyage_no = ($("#voyage_no_" + i).val()).replace(/(^\s*)|(\s*$)/g, "");
 
             var deliveryHead = {
                 bill_no: bill_no,
@@ -236,7 +235,6 @@ sw.page.modules["deliverymanage/fillvoyage"] = sw.page.modules["deliverymanage/f
 
     //初始化过程
     init: function () {
-        alert("来了，老弟");
         //从路径上获取参数
         var param = sw.getPageParams("deliverymanage/fillvoyage");
         var billNos = param.billNos;

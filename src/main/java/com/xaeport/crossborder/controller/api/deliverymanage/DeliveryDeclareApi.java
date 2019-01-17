@@ -70,7 +70,7 @@ public class DeliveryDeclareApi extends BaseApi {
     }
 
     /**
-     * 订单单申报-提交海关
+     * 入库明细单申报-提交海关
      *
      * @param submitKeys EntryHead.IDs
      */
@@ -122,7 +122,6 @@ public class DeliveryDeclareApi extends BaseApi {
         try {
             //查询入库明细单待填写数据
             resultList = this.deliveryDeclService.querydeliverytofill(paramMap);
-            System.out.println("查到了");
         } catch (Exception e) {
             this.logger.error("获取入库明细单待填写数据失败", e);
             return new ResponseData("获取入库明细单待填写数据错误", HttpStatus.BAD_REQUEST);

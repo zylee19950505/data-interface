@@ -285,7 +285,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
-        debugger;
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
