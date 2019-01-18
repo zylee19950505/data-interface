@@ -117,7 +117,6 @@ public class WriteFile extends ThreadBase implements Closeable {
         }
     }
 
-
     @Override
     public void close() throws IOException {
         this.isClosed = true;

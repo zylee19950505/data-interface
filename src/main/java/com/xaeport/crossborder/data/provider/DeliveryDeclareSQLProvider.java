@@ -131,7 +131,7 @@ public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("LOGISTICS_CODE");
                 SELECT("LOGISTICS_NAME");
                 FROM("T_CHECK_GOODS_INFO t");
-                WHERE("STATUS = '23'");
+                WHERE("STATUS in ('23','24')");
                 WHERE("IS_DELIVERY IS NULL");
                 WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");

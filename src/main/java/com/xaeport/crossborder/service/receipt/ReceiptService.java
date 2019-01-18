@@ -14,10 +14,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 跨境报文回值解析（订单，支付单，运单，运单状态，清单回执报文）
@@ -34,7 +31,13 @@ public class ReceiptService {
         boolean flag = true;
         try {
             String type = (String) map.get("type");
-            Map<String, List<List<Map<String, String>>>> receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
+            Map<String, List<List<Map<String, String>>>> receipt = new HashMap<>();
+            Map<String, List<Map<String, String>>> receiptNew = new HashMap<>();
+            if (type != ("COMMON")) {
+                receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
+            } else {
+                receiptNew = (Map<String, List<Map<String, String>>>) map.get("Receipt");
+            }
 
             switch (type) {
                 case "CEB312"://订单回执代码
@@ -62,7 +65,7 @@ public class ReceiptService {
                     this.createTax(receipt, refileName);
                     break;
                 case "COMMON"://核注清单处理成功回执
-                    this.createInvtCommon(receipt, refileName);
+                    this.createInvtCommon(receiptNew, refileName);
                     break;
                 case "INV201"://核注清单(报文回执/审核回执)
                     this.createInvtHdeAppr(receipt, refileName);
@@ -315,8 +318,17 @@ public class ReceiptService {
      * 插入核注清单处理成功回执数据
      */
     @Transactional(rollbackFor = NullPointerException.class)
-    private void createInvtCommon(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
-        List<List<Map<String, String>>> list = receipt.get("CommonResponeMessage");
+    private void createInvtCommon(Map<String, List<Map<String, String>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = new ArrayList<>();
+        List<Map<String, String>> seqnolist = receipt.get("SeqNo");
+        list.add(seqnolist);
+        List<Map<String, String>> etpspreentnolist = receipt.get("EtpsPreentNo");
+        list.add(etpspreentnolist);
+        List<Map<String, String>> checkinfolist = receipt.get("CheckInfo");
+        list.add(checkinfolist);
+        List<Map<String, String>> dealflaglist = receipt.get("DealFlag");
+        list.add(dealflaglist);
+
         if (!StringUtils.isEmpty(list)) {
             RecBondInvtCommon recBondInvtCommon;
             for (int i = 0; i < list.size(); i++) {
@@ -328,7 +340,7 @@ public class ReceiptService {
                 List<Map<String, String>> mapList = list.get(i);
                 for (Map<String, String> map : mapList) {
                     if (map.containsKey("SeqNo")) {
-                        recBondInvtCommon.setGuid(map.get("SeqNo"));
+                        recBondInvtCommon.setSeq_no(map.get("SeqNo"));
                     }
                     if (map.containsKey("EtpsPreentNo")) {
                         recBondInvtCommon.setEtps_preent_no(map.get("EtpsPreentNo"));

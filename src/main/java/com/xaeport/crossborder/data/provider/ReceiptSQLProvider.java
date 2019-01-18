@@ -13,25 +13,25 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             {
                 INSERT_INTO("T_REC_BOND_INVT_COMMON");
                 if (!StringUtils.isEmpty(recBondInvtCommon.getGuid())) {
-                    VALUES("GUID", "#{recBondInvtCommon.GUID}");
+                    VALUES("GUID", "#{recBondInvtCommon.guid}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getSeq_no())) {
-                    VALUES("SEQ_NO", "#{recBondInvtCommon.SEQ_NO}");
+                    VALUES("SEQ_NO", "#{recBondInvtCommon.seq_no}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getEtps_preent_no())) {
-                    VALUES("ETPS_PREENT_NO", "#{recBondInvtCommon.ETPS_PREENT_NO}");
+                    VALUES("ETPS_PREENT_NO", "#{recBondInvtCommon.etps_preent_no}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getCheck_info())) {
-                    VALUES("CHECK_INFO", "#{recBondInvtCommon.CHECK_INFO}");
+                    VALUES("CHECK_INFO", "#{recBondInvtCommon.check_info}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getDeal_flag())) {
-                    VALUES("DEAL_FLAG", "#{recBondInvtCommon.DEAL_FLAG}");
+                    VALUES("DEAL_FLAG", "#{recBondInvtCommon.deal_flag}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getCrt_tm())) {
-                    VALUES("CRT_TM", "#{recBondInvtCommon.CRT_TM}");
+                    VALUES("CRT_TM", "#{recBondInvtCommon.crt_tm}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtCommon.getUpd_tm())) {
-                    VALUES("UPD_TM", "#{recBondInvtCommon.UPD_TM}");
+                    VALUES("UPD_TM", "#{recBondInvtCommon.upd_tm}");
                 }
             }
         }.toString();
@@ -47,19 +47,19 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
-                    VALUES("INVT_PREENT_NO", "#{bondInvtBsc.invt_preent_no}");
+                    SET("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
-                    VALUES("RETURN_STATUS", "#{bondInvtBsc.return_status}");
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
-                    VALUES("RETURN_INFO", "#{bondInvtBsc.return_info}");
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
-                    VALUES("STATUS", "#{bondInvtBsc.status}");
+                    SET("STATUS = #{bondInvtBsc.status}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
-                    VALUES("upd_time", "#{bondInvtBsc.upd_time}");
+                    SET("upd_time = #{bondInvtBsc.upd_time}");
                 }
             }
         }.toString();
@@ -74,10 +74,10 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
-                    VALUES("SEQ_NO", "#{bondInvtBsc.invt_preent_no}");
+                    SET("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
-                    VALUES("UPD_TIME", "#{bondInvtBsc.upd_time}");
+                    SET("UPD_TIME = #{bondInvtBsc.upd_time}");
                 }
             }
         }.toString();

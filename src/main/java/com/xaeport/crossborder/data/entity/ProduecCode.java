@@ -13,6 +13,8 @@ public class ProduecCode {
     private double addedTax;
     private String consumptionTax;
     private String regulatoryConditions;
+    private String type;
+    private String note;
 
     public String getCustomsCode() {
         return customsCode;
@@ -84,5 +86,21 @@ public class ProduecCode {
 
     public void setRegulatoryConditions(String regulatoryConditions) {
         this.regulatoryConditions = regulatoryConditions;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

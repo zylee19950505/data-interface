@@ -3,6 +3,7 @@ package com.xaeport.crossborder.parser;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,6 +65,7 @@ public class ExpParser {
         String type = this.getExpType(expPath);
         mapData.put("type", type);
         Map<String, List<List<Map<String, String>>>> map = null;
+        Map<String, List<Map<String, String>>> mapNew = null;
         switch (type) {
             case "CEB312"://订单回执报文
                 map = this.parserHolder.getParser("ceb312").expParser(expPath, "OrderReturn");
@@ -90,7 +92,7 @@ public class ExpParser {
                 map = this.parserHolder.getParser("TAX").expParser(expPath, "Tax", "TaxHeadRd", "TaxListRd");
                 break;
             case "COMMON"://核注清单处理成功回执
-                map = this.parserHolder.getParser("invCommon").expParser(expPath, "SeqNo", "EtpsPreentNo", "CheckInfo", "DealFlag");
+                mapNew = this.parserHolder.getParserNew("invCommon").expParserNew(expPath, "SeqNo", "EtpsPreentNo", "CheckInfo", "DealFlag");
                 break;
             case "INV201"://核注清单(报文回执/审核回执)
                 map = this.parserHolder.getParser("inv201msg").expParser(expPath, "EnvelopInfo", "HdeApprResult");
@@ -100,6 +102,9 @@ public class ExpParser {
                 break;
         }
         mapData.put("Receipt", map);
+        if (!StringUtils.isEmpty(mapNew)) {
+            mapData.put("Receipt", mapNew);
+        }
         return mapData;
     }
 

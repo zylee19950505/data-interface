@@ -12,15 +12,15 @@ import java.util.Map;
 /**
  * Created by lzy on 2019/01/14.
  */
-public class invCommonParser extends BaseParser {
+public class invCommonParser extends BaseParserNew {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
      * 解析 CommonResponeMessage 报文数据
      */
-    public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
-        Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();
-        return this.Dom4JXml(expPath, map, nodes);
+    public Map<String, List<Map<String, String>>> expParserNew(byte[] expPath, String... nodes) throws DocumentException, IOException {
+        Map<String, List<Map<String, String>>> map = new LinkedHashMap<>();
+        return this.Dom4JXmlNew(expPath, map, nodes);
     }
 
 }

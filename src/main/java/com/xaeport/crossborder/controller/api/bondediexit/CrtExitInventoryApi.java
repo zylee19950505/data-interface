@@ -52,7 +52,6 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
-
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("returnStatus", returnStatus);
@@ -129,7 +128,6 @@ public class CrtExitInventoryApi extends BaseApi {
         ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList = (ArrayList<LinkedHashMap<String, String>>) object.get("nemsInvtCbecBillTypeList");
 
         Users userInfo = this.getCurrentUsers();
-
         Map<String, String> map = new HashMap<>();
         try {
             // 保存详情信息

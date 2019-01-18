@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 商品编码
- * Created by zwj on 2017/10/24.
+ * Created by lzy on 2019/01/18.
  */
 @RestController
 public class ProductCodeApi extends BaseApi {
@@ -28,11 +27,15 @@ public class ProductCodeApi extends BaseApi {
     ProductCodeService productCodeService;
 
     @RequestMapping(value = "/productCode", method = RequestMethod.GET)
-    public ResponseData getPostalTaxList(@RequestParam(required = false) String customsCode) {
+    public ResponseData getPostalTaxList(
+            @RequestParam(required = false) String customsCode,
+            @RequestParam(required = false) String type
+    ) {
         this.log.debug(String.format("商品编码查询条件%s", customsCode));
         Map<String, String> paramMap = new HashMap<String, String>();
         // 查询参数
         paramMap.put("customsCode", customsCode);
+        paramMap.put("type", type);
 
         List<ProduecCode> postalTaxList = this.productCodeService.getProductCodeList(paramMap);
         return new ResponseData(postalTaxList);
