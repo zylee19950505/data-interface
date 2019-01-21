@@ -20,11 +20,12 @@ public class AccountRecordService {
     @Autowired
     AccountRecordMapper accountRecordMapper;
 
-    //企业管理——企业所有信息数据
+    //查询该企业下所有账册数据
     public List<BwlHeadType> queryAllAccountsInfo(Map<String, String> paramMap) throws Exception {
         return this.accountRecordMapper.queryAllAccountsInfo(paramMap);
     }
 
+    //新建账册信息
     public String crtAccountInfo(BwlHeadType bwlHeadType) {
         boolean flag;
         String id = IdUtils.getUUId();
@@ -44,6 +45,7 @@ public class AccountRecordService {
         return "";
     }
 
+    //修改账册信息
     public boolean accountUpdate(BwlHeadType bwlHeadType) {
         boolean flag;
         int count = this.accountRecordMapper.getAccountCount(bwlHeadType.getId());
@@ -59,11 +61,12 @@ public class AccountRecordService {
         return flag;
     }
 
+    //加载账册信息
     public BwlHeadType getAccountById(String id) {
         return this.accountRecordMapper.getAccountById(id);
     }
 
-    //getemsNos
+    //查询企业所属账册编码参数表
     public List<BwlHeadType> getEmsNos(Map<String, String> map) throws Exception {
         return this.accountRecordMapper.getEmsNos(map);
     }

@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-/*
- * 订单申报
- */
 @RestController
 @RequestMapping("/api/booksandrecords")
 public class AccountQueryApi extends BaseApi {
@@ -28,6 +25,7 @@ public class AccountQueryApi extends BaseApi {
     @Autowired
     AccountQueryService accountQueryService;
 
+    //账册商品查询
     @RequestMapping("/accountquery")
     public ResponseData queryOrderHeadList(
             @RequestParam(required = false) String gds_seqno,
@@ -39,6 +37,7 @@ public class AccountQueryApi extends BaseApi {
         this.logger.debug(String.format("账册查询条件参数:[gds_seqno:%s,gds_mtno:%s,gdecd:%s,gds_nm:%s]", gds_seqno, gds_mtno, gdecd, gds_nm));
         Map<String, String> paramMap = new HashMap<String, String>();
 
+        //分页参数
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
         String extra_search = request.getParameter("extra_search");
@@ -46,6 +45,7 @@ public class AccountQueryApi extends BaseApi {
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
+        //条件参数
         paramMap.put("gds_seqno", gds_seqno);
         paramMap.put("gds_mtno", gds_mtno);
         paramMap.put("gdecd", gdecd);

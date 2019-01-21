@@ -23,12 +23,12 @@ public class CrtExitInventoryService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
-    //查询跨境清单数据
+    //查询进口保税清单数据
     public List<ImpInventory> queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
         return this.crtExitInventoryMapper.queryCrtEInventoryList(paramMap);
     }
 
-    //查询跨境清单总数
+    //查询进口保税清单总数
     public Integer queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception {
         return this.crtExitInventoryMapper.queryCrtEInventoryCount(paramMap);
     }
@@ -37,7 +37,7 @@ public class CrtExitInventoryService {
         return this.crtExitInventoryMapper.queryCustomsByEndId(ent_id);
     }
 
-    //查表头
+    //获取出区核注清单表头数据
     public BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         bondInvtBsc.setId(IdUtils.getUUId());
@@ -55,10 +55,12 @@ public class CrtExitInventoryService {
         return bondInvtBsc;
     }
 
-    //查表体
+    //获取出区核注清单表体数据
     public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
         String InvtNos = paramMap.get("invtNo");
-        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(InvtNos);
+        List<String> guidStrs = this.crtExitInventoryMapper.queryGuidByInvtNos(InvtNos);
+        String guids = String.join(",", guidStrs);
+        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(guids);
         List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
         NemsInvtCbecBillType nemsInvtCbecBillType;
         for (int i = 0; i < impInventoryHeadList.size(); i++) {
@@ -74,6 +76,7 @@ public class CrtExitInventoryService {
         return nemsInvtCbecBillTypeList;
     }
 
+    //保存进口出区核注清单表头及表体数据
     public Map<String, String> saveExitBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
 

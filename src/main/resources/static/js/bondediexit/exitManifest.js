@@ -57,9 +57,8 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.status == "BDDS4") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.etps_preent_no + '" />';
+                        if (row.status == "BDDS4" || row.status == "INIT") {
+                            return '<input type="checkbox" class="submitKey" value="' + row.etps_preent_no + '" />';
                         }
                         else {
                             return "";
@@ -78,7 +77,31 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     data: "passport_no", label: "核放单编号"
                 },
                 {
-                    data: "status", label: "申报状态"
+                    data: "status", label: "申报状态", render: function (data, type, row) {
+                    switch (row.status) {
+                        case "INIT"://数据待补充
+                            textColor = "text-red";
+                            row.status = "数据待补充";
+                            break;
+                        case "BDDS4"://出区核放单待申报
+                            textColor = "text-yellow";
+                            row.status = "核放单待申报";
+                            break;
+                        case "BDDS40"://出区核放单申报中
+                            textColor = "text-green";
+                            row.status = "核放单申报中";
+                            break;
+                        case "BDDS41"://出区核放单已申报
+                            textColor = "text-green";
+                            row.status = "核放单已申报";
+                            break;
+                        case "BDDS42"://出区核放单申报成功
+                            textColor = "text-green";
+                            row.status = "核放单申报成功";
+                            break;
+                    }
+                    return "<span class='" + textColor + "'>" + row.status + "</span>";
+                }
                 },
                 {
                     label: "申报时间", render: function (data, type, row) {
@@ -154,10 +177,10 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
         });
     },
 
-    updateExitManifest: function (submitKeys,status) {
-        if(status == "BDDS4"){
+    updateExitManifest: function (submitKeys, status) {
+        if (status == "BDDS4" || status == "INIT") {
             var url = "bondediexit/seeExitManifestDetail?type=CQHFDXG&isEdit=true&mark=upd&submitKeys=" + submitKeys;
-        }else {
+        } else {
             var url = "bondediexit/seeExitManifestDetail?type=CQHFDXG&isEdit=false&mark=upd&submitKeys=" + submitKeys;
         }
         sw.modelPopup(url, "出区核放单详情", false, 1000, 600);
@@ -171,10 +194,8 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query).click();
-
         $("[ws-delete]").unbind("click").click(this.deleteEPassPort);
         $("[ws-submit]").unbind("click").click(this.submitCustomEPassPort);
-
         $table = $("#query-exitManifest-table");
         $table.on("change", ":checkbox", function () {
             if ($(this).is("[name='cb-check-all']")) {

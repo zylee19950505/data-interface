@@ -1,0 +1,184 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>出区核注清单表头信息</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">经营企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="bizop_etpsno"/>
+            </td>
+            <td class="headTitle">经营企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="bizop_etps_nm"/>
+            </td>
+            <td class="headTitle">申报企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="dcl_etpsno"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">申报企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
+            </td>
+            <td class="headTitle">备案编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="putrec_no"/>
+            </td>
+            <td class="headTitle">收货企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="rcvgd_etpsno"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">收货企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="rcvgd_etps_nm"/>
+            </td>
+            <td class="headTitle">进出口口岸代码</td>
+            <td>
+                <select class="form-control input-sm" id="impexp_portcd"/>
+            </td>
+            <td class="headTitle">申报地关区代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="20" id="dcl_plc_cuscd"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">进出口标记代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
+                    <option value="E" selected="selected">出口（E）</option>
+                </select>
+            </td>
+            <td class="headTitle">料件成品标记代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
+                    <option value="I" selected="selected">料件（I）</option>
+                </select>
+            </td>
+            <td class="headTitle">监管方式代码</td>
+            <td>
+                <select class="form-control input-sm" id="supv_modecd">
+                    <option value="1210">保税电商（1210）</option>
+                    <option value="1239">保税电商A（1239）</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">运输方式代码</td>
+            <td>
+                <select class="form-control input-sm" id="trsp_modecd"/>
+            </td>
+            <td class="headTitle">是否报关标志</td>
+            <td>
+                <select class="form-control input-sm" id="dclcus_flag">
+                    <option value="2" selected="selected">非报关（2）</option>
+                </select>
+            </td>
+            <td class="headTitle">报关类型代码</td>
+            <td>
+                <select class="form-control input-sm" id="dclcus_typecd" readonly="readonly">
+                    <option value="1" selected="selected"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">报关单类型</td>
+            <td>
+                <select class="form-control input-sm" maxlength="18" id="x1" readonly="readonly">
+                    <option value="3" selected="selected"></option>
+                </select>
+            </td>
+            <td class="headTitle">起运运抵国别代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="60" id="stship_trsarv_natcd"/>
+            </td>
+            <td class="headTitle">清单类型</td>
+            <td>
+                <select class="form-control input-sm" maxlength="30" id="bond_invt_typecd">
+                    <option value="8" selected="selected">保税电商（8）</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">申报类型</td>
+            <td>
+                <select class="form-control input-sm" name="dcl_typecd" id="dcl_typecd">
+                    <option value="1" selected="selected">备案申请（1）</option>
+                </select>
+            </td>
+            <td class="headTitle">企业内部编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="etps_inner_invt_no" readonly="readonly"/>
+            </td>
+            <td class="headTitle">核注清单编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="bond_invt_no" readonly="readonly"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">备注</td>
+            <td colspan="6">
+                <input class="form-control input-sm" maxlength="2000" id="rmk"/>
+            </td>
+        </tr>
+        <tr hidden="hidden">
+            <input hidden="hidden" id="id"/>
+            <input hidden="hidden" id="invt_no"/>
+        </tr>
+    </table>
+
+    <div class="entryTitle">
+        <span>出区核注清单表体信息</span>
+    </div>
+    <table id="entryList" class="listDetail" border="1px solid balck">
+        <thead>
+        <tr style="height: 30px">
+            <!--ID编号-->
+            <th hidden="hidden">id</th>
+            <!--No-->
+            <th>序号</th>
+            <!--SEQ_NO-->
+            <th>预录入统一编号</th>
+            <!--BOND_INVT_NO-->
+            <th>核注清单编号</th>
+            <!--CBEC_BILL_NO-->
+            <th>电商清单编号</th>
+            <!--HEAD_ETPS_INNER_INVT_NO-->
+            <th hidden="hidden">表头关联编号</th>
+        </tr>
+        </thead>
+        <tbody id="table_body_result">
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-sm-5">
+            <div style="margin: 20px 0px 0px 0px;font-size: 15px;font-weight: 600" id="listData"></div>
+        </div>
+        <div class="col-sm-7">
+            <ul class="pagination" id="barcon" name="barcon" style="margin: 20px 0px 0px 211px"></ul>
+        </div>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

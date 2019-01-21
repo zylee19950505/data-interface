@@ -27,19 +27,20 @@ public class DeliveryDataThread implements Runnable {
     @Override
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("dataStatus", StatusCode.YDZTSBCG);//在map中添加状态（dataStatus）为：入库明细单申报中（CBDS70）
+//        paramMap.put("dataStatus", StatusCode.YDZTSBCG);//在map中添加状态（dataStatus）为：入库明细单申报中（CBDS70）
 
-        List<ImpLogistics> impLogisticsList;
-        List<ImpDeliveryHead> impDeliveryHeadList;
+        List<CheckGoodsInfo> checkGoodsInfoList;
+//        List<ImpLogistics> impLogisticsList;
+//        List<ImpDeliveryHead> impDeliveryHeadList;
         ImpDeliveryHead impDeliveryHead;
 
         while (true) {
 
             try {
                 //查询
-                impLogisticsList = deliveryDeclareMapper.findLogisticsData(paramMap);
+                checkGoodsInfoList = deliveryDeclareMapper.findCheckGoodsInfo();
 
-                if (CollectionUtils.isEmpty(impLogisticsList)) {
+                if (CollectionUtils.isEmpty(checkGoodsInfoList)) {
                     // 如无待生成数据，则等待3s后重新确认
                     try {
                         Thread.sleep(3000);
@@ -50,7 +51,7 @@ public class DeliveryDataThread implements Runnable {
                     continue;
                 }
 
-                for (ImpLogistics impLogistics : impLogisticsList) {
+                for (CheckGoodsInfo checkGoodsInfo : checkGoodsInfoList) {
                     try {
                         impDeliveryHead = new ImpDeliveryHead();
                         impDeliveryHead.setGuid(IdUtils.getUUId());
@@ -64,11 +65,11 @@ public class DeliveryDataThread implements Runnable {
                         impDeliveryHead.setIe_flag("I");
                         impDeliveryHead.setTraf_mode("5");
                         impDeliveryHead.setTraf_no("飞机");
-                        impDeliveryHead.setVoyage_no(impLogistics.getVoyage_no());
-                        impDeliveryHead.setBill_no(impLogistics.getBill_no());
-                        impDeliveryHead.setLogistics_no(impLogistics.getLogistics_no());
-                        impDeliveryHead.setLogistics_code(impLogistics.getLogistics_code());
-                        impDeliveryHead.setLogistics_name(impLogistics.getLogistics_name());
+                        impDeliveryHead.setVoyage_no("");
+                        impDeliveryHead.setBill_no(checkGoodsInfo.getTotal_logistics_no());
+                        impDeliveryHead.setLogistics_no(checkGoodsInfo.getLogistics_no());
+                        impDeliveryHead.setLogistics_code(checkGoodsInfo.getLogistics_code());
+                        impDeliveryHead.setLogistics_name(checkGoodsInfo.getLogistics_name());
                         impDeliveryHead.setUnload_location("");
                         impDeliveryHead.setNote("");
                         impDeliveryHead.setData_status("CBDS7");
@@ -79,7 +80,7 @@ public class DeliveryDataThread implements Runnable {
 
                         try {
                             //设置运单数据为已进行入库明细写入
-                            this.deliveryDeclareMapper.updateLogistics(impLogistics.getGuid());
+                            this.deliveryDeclareMapper.updateCheckGoodsInfoStatus(checkGoodsInfo.getGuid());
                             // 插入入库明细单数据
                             this.deliveryDeclareMapper.insertImpDelivery(impDeliveryHead);
                             this.logger.debug(String.format("插入入库明细单数据为: %s", impDeliveryHead.getLogistics_no()));

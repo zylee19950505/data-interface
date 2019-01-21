@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="${pageName}"></title>
+</head>
+<body>
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>待完善入库明细单信息</span>
+    </div>
+
+    <table id="entryList" class="listDetail" border="1px solid balck">
+        <thead>
+        <tr style="height: 30px">
+            <!--NUMBER-->
+            <th>序号</th>
+            <!--BILL_NO-->
+            <th>提运单号</th>
+            <!--LOGISTICS_CODE-->
+            <th>物流企业编号</th>
+            <!--LOGISTICS_NAME-->
+            <th>物流企业名称</th>
+            <!--VOYAGE_NO-->
+            <th>航班航次号</th>
+        </tr>
+        </thead>
+        <tbody id="table_body_result">
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-sm-5">
+            <div style="margin: 20px 0px 0px 0px;font-size: 15px;font-weight: 600" id="listData"></div>
+        </div>
+        <div class="col-sm-7">
+            <ul class="pagination" id="barcon" name="barcon" style="margin: 20px 0px 0px 211px"></ul>
+        </div>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>
+
+</body>
+</html>

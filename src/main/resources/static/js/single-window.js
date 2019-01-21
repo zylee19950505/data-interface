@@ -543,9 +543,19 @@ sw.icCheck = function (message, title, callback, theme) {
     });
 
     $("#dialog-icCheck").modal();
-}
+};
 
-
+sw.checkUserIc = function () {
+    sw.ajax("api/checkUserIc", "GET", {}, function (rsp) {// success
+        var result = rsp.data.result;
+        if (result == "false") {
+            var alertInfo = "检测到该账号没有绑定海关数据中心企业身份卡。<br/>请先完成绑定操作。<br/><h6>点击\"绑定\"后系统会自动下载相关控件，请下载完成后运行，并请准备好读卡器和IC卡</h6>";
+            sw.icCheck(alertInfo, "注意", function () {
+                sw.checkinfo("infomanage/icband");
+            });
+        }
+    });
+};
 
 sw.checkinfo = function (url, isClose) {
     sw.loadPage("#dialog-checkinfo .modal-body", url).done(function () {

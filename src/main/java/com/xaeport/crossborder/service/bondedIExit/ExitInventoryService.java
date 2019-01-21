@@ -3,7 +3,6 @@ package com.xaeport.crossborder.service.bondedIExit;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.BondInvtDt;
 import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.ExitInventoryMapper;
@@ -25,25 +24,27 @@ public class ExitInventoryService {
     private Log logger = LogFactory.getLog(this.getClass());
 
 
-    //查询跨境清单数据
+    //查询出区核注清单数据
     public List<BondInvtBsc> queryEInventoryList(Map<String, String> paramMap) throws Exception {
         return this.exitInventoryMapper.queryEInventoryList(paramMap);
     }
 
-    //查询跨境清单总数
+    //查询出区核注清单数据总数
     public Integer queryEInventoryCount(Map<String, String> paramMap) throws Exception {
         return this.exitInventoryMapper.queryEInventoryCount(paramMap);
     }
 
+    //查询核注清单表头数据
     public BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception {
         return this.exitInventoryMapper.queryBondInvtBsc(paramMap);
     }
 
+    //查询核注清单表体数据
     public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
         return this.exitInventoryMapper.queryNemsInvtCbecBillTypeList(paramMap);
     }
 
-    //删除清单逻辑校验未通过数据
+    //删除出区核注清单数据操作
     @Transactional
     public void deleteExitInventory(String submitKeys, String entId) throws Exception {
         Map<String, String> paramMap = new HashMap<>();
@@ -61,10 +62,12 @@ public class ExitInventoryService {
             String invtNo;
             for (int i = 0; i < nemsInvtCbecBillTypeList.size(); i++) {
                 invtNo = nemsInvtCbecBillTypeList.get(i).getCbec_bill_no();
+                //修改保税清单数据状态为“未生成”
                 this.exitInventoryMapper.updateInventoryByInvtNo(invtNo);
             }
             for (int i = 0; i < bondInvtBscList.size(); i++) {
                 etpsInnerInvtNo = bondInvtBscList.get(i).getEtps_inner_invt_no();
+                //删除表头及表体数据
                 this.exitInventoryMapper.deleteNemsInvtCbecBillTypeByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteBondInvtBscByNo(etpsInnerInvtNo);
             }
@@ -75,6 +78,7 @@ public class ExitInventoryService {
         }
     }
 
+    //提交出区核注清单数据为申报中状态（提交海关）
     @Transactional
     public boolean updateSubmitCustom(Map<String, String> paramMap) {
         boolean flag;
@@ -83,12 +87,13 @@ public class ExitInventoryService {
             flag = true;
         } catch (Exception e) {
             flag = false;
-            String exceptionMsg = String.format("申报出区核注清单[orderNo: %s]时发生异常", paramMap.get("submitKeys"));
+            String exceptionMsg = String.format("申报出区核注清单[submitKeys: %s]时发生异常", paramMap.get("submitKeys"));
             logger.error(exceptionMsg, e);
         }
         return flag;
     }
 
+    //修改核注清单数据
     @Transactional
     public Map<String, String> updateExitInventory(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
         Map<String, String> rtnMap = new HashMap<String, String>();
@@ -100,6 +105,7 @@ public class ExitInventoryService {
 
     }
 
+    //修改及保存核注清单数据
     public boolean saveExitBondInvt(
             LinkedHashMap<String, String> BondInvtBsc,
             List<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList,

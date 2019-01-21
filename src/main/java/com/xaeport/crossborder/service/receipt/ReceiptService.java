@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.receipt;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -13,10 +14,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 跨境报文回值解析（订单，支付单，运单，运单状态，清单回执报文）
@@ -33,7 +31,13 @@ public class ReceiptService {
         boolean flag = true;
         try {
             String type = (String) map.get("type");
-            Map<String, List<List<Map<String, String>>>> receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
+            Map<String, List<List<Map<String, String>>>> receipt = new HashMap<>();
+            Map<String, List<Map<String, String>>> receiptNew = new HashMap<>();
+            if (type != ("COMMON")) {
+                receipt = (Map<String, List<List<Map<String, String>>>>) map.get("Receipt");
+            } else {
+                receiptNew = (Map<String, List<Map<String, String>>>) map.get("Receipt");
+            }
 
             switch (type) {
                 case "CEB312"://订单回执代码
@@ -59,6 +63,15 @@ public class ReceiptService {
                     break;
                 case "TAX"://核放单预订数据
                     this.createTax(receipt, refileName);
+                    break;
+                case "COMMON"://核注清单处理成功回执
+                    this.createInvtCommon(receiptNew, refileName);
+                    break;
+                case "INV201"://核注清单(报文回执/审核回执)
+                    this.createInvtHdeAppr(receipt, refileName);
+                    break;
+                case "INV202"://核注清单生成报关单回执
+                    this.createInvtInvAppr(receipt, refileName);
                     break;
             }
         } catch (Exception e) {
@@ -300,6 +313,157 @@ public class ReceiptService {
         }
     }
 
+
+    /**
+     * 插入核注清单处理成功回执数据
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtCommon(Map<String, List<Map<String, String>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = new ArrayList<>();
+        List<Map<String, String>> seqnolist = receipt.get("SeqNo");
+        list.add(seqnolist);
+        List<Map<String, String>> etpspreentnolist = receipt.get("EtpsPreentNo");
+        list.add(etpspreentnolist);
+        List<Map<String, String>> checkinfolist = receipt.get("CheckInfo");
+        list.add(checkinfolist);
+        List<Map<String, String>> dealflaglist = receipt.get("DealFlag");
+        list.add(dealflaglist);
+
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtCommon recBondInvtCommon;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtCommon = new RecBondInvtCommon();
+                recBondInvtCommon.setGuid(IdUtils.getUUId());
+                recBondInvtCommon.setCrt_tm(new Date());
+                recBondInvtCommon.setUpd_tm(new Date());
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("SeqNo")) {
+                        recBondInvtCommon.setSeq_no(map.get("SeqNo"));
+                    }
+                    if (map.containsKey("EtpsPreentNo")) {
+                        recBondInvtCommon.setEtps_preent_no(map.get("EtpsPreentNo"));
+                    }
+                    if (map.containsKey("CheckInfo")) {
+                        recBondInvtCommon.setCheck_info(map.get("CheckInfo"));
+                    }
+                    if (map.containsKey("DealFlag")) {
+                        recBondInvtCommon.setDeal_flag(map.get("DealFlag"));
+                    }
+                }
+                this.receiptMapper.createInvtCommon(recBondInvtCommon); //插入订单状态表数据
+                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+    /**
+     * 根据核注清单处理成功回执更新状态
+     */
+    private void updateBondInvtStatusByCommon(RecBondInvtCommon recBondInvtCommon) throws Exception {
+        BondInvtBsc bondInvtBsc = new BondInvtBsc();
+        bondInvtBsc.setEtps_inner_invt_no(recBondInvtCommon.getEtps_preent_no());
+        bondInvtBsc.setInvt_preent_no(recBondInvtCommon.getSeq_no());
+        bondInvtBsc.setReturn_status(recBondInvtCommon.getDeal_flag());
+        bondInvtBsc.setReturn_info(recBondInvtCommon.getCheck_info());
+        bondInvtBsc.setStatus(StatusCode.CQHZQDSBCG);
+        bondInvtBsc.setUpd_time(new Date());
+        boolean flag;
+        flag = this.receiptMapper.updateBondInvtStatusByCommon(bondInvtBsc);
+        if (flag) {
+            this.receiptMapper.updateNemsInvtByCommon(bondInvtBsc);
+        }
+    }
+
+    /**
+     * 核注清单(报文回执/审核回执)
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("HdeApprResult");
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtHdeAppr recBondInvtHdeAppr;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtHdeAppr = new RecBondInvtHdeAppr();
+                recBondInvtHdeAppr.setGuid(IdUtils.getUUId());
+                recBondInvtHdeAppr.setCrt_tm(new Date());
+                recBondInvtHdeAppr.setUpd_tm(new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("etpsPreentNo")) {
+                        recBondInvtHdeAppr.setEtps_preent_no(map.get("etpsPreentNo"));
+                    }
+                    if (map.containsKey("businessId")) {
+                        recBondInvtHdeAppr.setBusiness_id(map.get("businessId"));
+                    }
+                    if (map.containsKey("tmsCnt")) {
+                        recBondInvtHdeAppr.setTms_cnt(map.get("tmsCnt"));
+                    }
+                    if (map.containsKey("typecd")) {
+                        recBondInvtHdeAppr.setTypecd(map.get("typecd"));
+                    }
+                    if (map.containsKey("manageResult")) {
+                        recBondInvtHdeAppr.setManage_result(map.get("manageResult"));
+                    }
+                    if (map.containsKey("manageDate")) {
+                        recBondInvtHdeAppr.setManage_date(sdf.parse(map.get("manageDate")));
+                    }
+                    if (map.containsKey("rmk")) {
+                        recBondInvtHdeAppr.setRmk(map.get("rmk"));
+                    }
+                }
+                this.receiptMapper.createInvtHdeAppr(recBondInvtHdeAppr); //插入订单状态表数据
+//                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+    /**
+     * 核注清单生成报关单回执
+     */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void createInvtInvAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+        List<List<Map<String, String>>> list = receipt.get("InvApprResult");
+        if (!StringUtils.isEmpty(list)) {
+            RecBondInvtInvAppr recBondInvtInvAppr;
+            for (int i = 0; i < list.size(); i++) {
+                recBondInvtInvAppr = new RecBondInvtInvAppr();
+                recBondInvtInvAppr.setGuid(IdUtils.getUUId());
+                recBondInvtInvAppr.setCrt_tm(new Date());
+                recBondInvtInvAppr.setUpd_tm(new Date());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                List<Map<String, String>> mapList = list.get(i);
+                for (Map<String, String> map : mapList) {
+                    if (map.containsKey("invPreentNo")) {
+                        recBondInvtInvAppr.setInv_preent_no(map.get("invPreentNo"));
+                    }
+                    if (map.containsKey("businessId")) {
+                        recBondInvtInvAppr.setBusiness_id(map.get("businessId"));
+                    }
+                    if (map.containsKey("entrySeqNo")) {
+                        recBondInvtInvAppr.setEntry_seq_no(map.get("entrySeqNo"));
+                    }
+                    if (map.containsKey("manageResult")) {
+                        recBondInvtInvAppr.setManage_result(map.get("manageResult"));
+                    }
+                    if (map.containsKey("createDate")) {
+                        recBondInvtInvAppr.setCreate_date(sdf.parse(map.get("createDate")));
+                    }
+                    if (map.containsKey("reason")) {
+                        recBondInvtInvAppr.setReason(map.get("reason"));
+                    }
+                }
+                this.receiptMapper.createInvtInvAppr(recBondInvtInvAppr); //插入订单状态表数据
+//                this.updateBondInvtStatusByCommon(recBondInvtCommon);    //更新订单表状态
+            }
+        }
+    }
+
+
     /**
      * 插入订单回执报文数据
      */
@@ -419,6 +583,7 @@ public class ReceiptService {
         impPayment.setUpd_tm(new Date());
         this.receiptMapper.updateImpPayment(impPayment);  //更新支付单表中的回执状态
     }
+
 
     /**
      * 插入运单回执报文数据
@@ -546,6 +711,7 @@ public class ReceiptService {
         this.receiptMapper.updateImpLogisticsDataStatus(impRecLogisticsStatus, ydztsbcg);
     }
 
+
     /**
      * 插入清单回执报文数据
      */
@@ -614,7 +780,6 @@ public class ReceiptService {
         }
     }
 
-
     /**
      * 根据清单回执更新清单表
      */
@@ -632,7 +797,12 @@ public class ReceiptService {
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
         impInventoryHead.setUpd_tm(new Date());
         //清单申报成功
-        impInventoryHead.setData_status(StatusCode.QDSBCG);
+        String type = this.receiptMapper.queryBusiTypeByCopNo(impRecInventory.getCop_no());
+        if (type.equals(SystemConstants.T_IMP_BOND_INVEN)) {
+            impInventoryHead.setData_status(StatusCode.BSQDSBCG);
+        } else {
+            impInventoryHead.setData_status(StatusCode.QDSBCG);
+        }
 
         boolean isContains = (impInventoryHead.getReturn_status()).contains("-");
         String MaxTimeReturnStatus = null;
@@ -648,6 +818,7 @@ public class ReceiptService {
         this.receiptMapper.updateImpInventory(impInventoryHead);  //更新支付单表中的回执状态
 
     }
+
 
     /**
      * 插入入库明细单回执报文数据

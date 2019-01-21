@@ -18,10 +18,12 @@ public class StockControlService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
+    //查询账册表体数据
     public List<BwlListType> queryStockControlData(Map<String, String> paramMap) {
         return this.stockControlMapper.queryStockControlData(paramMap);
     }
 
+    //查询账册表体数据总数
     public Integer queryStockControlCount(Map<String, String> paramMap) {
         return this.stockControlMapper.queryStockControlCount(paramMap);
     }

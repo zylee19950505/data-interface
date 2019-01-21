@@ -173,6 +173,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#rmk").val(entryHead.rmk);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
+        $("#bond_invt_no").val(entryHead.bond_invt_no);
 
         selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
@@ -284,7 +285,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
-        debugger;
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
