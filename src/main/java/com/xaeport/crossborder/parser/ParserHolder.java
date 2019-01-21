@@ -30,6 +30,8 @@ public class ParserHolder {
         map.put("inv201msg", new Inv201MsgParser());//核注清单报文回执
         map.put("inv201chk", new Inv201ChkParser());//核注清单审核回执
         map.put("inv202customs", new Inv202CustomsParser());//核注清单生成报关单回执
+        map.put("sas221msg", new Sas221MsgParser());//核放单报文回执
+        map.put("sas221chk", new Sas221ChkParser());//核放单审核回执
         mapNew.put("invCommon", new invCommonParser());//核注清单处理成功回执
     }
 

@@ -64,7 +64,7 @@ public class BondInvtBsc {
 
     private String status;
     private String return_status;
-    private String return_time;
+    private Date return_time;
     private String return_info;
     private Date crt_time;
     private String crt_user;
@@ -545,11 +545,11 @@ public class BondInvtBsc {
         this.return_status = return_status;
     }
 
-    public String getReturn_time() {
+    public Date getReturn_time() {
         return return_time;
     }
 
-    public void setReturn_time(String return_time) {
+    public void setReturn_time(Date return_time) {
         this.return_time = return_time;
     }
 

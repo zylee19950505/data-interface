@@ -17,10 +17,17 @@ public interface ReceiptMapper {
     void createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon);
     //根据核注清单处理成功回执更新状态
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByCommon")
-    boolean updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+    void updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
     //根据核注清单处理成功回执更新表体数据
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemsInvtByCommon")
     void updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //根据核放单处理成功回执更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortStatusByCommon")
+    void updatePassPortStatusByCommon(@Param("passPortHead") PassPortHead passPortHead);
+    //根据核放单处理成功回执更新表体数据
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortAcmpByCommon")
+    void updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead);
 
     //核注清单(报文回执/审核回执)
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtHdeAppr")
@@ -28,6 +35,33 @@ public interface ReceiptMapper {
     //核注清单生成报关单回执
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtInvAppr")
     void createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr);
+
+    //更新修改核注清单状态(HdeAppr)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByHdeAppr")
+    void updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+//    //更新修改核注清单状态(InvAppr)
+//    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByInvAppr")
+//    void updateBondInvtStatusByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //核放单(报文回执/审核回执)
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createPassPortHdeAppr")
+    void createPassPortHdeAppr(@Param("recPassPortHdeAppr") RecPassPortHdeAppr recPassPortHdeAppr);
+
+
+
+    @Select("SELECT * FROM T_BOND_INVT_BSC WHERE ETPS_INNER_INVT_NO = #{etpsPreentNo}")
+    BondInvtBsc queryIsBondInvt(@Param("etpsPreentNo") String etpsPreentNo);
+
+    @Select("SELECT * FROM T_PASS_PORT_HEAD WHERE ETPS_PREENT_NO = #{etpsPreentNo}")
+    PassPortHead queryIsPassPort(@Param("etpsPreentNo") String etpsPreentNo);
+
+
+    @Select("SELECT * FROM T_BOND_INVT_BSC WHERE INVT_PREENT_NO = #{invt_preent_no}")
+    BondInvtBsc queryBondInvt(@Param("invt_preent_no") String invt_preent_no);
+
+
+//    @Select("SELECT * FROM T_BOND_INVT_BSC WHERE ETPS_INNER_INVT_NO = #{etpsPreentNo}")
+//    BondInvtBsc queryBondInvt(@Param("etpsPreentNo") String etpsPreentNo);
 
 
 

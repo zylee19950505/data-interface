@@ -106,8 +106,16 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                 {
                     data: "return_status", label: "回执状态"
                 },
+                // {
+                //     data: "return_time", label: "回执时间"
+                // },
                 {
-                    data: "return_time", label: "回执时间"
+                    label: "回执时间", render: function (data, type, row) {
+                    if (!isEmpty(row.return_time)) {
+                        return moment(row.return_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
                 },
                 {
                     data: "return_info", label: "回执备注"

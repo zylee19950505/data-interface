@@ -83,6 +83,111 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date(#{bondInvtBsc.return_time},'yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+            }
+        }.toString();
+    }
+
+//    //根据核注清单处理成功回执更新状态
+//    public String updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+//        return new SQL() {
+//            {
+//                UPDATE("T_BOND_INVT_BSC");
+//                WHERE("STATUS in ('BDDS21','BDDS22')");
+//                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
+//                    WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+//                }
+//                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+//                    SET("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+//                }
+//                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+//                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+//                }
+//                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+//                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+//                }
+//                if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
+//                    SET("STATUS = #{bondInvtBsc.status}");
+//                }
+//                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
+//                    SET("upd_time = #{bondInvtBsc.upd_time}");
+//                }
+//            }
+//        }.toString();
+//    }
+
+    //根据核放单处理成功回执更新状态
+    public String updatePassPortStatusByCommon(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD");
+                WHERE("STATUS in ('BDDS41','BDDS42')");
+                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
+                    WHERE("ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    SET("SAS_PASSPORT_PREENT_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{passPortHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{passPortHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getStatus())) {
+                    SET("STATUS = #{passPortHead.status}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getUpd_time())) {
+                    SET("UPD_TIME = #{passPortHead.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核放单处理成功回执更新状态
+    public String updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
+                    WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    SET("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getUpd_time())) {
+                    SET("UPD_TIME = #{passPortHead.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
 
     //核注清单(报文回执/审核回执)
     public String createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr) {
@@ -108,20 +213,22 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     VALUES("MANAGE_RESULT", "#{recBondInvtHdeAppr.manage_result}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_date())) {
+//                    VALUES("MANAGE_DATE", "to_date(#{recBondInvtHdeAppr.manage_date},'yyyy-MM-dd hh24:mi:ss')");
                     VALUES("MANAGE_DATE", "#{recBondInvtHdeAppr.manage_date}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getRmk())) {
                     VALUES("RMK", "#{recBondInvtHdeAppr.rmk}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getCrt_tm())) {
-                    VALUES("CRT_TM", "#{recBondInvtHdeAppr.crt_tm}");
+                    VALUES("CRT_TM", "sysdate");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getUpd_tm())) {
-                    VALUES("UPD_TM", "#{recBondInvtHdeAppr.upd_tm}");
+                    VALUES("UPD_TM", "sysdate");
                 }
             }
         }.toString();
     }
+
     //核注清单生成报关单回执
     public String createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr) {
         return new SQL() {
@@ -158,6 +265,44 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //核注清单(报文回执/审核回执)
+    public String createPassPortHdeAppr(@Param("recPassPortHdeAppr") RecPassPortHdeAppr recPassPortHdeAppr) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_PASS_PORT_HDEAPPR");
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getGuid())) {
+                    VALUES("GUID", "#{recPassPortHdeAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recPassPortHdeAppr.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recPassPortHdeAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getTms_cnt())) {
+                    VALUES("TMS_CNT", "#{recPassPortHdeAppr.tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getTypecd())) {
+                    VALUES("TYPECD", "#{recPassPortHdeAppr.typecd}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recPassPortHdeAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getManage_date())) {
+                    VALUES("MANAGE_DATE", "#{recPassPortHdeAppr.manage_date}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getRmk())) {
+                    VALUES("RMK", "#{recPassPortHdeAppr.rmk}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recPassPortHdeAppr.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recPassPortHdeAppr.upd_tm}");
+                }
+            }
+        }.toString();
+    }
 
     //插入电子税单表头
     public String InsertTaxHeadRd(
