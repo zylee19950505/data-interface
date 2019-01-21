@@ -65,6 +65,16 @@ public class PassPortHead {
     private String bond_invt_no;
     private String return_info;
 
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    private String flag;
+
     public String getId() {
         return id;
     }

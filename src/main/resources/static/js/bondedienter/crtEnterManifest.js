@@ -109,13 +109,19 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
             var subList = list[0].split("/");
             var invtNo = subList[0];
             var originalNm = subList[1];
-            var usableNm = subList[2];
+            var usableNm = parseInt(subList[2]);
             console.log("invtNo:"+invtNo);
             console.log("originalNm:"+originalNm);
             console.log("usableNm:"+usableNm);
 
             console.log($("#id_"+invtNo).val());
-            var editBoundNm = $("#id_"+invtNo).val();
+            var editBoundNm = parseInt($("#id_"+invtNo).val());
+            console.log("editBoundNm:"+editBoundNm)
+            if (editBoundNm<=0 || editBoundNm == undefined || editBoundNm == ""){
+                sw.alert("请输入绑定数量！");
+                return;
+            }
+
             if (editBoundNm > usableNm) {
                 sw.alert("不可大于可绑定数量！");
                 return;
@@ -127,28 +133,46 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     editBoundNm:editBoundNm,
                     bind_typecd:bind_typecd
                 }
+                //为了在提交时多次点击
                 $("#crtEnterManifest").prop("disabled", true);
-
                 sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
                     if (rsp.data.result == "true") {
                        // sw.alert("提交海关成功", "提示", function () {
                        // }, "modal-success");
+                        console.log(rsp.data.hfd);
+                        var etps_preent_no = rsp.data.hfd;
                         $("#crtEnterManifest").prop("disabled", false);
-                        sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
+                        sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd,etps_preent_no,editBoundNm);
+                    } else {
+                        this.query();
+                        sw.alert(rsp.data.msg);
+                    }
+                    $.unblockUI();
+                });
+            }else if (editBoundNm < originalNm) {
+                //一票多车
+                bind_typecd = "YPDC"
+                //单独的页面
+                var postData = {
+                    invtNo:invtNo,
+                    editBoundNm:editBoundNm,
+                    bind_typecd:bind_typecd
+                }
+                $("#crtEnterManifest").prop("disabled", true);
+
+                sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
+                    if (rsp.data.result == "true") {
+                        // sw.alert("提交海关成功", "提示", function () {
+                        // }, "modal-success");
+                        var etps_preent_no = rsp.data.hfd;
+                        $("#crtEnterManifest").prop("disabled", false);
+                        sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd,etps_preent_no,editBoundNm);
                     } else {
                         sw.alert(rsp.data.msg);
                     }
                     $.unblockUI();
                 });
-
-
                // sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
-
-            }else if (editBoundNm < originalNm) {
-                //一票多车
-                bind_typecd = "YPDC"
-                //单独的页面
-                //sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd)
             }
 
         }else{
@@ -174,7 +198,7 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
             }
             $("#crtEnterManifest").prop("disabled", true);
 
-            sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
+            /*sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     // sw.alert("提交海关成功", "提示", function () {
                     // }, "modal-success");
@@ -184,30 +208,23 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     sw.alert(rsp.data.msg);
                 }
                 $.unblockUI();
-            });
-        }
-      /*  sw.confirm("请确认数据无误并提交海关", "确认", function () {
-
-            sw.blockPage();
-
-            var postData = {
-                submitKeys: submitKeys
-            };
-
-            $("#submitCustom").prop("disabled", true);
-
-            sw.ajax("api/enterInventory/enterinventory/submitCustom", "POST", postData, function (rsp) {
+            });*/
+            sw.ajax("api/crtEnterManifest/createEnterManifest", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
-                    sw.alert("提交海关成功", "提示", function () {
-                    }, "modal-success");
-                    $("#submitCustom").prop("disabled", false);
-                    sw.page.modules["bondediexit/exitInventory"].query();
+                    // sw.alert("提交海关成功", "提示", function () {
+                    // }, "modal-success");
+                    console.log(rsp.data.hfd);
+                    var etps_preent_no = rsp.data.hfd;
+                    $("#crtEnterManifest").prop("disabled", false);
+                    sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd,etps_preent_no,editBoundNm);
                 } else {
+                    this.query();
                     sw.alert(rsp.data.msg);
                 }
                 $.unblockUI();
             });
-        });*/
+            //sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd);
+        }
     },
     init: function () {
         $(".input-daterange").datepicker({
@@ -230,9 +247,14 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
             }
         });*/
     },
-    crtEnterManifest: function (bondInvtNo,type) {
-        var url = "bondedIEnter/seeEnterManifestDetail?type="+type+"&isEdit=true&bond_invt_no=" + bondInvtNo;
-        sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
+    crtEnterManifest: function (bondInvtNo,type,etps_preent_no,editBoundNm) {
+        if (type != "YPDC"){
+            var url = "bondedIEnter/seeEnterManifestDetail?type="+type+"&isEdit=true&bond_invt_no="+bondInvtNo+"&etps_preent_no="+etps_preent_no;
+            sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
+        } else{
+            var url = "bondedIEnter/seeEnterManifestDetailYPDC?type="+type+"&isEdit=true&bond_invt_no="+bondInvtNo+"&etps_preent_no="+etps_preent_no+"&editBoundNm="+editBoundNm;
+            sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
+        }
     }
 };
 

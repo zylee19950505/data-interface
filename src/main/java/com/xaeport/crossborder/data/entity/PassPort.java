@@ -8,6 +8,17 @@ public class PassPort {
 
     private List<PassPortAcmp> passPortAcmpList;
 
+    private List<PassPortList> passPortList;
+
+
+    public List<PassPortList> getPassPortList() {
+        return passPortList;
+    }
+
+    public void setPassPortList(List<PassPortList> passPortList) {
+        this.passPortList = passPortList;
+    }
+
     public PassPortHead getPassPortHead() {
         return passPortHead;
     }
