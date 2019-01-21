@@ -99,6 +99,7 @@ public class StatusCode {
 	public final static String RQHZQDSBCG = "BDDS12";//入区核注清单申报成功
 
 	public final static String RQHFDDSB = "BDDS3";//入区核放单待申报
+	public final static String RQHFDDZC = "BDDS33";//入区核放单暂存
 	public final static String RQHFDSBZ = "BDDS30";//入区核放单申报中
 	public final static String RQHFDYSB = "BDDS31";//入区核放单已申报
 	public final static String RQHFDSBCG = "BDDS32";//入区核放单申报成功

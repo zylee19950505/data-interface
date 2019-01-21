@@ -71,6 +71,9 @@ public class CrtEnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtDt.getDcl_qty())){
                     VALUES("dcl_qty","#{bondInvtDt.dcl_qty}");
                 }
+                if(!StringUtils.isEmpty(bondInvtDt.getDcl_qty())){
+                    VALUES("surplus_nm","#{bondInvtDt.dcl_qty}");
+                }
                 if(!StringUtils.isEmpty(bondInvtDt.getRmk())){
                     VALUES("rmk","#{bondInvtDt.rmk}");
                 }

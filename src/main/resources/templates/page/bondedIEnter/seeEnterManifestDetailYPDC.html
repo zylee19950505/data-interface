@@ -1,0 +1,183 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>入区核放单详情</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <link rel="stylesheet" href="/lib/select2/css/select2.min.css"/>
+    <script src="/lib/select2/js/select2.js"></script>
+    <script src="/lib/select2/js/i18n/zh.js"></script>
+    <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">企业内部编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="etps_preent_no"/>
+            </td>
+            <td class="headTitle">核注清单编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="bond_invt_no"/>
+            </td>
+            <td class="headTitle">主管关区代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="5" id="master_cuscd"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">绑定类型代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="36" id="bind_typecd"/>
+            </td>
+            <td class="headTitle">区内企业编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="areain_etpsno"/>
+            </td>
+            <td class="headTitle">区内企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="5" id="areain_etps_nm"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">承运车车牌号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="50" id="vehicle_no"/>
+            </td>
+            <td class="headTitle">车自重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="vehicle_wt"/>
+            </td>
+            <td class="headTitle">车架重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="vehicle_frame_wt"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">集装箱箱型</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="container_type"/>
+            </td>
+            <td class="headTitle">集装箱重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="container_wt"/>
+            </td>
+            <td class="headTitle">总重量</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="total_wt"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">货物总毛重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="total_gross_wt"/>
+            </td>
+            <td class="headTitle">货物总净重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="total_net_wt"/>
+            </td>
+            <td class="headTitle">申请人及联系方式</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="dcl_er_conc"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">申报企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="dcl_etpsno"/>
+            </td>
+            <td class="headTitle">申报企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="dcl_etps_nm"/>
+            </td>
+            <td class="headTitle">录入单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="input_code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">录入单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="input_name"/>
+            </td>
+            <td class="headTitle">备注</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="rmk"/>
+            </td>
+
+        </tr>
+      <!--  <tr>
+            <td class="headTitle">备注</td>
+            <td colspan="6">
+                <input class="form-control input-sm" maxlength="36" id="trade_code"/>
+            </td>
+        </tr>-->
+
+    </table>
+
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-solid box-default ws-query">
+                <div class="box-header with-border" style="background-color: #95bfff;color: #fff;">
+                    <i class="fa fa-search"></i>
+                    <h3 class="box-title">检索</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus" style="color: #fff;"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <label>商品料号</label>
+                            <select id="gdsMtno" name="nationality"
+                                    class="form-control select2 select2-hidden-accessible" multiple="" style="width: 80%;" data-placeholder="商品料号" tabindex="-1" aria-hidden="true">
+                            </select>
+                        </div>
+                        <div class="col-xs-6">
+                            <label>商品名称</label>
+                            <select id="gdsName" name="nationality"
+                                    class="form-control select2 select2-hidden-accessible" multiple="" style="width: 80%;" data-placeholder="商品名称" tabindex="-1" aria-hidden="true">
+                            </select>
+                            <button class="btn btn-sm btn-info" type="button" id="ws-list-search" ws-search="bondedIEnter/seeEnterManifestDetailYPDC"
+                                    data-toggle="tooltip-disabled"
+                                    title="检索"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+    <table id="entryList" class="listDetail" border="1px solid balck">
+        <tr style="height: 30px">
+            <th>序号</th>
+            <th>商品料号</th>
+            <th>商品名称</th>
+            <th>货物毛重</th>
+            <th>货物净重</th>
+            <th>申报数量</th>
+            <th width="7%">操作</th>
+        </tr>
+    </table>
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

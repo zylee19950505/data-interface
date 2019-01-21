@@ -120,6 +120,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
     // 取消返回
     cancel: function () {
         $("#dialog-popup").modal("hide");
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 禁用字段
     disabledFieldInput: function () {
@@ -177,35 +178,37 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
 
     // 保存订单编辑信息
-    saveManifestDetail: function (bond_invt_no) {
+    saveManifestDetail: function () {
         if (!this.valiFieldInventory()) {
             return;
         }
         var entryData = {
             etps_preent_no: $("#etps_preent_no").val(),
             bond_invt_no: $("#bond_invt_no").val(),
-
             master_cuscd: $("#master_cuscd").val(),
+
             bind_typecd: $("#bind_typecd").val(),
             areain_etpsno: $("#areain_etpsno").val(),
             areain_etps_nm: $("#areain_etps_nm").val(),
+
             vehicle_no: $("#vehicle_no").val(),
             vehicle_wt: $("#vehicle_wt").val(),
-
             vehicle_frame_wt: $("#vehicle_frame_wt").val(),
-            container_type: $("#container_type").val(),
 
+            container_type: $("#container_type").val(),
             container_wt: $("#container_wt").val(),
             total_wt: $("#total_wt").val(),
 
             total_gross_wt: $("#total_gross_wt").val(),
             total_net_wt: $("#total_net_wt").val(),
             dcl_er_conc: $("#dcl_er_conc").val(),
-            dcl_etpsno: $("#dcl_etpsno").val(),
 
+            dcl_etpsno: $("#dcl_etpsno").val(),
             dcl_etps_nm: $("#dcl_etps_nm").val(),
             input_code: $("#input_code").val(),
-            input_name: $("#input_name").val()
+
+            input_name: $("#input_name").val(),
+            rmk: $("#rmk").val(),
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
@@ -232,15 +235,22 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         //从路径上找参数
         var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
         var bond_invt_no = param.bond_invt_no;
+        var bind_typecd = param.type;
+        var etps_preent_no = param.etps_preent_no;
+        var editBoundNm = param.editBoundNm;
 
         var data = {
-            bond_invt_no: bond_invt_no
+            bond_invt_no: bond_invt_no,
+            bind_typecd: bind_typecd,
+            etps_preent_no: etps_preent_no
         };
+        debugger;
         $.ajax({
             method: "GET",
-            url: "api/crtEnterManifest/queryManifestOneCar",
+            url: "api/crtEnterManifest/queryEnterManifestOneCar",
             data: data,
             success: function (data, status, xhr) {
+                console.log(xhr.result);
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetail"];
                     var entryHead = data.data;
@@ -253,7 +263,8 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
                     inputChange(param.bond_invt_no);
                     entryModule.disabledFieldInput();
                 }
-            }
+            },
+            async:false
         });
     },
     //校验
@@ -294,6 +305,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         //从路径上获取参数
         var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
         var bond_invt_no = param.bond_invt_no;
+        var etps_preent_no = param.etps_preent_no;
         var type = param.type;
         var isEdit = param.isEdit;
         $(".input-daterange").datepicker({
@@ -361,7 +373,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["manifest/seeManifestInfo"].cancel();
+            sw.page.modules["manifest/seeEnterManifestDetail"].cancel();
         });
     },
 

@@ -2,10 +2,12 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.PassPortAcmp;
 import com.xaeport.crossborder.data.entity.PassPortHead;
+import com.xaeport.crossborder.data.entity.PassPortList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
@@ -36,6 +38,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                         "t.RETURN_INFO");
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'Enter'");
+                WHERE("t.USABLE_NM > 0");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -111,8 +114,30 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortHead.getBind_typecd())){
                     VALUES("t.bind_typecd","#{passPortHead.bind_typecd}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etpsno())){
+                    VALUES("t.areain_etpsno","#{passPortHead.areain_etpsno}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())){
+                    VALUES("t.areain_etps_nm","#{passPortHead.areain_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_no())){
+                    VALUES("t.vehicle_no","#{passPortHead.vehicle_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_wt())){
+                    VALUES("t.vehicle_wt","#{passPortHead.vehicle_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_frame_wt())){
+                    VALUES("t.vehicle_frame_wt","#{passPortHead.vehicle_frame_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getContainer_wt())){
+                    VALUES("t.container_wt","#{passPortHead.container_wt}");
+                }
+
                 if (!StringUtils.isEmpty(passPortHead.getRlt_tb_typecd())){
                     VALUES("t.rlt_tb_typecd","#{passPortHead.rlt_tb_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_typecd())){
+                    VALUES("t.passport_typecd","#{passPortHead.passport_typecd}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getRlt_no())){
                     VALUES("t.rlt_no","#{passPortHead.rlt_no}");
@@ -125,6 +150,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(passPortHead.getDcl_etps_nm())){
                     VALUES("t.dcl_etps_nm","#{passPortHead.dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_er_conc())){
+                    VALUES("t.dcl_er_conc","#{passPortHead.dcl_er_conc}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getInput_code())){
                     VALUES("t.input_code","#{passPortHead.input_code}");
@@ -142,13 +170,136 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortHead.getCrt_ent_name())){
                     VALUES("t.crt_ent_name","#{passPortHead.crt_ent_name}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_wt())){
+                    VALUES("t.total_wt","#{passPortHead.total_wt}");
+                }
                 if (!StringUtils.isEmpty(passPortHead.getTotal_gross_wt())){
                     VALUES("t.total_gross_wt","#{passPortHead.total_gross_wt}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getTotal_net_wt())){
                     VALUES("t.total_net_wt","#{passPortHead.total_net_wt}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_typecd())){
+                    VALUES("t.dcl_typecd","#{passPortHead.dcl_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getIo_typecd())){
+                    VALUES("t.io_typecd","#{passPortHead.io_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getFlag())){
+                    VALUES("t.flag","#{passPortHead.flag}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getStatus())){
+                    VALUES("t.status","#{passPortHead.status}");
+                }
 
+            }
+        }.toString();
+    }
+
+    public String createEnterManifestDetailOneCar(@Param("passPortHead") PassPortHead passPortHead){
+        return new SQL(){
+            {
+                INSERT_INTO("T_PASS_PORT_HEAD t");
+                if (!StringUtils.isEmpty(passPortHead.getId())){
+                    VALUES("t.id","#{passPortHead.id}");
+                }
+
+                //预先模拟核放单编号
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())){
+                    VALUES("t.passport_no","#{passPortHead.passport_no}");
+                }
+
+                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())){
+                    VALUES("t.etps_preent_no","#{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getBond_invt_no())){
+                    VALUES("t.bond_invt_no","#{passPortHead.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getMaster_cuscd())){
+                    VALUES("t.master_cuscd","#{passPortHead.master_cuscd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getBind_typecd())){
+                    VALUES("t.bind_typecd","#{passPortHead.bind_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etpsno())){
+                    VALUES("t.areain_etpsno","#{passPortHead.areain_etpsno}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())){
+                    VALUES("t.areain_etps_nm","#{passPortHead.areain_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_no())){
+                    VALUES("t.vehicle_no","#{passPortHead.vehicle_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_wt())){
+                    VALUES("t.vehicle_wt","#{passPortHead.vehicle_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_frame_wt())){
+                    VALUES("t.vehicle_frame_wt","#{passPortHead.vehicle_frame_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getContainer_wt())){
+                    VALUES("t.container_wt","#{passPortHead.container_wt}");
+                }
+
+                if (!StringUtils.isEmpty(passPortHead.getRlt_tb_typecd())){
+                    VALUES("t.rlt_tb_typecd","#{passPortHead.rlt_tb_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getRlt_no())){
+                    VALUES("t.rlt_no","#{passPortHead.rlt_no}");
+                }
+
+
+
+                if (!StringUtils.isEmpty(passPortHead.getDcl_etpsno())){
+                    VALUES("t.dcl_etpsno","#{passPortHead.dcl_etpsno}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_etps_nm())){
+                    VALUES("t.dcl_etps_nm","#{passPortHead.dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_er_conc())){
+                    VALUES("t.dcl_er_conc","#{passPortHead.dcl_er_conc}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getInput_code())){
+                    VALUES("t.input_code","#{passPortHead.input_code}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getInput_name())){
+                    VALUES("t.input_name","#{passPortHead.input_name}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getCrt_user())){
+                    VALUES("t.crt_user","#{passPortHead.crt_user}");
+                }
+                VALUES("t.crt_time","sysdate");
+                if (!StringUtils.isEmpty(passPortHead.getCrt_ent_id())){
+                    VALUES("t.crt_ent_id","#{passPortHead.crt_ent_id}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getCrt_ent_name())){
+                    VALUES("t.crt_ent_name","#{passPortHead.crt_ent_name}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_wt())){
+                    VALUES("t.total_wt","#{passPortHead.total_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_gross_wt())){
+                    VALUES("t.total_gross_wt","#{passPortHead.total_gross_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_net_wt())){
+                    VALUES("t.total_net_wt","#{passPortHead.total_net_wt}");
+                }
+            }
+        }.toString();
+    }
+
+
+    public String queryEnterInvtory(@Param("invtNo") String invtNo){
+        return new SQL(){
+            {
+                SELECT("t.GDS_SEQNO");
+                SELECT("t.GDS_MTNO");
+                SELECT("t.GDECD");
+                SELECT("t.GDS_NM");
+                SELECT("t.DCL_QTY");
+                SELECT("t.GROSS_WT");
+                SELECT("t.NET_WT");
+                FROM("T_BOND_INVT_DT t");
+                WHERE("t.HEAD_ETPS_INNER_INVT_NO = (select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{invtNo})");
             }
         }.toString();
     }
@@ -166,6 +317,18 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
         }.toString();
     }
 
+    public String updateEnterInventoryMoreCar(Map<String, String> paramMap){
+        return new SQL(){
+            {
+                UPDATE("T_BOND_INVT_BSC t");
+                WHERE("t.BOND_INVT_NO = #{invtNo}");
+                SET("t.USABLE_NM = t.USABLE_NM - #{editBoundNm}");
+                SET("t.UPD_USER = #{upd_user}");
+                SET("t.UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
     /**
     * 查询核放单表体
     * */
@@ -174,7 +337,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
             {
                 SELECT("t.*");
                 FROM("T_BOND_INVT_DT t");
-                WHERE("t.HEAD_ETPS_INNER_INVT_NO = (select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{invtNo})");
+                WHERE("exists(select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{invtNo} and ETPS_INNER_INVT_NO = t.HEAD_ETPS_INNER_INVT_NO)");
             }
         }.toString();
     }
@@ -198,6 +361,13 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortAcmp.getRtl_no())){
                     VALUES("t.rtl_no","#{passPortAcmp.rtl_no}");
                 }
+                if (!StringUtils.isEmpty(passPortAcmp.getHead_etps_preent_no())){
+                    VALUES("t.head_etps_preent_no","#{passPortAcmp.head_etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortAcmp.getCrt_user())){
+                    VALUES("t.crt_user","#{passPortAcmp.crt_user}");
+                }
+                VALUES("t.crt_time","sysdate");
             }
         }.toString();
     }
@@ -205,7 +375,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
     /**
     *查询一车一单和一车多单的表头信息
     * */
-    public String queryManifestOneCar(@Param("bond_invt_no") String bond_invt_no){
+    public String queryEnterManifestOneCar(Map<String,String> paramMap){
         return new SQL(){
             {
                 SELECT("t.ETPS_PREENT_NO");
@@ -220,6 +390,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SELECT("t.INPUT_NAME");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
+                WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
             }
         }.toString();
     }
@@ -233,9 +404,10 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
             {
                 UPDATE("T_PASS_PORT_HEAD t");
                 WHERE("t.BOND_INVT_NO = #{passPortHead.bond_invt_no}");
-                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())){
+                WHERE("t.ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                /*if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())){
                     SET("t.etps_preent_no = #{passPortHead.etps_preent_no}");
-                }
+                }*/
                 if (!StringUtils.isEmpty(passPortHead.getMaster_cuscd())){
                     SET("t.master_cuscd = #{passPortHead.master_cuscd}");
                 }
@@ -293,7 +465,167 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortHead.getUpd_user())){
                     SET("t.upd_user = #{passPortHead.upd_user}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getStatus())){
+                    SET("t.status = #{passPortHead.status}");
+                }
                 SET("t.upd_time = sysdate");
+            }
+        }.toString();
+    }
+    /**
+    * 插入核放单表体信息
+    * */
+    public String createEnterManifestList(@Param("passPortList") PassPortList passPortList){
+        return new SQL(){
+            {
+                INSERT_INTO("T_PASS_PORT_LIST t");
+                VALUES("t.id","#{passPortList.id}");
+                if (!StringUtils.isEmpty(passPortList.getHead_id())){
+                    VALUES("t.head_id","#{passPortList.head_id}");
+                }
+                if (!StringUtils.isEmpty(String.valueOf(passPortList.getPassPort_seqNo()))){
+                    VALUES("t.passPort_seqNo","#{passPortList.passPort_seqNo}");
+                }
+                if (!StringUtils.isEmpty(passPortList.getGds_mtNo())){
+                    VALUES("t.gds_mtNo","#{passPortList.gds_mtNo}");
+                }
+                if (!StringUtils.isEmpty(passPortList.getGdecd())){
+                    VALUES("t.gdecd","#{passPortList.gdecd}");
+                }
+                if (!StringUtils.isEmpty(passPortList.getGds_nm())){
+                    VALUES("t.gds_nm","#{passPortList.gds_nm}");
+                }
+                if (!StringUtils.isEmpty(String.valueOf(passPortList.getGross_wt()))){
+                    VALUES("t.gross_wt","#{passPortList.gross_wt}");
+                }
+                if (!StringUtils.isEmpty(String.valueOf(passPortList.getNet_wt()))){
+                    VALUES("t.net_wt","#{passPortList.net_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortList.getDcl_unitcd())){
+                    VALUES("t.dcl_unitcd","#{passPortList.dcl_unitcd}");
+                }
+                if (!StringUtils.isEmpty(String.valueOf(passPortList.getDcl_qty()))){
+                    VALUES("t.dcl_qty","#{passPortList.dcl_qty}");
+                }
+            }
+        }.toString();
+    }
+
+
+    public String querySelectBondDtList(Map<String, String> paramMap){
+        final String gdsMtno = paramMap.get("selectGdsmtno");
+        final String gdsNm = paramMap.get("selectGdsnm");
+
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_BOND_INVT_DT t");
+                WHERE("exists(select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{bond_invt_no} and ETPS_INNER_INVT_NO = t.HEAD_ETPS_INNER_INVT_NO)");
+
+                if (!StringUtils.isEmpty(gdsMtno) && (!StringUtils.isEmpty(gdsNm))){
+                    WHERE("("+splitJointIn("t.GDS_MTNO",gdsMtno) + " or "+splitJointIn("t.GDS_NM",gdsNm)+")");
+                }
+                if (!StringUtils.isEmpty(gdsMtno) && StringUtils.isEmpty(gdsNm)){
+                    WHERE(splitJointIn("t.GDS_MTNO",gdsMtno));
+                }
+                if (StringUtils.isEmpty(gdsMtno) && !StringUtils.isEmpty(gdsNm)){
+                    WHERE(splitJointIn("t.GDS_NM",gdsNm));
+                }
+            }
+        }.toString();
+    }
+
+
+
+    /**
+    * 一票多车更新表头数据
+    * */
+    public String updatePassPortHead(LinkedHashMap<String, String> entryHead){
+        return new SQL(){
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
+                WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
+                SET("t.areain_etpsno = #{areain_etpsno}");
+                SET("t.areain_etps_nm = #{areain_etps_nm}");
+                SET("t.vehicle_no = #{vehicle_no}");
+                SET("t.vehicle_wt = #{vehicle_wt}");
+                SET("t.vehicle_frame_wt = #{vehicle_frame_wt}");
+                SET("t.container_wt = #{container_wt}");
+                SET("t.total_wt = #{total_wt}");
+                SET("t.total_gross_wt = #{total_gross_wt}");
+                SET("t.total_net_wt = #{total_net_wt}");
+                SET("t.dcl_er_conc = #{dcl_er_conc}");
+                SET("t.dcl_etpsno = #{dcl_etpsno}");
+                SET("t.dcl_etps_nm = #{dcl_etps_nm}");
+                SET("t.input_code = #{input_code}");
+                SET("t.input_name = #{input_name}");
+                SET("t.rmk = #{rmk}");
+                SET("t.UPD_USER = #{upd_user}");
+                SET("t.UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    /**
+    * 创建核放单表体数据
+    * */
+    public String crtPassPortList(LinkedHashMap<String, String> entryList){
+        return new SQL(){
+            {
+                INSERT_INTO("T_PASS_PORT_LIST t");
+                VALUES("t.ID","#{passPortListId}");
+                VALUES("t.PASSPORT_NO","#{etps_preent_no}");
+                VALUES("t.GDS_MTNO","#{gds_mtno}");
+                VALUES("t.GDECD","#{gdecd}");
+                VALUES("t.GDS_NM","#{gds_nm}");
+                VALUES("t.GROSS_WT","#{gross_wt}");
+                VALUES("t.NET_WT","#{net_wt}");
+                VALUES("t.DCL_UNITCD","#{crt_user}");
+                VALUES("t.DCL_QTY","#{surplus_nm}");
+                VALUES("t.BOND_INVT_NO","#{bond_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String updateEnterBondInvtDt(LinkedHashMap<String, String> entryList){
+        return new SQL(){
+            {
+                UPDATE("T_BOND_INVT_DT t");
+                WHERE("t.ID = #{id}");
+                SET("t.SURPLUS_NM = t.SURPLUS_NM - #{surplus_nm}");
+            }
+        }.toString();
+    }
+
+    public String querypassPortListNm(@Param("bond_invt_no") String bond_invt_no){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_PASS_PORT_LIST t");
+                WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String queryBondBscNm(@Param("bond_invt_no") String bond_invt_no){
+        return new SQL(){
+            {
+                SELECT("t.ORIGINAL_NM");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String queryBondDtList(@Param("bond_invt_no") String bond_invt_no){
+        return new SQL(){
+            {
+                SELECT("t.GROSS_WT");
+                SELECT("t.NET_WT");
+                SELECT("t.DCL_QTY");
+                FROM("T_BOND_INVT_DT t");
+                WHERE("exists(select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{bond_invt_no} and ETPS_INNER_INVT_NO = t.HEAD_ETPS_INNER_INVT_NO)");
             }
         }.toString();
     }
