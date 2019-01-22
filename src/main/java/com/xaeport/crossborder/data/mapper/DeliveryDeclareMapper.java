@@ -11,6 +11,14 @@ import java.util.Map;
 @Mapper
 public interface DeliveryDeclareMapper {
 
+    //查询符合生成入库明细单的运单数据
+    @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "findLogisticsData")
+    List<ImpLogistics> findLogisticsData(Map<String, String> paramMap) throws Exception;
+
+    //对于生成过的运单设置状态
+    @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateLogistics")
+    void updateLogistics(String guid) throws Exception;
+
     //查询入库明细单数据
     @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "queryDeliveryDeclareList")
     List<ImpDelivery> queryDeliveryDeclareList(Map<String, String> paramMap) throws Exception;
@@ -22,9 +30,6 @@ public interface DeliveryDeclareMapper {
     //查询符合生成入库明细单的预定数据
     @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "findCheckGoodsInfo")
     List<CheckGoodsInfo> findCheckGoodsInfo() throws Exception;
-//    //查询符合生成入库明细单的运单数据
-//    @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "findLogisticsData")
-//    List<ImpLogistics> findLogisticsData(Map<String, String> paramMap) throws Exception;
 
     //插入入库明细单表
     @InsertProvider(type = DeliveryDeclareSQLProvider.class, method = "insertImpDelivery")
@@ -33,9 +38,6 @@ public interface DeliveryDeclareMapper {
     //对于生成过的预订数据设置状态
     @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateCheckGoodsInfoStatus")
     void updateCheckGoodsInfoStatus(String guid) throws Exception;
-//    //对于生成过的运单设置状态
-//    @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateLogistics")
-//    void updateLogistics(String guid) throws Exception;
 
     //置为申报中状态
     @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateSubmitCustom")
