@@ -6,7 +6,7 @@ public class PassPortHead {
 
     private String id;
     private String passport_no;
-    private String chg_tms_cnt;
+    private int chg_tms_cnt;
     private String passport_typecd;
     private String sas_passport_preent_no;
     private String dcl_typecd;
@@ -91,11 +91,11 @@ public class PassPortHead {
         this.passport_no = passport_no;
     }
 
-    public String getChg_tms_cnt() {
+    public int getChg_tms_cnt() {
         return chg_tms_cnt;
     }
 
-    public void setChg_tms_cnt(String chg_tms_cnt) {
+    public void setChg_tms_cnt(int chg_tms_cnt) {
         this.chg_tms_cnt = chg_tms_cnt;
     }
 

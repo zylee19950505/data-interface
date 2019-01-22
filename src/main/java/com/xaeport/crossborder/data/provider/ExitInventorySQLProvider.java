@@ -28,6 +28,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                         " SELECT " +
                         "t.ID," +
                         "t.ETPS_INNER_INVT_NO," +
+                        "t.INVT_PREENT_NO," +
                         "t.BOND_INVT_NO," +
                         "t.STATUS," +
                         "t.INVT_DCL_TIME," +

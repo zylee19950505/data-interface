@@ -24,6 +24,7 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
                         "SELECT " +
+                        "t.SAS_PASSPORT_PREENT_NO," +
                         "t.PASSPORT_NO," +
                         "t.RLT_NO," +
                         "t.STATUS," +

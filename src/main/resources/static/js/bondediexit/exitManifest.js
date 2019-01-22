@@ -74,6 +74,9 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     data: "rlt_no", label: "核注清单编号"
                 },
                 {
+                    data: "sas_passport_preent_no", label: "统一预录入编号"
+                },
+                {
                     data: "passport_no", label: "核放单编号"
                 },
                 {
@@ -115,7 +118,12 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                     data: "return_status", label: "回执状态"
                 },
                 {
-                    data: "return_date", label: "回执时间"
+                    label: "回执时间", render: function (data, type, row) {
+                    if (!isEmpty(row.return_date)) {
+                        return moment(row.return_date).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
                 },
                 {
                     data: "return_info", label: "回执备注"

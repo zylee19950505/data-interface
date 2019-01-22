@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
     //插入核注清单处理成功回执数据
@@ -58,13 +60,11 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
                     SET("STATUS = #{bondInvtBsc.status}");
                 }
-                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
-                    SET("upd_time = #{bondInvtBsc.upd_time}");
-                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
             }
         }.toString();
     }
-
     //根据核注清单处理成功回执更新状态
     public String updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
@@ -82,65 +82,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
-    //根据核注清单处理成功回执更新状态
-    public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
-        return new SQL() {
-            {
-                UPDATE("T_BOND_INVT_BSC");
-                WHERE("STATUS in ('BDDS21','BDDS22')");
-                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
-                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
-                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
-                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
-                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
-                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
-                    SET("RETURN_TIME = to_date(#{bondInvtBsc.return_time},'yyyy-MM-dd hh24:mi:ss')");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
-                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
-                }
-            }
-        }.toString();
-    }
-
-//    //根据核注清单处理成功回执更新状态
-//    public String updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
-//        return new SQL() {
-//            {
-//                UPDATE("T_BOND_INVT_BSC");
-//                WHERE("STATUS in ('BDDS21','BDDS22')");
-//                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
-//                    WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
-//                }
-//                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
-//                    SET("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
-//                }
-//                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
-//                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
-//                }
-//                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
-//                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
-//                }
-//                if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
-//                    SET("STATUS = #{bondInvtBsc.status}");
-//                }
-//                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
-//                    SET("upd_time = #{bondInvtBsc.upd_time}");
-//                }
-//            }
-//        }.toString();
-//    }
 
     //根据核放单处理成功回执更新状态
     public String updatePassPortStatusByCommon(@Param("passPortHead") PassPortHead passPortHead) {
@@ -163,13 +104,11 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.getStatus())) {
                     SET("STATUS = #{passPortHead.status}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.getUpd_time())) {
-                    SET("UPD_TIME = #{passPortHead.upd_time}");
-                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
             }
         }.toString();
     }
-
     //根据核放单处理成功回执更新状态
     public String updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead) {
         return new SQL() {
@@ -188,9 +127,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-
-    //核注清单(报文回执/审核回执)
+    //插入核注清单(报文回执/审核回执)
     public String createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new SQL() {
             {
                 INSERT_INTO("T_REC_BOND_INVT_HDEAPPR");
@@ -213,8 +152,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     VALUES("MANAGE_RESULT", "#{recBondInvtHdeAppr.manage_result}");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_date())) {
-//                    VALUES("MANAGE_DATE", "to_date(#{recBondInvtHdeAppr.manage_date},'yyyy-MM-dd hh24:mi:ss')");
-                    VALUES("MANAGE_DATE", "#{recBondInvtHdeAppr.manage_date}");
+                    VALUES("MANAGE_DATE", "to_date('" + simpleDateFormat.format(recBondInvtHdeAppr.getManage_date()) + "','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(recBondInvtHdeAppr.getRmk())) {
                     VALUES("RMK", "#{recBondInvtHdeAppr.rmk}");
@@ -228,6 +166,56 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+    //更新修改核注清单表体数据(HdeAppr)
+    public String updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
 
     //核注清单生成报关单回执
     public String createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr) {
@@ -264,8 +252,55 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getEntry_no())) {
+                    SET("ENTRY_NO = #{bondInvtBsc.entry_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+    //更新修改核注清单表体数据(HdeAppr)
+    public String updateNemssByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
 
-    //核注清单(报文回执/审核回执)
+
+    //核放单清单(报文回执/审核回执)
     public String createPassPortHdeAppr(@Param("recPassPortHdeAppr") RecPassPortHdeAppr recPassPortHdeAppr) {
         return new SQL() {
             {
@@ -300,6 +335,55 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(recPassPortHdeAppr.getUpd_tm())) {
                     VALUES("UPD_TM", "#{recPassPortHdeAppr.upd_tm}");
                 }
+            }
+        }.toString();
+    }
+    //根据核放单处理成功回执更新状态
+    public String updatePassportStatusByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD");
+                WHERE("STATUS in ('BDDS41','BDDS42')");
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    WHERE("SAS_PASSPORT_PREENT_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    SET("PASSPORT_NO = #{passPortHead.passport_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{passPortHead.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_typecd())) {
+                    SET("DCL_TYPECD = #{passPortHead.dcl_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{passPortHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_date())) {
+                    SET("RETURN_DATE = to_date('" + sdf.format(passPortHead.getReturn_date()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{passPortHead.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+    //更新核放单表体数据(HdeAppr)
+    public String updatePassPortAcmpByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    WHERE("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    SET("PASSPORT_NO = #{passPortHead.passport_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
             }
         }.toString();
     }
@@ -374,7 +458,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //插入电子税单表体
     public String InsertTaxListRd(
             @Param("taxListRd") TaxListRd taxListRd
@@ -407,6 +490,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //更新清单表头税额
     public String updateInventoryHeadTax(
             @Param("taxHeadRd") TaxHeadRd taxHeadRd
@@ -434,7 +518,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新清单表体税额
     public String updateInventoryListTax(
             @Param("taxHeadRd") TaxHeadRd taxHeadRd,
@@ -462,7 +545,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //查询最晚一票三位数字的清单回执状态
     public String queryMaxTimeReturnStatus(String copNo) {
         return new SQL() {
@@ -476,6 +558,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入预定历史表数据
     public String createCheckGoodsInfoHis(
@@ -547,7 +630,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //插入预定数据
     public String createCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
@@ -619,7 +701,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     public String findByOrderNo(String orderNo) {
         return new SQL() {
             {
@@ -629,6 +710,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //更新预定数据
     public String updateCheckGoodsInfo(
@@ -723,6 +805,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //插入支付单回执表数据
     public String createImpRecPayment(
             @Param("impRecPayment") ImpRecPayment impRecPayment
@@ -763,7 +846,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新支付单表回执信息
     public String updateImpPayment(
             @Param("impPayment") ImpPayment impPayment
@@ -833,7 +915,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新订单表回执信息
     public String updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead) {
         return new SQL() {
@@ -861,6 +942,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入清单回执表数据
     public String createImpRecInventory(
@@ -914,7 +996,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新清单表回执信息
     public String updateImpInventory(
             @Param("impInventoryHead") ImpInventoryHead impInventoryHead
@@ -990,7 +1071,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新运单表回执信息
     public String updateImpLogistics(
             @Param("impLogistics") ImpLogistics impLogistics
@@ -1019,6 +1099,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入运单状态回执表数据
     public String createImpRecLogisticsStatus(
@@ -1061,7 +1142,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
     //更新运单状态表回执信息
     public String updateImpLogisticsStatus(
             @Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus
@@ -1097,6 +1177,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     /*
     * 运单表置为运单申报成功（CBDS52状态）
     * */
@@ -1125,6 +1206,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入入库明细单回执表数据
     public String createImpRecDelivery(

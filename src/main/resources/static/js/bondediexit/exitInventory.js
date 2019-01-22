@@ -70,6 +70,9 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                 }
                 },
                 {
+                    data: "invt_preent_no", label: "统一预录入编号"
+                },
+                {
                     data: "bond_invt_no", label: "核注清单编号"
                 },
                 {
@@ -106,9 +109,6 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                 {
                     data: "return_status", label: "回执状态"
                 },
-                // {
-                //     data: "return_time", label: "回执时间"
-                // },
                 {
                     label: "回执时间", render: function (data, type, row) {
                     if (!isEmpty(row.return_time)) {
