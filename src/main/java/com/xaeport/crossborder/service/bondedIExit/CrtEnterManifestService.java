@@ -144,6 +144,7 @@ public class CrtEnterManifestService {
             passPortAcmp.setPassport_no(passPortNo);
             passPortAcmp.setRtl_tb_typecd("1");
             passPortAcmp.setRtl_no(paramMap.get("invtNo"));
+            passPortAcmp.setHead_etps_preent_no(etps_preent_no);
             passPortAcmp.setId(IdUtils.getUUId());
             passPortAcmp.setCrt_user(user.getId());
             //创建关联单号
@@ -179,7 +180,7 @@ public class CrtEnterManifestService {
     *
     * 点击创建核放单不存储数据库
     * */
-    public PassPort readyCreateEnterManifest(Map<String, String> paramMap, Users user) {
+    /*public PassPort readyCreateEnterManifest(Map<String, String> paramMap, Users user) {
         //一车一票和一车多票
         PassPortHead passPortHead = new PassPortHead();
 
@@ -226,7 +227,7 @@ public class CrtEnterManifestService {
         for (BondInvtDt bondInvtDt:bondInvtDtListAll) {
             gross_wts += Double.parseDouble(bondInvtDt.getGross_wt())*Double.parseDouble(bondInvtDt.getDcl_qty());
             net_wts += Double.parseDouble(bondInvtDt.getNet_wt())*Double.parseDouble(bondInvtDt.getDcl_qty());
-            /*PassPortList passPortList = new PassPortList();
+            *//*PassPortList passPortList = new PassPortList();
             passPortList.setId(IdUtils.getUUId());
             passPortList.setHead_id(etps_preent_no);
             passPortList.setGds_mtNo(bondInvtDt.getGds_mtno());
@@ -238,7 +239,7 @@ public class CrtEnterManifestService {
             passPortList.setDcl_unitcd(user.getId());
             passPortList.setPassPort_seqNo(passPort_seqNo);
             passPort_seqNo++;
-            passPortLists.add(passPortList);*/
+            passPortLists.add(passPortList);*//*
         }
         DecimalFormat df = new DecimalFormat("######0.00000");
         passPortHead.setTotal_gross_wt(df.format(gross_wts));
@@ -271,7 +272,7 @@ public class CrtEnterManifestService {
         }
 
         return passPort;
-    }
+    }*/
 
 
     @Transactional

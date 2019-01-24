@@ -37,7 +37,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                         "t.BOUND_NM," +
                         "t.RETURN_INFO");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.FLAG = 'Enter'");
+                WHERE("t.FLAG = 'ENTER'");
                 WHERE("t.USABLE_NM > 0");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
@@ -72,7 +72,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
             {
                 SELECT("count(1)");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.FLAG = 'Enter'");
+                WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

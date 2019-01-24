@@ -89,7 +89,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
         $(".submitKey:checked").each(function () {
             submitKeys += "," + $(this).val();
         });
-        console.log(submitKeys);
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
@@ -99,24 +98,17 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
         //将submitKeys切割放入数组里
        var list = submitKeys.split(",");
 
-        console.log(list)
 
         //
         var bind_typecd = "";
 
         if (list.length == 1) {
-            console.log(list);
             var subList = list[0].split("/");
             var invtNo = subList[0];
             var originalNm = subList[1];
             var usableNm = parseInt(subList[2]);
-            console.log("invtNo:"+invtNo);
-            console.log("originalNm:"+originalNm);
-            console.log("usableNm:"+usableNm);
 
-            console.log($("#id_"+invtNo).val());
             var editBoundNm = parseInt($("#id_"+invtNo).val());
-            console.log("editBoundNm:"+editBoundNm)
             if (editBoundNm<=0 || editBoundNm == undefined || editBoundNm == ""){
                 sw.alert("请输入绑定数量！");
                 return;
@@ -139,7 +131,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     if (rsp.data.result == "true") {
                        // sw.alert("提交海关成功", "提示", function () {
                        // }, "modal-success");
-                        console.log(rsp.data.hfd);
                         var etps_preent_no = rsp.data.hfd;
                         $("#crtEnterManifest").prop("disabled", false);
                         sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd,etps_preent_no,editBoundNm);
@@ -213,7 +204,6 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                 if (rsp.data.result == "true") {
                     // sw.alert("提交海关成功", "提示", function () {
                     // }, "modal-success");
-                    console.log(rsp.data.hfd);
                     var etps_preent_no = rsp.data.hfd;
                     $("#crtEnterManifest").prop("disabled", false);
                     sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo,bind_typecd,etps_preent_no,editBoundNm);
@@ -267,7 +257,6 @@ function checkboxVerify(){
         $(".submitKey:checked").each(function () {
             submitVal += "," + $(this).val();
         });
-        console.log(submitVal);
         if (submitVal.length > 0) {
             submitVal.substring(1);
         }

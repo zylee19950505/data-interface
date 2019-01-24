@@ -131,7 +131,7 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setChg_tms_cnt(0);
         bondInvtBsc.setUpd_user(users.getId());
         bondInvtBsc.setStatus("BDDS1");
-        bondInvtBsc.setFlag("Enter");//进出区数据标识
+        bondInvtBsc.setFlag("ENTER");//进出区数据标识
         if (!StringUtils.isEmpty(entryHead.get("bizop_etpsno"))){
             bondInvtBsc.setBizop_etpsno(entryHead.get("bizop_etpsno"));
         }

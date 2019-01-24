@@ -134,14 +134,14 @@ public class CrtEnterInventorySQLProvider {
     public String queryEnterInventoryBsc(Map<String, String> paramMap){
         return new SQL(){
             {
-                SELECT("t.crt_ent_id");
-                SELECT("t.crt_ent_name");
+                SELECT("t.*");
+                /*SELECT("t.crt_ent_name");
                 SELECT("t.bizop_etpsno");
                 SELECT("t.bizop_etps_nm");
                 SELECT("t.dcl_etpsno");
                 SELECT("t.dcl_etps_nm");
                 SELECT("t.dcl_plc_cuscd");
-                SELECT("t.crt_user");
+                SELECT("t.crt_user");*/
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.etps_inner_invt_no = #{inner_ivt_no}");
             }

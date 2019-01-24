@@ -115,7 +115,6 @@ function inputChangeManifestInvent() {
         //商品料号
         var inputGdsMtno = $("#gds_mtno_"+gno).val();
         var val = $(this).val();
-        console.log("inputGdsMtno:"+inputGdsMtno+"inputGdsName:"+inputGdsName+"val:"+val);
         if (!isNotEmpty(val)) {
             return;
         }
@@ -127,7 +126,6 @@ function inputChangeManifestInvent() {
                 entryLists[i].surplus_nm = val
             }
         }
-        console.log(entryLists);
         //总毛重
         var totalGrossWt = 0;
         //总净重
@@ -234,7 +232,6 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     //加载表体信息
     fillEntryListInfo: function (bondDtLists) {
         entryLists = entryLists.concat(bondDtLists);
-        console.log("表体:"+entryLists);
         //清空select2中的数据
         $("#gdsMtno").select2("val", "");
         $("#gdsMtno").empty();
@@ -283,7 +280,6 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         //清空表体,第一行除外
         $("#entryList tr:gt(0)").remove();
         for (var i = 0; i < entryLists.length; i++) {
-            console.log("id:"+entryLists[i].id)
             var id = entryLists[i].id;
             var g_num = i+1;
             var str =
@@ -314,7 +310,6 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
     //删除
     deleteBondDtList:function(id){
-        console.log("id:"+id);
         //在entryLists里删除,将商品料号和商品名称加回去
         for (var i = 0; i < entryLists.length ; i++) {
             if (entryLists[i].id == id){
@@ -366,13 +361,10 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         for (var i = 0; i < entryLists.length; i++) {
             editNm += parseInt(entryLists[i].surplus_nm);
         }
-        console.log("editNm:"+editNm);
-        console.log("editBoundNm:"+editBoundNm);
         if (editNm != editBoundNm){
             hasError("申报数量不等于商品数量之和");
             return;
         }
-        debugger;
 
         var entryData = {
             entryHead: {
@@ -447,14 +439,11 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"];
-                    console.log(data.data.passPortHead);
                     var entryHead = data.data.passPortHead;
                     //var entryLists = data.data.bondInvtDtList;
                     gds_mtno = data.data.gds_mtno;
                     gds_nm = data.data.gds_nm;
 
-                    console.log(gds_mtno);
-                    console.log(gds_nm);
                     var vertify = data.data.verify;
 
                     if (isNotEmpty(entryHead)) {
@@ -544,12 +533,9 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         var selectGdsmtno = $("#gdsMtno").val();
         var selectGdsnm = $("#gdsName").val();
 
-        console.log("selectGdsmtno:"+selectGdsmtno);
-        console.log("selectGdsmn:"+selectGdsnm);
 
         //console.log("selectbondDtList:"+selectbondDtList);
 
-        console.log(bond_invt_no,etps_preent_no)
         var data = {
             selectGdsmtno:selectGdsmtno.join(","),
             selectGdsnm:selectGdsnm.join(","),

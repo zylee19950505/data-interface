@@ -139,7 +139,7 @@ public class CrtEnterManifestApi extends BaseApi {
      * 预创建核放单
      * readyCreateEnterManifest(不保存数据库)
      * */
-    @RequestMapping(value = "/readyCreateEnterManifest",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/readyCreateEnterManifest",method = RequestMethod.GET)
     public ResponseData readyCreateEnterManifest(
             @RequestParam(required = false) String bond_invt_no,
             @RequestParam(required = false) String editBoundNm,//绑定数量
@@ -162,16 +162,16 @@ public class CrtEnterManifestApi extends BaseApi {
         paramMap.put("bind_typecd",bind_typecd);
 
         PassPort passPort = new PassPort();
-        /*if (!"YPDC".equals(bind_typecd)){
+        *//*if (!"YPDC".equals(bind_typecd)){
             passPort = this.crtEnterManifestService.readyCreateEnterManifest(paramMap,user);
 
         }else{
             //一票多车
             passPort = this.crtEnterManifestService.readyCreateEnterManifest(paramMap,user);
-        }*/
+        }*//*
         passPort = this.crtEnterManifestService.readyCreateEnterManifest(paramMap,user);
         return new ResponseData(passPort);
-    }
+    }*/
 
     /**
     * 一车一单和一车多单的查询核放单表头数据

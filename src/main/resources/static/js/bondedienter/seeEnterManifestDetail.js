@@ -244,13 +244,11 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
             bind_typecd: bind_typecd,
             etps_preent_no: etps_preent_no
         };
-        debugger;
         $.ajax({
             method: "GET",
             url: "api/crtEnterManifest/queryEnterManifestOneCar",
             data: data,
             success: function (data, status, xhr) {
-                console.log(xhr.result);
                 if (xhr.status == 200) {
                     var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetail"];
                     var entryHead = data.data;
@@ -314,7 +312,6 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
             format: "yyyy-mm-dd",
             autoclose: true
         });
-        debugger;
         switch (type) {
             //订单查询
             case "YCYP": {
