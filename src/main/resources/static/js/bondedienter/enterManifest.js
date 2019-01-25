@@ -70,7 +70,12 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                         }
                     }
                 },
-                {data: "etps_preent_no", label: "核放单编号"},//订单编号要点击查看订单详情
+                //{data: "etps_preent_no", label: "核放单编号"},//订单编号要点击查看订单详情
+                {
+                    label: "核放单编号", render: function (data, type, row) {
+                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seeEnterPassportDetail('"+row.bind_typecd+"','" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
+                    }
+                },
                 {data: "bond_invt_no", label: "核注清单编号"},
                 {data: "status", label: "申报状态"},
                 {
@@ -192,14 +197,14 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         });
     },
 
-    seeManifestDetail: function (guid, passport_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&passport_no=" + passport_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&passport_no=" + passport_no;
+    seeEnterPassportDetail: function (bind_typecd,etps_preent_no) {
+        if ("3" != bind_typecd){
+            var url = "bondedIEnter/seeEnterPassportDetail?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
+        }else{
+            var url = "bondedIEnter/seeEnterPassportDetailYPDC?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
         }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
+        sw.modelPopup(url, "查看核放单详情", false, 1100, 930);
+    }
 
 };
 

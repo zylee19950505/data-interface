@@ -30,6 +30,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                         "t.PASSPORT_NO," +
                         "t.ETPS_PREENT_NO," +
                         "t.BOND_INVT_NO," +
+                        "t.BIND_TYPECD," +
                         "t.STATUS," +
                         "t.DCL_TIME," +
                         "t.RETURN_STATUS," +
@@ -302,6 +303,32 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         return new SQL(){
             {
                 DELETE_FROM("T_PASS_PORT_LIST t");
+                WHERE("t.PASSPORT_NO = #{etps_preent_no}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 点击查看核放单详情(表头)
+     * */
+    public String getImpPassportHead(@Param("etps_preent_no") String etps_preent_no){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 点击查看核放单详情(表体)
+     * */
+    public String getImpPassportList(@Param("etps_preent_no") String etps_preent_no){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_PASS_PORT_LIST t");
                 WHERE("t.PASSPORT_NO = #{etps_preent_no}");
             }
         }.toString();
