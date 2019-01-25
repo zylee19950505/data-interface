@@ -5,9 +5,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.data.entity.PassPortHead;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.bondedIEnter.EnterManifestService;
 import com.xaeport.crossborder.tools.GetIpAddr;
@@ -125,5 +123,29 @@ public class EnterManifestApi extends BaseApi {
         } else {
             return rtnResponse("false", "入区核放单申报海关提交失败！");
         }
+    }
+
+    /**
+     *点击查看核放单详情
+     * */
+    @RequestMapping(value = "/seeEnterPassportDetail",method = RequestMethod.GET)
+    public ResponseData seeEnterPassportDetail(
+            @RequestParam(required = false) String etps_preent_no
+    ) {
+        if (StringUtils.isEmpty(etps_preent_no)) return new ResponseData("数据为空", HttpStatus.FORBIDDEN);
+        this.logger.debug(String.format("点击查看核放单详情条件参数:[etps_preent_no:%s]", etps_preent_no));
+        PassPort passPort = new PassPort();
+        try {
+            PassPortHead passPortHead = new PassPortHead();
+            List<PassPortList> passPortLists = new ArrayList<PassPortList>();
+            passPortHead = enterManifestService.getImpPassportHead(etps_preent_no);
+            passPortLists = enterManifestService.getImpPassportList(etps_preent_no);
+            passPort.setPassPortHead(passPortHead);
+            passPort.setPassPortList(passPortLists);
+        } catch (Exception e) {
+            this.logger.error("点击查看核放单详情信息失败，etps_preent_no =" + etps_preent_no, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(passPort);
     }
 }

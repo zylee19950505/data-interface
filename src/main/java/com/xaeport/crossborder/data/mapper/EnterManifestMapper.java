@@ -56,4 +56,10 @@ public interface EnterManifestMapper {
 
     @DeleteProvider(type = EnterManifestSQLProvider.class,method = "deleteEnterPassportList")
     void deleteEnterPassportList(Map<String, String> paramMap);
+
+    @SelectProvider(type = EnterManifestSQLProvider.class,method = "getImpPassportHead")
+    PassPortHead getImpPassportHead(@Param("etps_preent_no") String etps_preent_no);
+
+    @SelectProvider(type = EnterManifestSQLProvider.class,method = "getImpPassportList")
+    List<PassPortList> getImpPassportList(@Param("etps_preent_no") String etps_preent_no);
 }

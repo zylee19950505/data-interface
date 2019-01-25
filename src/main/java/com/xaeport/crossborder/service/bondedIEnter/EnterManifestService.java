@@ -92,4 +92,15 @@ public class EnterManifestService {
             }
         }
     }
+
+    /**
+     * 点击查看核放单详情信息
+     * */
+    public PassPortHead getImpPassportHead(String etps_preent_no) {
+        return this.enterManifestMapper.getImpPassportHead(etps_preent_no);
+    }
+
+    public List<PassPortList> getImpPassportList(String etps_preent_no) {
+        return this.enterManifestMapper.getImpPassportList(etps_preent_no);
+    }
 }
