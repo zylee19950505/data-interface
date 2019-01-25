@@ -19,7 +19,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
                 WHERE("GDS_MTNO = #{item_record_no}");
-                SET("PREVD_REDC_QTY = #{qtySum}");
+                SET("PREVD_REDC_QTY = PREVD_REDC_QTY + #{qtySum}");
             }
         }.toString();
     }

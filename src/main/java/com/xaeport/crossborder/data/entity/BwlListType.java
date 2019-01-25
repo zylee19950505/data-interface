@@ -47,6 +47,34 @@ public class BwlListType {
     private double surplus;//剩余量
     private String dcl_unitcd_name;//申报计量单位中文名称
 
+    private double inQty;
+    private double actlRedcQty;
+    private double prevdRedcQty;
+
+    public double getInQty() {
+        return inQty;
+    }
+
+    public void setInQty(double inQty) {
+        this.inQty = inQty;
+    }
+
+    public double getActlRedcQty() {
+        return actlRedcQty;
+    }
+
+    public void setActlRedcQty(double actlRedcQty) {
+        this.actlRedcQty = actlRedcQty;
+    }
+
+    public double getPrevdRedcQty() {
+        return prevdRedcQty;
+    }
+
+    public void setPrevdRedcQty(double prevdRedcQty) {
+        this.prevdRedcQty = prevdRedcQty;
+    }
+
     public String getId() {
         return id;
     }

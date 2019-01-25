@@ -9,6 +9,79 @@ import java.text.SimpleDateFormat;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
+    public String queryImpInventoryHeads(String EtpsInnerInvtNo){
+        return new SQL(){
+            {
+                SELECT("GUID");
+                SELECT("ORDER_NO");
+                SELECT("LOGISTICS_NO");
+                SELECT("INVT_NO");
+                SELECT("EMS_NO");
+                SELECT("CRT_ID");
+                FROM("T_IMP_INVENTORY_HEAD");
+                WHERE("BUSINESS_TYPE = 'BONDINVEN'");
+                WHERE("INVT_NO IN ( " +
+                        "SELECT t.CBEC_BILL_NO " +
+                        "FROM T_NEMS_INVT_CBEC_BILL_TYPE t " +
+                        "WHERE t.HEAD_ETPS_INNER_INVT_NO = #{EtpsInnerInvtNo} )");
+            }
+        }.toString();
+    }
+
+    public String queryImpInventoryBodyList(String EtpsInnerInvtNo){
+        return new SQL(){
+            {
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_RECORD_NO");
+                SELECT("G_CODE");
+                SELECT("QTY quantity");
+                SELECT("UNIT");
+                FROM("T_IMP_INVENTORY_BODY");
+                WHERE("HEAD_GUID IN ( " +
+                        "SELECT GUID FROM T_IMP_INVENTORY_HEAD h WHERE h.BUSINESS_TYPE = 'BONDINVEN' AND h.INVT_NO in (" +
+                        "SELECT t.CBEC_BILL_NO " +
+                        "FROM T_NEMS_INVT_CBEC_BILL_TYPE t " +
+                        "WHERE t.HEAD_ETPS_INNER_INVT_NO = #{EtpsInnerInvtNo} ) " +
+                        ")");
+            }
+        }.toString();
+    }
+
+    public String setPrevdRedcQty(
+            @Param("qtySum") double qtySum,
+            @Param("item_record_no") String item_record_no,
+            @Param("emsNo") String emsNo
+    ){
+        return new SQL(){
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{item_record_no}");
+                SET("PREVD_REDC_QTY = PREVD_REDC_QTY - #{qtySum}");
+                SET("ACTL_REDC_QTY = ACTL_REDC_QTY + #{qtySum}");
+            }
+        }.toString();
+    }
+
+
+
+    //查询保税清单库存是否允许进行实减
+    public String checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo) {
+        return new SQL() {
+            {
+                SELECT("IN_QTY inQty");
+                SELECT("ACTL_REDC_QTY actlRedcQty");
+                SELECT("PREVD_REDC_QTY prevdRedcQty");
+                SELECT("(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
+                SELECT("DCL_UNITCD");
+                FROM("T_BWL_LIST_TYPE t");
+                WHERE("t.BWS_NO = #{emsNo}");
+                WHERE("t.GDS_MTNO = #{item_record_no}");
+            }
+        }.toString();
+    }
+
     //插入核注清单处理成功回执数据
     public String createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon) {
         return new SQL() {
