@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.parser;
 
+import com.xaeport.crossborder.parser.BaseParser;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.DocumentException;
@@ -12,11 +13,11 @@ import java.util.Map;
 /**
  * Created by lzy on 2019/01/14.
  */
-public class Sas221MsgParser extends BaseParser {
+public class Sas223Parser extends BaseParser {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
-     * 解析 保税核放单回执
+     * 解析 保税核放单过卡回执
      */
     public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
         Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();

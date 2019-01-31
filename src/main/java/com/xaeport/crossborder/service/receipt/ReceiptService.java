@@ -2,8 +2,8 @@ package com.xaeport.crossborder.service.receipt;
 
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
-import com.xaeport.crossborder.data.mapper.BondinvenImportMapper;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
+import com.xaeport.crossborder.data.status.RecriptType;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.bondinvenmanage.BondinvenImportService;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -43,41 +43,44 @@ public class ReceiptService {
                 receiptNew = (Map<String, List<Map<String, String>>>) map.get("Receipt");
             }
             switch (type) {
-                case "CEB312"://订单回执代码
+                case RecriptType.KJDD://跨境订单回执代码
                     this.createImpRecorder(receipt, refileName);
                     break;
-                case "CEB412"://支付单回执代码
+                case RecriptType.KJZFD://跨境支付单回执代码
                     this.createImpRecPayment(receipt, refileName);
                     break;
-                case "CEB512"://运单回执代码
+                case RecriptType.KJYD://跨境运单回执代码
                     this.createImpRecLogistics(receipt, refileName);
                     break;
-                case "CEB514"://运单状态回执代码
+                case RecriptType.KJYDZT://跨境运单状态回执代码
                     this.createImpRecLogisticsStatus(receipt, refileName);
                     break;
-                case "CEB622"://清单回执代码
+                case RecriptType.KJQD://跨境清单回执代码
                     this.createImpRecInventory(receipt, refileName);
                     break;
-                case "CEB712"://入库明细单回执
+                case RecriptType.KJRKMXD://跨境入库明细单回执
                     this.createImpRecDelivery(receipt, refileName);
                     break;
-                case "CheckGoodsInfo"://核放单预订数据
+                case RecriptType.KJYDSJ://跨境预订数据
                     this.createCheckGoodsInfo(receipt, refileName);
                     break;
-                case "TAX"://核放单预订数据
+                case RecriptType.KJSD://跨境电子税单
                     this.createTax(receipt, refileName);
                     break;
-                case "COMMON"://核注清单处理成功回执
+                case RecriptType.BSSJZX://保税数据中心回执
                     this.createInvtCommon(receiptNew, refileName);
                     break;
-                case "INV201"://核注清单(报文回执/审核回执)
+                case RecriptType.BSHZQDSH://保税核注清单(报文回执/审核回执)
                     this.createInvtHdeAppr(receipt, refileName);
                     break;
-                case "INV202"://核注清单生成报关单回执
+                case RecriptType.BSHZQDBGD://保税核注清单生成报关单回执
                     this.createInvtInvAppr(receipt, refileName);
                     break;
-                case "SAS221"://核放单(报文回执/审核回执)
-                    this.createPassPortHdeAppr(receipt, refileName);
+                case RecriptType.BSHFDSH://保税核放单(报文回执/审核回执)
+                    this.createPassPortHdeAppr(receipt, refileName, RecriptType.BSHFDSH);
+                    break;
+                case RecriptType.BSHFDGK://保税核放单过卡回执
+                    this.createPassPortHdeAppr(receipt, refileName, RecriptType.BSHFDGK);
                     break;
             }
         } catch (Exception e) {
@@ -609,7 +612,7 @@ public class ReceiptService {
      * 核放单(报文回执/审核回执)（进口保税）
      */
     @Transactional(rollbackFor = NullPointerException.class)
-    private void createPassPortHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
+    private void createPassPortHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName, String type) throws Exception {
         List<List<Map<String, String>>> list = receipt.get("HdeApprResult");
         if (!StringUtils.isEmpty(list)) {
             RecPassPortHdeAppr recPassPortHdeAppr;
@@ -634,7 +637,7 @@ public class ReceiptService {
                         recPassPortHdeAppr.setTypecd(map.get("typecd"));
                     }
                     if (map.containsKey("manageResult")) {
-                        recPassPortHdeAppr.setManage_result("SAS221_" + map.get("manageResult"));
+                        recPassPortHdeAppr.setManage_result(type + "_" + map.get("manageResult"));
                     }
                     if (map.containsKey("manageDate")) {
                         recPassPortHdeAppr.setManage_date(sdf.parse(map.get("manageDate")));

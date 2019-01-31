@@ -16,7 +16,7 @@ public class Sas221ChkParser extends BaseParser {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     /**
-     * 解析 核注清单审核回执 报文数据
+     * 解析 保税核放单审核回执
      */
     public Map<String, List<List<Map<String, String>>>> expParser(byte[] expPath, String... nodes) throws DocumentException, IOException {
         Map<String, List<List<Map<String, String>>>> map = new LinkedHashMap<>();
