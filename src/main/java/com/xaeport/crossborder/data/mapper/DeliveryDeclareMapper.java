@@ -11,13 +11,13 @@ import java.util.Map;
 @Mapper
 public interface DeliveryDeclareMapper {
 
-    //查询符合生成入库明细单的运单数据
-    @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "findLogisticsData")
-    List<ImpLogistics> findLogisticsData(Map<String, String> paramMap) throws Exception;
-
-    //对于生成过的运单设置状态
-    @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateLogistics")
-    void updateLogistics(String guid) throws Exception;
+//    //查询符合生成入库明细单的运单数据
+//    @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "findLogisticsData")
+//    List<ImpLogistics> findLogisticsData(Map<String, String> paramMap) throws Exception;
+//
+//    //对于生成过的运单设置状态
+//    @UpdateProvider(type = DeliveryDeclareSQLProvider.class, method = "updateLogistics")
+//    void updateLogistics(String guid) throws Exception;
 
     //查询入库明细单数据
     @SelectProvider(type = DeliveryDeclareSQLProvider.class, method = "queryDeliveryDeclareList")

@@ -12,39 +12,39 @@ import java.util.Map;
 
 public class DeliveryDeclareSQLProvider extends BaseSQLProvider {
 
-    public String findLogisticsData(final Map<String, String> paramMap) {
-        final String dataStatus = paramMap.get("dataStatus");
-        return new SQL() {
-            {
-                SELECT("LOGISTICS_CODE," +
-                        "LOGISTICS_NAME," +
-                        "LOGISTICS_NO," +
-                        "VOYAGE_NO," +
-                        "BILL_NO," +
-                        "NOTE," +
-                        "ENT_ID," +
-                        "ENT_NAME," +
-                        "ENT_CUSTOMS_CODE," +
-                        "GUID");
-                FROM("T_IMP_LOGISTICS t");
-                WHERE("data_Status = #{dataStatus}");
-                WHERE("IS_DELIVERY IS NULL");
-                WHERE("rownum <= 100");
-                ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
-
-            }
-        }.toString();
-    }
-
-    public String updateLogistics(String guid) {
-        return new SQL() {
-            {
-                UPDATE("T_IMP_LOGISTICS t");
-                WHERE("t.guid = #{guid}");
-                SET("t.IS_DELIVERY = 'Y'");
-            }
-        }.toString();
-    }
+//    public String findLogisticsData(final Map<String, String> paramMap) {
+//        final String dataStatus = paramMap.get("dataStatus");
+//        return new SQL() {
+//            {
+//                SELECT("LOGISTICS_CODE," +
+//                        "LOGISTICS_NAME," +
+//                        "LOGISTICS_NO," +
+//                        "VOYAGE_NO," +
+//                        "BILL_NO," +
+//                        "NOTE," +
+//                        "ENT_ID," +
+//                        "ENT_NAME," +
+//                        "ENT_CUSTOMS_CODE," +
+//                        "GUID");
+//                FROM("T_IMP_LOGISTICS t");
+//                WHERE("data_Status = #{dataStatus}");
+//                WHERE("IS_DELIVERY IS NULL");
+//                WHERE("rownum <= 100");
+//                ORDER_BY("t.CRT_TM asc,t.LOGISTICS_NO asc");
+//
+//            }
+//        }.toString();
+//    }
+//
+//    public String updateLogistics(String guid) {
+//        return new SQL() {
+//            {
+//                UPDATE("T_IMP_LOGISTICS t");
+//                WHERE("t.guid = #{guid}");
+//                SET("t.IS_DELIVERY = 'Y'");
+//            }
+//        }.toString();
+//    }
 
     public String queryDeliveryDeclareList(Map<String, String> paramMap) throws Exception {
 
