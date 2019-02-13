@@ -239,7 +239,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-    //根据核注清单处理成功回执更新状态
+    //根据核注清单处理成功回执更新状态——保税出区表头
     public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new SQL() {
@@ -272,7 +272,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-    //更新修改核注清单表体数据(HdeAppr)
+    //更新修改核注清单表体数据(HdeAppr)——保税出区表体
     public String updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
             {
@@ -280,6 +280,54 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
                     WHERE("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
                 }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+
+    //根据核注清单处理成功回执更新状态——保税入区表头
+    public String updateBondInvtBscByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS11','BDDS12')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+    //更新修改核注清单表体数据(HdeAppr)——保税入区表体
+    public String updateBondInvtDtByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_DT");
                 if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
                     SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
                 }

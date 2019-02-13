@@ -54,13 +54,21 @@ public interface ReceiptMapper {
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtHdeAppr")
     void createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr);
 
-    //更新修改核注清单表头数据(HdeAppr)
+    //更新修改核注清单表头数据(HdeAppr)——保税出区
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByHdeAppr")
     void updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
 
-    //更新修改核注清单表体数据(HdeAppr)
+    //更新修改核注清单表体数据(HdeAppr)——保税出区
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemssByHdeAppr")
     void updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表头数据(HdeAppr)——保税入区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtBscByHdeAppr")
+    void updateBondInvtBscByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表体数据(HdeAppr)——保税入区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtDtByHdeAppr")
+    void updateBondInvtDtByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
 
 
     //核注清单生成报关单回执(InvAppr)（报文二）

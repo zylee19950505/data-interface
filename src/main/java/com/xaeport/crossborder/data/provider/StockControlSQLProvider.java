@@ -27,11 +27,14 @@ public class StockControlSQLProvider extends BaseSQLProvider{
                         "GDS_NM," +
                         "DCL_UNITCD," +
                         "(select unit_name from t_unit_code where unit_code = dcl_unitcd) as DCL_UNITCD_NAME," +
-                        "(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS " +
+                        "(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS," +
+                        "IN_QTY," +
+                        "PREVD_INC_QTY," +
+                        "PREVD_REDC_QTY " +
                         "FROM T_BWL_LIST_TYPE " +
                         "WHERE BWS_NO in (SELECT BWS_NO FROM T_BWL_HEAD_TYPE WHERE CRT_ENT_ID = #{entId}) )");
                 if (!StringUtils.isEmpty(surplus)) {
-                    WHERE("SURPLUS >= #{surplus}");
+                    WHERE("IN_QTY >= #{surplus}");
                 }
                 if (!StringUtils.isEmpty(gds_seqno)) {
                     WHERE("GDS_SEQNO = #{gds_seqno}");
@@ -69,11 +72,14 @@ public class StockControlSQLProvider extends BaseSQLProvider{
                         "GDECD," +
                         "GDS_NM," +
                         "DCL_UNITCD," +
-                        "(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS " +
+                        "(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS," +
+                        "IN_QTY," +
+                        "PREVD_INC_QTY," +
+                        "PREVD_REDC_QTY " +
                         "FROM T_BWL_LIST_TYPE " +
                         "WHERE BWS_NO in (SELECT BWS_NO FROM T_BWL_HEAD_TYPE WHERE CRT_ENT_ID = #{entId}) )");
                 if (!StringUtils.isEmpty(surplus)) {
-                    WHERE("SURPLUS >= #{surplus}");
+                    WHERE("IN_QTY >= #{surplus}");
                 }
                 if (!StringUtils.isEmpty(gds_seqno)) {
                     WHERE("GDS_SEQNO = #{gds_seqno}");

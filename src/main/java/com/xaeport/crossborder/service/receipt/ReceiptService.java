@@ -392,6 +392,7 @@ public class ReceiptService {
 
     /**
      * 核注清单(报文回执/审核回执)（进口保税）（核注清单报文一）INV201
+     * 报文类型：INV201
      */
     @Transactional(rollbackFor = NullPointerException.class)
     private void createInvtHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
@@ -453,6 +454,7 @@ public class ReceiptService {
 
     /**
      * 根据核注清单回执更新表状态（进口保税）（核注清单报文一）
+     * 报文类型：INV201
      */
     private void updateBondInvtStatusByHdeAppr(RecBondInvtHdeAppr recBondInvtHdeAppr, BondInvtBsc bondInvtBscData) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
@@ -521,23 +523,30 @@ public class ReceiptService {
                     }
                 }
             }
-        } else {
+        } else if (bondInvtBscData.getFlag().equals("ENTER")) {
             //入区回执更新
+            bondInvtBsc.setInvt_preent_no(recBondInvtHdeAppr.getEtps_preent_no());
+            bondInvtBsc.setBond_invt_no(recBondInvtHdeAppr.getBusiness_id());
+            bondInvtBsc.setChg_tms_cnt(Integer.parseInt(recBondInvtHdeAppr.getTms_cnt()));
+            bondInvtBsc.setDclcus_typecd(recBondInvtHdeAppr.getTypecd());
+            bondInvtBsc.setReturn_status(recBondInvtHdeAppr.getManage_result());
+            bondInvtBsc.setReturn_time(sdf.parse(sdf.format(recBondInvtHdeAppr.getManage_date())));
+            bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
+            this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
+            this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
 
-            //根据回执状态进行（预增，实增，实减）
             //预增操作
-            if (recBondInvtHdeAppr.getManage_result().equals("INV201_4")) {
+            if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
+                //TODO 保税入区进行预增操作
 
             }
-            //实减或实增操作
-            else if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
 
-            }
         }
     }
 
     /**
      * 核注清单生成报关单回执（进口保税）（核注清单报文二）INV202
+     * 报文类型：INV202
      */
     @Transactional(rollbackFor = NullPointerException.class)
     private void createInvtInvAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName) throws Exception {
@@ -594,6 +603,7 @@ public class ReceiptService {
 
     /**
      * 根据核注清单回执更新表状态（进口保税）（核注清单报文二）
+     * 报文类型：INV202
      */
     private void updateBondInvtStatusByInvAppr(RecBondInvtInvAppr recBondInvtInvAppr) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
@@ -609,7 +619,8 @@ public class ReceiptService {
 
 
     /**
-     * 核放单(报文回执/审核回执)（进口保税）
+     * 核放单(报文回执/审核回执/过卡)（进口保税）
+     * 报文类型 : SAS221  SAS223
      */
     @Transactional(rollbackFor = NullPointerException.class)
     private void createPassPortHdeAppr(Map<String, List<List<Map<String, String>>>> receipt, String refileName, String type) throws Exception {
@@ -655,9 +666,9 @@ public class ReceiptService {
                 if (!StringUtils.isEmpty(passPortHead)) {
                     systemTime = passPortHead.getReturn_date();
                     if (systemTime == null) {
-                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr);//更新核放单表数据
+                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead.getFlag());//更新核放单表数据
                     } else if ((systemTime != null) && (returnTime.getTime() >= systemTime.getTime())) {
-                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr);//更新核放单表数据
+                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead.getFlag());//更新核放单表数据
                     } else {
                         continue;
                     }
@@ -670,8 +681,9 @@ public class ReceiptService {
 
     /**
      * 根据核放单回执更新表数据（进口保税）
+     * 报文类型 : SAS221  SAS223
      */
-    private void updatePassportStatusByHdeAppr(RecPassPortHdeAppr recPassPortHdeAppr) throws Exception {
+    private void updatePassportStatusByHdeAppr(RecPassPortHdeAppr recPassPortHdeAppr, String flag) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
         passPortHead.setSas_passport_preent_no(recPassPortHdeAppr.getEtps_preent_no());
         passPortHead.setPassport_no(recPassPortHdeAppr.getBusiness_id());
@@ -682,6 +694,12 @@ public class ReceiptService {
         passPortHead.setReturn_info(recPassPortHdeAppr.getRmk());
         this.receiptMapper.updatePassportStatusByHdeAppr(passPortHead);  //更新核放表表头数据状态
         this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);  //更新核放单表表体数据状态
+
+        //实增操作
+        if (flag.equals("ENTER") && (recPassPortHdeAppr.getManage_result().equals("SAS223_1"))) {
+            //TODO 保税入区进行实增操作
+
+        }
     }
 
 
