@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.bondedIEnter;
+package com.xaeport.crossborder.controller.api.bondedienter;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;

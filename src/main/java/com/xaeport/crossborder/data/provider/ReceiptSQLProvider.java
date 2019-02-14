@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 
 public class ReceiptSQLProvider extends BaseSQLProvider {
 
-    public String queryImpInventoryHeads(String EtpsInnerInvtNo){
-        return new SQL(){
+    public String queryImpInventoryHeads(String EtpsInnerInvtNo) {
+        return new SQL() {
             {
                 SELECT("GUID");
                 SELECT("ORDER_NO");
@@ -28,8 +28,8 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryImpInventoryBodyList(String EtpsInnerInvtNo){
-        return new SQL(){
+    public String queryImpInventoryBodyList(String EtpsInnerInvtNo) {
+        return new SQL() {
             {
                 SELECT("HEAD_GUID");
                 SELECT("ORDER_NO");
@@ -52,8 +52,8 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             @Param("qtySum") double qtySum,
             @Param("item_record_no") String item_record_no,
             @Param("emsNo") String emsNo
-    ){
-        return new SQL(){
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
@@ -63,7 +63,6 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-
 
 
     //查询保税清单库存是否允许进行实减
@@ -117,7 +116,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC");
-                WHERE("STATUS in ('BDDS21','BDDS22')");
+                WHERE("STATUS in ('BDDS11','BDDS12','BDDS21','BDDS22')");
                 if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
                     WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
                 }
@@ -138,6 +137,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //根据核注清单处理成功回执更新状态
     public String updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
@@ -161,7 +161,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_PASS_PORT_HEAD");
-                WHERE("STATUS in ('BDDS41','BDDS42')");
+                WHERE("STATUS in ('BDDS31','BDDS32','BDDS41','BDDS42')");
                 if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
                     WHERE("ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
                 }
@@ -182,6 +182,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //根据核放单处理成功回执更新状态
     public String updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead) {
         return new SQL() {
@@ -239,6 +240,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //根据核注清单处理成功回执更新状态——保税出区表头
     public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -272,6 +274,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新修改核注清单表体数据(HdeAppr)——保税出区表体
     public String updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
@@ -323,11 +326,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新修改核注清单表体数据(HdeAppr)——保税入区表体
     public String updateBondInvtDtByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_DT");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
                 if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
                     SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
                 }
@@ -373,6 +378,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //根据核注清单处理成功回执更新状态
     public String updateBondInvtStatusByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -403,6 +409,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新修改核注清单表体数据(HdeAppr)
     public String updateNemssByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
@@ -459,6 +466,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //根据核放单处理成功回执更新状态
     public String updatePassportStatusByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -492,6 +500,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新核放单表体数据(HdeAppr)
     public String updatePassPortAcmpByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
         return new SQL() {
@@ -579,6 +588,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //插入电子税单表体
     public String InsertTaxListRd(
             @Param("taxListRd") TaxListRd taxListRd
@@ -639,6 +649,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新清单表体税额
     public String updateInventoryListTax(
             @Param("taxHeadRd") TaxHeadRd taxHeadRd,
@@ -666,6 +677,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //查询最晚一票三位数字的清单回执状态
     public String queryMaxTimeReturnStatus(String copNo) {
         return new SQL() {
@@ -751,6 +763,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //插入预定数据
     public String createCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
@@ -822,6 +835,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     public String findByOrderNo(String orderNo) {
         return new SQL() {
             {
@@ -967,6 +981,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新支付单表回执信息
     public String updateImpPayment(
             @Param("impPayment") ImpPayment impPayment
@@ -1036,6 +1051,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新订单表回执信息
     public String updateImpOrder(@Param("impOrderHead") ImpOrderHead impOrderHead) {
         return new SQL() {
@@ -1117,6 +1133,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新清单表回执信息
     public String updateImpInventory(
             @Param("impInventoryHead") ImpInventoryHead impInventoryHead
@@ -1192,6 +1209,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新运单表回执信息
     public String updateImpLogistics(
             @Param("impLogistics") ImpLogistics impLogistics
@@ -1263,6 +1281,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     //更新运单状态表回执信息
     public String updateImpLogisticsStatus(
             @Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus
@@ -1408,6 +1427,202 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impDeliveryHead.getUpd_tm())) {
                     SET("t.UPD_TM = #{impDeliveryHead.upd_tm}");
                 }
+            }
+        }.toString();
+    }
+
+
+    public String queryBondInvtBscList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                SELECT("BOND_INVT_NO");
+                SELECT("INVT_PREENT_NO");
+                SELECT("PUTREC_NO");
+                SELECT("ETPS_INNER_INVT_NO");
+                FROM("T_BOND_INVT_BSC");
+                WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String queryBondInvtDtList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                SELECT("BOND_INVT_NO");
+                SELECT("GDS_SEQNO");
+                SELECT("PUTREC_SEQNO");
+                SELECT("GDS_MTNO");
+                SELECT("GDECD");
+                SELECT("GDS_NM");
+                SELECT("DCL_UNITCD");
+                SELECT("LAWF_UNITCD");
+                SELECT("SECD_LAWF_UNITCD");
+                SELECT("DCL_QTY");
+                SELECT("LAWF_QTY");
+                SELECT("SECD_LAWF_QTY");
+                SELECT("DCL_QTY quantity");
+                FROM("T_BOND_INVT_DT");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String checkBwlHeadType(String emsNo) {
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("BWS_NO");
+                SELECT("ETPS_PREENT_NO");
+                FROM("T_BWL_HEAD_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+            }
+        }.toString();
+    }
+
+    public String checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno) {
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("BWS_NO");
+                SELECT("GDS_MTNO");
+                SELECT("GDS_NM");
+                SELECT("GDS_MTNO");
+                SELECT("DCL_UNITCD");
+                SELECT("IN_QTY");
+                FROM("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{gds_mtno}");
+            }
+        }.toString();
+    }
+
+    public String insertBwlListType(@Param("bwlListType") BwlListType bwlListType) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_BWL_LIST_TYPE");
+                if (!StringUtils.isEmpty(bwlListType.getId())) {
+                    VALUES("ID", "#{bwlListType.id}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getBws_no())) {
+                    VALUES("BWS_NO", "#{bwlListType.bws_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getChg_tms_cnt())) {
+                    VALUES("CHG_TMS_CNT", "#{bwlListType.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_seqno())) {
+                    VALUES("GDS_SEQNO", "#{bwlListType.gds_seqno}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_date())) {
+                    VALUES("IN_DATE", "#{bwlListType.in_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_mtno())) {
+                    VALUES("GDS_MTNO", "#{bwlListType.gds_mtno}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGdecd())) {
+                    VALUES("GDECD", "#{bwlListType.gdecd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_nm())) {
+                    VALUES("GDS_NM", "#{bwlListType.gds_nm}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_spcf_model_desc())) {
+                    VALUES("GDS_SPCF_MODEL_DESC", "#{bwlListType.gds_spcf_model_desc}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getNatcd())) {
+                    VALUES("NATCD", "#{bwlListType.natcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_unitcd())) {
+                    VALUES("DCL_UNITCD", "#{bwlListType.dcl_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getLawf_unitcd())) {
+                    VALUES("LAWF_UNITCD", "#{bwlListType.lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getSecd_lawf_unitcd())) {
+                    VALUES("SECD_LAWF_UNITCD", "#{bwlListType.secd_lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_uprc_amt())) {
+                    VALUES("DCL_UPRC_AMT", "#{bwlListType.dcl_uprc_amt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_currcd())) {
+                    VALUES("DCL_CURRCD", "#{bwlListType.dcl_currcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getAvg_price())) {
+                    VALUES("AVG_PRICE", "#{bwlListType.avg_price}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getTotal_amt())) {
+                    VALUES("TOTAL_AMT", "#{bwlListType.total_amt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_qty())) {
+                    VALUES("IN_QTY", "#{bwlListType.in_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_lawf_qty())) {
+                    VALUES("IN_LAWF_QTY", "#{bwlListType.in_lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_secd_lawf_qty())) {
+                    VALUES("IN_SECD_LAWF_QTY", "#{bwlListType.in_secd_lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getActl_inc_qty())) {
+                    VALUES("ACTL_INC_QTY", "#{bwlListType.actl_inc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getActl_redc_qty())) {
+                    VALUES("ACTL_REDC_QTY", "#{bwlListType.actl_redc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getPrevd_inc_qty())) {
+                    VALUES("PREVD_INC_QTY", "#{bwlListType.prevd_inc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getPrevd_redc_qty())) {
+                    VALUES("PREVD_REDC_QTY", "#{bwlListType.prevd_redc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getOut_date())) {
+                    VALUES("OUT_DATE", "#{bwlListType.out_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getLimit_date())) {
+                    VALUES("LIMIT_DATE", "#{bwlListType.limit_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_type())) {
+                    VALUES("IN_TYPE", "#{bwlListType.in_type}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getInvt_no())) {
+                    VALUES("INVT_NO", "#{bwlListType.invt_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getInvt_g_no())) {
+                    VALUES("INVT_G_NO", "#{bwlListType.invt_g_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCusm_exe_markcd())) {
+                    VALUES("CUSM_EXE_MARKCD", "#{bwlListType.cusm_exe_markcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getRmk())) {
+                    VALUES("RMK", "#{bwlListType.rmk}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getModf_markcd())) {
+                    VALUES("MODF_MARKCD", "#{bwlListType.modf_markcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCrt_time())) {
+                    VALUES("CRT_TIME", "#{bwlListType.crt_time}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCrt_user())) {
+                    VALUES("CRT_USER", "#{bwlListType.crt_user}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getUpd_time())) {
+                    VALUES("UPD_TIME", "#{bwlListType.upd_time}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getUpd_user())) {
+                    VALUES("UPD_USER", "#{bwlListType.upd_user}");
+                }
+            }
+        }.toString();
+    }
+
+    public String addBwlListType(
+            @Param("qtySum") double qtySum,
+            @Param("emsNo") String emsNo,
+            @Param("gds_mtno") String gds_mtno
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{gds_mtno}");
+                SET("PREVD_INC_QTY = PREVD_INC_QTY + #{qtySum}");
             }
         }.toString();
     }

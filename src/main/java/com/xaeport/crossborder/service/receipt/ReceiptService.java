@@ -373,20 +373,29 @@ public class ReceiptService {
             bondInvtBsc.setInvt_preent_no(recBondInvtCommon.getSeq_no());
             bondInvtBsc.setReturn_status(recBondInvtCommon.getDeal_flag());
             bondInvtBsc.setReturn_info(recBondInvtCommon.getCheck_info());
-            bondInvtBsc.setStatus(StatusCode.CQHZQDSBCG);
             bondInvtBsc.setUpd_time(new Date());
-            this.receiptMapper.updateBondInvtStatusByCommon(bondInvtBsc);
-            this.receiptMapper.updateNemsInvtByCommon(bondInvtBsc);
-
+            if (bondInvtBsc.getFlag().equals("EXIT")) {
+                bondInvtBsc.setStatus(StatusCode.CQHZQDSBCG);
+                this.receiptMapper.updateBondInvtStatusByCommon(bondInvtBsc);
+                this.receiptMapper.updateNemsInvtByCommon(bondInvtBsc);
+            } else if (bondInvtBsc.getFlag().equals("ENTER")) {
+                bondInvtBsc.setStatus(StatusCode.RQHZQDSBCG);
+                this.receiptMapper.updateBondInvtStatusByCommon(bondInvtBsc);
+            }
         } else if (!StringUtils.isEmpty(passPortHead)) {
             passPortHead.setEtps_preent_no(recBondInvtCommon.getEtps_preent_no());
             passPortHead.setSas_passport_preent_no(recBondInvtCommon.getSeq_no());
             passPortHead.setReturn_status(recBondInvtCommon.getDeal_flag());
             passPortHead.setReturn_info(recBondInvtCommon.getCheck_info());
-            passPortHead.setStatus(StatusCode.CQHFDSBCG);
             passPortHead.setUpd_time(new Date());
-            this.receiptMapper.updatePassPortStatusByCommon(passPortHead);
-            this.receiptMapper.updatePassPortAcmpByCommon(passPortHead);
+            if (passPortHead.getFlag().equals("EXIT")) {
+                passPortHead.setStatus(StatusCode.CQHFDSBCG);
+                this.receiptMapper.updatePassPortStatusByCommon(passPortHead);
+                this.receiptMapper.updatePassPortAcmpByCommon(passPortHead);
+            } else if (passPortHead.getFlag().equals("ENTER")) {
+                passPortHead.setStatus(StatusCode.RQHFDSBCG);
+                this.receiptMapper.updatePassPortStatusByCommon(passPortHead);
+            }
         }
     }
 
@@ -462,6 +471,9 @@ public class ReceiptService {
         List<ImpInventoryHead> impInventoryHeads = new ArrayList<>();
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
 
+        List<BondInvtBsc> bondInvtBscList = new ArrayList<>();
+        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
+
         if (bondInvtBscData.getFlag().equals("EXIT")) {
             //出区回执更新
             bondInvtBsc.setInvt_preent_no(recBondInvtHdeAppr.getEtps_preent_no());
@@ -511,6 +523,7 @@ public class ReceiptService {
                                 //计算数量是否符合
                                 if ((bwlListType.getPrevdRedcQty() - qtySum >= 0) && (qtySum + bwlListType.getActlRedcQty() >= 0)) {
                                     this.receiptMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo);
+                                    this.logger.info("出区核注清单成功进行实减操作");
                                 } else {
                                     this.logger.info("出区核注清单解析回执：实减操作计算数据为负");
                                     continue;
@@ -532,17 +545,98 @@ public class ReceiptService {
             bondInvtBsc.setReturn_status(recBondInvtHdeAppr.getManage_result());
             bondInvtBsc.setReturn_time(sdf.parse(sdf.format(recBondInvtHdeAppr.getManage_date())));
             bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
+            bondInvtBsc.setEtps_inner_invt_no(bondInvtBscData.getEtps_inner_invt_no());
             this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
 
             //预增操作
             if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
                 //TODO 保税入区进行预增操作
+                //获取导入的入区保税清单表头信息
+                bondInvtBscList = this.receiptMapper.queryBondInvtBscList(bondInvtBsc);
+                //获取导入的入区保税清单表体信息
+                bondInvtDtList = this.receiptMapper.queryBondInvtDtList(bondInvtBsc);
+
+                if (!StringUtils.isEmpty(bondInvtBscList) && !StringUtils.isEmpty(bondInvtDtList)) {
+                    //按照料号获取商品数据
+                    Map<String, List<BondInvtDt>> gdsMtnoData = this.classifyByGdsMtno(bondInvtDtList);
+                    //料号
+                    String gds_mtno = null;
+                    //账册号
+                    String emsNo = null;
+                    for (String gdsMtno : gdsMtnoData.keySet()) {
+                        List<BondInvtDt> bondInvtDts = new ArrayList<>();
+                        //获取按照料号划分的入区核注清单表体数据
+                        bondInvtDts = gdsMtnoData.get(gdsMtno);
+                        //获取料号
+                        gds_mtno = bondInvtDts.get(0).getGds_mtno();
+                        //获取账册号
+                        emsNo = bondInvtBscList.get(0).getPutrec_no();
+
+                        //根据账册号查询是否存在该账册
+                        BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
+                        BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno);
+                        if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
+                            double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
+                            this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno);
+                            this.logger.info("入区核注清单成功进行预增叠加操作");
+                        } else if (!StringUtils.isEmpty(bwlHeadType) && StringUtils.isEmpty(bwlList)) {
+                            BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts);
+                            //插入入区账册表体的数据
+                            this.receiptMapper.insertBwlListType(bwlListType);
+                            this.logger.info("入区核注清单成功进行预增添加操作");
+                        } else {
+                            this.logger.info("入区核注清单解析回执：查询无对应账册信息，无法预增操作");
+                            continue;
+                        }
+
+                    }
+
+                }
 
             }
 
         }
     }
+
+    public BwlListType crtBwlListType(String emsNo, String gds_mtno, List<BondInvtDt> bondInvtDts) {
+        BwlListType bwlListType = new BwlListType();
+        BondInvtDt bondInvtDt = bondInvtDts.get(0);
+        double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
+        bwlListType.setId(IdUtils.getUUId());
+        bwlListType.setBws_no(emsNo);
+        bwlListType.setGds_mtno(gds_mtno);
+        bwlListType.setGdecd(bondInvtDt.getGdecd());
+        bwlListType.setGds_nm(bondInvtDt.getGds_nm());
+        bwlListType.setDcl_unitcd(bondInvtDt.getDcl_unitcd());
+        bwlListType.setIn_qty("0");
+        bwlListType.setActl_inc_qty("0");
+        bwlListType.setActl_redc_qty("0");
+        bwlListType.setPrevd_inc_qty(String.valueOf(qtySum));
+        bwlListType.setPrevd_redc_qty("0");
+        bwlListType.setCrt_time(new Date());
+        bwlListType.setUpd_time(new Date());
+        return bwlListType;
+    }
+
+    //根据料号对商品进行分批处理
+    public Map<String, List<BondInvtDt>> classifyByGdsMtno(List<BondInvtDt> bondInvtDtList) {
+        Map<String, List<BondInvtDt>> gdsMtnoDataListMap = new HashMap<String, List<BondInvtDt>>();
+        String gdsMtno = null;
+        for (BondInvtDt bondInvtDt : bondInvtDtList) {
+            gdsMtno = bondInvtDt.getGds_mtno();
+            if (gdsMtnoDataListMap.containsKey(gdsMtno)) {
+                List<BondInvtDt> bondInvtDts = gdsMtnoDataListMap.get(gdsMtno);
+                bondInvtDts.add(bondInvtDt);
+            } else {
+                List<BondInvtDt> bondInvtDts = new ArrayList<>();
+                bondInvtDts.add(bondInvtDt);
+                gdsMtnoDataListMap.put(gdsMtno, bondInvtDts);
+            }
+        }
+        return gdsMtnoDataListMap;
+    }
+
 
     /**
      * 核注清单生成报关单回执（进口保税）（核注清单报文二）INV202

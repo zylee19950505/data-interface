@@ -14,6 +14,7 @@ public interface ReceiptMapper {
     //根据企业内部编码查询保税清单表头信息
     @SelectProvider(type = ReceiptSQLProvider.class, method = "queryImpInventoryHeads")
     List<ImpInventoryHead> queryImpInventoryHeads(String EtpsInnerInvtNo);
+
     //根据企业内部编码查询保税清单表体信息
     @SelectProvider(type = ReceiptSQLProvider.class, method = "queryImpInventoryBodyList")
     List<ImpInventoryBody> queryImpInventoryBodyList(String EtpsInnerInvtNo);
@@ -215,5 +216,30 @@ public interface ReceiptMapper {
     //入库明细单数据查询
     @SelectProvider(type = ReceiptSQLProvider.class, method = "findDeliveryByCopNo")
     ImpDeliveryHead findDeliveryByCopNo(String copNo) throws Exception;
+
+
+    //查询入区预增数据表头查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtBscList")
+    List<BondInvtBsc> queryBondInvtBscList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //查询入区预增数据表体查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtDtList")
+    List<BondInvtDt> queryBondInvtDtList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //查询是否存在账册信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "checkBwlHeadType")
+    BwlHeadType checkBwlHeadType(String emsNo);
+
+    //查询是否存在账册表体信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "checkBwlListType")
+    BwlListType checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+
+    //插入入区账册预增数据
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "insertBwlListType")
+    void insertBwlListType(@Param("bwlListType") BwlListType bwlListType);
+
+    //入区账册预增叠加操作
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "addBwlListType")
+    void addBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
 
 }
