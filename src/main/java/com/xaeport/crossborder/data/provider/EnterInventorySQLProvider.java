@@ -30,7 +30,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                         "t.RETURN_TIME," +
                         "t.RETURN_INFO");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.FLAG = 'Enter'");
+                WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -69,7 +69,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
             {
                 SELECT("COUNT(1)");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.FLAG = 'Enter'");
+                WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

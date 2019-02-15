@@ -39,8 +39,8 @@ sw.page.modules["infomanage/icband"] = sw.page.modules["infomanage/icband"] || {
                                     $("#dialog-checkinfo").modal('hide');
                                     sw.alert("绑定IC卡成功","提示",null,"modal-success");
                                     $("#iccard_pwd").val();
-                                    sw.page.modules["information/icbandInfo"].loadUserIc();
-                                    sw.page.modules["information/icbandInfo"].loadBandOprHis();
+                                    sw.page.modules["infomanage/icbandInfo"].loadUserIc();
+                                    sw.page.modules["infomanage/icbandInfo"].loadBandOprHis();
                                 }else{
                                     warringAlert(rsp.data.msg);
                                 }

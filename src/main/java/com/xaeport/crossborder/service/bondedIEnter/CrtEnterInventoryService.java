@@ -45,15 +45,23 @@ public class CrtEnterInventoryService {
                 String lastTwoYear = year.substring(year.length() - 2, year.length());
                     //进出口标志*/
         //目前先设置uuid(用来关联表体和表头的信息)
-        String uuId = IdUtils.getUUId();
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String dateNowStr = sdf.format(date);
+        String etpsInnerInvtNo = "HZQD" + user.getEnt_Customs_Code() + "I" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4);
         int count = 1;
+        int original_nm = 0;
         for (int i = 0;i < list.size();i++){
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
+
+            //设置表头原有数量
+            original_nm += Integer.parseInt(bondInvtDt.getDcl_qty());
+
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(String.valueOf(count));
-            bondInvtDt.setHead_etps_inner_invt_no(uuId);
+            bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
             count++;
         }
@@ -67,7 +75,7 @@ public class CrtEnterInventoryService {
         //将企业信息和表头基本信息预存在bond_invt_bsc里
         BondInvtBsc bondInvtBsc =  new BondInvtBsc();
         bondInvtBsc.setId(bscId);
-        bondInvtBsc.setEtps_inner_invt_no(uuId);
+        bondInvtBsc.setEtps_inner_invt_no(etpsInnerInvtNo);
         bondInvtBsc.setCrt_ent_id(enterpriseDetail.getId());
         bondInvtBsc.setCrt_ent_name(enterpriseDetail.getEnt_name());
         bondInvtBsc.setBizop_etpsno(enterpriseDetail.getCustoms_code());//经营企业编号
@@ -76,11 +84,17 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getEnt_name());//申报企业名称
         bondInvtBsc.setDcl_plc_cuscd(enterpriseDetail.getPort());//主管海关
         bondInvtBsc.setCrt_user(user.getId());
+
+        //设置核注清单原有数量,可绑定数量,绑定数量
+        bondInvtBsc.setOriginal_nm(original_nm);
+        bondInvtBsc.setUsable_nm(original_nm);
+        bondInvtBsc.setBound_nm(original_nm);
+
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);
 
         //是否需要返回保税清单编号,以供保存和取消时使用
 
-        return uuId;
+        return etpsInnerInvtNo;
     }
 
     public BondInvt seeEnterInventoryDetail(Map<String, String> paramMap) throws Exception{
@@ -120,7 +134,7 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setChg_tms_cnt(0);
         bondInvtBsc.setUpd_user(users.getId());
         bondInvtBsc.setStatus("BDDS1");
-        bondInvtBsc.setFlag("Enter");//进出区数据标识
+        bondInvtBsc.setFlag("ENTER");//进出区数据标识
         if (!StringUtils.isEmpty(entryHead.get("bizop_etpsno"))){
             bondInvtBsc.setBizop_etpsno(entryHead.get("bizop_etpsno"));
         }

@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.bondedIEnter;
+package com.xaeport.crossborder.controller.api.bondedienter;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
@@ -144,7 +144,7 @@ public class CrtEnterInventoryApi extends BaseApi {
     }
 
     /**
-     * 新建入区核放单的保存
+     * 新建入区核注清单的保存
      * saveInventoryDetail
      * */
     @RequestMapping(value = "saveInventoryDetail")
@@ -159,9 +159,9 @@ public class CrtEnterInventoryApi extends BaseApi {
             // 保存表头信息
             rtnMap = crtEnterInventoryService.updateEnterInventoryDetail(entryHead,users);
         } catch (Exception e) {
-            log.error("保存入区核放单表头信息时发生异常", e);
+            log.error("保存入区核注清单表头信息时发生异常", e);
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "保存入区核放单表头信息时发生异常");
+            rtnMap.put("msg", "保存入区核注清单表头信息时发生异常");
         }
         return new ResponseData(rtnMap);
     }

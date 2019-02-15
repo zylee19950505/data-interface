@@ -1,6 +1,5 @@
 package com.xaeport.crossborder.parser;
 
-import com.xaeport.crossborder.configuration.SystemConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -14,18 +13,27 @@ import java.util.Map;
 @Component
 public class ParserHolder {
     private Map<String, BaseParser> map;
+    private Map<String, BaseParserNew> mapNew;
 
     @PostConstruct
     public void initParser() {
         map = new HashMap<>();
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_ORDER, new CebParser());//订单回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_PAYMENT, new CebParser());//支付单回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS, new CebParser());//运单回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_LOGISTICS_STATUS, new CebParser());//运单状态回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_INVENTORY, new CebParser());//清单回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_DELIVERY, new CebParser());//入库明细单回执报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_SUBSCRIPTION, new CebParser());//核放单预订数据报文
-        map.put(SystemConstants.RECEIPT_REPORT_TYPE_TAX, new CebParser());//电子税单报文
+        mapNew = new HashMap<>();
+        map.put("ceb312", new Ceb312Parser());//跨境订单回执报文
+        map.put("ceb412", new Ceb412Parser());//跨境支付单回执报文
+        map.put("ceb512", new Ceb512Parser());//跨境运单回执报文
+        map.put("ceb514", new Ceb514Parser());//跨境运单状态回执报文
+        map.put("ceb622", new Ceb622Parser());//跨境清单回执报文
+        map.put("ceb712", new Ceb712Parser());//跨境入库明细单回执报文
+        map.put("CheckGoodsInfo", new CheckGoodsInfoParser());//跨境预订数据报文
+        map.put("TAX", new Ceb816Parser());//跨境电子税单报文
+        map.put("inv201msg", new Inv201MsgParser());//保税核注清单报文回执
+        map.put("inv201chk", new Inv201ChkParser());//保税核注清单审核回执
+        map.put("inv202customs", new Inv202CustomsParser());//保税核注清单生成报关单回执
+        map.put("sas221msg", new Sas221MsgParser());//保税核放单报文回执
+        map.put("sas221chk", new Sas221ChkParser());//保税核放单审核回执
+        map.put("sas223", new Sas223Parser());//保税核放单过卡回执
+        mapNew.put("invCommon", new invCommonParser());//保税（核注清单/核放单）数据中心回执
     }
 
     public BaseParser getParser(String parserType) {
@@ -34,6 +42,14 @@ public class ParserHolder {
             baseParser = map.get(parserType);
         }
         return baseParser;
+    }
+
+    public BaseParserNew getParserNew(String parserType) {
+        BaseParserNew baseParserNew = null;
+        if (!CollectionUtils.isEmpty(mapNew)) {
+            baseParserNew = mapNew.get(parserType);
+        }
+        return baseParserNew;
     }
 
     public void setParser(String psrserType, BaseParser parser) {

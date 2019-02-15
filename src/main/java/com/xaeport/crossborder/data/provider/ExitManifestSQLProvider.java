@@ -3,7 +3,6 @@ package com.xaeport.crossborder.data.provider;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -25,17 +24,20 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
                         "SELECT " +
+                        "t.SAS_PASSPORT_PREENT_NO," +
                         "t.PASSPORT_NO," +
                         "t.RLT_NO," +
                         "t.STATUS," +
+                        "t.DCL_TIME," +
                         "t.RETURN_STATUS," +
                         "t.RETURN_DATE," +
                         "t.RETURN_INFO," +
                         "t.ETPS_PREENT_NO," +
                         "t.BOND_INVT_NO");
                 FROM("T_PASS_PORT_HEAD t");
+                WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dcl_time)) {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -75,8 +77,9 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_PASS_PORT_HEAD t");
+                WHERE("FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dcl_time)) {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -97,9 +100,6 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    /*
-     * 提交海关清单
-     */
     public String updateSubmitCustom(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
         final String statusWhere = paramMap.get("statusWhere");
@@ -114,6 +114,17 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 SET("t.DCL_TIME = sysdate");
                 SET("t.UPD_TIME = sysdate");
                 SET("t.UPD_USER = #{userId}");
+            }
+        }.toString();
+    }
+
+    public String queryDataFull(Map<String, String> paramMap){
+        final String submitKeys = paramMap.get("submitKeys");
+        return new SQL(){
+            {
+                SELECT("STATUS");
+                FROM("T_PASS_PORT_HEAD");
+                WHERE(splitJointIn("ETPS_PREENT_NO",submitKeys));
             }
         }.toString();
     }
@@ -276,17 +287,18 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
 
     public String updatePassPortAcmp(
             @Param("passPortHead") LinkedHashMap<String, String> passPortHead,
+            @Param("passPortAcmpList") LinkedHashMap<String, String> passPortAcmpList,
             @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
                 UPDATE("T_PASS_PORT_ACMP");
-                WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.head_etps_preent_no}");
-                if (!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))) {
-                    SET("RTL_TB_TYPECD = #{passPortHead.rlt_tb_typecd}");
+                WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                if (!StringUtils.isEmpty(passPortAcmpList.get("rlt_tb_typecd"))) {
+                    SET("RTL_TB_TYPECD = #{passPortAcmpList.rlt_tb_typecd}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.get("rlt_no"))) {
-                    SET("RTL_NO = #{passPortHead.rlt_no}");
+                if (!StringUtils.isEmpty(passPortAcmpList.get("rlt_no"))) {
+                    SET("RTL_NO = #{passPortAcmpList.rlt_no}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_TIME = sysdate");
@@ -294,6 +306,72 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("UPD_USER = #{userInfo.id}");
                 }
+            }
+        }.toString();
+    }
+
+
+    public String findWaitGenerated(Map<String, String> paramMap) {
+        final String status = paramMap.get("status");
+        return new SQL() {
+            {
+                SELECT("PASSPORT_TYPECD");
+                SELECT("MASTER_CUSCD");
+                SELECT("DCL_TYPECD");
+                SELECT("IO_TYPECD");
+                SELECT("BIND_TYPECD");
+                SELECT("RLT_TB_TYPECD");
+                SELECT("RLT_NO");
+                SELECT("AREAIN_ETPSNO");
+                SELECT("AREAIN_ETPS_NM");
+                SELECT("VEHICLE_NO");
+                SELECT("VEHICLE_IC_NO");
+                SELECT("VEHICLE_WT");
+                SELECT("VEHICLE_FRAME_WT");
+                SELECT("CONTAINER_WT");
+                SELECT("TOTAL_WT");
+                SELECT("TOTAL_GROSS_WT");
+                SELECT("TOTAL_NET_WT");
+                SELECT("DCL_TIME");
+                SELECT("DCL_ER_CONC");
+                SELECT("DCL_ETPSNO");
+                SELECT("DCL_ETPS_NM");
+                SELECT("INPUT_CODE");
+                SELECT("INPUT_NAME");
+                SELECT("ETPS_PREENT_NO");
+                SELECT("CRT_USER");
+                SELECT("CRT_ENT_ID");
+                SELECT("CRT_ENT_NAME");
+                FROM("T_PASS_PORT_HEAD t");
+                WHERE("t.status = #{status}");
+                WHERE("rownum <= 100");
+                ORDER_BY("t.CRT_TIME asc,t.ETPS_PREENT_NO asc");
+            }
+        }.toString();
+    }
+
+    public String updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{etpsPreentNo}");
+                SET("t.STATUS = #{status}");
+                SET("t.UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    public String queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo) {
+
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("PASSPORT_NO");
+                SELECT("RTL_TB_TYPECD");
+                SELECT("RTL_NO");
+                SELECT("HEAD_ETPS_PREENT_NO");
+                FROM("T_PASS_PORT_ACMP t");
+                WHERE("t.HEAD_ETPS_PREENT_NO = #{etpsPreentNo}");
             }
         }.toString();
     }

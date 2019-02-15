@@ -45,6 +45,24 @@ public class BondInvtDt {
     private Date upd_time;//更新时间
     private String upd_user;//更新人
     private String head_etps_inner_invt_no;//表头唯一关联码
+    private String surplus_nm;//剩余数量
+    private double quantity;//申报数量
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSurplus_nm() {
+        return surplus_nm;
+    }
+
+    public void setSurplus_nm(String surplus_nm) {
+        this.surplus_nm = surplus_nm;
+    }
 
     public String getId() {
         return id;

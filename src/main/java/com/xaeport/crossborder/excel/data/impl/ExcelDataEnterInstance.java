@@ -28,6 +28,8 @@ public class ExcelDataEnterInstance implements ExcelData {
     private int lawf_qtyIndex; //法定数量";//list
     private int secd_lawf_qtyIndex; //第二法定数量";//list
     private int secd_lawf_unitcdIndex; //第二法定计量单位";//list
+    private int gross_wtIndex; //毛重";//list
+    private int net_wtIndex; //净重";//list
     private int dcl_total_amtIndex; //总价";//list
     private int dcl_qtyIndex; //数量";//list
     private int natcdIndex; //原产国(地区)";//list
@@ -143,6 +145,8 @@ public class ExcelDataEnterInstance implements ExcelData {
         bondInvtDt.setLawf_qty((entryLists.get(lawf_qtyIndex)));//法定数量
         bondInvtDt.setSecd_lawf_qty((entryLists.get(secd_lawf_qtyIndex)));//第二法定数量
         bondInvtDt.setSecd_lawf_unitcd((entryLists.get(secd_lawf_unitcdIndex)));//第二法定计量单位
+        bondInvtDt.setGross_wt(entryLists.get(gross_wtIndex));//毛重
+        bondInvtDt.setNet_wt(entryLists.get(net_wtIndex));//净重
         bondInvtDt.setDcl_total_amt((entryLists.get(dcl_total_amtIndex)));//总价
         bondInvtDt.setDcl_qty((entryLists.get(dcl_qtyIndex)));//数量
         bondInvtDt.setNatcd(entryLists.get(natcdIndex));//原产国(地区)
@@ -168,6 +172,8 @@ public class ExcelDataEnterInstance implements ExcelData {
         lawf_qtyIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.lawf_qty);//法定数量
         secd_lawf_qtyIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.secd_lawf_qty);//第二法定数量
         secd_lawf_unitcdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.secd_lawf_unitcd);//第二法定计量单位
+        gross_wtIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.gross_wt);//毛重
+        net_wtIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.net_wt);//净重
         dcl_total_amtIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_total_amt);//总价
         dcl_qtyIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)

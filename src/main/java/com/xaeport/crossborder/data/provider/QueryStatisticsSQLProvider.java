@@ -150,6 +150,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("h.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
                 GROUP_BY("t.G_CODE,t.CURRENCY");
+                ORDER_BY("totalPrice DESC");
             }
         }.toString();
     }

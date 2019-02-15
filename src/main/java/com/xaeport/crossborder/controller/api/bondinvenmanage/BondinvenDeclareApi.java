@@ -24,22 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-/*
- **清单申报
- */
-
 @RestController
 @RequestMapping("/api/bondinvenmanage")
 public class BondinvenDeclareApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
-
     @Autowired
     BondinvenDeclareService bondinvenDeclareService;
 
-    /*
-     * 邮件申报查询
-     */
+    //查询保税清单待申报数据
     @RequestMapping("/querybondinvendeclare")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
@@ -99,7 +92,7 @@ public class BondinvenDeclareApi extends BaseApi {
     }
 
     /**
-     * 清单申报-提交海关
+     * 保税清单申报-提交海关
      **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(
@@ -126,6 +119,7 @@ public class BondinvenDeclareApi extends BaseApi {
         }
     }
 
+    //查询保税清单详情
     @RequestMapping("/seebondinvendetail")
     public ResponseData seeOrderDetail(
             @RequestParam(required = false) String guid
@@ -136,22 +130,20 @@ public class BondinvenDeclareApi extends BaseApi {
         try {
             impInventoryDetail = bondinvenDeclareService.seeBondInvenDetail(guid);
         } catch (Exception e) {
-            this.logger.error("查询保税清单信息失败，guid=" + guid, e);
+            this.logger.error("查询保税清单信息失败，guid =" + guid, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(impInventoryDetail);
     }
 
-    //保存清单信息
+    //保存保税清单信息
     @RequestMapping("/savebondinvenbefore")
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
-        //清单json信息
+        //保税清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
-        // 清单表头
+        //保税清单表头
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
-
-        // 清单表体
+        //保税清单表体
         ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
 
         Map<String, String> rtnMap = new HashMap<>();
@@ -159,9 +151,9 @@ public class BondinvenDeclareApi extends BaseApi {
             // 保存详情信息
             rtnMap = bondinvenDeclareService.saveBondInvenBefore(entryHead, entryLists);
         } catch (Exception e) {
-            logger.error("保存保税清单详细信息时发生异常", e);
+            logger.error("保存保税清单详细时发生异常", e);
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "保存保税清单详细信息时发生异常");
+            rtnMap.put("msg", "保存保税清单详细时发生异常");
         }
         return new ResponseData(rtnMap);
     }

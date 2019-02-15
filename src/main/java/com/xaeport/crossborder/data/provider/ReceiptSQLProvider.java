@@ -5,7 +5,518 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+
 public class ReceiptSQLProvider extends BaseSQLProvider {
+
+    public String queryImpInventoryHeads(String EtpsInnerInvtNo) {
+        return new SQL() {
+            {
+                SELECT("GUID");
+                SELECT("ORDER_NO");
+                SELECT("LOGISTICS_NO");
+                SELECT("INVT_NO");
+                SELECT("EMS_NO");
+                SELECT("CRT_ID");
+                FROM("T_IMP_INVENTORY_HEAD");
+                WHERE("BUSINESS_TYPE = 'BONDINVEN'");
+                WHERE("INVT_NO IN ( " +
+                        "SELECT t.CBEC_BILL_NO " +
+                        "FROM T_NEMS_INVT_CBEC_BILL_TYPE t " +
+                        "WHERE t.HEAD_ETPS_INNER_INVT_NO = #{EtpsInnerInvtNo} )");
+            }
+        }.toString();
+    }
+
+    public String queryImpInventoryBodyList(String EtpsInnerInvtNo) {
+        return new SQL() {
+            {
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_RECORD_NO");
+                SELECT("G_CODE");
+                SELECT("QTY quantity");
+                SELECT("UNIT");
+                FROM("T_IMP_INVENTORY_BODY");
+                WHERE("HEAD_GUID IN ( " +
+                        "SELECT GUID FROM T_IMP_INVENTORY_HEAD h WHERE h.BUSINESS_TYPE = 'BONDINVEN' AND h.INVT_NO in (" +
+                        "SELECT t.CBEC_BILL_NO " +
+                        "FROM T_NEMS_INVT_CBEC_BILL_TYPE t " +
+                        "WHERE t.HEAD_ETPS_INNER_INVT_NO = #{EtpsInnerInvtNo} ) " +
+                        ")");
+            }
+        }.toString();
+    }
+
+    public String setPrevdRedcQty(
+            @Param("qtySum") double qtySum,
+            @Param("item_record_no") String item_record_no,
+            @Param("emsNo") String emsNo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{item_record_no}");
+                SET("PREVD_REDC_QTY = PREVD_REDC_QTY - #{qtySum}");
+                SET("ACTL_REDC_QTY = ACTL_REDC_QTY + #{qtySum}");
+            }
+        }.toString();
+    }
+
+
+    //查询保税清单库存是否允许进行实减
+    public String checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo) {
+        return new SQL() {
+            {
+                SELECT("IN_QTY inQty");
+                SELECT("ACTL_REDC_QTY actlRedcQty");
+                SELECT("PREVD_REDC_QTY prevdRedcQty");
+                SELECT("(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
+                SELECT("DCL_UNITCD");
+                FROM("T_BWL_LIST_TYPE t");
+                WHERE("t.BWS_NO = #{emsNo}");
+                WHERE("t.GDS_MTNO = #{item_record_no}");
+            }
+        }.toString();
+    }
+
+    //插入核注清单处理成功回执数据
+    public String createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_COMMON");
+                if (!StringUtils.isEmpty(recBondInvtCommon.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtCommon.guid}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getSeq_no())) {
+                    VALUES("SEQ_NO", "#{recBondInvtCommon.seq_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recBondInvtCommon.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getCheck_info())) {
+                    VALUES("CHECK_INFO", "#{recBondInvtCommon.check_info}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getDeal_flag())) {
+                    VALUES("DEAL_FLAG", "#{recBondInvtCommon.deal_flag}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recBondInvtCommon.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtCommon.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recBondInvtCommon.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS11','BDDS12','BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
+                    WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    SET("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
+                    SET("STATUS = #{bondInvtBsc.status}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态
+    public String updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
+                    WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    SET("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getUpd_time())) {
+                    SET("UPD_TIME = #{bondInvtBsc.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核放单处理成功回执更新状态
+    public String updatePassPortStatusByCommon(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD");
+                WHERE("STATUS in ('BDDS31','BDDS32','BDDS41','BDDS42')");
+                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
+                    WHERE("ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    SET("SAS_PASSPORT_PREENT_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{passPortHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{passPortHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getStatus())) {
+                    SET("STATUS = #{passPortHead.status}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //根据核放单处理成功回执更新状态
+    public String updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
+                    WHERE("HEAD_ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    SET("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getUpd_time())) {
+                    SET("UPD_TIME = #{passPortHead.upd_time}");
+                }
+            }
+        }.toString();
+    }
+
+    //插入核注清单(报文回执/审核回执)
+    public String createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_HDEAPPR");
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtHdeAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recBondInvtHdeAppr.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recBondInvtHdeAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getTms_cnt())) {
+                    VALUES("TMS_CNT", "#{recBondInvtHdeAppr.tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getTypecd())) {
+                    VALUES("TYPECD", "#{recBondInvtHdeAppr.typecd}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recBondInvtHdeAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getManage_date())) {
+                    VALUES("MANAGE_DATE", "to_date('" + simpleDateFormat.format(recBondInvtHdeAppr.getManage_date()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getRmk())) {
+                    VALUES("RMK", "#{recBondInvtHdeAppr.rmk}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "sysdate");
+                }
+                if (!StringUtils.isEmpty(recBondInvtHdeAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "sysdate");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态——保税出区表头
+    public String updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //更新修改核注清单表体数据(HdeAppr)——保税出区表体
+    public String updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+
+    //根据核注清单处理成功回执更新状态——保税入区表头
+    public String updateBondInvtBscByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS11','BDDS12')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //更新修改核注清单表体数据(HdeAppr)——保税入区表体
+    public String updateBondInvtDtByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_DT");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+
+    //核注清单生成报关单回执
+    public String createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_BOND_INVT_INVAPPR");
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getGuid())) {
+                    VALUES("GUID", "#{recBondInvtInvAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getInv_preent_no())) {
+                    VALUES("INV_PREENT_NO", "#{recBondInvtInvAppr.inv_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recBondInvtInvAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getEntry_seq_no())) {
+                    VALUES("ENTRY_SEQ_NO", "#{recBondInvtInvAppr.entry_seq_no}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recBondInvtInvAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getCreate_date())) {
+                    VALUES("CREATE_DATE", "#{recBondInvtInvAppr.create_date}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getReason())) {
+                    VALUES("REASON", "#{recBondInvtInvAppr.reason}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recBondInvtInvAppr.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recBondInvtInvAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recBondInvtInvAppr.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核注清单处理成功回执更新状态
+    public String updateBondInvtStatusByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("STATUS in ('BDDS21','BDDS22')");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getEntry_no())) {
+                    SET("ENTRY_NO = #{bondInvtBsc.entry_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_status())) {
+                    SET("RETURN_STATUS = #{bondInvtBsc.return_status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_time())) {
+                    SET("RETURN_TIME = to_date('" + sdf.format(bondInvtBsc.getReturn_time()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getReturn_info())) {
+                    SET("RETURN_INFO = #{bondInvtBsc.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //更新修改核注清单表体数据(HdeAppr)
+    public String updateNemssByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                UPDATE("T_NEMS_INVT_CBEC_BILL_TYPE");
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    WHERE("SEQ_NO = #{bondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+
+    //核放单清单(报文回执/审核回执)
+    public String createPassPortHdeAppr(@Param("recPassPortHdeAppr") RecPassPortHdeAppr recPassPortHdeAppr) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_REC_PASS_PORT_HDEAPPR");
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getGuid())) {
+                    VALUES("GUID", "#{recPassPortHdeAppr.guid}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getEtps_preent_no())) {
+                    VALUES("ETPS_PREENT_NO", "#{recPassPortHdeAppr.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getBusiness_id())) {
+                    VALUES("BUSINESS_ID", "#{recPassPortHdeAppr.business_id}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getTms_cnt())) {
+                    VALUES("TMS_CNT", "#{recPassPortHdeAppr.tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getTypecd())) {
+                    VALUES("TYPECD", "#{recPassPortHdeAppr.typecd}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getManage_result())) {
+                    VALUES("MANAGE_RESULT", "#{recPassPortHdeAppr.manage_result}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getManage_date())) {
+                    VALUES("MANAGE_DATE", "#{recPassPortHdeAppr.manage_date}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getRmk())) {
+                    VALUES("RMK", "#{recPassPortHdeAppr.rmk}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{recPassPortHdeAppr.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(recPassPortHdeAppr.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{recPassPortHdeAppr.upd_tm}");
+                }
+            }
+        }.toString();
+    }
+
+    //根据核放单处理成功回执更新状态
+    public String updatePassportStatusByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD");
+                WHERE("STATUS in ('BDDS41','BDDS42')");
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    WHERE("SAS_PASSPORT_PREENT_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    SET("PASSPORT_NO = #{passPortHead.passport_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getChg_tms_cnt())) {
+                    SET("CHG_TMS_CNT = #{passPortHead.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_typecd())) {
+                    SET("DCL_TYPECD = #{passPortHead.dcl_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{passPortHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_date())) {
+                    SET("RETURN_DATE = to_date('" + sdf.format(passPortHead.getReturn_date()) + "','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{passPortHead.return_info}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //更新核放单表体数据(HdeAppr)
+    public String updatePassPortAcmpByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_ACMP");
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    WHERE("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    SET("PASSPORT_NO = #{passPortHead.passport_no}");
+                }
+                SET("UPD_USER = 'system'");
+                SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
 
     //插入电子税单表头
     public String InsertTaxHeadRd(
@@ -110,6 +621,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //更新清单表头税额
     public String updateInventoryHeadTax(
             @Param("taxHeadRd") TaxHeadRd taxHeadRd
@@ -179,6 +691,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入预定历史表数据
     public String createCheckGoodsInfoHis(
@@ -333,6 +846,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //更新预定数据
     public String updateCheckGoodsInfo(
             @Param("checkGoodsInfo") CheckGoodsInfo checkGoodsInfo
@@ -425,6 +939,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入支付单回执表数据
     public String createImpRecPayment(
@@ -565,6 +1080,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //插入清单回执表数据
     public String createImpRecInventory(
             @Param("impRecInventory") ImpRecInventory impRecInventory
@@ -625,7 +1141,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','InvenOver')");
+                WHERE("t.DATA_STATUS in ('CBDS61','CBDS62','BDDS51','BDDS52','InvenOver')");
                 if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
                     WHERE("t.COP_NO = #{impInventoryHead.cop_no}");
                 }
@@ -723,6 +1239,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     //插入运单状态回执表数据
     public String createImpRecLogisticsStatus(
             @Param("impRecLogisticsStatus") ImpRecLogisticsStatus impRecLogisticsStatus
@@ -800,6 +1317,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
     /*
     * 运单表置为运单申报成功（CBDS52状态）
     * */
@@ -828,6 +1346,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
 
     //插入入库明细单回执表数据
     public String createImpRecDelivery(
@@ -908,6 +1427,202 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impDeliveryHead.getUpd_tm())) {
                     SET("t.UPD_TM = #{impDeliveryHead.upd_tm}");
                 }
+            }
+        }.toString();
+    }
+
+
+    public String queryBondInvtBscList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                SELECT("BOND_INVT_NO");
+                SELECT("INVT_PREENT_NO");
+                SELECT("PUTREC_NO");
+                SELECT("ETPS_INNER_INVT_NO");
+                FROM("T_BOND_INVT_BSC");
+                WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String queryBondInvtDtList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+        return new SQL() {
+            {
+                SELECT("BOND_INVT_NO");
+                SELECT("GDS_SEQNO");
+                SELECT("PUTREC_SEQNO");
+                SELECT("GDS_MTNO");
+                SELECT("GDECD");
+                SELECT("GDS_NM");
+                SELECT("DCL_UNITCD");
+                SELECT("LAWF_UNITCD");
+                SELECT("SECD_LAWF_UNITCD");
+                SELECT("DCL_QTY");
+                SELECT("LAWF_QTY");
+                SELECT("SECD_LAWF_QTY");
+                SELECT("DCL_QTY quantity");
+                FROM("T_BOND_INVT_DT");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String checkBwlHeadType(String emsNo) {
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("BWS_NO");
+                SELECT("ETPS_PREENT_NO");
+                FROM("T_BWL_HEAD_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+            }
+        }.toString();
+    }
+
+    public String checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno) {
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("BWS_NO");
+                SELECT("GDS_MTNO");
+                SELECT("GDS_NM");
+                SELECT("GDS_MTNO");
+                SELECT("DCL_UNITCD");
+                SELECT("IN_QTY");
+                FROM("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{gds_mtno}");
+            }
+        }.toString();
+    }
+
+    public String insertBwlListType(@Param("bwlListType") BwlListType bwlListType) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_BWL_LIST_TYPE");
+                if (!StringUtils.isEmpty(bwlListType.getId())) {
+                    VALUES("ID", "#{bwlListType.id}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getBws_no())) {
+                    VALUES("BWS_NO", "#{bwlListType.bws_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getChg_tms_cnt())) {
+                    VALUES("CHG_TMS_CNT", "#{bwlListType.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_seqno())) {
+                    VALUES("GDS_SEQNO", "#{bwlListType.gds_seqno}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_date())) {
+                    VALUES("IN_DATE", "#{bwlListType.in_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_mtno())) {
+                    VALUES("GDS_MTNO", "#{bwlListType.gds_mtno}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGdecd())) {
+                    VALUES("GDECD", "#{bwlListType.gdecd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_nm())) {
+                    VALUES("GDS_NM", "#{bwlListType.gds_nm}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getGds_spcf_model_desc())) {
+                    VALUES("GDS_SPCF_MODEL_DESC", "#{bwlListType.gds_spcf_model_desc}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getNatcd())) {
+                    VALUES("NATCD", "#{bwlListType.natcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_unitcd())) {
+                    VALUES("DCL_UNITCD", "#{bwlListType.dcl_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getLawf_unitcd())) {
+                    VALUES("LAWF_UNITCD", "#{bwlListType.lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getSecd_lawf_unitcd())) {
+                    VALUES("SECD_LAWF_UNITCD", "#{bwlListType.secd_lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_uprc_amt())) {
+                    VALUES("DCL_UPRC_AMT", "#{bwlListType.dcl_uprc_amt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getDcl_currcd())) {
+                    VALUES("DCL_CURRCD", "#{bwlListType.dcl_currcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getAvg_price())) {
+                    VALUES("AVG_PRICE", "#{bwlListType.avg_price}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getTotal_amt())) {
+                    VALUES("TOTAL_AMT", "#{bwlListType.total_amt}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_qty())) {
+                    VALUES("IN_QTY", "#{bwlListType.in_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_lawf_qty())) {
+                    VALUES("IN_LAWF_QTY", "#{bwlListType.in_lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_secd_lawf_qty())) {
+                    VALUES("IN_SECD_LAWF_QTY", "#{bwlListType.in_secd_lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getActl_inc_qty())) {
+                    VALUES("ACTL_INC_QTY", "#{bwlListType.actl_inc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getActl_redc_qty())) {
+                    VALUES("ACTL_REDC_QTY", "#{bwlListType.actl_redc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getPrevd_inc_qty())) {
+                    VALUES("PREVD_INC_QTY", "#{bwlListType.prevd_inc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getPrevd_redc_qty())) {
+                    VALUES("PREVD_REDC_QTY", "#{bwlListType.prevd_redc_qty}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getOut_date())) {
+                    VALUES("OUT_DATE", "#{bwlListType.out_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getLimit_date())) {
+                    VALUES("LIMIT_DATE", "#{bwlListType.limit_date}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getIn_type())) {
+                    VALUES("IN_TYPE", "#{bwlListType.in_type}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getInvt_no())) {
+                    VALUES("INVT_NO", "#{bwlListType.invt_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getInvt_g_no())) {
+                    VALUES("INVT_G_NO", "#{bwlListType.invt_g_no}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCusm_exe_markcd())) {
+                    VALUES("CUSM_EXE_MARKCD", "#{bwlListType.cusm_exe_markcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getRmk())) {
+                    VALUES("RMK", "#{bwlListType.rmk}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getModf_markcd())) {
+                    VALUES("MODF_MARKCD", "#{bwlListType.modf_markcd}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCrt_time())) {
+                    VALUES("CRT_TIME", "#{bwlListType.crt_time}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getCrt_user())) {
+                    VALUES("CRT_USER", "#{bwlListType.crt_user}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getUpd_time())) {
+                    VALUES("UPD_TIME", "#{bwlListType.upd_time}");
+                }
+                if (!StringUtils.isEmpty(bwlListType.getUpd_user())) {
+                    VALUES("UPD_USER", "#{bwlListType.upd_user}");
+                }
+            }
+        }.toString();
+    }
+
+    public String addBwlListType(
+            @Param("qtySum") double qtySum,
+            @Param("emsNo") String emsNo,
+            @Param("gds_mtno") String gds_mtno
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{gds_mtno}");
+                SET("PREVD_INC_QTY = PREVD_INC_QTY + #{qtySum}");
             }
         }.toString();
     }

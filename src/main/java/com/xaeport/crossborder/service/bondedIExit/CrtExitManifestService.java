@@ -66,17 +66,17 @@ public class CrtExitManifestService {
         return passPortAcmpList;
     }
 
-    //创建插入出区核放单数据
-    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList) {
+    //创建并预插入出区核放单数据（用户未保存确认前）
+    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList, Users userInfo) {
         this.crtExitManifestMapper.updateBondInvt(passPortHead);
-        this.crtExitManifestMapper.insertPassPortHead(passPortHead);
+        this.crtExitManifestMapper.insertPassPortHead(passPortHead, userInfo);
 
         for (PassPortAcmp passPortAcmp : passPortAcmpList) {
-            this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp);
+            this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp, userInfo);
         }
     }
 
-    //保存更新出区核放单数据
+    //保存更新出区核放单数据（用户保存确认后）
     public Map<String, String> saveExitManifest(LinkedHashMap<String, String> passPortHead, ArrayList<LinkedHashMap<String, String>> passPortAcmpList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
 
@@ -92,7 +92,7 @@ public class CrtExitManifestService {
             }
         }
         map.put("result", "true");
-        map.put("msg", "编辑成功，请到“出区核注清单”处进行后续操作");
+        map.put("msg", "编辑成功，请到“出区核放单”处进行后续操作");
         return map;
     }
 

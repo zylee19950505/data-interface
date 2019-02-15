@@ -3,7 +3,7 @@ package com.xaeport.crossborder.service.bondinvenmanage;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.convert.inventory621.BaseDetailDeclareXML;
+import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +71,7 @@ public class BondinvenDeclareService {
     }
 
 
+    //修改申报前保税清单数据
     @Transactional
     public Map<String, String> saveBondInvenBefore(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();
@@ -82,10 +83,12 @@ public class BondinvenDeclareService {
 
     }
 
-    public boolean saveBondInvenBeforeDetail(LinkedHashMap<String, String> entryHead,
-                                             List<LinkedHashMap<String, String>> entryLists,
-                                             Map<String, String> rtnMap, String notes) {
-
+    //更新修改申报前保税清单数据
+    public boolean saveBondInvenBeforeDetail(
+            LinkedHashMap<String, String> entryHead,
+            List<LinkedHashMap<String, String>> entryLists,
+            Map<String, String> rtnMap, String notes
+    ) {
         if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");

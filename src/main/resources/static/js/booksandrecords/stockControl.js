@@ -3,29 +3,23 @@ sw.page.modules["booksandrecords/stockControl"] = sw.page.modules["booksandrecor
 
     query: function () {
         // 获取查询表单参数
-        var startFlightTimes = $("[name='startFlightTimes']").val();
-        var endFlightTimes = $("[name='endFlightTimes']").val();
-        var billNo = $("[name='billNo']").val();
-        var orderNo = $("[name='orderNo']").val();
-        var logisticsNo = $("[name='logisticsNo']").val();
-        var preNo = $("[name='preNo']").val();
-        var invtNo = $("[name='invtNo']").val();
-        var returnStatus = $("[name='returnStatus']").val();
+        var gds_seqno = $("[name='gds_seqno']").val();
+        var gds_mtno = $("[name='gds_mtno']").val();
+        var gdecd = $("[name='gdecd']").val();
+        var gds_nm = $("[name='gds_nm']").val();
+        var surplus = $("[name='surplus']").val();
 
         // 拼接URL及参数
-        var url = sw.serializeObjectToURL("api/detailManage/queryDetailQuery", {
-            startFlightTimes: startFlightTimes,//申报开始时间
-            endFlightTimes: endFlightTimes,//申报结束时间
-            billNo: billNo,//提运单号
-            orderNo: orderNo,//订单编号
-            logisticsNo: logisticsNo,//物流运单编号
-            preNo: preNo,//电子口岸标识编号
-            invtNo: invtNo,//海关清单编号
-            returnStatus: returnStatus//回执状态
+        var url = sw.serializeObjectToURL("api/booksandrecords/stockcontrol", {
+            gds_seqno: gds_seqno,//商品序号
+            gds_mtno: gds_mtno,//商品料号
+            gdecd: gdecd,//商品税号
+            gds_nm: gds_nm,//商品名称
+            surplus: surplus//剩余库存量
         });
 
         // 数据表
-        sw.datatable("#query-stockControl-table", {
+        sw.datatable("#query-stockcontrol-table", {
             ordering: false,
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
@@ -55,35 +49,37 @@ sw.page.modules["booksandrecords/stockControl"] = sw.page.modules["booksandrecor
                     }
                 });
             },
-            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000], [50, 100, 1000]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "bill_no", label: "序号"},//订单编号要点击查看订单详情
-                {data: "logistics_no", label: "料号"},
-                {data: "invt_no", label: "税号"},
                 {
-                    label: "商品名称", render: function (data, type, row) {
-                        return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
-                            'title="' + row.ebp_name + '">' + row.ebp_name + '</div>';
-                    }
+                    data: "gds_seqno", label: "序号"
                 },
                 {
-                    label: "商品规格", render: function (data, type, row) {
-                        return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
-                            'title="' + row.ebc_name + '">' + row.ebc_name + '</div>';
-                    }
+                    data: "gds_mtno", label: "料号"
                 },
+                {
+                    data: "gdecd", label: "税号"
+                },
+                {
+                    data: "gds_nm", label: "商品名称"
+                },
+                // {
+                //     data: "dcl_unitcd", label: "申报计量单位"
+                // },
                 {
                     label: "申报计量单位", render: function (data, type, row) {
-                        return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
-                            'title="' + row.ebc_name + '">' + row.ebc_name + '</div>';
-                    }
+                    return row.dcl_unitcd_name + '(' + row.dcl_unitcd + ')';
+                }
                 },
                 {
-                    label: "当前库存数量", render: function (data, type, row) {
-                        return '<div style="width:100px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" ' +
-                            'title="' + row.ebc_name + '">' + row.ebc_name + '</div>';
-                    }
+                    data: "in_qty", label: "当前库存数量"
+                },
+                {
+                    data: "prevd_inc_qty", label: "预增库存数量"
+                },
+                {
+                    data: "prevd_redc_qty", label: "预减库存数量"
                 }
             ]
         });
@@ -91,23 +87,7 @@ sw.page.modules["booksandrecords/stockControl"] = sw.page.modules["booksandrecor
 
     init: function () {
         $("[ws-search]").unbind("click").click(this.query).click();
-        // $("[ws-download]").unbind("click").click(this.download);
-        $(".btn[ws-search]").click();
     },
-
-    seeInventoryDetail: function (guid, order_no, return_status) {
-        if (return_status == 100) {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        } else {
-            var url = "detailmanage/seeInventoryDetail?type=QDCX&isEdit=false&guid=" + guid + "&orderNo=" + order_no;
-        }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    },
-
-    seeInventoryRec: function (guid, data_status) {
-        var url = "detailmanage/seeInventoryRec?type=QDCX&isEdit=true&guid=" + guid + "&data_status=" + data_status;
-        sw.modelPopup(url, "查看清单回执详情", false, 800, 300);
-    }
 
 };
 

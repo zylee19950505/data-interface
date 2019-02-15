@@ -50,6 +50,12 @@ public class CrtEnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtDt.getNatcd())){
                     VALUES("natcd","#{bondInvtDt.natcd}");
                 }
+                if(!StringUtils.isEmpty(bondInvtDt.getGross_wt())){
+                    VALUES("GROSS_WT","#{bondInvtDt.gross_wt}");
+                }
+                if(!StringUtils.isEmpty(bondInvtDt.getNet_wt())){
+                    VALUES("NET_WT","#{bondInvtDt.net_wt}");
+                }
                 if(!StringUtils.isEmpty(bondInvtDt.getDcl_total_amt())){
                     VALUES("dcl_total_amt","#{bondInvtDt.dcl_total_amt}");
                 }
@@ -64,6 +70,9 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if(!StringUtils.isEmpty(bondInvtDt.getDcl_qty())){
                     VALUES("dcl_qty","#{bondInvtDt.dcl_qty}");
+                }
+                if(!StringUtils.isEmpty(bondInvtDt.getDcl_qty())){
+                    VALUES("surplus_nm","#{bondInvtDt.dcl_qty}");
                 }
                 if(!StringUtils.isEmpty(bondInvtDt.getRmk())){
                     VALUES("rmk","#{bondInvtDt.rmk}");
@@ -106,6 +115,15 @@ public class CrtEnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtBsc.getCrt_user())){
                     VALUES("crt_user","#{bondInvtBsc.crt_user}");
                 }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getOriginal_nm()))){
+                    VALUES("ORIGINAL_NM","#{bondInvtBsc.original_nm}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getUsable_nm()))){
+                    VALUES("USABLE_NM","#{bondInvtBsc.usable_nm}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getBound_nm()))){
+                    VALUES("BOUND_NM","#{bondInvtBsc.bound_nm}");
+                }
 
 
             }
@@ -116,14 +134,14 @@ public class CrtEnterInventorySQLProvider {
     public String queryEnterInventoryBsc(Map<String, String> paramMap){
         return new SQL(){
             {
-                SELECT("t.crt_ent_id");
-                SELECT("t.crt_ent_name");
+                SELECT("t.*");
+                /*SELECT("t.crt_ent_name");
                 SELECT("t.bizop_etpsno");
                 SELECT("t.bizop_etps_nm");
                 SELECT("t.dcl_etpsno");
                 SELECT("t.dcl_etps_nm");
                 SELECT("t.dcl_plc_cuscd");
-                SELECT("t.crt_user");
+                SELECT("t.crt_user");*/
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.etps_inner_invt_no = #{inner_ivt_no}");
             }

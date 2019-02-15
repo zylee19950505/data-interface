@@ -23,28 +23,27 @@ public class ExitManifestService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
-
-    //查询出区核放单数据
+    //查询进口出区核放单数据
     public List<PassPortHead> queryExitManifestData(Map<String, String> paramMap) throws Exception {
         return this.exitManifestMapper.queryExitManifestData(paramMap);
     }
 
-    //查询出区核放单总数
+    //查询进口出区核放单总数
     public Integer queryExitManifestCount(Map<String, String> paramMap) throws Exception {
         return this.exitManifestMapper.queryExitManifestCount(paramMap);
     }
 
-    //获取出区核放单表头数据
+    //获取进口出区核放单表头详情
     public PassPortHead queryPassPortHead(Map<String, String> paramMap) throws Exception {
         return this.exitManifestMapper.queryPassPortHead(paramMap);
     }
 
-    //获取出区核放单表体数据
+    //获取进口出区核放单表体详情
     public List<PassPortAcmp> queryPassPortAcmp(Map<String, String> paramMap) throws Exception {
         return this.exitManifestMapper.queryPassPortAcmp(paramMap);
     }
 
-    //删除清单逻辑校验未通过数据
+    //删除出区核放单数据操作
     @Transactional
     public void deleteExitManifest(String submitKeys, String entId) throws Exception {
         Map<String, String> paramMap = new HashMap<>();
@@ -74,8 +73,19 @@ public class ExitManifestService {
         }
     }
 
+    //查询数据是否填写完整
+    public boolean queryDataFull(Map<String,String> paramMap){
+        boolean flag;
+        List<String> status = this.exitManifestMapper.queryDataFull(paramMap);
+        if(status.contains("INIT")){
+            flag = false;
+        }else {
+            flag = true;
+        }
+        return flag;
+    }
 
-    //更新提交海关的出区核放单数据
+    //更新修改出区核放单数据为申报中状态（提交海关）
     @Transactional
     public boolean updateSubmitCustom(Map<String, String> paramMap) {
         boolean flag;
@@ -90,23 +100,20 @@ public class ExitManifestService {
         return flag;
     }
 
-
     //修改出区核放单数据
     @Transactional
-    public Map<String, String> updateExitManifest(LinkedHashMap<String, String> passPortHead, ArrayList<LinkedHashMap<String, String>> passPortAcmpList, Users userInfo) {
+    public Map<String, String> updateExitManifest(LinkedHashMap<String, String> passPortHead, LinkedHashMap<String, String> passPortAcmpList, Users userInfo) {
         Map<String, String> rtnMap = new HashMap<String, String>();
         if (saveExitManifest(passPortHead, passPortAcmpList, userInfo, rtnMap, "出区核放单-编辑")) return rtnMap;
-
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“出区核放单”处重新进行申报！");
         return rtnMap;
-
     }
 
-    //修改出区核放单数据
+    //更新修改出区核放单数据
     public boolean saveExitManifest(
             LinkedHashMap<String, String> passPortHead,
-            List<LinkedHashMap<String, String>> passPortAcmpList,
+            LinkedHashMap<String, String> passPortAcmpList,
             Users userInfo,
             Map<String, String> rtnMap, String notes
     ) {
@@ -115,18 +122,22 @@ public class ExitManifestService {
             rtnMap.put("msg", "未发现需要修改数据！");
             return true;
         }
-        String entryHeadId = passPortHead.get("entryhead_guid");
         if (!CollectionUtils.isEmpty(passPortHead) && passPortHead.size() > 1) {
             // 更新表头数据
             this.exitManifestMapper.updatePassPortHead(passPortHead, userInfo);
         }
-        if (!CollectionUtils.isEmpty(passPortAcmpList)) {
+
+//        if (!CollectionUtils.isEmpty(passPortHead)) {
+//            exitManifestMapper.updatePassPortAcmp(passPortHead, userInfo);
+//        }
+
+        if (!CollectionUtils.isEmpty(passPortAcmpList) && !CollectionUtils.isEmpty(passPortHead)) {
             // 更新表体数据
-            for (LinkedHashMap<String, String> passPortAcmp : passPortAcmpList) {
-                if (!CollectionUtils.isEmpty(passPortAcmp)) {
-                    exitManifestMapper.updatePassPortAcmp(passPortHead, userInfo);
-                }
-            }
+//            for (LinkedHashMap<String, String> passPortAcmp : passPortAcmpList) {
+//                if (!CollectionUtils.isEmpty(passPortAcmpList)) {
+            exitManifestMapper.updatePassPortAcmp(passPortHead, passPortAcmpList, userInfo);
+//                }
+//            }
         }
         return false;
     }

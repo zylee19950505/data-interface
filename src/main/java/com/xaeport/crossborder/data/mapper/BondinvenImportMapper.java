@@ -5,7 +5,6 @@ import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
-import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -30,9 +29,11 @@ public interface BondinvenImportMapper {
     @SelectProvider(type = BondinvenImportSQLProvider.class, method = "isRepeatOrderNo")
     int isRepeatOrderNo(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) throws Exception;
 
+    //查询检验库存余量是否大于excel导入数量
     @SelectProvider(type = BondinvenImportSQLProvider.class, method = "checkStockSurplus")
     BwlListType checkStockSurplus(@Param("user") Users user, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
 
+    //确认保税清单库存无误后，设置账册表体预减数量
     @UpdateProvider(type = BondinvenImportSQLProvider.class, method = "setPrevdRedcQty")
     void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
 

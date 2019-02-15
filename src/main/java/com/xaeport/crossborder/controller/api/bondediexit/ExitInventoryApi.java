@@ -22,10 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-
-/*
- * 订单申报
- */
 @RestController
 @RequestMapping("/api/bondediexit")
 public class ExitInventoryApi extends BaseApi {
@@ -37,6 +33,7 @@ public class ExitInventoryApi extends BaseApi {
     @Autowired
     ExitInventoryService exitInventoryService;
 
+    //查询出区核注清单数据
     @RequestMapping(value = "/queryexitinventory", method = RequestMethod.GET)
     public ResponseData queryCrtExitInventory(
             @RequestParam(required = false) String entry_dcl_time,
@@ -45,7 +42,7 @@ public class ExitInventoryApi extends BaseApi {
             @RequestParam(required = false) String bond_invt_no,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询出区核注清单数据参数:[bond_invt_no:%s]", bond_invt_no));
+        this.logger.debug(String.format("查询出区核注清单数据参数:[entry_dcl_time:%s,status:%s,return_status:%s,bond_invt_no:%s]", entry_dcl_time, status, return_status, bond_invt_no));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -87,14 +84,12 @@ public class ExitInventoryApi extends BaseApi {
 
     }
 
-
+    //新建出区核注清单数据，获取数据
     @RequestMapping(value = "/exitinventory", method = RequestMethod.GET)
     public ResponseData exitInventory(
             @RequestParam(required = false) String dataInfo
     ) {
-//        Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
-
         paramMap.put("etpsInnerInvtNo", dataInfo);
 
         ExitBondInvt exitBondInvt = new ExitBondInvt();
@@ -118,15 +113,12 @@ public class ExitInventoryApi extends BaseApi {
     public ResponseData updateExitInventory(@Param("entryJson") String entryJson) {
         //出区核注清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
         // 出区核注清单表头
         LinkedHashMap<String, String> BondInvtBsc = (LinkedHashMap<String, String>) object.get("BondInvtBsc");
-
         // 出区核注清单表体
         ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList = (ArrayList<LinkedHashMap<String, String>>) object.get("nemsInvtCbecBillTypeList");
 
         Users userInfo = this.getCurrentUsers();
-
         Map<String, String> rtnMap = new HashMap<>();
         try {
             // 保存详情信息
@@ -140,7 +132,7 @@ public class ExitInventoryApi extends BaseApi {
     }
 
     /**
-     * 清单申报-提交海关
+     * 出区核注清单数据申报-提交海关置为申报中状态
      **/
     @RequestMapping(value = "/exitinventory/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(
@@ -156,7 +148,6 @@ public class ExitInventoryApi extends BaseApi {
         paramMap.put("status", StatusCode.CQHZQDSBZ);//申报中
         paramMap.put("statusWhere", StatusCode.CQHZQDDSB);//待申报
         paramMap.put("userId", user.getId());
-
         paramMap.put("submitKeys", submitKeys);//清单唯一编码
         // 调用清单申报Service获取提交海关结果
         boolean flag = exitInventoryService.updateSubmitCustom(paramMap);
@@ -167,13 +158,12 @@ public class ExitInventoryApi extends BaseApi {
         }
     }
 
-    //逻辑校验删除运单
+    //删除出区核注清单操作
     @RequestMapping(value = "/exitinventory/deleteExitInventory", method = RequestMethod.POST)
     public ResponseData deleteVerifyIdCard(
             String submitKeys
     ) {
         if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
-
         try {
             this.exitInventoryService.deleteExitInventory(submitKeys, this.getCurrentUserEntId());
         } catch (Exception e) {

@@ -90,7 +90,28 @@ sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querys
         });
         this.EbusinessEnt();
         $("[ws-search]").unbind("click").click(this.query);
+        $("[ws-download]").unbind("click").click(this.download);
         $(".btn[ws-search]").click();
+    },
+
+    //导出excel
+    download: function () {
+        var oTable = $('#query-commodity-table').dataTable();
+        var oSettings = oTable.fnSettings();
+        var paramJson = {
+            startFlightTimes: $("[name='startFlightTimes']").val(),
+            endFlightTimes: $("[name='endFlightTimes']").val(),
+            ieFlag: $("[name='ieFlag']").val(),
+            entId: $("[name='entId']").val(),
+            startStr: oSettings._iDisplayStart,
+            length: oSettings._iDisplayLength
+        };
+        sw.ajax("api/commodity/load", "GET", paramJson, function (rsp) {
+            if (rsp.status == 200) {
+                var fileName = rsp.data;
+                window.location.href = "/api/commodity/query/downloadFile?fileName=" + fileName;
+            }
+        })
     },
 
 };

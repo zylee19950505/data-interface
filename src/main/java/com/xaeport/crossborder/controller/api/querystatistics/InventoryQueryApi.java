@@ -141,7 +141,6 @@ public class InventoryQueryApi extends BaseApi {
             @RequestParam String billNo,
             @RequestParam String invtNo,
             @RequestParam String gName,
-
             @RequestParam String startStr,
             @RequestParam String length
 

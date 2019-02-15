@@ -173,6 +173,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#rmk").val(entryHead.rmk);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
+        $("#bond_invt_no").val(entryHead.bond_invt_no);
 
         selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
@@ -284,7 +285,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
-        debugger;
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
@@ -582,12 +582,12 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        // "body_id",
-                        "body_no"
-                        // "body_seqNo",
-                        // "body_bondInvtNo",
-                        // "body_cbecBillNo",
-                        // "body_etpsInnerInvtNo"
+                        "body_id",
+                        "body_no",
+                        "body_seqNo",
+                        "body_bondInvtNo",
+                        "body_cbecBillNo",
+                        "body_etpsInnerInvtNo"
                     ];
                 }
                 //保存的路径

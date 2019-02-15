@@ -3,7 +3,6 @@ package com.xaeport.crossborder.data.provider;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
-import com.xaeport.crossborder.data.provider.BaseSQLProvider;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
@@ -20,7 +19,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
                 WHERE("GDS_MTNO = #{item_record_no}");
-                SET("PREVD_REDC_QTY = #{qtySum}");
+                SET("PREVD_REDC_QTY = PREVD_REDC_QTY + #{qtySum}");
             }
         }.toString();
     }

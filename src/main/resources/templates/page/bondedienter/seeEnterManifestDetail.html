@@ -8,151 +8,109 @@
         </small>
     </div>
     <table id="entryHead" class="headDetail" border="1px solid balck">
-        <tr hidden="hidden">
-            <td class="headTitle">ID</td>
-            <td>
-                <input class="form-control input-sm" maxlength="36" id="auto_id" hidden="hidden"/>
-            </td>
-            <td class="headTitle">bill_nos</td>
-            <td>
-                <input class="form-control input-sm" maxlength="36" id="bill_nos" hidden="hidden"/>
-            </td>
-        </tr>
         <tr>
-            <td class="headTitle">统一编码</td>
+            <td class="headTitle">企业内部编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="36" id="manifest_no"/>
+                <input class="form-control input-sm" maxlength="36" id="etps_preent_no"/>
             </td>
-            <td class="headTitle">关联单证类型代码</td>
+            <td class="headTitle">核注清单编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="10" id="customs_code"/>
-            </td>
-            <td class="headTitle">关联单证编号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="5" id="i_e_mark"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="headTitle">申报类型代码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="36" id="biz_type"/>
+                <input class="form-control input-sm" maxlength="10" id="bond_invt_no"/>
             </td>
             <td class="headTitle">主管关区代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="10" id="biz_mode"/>
-            </td>
-            <td class="headTitle">申报企业编号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="5" id="i_e_flag"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="headTitle">申报企业名称</td>
-            <td>
-                <input class="form-control input-sm" maxlength="50" id="trade_mode"/>
-            </td>
-            <td class="headTitle">录入单位代码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="18" id="pack_no"/>
-            </td>
-            <td class="headTitle">录入单位名称</td>
-            <td>
-                <input class="form-control input-sm" maxlength="18" id="goods_wt"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="headTitle">区内账册编号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="18" id="sum_goods_value"/>
-            </td>
-            <td class="headTitle">进出标志代码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="18" id="fact_weight"/>
-            </td>
-            <td class="headTitle">车牌号</td>
-            <td>
-                <input class="form-control input-sm" maxlength="10" id="start_land"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="headTitle">车辆自重</td>
-            <td>
-                <input class="form-control input-sm" maxlength="36" id="goal_land"/>
-            </td>
-            <td class="headTitle">车架重</td>
-            <td>
-                <input class="form-control input-sm" maxlength="100" id="delivery_way"/>
-            </td>
-            <td class="headTitle">集装箱箱型</td>
-            <td>
-                <input class="form-control input-sm" maxlength="30" id="m_status"/>
-            </td>
-        </tr>
-        <tr>
-            <td class="headTitle">集装箱重</td>
-            <td>
-                <input class="form-control input-sm" maxlength="36" id="port_status"/>
-            </td>
-            <td class="headTitle">总重量</td>
-            <td>
-                <input class="form-control input-sm" maxlength="100" id="input_name"/>
-            </td>
-            <td class="headTitle">核放单类型代码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="30" id="input_code"/>
+                <input class="form-control input-sm" maxlength="5" id="master_cuscd"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">绑定类型代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="36" id="app_person"/>
+                <select class="form-control input-sm" maxlength="36" id="bind_typecd"/>
             </td>
             <td class="headTitle">区内企业编码</td>
             <td>
-                <input class="form-control input-sm" maxlength="100" id="region_code"/>
+                <input class="form-control input-sm" maxlength="10" id="areain_etpsno"/>
             </td>
             <td class="headTitle">区内企业名称</td>
             <td>
-                <input class="form-control input-sm" maxlength="30" id="plat_from"/>
+                <input class="form-control input-sm" maxlength="5" id="areain_etps_nm"/>
             </td>
         </tr>
         <tr>
-            <td class="headTitle">申请人及联系方式</td>
+            <td class="headTitle">承运车车牌号</td>
             <td>
-                <input class="form-control input-sm" maxlength="36" id="extend_field_3"/>
+                <input class="form-control input-sm" maxlength="50" id="vehicle_no"/>
             </td>
+            <td class="headTitle">车自重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="vehicle_wt"/>
+            </td>
+            <td class="headTitle">车架重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="vehicle_frame_wt"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">集装箱箱型</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="container_type"/>
+            </td>
+            <td class="headTitle">集装箱重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="container_wt"/>
+            </td>
+            <td class="headTitle">总重量</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="total_wt"/>
+            </td>
+        </tr>
+        <tr>
             <td class="headTitle">货物总毛重</td>
             <td>
-                <input class="form-control input-sm" maxlength="1000" id="note"/>
+                <input class="form-control input-sm" maxlength="36" id="total_gross_wt"/>
             </td>
             <td class="headTitle">货物总净重</td>
             <td>
-                <input class="form-control input-sm" maxlength="30" id="b_status"/>
+                <input class="form-control input-sm" maxlength="100" id="total_net_wt"/>
+            </td>
+            <td class="headTitle">申请人及联系方式</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="dcl_er_conc"/>
             </td>
         </tr>
         <tr>
+            <td class="headTitle">申报企业编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="dcl_etpsno"/>
+            </td>
+            <td class="headTitle">申报企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="dcl_etps_nm"/>
+            </td>
+            <td class="headTitle">录入单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="input_code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">录入单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="36" id="input_name"/>
+            </td>
+            <td class="headTitle">备注</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="rmk"/>
+            </td>
+
+        </tr>
+      <!--  <tr>
             <td class="headTitle">备注</td>
             <td colspan="6">
                 <input class="form-control input-sm" maxlength="36" id="trade_code"/>
             </td>
-        </tr>
+        </tr>-->
 
     </table>
-
-    <!--<div class="entryTitle">-->
-        <!--<span>预定数据</span>-->
-    <!--</div>-->
-    <!--<table id="entryList" class="listDetail" border="1px solid balck">-->
-        <!--<tr style="height: 30px">-->
-            <!--<th>提运单号</th>-->
-            <!--<th>总单量</th>-->
-            <!--<th>放行单量</th>-->
-            <!--<th>放行件数</th>-->
-            <!--<th>放行毛重</th>-->
-            <!--<th>放行净重</th>-->
-            <!--<th>放行货值</th>-->
-        <!--</tr>-->
-    <!--</table>-->
 
     <div class="text-center">
         <small class="help-block text-red" id="errorMsg"></small>

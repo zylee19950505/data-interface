@@ -28,8 +28,10 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                         " SELECT " +
                         "t.ID," +
                         "t.ETPS_INNER_INVT_NO," +
+                        "t.INVT_PREENT_NO," +
                         "t.BOND_INVT_NO," +
                         "t.STATUS," +
+                        "t.INVT_DCL_TIME," +
                         "t.ENTRY_DCL_TIME," +
                         "t.RETURN_STATUS," +
                         "t.RETURN_TIME," +
@@ -37,7 +39,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(entry_dcl_time)) {
                     WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -76,7 +78,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'EXIT'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(entry_dcl_time)) {
                     WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -135,6 +137,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("*");
                 FROM("T_NEMS_INVT_CBEC_BILL_TYPE");
                 WHERE("HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
+                ORDER_BY("NO");
             }
         }.toString();
     }
@@ -295,6 +298,85 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 }
             }
         }.toString();
+    }
+
+
+    public String findWaitGenerated(Map<String, String> paramMap) {
+        final String status = paramMap.get("status");
+        return new SQL() {
+            {
+                SELECT("BOND_INVT_NO");
+                SELECT("SEQ_NO");
+                SELECT("PUTREC_NO");
+                SELECT("ETPS_INNER_INVT_NO");
+                SELECT("BIZOP_ETPS_SCCD");
+                SELECT("BIZOP_ETPSNO");
+                SELECT("BIZOP_ETPS_NM");
+                SELECT("RCVGD_ETPSNO");
+                SELECT("RVSNGD_ETPS_SCCD");
+                SELECT("RCVGD_ETPS_NM");
+                SELECT("DCL_ETPS_SCCD");
+                SELECT("DCL_ETPSNO");
+                SELECT("DCL_ETPS_NM");
+                SELECT("INVT_DCL_TIME");
+                SELECT("IMPEXP_PORTCD");
+                SELECT("DCL_PLC_CUSCD");
+                SELECT("IMPEXP_MARKCD");
+                SELECT("MTPCK_ENDPRD_MARKCD");
+                SELECT("SUPV_MODECD");
+                SELECT("TRSP_MODECD");
+                SELECT("DCLCUS_FLAG");
+                SELECT("DCLCUS_TYPECD");
+                SELECT("VRFDED_MARKCD");
+                SELECT("STSHIP_TRSARV_NATCD");
+                SELECT("CRT_USER");
+                SELECT("CRT_ENT_ID");
+                SELECT("CRT_ENT_NAME");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE("t.status = #{status}");
+                WHERE("rownum <= 100");
+                ORDER_BY("t.CRT_TIME asc,t.ETPS_INNER_INVT_NO asc");
+            }
+        }.toString();
+    }
+
+    public String updateBondInvtBscStatus(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC t");
+                WHERE("t.ETPS_INNER_INVT_NO = #{headEtpsInnerInvtNo}");
+                SET("t.STATUS = #{status}");
+                SET("t.UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    public String queryBondInvtListByHeadNo(@Param("head_etps_inner_invt_no") String head_etps_inner_invt_no) {
+
+        return new SQL() {
+            {
+                SELECT("SEQ_NO");
+                SELECT("BOND_INVT_NO");
+                SELECT("CBEC_BILL_NO");
+                FROM("T_NEMS_INVT_CBEC_BILL_TYPE t");
+                WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{head_etps_inner_invt_no}");
+            }
+        }.toString();
+    }
+
+    public String queryCompany(@Param("ent_id") String ent_id) {
+        return new SQL() {
+            {
+                SELECT("t.CUSTOMS_CODE as copCode");
+                SELECT("t.ENT_NAME as copName");
+                SELECT("'DXP' as dxpMode");
+                SELECT("t.DXP_ID as dxpId");
+                SELECT("t.note as note");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.id = #{ent_id}");
+            }
+        }.toString();
+
     }
 
 

@@ -22,10 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-
-/*
- * 订单申报
- */
 @RestController
 @RequestMapping("/api/bondediexit")
 public class ExitManifestApi extends BaseApi {
@@ -38,7 +34,7 @@ public class ExitManifestApi extends BaseApi {
     ExitManifestService exitManifestService;
 
     /*
-     * 查询出区核放单
+     * 查询出区核放单数据
      */
     @RequestMapping(value = "/queryExitManifest", method = RequestMethod.GET)
     public ResponseData queryExitManifest(
@@ -49,7 +45,7 @@ public class ExitManifestApi extends BaseApi {
             @RequestParam(required = false) String rlt_no,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询出区核放单条件参数:[dcl_time:%s,status:%s,return_status:%s,passport_no:%s]", dcl_time, status, return_status, passport_no));
+        this.logger.debug(String.format("查询出区核放单条件参数:[dcl_time:%s,status:%s,return_status:%s,passport_no:%s,rlt_no:%s]", dcl_time, status, return_status, passport_no, rlt_no));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -93,6 +89,7 @@ public class ExitManifestApi extends BaseApi {
     }
 
 
+    //查询出区核放单数据详情信息
     @RequestMapping(value = "/exitmanifest", method = RequestMethod.GET)
     public ResponseData exitInventory(
             @RequestParam(required = false) String dataInfo
@@ -117,21 +114,19 @@ public class ExitManifestApi extends BaseApi {
         return new ResponseData(passPort);
     }
 
-    //修改出区核注清单信息
+    //修改出区核放单信息
     @RequestMapping("/updateExitManifest")
     public ResponseData updateExitManifest(@Param("entryJson") String entryJson) {
         //出区核注清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
         // 出区核注清单表头
         LinkedHashMap<String, String> passPortHead = (LinkedHashMap<String, String>) object.get("passPortHead");
-
         // 出区核注清单表体
-        ArrayList<LinkedHashMap<String, String>> passPortAcmpList = (ArrayList<LinkedHashMap<String, String>>) object.get("passPortAcmpList");
+        LinkedHashMap<String, String> passPortAcmpList = (LinkedHashMap<String, String>) object.get("passPortAcmpList");
 
         Users userInfo = this.getCurrentUsers();
-
         Map<String, String> rtnMap = new HashMap<>();
+
         try {
             // 保存详情信息
             rtnMap = exitManifestService.updateExitManifest(passPortHead, passPortAcmpList, userInfo);
@@ -145,16 +140,16 @@ public class ExitManifestApi extends BaseApi {
 
 
     /**
-     * 清单申报-提交海关
+     * 出区核放单申报-提交海关置为申报中状态
      **/
     @RequestMapping(value = "/exitmanifest/submitCustom", method = RequestMethod.POST)
     public ResponseData submitCustom(
             @RequestParam(required = false) String submitKeys,
             HttpServletRequest request
     ) {
-        this.logger.info("清单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
+        this.logger.info("出区核放单申报客户端操作地址为 " + GetIpAddr.getRemoteIpAdd(request));
         if (StringUtils.isEmpty(submitKeys)) {
-            return rtnResponse("false", "请先勾选要提交海关的出区核注清单信息！");
+            return rtnResponse("false", "请先勾选要提交海关的出区核放单信息！");
         }
         Users user = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
@@ -163,7 +158,11 @@ public class ExitManifestApi extends BaseApi {
         paramMap.put("userId", user.getId());
         paramMap.put("submitKeys", submitKeys);//清单唯一编码
         // 调用清单申报Service获取提交海关结果
-        boolean flag = exitManifestService.updateSubmitCustom(paramMap);
+        boolean flag;
+        flag = exitManifestService.queryDataFull(paramMap);
+        if (flag) {
+            flag = exitManifestService.updateSubmitCustom(paramMap);
+        }
         if (flag) {
             return rtnResponse("true", "出区核放单申报海关提交成功！");
         } else {
@@ -171,12 +170,12 @@ public class ExitManifestApi extends BaseApi {
         }
     }
 
-    //删除出区核放单数据
+    //删除出区核放单数据操作
     @RequestMapping(value = "/exitmanifest/deleteExitManifest", method = RequestMethod.POST)
     public ResponseData deleteExitManifest(
             @RequestParam(required = false) String submitKeys
     ) {
-        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交需要删除的数据", HttpStatus.FORBIDDEN);
         try {
             this.exitManifestService.deleteExitManifest(submitKeys, this.getCurrentUserEntId());
         } catch (Exception e) {

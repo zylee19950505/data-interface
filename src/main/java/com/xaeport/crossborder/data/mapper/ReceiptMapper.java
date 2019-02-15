@@ -5,9 +5,115 @@ import com.xaeport.crossborder.data.provider.ReceiptSQLProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Mapper
 @Transactional
 public interface ReceiptMapper {
+
+    //根据企业内部编码查询保税清单表头信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryImpInventoryHeads")
+    List<ImpInventoryHead> queryImpInventoryHeads(String EtpsInnerInvtNo);
+
+    //根据企业内部编码查询保税清单表体信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryImpInventoryBodyList")
+    List<ImpInventoryBody> queryImpInventoryBodyList(String EtpsInnerInvtNo);
+
+    //确认保税清单库存无误后，设置账册表体预减数量
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "setPrevdRedcQty")
+    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
+
+    //查询检验库存余量是否大于excel导入数量
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "checkStockSurplus")
+    BwlListType checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
+
+
+    @Select("SELECT BUSINESS_TYPE FROM T_IMP_INVENTORY_HEAD WHERE COP_NO = #{copNo}")
+    String queryBusiTypeByCopNo(@Param("copNo") String copNo);
+
+    //插入核注清单处理成功回执数据
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtCommon")
+    void createInvtCommon(@Param("recBondInvtCommon") RecBondInvtCommon recBondInvtCommon);
+
+    //根据核注清单处理成功回执更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByCommon")
+    void updateBondInvtStatusByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //根据核注清单处理成功回执更新表体数据
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemsInvtByCommon")
+    void updateNemsInvtByCommon(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //根据核放单处理成功回执更新状态
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortStatusByCommon")
+    void updatePassPortStatusByCommon(@Param("passPortHead") PassPortHead passPortHead);
+
+    //根据核放单处理成功回执更新表体数据
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortAcmpByCommon")
+    void updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead);
+
+    //核注清单(报文回执/审核回执)(HdeAppr)（报文一）
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtHdeAppr")
+    void createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr);
+
+    //更新修改核注清单表头数据(HdeAppr)——保税出区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByHdeAppr")
+    void updateBondInvtStatusByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表体数据(HdeAppr)——保税出区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemssByHdeAppr")
+    void updateNemssByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表头数据(HdeAppr)——保税入区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtBscByHdeAppr")
+    void updateBondInvtBscByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表体数据(HdeAppr)——保税入区
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtDtByHdeAppr")
+    void updateBondInvtDtByHdeAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+
+    //核注清单生成报关单回执(InvAppr)（报文二）
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtInvAppr")
+    void createInvtInvAppr(@Param("recBondInvtInvAppr") RecBondInvtInvAppr recBondInvtInvAppr);
+
+    //更新修改核注清单表头数据(InvAppr)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateBondInvtStatusByInvAppr")
+    void updateBondInvtStatusByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //更新修改核注清单表体数据(InvAppr)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updateNemssByInvAppr")
+    void updateNemssByInvAppr(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+
+    //插入核放单(报文回执/审核回执)(HdeAppr)（报文一）
+    @InsertProvider(type = ReceiptSQLProvider.class, method = "createPassPortHdeAppr")
+    void createPassPortHdeAppr(@Param("recPassPortHdeAppr") RecPassPortHdeAppr recPassPortHdeAppr);
+
+    //更新核放单表头数据(HdeAppr)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassportStatusByHdeAppr")
+    void updatePassportStatusByHdeAppr(@Param("passPortHead") PassPortHead passPortHead);
+
+    //更新核放单表体数据(HdeAppr)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortAcmpByHdeAppr")
+    void updatePassPortAcmpByHdeAppr(@Param("passPortHead") PassPortHead passPortHead);
+
+
+    //
+    @Select("SELECT * FROM T_BOND_INVT_BSC WHERE ETPS_INNER_INVT_NO = #{etpsPreentNo}")
+    BondInvtBsc queryIsBondInvt(@Param("etpsPreentNo") String etpsPreentNo);
+
+    //根据企业内部编码查询核放单信息（系统自生成编码）
+    @Select("SELECT * FROM T_PASS_PORT_HEAD WHERE ETPS_PREENT_NO = #{etpsPreentNo}")
+    PassPortHead queryIsPassPort(@Param("etpsPreentNo") String etpsPreentNo);
+
+    //根据企业统一编号查询核注清单信息（数据中心所给编号）
+    @Select("SELECT * FROM T_BOND_INVT_BSC WHERE INVT_PREENT_NO = #{invt_preent_no}")
+    BondInvtBsc queryBondInvt(@Param("invt_preent_no") String invt_preent_no);
+
+    //根据企业统一编号查询核放单信息（数据中心所给编号）
+    @Select("SELECT * FROM T_PASS_PORT_HEAD WHERE SAS_PASSPORT_PREENT_NO = #{invt_preent_no}")
+    PassPortHead queryPassPort(@Param("invt_preent_no") String invt_preent_no);
+
 
     //插入电子税单表头数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "InsertTaxHeadRd")
@@ -110,5 +216,30 @@ public interface ReceiptMapper {
     //入库明细单数据查询
     @SelectProvider(type = ReceiptSQLProvider.class, method = "findDeliveryByCopNo")
     ImpDeliveryHead findDeliveryByCopNo(String copNo) throws Exception;
+
+
+    //查询入区预增数据表头查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtBscList")
+    List<BondInvtBsc> queryBondInvtBscList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //查询入区预增数据表体查询
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtDtList")
+    List<BondInvtDt> queryBondInvtDtList(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    //查询是否存在账册信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "checkBwlHeadType")
+    BwlHeadType checkBwlHeadType(String emsNo);
+
+    //查询是否存在账册表体信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "checkBwlListType")
+    BwlListType checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+
+    //插入入区账册预增数据
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "insertBwlListType")
+    void insertBwlListType(@Param("bwlListType") BwlListType bwlListType);
+
+    //入区账册预增叠加操作
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "addBwlListType")
+    void addBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
 
 }

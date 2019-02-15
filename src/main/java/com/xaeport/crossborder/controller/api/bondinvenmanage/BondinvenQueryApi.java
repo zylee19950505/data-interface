@@ -30,7 +30,6 @@ import java.util.*;
 public class BondinvenQueryApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
-
     @Autowired
     BondinvenQueryService bondinvenQueryService;
     @Autowired
@@ -38,6 +37,7 @@ public class BondinvenQueryApi extends BaseApi {
     @Autowired
     LoadData loadData;
 
+    //查询保税清单数据
     @RequestMapping("/querybondinvenquery")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
@@ -49,9 +49,9 @@ public class BondinvenQueryApi extends BaseApi {
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询保税清单数据条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]", startFlightTimes, endFlightTimes, orderNo));
+        this.logger.debug(String.format("查询保税清单数据条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,logisticsNo:%s,preNo:%s,invtNo:%s,returnStatus:%s]", startFlightTimes, endFlightTimes, orderNo, logisticsNo, preNo, invtNo, returnStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
-        //查询参数
+        //分页参数
         String startStr = request.getParameter("start");
         String length = request.getParameter("length");
         String extra_search = request.getParameter("extra_search");
@@ -59,12 +59,14 @@ public class BondinvenQueryApi extends BaseApi {
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
+        //查询参数
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("orderNo", orderNo);
         paramMap.put("logisticsNo", logisticsNo);
         paramMap.put("preNo", preNo);
         paramMap.put("invtNo", invtNo);
+
         //分页参数
         paramMap.put("start", start);
         paramMap.put("length", length);
@@ -118,6 +120,7 @@ public class BondinvenQueryApi extends BaseApi {
 //        return new ResponseData(impInventoryDetail);
 //    }
 
+    //查询报税清单回执信息
     @RequestMapping("/seebondinvenrec")
     public ResponseData seeInventoryRec(
             @RequestParam(required = false) String guid
@@ -128,7 +131,7 @@ public class BondinvenQueryApi extends BaseApi {
         try {
             impInventoryHead = bondinvenQueryService.getImpBondInvenRec(guid);
         } catch (Exception e) {
-            this.logger.error("查询保税回执信息失败，entryHeadId=" + guid, e);
+            this.logger.error("查询保税清单回执信息失败，guid =" + guid, e);
             return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(impInventoryHead);
@@ -137,23 +140,21 @@ public class BondinvenQueryApi extends BaseApi {
     //保存保税清单信息
     @RequestMapping("/savebondinvenafter")
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
-        //清单json信息
+        //保税清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
-        // 清单表头
+        //保税清单表头
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
-
-        // 清单表体
+        //保税清单表体
         ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
 
         Map<String, String> rtnMap = new HashMap<>();
         try {
-            // 保存详情信息
+            //保存详情信息
             rtnMap = bondinvenQueryService.saveBondInvenAfter(entryHead, entryLists);
         } catch (Exception e) {
-            logger.error("保存保税清单详细信息时发生异常", e);
+            logger.error("保存保税清单详细时发生异常", e);
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "保存保税清单详细信息时发生异常");
+            rtnMap.put("msg", "保存保税清单详细时发生异常");
         }
         return new ResponseData(rtnMap);
     }

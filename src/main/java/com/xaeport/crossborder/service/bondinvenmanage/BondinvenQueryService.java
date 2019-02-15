@@ -20,14 +20,14 @@ public class BondinvenQueryService {
     private Log logger = LogFactory.getLog(this.getClass());
 
     /*
-     * 查询清单数据
+     * 查询保税清单数据
      */
     public List<ImpInventory> queryBondInvenQueryData(Map<String, String> paramMap) throws Exception {
         return this.bondinvenQueryMapper.queryBondInvenQueryData(paramMap);
     }
 
     /*
-     * 查询清单总数
+     * 查询保税清单总数
      */
     public Integer queryBondInvenQueryCount(Map<String, String> paramMap) throws Exception {
         return this.bondinvenQueryMapper.queryBondInvenQueryCount(paramMap);
@@ -47,6 +47,7 @@ public class BondinvenQueryService {
 //        return impInventoryDetail;
 //    }
 
+    //查询保税清单回执数据
     public ImpInventoryHead getImpBondInvenRec(String guid) {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("id", guid);
@@ -54,21 +55,21 @@ public class BondinvenQueryService {
         return impInventoryHead;
     }
 
+    //修改报税清单数据
     @Transactional
     public Map<String, String> saveBondInvenAfter(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
         Map<String, String> rtnMap = new HashMap<String, String>();
         if (saveBondInvenAfterDetail(entryHead, entryLists, rtnMap, "保税清单查询-编辑-重报")) return rtnMap;
-
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“保税清单申报”处重新进行申报！");
         return rtnMap;
 
     }
 
+    //更新修改保税清单数据
     public boolean saveBondInvenAfterDetail(LinkedHashMap<String, String> entryHead,
-                                   List<LinkedHashMap<String, String>> entryLists,
-                                   Map<String, String> rtnMap, String notes) {
-
+                                            List<LinkedHashMap<String, String>> entryLists,
+                                            Map<String, String> rtnMap, String notes) {
         if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");
@@ -90,46 +91,5 @@ public class BondinvenQueryService {
         }
         return false;
     }
-
-//    @Transactional
-//    public Map<String, String> saveLogicalDetail(LinkedHashMap<String, String> entryHead, ArrayList<LinkedHashMap<String, String>> entryLists) {
-//        Map<String, String> rtnMap = new HashMap<String, String>();
-//        if (saveLogicalDetailByInventory(entryHead, entryLists, rtnMap, "清单查询-编辑-重报")) return rtnMap;
-//
-//        rtnMap.put("result", "true");
-//        rtnMap.put("msg", "编辑信息成功，请到“清单申报”处确认是否校验通过！");
-//        return rtnMap;
-//
-//    }
-//
-//    public boolean saveLogicalDetailByInventory(
-//            LinkedHashMap<String, String> entryHead,
-//            List<LinkedHashMap<String, String>> entryLists,
-//            Map<String, String> rtnMap,
-//            String notes
-//    ) {
-//        if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1) && CollectionUtils.isEmpty(entryLists)) {
-//            rtnMap.put("result", "false");
-//            rtnMap.put("msg", "未发现需要修改数据！");
-//            return true;
-//        }
-//        String guid = entryHead.get("entryhead_guid");
-//        if (!CollectionUtils.isEmpty(entryHead) && entryHead.size() > 1) {
-//            // 更新表头数据
-//            this.bondinvenQueryMapper.updateImpInventoryHeadByLogic(entryHead);
-//        }
-//        if (!CollectionUtils.isEmpty(entryLists)) {
-//            // 更新表体数据
-//            for (LinkedHashMap<String, String> entryList : entryLists) {
-//                if (!CollectionUtils.isEmpty(entryList) && entryList.size() > 2) {
-//                    bondinvenQueryMapper.updateImpInventoryBodiesByLogic(entryList);
-//                }
-//            }
-//        }
-//        bondinvenQueryMapper.deleteVerifyStatus(guid);
-//
-//        return false;
-//    }
-
 
 }

@@ -27,6 +27,8 @@ public class ValidateEnterInstance extends ValidateBase {
     private int lawf_qtyIndex; //法定数量";//list
     private int secd_lawf_qtyIndex; //第二法定数量";//list
     private int secd_lawf_unitcdIndex; //第二法定计量单位";//list
+    private int gross_wtIndex; //毛重";//list
+    private int net_wtIndex; //净重";//list
     private int dcl_total_amtIndex; //总价";//list
     private int dcl_qtyIndex; //数量";//list
     private int natcdIndex; //原产国(地区)";//list
@@ -45,6 +47,8 @@ public class ValidateEnterInstance extends ValidateBase {
         lawf_qtyIndex = list.indexOf(ExcelHeadEnterInventory.lawf_qty);//法定数量
         secd_lawf_qtyIndex = list.indexOf(ExcelHeadEnterInventory.secd_lawf_qty);//第二法定数量
         secd_lawf_unitcdIndex = list.indexOf(ExcelHeadEnterInventory.secd_lawf_unitcd);//第二法定计量单位
+        gross_wtIndex = list.indexOf(ExcelHeadEnterInventory.gross_wt);//毛重
+        net_wtIndex = list.indexOf(ExcelHeadEnterInventory.net_wt);//净重
         dcl_total_amtIndex = list.indexOf(ExcelHeadEnterInventory.dcl_total_amt);//总价
         dcl_qtyIndex = list.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = list.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)
@@ -62,6 +66,8 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(lawf_qtyIndex, "法定数量,18");
         indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
         indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
+        indexMap.put(gross_wtIndex, "毛重,18");
+        indexMap.put(net_wtIndex, "净重,18");
         indexMap.put(dcl_total_amtIndex, "总价,100");
         indexMap.put(dcl_qtyIndex, "数量,60");
         indexMap.put(natcdIndex, "原产国(地区),18");
