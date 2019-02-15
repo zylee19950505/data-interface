@@ -30,7 +30,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
     public String checkStockSurplus(@Param("user") Users user, @Param("item_record_no") String g_code, @Param("emsNo") String emsNo) {
         return new SQL() {
             {
-                SELECT("(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
+                SELECT("(ACTL_INC_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS");
                 SELECT("DCL_UNITCD");
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BWS_NO = #{emsNo}");

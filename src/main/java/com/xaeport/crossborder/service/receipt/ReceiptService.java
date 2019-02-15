@@ -514,14 +514,13 @@ public class ReceiptService {
                             qtySum = impBondInvenBody.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
                             //获取账册表体所剩余的库存量
                             stockCount = StringUtils.isEmpty(bwlListType.getSurplus()) ? 0 : bwlListType.getSurplus();
-                            String unit;
                             //对比导入表体数量与仓库库存
                             if (qtySum > stockCount || stockCount <= 0) {
-                                this.logger.info("出区核注清单解析回执：实减库存量大于剩余库存量，剩余库存为零");
+                                this.logger.info("出区核注清单解析回执：实减库存量大于剩余库存量，或剩余库存小于等于零");
                                 continue;
                             } else {
                                 //计算数量是否符合
-                                if ((bwlListType.getPrevdRedcQty() - qtySum >= 0) && (qtySum + bwlListType.getActlRedcQty() >= 0)) {
+                                if ((bwlListType.getPrevdRedcQty() - qtySum) >= 0) {
                                     this.receiptMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo);
                                     this.logger.info("出区核注清单成功进行实减操作");
                                 } else {

@@ -173,7 +173,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         });
     },
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        // $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,

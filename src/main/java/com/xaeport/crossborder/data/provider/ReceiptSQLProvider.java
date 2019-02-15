@@ -72,7 +72,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("IN_QTY inQty");
                 SELECT("ACTL_REDC_QTY actlRedcQty");
                 SELECT("PREVD_REDC_QTY prevdRedcQty");
-                SELECT("(IN_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
+                SELECT("(ACTL_INC_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) surplus");
                 SELECT("DCL_UNITCD");
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BWS_NO = #{emsNo}");

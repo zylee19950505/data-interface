@@ -73,7 +73,7 @@ sw.page.modules["booksandrecords/stockControl"] = sw.page.modules["booksandrecor
                 }
                 },
                 {
-                    data: "in_qty", label: "当前库存数量"
+                    data: "surplus", label: "当前库存数量"
                 },
                 {
                     data: "prevd_inc_qty", label: "预增库存数量"
