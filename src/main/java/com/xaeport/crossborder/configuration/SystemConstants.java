@@ -68,15 +68,4 @@ public interface SystemConstants {
     String entryType_DD = "DD";//订单
     String entryType_QD = "QD";//清单
     String entryType_YD = "YD";//运单
-
-
-    // 回执报文类型
-    String RECEIPT_REPORT_TYPE_ORDER = "CEB312";// 回执报文类型-订单回执
-    String RECEIPT_REPORT_TYPE_PAYMENT = "CEB412";// 回执报文类型-支付单回执
-    String RECEIPT_REPORT_TYPE_LOGISTICS = "CEB512";// 回执报文类型-运单回执
-    String RECEIPT_REPORT_TYPE_LOGISTICS_STATUS = "CEB514";// 回执报文类型-运单状态回执
-    String RECEIPT_REPORT_TYPE_INVENTORY = "CEB622";// 回执报文类型-清单回执
-    String RECEIPT_REPORT_TYPE_DELIVERY = "CEB712";// 回执报文类型-入库明细单回执
-    String RECEIPT_REPORT_TYPE_SUBSCRIPTION = "CheckGoodsInfo";// 回执报文类型-入库明细单回执
-    String RECEIPT_REPORT_TYPE_TAX = "TAX";// 电子税单回执报文
 }
