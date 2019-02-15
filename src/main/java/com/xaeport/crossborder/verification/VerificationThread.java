@@ -69,19 +69,19 @@ public class VerificationThread implements Runnable {
                     // 添加校验状态及记录
                     verificationMapper.insertVerifyRecordByVerify(verify);// 添加校验记录
                     verificationMapper.insertVerifyStatus(verify);// 添加校验状态
-                    //TODO 1.跨境进口业务（订单）逻辑校验通过后，更新为订单待申报状态
+                    //1.跨境进口业务（订单）逻辑校验通过后，更新为订单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_ORDER.equals(impCBHeadVer.getBusiness_type())) {
                         verificationMapper.updateOrderStatus(verify.getCb_head_id(), StatusCode.DDDSB);
                     }
-                    //TODO 1.跨境进口业务（支付单）逻辑校验通过后，更新为支付单待申报状态
+                    //1.跨境进口业务（支付单）逻辑校验通过后，更新为支付单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_PAYMENT.equals(impCBHeadVer.getBusiness_type())) {
                         verificationMapper.updatePaymentStatus(verify.getCb_head_id(), StatusCode.ZFDDSB);
                     }
-                    //TODO 1.跨境进口业务（运单）逻辑校验通过后，更新为运单待申报状态
+                    //1.跨境进口业务（运单）逻辑校验通过后，更新为运单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_LOGISTICS.equals(impCBHeadVer.getBusiness_type())) {
                         verificationMapper.updateLogisticsStatus(verify.getCb_head_id(), StatusCode.YDDSB);
                     }
-                    //TODO 1.跨境进口业务（清单）逻辑校验通过后，更新为清单待申报状态
+                    //1.跨境进口业务（清单）逻辑校验通过后，更新为清单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_INVENTORY.equals(impCBHeadVer.getBusiness_type())) {
                         verificationMapper.updateInventoryStatus(verify.getCb_head_id(), StatusCode.QDDSB);
                     }

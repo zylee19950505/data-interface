@@ -1,7 +1,7 @@
 package com.xaeport.crossborder.data.status;
 
 //跨境，保税回执报文类型表
-public class RecriptType {
+public class ReceiptType {
     //跨境订单回执
     public final static String KJDD = "CEB312";
     //跨境支付单回执

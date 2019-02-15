@@ -68,6 +68,4 @@ public interface SystemConstants {
     String entryType_DD = "DD";//订单
     String entryType_QD = "QD";//清单
     String entryType_YD = "YD";//运单
-
-
 }

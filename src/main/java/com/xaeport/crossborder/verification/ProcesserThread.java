@@ -63,14 +63,8 @@ public class ProcesserThread implements Runnable {
         try {
             // 初始化校验线程，默认启动3个校验线程
             for (int i = 0; i < 3; i++) {
-                Thread verificationThread1 = new Thread(new VerificationThread());
-                verificationThread1.start();
-                Thread verificationThread2 = new Thread(new VerificationThread());
-                verificationThread2.start();
-//                Thread verificationThread3 = new Thread(new VerificationThread());
-//                verificationThread3.start();
-//                Thread verificationThread4 = new Thread(new VerificationThread());
-//                verificationThread4.start();
+                Thread verificationThread = new Thread(new VerificationThread());
+                verificationThread.start();
             }
 
         } catch (Exception e) {

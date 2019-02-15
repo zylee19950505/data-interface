@@ -3,7 +3,7 @@ package com.xaeport.crossborder.service.receipt;
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
-import com.xaeport.crossborder.data.status.RecriptType;
+import com.xaeport.crossborder.data.status.ReceiptType;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.bondinvenmanage.BondinvenImportService;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -43,44 +43,44 @@ public class ReceiptService {
                 receiptNew = (Map<String, List<Map<String, String>>>) map.get("Receipt");
             }
             switch (type) {
-                case RecriptType.KJDD://跨境订单回执代码
+                case ReceiptType.KJDD://跨境订单回执代码
                     this.createImpRecorder(receipt, refileName);
                     break;
-                case RecriptType.KJZFD://跨境支付单回执代码
+                case ReceiptType.KJZFD://跨境支付单回执代码
                     this.createImpRecPayment(receipt, refileName);
                     break;
-                case RecriptType.KJYD://跨境运单回执代码
+                case ReceiptType.KJYD://跨境运单回执代码
                     this.createImpRecLogistics(receipt, refileName);
                     break;
-                case RecriptType.KJYDZT://跨境运单状态回执代码
+                case ReceiptType.KJYDZT://跨境运单状态回执代码
                     this.createImpRecLogisticsStatus(receipt, refileName);
                     break;
-                case RecriptType.KJQD://跨境清单回执代码
+                case ReceiptType.KJQD://跨境清单回执代码
                     this.createImpRecInventory(receipt, refileName);
                     break;
-                case RecriptType.KJRKMXD://跨境入库明细单回执
+                case ReceiptType.KJRKMXD://跨境入库明细单回执
                     this.createImpRecDelivery(receipt, refileName);
                     break;
-                case RecriptType.KJYDSJ://跨境预订数据
+                case ReceiptType.KJYDSJ://跨境预订数据
                     this.createCheckGoodsInfo(receipt, refileName);
                     break;
-                case RecriptType.KJSD://跨境电子税单
+                case ReceiptType.KJSD://跨境电子税单
                     this.createTax(receipt, refileName);
                     break;
-                case RecriptType.BSSJZX://保税数据中心回执
+                case ReceiptType.BSSJZX://保税数据中心回执
                     this.createInvtCommon(receiptNew, refileName);
                     break;
-                case RecriptType.BSHZQDSH://保税核注清单(报文回执/审核回执)
+                case ReceiptType.BSHZQDSH://保税核注清单(报文回执/审核回执)
                     this.createInvtHdeAppr(receipt, refileName);
                     break;
-                case RecriptType.BSHZQDBGD://保税核注清单生成报关单回执
+                case ReceiptType.BSHZQDBGD://保税核注清单生成报关单回执
                     this.createInvtInvAppr(receipt, refileName);
                     break;
-                case RecriptType.BSHFDSH://保税核放单(报文回执/审核回执)
-                    this.createPassPortHdeAppr(receipt, refileName, RecriptType.BSHFDSH);
+                case ReceiptType.BSHFDSH://保税核放单(报文回执/审核回执)
+                    this.createPassPortHdeAppr(receipt, refileName, ReceiptType.BSHFDSH);
                     break;
-                case RecriptType.BSHFDGK://保税核放单过卡回执
-                    this.createPassPortHdeAppr(receipt, refileName, RecriptType.BSHFDGK);
+                case ReceiptType.BSHFDGK://保税核放单过卡回执
+                    this.createPassPortHdeAppr(receipt, refileName, ReceiptType.BSHFDGK);
                     break;
             }
         } catch (Exception e) {
