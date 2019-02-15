@@ -14,12 +14,11 @@ import java.util.Map;
 public class BusinessUtils {
 
     /**
-     * 将impPayment集合按照总单号拆分成Map<企业ID码,impPayment集合>
-     *
-     * @param impInventoryHeadLists impPayment集合
-     * @return Map<企业ID码,impPayment集合>
+     * 将集合按照相应条件拆分成Map<代码,数据>
+     * Map<归类条件字段,需要归类数据集合>
      */
 
+    //根据企业Id，对跨境清单数据进行归类
     public static Map<String, List<ImpInventoryHead>> getEntIdInventoryMap(List<ImpInventoryHead> impInventoryHeadLists) {
         Map<String, List<ImpInventoryHead>> entIdDataListMap = new HashMap<String, List<ImpInventoryHead>>();
         String entId = null;
@@ -37,6 +36,7 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    //根据企业Id，对跨境订单数据进行归类
     public static Map<String, List<ImpOrderHead>> getEntIdOrderMap(List<ImpOrderHead> impOrderHeadLists) {
         Map<String, List<ImpOrderHead>> entIdDataListMap = new HashMap<String, List<ImpOrderHead>>();
         String entId = null;
@@ -54,6 +54,7 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    //根据企业Id，对跨境支付单数据进行归类
     public static Map<String, List<ImpPayment>> getEntIdDataMap(List<ImpPayment> impPaymentLists) {
         Map<String, List<ImpPayment>> entIdDataListMap = new HashMap<String, List<ImpPayment>>();
         String entId = null;
@@ -71,6 +72,7 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    //根据企业Id，对跨境运单数据进行归类
     public static Map<String, List<ImpLogistics>> getEntIdlogisticDataMap(List<ImpLogistics> impLogisticsLists) {
         Map<String, List<ImpLogistics>> entIdDataListMap = new HashMap<String, List<ImpLogistics>>();
         String entId = null;
@@ -88,6 +90,7 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    //根据企业Id，对跨境运单状态数据进行归类
     public static Map<String, List<ImpLogistics>> getEntIdStatusDataMap(List<ImpLogistics> impLogisticsStatusLists) {
         Map<String, List<ImpLogistics>> entIdDataListMap = new HashMap<String, List<ImpLogistics>>();
         String entId = null;
@@ -105,6 +108,7 @@ public class BusinessUtils {
         return entIdDataListMap;
     }
 
+    //根据提运单号，对跨境入库明细单进行分类
     public static Map<String, List<ImpDeliveryHead>> getBillNoDeliveryMap(List<ImpDeliveryHead> impDeliveryHeadList) {
         Map<String, List<ImpDeliveryHead>> entIdDataListMap = new HashMap<String, List<ImpDeliveryHead>>();
         String billNo = null;
@@ -120,6 +124,42 @@ public class BusinessUtils {
             }
         }
         return entIdDataListMap;
+    }
+
+    //根据料号，对保税核注清单表体数据进行分类
+    public static Map<String, List<BondInvtDt>> classifyByGdsMtno(List<BondInvtDt> bondInvtDtList) {
+        Map<String, List<BondInvtDt>> gdsMtnoDataListMap = new HashMap<String, List<BondInvtDt>>();
+        String gdsMtno = null;
+        for (BondInvtDt bondInvtDt : bondInvtDtList) {
+            gdsMtno = bondInvtDt.getGds_mtno();
+            if (gdsMtnoDataListMap.containsKey(gdsMtno)) {
+                List<BondInvtDt> bondInvtDts = gdsMtnoDataListMap.get(gdsMtno);
+                bondInvtDts.add(bondInvtDt);
+            } else {
+                List<BondInvtDt> bondInvtDts = new ArrayList<>();
+                bondInvtDts.add(bondInvtDt);
+                gdsMtnoDataListMap.put(gdsMtno, bondInvtDts);
+            }
+        }
+        return gdsMtnoDataListMap;
+    }
+
+    //根据料号，对保税清单表体数据进行分类
+    public static Map<String, List<ImpInventoryBody>> classifyByGcode(List<ImpInventoryBody> impInventoryBodyList) {
+        Map<String, List<ImpInventoryBody>> itemRecordNoDataListMap = new HashMap<String, List<ImpInventoryBody>>();
+        String itemRecordNo = null;
+        for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
+            itemRecordNo = impInventoryBody.getItem_record_no();
+            if (itemRecordNoDataListMap.containsKey(itemRecordNo)) {
+                List<ImpInventoryBody> impInventoryBodies = itemRecordNoDataListMap.get(itemRecordNo);
+                impInventoryBodies.add(impInventoryBody);
+            } else {
+                List<ImpInventoryBody> impInventoryBodies = new ArrayList<>();
+                impInventoryBodies.add(impInventoryBody);
+                itemRecordNoDataListMap.put(itemRecordNo, impInventoryBodies);
+            }
+        }
+        return itemRecordNoDataListMap;
     }
 
 }

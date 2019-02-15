@@ -1,5 +1,8 @@
 package com.xaeport.crossborder.service.receipt;
 
+import com.xaeport.crossborder.bondstock.CountLoader;
+import com.xaeport.crossborder.bondstock.impl.CountActlReduce;
+import com.xaeport.crossborder.bondstock.impl.CountPreIncrease;
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
@@ -468,11 +471,6 @@ public class ReceiptService {
     private void updateBondInvtStatusByHdeAppr(RecBondInvtHdeAppr recBondInvtHdeAppr, BondInvtBsc bondInvtBscData) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        List<ImpInventoryHead> impInventoryHeads = new ArrayList<>();
-        List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
-
-        List<BondInvtBsc> bondInvtBscList = new ArrayList<>();
-        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
 
         if (bondInvtBscData.getFlag().equals("EXIT")) {
             //出区回执更新
@@ -485,55 +483,10 @@ public class ReceiptService {
             bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
             this.receiptMapper.updateBondInvtStatusByHdeAppr(bondInvtBsc);  //更新核注清单表表头数据状态
             this.receiptMapper.updateNemssByHdeAppr(bondInvtBsc);  //更新核注清单表表体的数据
-
             //实减操作
             if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
-                //根据企业内部编码查询保税清单表头信息
-                impInventoryHeads = receiptMapper.queryImpInventoryHeads(bondInvtBscData.getEtps_inner_invt_no());
-                //根据企业内部编码查询保税清单表体信息
-                impInventoryBodyList = receiptMapper.queryImpInventoryBodyList(bondInvtBscData.getEtps_inner_invt_no());
-
-                if (!StringUtils.isEmpty(impInventoryBodyList) && !StringUtils.isEmpty(impInventoryHeads)) {
-                    Map<String, List<ImpInventoryBody>> itemRecordNoData = this.bondinvenImportService.classifyByGcode(impInventoryBodyList);
-                    String item_record_no = null;
-                    String emsNo = null;
-                    for (String itemRecordNo : itemRecordNoData.keySet()) {
-                        List<ImpInventoryBody> impBondInvenBody = new ArrayList<>();
-                        //获取按照料号划分的保税清单表体数据
-                        impBondInvenBody = itemRecordNoData.get(itemRecordNo);
-                        //获取料号
-                        item_record_no = impBondInvenBody.get(0).getItem_record_no();
-                        //获取账册号
-                        emsNo = impInventoryHeads.get(0).getEms_no();
-                        //根据料号，账册号查询是否存在账册表体数据
-                        BwlListType bwlListType = this.receiptMapper.checkStockSurplus(bondInvtBscData.getCrt_user(), item_record_no, emsNo);
-                        double qtySum = 0;
-                        double stockCount = 0;
-                        if (!StringUtils.isEmpty(bwlListType)) {
-                            //获取导入保税清单的表体申报总数
-                            qtySum = impBondInvenBody.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
-                            //获取账册表体所剩余的库存量
-                            stockCount = StringUtils.isEmpty(bwlListType.getSurplus()) ? 0 : bwlListType.getSurplus();
-                            //对比导入表体数量与仓库库存
-                            if (qtySum > stockCount || stockCount <= 0) {
-                                this.logger.info("出区核注清单解析回执：实减库存量大于剩余库存量，或剩余库存小于等于零");
-                                continue;
-                            } else {
-                                //计算数量是否符合
-                                if ((bwlListType.getPrevdRedcQty() - qtySum) >= 0) {
-                                    this.receiptMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo);
-                                    this.logger.info("出区核注清单成功进行实减操作");
-                                } else {
-                                    this.logger.info("出区核注清单解析回执：实减操作计算数据为负");
-                                    continue;
-                                }
-                            }
-                        } else {
-                            this.logger.info("出区核注清单解析回执：查询无对应账册表体数据，无法进行实减操作");
-                            continue;
-                        }
-                    }
-                }
+                CountLoader countLoader = new CountActlReduce();
+                countLoader.count(bondInvtBscData);
             }
         } else if (bondInvtBscData.getFlag().equals("ENTER")) {
             //入区回执更新
@@ -547,95 +500,14 @@ public class ReceiptService {
             bondInvtBsc.setEtps_inner_invt_no(bondInvtBscData.getEtps_inner_invt_no());
             this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
-
             //预增操作
             if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
-                //TODO 保税入区进行预增操作
-                //获取导入的入区保税清单表头信息
-                bondInvtBscList = this.receiptMapper.queryBondInvtBscList(bondInvtBsc);
-                //获取导入的入区保税清单表体信息
-                bondInvtDtList = this.receiptMapper.queryBondInvtDtList(bondInvtBsc);
-
-                if (!StringUtils.isEmpty(bondInvtBscList) && !StringUtils.isEmpty(bondInvtDtList)) {
-                    //按照料号获取商品数据
-                    Map<String, List<BondInvtDt>> gdsMtnoData = this.classifyByGdsMtno(bondInvtDtList);
-                    //料号
-                    String gds_mtno = null;
-                    //账册号
-                    String emsNo = null;
-                    for (String gdsMtno : gdsMtnoData.keySet()) {
-                        List<BondInvtDt> bondInvtDts = new ArrayList<>();
-                        //获取按照料号划分的入区核注清单表体数据
-                        bondInvtDts = gdsMtnoData.get(gdsMtno);
-                        //获取料号
-                        gds_mtno = bondInvtDts.get(0).getGds_mtno();
-                        //获取账册号
-                        emsNo = bondInvtBscList.get(0).getPutrec_no();
-
-                        //根据账册号查询是否存在该账册
-                        BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
-                        BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno);
-                        if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
-                            double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
-                            this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno);
-                            this.logger.info("入区核注清单成功进行预增叠加操作");
-                        } else if (!StringUtils.isEmpty(bwlHeadType) && StringUtils.isEmpty(bwlList)) {
-                            BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts);
-                            //插入入区账册表体的数据
-                            this.receiptMapper.insertBwlListType(bwlListType);
-                            this.logger.info("入区核注清单成功进行预增添加操作");
-                        } else {
-                            this.logger.info("入区核注清单解析回执：查询无对应账册信息，无法预增操作");
-                            continue;
-                        }
-
-                    }
-
-                }
-
+                CountLoader countLoader = new CountPreIncrease();
+                countLoader.count(bondInvtBsc);
             }
 
         }
     }
-
-    public BwlListType crtBwlListType(String emsNo, String gds_mtno, List<BondInvtDt> bondInvtDts) {
-        BwlListType bwlListType = new BwlListType();
-        BondInvtDt bondInvtDt = bondInvtDts.get(0);
-        double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
-        bwlListType.setId(IdUtils.getUUId());
-        bwlListType.setBws_no(emsNo);
-        bwlListType.setGds_mtno(gds_mtno);
-        bwlListType.setGdecd(bondInvtDt.getGdecd());
-        bwlListType.setGds_nm(bondInvtDt.getGds_nm());
-        bwlListType.setDcl_unitcd(bondInvtDt.getDcl_unitcd());
-        bwlListType.setIn_qty("0");
-        bwlListType.setActl_inc_qty("0");
-        bwlListType.setActl_redc_qty("0");
-        bwlListType.setPrevd_inc_qty(String.valueOf(qtySum));
-        bwlListType.setPrevd_redc_qty("0");
-        bwlListType.setCrt_time(new Date());
-        bwlListType.setUpd_time(new Date());
-        return bwlListType;
-    }
-
-    //根据料号对商品进行分批处理
-    public Map<String, List<BondInvtDt>> classifyByGdsMtno(List<BondInvtDt> bondInvtDtList) {
-        Map<String, List<BondInvtDt>> gdsMtnoDataListMap = new HashMap<String, List<BondInvtDt>>();
-        String gdsMtno = null;
-        for (BondInvtDt bondInvtDt : bondInvtDtList) {
-            gdsMtno = bondInvtDt.getGds_mtno();
-            if (gdsMtnoDataListMap.containsKey(gdsMtno)) {
-                List<BondInvtDt> bondInvtDts = gdsMtnoDataListMap.get(gdsMtno);
-                bondInvtDts.add(bondInvtDt);
-            } else {
-                List<BondInvtDt> bondInvtDts = new ArrayList<>();
-                bondInvtDts.add(bondInvtDt);
-                gdsMtnoDataListMap.put(gdsMtno, bondInvtDts);
-            }
-        }
-        return gdsMtnoDataListMap;
-    }
-
 
     /**
      * 核注清单生成报关单回执（进口保税）（核注清单报文二）INV202
