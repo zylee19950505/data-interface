@@ -20,6 +20,7 @@ public class PassPortList {
     private Integer dcl_qty;//申报数量,根据关联单证商品序号自动返填
     private String rmk;//备注
     private String bond_invt_no;//相关核注清单编号
+    private Double quantity;
 
     public String getBond_invt_no() {
         return bond_invt_no;
@@ -139,5 +140,13 @@ public class PassPortList {
 
     public void setRmk(String rmk) {
         this.rmk = rmk;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 }

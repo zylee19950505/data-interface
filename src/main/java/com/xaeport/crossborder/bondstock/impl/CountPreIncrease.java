@@ -22,12 +22,15 @@ public class CountPreIncrease implements CountLoader {
     List<BondInvtDt> bondInvtDtList = new ArrayList<>();
 
     @Override
-    public int count(Map<String, Object> excelMap, Users user, String emsNo){
+    public int count(Map<String, Object> excelMap, Users user, String emsNo) {
         return 999;
     }
 
     @Override
-    public void count(BondInvtBsc bondInvtBsc){
+    public void count(PassPortHead passPortHead) {}
+
+    @Override
+    public void count(BondInvtBsc bondInvtBsc) {
         //TODO 保税入区进行预增操作
         //获取导入的入区保税清单表头信息
         bondInvtBscList = this.receiptMapper.queryBondInvtBscList(bondInvtBsc);

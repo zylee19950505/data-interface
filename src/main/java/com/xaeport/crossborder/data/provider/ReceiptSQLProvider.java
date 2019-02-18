@@ -201,6 +201,21 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    //根据核放单处理成功回执更新状态
+    public String updatePassPortListByCommon(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_LIST");
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    WHERE("PASSPORT_NO = #{passPortHead.etps_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    SET("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+            }
+        }.toString();
+    }
+
     //插入核注清单(报文回执/审核回执)
     public String createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -473,7 +488,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_PASS_PORT_HEAD");
-                WHERE("STATUS in ('BDDS41','BDDS42')");
+                WHERE("STATUS in ('BDDS31','BDDS32','BDDS41','BDDS42')");
                 if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
                     WHERE("SAS_PASSPORT_PREENT_NO = #{passPortHead.sas_passport_preent_no}");
                 }
@@ -514,6 +529,21 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 }
                 SET("UPD_USER = 'system'");
                 SET("UPD_TIME = sysdate");
+            }
+        }.toString();
+    }
+
+    //更新核放单表体数据(HdeAppr)
+    public String updatePassPortListByHdeAppr(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_LIST");
+                if (!StringUtils.isEmpty(passPortHead.getSas_passport_preent_no())) {
+                    WHERE("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+                    SET("COL1 = #{passPortHead.passport_no}");
+                }
             }
         }.toString();
     }
@@ -1626,5 +1656,43 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
+    public String actlIncreaseBwlListType(
+            @Param("qtySum") double qtySum,
+            @Param("emsNo") String emsNo,
+            @Param("gds_mtno") String gds_mtno
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BWS_NO = #{emsNo}");
+                WHERE("GDS_MTNO = #{gds_mtno}");
+                SET("PREVD_INC_QTY = PREVD_INC_QTY - #{qtySum}");
+                SET("ACTL_INC_QTY = ACTL_INC_QTY + #{qtySum}");
+            }
+        }.toString();
+    }
+
+    public String queryBondInvtListByNo(String listNo) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_BOND_INVT_BSC");
+                WHERE(splitJointIn("BOND_INVT_NO", listNo));
+            }
+        }.toString();
+    }
+
+    public String queryBondInvtDtLists(String listNo) {
+        return new SQL() {
+            {
+                SELECT("t.DCL_QTY quantity");
+                SELECT("t.*");
+                FROM("T_BOND_INVT_DT t");
+                WHERE(splitJointIn("BOND_INVT_NO", listNo));
+            }
+        }.toString();
+    }
+
 
 }

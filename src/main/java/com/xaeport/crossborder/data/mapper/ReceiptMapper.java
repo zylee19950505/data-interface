@@ -51,6 +51,10 @@ public interface ReceiptMapper {
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortAcmpByCommon")
     void updatePassPortAcmpByCommon(@Param("passPortHead") PassPortHead passPortHead);
 
+    //根据核放单处理成功回执更新表体数据
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortListByCommon")
+    void updatePassPortListByCommon(@Param("passPortHead") PassPortHead passPortHead);
+
     //核注清单(报文回执/审核回执)(HdeAppr)（报文一）
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtHdeAppr")
     void createInvtHdeAppr(@Param("recBondInvtHdeAppr") RecBondInvtHdeAppr recBondInvtHdeAppr);
@@ -96,6 +100,10 @@ public interface ReceiptMapper {
     //更新核放单表体数据(HdeAppr)
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortAcmpByHdeAppr")
     void updatePassPortAcmpByHdeAppr(@Param("passPortHead") PassPortHead passPortHead);
+
+    //更新核放单表体数据(HdeAppr)(一票多车情况)
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "updatePassPortListByHdeAppr")
+    void updatePassPortListByHdeAppr(@Param("passPortHead") PassPortHead passPortHead);
 
 
     //
@@ -241,5 +249,25 @@ public interface ReceiptMapper {
     //入区账册预增叠加操作
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "addBwlListType")
     void addBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+
+    //入区账册预增叠加操作
+    @UpdateProvider(type = ReceiptSQLProvider.class, method = "actlIncreaseBwlListType")
+    void actlIncreaseBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+
+    //根据保税清单编号查询核注清单表头信息
+    @Select("SELECT * FROM T_BOND_INVT_BSC t WHERE t.BOND_INVT_NO = #{bondInvtNo}")
+    BondInvtBsc queryBondInvtByBondInvtNo(String bondInvtNo);
+
+    //根据保税清单编号查询核注清单表头信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtListByNo")
+    List<BondInvtBsc> queryBondInvtListByNo(String listNo);
+
+    //根据保税清单编号查询核注清单表体信息
+    @SelectProvider(type = ReceiptSQLProvider.class, method = "queryBondInvtDtLists")
+    List<BondInvtDt> queryBondInvtDtLists(String listNo);
+
+    //查询入区核放单的表体数据（一单多车的表体数据）
+    @Select("SELECT t.DCL_QTY quantity,t.* FROM T_PASS_PORT_LIST t WHERE t.PASSPORT_NO = #{passPortHead.etps_preent_no}")
+    List<PassPortList> queryPassPortList(PassPortHead passPortHead);
 
 }
