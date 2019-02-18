@@ -16,6 +16,8 @@ public class InvtHeadType {
     private String DclEtpsno;
     private String DclEtpsNm;
     private String InvtDclTime;
+    private String RltInvtNo;
+    private String RltPutrecNo;
     private String ImpexpPortcd;
     private String DclPlcCuscd;
     private String ImpexpMarkcd;
@@ -35,6 +37,32 @@ public class InvtHeadType {
     private String AddTime;
     private String StshipTrsarvNatcd;
     private String InvtType;
+    private String rmk;
+
+
+    public String getRmk() {
+        return rmk;
+    }
+
+    public void setRmk(String rmk) {
+        this.rmk = rmk;
+    }
+
+    public String getRltInvtNo() {
+        return RltInvtNo;
+    }
+
+    public void setRltInvtNo(String rltInvtNo) {
+        RltInvtNo = rltInvtNo;
+    }
+
+    public String getRltPutrecNo() {
+        return RltPutrecNo;
+    }
+
+    public void setRltPutrecNo(String rltPutrecNo) {
+        RltPutrecNo = rltPutrecNo;
+    }
 
     public String getBondInvtNo() {
         return BondInvtNo;

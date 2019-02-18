@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Signature schemaLocation="http://www.chinaport.gov.cn/sas SAS101.xsd" xmlns:sas="http://www.chinaport.gov.cn/sas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SignedInfo>
+        <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+        <Reference URI="String">
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+            <DigestValue />
+        </Reference>
+    </SignedInfo>
+    <SignatureValue />
+    <KeyInfo>
+        <KeyName>aa</KeyName>
+    </KeyInfo>
+    <Object Id="String">
+        <Package>
+            <EnvelopInfo>
+                <version>$!envelopInfo.version</version>
+                <message_id>$!envelopInfo.message_id</message_id>
+                <file_name>$!envelopInfo.file_name</file_name>
+                <message_type>$!envelopInfo.message_type</message_type>
+                <sender_id>$!envelopInfo.sender_id</sender_id>
+                <receiver_id>$!envelopInfo.receiver_id</receiver_id>
+                <send_time>$!envelopInfo.send_time</send_time>
+                <Ic_Card>$!envelopInfo.Ic_Card</Ic_Card>
+            </EnvelopInfo>
+            <DataInfo>
+                <PocketInfo>
+                    <is_unstructured>1</is_unstructured>
+                </PocketInfo>
+                <BussinessData>
+                    <PassPortMessage>
+                        <PassportHead>
+                            <PassportTypecd>$!passPortHead.PassportTypecd</PassportTypecd>
+                            <MasterCuscd>$!passPortHead.MasterCuscd</MasterCuscd>
+                            <DclTypecd>$!passPortHead.DclTypecd</DclTypecd>
+                            <IoTypecd>$!passPortHead.IoTypecd</IoTypecd>
+                            <BindTypecd>$!passPortHead.BindTypecd</BindTypecd>
+                            <RltTbTypecd>$!passPortHead.RltTbTypecd</RltTbTypecd>
+                            <RltNo>$!passPortHead.RltNo</RltNo>
+                            <AreainEtpsno>$!passPortHead.AreainEtpsno</AreainEtpsno>
+                            <AreainEtpsNm>$!passPortHead.AreainEtpsNm</AreainEtpsNm>
+                            <VehicleNo>$!passPortHead.VehicleNo</VehicleNo>
+                            <VehicleIcNo>$!passPortHead.VehicleIcNo</VehicleIcNo>
+                            <VehicleWt>$!passPortHead.VehicleWt</VehicleWt>
+                            <VehicleFrameWt>$!passPortHead.VehicleFrameWt</VehicleFrameWt>
+                            <ContainerWt>$!passPortHead.ContainerWt</ContainerWt>
+                            <TotalWt>$!passPortHead.TotalWt</TotalWt>
+                            <TotalGrossWt>$!passPortHead.TotalGrossWt</TotalGrossWt>
+                            <TotalNetWt>$!passPortHead.TotalNetWt</TotalNetWt>
+                            <DclErConc>$!passPortHead.DclErConc</DclErConc>
+                            <DclEtpsno>$!passPortHead.DclEtpsno</DclEtpsno>
+                            <DclEtpsNm>$!passPortHead.DclEtpsNm</DclEtpsNm>
+                            <InputCode>$!passPortHead.InputCode</InputCode>
+                            <InputName>$!passPortHead.InputName</InputName>
+                            <EtpsPreentNo>$!passPortHead.EtpsPreentNo</EtpsPreentNo>
+                        </PassportHead>
+#foreach($passPortList in $passPortListXmlList)
+                        <PassPortList>
+                            <PASSPORT_SEQNO>$!passPortList.passPort_seqNo</PASSPORT_SEQNO>
+                            <GDS_MTNO>$!passPortList.gds_mtNo</GDS_MTNO>
+                            <GDECD>$!passPortList.gdecd</GDECD>
+                            <GDS_NM>$!passPortList.gds_nm</GDS_NM>
+                            <GROSS_WT>$!passPortList.gross_wt</GROSS_WT>
+                            <NET_WT>$!passPortList.net_wt</NET_WT>
+                            <DCL_UNITCD>$!passPortList.dcl_unitcd</DCL_UNITCD>
+                            <DCL_QTY>$!passPortList.dcl_qty</DCL_QTY>
+                        </PassPortList>
+#end
+                        <OperCusRegCode>6101380018</OperCusRegCode>
+                    </PassPortMessage>
+                    <DelcareFlag>0</DelcareFlag>
+                </BussinessData>
+            </DataInfo>
+        </Package>
+    </Object>
+</Signature>

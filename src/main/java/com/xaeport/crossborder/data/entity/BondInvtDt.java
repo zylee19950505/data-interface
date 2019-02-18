@@ -46,6 +46,16 @@ public class BondInvtDt {
     private String upd_user;//更新人
     private String head_etps_inner_invt_no;//表头唯一关联码
     private String surplus_nm;//剩余数量
+    private String usecd;//用途代码
+
+
+    public String getUsecd() {
+        return usecd;
+    }
+
+    public void setUsecd(String usecd) {
+        this.usecd = usecd;
+    }
 
     public String getSurplus_nm() {
         return surplus_nm;

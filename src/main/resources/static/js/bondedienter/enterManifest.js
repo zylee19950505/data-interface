@@ -91,8 +91,8 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                         var value = "";
                         var textColor = "";
                         switch (row.data_status) {
-                            case "CBDS1":
-                                value = "校验未通过";
+                            case "CBDS3":
+                                value = "核放单待申报";
                                 textColor = "text-red";
                                 break;
                             default :

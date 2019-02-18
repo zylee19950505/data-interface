@@ -6,7 +6,17 @@ public class PassPortMessage {
 
     private PassportHeadXml passportHeadXml;
     private List<PassportAcmpXml> passportAcmpXmlList;
+    private List<PassPortListXml> passPortListXmlList;
     private String OperCusRegCode;
+
+
+    public List<PassPortListXml> getPassPortListXmlList() {
+        return passPortListXmlList;
+    }
+
+    public void setPassPortListXmlList(List<PassPortListXml> passPortListXmlList) {
+        this.passPortListXmlList = passPortListXmlList;
+    }
 
     public PassportHeadXml getPassportHeadXml() {
         return passportHeadXml;

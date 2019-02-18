@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -127,6 +128,46 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                 SET("t.INVT_DCL_TIME = sysdate");
                 SET("t.UPD_TIME = sysdate");
                 SET("t.UPD_USER = #{userId}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 查找入区核注清单的状态为正在申报中的数据
+     * */
+    public String findWaitGenerated(Map<String, String> paramMap){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE("t.STATUS = #{status}");
+                WHERE("t.IMPEXP_MARKCD = #{impexp_markcd}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 修改入区核注清单的数据状态
+     * */
+    public String updateBondInvtBscStatus(@Param("headEtpsInnerInvtNo")String headEtpsInnerInvtNo, @Param("rqhzqdysb") String rqhzqdysb){
+        return new SQL(){
+            {
+                UPDATE("T_BOND_INVT_BSC t");
+                WHERE("t.ETPS_INNER_INVT_NO = #{headEtpsInnerInvtNo}");
+                SET("t.STATUS = #{rqhzqdysb}");
+            }
+        }.toString();
+    }
+
+    /**
+    * 查询核注清单表体
+    * */
+    public String queryBondInvtListByHeadNo(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_BOND_INVT_DT t");
+                WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{headEtpsInnerInvtNo}");
             }
         }.toString();
     }
