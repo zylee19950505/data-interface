@@ -334,4 +334,54 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    /**
+    * 查找有无可生成报文的核放单
+    * */
+    public String findWaitGenerated(Map<String, String> paramMap){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_PASS_PORT_HEAD t");
+                WHERE("t.STATUS = #{status}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 修改申报状态为已经申报
+     * */
+    public String updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("rqhfdysb") String rqhfdysb){
+        return new SQL(){
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                SET("t.STATUS = #{rqhfdysb}");
+                WHERE("t.ETPS_PREENT_NO = #{etpsPreentNo}");
+            }
+        }.toString();
+    }
+    /**
+    *一票一车和一车多票(查找关联单证)
+    * */
+    public String queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_PASS_PORT_ACMP t");
+                WHERE("t.HEAD_ETPS_PREENT_NO = #{etpsPreentNo}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 一票多车(查询核放单表体)
+     * */
+    public String queryPassPortListByHeadNo(@Param("etpsPreentNo") String etpsPreentNo){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("t.PASSPORT_NO = #{etpsPreentNo}");
+                WHERE("T_PASS_PORT_LIST t");
+            }
+        }.toString();
+    }
 }
