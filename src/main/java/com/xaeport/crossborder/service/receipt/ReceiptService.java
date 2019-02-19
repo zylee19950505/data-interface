@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.receipt;
 
 import com.xaeport.crossborder.bondstock.CountLoader;
+import com.xaeport.crossborder.bondstock.impl.CountActlIncrease;
 import com.xaeport.crossborder.bondstock.impl.CountActlReduce;
 import com.xaeport.crossborder.bondstock.impl.CountPreIncrease;
 import com.xaeport.crossborder.configuration.SystemConstants;
@@ -398,6 +399,20 @@ public class ReceiptService {
             } else if (passPortHead.getFlag().equals("ENTER")) {
                 passPortHead.setStatus(StatusCode.RQHFDSBCG);
                 this.receiptMapper.updatePassPortStatusByCommon(passPortHead);
+                switch (passPortHead.getBind_typecd()) {
+                    //一车一单
+                    case "2":
+                        this.receiptMapper.updatePassPortAcmpByCommon(passPortHead);
+                        break;
+                    //一车多单
+                    case "1":
+                        this.receiptMapper.updatePassPortAcmpByCommon(passPortHead);
+                        break;
+                    //一单多车
+                    case "3":
+                        this.receiptMapper.updatePassPortListByCommon(passPortHead);
+                        break;
+                }
             }
         }
     }
@@ -631,9 +646,9 @@ public class ReceiptService {
                 if (!StringUtils.isEmpty(passPortHead)) {
                     systemTime = passPortHead.getReturn_date();
                     if (systemTime == null) {
-                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead.getFlag());//更新核放单表数据
+                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead);//更新核放单表数据
                     } else if ((systemTime != null) && (returnTime.getTime() >= systemTime.getTime())) {
-                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead.getFlag());//更新核放单表数据
+                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead);//更新核放单表数据
                     } else {
                         continue;
                     }
@@ -648,7 +663,7 @@ public class ReceiptService {
      * 根据核放单回执更新表数据（进口保税）
      * 报文类型 : SAS221  SAS223
      */
-    private void updatePassportStatusByHdeAppr(RecPassPortHdeAppr recPassPortHdeAppr, String flag) throws Exception {
+    private void updatePassportStatusByHdeAppr(RecPassPortHdeAppr recPassPortHdeAppr, PassPortHead passPortHd) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
         passPortHead.setSas_passport_preent_no(recPassPortHdeAppr.getEtps_preent_no());
         passPortHead.setPassport_no(recPassPortHdeAppr.getBusiness_id());
@@ -658,12 +673,31 @@ public class ReceiptService {
         passPortHead.setReturn_date(recPassPortHdeAppr.getManage_date());
         passPortHead.setReturn_info(recPassPortHdeAppr.getRmk());
         this.receiptMapper.updatePassportStatusByHdeAppr(passPortHead);  //更新核放表表头数据状态
-        this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);  //更新核放单表表体数据状态
+        if (passPortHd.getFlag().equals("EXIT")) {
+            //保税出区一车一票
+            this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);  //更新核放单表表体数据状态
+        } else if (passPortHd.getFlag().equals("ENTER")) {
+            switch (passPortHd.getBind_typecd()) {
+                //保税入区一车一票
+                case "2":
+                    this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);
+                    break;
+                //保税入区一车多票
+                case "1":
+                    this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);
+                    break;
+                //保税入区一票多车
+                case "3":
+                    this.receiptMapper.updatePassPortListByHdeAppr(passPortHead);
+                    break;
+            }
+        }
 
         //实增操作
-        if (flag.equals("ENTER") && (recPassPortHdeAppr.getManage_result().equals("SAS223_1"))) {
+        if (passPortHd.getFlag().equals("ENTER") && (recPassPortHdeAppr.getManage_result().equals("SAS223_1"))) {
             //TODO 保税入区进行实增操作
-
+            CountLoader countLoader = new CountActlIncrease();
+            countLoader.count(passPortHd);
         }
     }
 

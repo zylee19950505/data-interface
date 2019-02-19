@@ -1,10 +1,7 @@
 package com.xaeport.crossborder.bondstock.impl;
 
 import com.xaeport.crossborder.bondstock.CountLoader;
-import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.BwlListType;
-import com.xaeport.crossborder.data.entity.ImpInventoryBody;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BondinvenImportMapper;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.SpringUtils;
@@ -22,11 +19,16 @@ public class CountPreReduce implements CountLoader {
     private BondinvenImportMapper bondinvenImportMapper = SpringUtils.getBean(BondinvenImportMapper.class);
 
     @Override
-    public void count(BondInvtBsc bondInvtBsc) {}
+    public void count(BondInvtBsc bondInvtBsc) {
+    }
+
+    @Override
+    public void count(PassPortHead passPortHead) {}
 
     @Override
     //检查对应库存余量是否大于导入商品数量
     public int count(Map<String, Object> excelMap, Users user, String emsNo) {
+        //TODO 保税出区进行预减操作
         int flag = 0;
         List<ImpInventoryBody> impInventoryBodyList = (List<ImpInventoryBody>) excelMap.get("ImpInventoryBody");
         Map<String, List<ImpInventoryBody>> itemRecordNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);

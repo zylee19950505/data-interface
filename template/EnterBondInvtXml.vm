@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Signature schemaLocation="http://www.chinaport.gov.cn/sas SAS101.xsd" xmlns:sas="http://www.chinaport.gov.cn/sas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SignedInfo>
+        <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+        <Reference URI="String">
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+            <DigestValue />
+        </Reference>
+    </SignedInfo>
+    <SignatureValue />
+    <KeyInfo>
+        <KeyName>aa</KeyName>
+    </KeyInfo>
+    <Object Id="String">
+        <Package>
+            <EnvelopInfo>
+                <version>$!envelopInfo.version</version>
+                <message_id>$!envelopInfo.message_id</message_id>
+                <file_name>$!envelopInfo.file_name</file_name>
+                <message_type>$!envelopInfo.message_type</message_type>
+                <sender_id>$!envelopInfo.sender_id</sender_id>
+                <receiver_id>$!envelopInfo.receiver_id</receiver_id>
+                <send_time>$!envelopInfo.send_time</send_time>
+                <Ic_Card>$!envelopInfo.Ic_Card</Ic_Card>
+            </EnvelopInfo>
+            <DataInfo>
+                <BussinessData>
+                    <InvtMessage>
+                        <InvtHeadType>
+                            <PutrecNo>${invtHeadType.PutrecNo}</PutrecNo>
+                            <EtpsInnerInvtNo>$!invtHeadType.EtpsInnerInvtNo</EtpsInnerInvtNo>
+                            <BizopEtpsSccd>$!invtHeadType.BizopEtpsSccd</BizopEtpsSccd>
+                            <BizopEtpsno>$!invtHeadType.BizopEtpsno</BizopEtpsno>
+                            <BizopEtpsNm>$!invtHeadType.BizopEtpsNm</BizopEtpsNm>
+                            <RcvgdEtpsno>$!invtHeadType.RcvgdEtpsno</RcvgdEtpsno>
+                            <RvsngdEtpsSccd>$!invtHeadType.RvsngdEtpsSccd</RvsngdEtpsSccd>
+                            <RcvgdEtpsNm>$!invtHeadType.RcvgdEtpsNm</RcvgdEtpsNm>
+                            <DclEtpsSccd>$!invtHeadType.DclEtpsSccd</DclEtpsSccd>
+                            <DclEtpsno>$!invtHeadType.DclEtpsno</DclEtpsno>
+                            <DclEtpsNm>$!invtHeadType.DclEtpsNm</DclEtpsNm>
+                            <InvtDclTime>$!invtHeadType.InvtDclTime</InvtDclTime>
+                            <RltInvtNo>$!invtHeadType.RltInvtNo</RltInvtNo>
+                            <RltPutrecNo>$!invtHeadType.RltPutrecNo</RltPutrecNo>
+                            <ImpexpPortcd>$!invtHeadType.ImpexpPortcd</ImpexpPortcd>
+                            <DclPlcCuscd>$!invtHeadType.DclPlcCuscd</DclPlcCuscd>
+                            <ImpexpMarkcd>$!invtHeadType.ImpexpMarkcd</ImpexpMarkcd>
+                            <MtpckEndprdMarkcd>$!invtHeadType.MtpckEndprdMarkcd</MtpckEndprdMarkcd>
+                            <SupvModecd>$!invtHeadType.SupvModecd</SupvModecd>
+                            <TrspModecd>$!invtHeadType.TrspModecd</TrspModecd>
+                            <DclcusFlag>$!invtHeadType.DclcusFlag</DclcusFlag>
+                            <VrfdedMarkcd>$!invtHeadType.VrfdedMarkcd</VrfdedMarkcd>
+                            <InputCode>$!invtHeadType.InputCode</InputCode>
+                            <InputName>$!invtHeadType.InputName</InputName>
+                            <InputTime>$!invtHeadType.InputTime</InputTime>
+                            <ListStat>$!invtHeadType.ListStat</ListStat>
+                            <AddTime>$!invtHeadType.AddTime</AddTime>
+                            <StshipTrsarvNatcd>$!invtHeadType.StshipTrsarvNatcd</StshipTrsarvNatcd>
+                            <InvtType>$!invtHeadType.InvtType</InvtType>
+                            <Rmk>$!invtHeadType.Rmk</Rmk>
+                        </InvtHeadType>
+#foreach($invtListType in $invtListTypeList)
+                        <InvtListType>
+                            <GdsSeqno>$!invtListType.gdsSeqno</GdsSeqno>
+                            <PutrecSeqno>$!invtListType.PutrecSeqno</PutrecSeqno>
+                            <GdsMtno>$!invtListType.GdsMtno</GdsMtno>
+                            <Gdecd>$!invtListType.Gdecd</Gdecd>
+                            <GdsNm>$!invtListType.GdsNm</GdsNm>
+                            <GdsSpcfModelDesc>$!invtListType.GdsSpcfModelDesc</GdsSpcfModelDesc>
+                            <DclUnitcd>$!invtListType.DclUnitcd</DclUnitcd>
+                            <LawfUnitcd>$!invtListType.LawfUnitcd</LawfUnitcd>
+                            <Natcd>$!invtListType.Natcd</Natcd>
+                            <DclUprcAmt>$!invtListType.DclUprcAmt</DclUprcAmt>
+                            <DclTotalAmt>$!invtListType.DclTotalAmt</DclTotalAmt>
+                            <DclCurrcd>$!invtListType.DclCurrcd</DclCurrcd>
+                            <LawfQty>$!invtListType.LawfQty</LawfQty>
+                            <DclQty>$!invtListType.DclQty</DclQty>
+                            <GrossWt>$!invtListType.GrossWt</GrossWt>
+                            <NetWt>$!invtListType.NetWt</NetWt>
+                            <UseCd>$!invtListType.UseCd</UseCd>
+                            <LvyrlfModecd>$!invtListType.LvyrlfModecd</LvyrlfModecd>
+                            <EntryGdsSeqno>$!invtListType.EntryGdsSeqno</EntryGdsSeqno>
+                        </InvtListType>
+#end
+                        <OperCusRegCode>6101540003</OperCusRegCode>
+                        <SysId>Z8</SysId>
+                    </InvtMessage>
+                    <DelcareFlag>1</DelcareFlag>
+                </BussinessData>
+            </DataInfo>
+        </Package>
+    </Object>
+</Signature>

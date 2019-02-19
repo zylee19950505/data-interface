@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 //账册表体实减方法
-public class CountActlReduce implements CountLoader{
+public class CountActlReduce implements CountLoader {
     private final Log logger = LogFactory.getLog(this.getClass());
 
     private ReceiptMapper receiptMapper = SpringUtils.getBean(ReceiptMapper.class);
@@ -26,12 +26,15 @@ public class CountActlReduce implements CountLoader{
     List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
 
     @Override
-    public int count(Map<String, Object> excelMap, Users user, String emsNo){
+    public int count(Map<String, Object> excelMap, Users user, String emsNo) {
         return 999;
     }
 
     @Override
-    public void count(BondInvtBsc bondInvtBscData){
+    public void count(PassPortHead passPortHead) {}
+
+    @Override
+    public void count(BondInvtBsc bondInvtBscData) {
         //TODO 保税出区进行实减操作
         //根据企业内部编码查询保税清单表头信息
         impInventoryHeads = receiptMapper.queryImpInventoryHeads(bondInvtBscData.getEtps_inner_invt_no());

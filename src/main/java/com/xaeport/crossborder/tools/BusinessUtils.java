@@ -144,6 +144,24 @@ public class BusinessUtils {
         return gdsMtnoDataListMap;
     }
 
+    //根据料号，对保税核放单表体数据进行分类
+    public static Map<String, List<PassPortList>> classifyByGdsMtnoByPassPort(List<PassPortList> passPortListList) {
+        Map<String, List<PassPortList>> gdsMtnoDataListMap = new HashMap<String, List<PassPortList>>();
+        String gdsMtNo = null;
+        for (PassPortList passPortList : passPortListList) {
+            gdsMtNo = passPortList.getGds_mtNo();
+            if (gdsMtnoDataListMap.containsKey(gdsMtNo)) {
+                List<PassPortList> passPortLists = gdsMtnoDataListMap.get(gdsMtNo);
+                passPortLists.add(passPortList);
+            } else {
+                List<PassPortList> passPortLists = new ArrayList<>();
+                passPortLists.add(passPortList);
+                gdsMtnoDataListMap.put(gdsMtNo, passPortLists);
+            }
+        }
+        return gdsMtnoDataListMap;
+    }
+
     //根据料号，对保税清单表体数据进行分类
     public static Map<String, List<ImpInventoryBody>> classifyByGcode(List<ImpInventoryBody> impInventoryBodyList) {
         Map<String, List<ImpInventoryBody>> itemRecordNoDataListMap = new HashMap<String, List<ImpInventoryBody>>();

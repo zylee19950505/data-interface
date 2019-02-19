@@ -33,6 +33,8 @@ public class ExcelDataEnterInstance implements ExcelData {
     private int dcl_total_amtIndex; //总价";//list
     private int dcl_qtyIndex; //数量";//list
     private int natcdIndex; //原产国(地区)";//list
+    private int usecdIndex; //用途代码//list
+    private int lvyrlf_modecdIndex; //用途代码//list
     private int rmkIndex; //备注";//list
 
 
@@ -150,6 +152,8 @@ public class ExcelDataEnterInstance implements ExcelData {
         bondInvtDt.setDcl_total_amt((entryLists.get(dcl_total_amtIndex)));//总价
         bondInvtDt.setDcl_qty((entryLists.get(dcl_qtyIndex)));//数量
         bondInvtDt.setNatcd(entryLists.get(natcdIndex));//原产国(地区)
+        bondInvtDt.setUsecd(entryLists.get(usecdIndex));//用途代码
+        bondInvtDt.setLvyrlf_modecd(entryLists.get(lvyrlf_modecdIndex));//征免方式
         bondInvtDt.setRmk(entryLists.get(rmkIndex));//备注
 
 
@@ -177,6 +181,8 @@ public class ExcelDataEnterInstance implements ExcelData {
         dcl_total_amtIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_total_amt);//总价
         dcl_qtyIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)
+        usecdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.usecd);//用途代码
+        lvyrlf_modecdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.lvyrlf_modecd);//用途代码
         rmkIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.rmk);//备注
 
     }
