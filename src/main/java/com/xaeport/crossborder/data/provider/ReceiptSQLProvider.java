@@ -542,8 +542,11 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                     WHERE("SEQ_NO = #{passPortHead.sas_passport_preent_no}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
-                    SET("COL1 = #{passPortHead.passport_no}");
+                    SET("PASSPORT_NO = #{passPortHead.passport_no}");
                 }
+//                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
+//                    SET("COL1 = #{passPortHead.passport_no}");
+//                }
             }
         }.toString();
     }

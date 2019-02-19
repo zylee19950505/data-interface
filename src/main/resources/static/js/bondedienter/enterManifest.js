@@ -61,7 +61,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.status == "BDDS33") {
+                        if (row.status == "BDDS33" || row.status == "BDDS3") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.etps_preent_no + '" />';
                         }
@@ -87,7 +87,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     }
                 },
                 {
-                    label: "回执状态", render: function (data, type, row) {
+                    label: "申报状态", render: function (data, type, row) {
                         var value = "";
                         var textColor = "";
                         switch (row.data_status) {
@@ -103,6 +103,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                         return result
                     }
                 },
+                {data: "return_status", label: "回执状态"},
                 {
                     label: "回执时间", render: function (data, type, row) {
                         if (!isEmpty(row.return_date)) {
