@@ -89,10 +89,10 @@ public class ParserFile extends ThreadBase implements Runnable, Closeable {
             String refileName = file.getName();//回值文件名
             Map map;
             try {
-                long startTime = System.currentTimeMillis();
+//                long startTime = System.currentTimeMillis();
                 dataFile.loadFile(file);
 
-                map = this.expParser.expParser(dataFile.getFileData());
+//                map = this.expParser.expParser(dataFile.getFileData());
                 byte[] data = Files.readAllBytes(file.toPath());
                 map = this.expParser.expParser(data);
                 boolean flag = receiptService.createReceipt(map, refileName);//插入数据
