@@ -39,8 +39,8 @@ public class CrtEnterManifestService {
         passPortHead.setId(IdUtils.getUUId());
 
         //模拟核放单编号
-        String passPortNo = IdUtils.getShortUUId();
-        passPortHead.setPassport_no(passPortNo);
+        //String passPortNo = IdUtils.getShortUUId();
+        //passPortHead.setPassport_no(passPortNo);
 
         Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         //创建核放单企业内部编号;HFD+海关十位+进出口标志（I/E）+年月日+四位流水号
@@ -132,8 +132,8 @@ public class CrtEnterManifestService {
         passPortHead.setDcl_typecd("1");
         passPortHead.setIo_typecd("I");
         passPortHead.setFlag("ENTER");
-        //创建时为暂存状态
-        passPortHead.setStatus(StatusCode.RQHFDDZC);
+        //创建时为待申报
+        passPortHead.setStatus(StatusCode.RQHFDDSB);
 
         crtEnterManifestMapper.createEnterManifest(passPortHead);
 
@@ -141,7 +141,7 @@ public class CrtEnterManifestService {
         if (!"YPDC".equals(paramMap.get("bind_typecd"))){
             PassPortAcmp passPortAcmp = new PassPortAcmp();
             //查询核放单编号
-            passPortAcmp.setPassport_no(passPortNo);
+            //passPortAcmp.setPassport_no(passPortNo);
             passPortAcmp.setRtl_tb_typecd("1");
             passPortAcmp.setRtl_no(paramMap.get("invtNo"));
             passPortAcmp.setHead_etps_preent_no(etps_preent_no);
@@ -447,6 +447,7 @@ public class CrtEnterManifestService {
             // 更新表体数据
             for (LinkedHashMap<String, String> entryList : entryLists) {
                 //创建表体信息
+                entryList.put("head_id",entryHead.get("head_id"));
                 entryList.put("bond_invt_no",entryHead.get("bond_invt_no"));
                 entryList.put("etps_preent_no",entryHead.get("etps_preent_no"));
                 entryList.put("passPortListId",IdUtils.getUUId());

@@ -48,6 +48,16 @@ public class BondInvtDt {
     private String surplus_nm;//剩余数量
     private double quantity;//申报数量
 
+    public String usecd;//用途代码
+
+    public String getUsecd() {
+        return usecd;
+    }
+
+    public void setUsecd(String usecd) {
+        this.usecd = usecd;
+    }
+
     public double getQuantity() {
         return quantity;
     }

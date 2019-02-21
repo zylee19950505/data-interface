@@ -61,7 +61,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.status == "BDDS33") {
+                        if (row.status == "BDDS3") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.etps_preent_no + '" />';
                         }
@@ -77,7 +77,37 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     }
                 },
                 {data: "bond_invt_no", label: "核注清单编号"},
-                {data: "status", label: "申报状态"},
+               /* {data: "status", label: "申报状态"},*/
+                {
+                    label: "申报状态", render: function (data, type, row) {
+                        var value = "";
+                        var textColor = "";
+                        switch (row.status) {
+                            case "BDDS3":
+                                value = "核放单待申报";
+                                textColor = "text-green";
+                                break;
+                            case "BDDS30":
+                                value = "核放单申报中";
+                                textColor = "text-green";
+                                break;
+                            case "BDDS31":
+                                value = "核放单已申报";
+                                textColor = "text-green";
+                                break;
+                            case "BDDS32":
+                                value = "核放单申报成功";
+                                textColor = "text-green";
+                                break;
+
+                            default :
+                                value = "状态待确认";
+                                textColor = "text-red";
+                        }
+                        var result = "<span class=" + textColor + ">" + value + "</span>";
+                        return result
+                    }
+                },
                 {
                     label: "申报日期", render: function (data, type, row) {
                         if (!isEmpty(row.dcl_time)) {
@@ -91,13 +121,13 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                         var value = "";
                         var textColor = "";
                         switch (row.data_status) {
-                            case "CBDS3":
+                            case "BDDS3":
                                 value = "核放单待申报";
                                 textColor = "text-red";
                                 break;
                             default :
-                                value = "状态待确认";
-                                textColor = "text-red";
+                                value = "";
+                                textColor = "";
                         }
                         var result = "<span class=" + textColor + ">" + value + "</span>";
                         return result

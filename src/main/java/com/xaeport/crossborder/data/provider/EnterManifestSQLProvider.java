@@ -129,7 +129,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_PASS_PORT_HEAD t");
-                WHERE(splitJointIn("t.PASSPORT_NO", submitKeys));
+                WHERE(splitJointIn("t.ETPS_PREENT_NO", submitKeys));
                 WHERE(splitJointIn("t.STATUS", statusWhere));
                 SET("t.STATUS = #{status}");
                 SET("t.DCL_TIME = sysdate");
@@ -160,7 +160,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t.RTL_NO");
                 FROM("T_PASS_PORT_ACMP t");
-                WHERE("t.PASSPORT_NO = #{passport_no}");
+                //WHERE("t.PASSPORT_NO = #{passport_no}");
                 WHERE("t.HEAD_ETPS_PREENT_NO = #{etps_preent_no}");
             }
         }.toString();
@@ -219,7 +219,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             {
                 DELETE_FROM("T_PASS_PORT_ACMP t");
                 WHERE("t.HEAD_ETPS_PREENT_NO = #{etps_preent_no}");
-                WHERE("t.PASSPORT_NO = #{passport_no}");
+                //WHERE("t.PASSPORT_NO = #{passport_no}");
             }
         }.toString();
     }
@@ -243,13 +243,13 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     public String queryEnterPassportList(Map<String, String> paramMap){
         return new SQL(){
             {
-                SELECT("t.PASSPORT_NO");
+                //SELECT("t.PASSPORT_NO");
                 SELECT("t.GDS_MTNO");
                 SELECT("t.GDS_NM");
                 SELECT("t.DCL_QTY");
                 SELECT("t.BOND_INVT_NO");
                 FROM("T_PASS_PORT_LIST t");
-                WHERE("t.PASSPORT_NO = #{etps_preent_no}");
+                WHERE("t.HEAD_ID = #{head_id}");
             }
         }.toString();
     }
@@ -303,7 +303,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         return new SQL(){
             {
                 DELETE_FROM("T_PASS_PORT_LIST t");
-                WHERE("t.PASSPORT_NO = #{etps_preent_no}");
+                WHERE("t.HEAD_ID = #{head_id}");
             }
         }.toString();
     }
@@ -324,12 +324,12 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     /**
      * 点击查看核放单详情(表体)
      * */
-    public String getImpPassportList(@Param("etps_preent_no") String etps_preent_no){
+    public String getImpPassportList(@Param("head_id") String head_id){
         return new SQL(){
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_LIST t");
-                WHERE("t.PASSPORT_NO = #{etps_preent_no}");
+                WHERE("t.HEAD_ID = #{head_id}");
             }
         }.toString();
     }

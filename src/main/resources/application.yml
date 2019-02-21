@@ -60,13 +60,13 @@ appConfig:
     xmlDownload: "xmlDownload"
 
   #下载文件夹
-  downloadFolder: d:/app/download
+  downloadFolder: e:/app/download
   #回执文件夹
-  receiptFolder: d:/app/receive
+  receiptFolder: e:/app/receive
   #回执备份文件
-  backupFolder: d:/app/backup
+  backupFolder: e:/app/backup
    # 错误目录，可以使用相对路径和绝对路径
-  errorFolder: d:/app/error
+  errorFolder: e:/app/error
 
 # 数据源配置
 spring:
