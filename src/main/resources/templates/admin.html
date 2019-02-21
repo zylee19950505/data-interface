@@ -8,11 +8,11 @@
     <meta th:include="fragments/resource :: head" th:remove="tag"/>
 
 </head>
-<body class="hold-transition skin-blue fixed sidebar-mini">
+<body class="hold-transition skin-blue fixed sidebar-mini" style="background-color:#ecf0f5;">
 <div class="wrapper">
     <div th:replace="fragments/head :: header"></div>
     <div th:replace="fragments/side :: sidebar"></div>
-    <div class="content-wrapper" style="overflow:scroll;word-break:break-all;" id="content">
+    <div class="content-wrapper" style="overflow-y:auto;overflow-x:hidden;word-break:break-all;" id="content">
         <div class="box content-header">
             <div id="ws-nothing"></div>
         </div>
