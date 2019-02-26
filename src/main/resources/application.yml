@@ -19,6 +19,8 @@ logging:
     com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper: info
     com.xaeport.crossborder.data.mapper.ExitInventoryMapper: info
     com.xaeport.crossborder.data.mapper.ExitManifestMapper: info
+    com.xaeport.crossborder.data.mapper.EnterInventoryMapper: info
+    com.xaeport.crossborder.data.mapper.EnterManifestMapper: info
 
   config: classpath:config/logback-spring.xml
 
@@ -67,6 +69,15 @@ appConfig:
   backupFolder: d:/app/backup
    # 错误目录，可以使用相对路径和绝对路径
   errorFolder: d:/app/error
+  #入库报文预处理文件夹
+  preprocessFolder: d:/app/preprocess
+  #入库报文处理中文件夹
+  processFolder: d:/app/process
+  #入库报文目录
+  stockbackupFolder: d:/app/stockbackup
+  #错误入库报文目录
+  stockerrorFolder: d:/app/stockerror
+
 
 # 数据源配置
 spring:

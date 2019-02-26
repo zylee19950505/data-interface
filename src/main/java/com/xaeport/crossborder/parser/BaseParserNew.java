@@ -48,14 +48,10 @@ public abstract class BaseParserNew {
         while (it.hasNext()) {
             Element nodeElement = (Element) it.next();
             String nodeName = nodeElement.getName();
-            Iterator itt = nodeElement.elementIterator();
             if (nodeName.equals(node)) {
-//                while (itt.hasNext()) {
                     Map<String, String> nodeMap = new HashMap<>();
-//                    Element resultElement = (Element) itt.next();
                     nodeMap.put(nodeElement.getName(), nodeElement.getStringValue());
                     result.add(nodeMap);
-//                }
                 map.put(node, result);
             }
             this.parserChildrenNew(nodeElement, map, node);//递归

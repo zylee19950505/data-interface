@@ -56,7 +56,7 @@ public class DeliveryDataThread implements Runnable {
 //                        impDeliveryHead.setGuid(IdUtils.getUUId());
 //                        impDeliveryHead.setApp_type("1");
 //                        impDeliveryHead.setApp_status("2");
-//                        impDeliveryHead.setCustoms_code("9007");
+//                        impDeliveryHead.setCustoms_code("9009");
 //                        impDeliveryHead.setPre_no("");
 //                        impDeliveryHead.setRkd_no("");
 //                        impDeliveryHead.setOperator_code("");
@@ -132,7 +132,7 @@ public class DeliveryDataThread implements Runnable {
                         impDeliveryHead.setGuid(IdUtils.getUUId());
                         impDeliveryHead.setApp_type("1");
                         impDeliveryHead.setApp_status("2");
-                        impDeliveryHead.setCustoms_code("9007");
+                        impDeliveryHead.setCustoms_code("9009");
                         impDeliveryHead.setPre_no("");
                         impDeliveryHead.setRkd_no("");
                         impDeliveryHead.setOperator_code("");

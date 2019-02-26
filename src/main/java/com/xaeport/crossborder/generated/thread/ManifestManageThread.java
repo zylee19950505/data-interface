@@ -147,7 +147,7 @@ public class ManifestManageThread implements Runnable {
         messageHead.setReceiveId("KCUST001");
         messageHead.setReceiveAddress("KCUST001@ecidh.com");
         messageHead.setPlatFormNo("XAKJE");
-        messageHead.setCustomCode("9007");
+        messageHead.setCustomCode("9009");
         messageHead.setSeqNo(manifest_no);
         return messageHead;
     }

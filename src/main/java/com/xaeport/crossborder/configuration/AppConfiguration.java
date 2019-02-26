@@ -37,6 +37,10 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     private String agentExeFolder;
     private Map<String, String> xmlPath;
     private String receiptFolder;
+    private String preprocessFolder;
+    private String processFolder;
+    private String stockbackupFolder;
+    private String stockerrorFolder;
     private String backupFolder;
     private String errorFolder;
     private String senderId;
@@ -46,6 +50,38 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     private String inputno;
     private String account;
     private String password;
+
+    public String getStockbackupFolder() {
+        return stockbackupFolder;
+    }
+
+    public void setStockbackupFolder(String stockbackupFolder) {
+        this.stockbackupFolder = stockbackupFolder;
+    }
+
+    public String getStockerrorFolder() {
+        return stockerrorFolder;
+    }
+
+    public void setStockerrorFolder(String stockerrorFolder) {
+        this.stockerrorFolder = stockerrorFolder;
+    }
+
+    public String getPreprocessFolder() {
+        return preprocessFolder;
+    }
+
+    public void setPreprocessFolder(String preprocessFolder) {
+        this.preprocessFolder = preprocessFolder;
+    }
+
+    public String getProcessFolder() {
+        return processFolder;
+    }
+
+    public void setProcessFolder(String processFolder) {
+        this.processFolder = processFolder;
+    }
 
     public String getDomain() {
         return domain;
