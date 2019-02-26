@@ -197,6 +197,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
         $("#etps_preent_no").val(entryHead.etps_preent_no);
+        $("#head_id").val(entryHead.id);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
 
         $("#master_cuscd").val(entryHead.master_cuscd);
@@ -369,6 +370,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         var entryData = {
             entryHead: {
                 etps_preent_no: $("#etps_preent_no").val(),
+                head_id: $("#head_id").val(),
                 bond_invt_no: $("#bond_invt_no").val(),
                 master_cuscd: $("#master_cuscd").val(),
 

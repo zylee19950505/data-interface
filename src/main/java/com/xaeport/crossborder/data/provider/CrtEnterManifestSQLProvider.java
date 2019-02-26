@@ -98,9 +98,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 }
 
                 //预先模拟核放单编号
-                if (!StringUtils.isEmpty(passPortHead.getPassport_no())){
+                /*if (!StringUtils.isEmpty(passPortHead.getPassport_no())){
                     VALUES("t.passport_no","#{passPortHead.passport_no}");
-                }
+                }*/
 
                 if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())){
                     VALUES("t.etps_preent_no","#{passPortHead.etps_preent_no}");
@@ -379,6 +379,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
         return new SQL(){
             {
                 SELECT("t.ETPS_PREENT_NO");
+                SELECT("t.ID");
                 SELECT("t.BOND_INVT_NO");
                 SELECT("t.MASTER_CUSCD");
                 SELECT("t.BIND_TYPECD");
@@ -575,7 +576,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
             {
                 INSERT_INTO("T_PASS_PORT_LIST t");
                 VALUES("t.ID","#{passPortListId}");
-                VALUES("t.PASSPORT_NO","#{etps_preent_no}");
+                VALUES("t.HEAD_ID","#{head_id}");
                 VALUES("t.GDS_MTNO","#{gds_mtno}");
                 VALUES("t.GDECD","#{gdecd}");
                 VALUES("t.GDS_NM","#{gds_nm}");

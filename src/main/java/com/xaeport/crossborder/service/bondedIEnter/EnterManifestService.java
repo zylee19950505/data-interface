@@ -34,16 +34,17 @@ public class EnterManifestService {
     }
 
     public void deleteEnterManifest(String submitKeys, Users users) {
-        //根据核放单号去查找(当前为核放单的ETPS_PREENT_NO,之后要改为PASSPORT_NO)
+        //根据核放单号去查找(当前为核放单的ETPS_PREENT_NO)
         String[] etps_preent_nos = submitKeys.split(",");
         Map<String,String> paramMap = new HashMap<String,String>();
         for (String etps_preent_no:etps_preent_nos) {
-            paramMap.put("status", StatusCode.RQHFDDZC);
+            paramMap.put("status", StatusCode.RQHFDDSB);
             paramMap.put("etps_preent_no",etps_preent_no);
             paramMap.put("userId",users.getId());
             PassPortHead passPortHead = new PassPortHead();
             passPortHead = this.enterManifestMapper.queryEnterManifestBindType(paramMap);
-            paramMap.put("passport_no",passPortHead.getPassport_no());
+            //paramMap.put("passport_no",passPortHead.getPassport_no());
+            paramMap.put("head_id",passPortHead.getId());
             if (!"3".equals(passPortHead.getBind_typecd())){
                 //一车一票和一车多票
                 //恢复关联单里的核注清单的表体信息和可绑定信息
@@ -100,7 +101,7 @@ public class EnterManifestService {
         return this.enterManifestMapper.getImpPassportHead(etps_preent_no);
     }
 
-    public List<PassPortList> getImpPassportList(String etps_preent_no) {
-        return this.enterManifestMapper.getImpPassportList(etps_preent_no);
+    public List<PassPortList> getImpPassportList(String head_id) {
+        return this.enterManifestMapper.getImpPassportList(head_id);
     }
 }

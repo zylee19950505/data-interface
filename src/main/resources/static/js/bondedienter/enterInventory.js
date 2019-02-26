@@ -1,4 +1,4 @@
-//清单查询
+//入区核注清单
 sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/enterInventory"] || {
 
     query: function () {
@@ -75,17 +75,64 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                 {
                     data: "bond_invt_no", label: "核注清单编号"
                 },
-                {
+               /* {
                     data: "status", label: "申报状态"
-                },
+                },*/
+
                 {
+                    label: "申报状态", render: function (data, type, row) {
+                        var textColor = "";
+                        var value = "";
+                        switch (row.status) {
+                            case null:
+                                textColor = "text-yellow";
+                                value = "待申报";
+                                break;
+                            case "BDDS1":
+                                textColor = "text-yellow";
+                                value = "核注清单待申报";
+                                break;
+                            case "BDDS10":
+                                textColor = "text-green";
+                                value = "核注清单申报中";
+                                break;
+                            case "BDDS11":
+                                textColor = "text-green";
+                                value = "核注清单已申报";
+                                break;
+                            case "BDDS12":
+                                textColor = "text-green";
+                                value = "核注清单申报成功";
+                                break;
+                        }
+
+                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    }
+                },
+               /* {
                     data: "entry_dcl_time", label: "申报时间"
+                },*/
+                {
+                    label: "申报时间", render: function (data, type, row) {
+                        if (!isEmpty(row.entry_dcl_time)) {
+                            return moment(row.entry_dcl_time).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
                 },
                 {
                     data: "return_status", label: "回执状态"
                 },
-                {
+                /*{
                     data: "return_time", label: "回执时间"
+                },*/
+                {
+                    label: "回执时间", render: function (data, type, row) {
+                        if (!isEmpty(row.return_time)) {
+                            return moment(row.return_time).format("YYYY-MM-DD HH:mm:ss");
+                        }
+                        return "";
+                    }
                 },
                 {
                     data: "return_info", label: "回执备注"

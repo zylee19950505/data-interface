@@ -84,7 +84,7 @@ public class EnterManifestApi extends BaseApi {
         }
     }
 
-    //删除运单
+    //删除核放单
     @RequestMapping(value = "/deleteEnterManifest", method = RequestMethod.POST)
     public ResponseData deleteEnterManifest(
             String submitKeys
@@ -100,7 +100,7 @@ public class EnterManifestApi extends BaseApi {
         return new ResponseData("");
     }
     /**
-     * 清单申报-提交海关
+     * 核放单申报-提交海关
      **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(
@@ -114,7 +114,7 @@ public class EnterManifestApi extends BaseApi {
         Users user = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("status", StatusCode.RQHFDSBZ);//申报中
-        paramMap.put("statusWhere", StatusCode.RQHFDDZC);//暂存
+        paramMap.put("statusWhere", StatusCode.RQHFDDSB);//待申报
         paramMap.put("userId", user.getId());
         paramMap.put("submitKeys", submitKeys);
         boolean flag = enterManifestService.updateSubmitCustom(paramMap);
@@ -139,7 +139,8 @@ public class EnterManifestApi extends BaseApi {
             PassPortHead passPortHead = new PassPortHead();
             List<PassPortList> passPortLists = new ArrayList<PassPortList>();
             passPortHead = enterManifestService.getImpPassportHead(etps_preent_no);
-            passPortLists = enterManifestService.getImpPassportList(etps_preent_no);
+           // passPortLists = enterManifestService.getImpPassportList(etps_preent_no);
+            passPortLists = enterManifestService.getImpPassportList(passPortHead.getId());
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortList(passPortLists);
         } catch (Exception e) {

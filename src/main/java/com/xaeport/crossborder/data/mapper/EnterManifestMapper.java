@@ -62,7 +62,7 @@ public interface EnterManifestMapper {
     PassPortHead getImpPassportHead(@Param("etps_preent_no") String etps_preent_no);
 
     @SelectProvider(type = EnterManifestSQLProvider.class,method = "getImpPassportList")
-    List<PassPortList> getImpPassportList(@Param("etps_preent_no") String etps_preent_no);
+    List<PassPortList> getImpPassportList(@Param("head_id") String head_id);
 
     @SelectProvider(type = EnterManifestSQLProvider.class,method = "findWaitGenerated")
     List<PassPortHead> findWaitGenerated(Map<String, String> paramMap);
