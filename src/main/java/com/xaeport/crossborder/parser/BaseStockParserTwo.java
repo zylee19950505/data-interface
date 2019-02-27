@@ -32,6 +32,23 @@ public abstract class BaseStockParserTwo {
     private void stockParserChildren(Element element, Map<String, List<Map<String, List<Map<String, String>>>>> map, String node) {
         Iterator it = element.elementIterator();
         List<Map<String, List<Map<String, String>>>> result = new ArrayList<>();
+        String Head = null;
+        String List = null;
+
+        switch (node) {
+            case "Order":
+                Head = "OrderHead";
+                List = "OrderList";
+                break;
+            case "Inventory":
+                Head = "InventoryHead";
+                List = "InventoryList";
+                break;
+            case "Delivery":
+                Head = "DeliveryHead";
+                List = "DeliveryList";
+                break;
+        }
 
         while (it.hasNext()) {// ceb:Order
 
@@ -47,28 +64,30 @@ public abstract class BaseStockParserTwo {
                 List<Map<String, String>> OrderLists = new ArrayList<>();
                 Map<String, List<Map<String, String>>> TypeMap = new HashMap<>();
 
-                if (nodeNamed.equals("OrderHead")) {
+                if (nodeNamed.equals(Head)) {
                     while (ittt.hasNext()) {//ceb:OrderHead
                         Map<String, String> nodeMap = new HashMap<>();
                         Element resultElement = (Element) ittt.next();
                         nodeMap.put(resultElement.getName(), resultElement.getStringValue());
                         OrderHeads.add(nodeMap);
                     }
+                    TypeMap.put(Head, OrderHeads);
+                    result.add(TypeMap);
+                    map.put(node, result);
                 }
 
-                if (nodeNamed.equals("OrderList")) {
+                if (nodeNamed.equals(List)) {
                     while (ittt.hasNext()) {//ceb:OrderList
                         Map<String, String> nodeMap = new HashMap<>();
                         Element resultElement = (Element) ittt.next();
                         nodeMap.put(resultElement.getName(), resultElement.getStringValue());
                         OrderLists.add(nodeMap);
                     }
+                    TypeMap.put(List, OrderLists);
+                    result.add(TypeMap);
+                    map.put(node, result);
                 }
 
-                TypeMap.put("ceb:OrderHead", OrderHeads);
-                TypeMap.put("ceb:OrderList", OrderLists);
-                result.add(TypeMap);
-                map.put(node, result);
             }
             this.stockParserChildren(nodeElement1, map, node);//递归
         }

@@ -60,24 +60,26 @@ public class ExpParserStock {
         Map<String, List<Map<String, List<Map<String, String>>>>> stockMap = null;
         switch (type) {
             case StockMsgType.CB_DD://跨境订单报文
-                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_DD).expStockParser(expPath, "ceb:Order");
+                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_DD).expStockParser(expPath, "Order");
                 break;
             case StockMsgType.CB_QD://跨境清单报文
-                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_QD).expStockParser(expPath, "ceb:Inventory");
+                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_QD).expStockParser(expPath, "Inventory");
+                break;
+            case StockMsgType.CB_RKMXD://跨境入库明细单报文
+                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_RKMXD).expStockParser(expPath, "Delivery");
                 break;
 
             case StockMsgType.CB_ZFD://跨境支付单报文
                 map = this.parserHolder.getStockParserOne(StockMsgType.CB_ZFD).expParserOne(expPath, "PaymentHead");
                 break;
             case StockMsgType.CB_YD://跨境运单报文
-                map = this.parserHolder.getParser(StockMsgType.CB_YD).expParser(expPath, "ceb:LogisticsHead");
+                map = this.parserHolder.getStockParserOne(StockMsgType.CB_YD).expParserOne(expPath, "LogisticsHead");
                 break;
+
             case StockMsgType.CB_YDZT://跨境运单状态报文
-                map = this.parserHolder.getParser(StockMsgType.CB_YDZT).expParser(expPath, "ceb:LogisticsStatus");
+                map = this.parserHolder.getParser(StockMsgType.CB_YDZT).expParser(expPath, "LogisticsStatus");
                 break;
-            case StockMsgType.CB_RKMXD://跨境入库明细单报文
-                map = this.parserHolder.getParser(StockMsgType.CB_RKMXD).expParser(expPath, "ceb:DeliveryHead", "ceb:DeliveryList");
-                break;
+
             case StockMsgType.CB_MF://跨境核放单报文
                 map = this.parserHolder.getParser(StockMsgType.CB_MF).expParser(expPath, "MessageHead", "MANIFEST_HEAD");
                 break;
