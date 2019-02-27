@@ -5,6 +5,7 @@
         <li class="active">进口贸易额</li>
     </ol>
 </section>
+<script type="text/javascript" language="javascript" src="../../lib/eCharts/echarts.min.js"></script>
 
 <section class="content">
     <div id="bill">
@@ -37,10 +38,10 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">贸易关区：</span>
-                                    <select class="form-control" name="ieFlag">
+                                    <select class="form-control" name="customsCode">
                                         <option value="" selected="selected">全部</option>
-                                        <option value="I">港务区</option>
-                                        <option value="E">空港</option>
+                                        <option value="9002">港务区</option>
+                                        <option value="9007">空港</option>
                                     </select>
                                 </div>
                             </div>
@@ -48,10 +49,10 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon">贸易方式：</span>
-                                    <select class="form-control" name="entId" id="entId">
+                                    <select class="form-control" name="tradeMode">
                                         <option value="" selected="selected">全部</option>
-                                        <option value="" >直邮进口</option>
-                                        <option value="" >保税进口</option>
+                                        <option value="9610" >直邮进口</option>
+                                        <option value="1210" >保税进口</option>
                                     </select>
                                 </div>
                             </div>
@@ -77,6 +78,7 @@
                         <div class="box-tools pull-right">
                         </div>
                     </div>
+                    <div id="main" style="height: 400px; width: 100%; background: rgb(255, 255, 255); padding-left: 20px; padding-top: 27px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"></div>
                     <div class="box-body">
                         <div style="text-align: center">
                             <table id="query-customs-table" align="center"
