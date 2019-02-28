@@ -861,5 +861,151 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+    public String queryManifestData(@Param("manifestHead") ManifestHead manifestHead){
+        return new SQL(){
+            {
+                SELECT("count(1)");
+                FROM("T_MANIFEST_HEAD mh");
+                WHERE("mh.AUTO_ID = #{manifestHead.auto_id}");
+            }
+        }.toString();
+    }
+
+    public String updateManifestData(@Param("manifestHead") ManifestHead manifestHead){
+        return new SQL(){
+            {
+                UPDATE("T_MANIFEST_HEAD mh");
+                WHERE("mh.AUTO_ID = #{manifestHead.auto_id}");
+                SET("mh.MANIFEST_NO = #{manifestHead.manifest_no}");
+                SET("mh.BIZ_TYPE = #{manifestHead.biz_type}");
+                SET("mh.BIZ_MODE = #{manifestHead.biz_mode}");
+                SET("mh.I_E_FLAG = #{manifestHead.i_e_flag}");
+                SET("mh.I_E_MARK = #{manifestHead.i_e_mark}");
+                SET("mh.START_LAND = #{manifestHead.start_land}");
+                SET("mh.GOAL_LAND = #{manifestHead.goal_land}");
+                SET("mh.CAR_NO = #{manifestHead.car_no}");
+                SET("mh.CAR_WT = #{manifestHead.car_wt}");
+                SET("mh.IC_CODE = #{manifestHead.ic_code}");
+                SET("mh.GOODS_WT = #{manifestHead.goods_wt}");
+                SET("mh.FACT_WEIGHT = #{manifestHead.fact_weight}");
+                SET("mh.PACK_NO = #{manifestHead.pack_no}");
+                SET("mh.M_STATUS = #{manifestHead.m_status}");
+                SET("mh.B_STATUS = #{manifestHead.b_status}");
+                SET("mh.STATUS = #{manifestHead.status}");
+                SET("mh.PORT_STATUS = #{manifestHead.port_status}");
+                SET("mh.APP_PERSON = #{manifestHead.app_person}");
+                SET("mh.APP_DATE = #{manifestHead.app_date}");
+                SET("mh.INPUT_CODE = #{manifestHead.input_code}");
+                SET("mh.INPUT_NAME = #{manifestHead.input_name}");
+                SET("mh.TRADE_CODE = #{manifestHead.trade_code}");
+                SET("mh.TRADE_NAME = #{manifestHead.trade_name}");
+                SET("mh.REGION_CODE = #{manifestHead.region_code}");
+                SET("mh.CUSTOMS_CODE = #{manifestHead.customs_code}");
+                SET("mh.NOTE = #{manifestHead.note}");
+                SET("mh.EXTEND_FIELD_3 = #{manifestHead.extend_field_3}");
+                SET("mh.PLAT_FROM = #{manifestHead.plat_from}");
+            }
+        }.toString();
+    }
+
+    public String insertManifestData(@Param("manifestHead") ManifestHead manifestHead){
+        return new SQL(){
+            {
+                INSERT_INTO("T_MANIFEST_HEAD");
+                if (!StringUtils.isEmpty(manifestHead.getAuto_id())){
+                    VALUES("AUTO_ID","#{manifestHead.auto_id}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getManifest_no())){
+                    VALUES("MANIFEST_NO","#{manifestHead.manifest_no}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getBiz_type())){
+                    VALUES("BIZ_TYPE","#{manifestHead.biz_type}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getBiz_mode())){
+                    VALUES("BIZ_MODE","#{manifestHead.biz_mode}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getI_e_flag())){
+                    VALUES("I_E_FLAG","#{manifestHead.i_e_flag}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getI_e_mark())){
+                    VALUES("I_E_MARK","#{manifestHead.i_e_mark}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getStart_land())){
+                    VALUES("START_LAND","#{manifestHead.start_land}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getGoal_land())){
+                    VALUES("GOAL_LAND","#{manifestHead.goal_land}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getCar_no())){
+                    VALUES("CAR_NO","#{manifestHead.car_no}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getCar_wt())){
+                    VALUES("CAR_WT","#{manifestHead.car_wt}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getIc_code())){
+                    VALUES("IC_CODE","#{manifestHead.ic_code}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getGoods_wt())){
+                    VALUES("GOODS_WT","#{manifestHead.goods_wt}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getFact_weight())){
+                    VALUES("FACT_WEIGHT","#{manifestHead.fact_weight}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getPack_no())){
+                    VALUES("PACK_NO","#{manifestHead.pack_no}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getM_status())){
+                    VALUES("M_STATUS","#{manifestHead.m_status}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getB_status())){
+                    VALUES("B_STATUS","#{manifestHead.b_status}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getStatus())){
+                    VALUES("STATUS","#{manifestHead.status}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getPort_status())){
+                    VALUES("PORT_STATUS","#{manifestHead.port_status}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getApp_person())){
+                    VALUES("APP_PERSON","#{manifestHead.app_person}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getApp_date())){
+                    VALUES("APP_DATE","#{manifestHead.app_date}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getInput_code())){
+                    VALUES("INPUT_CODE","#{manifestHead.input_code}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getInput_name())){
+                    VALUES("INPUT_NAME","#{manifestHead.input_name}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getTrade_code())){
+                    VALUES("TRADE_CODE","#{manifestHead.trade_code}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getTrade_name())){
+                    VALUES("TRADE_NAME","#{manifestHead.trade_name}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getRegion_code())){
+                    VALUES("REGION_CODE","#{manifestHead.region_code}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getCustoms_code())){
+                    VALUES("CUSTOMS_CODE","#{manifestHead.customs_code}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getNote())){
+                    VALUES("NOTE","#{manifestHead.note}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getExtend_field_3())){
+                    VALUES("EXTEND_FIELD_3","#{manifestHead.extend_field_3}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getPlat_from())){
+                    VALUES("PLAT_FROM","#{manifestHead.plat_from}");
+                }
+                if (!StringUtils.isEmpty(manifestHead.getWriting_mode())){
+                    VALUES("WRITING_MODE","#{manifestHead.writing_mode}");
+                }
+
+
+            }
+        }.toString();
+    }
 
 }
