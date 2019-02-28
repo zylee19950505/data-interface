@@ -44,7 +44,7 @@ public class ImpCountryApi extends BaseApi {
 		this.logger.debug(String.format("进口国家:[startFlightTimes:%s,endFlightTimes:%s,tradeCustom:%s,tradeWay:%s]", startFlightTimes,endFlightTimes,customsCode,tradeMode));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpCountryList> dataList = new DataList<ImpCountryList>();
-		paramMap.put("startDeclareTime",startFlightTimes);
+		paramMap.put("startFlightTimes",startFlightTimes);
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
@@ -53,6 +53,33 @@ public class ImpCountryApi extends BaseApi {
 
 		try {
 			impCountryLists = this.impCountryService.queryImpCountryList(paramMap);
+			dataList.setData(impCountryLists);
+			return new ResponseData(dataList);
+		} catch (Exception e) {
+			this.logger.error("进口国家", e);
+			return new ResponseData(dataList);
+		}
+	}
+
+	@RequestMapping("/queryImpCountryEChart")
+	public ResponseData queryImpCountryEChart(
+			@RequestParam(required = false) String startFlightTimes,
+			@RequestParam(required = false) String endFlightTimes,
+			@RequestParam(required = false) String customsCode,//贸易关区
+			@RequestParam(required = false) String tradeMode//贸易方式
+	) {
+		this.logger.debug(String.format("进口国家:[startFlightTimes:%s,endFlightTimes:%s,tradeCustom:%s,tradeWay:%s]", startFlightTimes,endFlightTimes,customsCode,tradeMode));
+		Map<String, String> paramMap = new HashMap<String, String>();
+		DataList<ImpCountryList> dataList = new DataList<ImpCountryList>();
+		paramMap.put("startFlightTimes",startFlightTimes);
+		paramMap.put("endFlightTimes",endFlightTimes);
+		paramMap.put("customsCode",customsCode);
+		paramMap.put("tradeMode",tradeMode);
+
+		List<ImpCountryList> impCountryLists = new ArrayList<ImpCountryList>();
+
+		try {
+			impCountryLists = this.impCountryService.queryImpCountryEChart(paramMap);
 			dataList.setData(impCountryLists);
 			return new ResponseData(dataList);
 		} catch (Exception e) {

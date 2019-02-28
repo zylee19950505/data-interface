@@ -144,7 +144,7 @@ sw.page.modules["trade/statistics/imp_country"] = sw.page.modules["trade/statist
         $.ajax({
             type : "post",
             async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-            url : "api/statistics/queryImpCountryList",    //请求发送到TestServlet处
+            url : "api/statistics/queryImpCountryEChart",    //请求发送到TestServlet处
             data: data,
             dataType : "json",        //返回数据形式为json
             success : function(result) {
@@ -204,7 +204,7 @@ sw.page.modules["trade/statistics/imp_country"] = sw.page.modules["trade/statist
         });
 
        // $("[ws-search]").unbind("click").click(this.toLoad());
-        $("[ws-search]").unbind("click").click(this.toLoad).click();
+        $("[ws-search]").unbind("click").click(this.toLoad);
 
 
     }

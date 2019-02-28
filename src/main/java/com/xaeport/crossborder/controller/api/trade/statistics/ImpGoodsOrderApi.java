@@ -48,7 +48,7 @@ public class ImpGoodsOrderApi extends BaseApi {
 		this.logger.debug(String.format("进口商品总值排序:[startFlightTimes:%s,endFlightTimes:%s,tradeCustom:%s,tradeWay:%s]", startFlightTimes,endFlightTimes,customsCode,tradeMode));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpGoodsOrder> dataList = new DataList<ImpGoodsOrder>();
-		paramMap.put("startDeclareTime",startFlightTimes);
+		paramMap.put("startFlightTimes",startFlightTimes);
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);

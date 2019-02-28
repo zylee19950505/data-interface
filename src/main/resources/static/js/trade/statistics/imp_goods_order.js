@@ -87,7 +87,7 @@ sw.page.modules["trade/statistics/imp_goods_order"] = sw.page.modules["trade/sta
         });
 
        // $("[ws-search]").unbind("click").click(this.toLoad());
-        $("[ws-search]").unbind("click").click(this.toLoad).click();
+        $("[ws-search]").unbind("click").click(this.toLoad);
 
     }
 
