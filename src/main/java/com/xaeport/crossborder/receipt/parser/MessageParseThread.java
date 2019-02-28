@@ -81,7 +81,9 @@ public class MessageParseThread extends ThreadBase implements Cloneable {
             this.log.info(String.format("从预处理队列中读取报文[fileName:%s]", refileName));
             Map map;
             try {
+                //1.解析报文
                 map = this.stockExpParser.stockExpParser(dataFile.getFileData());
+                //2.插入数据
                 boolean flag = this.stockMessageService.createStockData(map, refileName);//插入数据
                 if (flag) {
                     this.stockBackup(dataFile);//回执文件备份

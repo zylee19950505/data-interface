@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,6 +54,12 @@ public class StockMessageService {
                 case StockMsgType.CB_ZFD://跨境支付单报文数据
                     this.insertImpPaymentData(msg, refileName);
                     break;
+                case StockMsgType.CB_MF://跨境核放单报文数据
+                    this.insertManifestData(msg, refileName);
+                    break;
+                /*case StockMsgType.BD_HZQD://保税核注清单报文数据
+                    this.insertBondinvtData(msg, refileName);
+                    break;*/
                 case StockMsgType.CB_YD://跨境运单报文数据
                     this.insertImpLogistics(msg, refileName);
                     break;
@@ -68,6 +75,134 @@ public class StockMessageService {
         }
         return flag;
     }
+
+    /**
+     * 插入保税核注清单报文数据(暂时不做)
+     * */
+   /* private void insertBondinvtData(Map<String, List<List<Map<String, String>>>> msg, String refileName) {
+
+
+    }*/
+
+
+    /**
+     * 插入跨境核放单报文数据
+     * */
+    @Transactional(rollbackFor = NullPointerException.class)
+    private void insertManifestData(Map<String, List<List<Map<String, String>>>> msg, String refileName) throws Exception {
+        List<List<Map<String, String>>> manifestHeadlist = msg.get("MANIFEST_HEAD");
+        if (!StringUtils.isEmpty(manifestHeadlist)){
+            ManifestHead manifestHead;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            for (int i = 0; i < manifestHeadlist.size(); i++) {
+                //List<Map<String, String>> manifestHeads = manifestHeadlist.get(i).get("MANIFEST_HEAD");
+                List<Map<String, String>> manifestHeads = manifestHeadlist.get(i);
+                manifestHead = new ManifestHead();
+                for (Map<String, String> manifestHeadMap:manifestHeads) {
+                    if (manifestHeadMap.containsKey("AUTO_ID")){
+                        manifestHead.setAuto_id(manifestHeadMap.get("AUTO_ID"));
+                    }
+                    if (manifestHeadMap.containsKey("MANIFEST_NO")){
+                        manifestHead.setManifest_no(manifestHeadMap.get("MANIFEST_NO"));
+                    }
+                    if (manifestHeadMap.containsKey("BIZ_TYPE")){
+                        manifestHead.setBiz_type(manifestHeadMap.get("BIZ_TYPE"));
+                    }
+                    if (manifestHeadMap.containsKey("BIZ_MODE")){
+                        manifestHead.setBiz_mode(manifestHeadMap.get("BIZ_MODE"));
+                    }
+                    if (manifestHeadMap.containsKey("I_E_FLAG")){
+                        manifestHead.setI_e_flag(manifestHeadMap.get("I_E_FLAG"));
+                    }
+                    if (manifestHeadMap.containsKey("I_E_MARK")){
+                        manifestHead.setI_e_mark(manifestHeadMap.get("I_E_MARK"));
+                    }
+                    if (manifestHeadMap.containsKey("START_LAND")){
+                        manifestHead.setStart_land(manifestHeadMap.get("START_LAND"));
+                    }
+                    if (manifestHeadMap.containsKey("GOAL_LAND")){
+                        manifestHead.setGoal_land(manifestHeadMap.get("GOAL_LAND"));
+                    }
+                    if (manifestHeadMap.containsKey("CAR_NO")){
+                        manifestHead.setCar_no(manifestHeadMap.get("CAR_NO"));
+                    }
+                    if (manifestHeadMap.containsKey("CAR_WT")){
+                        manifestHead.setCar_wt(manifestHeadMap.get("CAR_WT"));
+                    }
+                    if (manifestHeadMap.containsKey("IC_CODE")){
+                        manifestHead.setIc_code(manifestHeadMap.get("IC_CODE"));
+                    }
+                    if (manifestHeadMap.containsKey("GOODS_WT")){
+                        manifestHead.setGoods_wt(manifestHeadMap.get("GOODS_WT"));
+                    }
+                    if (manifestHeadMap.containsKey("FACT_WEIGHT")){
+                        manifestHead.setFact_weight(manifestHeadMap.get("FACT_WEIGHT"));
+                    }
+                    if (manifestHeadMap.containsKey("PACK_NO")){
+                        manifestHead.setPack_no(manifestHeadMap.get("PACK_NO"));
+                    }
+                    if (manifestHeadMap.containsKey("M_STATUS")){
+                        manifestHead.setM_status(manifestHeadMap.get("M_STATUS"));
+                    }
+                    if (manifestHeadMap.containsKey("B_STATUS")){
+                        manifestHead.setB_status(manifestHeadMap.get("B_STATUS"));
+                    }
+                    if (manifestHeadMap.containsKey("STATUS")){
+                        manifestHead.setStatus(manifestHeadMap.get("STATUS"));
+                    }
+                    if (manifestHeadMap.containsKey("PORT_STATUS")){
+                        manifestHead.setPort_status(manifestHeadMap.get("PORT_STATUS"));
+                    }
+                    if (manifestHeadMap.containsKey("APP_PERSON")){
+                        manifestHead.setApp_person(manifestHeadMap.get("APP_PERSON"));
+                    }
+                    if (manifestHeadMap.containsKey("APP_DATE")){
+                        manifestHead.setApp_date(sdf.parse(manifestHeadMap.get("APP_DATE")));
+                    }
+                    if (manifestHeadMap.containsKey("INPUT_CODE")){
+                        manifestHead.setInput_code(manifestHeadMap.get("INPUT_CODE"));
+                    }
+                    if (manifestHeadMap.containsKey("INPUT_NAME")){
+                        manifestHead.setInput_name(manifestHeadMap.get("INPUT_NAME"));
+                    }
+                    if (manifestHeadMap.containsKey("TRADE_CODE")){
+                        manifestHead.setTrade_code(manifestHeadMap.get("TRADE_CODE"));
+                    }
+                    if (manifestHeadMap.containsKey("TRADE_NAME")){
+                        manifestHead.setTrade_name(manifestHeadMap.get("TRADE_NAME"));
+                    }
+                    if (manifestHeadMap.containsKey("REGION_CODE")){
+                        manifestHead.setRegion_code(manifestHeadMap.get("REGION_CODE"));
+                    }
+                    if (manifestHeadMap.containsKey("CUSTOMS_CODE")){
+                        manifestHead.setCustoms_code(manifestHeadMap.get("CUSTOMS_CODE"));
+                    }
+                    if (manifestHeadMap.containsKey("NOTE")){
+                        manifestHead.setNote(manifestHeadMap.get("NOTE"));
+                    }
+                    if (manifestHeadMap.containsKey("EXTEND_FIELD_3")){
+                        manifestHead.setExtend_field_3(manifestHeadMap.get("EXTEND_FIELD_3"));
+                    }
+                    if (manifestHeadMap.containsKey("PLATFROM")){
+                        manifestHead.setPlat_from(manifestHeadMap.get("PLATFROM"));
+                    }
+                }
+                //查询数据库里是否存在此单
+                int count = this.stockMessageMapper.queryManifestData(manifestHead);
+                if (count>0){
+                    //修改数据
+                    this.stockMessageMapper.updateManifestData(manifestHead);
+                }else{
+                    //插入数据
+                    manifestHead.setWriting_mode("stock");
+                    this.stockMessageMapper.insertManifestData(manifestHead); //插入跨境直购核放单表头
+                }
+            }
+        }
+    }
+
+
+
 
     /**
      * 插入订单报文数据（进口跨境直购）

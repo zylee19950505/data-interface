@@ -2,9 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.StockMessageSQLProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface StockMessageMapper {
@@ -21,6 +19,14 @@ public interface StockMessageMapper {
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpPayment")
     void insertImpPayment(@Param("impPayment") ImpPayment impPayment);
 
+    @SelectProvider(type = StockMessageSQLProvider.class, method = "queryManifestData")
+    int queryManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateManifestData")
+    void updateManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @InsertProvider(type = StockMessageSQLProvider.class, method = "insertManifestData")
+    void insertManifestData(@Param("manifestHead") ManifestHead manifestHead);
     //运单报文入库
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpLogistics")
     void insertImpLogistics(@Param("impLogistics") ImpLogistics impLogistics);

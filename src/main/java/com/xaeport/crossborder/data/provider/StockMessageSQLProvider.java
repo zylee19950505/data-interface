@@ -1,5 +1,9 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.ImpOrderBody;
+import com.xaeport.crossborder.data.entity.ImpOrderHead;
+import com.xaeport.crossborder.data.entity.ImpPayment;
+import com.xaeport.crossborder.data.entity.ManifestHead;
 import com.xaeport.crossborder.data.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;

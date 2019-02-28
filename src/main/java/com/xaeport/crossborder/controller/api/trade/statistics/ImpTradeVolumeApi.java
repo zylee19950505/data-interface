@@ -42,7 +42,7 @@ public class ImpTradeVolumeApi extends BaseApi {
 		this.logger.debug(String.format("跨境贸易统计:[startFlightTimes:%s,endFlightTimes:%s,tradeCustom:%s,tradeWay:%s]", startFlightTimes,endFlightTimes,customsCode,tradeMode));
 		Map<String, String> paramMap = new HashMap<String, String>();
 		DataList<ImpTradeVolumeList> dataList = new DataList<ImpTradeVolumeList>();
-		paramMap.put("startDeclareTime",startFlightTimes);
+		paramMap.put("startFlightTimes",startFlightTimes);
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);

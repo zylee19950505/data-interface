@@ -41,9 +41,10 @@ public class ParseAutoLauncher implements ApplicationListener<ApplicationReadyEv
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         log.info("系统准备完毕，开始解析报文");
 
+        //报文预处理线程,将读取到的报文数据放到队列中
         executorService.submit(msgPreprocessThread);
 
-//         使用多线程解析报文
+        //使用多线程解析报文
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(msgParseThread);
         }
