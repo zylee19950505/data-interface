@@ -25,6 +25,15 @@ public class ImpLogisticsStatus {
     private String ent_id;//导入企业ID码
     private String ent_name;//导入企业名称
     private String ent_customs_code;//导入企业海关十位
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getReturn_status() {
         return return_status;

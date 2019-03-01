@@ -27,6 +27,15 @@ public class ImpInventoryBody {
     private String customs_tax;//应征关税
     private String value_added_tax;//应征增值税
     private String consumption_tax;//应征消费税
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public double getQuantity() {
         return quantity;

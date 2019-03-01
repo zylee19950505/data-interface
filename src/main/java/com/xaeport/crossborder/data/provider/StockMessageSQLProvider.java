@@ -11,6 +11,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_ORDER_HEAD");
+                if (!StringUtils.isEmpty(impOrderHead.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impOrderHead.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getGuid())) {
                     VALUES("GUID", "#{impOrderHead.guid}");
                 }
@@ -104,11 +107,15 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getCrt_id())) {
                     VALUES("CRT_ID", "#{impOrderHead.crt_id}");
                 }
-                VALUES("CRT_TM", "sysdate");
+                if (!StringUtils.isEmpty(impOrderHead.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{impOrderHead.crt_tm}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getUpd_id())) {
                     VALUES("UPD_ID", "#{impOrderHead.upd_id}");
                 }
-                VALUES("UPD_TM", "sysdate");
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())) {
+                    VALUES("UPD_TM", "#{impOrderHead.upd_tm}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getReturn_status())) {
                     VALUES("RETURN_STATUS", "#{impOrderHead.return_status}");
                 }
@@ -144,6 +151,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_ORDER_BODY");
+                if (!StringUtils.isEmpty(impOrderBody.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impOrderBody.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impOrderBody.getG_num())) {
                     VALUES("G_NUM", "#{impOrderBody.g_num}");
                 }
@@ -197,8 +207,11 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_PAYMENT");
+                if (!StringUtils.isEmpty(impPayment.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impPayment.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impPayment.getGuid())) {
-                    VALUES("guid", "#{impPayment.guid}");
+                    VALUES("GUID", "#{impPayment.guid}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getApp_type())) {
                     VALUES("APP_TYPE", "#{impPayment.app_type}");
@@ -273,19 +286,19 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                     VALUES("RETURN_INFO", "#{impPayment.return_info}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getReturn_time())) {
-                    VALUES("RETURN_TIME", "#{impPayment.RETURN_TIME}");
+                    VALUES("RETURN_TIME", "#{impPayment.return_time}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getEnt_id())) {
-                    VALUES("ENT_ID", "#{impPayment.ENT_ID}");
+                    VALUES("ENT_ID", "#{impPayment.ent_id}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getEnt_name())) {
-                    VALUES("ENT_NAME", "#{impPayment.ENT_NAME}");
+                    VALUES("ENT_NAME", "#{impPayment.ent_name}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getEnt_customs_code())) {
-                    VALUES("ENT_CUSTOMS_CODE", "#{impPayment.ENT_CUSTOMS_CODE}");
+                    VALUES("ENT_CUSTOMS_CODE", "#{impPayment.ent_customs_code}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getBusiness_type())) {
-                    VALUES("BUSINESS_TYPE", "#{impPayment.BUSINESS_TYPE}");
+                    VALUES("BUSINESS_TYPE", "#{impPayment.business_type}");
                 }
                 if (!StringUtils.isEmpty(impPayment.getPay_time_char())) {
                     VALUES("PAY_TIME_CHAR", "#{impPayment.pay_time_char}");
@@ -298,8 +311,11 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_LOGISTICS");
+                if (!StringUtils.isEmpty(impLogistics.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impLogistics.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impLogistics.getGuid())) {
-                    VALUES("guid", "#{impLogistics.guid}");
+                    VALUES("GUID", "#{impLogistics.guid}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getApp_type())) {
                     VALUES("APP_TYPE", "#{impLogistics.app_type}");
@@ -374,7 +390,7 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                     VALUES("RETURN_INFO", "#{impLogistics.return_info}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getReturn_time())) {
-                    VALUES("RETURN_TIME", "#{impLogistics.RETURN_TIME}");
+                    VALUES("RETURN_TIME", "#{impLogistics.return_time}");
                 }
                 if (!StringUtils.isEmpty(impLogistics.getEnt_id())) {
                     VALUES("ENT_ID", "#{impLogistics.ent_id}");
@@ -402,6 +418,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_LOGISTICS_STATUS");
+                if (!StringUtils.isEmpty(impLogisticsStatus.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impLogisticsStatus.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impLogisticsStatus.getGuid())) {
                     VALUES("GUID", "#{impLogisticsStatus.guid}");
                 }
@@ -473,6 +492,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_INVENTORY_HEAD");
+                if (!StringUtils.isEmpty(impInventoryHead.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impInventoryHead.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impInventoryHead.getGuid())) {
                     VALUES("GUID", "#{impInventoryHead.guid}");
                 }
@@ -658,6 +680,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_INVENTORY_BODY");
+                if (!StringUtils.isEmpty(impInventoryBody.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impInventoryBody.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impInventoryBody.getG_num())) {
                     VALUES("G_NUM", "#{impInventoryBody.g_num}");
                 }
@@ -729,6 +754,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_DELIVERY_HEAD");
+                if (!StringUtils.isEmpty(impDeliveryHead.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impDeliveryHead.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impDeliveryHead.getGuid())) {
                     VALUES("GUID", "#{impDeliveryHead.guid}");
                 }
@@ -830,6 +858,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 INSERT_INTO("T_IMP_DELIVERY_BODY");
+                if (!StringUtils.isEmpty(impDeliveryBody.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impDeliveryBody.writing_mode}");
+                }
                 if (!StringUtils.isEmpty(impDeliveryBody.getHead_guid())) {
                     VALUES("HEAD_GUID", "#{impDeliveryBody.head_guid}");
                 }
@@ -853,6 +884,578 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impDeliveryBody.getLogistics_no())) {
                     VALUES("LOGISTICS_NO", "#{impDeliveryBody.logistics_no}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateImpOrderHead(@Param("impOrderHead") ImpOrderHead impOrderHead) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_ORDER_HEAD t");
+                if (!StringUtils.isEmpty(impOrderHead.getGuid())) {
+                    WHERE("t.GUID = #{impOrderHead.guid}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
+                    WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.APP_TYPE = #{impOrderHead.app_Type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Time())) {
+                    SET("t.APP_TIME = #{impOrderHead.app_Time}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Status())) {
+                    SET("t.APP_STATUS = #{impOrderHead.app_Status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getOrder_Type())) {
+                    SET("t.ORDER_TYPE = #{impOrderHead.order_Type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.ORDER_NO = #{impOrderHead.order_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.EBP_CODE = #{impOrderHead.ebp_Code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.EBP_NAME = #{impOrderHead.ebp_Name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.EBC_CODE = #{impOrderHead.ebc_Code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    SET("t.EBC_NAME = #{impOrderHead.ebc_Name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getGoods_Value())) {
+                    SET("t.GOODS_VALUE = #{impOrderHead.goods_Value}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getFreight())) {
+                    SET("t.FREIGHT = #{impOrderHead.freight}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getDiscount())) {
+                    SET("t.DISCOUNT = #{impOrderHead.discount}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getTax_Total())) {
+                    SET("t.TAX_TOTAL = #{impOrderHead.tax_Total}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getActural_Paid())) {
+                    SET("t.ACTURAL_PAID = #{impOrderHead.actural_Paid}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getCurrency())) {
+                    SET("t.CURRENCY = #{impOrderHead.currency}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Reg_No())) {
+                    SET("t.BUYER_REG_NO = #{impOrderHead.buyer_Reg_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Name())) {
+                    SET("t.BUYER_NAME = #{impOrderHead.buyer_Name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Type())) {
+                    SET("t.BUYER_ID_TYPE = #{impOrderHead.buyer_Id_Type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Number())) {
+                    SET("t.BUYER_ID_NUMBER = #{impOrderHead.buyer_Id_Number}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPay_Code())) {
+                    SET("t.PAY_CODE = #{impOrderHead.pay_Code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPayName())) {
+                    SET("t.PAYNAME = #{impOrderHead.payName}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPay_Transaction_Id())) {
+                    SET("t.PAY_TRANSACTION_ID = #{impOrderHead.pay_Transaction_Id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBatch_Numbers())) {
+                    SET("t.BATCH_NUMBERS = #{impOrderHead.batch_Numbers}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee())) {
+                    SET("t.CONSIGNEE = #{impOrderHead.consignee}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Telephone())) {
+                    SET("t.CONSIGNEE_TELEPHONE = #{impOrderHead.consignee_Telephone}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Address())) {
+                    SET("CONSIGNEE_ADDRESS = #{impOrderHead.consignee_Address}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Ditrict())) {
+                    SET("CONSIGNEE_DITRICT = #{impOrderHead.consignee_Ditrict}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getNote())) {
+                    SET("NOTE = #{impOrderHead.note}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
+                    SET("DATA_STATUS = #{impOrderHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_id())) {
+                    SET("UPD_ID = #{impOrderHead.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
+                    SET("UPD_TM = sysdate");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{impOrderHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{impOrderHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getReturn_time())) {
+                    SET("RETURN_TIME = #{impOrderHead.return_time}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_id())) {
+                    SET("ENT_ID = #{impOrderHead.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_name())) {
+                    SET("ENT_NAME = #{impOrderHead.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())) {
+                    SET("ENT_CUSTOMS_CODE = #{impOrderHead.ent_customs_code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBill_No())) {
+                    SET("BILL_NO = #{impOrderHead.bill_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_TelePhone())) {
+                    SET("BUYER_TELEPHONE = #{impOrderHead.buyer_TelePhone}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBusiness_type())) {
+                    SET("BUSINESS_TYPE = #{impOrderHead.business_type}");
+                }
+
+            }
+        }.toString();
+    }
+
+    public String updateImpPayment(@Param("impPayment") ImpPayment impPayment) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_PAYMENT");
+                if (!StringUtils.isEmpty(impPayment.getGuid())) {
+                    WHERE("GUID = #{impPayment.guid}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_transaction_id())) {
+                    WHERE("PAY_TRANSACTION_ID = #{impPayment.pay_transaction_id}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getApp_type())) {
+                    SET("APP_TYPE = #{impPayment.app_type}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getApp_time())) {
+                    SET("APP_TIME = #{impPayment.app_time}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getApp_status())) {
+                    SET("APP_STATUS = #{impPayment.app_status}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_code())) {
+                    SET("PAY_CODE = #{impPayment.pay_code}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_name())) {
+                    SET("PAY_NAME = #{impPayment.pay_name}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getOrder_no())) {
+                    SET("ORDER_NO = #{impPayment.order_no}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getEbp_code())) {
+                    SET("EBP_CODE = #{impPayment.ebp_code}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getEbp_name())) {
+                    SET("EBP_NAME = #{impPayment.ebp_name}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPayer_id_type())) {
+                    SET("PAYER_ID_TYPE = #{impPayment.payer_id_type}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPayer_id_number())) {
+                    SET("PAYER_ID_NUMBER = #{impPayment.payer_id_number}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_name())) {
+                    SET("PAYER_NAME = #{impPayment.payer_name}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getTelephone())) {
+                    SET("TELEPHONE = #{impPayment.telephone}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getAmount_paid())) {
+                    SET("AMOUNT_PAID = #{impPayment.amount_paid}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getCurrency())) {
+                    SET("CURRENCY = #{impPayment.currency}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_time())) {
+                    SET("PAY_TIME = #{impPayment.pay_time}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getNote())) {
+                    SET("NOTE = #{impPayment.note}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getData_status())) {
+                    SET("DATA_STATUS = #{impPayment.data_status}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getUpd_id())) {
+                    SET("UPD_ID = #{impPayment.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getUpd_tm())) {
+                    SET("UPD_TM = #{impPayment.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getReturn_status())) {
+                    SET("RETURN_STATUS = #{impPayment.return_status}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getReturn_info())) {
+                    SET("RETURN_INFO = #{impPayment.return_info}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getReturn_time())) {
+                    SET("RETURN_TIME = #{impPayment.return_time}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getEnt_id())) {
+                    SET("ENT_ID = #{impPayment.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getEnt_name())) {
+                    SET("ENT_NAME = #{impPayment.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getEnt_customs_code())) {
+                    SET("ENT_CUSTOMS_CODE = #{impPayment.ent_customs_code}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getBusiness_type())) {
+                    SET("BUSINESS_TYPE = #{impPayment.business_type}");
+                }
+                if (!StringUtils.isEmpty(impPayment.getPay_time_char())) {
+                    SET("PAY_TIME_CHAR = #{impPayment.pay_time_char}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateImpLogistics(@Param("impLogistics") ImpLogistics impLogistics) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_LOGISTICS");
+                if (!StringUtils.isEmpty(impLogistics.getGuid())) {
+                    WHERE("GUID = #{impLogistics.guid}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_no())) {
+                    WHERE("LOGISTICS_NO = #{impLogistics.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getApp_type())) {
+                    SET("APP_TYPE = #{impLogistics.app_type}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getApp_time())) {
+                    SET("APP_TIME = #{impLogistics.app_time}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getApp_status())) {
+                    SET("APP_STATUS = #{impLogistics.app_status}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_code())) {
+                    SET("LOGISTICS_CODE = #{impLogistics.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getLogistics_name())) {
+                    SET("LOGISTICS_NAME = #{impLogistics.logistics_name}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getBill_no())) {
+                    SET("BILL_NO = #{impLogistics.bill_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getFreight())) {
+                    SET("FREIGHT = #{impLogistics.freight}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getInsured_fee())) {
+                    SET("INSURED_FEE = #{impLogistics.insured_fee}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getCurrency())) {
+                    SET("CURRENCY = #{impLogistics.currency}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getWeight())) {
+                    SET("WEIGHT = #{impLogistics.weight}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getPack_no())) {
+                    SET("PACK_NO = #{impLogistics.pack_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getGoods_info())) {
+                    SET("GOODS_INFO = #{impLogistics.goods_info}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getConsingee())) {
+                    SET("CONSINGEE = #{impLogistics.consingee}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getConsignee_address())) {
+                    SET("CONSIGNEE_ADDRESS = #{impLogistics.consignee_address}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getConsignee_telephone())) {
+                    SET("CONSIGNEE_TELEPHONE = #{impLogistics.consignee_telephone}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getNote())) {
+                    SET("NOTE = #{impLogistics.note}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getData_status())) {
+                    SET("DATA_STATUS = #{impLogistics.data_status}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getUpd_id())) {
+                    SET("UPD_ID = #{impLogistics.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getUpd_tm())) {
+                    SET("UPD_TM = #{impLogistics.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_status())) {
+                    SET("RETURN_STATUS = #{impLogistics.return_status}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_info())) {
+                    SET("RETURN_INFO = #{impLogistics.return_info}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getReturn_time())) {
+                    SET("RETURN_TIME = #{impLogistics.return_time}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getEnt_id())) {
+                    SET("ENT_ID = #{impLogistics.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getEnt_name())) {
+                    SET("ENT_NAME = #{impLogistics.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getEnt_customs_code())) {
+                    SET("ENT_CUSTOMS_CODE = #{impLogistics.ent_customs_code}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getVoyage_no())) {
+                    SET("VOYAGE_NO = #{impLogistics.voyage_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getOrder_no())) {
+                    SET("ORDER_NO = #{impLogistics.order_no}");
+                }
+                if (!StringUtils.isEmpty(impLogistics.getBusiness_type())) {
+                    SET("BUSINESS_TYPE = #{impLogistics.business_type}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateImpLogisticsStatus(@Param("impLogisticsStatus") ImpLogisticsStatus impLogisticsStatus) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_LOGISTICS_STATUS");
+                if (!StringUtils.isEmpty(impLogisticsStatus.getGuid())) {
+                    WHERE("GUID = #{impLogisticsStatus.guid}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_no())) {
+                    WHERE("LOGISTICS_NO = #{impLogisticsStatus.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_type())) {
+                    SET("APP_TYPE = #{impLogisticsStatus.app_type}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_time())) {
+                    SET("APP_TIME = #{impLogisticsStatus.app_time}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getApp_status())) {
+                    SET("APP_STATUS = #{impLogisticsStatus.app_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_code())) {
+                    SET("LOGISTICS_CODE = #{impLogisticsStatus.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_name())) {
+                    SET("LOGISTICS_NAME = #{impLogisticsStatus.logistics_name}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_status())) {
+                    SET("LOGISTICS_STATUS = #{impLogisticsStatus.logistics_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getLogistics_time())) {
+                    SET("LOGISTICS_TIME = #{impLogisticsStatus.logistics_time}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getNote())) {
+                    SET("NOTE = #{impLogisticsStatus.note}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getData_status())) {
+                    SET("DATA_STATUS = #{impLogisticsStatus.data_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_id())) {
+                    SET("UPD_ID = #{impLogisticsStatus.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getUpd_tm())) {
+                    SET("UPD_TM = #{impLogisticsStatus.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_status())) {
+                    SET("RETURN_STATUS = #{impLogisticsStatus.return_status}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_info())) {
+                    SET("RETURN_INFO = #{impLogisticsStatus.return_info}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getReturn_time())) {
+                    SET("RETURN_TIME = #{impLogisticsStatus.return_time}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getEnt_id())) {
+                    SET("ENT_ID = #{impLogisticsStatus.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getEnt_name())) {
+                    SET("ENT_NAME = #{impLogisticsStatus.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impLogisticsStatus.getEnt_customs_code())) {
+                    SET("ENT_CUSTOMS_CODE = #{impLogisticsStatus.ent_customs_code}");
+                }
+            }
+        }.toString();
+    }
+
+    public String updateImpInventoryHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD");
+                if (!StringUtils.isEmpty(impInventoryHead.getGuid())) {
+                    WHERE("GUID = #{impInventoryHead.guid}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getOrder_no())) {
+                    WHERE("ORDER_NO = #{impInventoryHead.order_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getApp_type())) {
+                    SET("APP_TYPE = #{impInventoryHead.app_type}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getApp_time())) {
+                    SET("APP_TIME = #{impInventoryHead.app_time}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getApp_status())) {
+                    SET("APP_STATUS = #{impInventoryHead.app_status}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEbp_code())) {
+                    SET("EBP_CODE = #{impInventoryHead.ebp_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEbp_name())) {
+                    SET("EBP_NAME = #{impInventoryHead.ebp_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEbc_code())) {
+                    SET("EBC_CODE = #{impInventoryHead.ebc_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEbc_name())) {
+                    SET("EBC_NAME = #{impInventoryHead.ebc_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getLogistics_no())) {
+                    SET("LOGISTICS_NO = #{impInventoryHead.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getLogistics_code())) {
+                    SET("LOGISTICS_CODE = #{impInventoryHead.logistics_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getLogistics_name())) {
+                    SET("LOGISTICS_NAME = #{impInventoryHead.logistics_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getCop_no())) {
+                    SET("COP_NO = #{impInventoryHead.cop_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getPre_no())) {
+                    SET("PRE_NO = #{impInventoryHead.pre_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getAssure_code())) {
+                    SET("ASSURE_CODE = #{impInventoryHead.assure_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEms_no())) {
+                    SET("EMS_NO = #{impInventoryHead.ems_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getInvt_no())) {
+                    SET("INVT_NO = #{impInventoryHead.invt_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getIe_flag())) {
+                    SET("IE_FLAG = #{impInventoryHead.ie_flag}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getDecl_time())) {
+                    SET("DECL_TIME = #{impInventoryHead.decl_time}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getCustoms_code())) {
+                    SET("CUSTOMS_CODE = #{impInventoryHead.customs_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getPort_code())) {
+                    SET("PORT_CODE = #{impInventoryHead.port_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getIe_date())) {
+                    SET("IE_DATE = #{impInventoryHead.ie_date}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBuyer_id_type())) {
+                    SET("BUYER_ID_TYPE = #{impInventoryHead.buyer_id_type}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBuyer_id_number())) {
+                    SET("BUYER_ID_NUMBER = #{impInventoryHead.buyer_id_number}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBuyer_name())) {
+                    SET("BUYER_NAME = #{impInventoryHead.buyer_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBuyer_telephone())) {
+                    SET("BUYER_TELEPHONE = #{impInventoryHead.buyer_telephone}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getConsignee_address())) {
+                    SET("CONSIGNEE_ADDRESS = #{impInventoryHead.consignee_address}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getAgent_code())) {
+                    SET("AGENT_CODE = #{impInventoryHead.agent_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getAgent_name())) {
+                    SET("AGENT_NAME = #{impInventoryHead.agent_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getArea_code())) {
+                    SET("AREA_CODE = #{impInventoryHead.area_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getArea_name())) {
+                    SET("AREA_NAME = #{impInventoryHead.area_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getTrade_mode())) {
+                    SET("TRADE_MODE = #{impInventoryHead.trade_mode}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getTraf_mode())) {
+                    SET("TRAF_MODE = #{impInventoryHead.traf_mode}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getTraf_no())) {
+                    SET("TRAF_NO = #{impInventoryHead.traf_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getVoyage_no())) {
+                    SET("VOYAGE_NO = #{impInventoryHead.voyage_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBill_no())) {
+                    SET("BILL_NO = #{impInventoryHead.bill_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getLoct_no())) {
+                    SET("LOCT_NO = #{impInventoryHead.loct_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getLicense_no())) {
+                    SET("LICENSE_NO = #{impInventoryHead.license_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getCountry())) {
+                    SET("COUNTRY = #{impInventoryHead.country}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getFreight())) {
+                    SET("FREIGHT = #{impInventoryHead.freight}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getInsured_fee())) {
+                    SET("INSURED_FEE = #{impInventoryHead.insured_fee}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getCurrency())) {
+                    SET("CURRENCY = #{impInventoryHead.currency}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getWrap_type())) {
+                    SET("WRAP_TYPE = #{impInventoryHead.wrap_type}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getPack_no())) {
+                    SET("PACK_NO = #{impInventoryHead.pack_no}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getGross_weight())) {
+                    SET("GROSS_WEIGHT = #{impInventoryHead.gross_weight}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getNet_weight())) {
+                    SET("NET_WEIGHT = #{impInventoryHead.net_weight}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getNote())) {
+                    SET("NOTE = #{impInventoryHead.note}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getData_status())) {
+                    SET("DATA_STATUS = #{impInventoryHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getUpd_id())) {
+                    SET("UPD_ID = #{impInventoryHead.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getCrt_tm())) {
+                    SET("UPD_TM = #{impInventoryHead.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_status())) {
+                    SET("RETURN_STATUS = #{impInventoryHead.return_status}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_info())) {
+                    SET("RETURN_INFO = #{impInventoryHead.return_info}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getReturn_time())) {
+                    SET("RETURN_TIME = #{impInventoryHead.return_time}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_id())) {
+                    SET("ENT_ID = #{impInventoryHead.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_name())) {
+                    SET("ENT_NAME = #{impInventoryHead.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getEnt_customs_code())) {
+                    SET("ENT_CUSTOMS_CODE = #{impInventoryHead.ent_customs_code}");
+                }
+                if (!StringUtils.isEmpty(impInventoryHead.getBusiness_type())) {
+                    SET("BUSINESS_TYPE = #{impInventoryHead.business_type}");
                 }
             }
         }.toString();

@@ -34,6 +34,15 @@ public class ImpDeliveryHead {
     private String ent_id;
     private String ent_name;
     private String ent_customs_code;
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getLogistics_no() {
         return logistics_no;

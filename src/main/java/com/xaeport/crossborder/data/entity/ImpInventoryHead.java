@@ -68,7 +68,15 @@ public class ImpInventoryHead {
     private String consumption_tax;//应征消费税
     private String tax_return_time;//税额回执时间
     private String total_prices;//商品总价
+    private String writing_mode;
 
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getGuid() {
         return guid;

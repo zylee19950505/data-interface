@@ -17,6 +17,15 @@ public class ImpOrderBody {
     private String currency;//限定为人民币，填写142。
     private String country;//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 国家（地区）代码表。
     private String note;//促销活动，商品单价偏离市场价格的，可以在此说明。
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public int getG_num() {
         return g_num;

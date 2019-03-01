@@ -1,10 +1,11 @@
 package com.xaeport.crossborder.service.receipt;
 
+import com.alibaba.druid.sql.visitor.functions.If;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.StockMessageMapper;
-import com.xaeport.crossborder.data.status.ReceiptType;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.data.status.StockMsgType;
-import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class StockMessageService {
     private final Log log = LogFactory.getLog(this.getClass());
     @Autowired
     StockMessageMapper stockMessageMapper;
+
+    int count;
 
     @Transactional(rollbackForClassName = "Exception")
     public boolean createStockData(Map map, String refileName) {
@@ -46,9 +49,9 @@ public class StockMessageService {
                 case StockMsgType.CB_QD://跨境清单报文数据
                     this.insertImpInventoryData(stockMsg, refileName);
                     break;
-                case StockMsgType.CB_RKMXD://跨境入库明细单报文数据
-                    this.insertImpDeliveryData(stockMsg, refileName);
-                    break;
+//                case StockMsgType.CB_RKMXD://跨境入库明细单报文数据
+//                    this.insertImpDeliveryData(stockMsg, refileName);
+//                    break;
 
                 case StockMsgType.CB_ZFD://跨境支付单报文数据
                     this.insertImpPaymentData(msg, refileName);
@@ -76,6 +79,7 @@ public class StockMessageService {
     private void insertImpOrderData(Map<String, List<Map<String, List<Map<String, String>>>>> stockMsg, String refileName) throws Exception {
         List<Map<String, List<Map<String, String>>>> list = stockMsg.get("Order");
         String guid = null;
+        Integer remark = null;
         if (!StringUtils.isEmpty(list)) {
             ImpOrderHead impOrderHead;
             ImpOrderBody impOrderBody;
@@ -85,9 +89,16 @@ public class StockMessageService {
                 List<Map<String, String>> OrderLists = list.get(i).get("OrderList");
                 impOrderHead = new ImpOrderHead();
                 impOrderBody = new ImpOrderBody();
+                impOrderHead.setCrt_tm(new Date());
+                impOrderHead.setUpd_tm(new Date());
+                impOrderHead.setBusiness_type(SystemConstants.T_IMP_ORDER);
+                impOrderHead.setData_status(StatusCode.DDYSB);
+                impOrderHead.setWriting_mode(StatusCode.RKBW);
+                impOrderBody.setWriting_mode(StatusCode.RKBW);
 
                 if (!StringUtils.isEmpty(OrderHeads)) {
                     guid = OrderHeads.get(0).get("guid");
+                    remark = 0;
                 }
 
                 if (!StringUtils.isEmpty(OrderHeads)) {
@@ -180,10 +191,19 @@ public class StockMessageService {
                             impOrderHead.setNote(orderHead.get("note"));
                         }
                     }
-                    this.stockMessageMapper.insertImpOrderHead(impOrderHead); //插入订单表头数据
+                    count = this.stockMessageMapper.queryImpOrderHead(impOrderHead);//查询是否存在订单数据
+                    if (count == 0) {
+                        this.stockMessageMapper.insertImpOrderHead(impOrderHead); //插入订单表头数据
+                        remark = 1;
+                    }
+                    if (count > 0 && (impOrderHead.getApp_Type().equals("2"))) {
+                        this.stockMessageMapper.updateImpOrderHead(impOrderHead);//修改订单表头数据
+                        this.stockMessageMapper.deleteImpOrderBody(impOrderHead.getGuid());//删除订单表体数据
+                        remark = 1;
+                    }
                 }
 
-                if (!StringUtils.isEmpty(OrderLists)) {
+                if (!StringUtils.isEmpty(OrderLists) && (remark == 1)) {
                     for (Map<String, String> orderList : OrderLists) {
                         impOrderBody.setHead_guid(guid);
                         if (orderList.containsKey("gnum")) {
@@ -243,6 +263,9 @@ public class StockMessageService {
                 impPayment = new ImpPayment();
                 impPayment.setCrt_tm(new Date());
                 impPayment.setUpd_tm(new Date());
+                impPayment.setBusiness_type(SystemConstants.T_IMP_PAYMENT);
+                impPayment.setData_status(StatusCode.ZFDYSB);
+                impPayment.setWriting_mode(StatusCode.RKBW);
 
                 List<Map<String, String>> mapList = list.get(i);
                 for (Map<String, String> map : mapList) {
@@ -301,7 +324,13 @@ public class StockMessageService {
                         impPayment.setNote(map.get("note"));
                     }
                 }
-                this.stockMessageMapper.insertImpPayment(impPayment); //插入订单状态表数据
+                count = this.stockMessageMapper.queryImpPayment(impPayment);//查询是否存在支付单数据
+                if (count == 0) {
+                    this.stockMessageMapper.insertImpPayment(impPayment); //插入支付单表数据
+                }
+                if (count > 0 && (impPayment.getApp_type().equals("2"))) {
+                    this.stockMessageMapper.updateImpPayment(impPayment);//更新支付单数据
+                }
             }
         }
     }
@@ -320,6 +349,9 @@ public class StockMessageService {
                 impLogistics = new ImpLogistics();
                 impLogistics.setCrt_tm(new Date());
                 impLogistics.setUpd_tm(new Date());
+                impLogistics.setBusiness_type(SystemConstants.T_IMP_LOGISTICS);
+                impLogistics.setData_status(StatusCode.YDYSB);
+                impLogistics.setWriting_mode(StatusCode.RKBW);
 
                 List<Map<String, String>> mapList = list.get(i);
                 for (Map<String, String> map : mapList) {
@@ -342,7 +374,7 @@ public class StockMessageService {
                         impLogistics.setLogistics_name(map.get("logisticsName"));
                     }
                     if (map.containsKey("logisticsNo")) {
-                        impLogistics.setLogistics_code(map.get("logisticsNo"));
+                        impLogistics.setLogistics_no(map.get("logisticsNo"));
                     }
                     if (map.containsKey("billNo")) {
                         impLogistics.setBill_no(map.get("billNo"));
@@ -378,7 +410,13 @@ public class StockMessageService {
                         impLogistics.setNote(map.get("note"));
                     }
                 }
-                this.stockMessageMapper.insertImpLogistics(impLogistics); //插入订单状态表数据
+                count = this.stockMessageMapper.queryImpLogistics(impLogistics);//查询运单表数据
+                if (count == 0) {
+                    this.stockMessageMapper.insertImpLogistics(impLogistics); //插入运单表数据
+                }
+                if (count > 0 && (impLogistics.getApp_type().equals("2"))) {
+                    this.stockMessageMapper.updateImpLogistics(impLogistics);//更新运单表数据
+                }
             }
         }
     }
@@ -398,6 +436,9 @@ public class StockMessageService {
                 impLogisticsStatus = new ImpLogisticsStatus();
                 impLogisticsStatus.setCrt_tm(new Date());
                 impLogisticsStatus.setUpd_tm(new Date());
+                impLogisticsStatus.setData_status(StatusCode.YDZTYSB);
+                impLogisticsStatus.setWriting_mode(StatusCode.RKBW);
+
                 List<Map<String, String>> mapList = list.get(i);
 
                 for (Map<String, String> map : mapList) {
@@ -432,7 +473,13 @@ public class StockMessageService {
                         impLogisticsStatus.setNote(map.get("note"));
                     }
                 }
-                this.stockMessageMapper.insertImpLogisticsStatus(impLogisticsStatus); //插入订单状态表数据
+                count = this.stockMessageMapper.queryImpLogisticsStatus(impLogisticsStatus);//查询是否存在运单状态数据
+                if (count == 0) {
+                    this.stockMessageMapper.insertImpLogisticsStatus(impLogisticsStatus); //插入运单状态数据
+                }
+                if (count > 0 && (impLogisticsStatus.getApp_type().equals("2"))) {
+                    this.stockMessageMapper.updateImpLogisticsStatus(impLogisticsStatus);//更新运单状态数据
+                }
             }
         }
     }
@@ -445,8 +492,8 @@ public class StockMessageService {
         List<Map<String, List<Map<String, String>>>> list = stockMsg.get("Inventory");
         String guid = null;
         if (!StringUtils.isEmpty(list)) {
-
             ImpInventoryHead impInventoryHead;
+//            ImpInventoryHead impinventoryhead;
             ImpInventoryBody impInventoryBody;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             SimpleDateFormat shortSdf = new SimpleDateFormat("yyyyMMdd");
@@ -455,9 +502,13 @@ public class StockMessageService {
                 List<Map<String, String>> InventoryHeads = list.get(i).get("InventoryHead");
                 List<Map<String, String>> InventoryLists = list.get(i).get("InventoryList");
                 impInventoryHead = new ImpInventoryHead();
+//                impinventoryhead = new ImpInventoryHead();
                 impInventoryBody = new ImpInventoryBody();
                 impInventoryHead.setCrt_tm(new Date());
                 impInventoryHead.setUpd_tm(new Date());
+                impInventoryHead.setData_status(StatusCode.QDYSB);
+                impInventoryHead.setWriting_mode(StatusCode.RKBW);
+                impInventoryBody.setWriting_mode(StatusCode.RKBW);
 
                 if (!StringUtils.isEmpty(InventoryHeads)) {
                     guid = InventoryHeads.get(0).get("guid");
@@ -607,7 +658,14 @@ public class StockMessageService {
                             impInventoryHead.setNote(inventoryHead.get("note"));
                         }
                     }
-                    this.stockMessageMapper.insertImpInventoryHead(impInventoryHead); //插入清单表头数据
+                    count = this.stockMessageMapper.queryImpInventoryHead(impInventoryHead);//查询是否存在清单数据
+                    if (count == 0) {
+                        this.stockMessageMapper.insertImpInventoryHead(impInventoryHead); //插入清单表头数据
+                    }
+                    if (count > 0) {
+                        this.stockMessageMapper.updateImpInventoryHead(impInventoryHead);//修改清单表头信息
+                        this.stockMessageMapper.deleteImpInventoryBody(impInventoryHead.getGuid());//删除清单表体信息
+                    }
                 }
 
                 if (!StringUtils.isEmpty(InventoryLists)) {
@@ -696,6 +754,8 @@ public class StockMessageService {
                 impDeliveryBody = new ImpDeliveryBody();
                 impDeliveryHead.setCrt_tm(new Date());
                 impDeliveryHead.setUpd_tm(new Date());
+                impDeliveryHead.setWriting_mode(StatusCode.RKBW);
+                impDeliveryBody.setWriting_mode(StatusCode.RKBW);
 
                 if (!StringUtils.isEmpty(DeliveryHeads)) {
                     guid = DeliveryHeads.get(0).get("guid");

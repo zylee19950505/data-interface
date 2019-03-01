@@ -6,6 +6,9 @@ package com.xaeport.crossborder.data.status;
 * */
 public class StatusCode {
 
+	//解析入库报文标记
+	public final static String RKBW = "STOCK";//入库报文
+
 	//通用数据状态（涉及导入及校验）
 	public final static String EXPORT = "CBDS1";//已导入
 	public final static String VALIDATE_NO_PASS = "CBDS11";// 数据校验未通过

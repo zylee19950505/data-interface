@@ -10,6 +10,15 @@ public class ImpDeliveryBody {
     private String qty;
     private String unit;
     private String note;
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getHead_guid() {
         return head_guid;

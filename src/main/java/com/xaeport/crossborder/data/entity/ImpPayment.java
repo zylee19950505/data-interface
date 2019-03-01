@@ -40,6 +40,16 @@ public class ImpPayment {
     private String ent_customs_code;//导入企业海关十位
     private String return_status_name;//回执状态对应中文意思
     private String business_type;//业务类型
+    private String writing_mode;
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
+
 
     public String getReturn_status_name() {
         return return_status_name;
