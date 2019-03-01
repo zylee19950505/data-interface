@@ -43,11 +43,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
                                 "    t.RETURN_TIME," +
                                 "    t.DATA_STATUS");
                 FROM("T_IMP_PAYMENT t");
-                if(!roleId.equals("admin")){
+                WHERE("t.WRITING_MODE IS NULL");
+                if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
-                if (!StringUtils.isEmpty(dataStatus)){
-                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
+                if (!StringUtils.isEmpty(dataStatus)) {
+                    WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.order_no = #{orderNo}");
@@ -87,11 +88,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_PAYMENT t");
-                if(!roleId.equals("admin")){
+                WHERE("t.WRITING_MODE IS NULL");
+                if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
-                if (!StringUtils.isEmpty(dataStatus)){
-                    WHERE(splitJointIn("t.DATA_STATUS",dataStatus));
+                if (!StringUtils.isEmpty(dataStatus)) {
+                    WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
                 }
                 if (!StringUtils.isEmpty(orderNo)) {
                     WHERE("t.ORDER_NO = #{orderNo}");
@@ -170,8 +172,8 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     /*
      * 修改支付单状态为支付单已申报
      */
-    public String updateImpPaymentStatus(@Param("guid") String guid,@Param("CBDS31") String CBDS31){
-        return new SQL(){
+    public String updateImpPaymentStatus(@Param("guid") String guid, @Param("CBDS31") String CBDS31) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_PAYMENT t");
                 WHERE("t.GUID = #{guid}");
@@ -180,11 +182,12 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     public String queryPaymentById(@Param("paytransactionid") String paytransactionid) throws Exception {
 
         return new SQL() {
             {
-                SELECT( "" +
+                SELECT("" +
                         "    t.GUID," +
                         "    t.PAY_TRANSACTION_ID," +
                         "    t.ORDER_NO," +
@@ -206,12 +209,13 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     /*
     * queryCompany(@Param("ent_id") String ent_id)
     * 根据企业ID获取企业信息
     * */
-    public String queryCompany(@Param("ent_id") String ent_id){
-        return new SQL(){
+    public String queryCompany(@Param("ent_id") String ent_id) {
+        return new SQL() {
             {
                 SELECT("t.CUSTOMS_CODE as copCode");
                 SELECT("t.ENT_NAME as copName");

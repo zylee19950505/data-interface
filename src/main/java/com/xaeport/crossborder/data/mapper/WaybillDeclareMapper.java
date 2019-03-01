@@ -13,11 +13,10 @@ import java.util.Map;
 @Mapper
 public interface WaybillDeclareMapper {
 
-    @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareDataList")
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryWaybillDeclareDataList")
     List<LogisticsSum> queryWaybillDeclareDataList(Map<String, String> paramMap) throws Exception;
 
-
-    @SelectProvider(type = WaybillDeclareSQLProvider.class,method = "queryWaybillDeclareCount")
+    @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryWaybillDeclareCount")
     Integer queryWaybillDeclareCount(Map<String, String> paramMap) throws Exception;
 
     /*
@@ -25,26 +24,31 @@ public interface WaybillDeclareMapper {
      */
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateSubmitWaybill")
     void updateSubmitWaybill(Map<String, String> paramMap) throws Exception;
+
     /*
      * 更新提交海关的数据，变为运单状态申报中
      */
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateSubmitWaybillToStatus")
     void updateSubmitWaybillToStatus(Map<String, String> paramMap) throws Exception;
+
     /*
      * 生产运单报文数据查询
      */
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGenerated")
     List<ImpLogistics> findWaitGenerated(Map<String, String> paramMap) throws Exception;
+
     /*
      * 修改运单申报状态
      */
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateImpLogisticsStatus")
     void updateImpLogisticsStatus(@Param("guid") String guid, @Param("CBDS41") String CBDS41) throws Exception;
+
     /*
      * 生产运单状态报文数据查询
      */
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "findWaitGeneratedStatus")
     List<ImpLogistics> findWaitGeneratedStatus(Map<String, String> paramMap) throws Exception;
+
     /*
      * 修改运单状态申报状态
      */
@@ -53,13 +57,13 @@ public interface WaybillDeclareMapper {
 
     //修改运单申报状态
     @UpdateProvider(type = WaybillDeclareSQLProvider.class, method = "updateToLogistics")
-    void updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51)throws Exception;
+    void updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51) throws Exception;
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryDateStatus")
     int queryDateStatus(@Param("billNo") String billNo);
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryStaDateStatus")
-	int queryStaDateStatus(@Param("billNo") String billNo);
+    int queryStaDateStatus(@Param("billNo") String billNo);
 
     @SelectProvider(type = WaybillDeclareSQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);

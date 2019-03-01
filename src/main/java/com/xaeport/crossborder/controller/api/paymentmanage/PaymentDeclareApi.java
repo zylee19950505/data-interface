@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 /*
- * 支付单模块
+ * 支付单申报
  */
 @RestController
 @RequestMapping("/api/paymentManage")
@@ -36,9 +36,7 @@ public class PaymentDeclareApi extends BaseApi {
     @Autowired
     PaymentDeclareSevice paymentDeclareSevice;
 
-    /*
-     * 支付单申报
-     */
+    //数据查询
     @RequestMapping("/queryPaymentDeclare")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
@@ -48,7 +46,7 @@ public class PaymentDeclareApi extends BaseApi {
             @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
+        this.logger.debug(String.format("支付单申报查询参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
         String startStr = request.getParameter("start");

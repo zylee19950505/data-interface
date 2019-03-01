@@ -52,6 +52,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
                         "            and t5.DATA_STATUS like 'CBDS5%'" +
                         "    ) count2");
                 FROM("t_imp_logistics t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.bill_no = #{billNo}");
                 }
@@ -67,9 +68,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.CRT_TM <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-
-                GROUP_BY("t.bill_no," +
-                        "    t.data_status");
+                GROUP_BY("t.bill_no,t.data_status");
                 ORDER_BY("t.bill_no asc) f ) WHERE rn >= #{start}");
             }
         }.toString();
@@ -86,6 +85,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_LOGISTICS t LEFT JOIN T_IMP_LOGISTICS_STATUS  ON t.LOGISTICS_NO=T_IMP_LOGISTICS_STATUS.LOGISTICS_NO");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.bill_no = #{billNo}");
                 }

@@ -1,7 +1,6 @@
 package com.xaeport.crossborder.service.waybillmanage;
 
 import com.xaeport.crossborder.data.entity.*;
-import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
 import com.xaeport.crossborder.data.mapper.WaybillQueryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

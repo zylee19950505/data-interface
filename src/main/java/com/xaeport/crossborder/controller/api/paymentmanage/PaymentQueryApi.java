@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+//支付单查询
 @RestController
 @RequestMapping("/api/paymentManage/querypayment")
 public class PaymentQueryApi extends BaseApi {
@@ -31,6 +32,7 @@ public class PaymentQueryApi extends BaseApi {
     @Autowired
     PaymentQueryService paymentQueryService;
 
+    //数据查询
     @RequestMapping("/queryPaymentQuery")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String orderNo,
@@ -40,7 +42,7 @@ public class PaymentQueryApi extends BaseApi {
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
+        this.logger.debug(String.format("支付单查询参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s,payTransactionId:%s]", startFlightTimes, endFlightTimes, orderNo, payTransactionId));
 
         Map<String, String> paramMap = new HashMap<String, String>();
 
@@ -71,8 +73,8 @@ public class PaymentQueryApi extends BaseApi {
             paramMap.put("returnStatus", "");
         }
 
-        DataList<ImpPayment> dataList = null;
-        List<ImpPayment> resultList = null;
+        DataList<ImpPayment> dataList;
+        List<ImpPayment> resultList;
         try {
             //查询支付单列表
             resultList = this.paymentQueryService.queryPaymentQueryList(paramMap);

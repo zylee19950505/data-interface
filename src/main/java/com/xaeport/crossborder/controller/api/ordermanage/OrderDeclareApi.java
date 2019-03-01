@@ -28,7 +28,7 @@ import java.util.*;
 
 
 /*
- * 订单申报
+ * 跨境直购订单申报
  */
 @RestController
 @RequestMapping("/api/orderManage")
@@ -41,18 +41,15 @@ public class OrderDeclareApi extends BaseApi {
     @Autowired
     OrderDeclareSevice orderDeclareService;
 
-    /*
-     * 邮件申报查询
-     */
+    //数据查询
     @RequestMapping("/queryOrderDeclare")
     public ResponseData queryOrderDeclare(
-            //身份验证
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String dataStatus
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
+        this.logger.debug(String.format("订单申报查询参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s,dataStatus:%s]", startFlightTimes, endFlightTimes, billNo, dataStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
@@ -64,8 +61,7 @@ public class OrderDeclareApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
 
-        DataList<OrderSum> dataList = new DataList<>();
-        List<OrderSum> resultList = new ArrayList<OrderSum>();
+        List<OrderSum> resultList;
         try {
             //查询列表
             resultList = orderDeclareService.queryOrderDeclareList(paramMap);
@@ -78,7 +74,7 @@ public class OrderDeclareApi extends BaseApi {
 
 
     /**
-     * 订单单申报-提交海关
+     * 订单申报-提交海关
      **/
     @RequestMapping(value = "/submitCustom", method = RequestMethod.POST)
     public ResponseData saveSubmitCustom(

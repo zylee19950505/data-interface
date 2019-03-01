@@ -42,6 +42,7 @@ public class WaybillQuerySQLProvider {
                         " (select ss.status_name from t_status ss " +
                         " where ss.status_code = t.return_status ) return_status_name");
                 FROM("T_IMP_LOGISTICS t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -91,10 +92,11 @@ public class WaybillQuerySQLProvider {
             {
                 SELECT("count(1) count");
                 FROM("T_IMP_LOGISTICS t");
+                WHERE("t.WRITING_MODE IS NULL");
+                WHERE("(t.DATA_STATUS = #{dataStatus} or t.DATA_STATUS = #{staDataStatus})");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }
-                WHERE("(t.DATA_STATUS = #{dataStatus} or t.DATA_STATUS = #{staDataStatus})");
                 if(!StringUtils.isEmpty(logisticsNo)){
                     WHERE("t.logistics_no = #{logisticsNo}");
                 }

@@ -9,7 +9,6 @@ import java.util.Map;
 public class DetailDeclareSQLProvider extends BaseSQLProvider{
 
     public String queryInventoryDeclareList(Map<String, String> paramMap) throws Exception {
-
         final String billNo = paramMap.get("billNo");
         final String end = paramMap.get("end");
         final String startFlightTimes = paramMap.get("startFlightTimes");
@@ -17,7 +16,6 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
         final String dataStatus = paramMap.get("dataStatus");
-
         return new SQL() {
             {
                 SELECT("BILL_NO");
@@ -26,6 +24,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 SELECT("count(1) as asscount");
                 SELECT("DATA_STATUS");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -60,6 +59,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }

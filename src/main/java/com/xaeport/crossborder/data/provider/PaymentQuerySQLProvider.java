@@ -42,6 +42,7 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
                                 " (select ss.status_name from t_status ss " +
                                 " where ss.status_code = t.return_status ) return_status_name");
                 FROM("T_IMP_PAYMENT t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -92,6 +93,7 @@ public class PaymentQuerySQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_PAYMENT t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

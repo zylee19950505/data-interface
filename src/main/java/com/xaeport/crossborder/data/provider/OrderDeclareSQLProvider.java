@@ -28,11 +28,12 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("count(1) as count");
                 SELECT("t.data_status");
                 FROM("T_IMP_ORDER_HEAD t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(billNo)) {
-                    WHERE("t.bill_no = #{billNo}");
+                    WHERE("t.BILL_NO = #{billNo}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
@@ -101,10 +102,10 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_ORDER_HEAD th");
                 WHERE(splitJointIn("th.bill_no", submitKeys));
                 WHERE(splitJointIn("th.DATA_STATUS", opStatusWhere));
-                SET("th.data_status=#{opStatus}");
-                SET("th.upd_tm=sysdate");
-                SET("th.APP_TIME=sysdate");
-                SET("th.upd_id=#{currentUserId}");
+                SET("th.DATA_STATUS = #{opStatus}");
+                SET("th.UPD_TM = sysdate");
+                SET("th.APP_TIME = sysdate");
+                SET("th.UPD_ID = #{currentUserId}");
 
             }
         }.toString();
@@ -278,7 +279,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 UPDATE("T_IMP_ORDER_HEAD toh");
                 WHERE("toh.GUID = #{headGuid}");
                 SET("toh.DATA_STATUS = #{ddysb}");
-                SET("toh.upd_tm=sysdate");
+                SET("toh.upd_tm = sysdate");
             }
         }.toString();
     }

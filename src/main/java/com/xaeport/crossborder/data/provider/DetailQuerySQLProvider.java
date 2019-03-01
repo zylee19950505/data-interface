@@ -51,6 +51,7 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
                         "from t_status ss " +
                         "where ss.status_code = t.return_status) return_status_name");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }
@@ -109,6 +110,7 @@ public class DetailQuerySQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ent_id = #{entId}");
                 }

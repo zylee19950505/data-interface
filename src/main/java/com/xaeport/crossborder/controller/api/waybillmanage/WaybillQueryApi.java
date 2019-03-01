@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+//运单查询
 @RestController
 @RequestMapping("/api/waybillManage")
 public class WaybillQueryApi extends BaseApi {
@@ -29,9 +30,7 @@ public class WaybillQueryApi extends BaseApi {
     @Autowired
     WaybillQueryService waybillService;
 
-    /*
-     * 运单查询
-     */
+    //数据查询
     @RequestMapping(value = "/queryWaybillQuery", method = RequestMethod.GET)
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
@@ -42,7 +41,7 @@ public class WaybillQueryApi extends BaseApi {
             @RequestParam(required = false) String logisticsStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单查询查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, logisticsStatus));
+        this.logger.debug(String.format("运单查询参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,declareStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, logisticsStatus));
         Map<String, String> map = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -68,8 +67,8 @@ public class WaybillQueryApi extends BaseApi {
         //查询的状态可以使运单申报成功和运单状态申报成功
         map.put("dataStatus", StatusCode.YDSBCG);
         map.put("staDataStatus", StatusCode.YDZTSBCG);
-        DataList<ImpLogisticsData> dataList = null;
-        List<ImpLogisticsData> impLogisticsDataList = null;
+        DataList<ImpLogisticsData> dataList;
+        List<ImpLogisticsData> impLogisticsDataList;
         try {
             //查询数据
             impLogisticsDataList = this.waybillService.queryWaybillQueryDataList(map);
@@ -117,7 +116,6 @@ public class WaybillQueryApi extends BaseApi {
     public ResponseData saveBillDetail(@Param("entryJson") String entryJson) {
         //订单信息json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
         // 订单表头
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
         // 订单表体

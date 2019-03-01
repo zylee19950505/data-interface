@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//运单申报
 @RestController
 @RequestMapping("/api/waybillManage")
 public class WaybillDeclareApi extends BaseApi {
@@ -33,6 +34,7 @@ public class WaybillDeclareApi extends BaseApi {
     @Autowired
     WaybillDeclareService waybillService;
 
+    //数据查询
     @RequestMapping(value = "/queryWaybillDeclare", method = RequestMethod.GET)
     public ResponseData queryOrderDeclare1(
             @RequestParam(required = false) String startFlightTimes,
@@ -43,7 +45,7 @@ public class WaybillDeclareApi extends BaseApi {
             @RequestParam(required = false) String statusDataStatus,//运单状态回执
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("运单申报查询条件参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, dataStatus, statusDataStatus));
+        this.logger.debug(String.format("运单申报查询参数:[startFlightTimes:%s,endFlightTimes:%s,logisticsNo:%s,billNo:%s,dataStatus:%s,statusDataStatus:%s]", startFlightTimes, endFlightTimes, logisticsNo, billNo, dataStatus, statusDataStatus));
 
         Map<String, String> map = new HashMap<String, String>();
         String startStr = request.getParameter("start");
@@ -67,8 +69,8 @@ public class WaybillDeclareApi extends BaseApi {
         map.put("entId", this.getCurrentUserEntId());
         map.put("roleId", this.getCurrentUserRoleId());
 
-        DataList<LogisticsSum> dataList = null;
-        List<LogisticsSum> logisticsSumList = null;
+        DataList<LogisticsSum> dataList;
+        List<LogisticsSum> logisticsSumList;
         try {
             //查询数据
             logisticsSumList = this.waybillService.queryWaybillDeclareDataList(map);

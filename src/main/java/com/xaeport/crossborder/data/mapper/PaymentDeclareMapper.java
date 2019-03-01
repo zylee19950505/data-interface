@@ -5,16 +5,13 @@ package com.xaeport.crossborder.data.mapper;
  * 支付单申报
  */
 
-import com.xaeport.crossborder.data.entity.BaseTransfer;
 import com.xaeport.crossborder.data.entity.BaseTransfer411;
 import com.xaeport.crossborder.data.entity.ImpPayment;
-import com.xaeport.crossborder.data.entity.Payment;
 import com.xaeport.crossborder.data.provider.PaymentDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;

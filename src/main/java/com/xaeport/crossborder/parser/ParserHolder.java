@@ -48,13 +48,13 @@ public class ParserHolder {
 
         stockMapOne.put(StockMsgType.CB_ZFD, new StockParserOne());//跨境支付单报文
         stockMapOne.put(StockMsgType.CB_YD, new StockParserOne());//跨境运单报文
+
         map.put(StockMsgType.CB_YDZT, new CebParser());//跨境运单状态报文
 
-        stockMapTwo.put(StockMsgType.CB_RKMXD, new StockParserTwo());//跨境入库明细单报文
-
-        map.put(StockMsgType.CB_MF, new CebParser());//跨境核放单回执报文
-        map.put(StockMsgType.BD_HZQD, new CebParser());//保税核注清单报文
-        map.put(StockMsgType.BD_HFD, new CebParser());//保税核放单报文
+//        stockMapTwo.put(StockMsgType.CB_RKMXD, new StockParserTwo());//跨境入库明细单报文
+//        map.put(StockMsgType.CB_MF, new CebParser());//跨境核放单回执报文
+//        map.put(StockMsgType.BD_HZQD, new CebParser());//保税核注清单报文
+//        map.put(StockMsgType.BD_HFD, new CebParser());//保税核放单报文
     }
 
     public BaseParser getParser(String parserType) {

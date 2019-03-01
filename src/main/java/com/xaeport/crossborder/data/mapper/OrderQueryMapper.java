@@ -19,10 +19,6 @@ import java.util.Map;
 @Mapper
 public interface OrderQueryMapper {
 
-	//updateOrderHeadByLogic
-	//updateOrderBodyByLogic
-	//deleteVerifyStatus
-
 	@Delete("DELETE FROM T_VERIFY_STATUS WHERE CB_HEAD_ID = #{guid}")
 	int deleteVerifyStatus(String guid);
 

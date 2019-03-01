@@ -2,8 +2,6 @@ package com.xaeport.crossborder.service.waybillmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
-import com.xaeport.crossborder.data.entity.ImpLogistics;
-import com.xaeport.crossborder.data.entity.ImpLogisticsData;
 import com.xaeport.crossborder.data.entity.LogisticsSum;
 import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,7 @@ public class WaybillDeclareService {
 
     @Autowired
     WaybillDeclareMapper waybillMapper;
-
     private Log logger = LogFactory.getLog(this.getClass());
-
-
 
     /*
      * 查询运单申报数据
@@ -36,7 +31,6 @@ public class WaybillDeclareService {
     public Integer queryWaybillDeclareCount(Map<String, String> paramMap) throws Exception {
         return this.waybillMapper.queryWaybillDeclareCount(paramMap);
     }
-
 
     /**
      * 更新运单申报状态
@@ -56,6 +50,7 @@ public class WaybillDeclareService {
         }
         return flag;
     }
+
     /**
      * 更新运单状态申报状态
      *
@@ -81,12 +76,12 @@ public class WaybillDeclareService {
     public String queryDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
         String billNo;
-        for (int i = 0;i<split.length;i++){
+        for (int i = 0; i < split.length; i++) {
             billNo = split[i];
-           int countDataStatus =this.waybillMapper.queryDateStatus(billNo);
-           if (countDataStatus==0){
-               return billNo;
-           }
+            int countDataStatus = this.waybillMapper.queryDateStatus(billNo);
+            if (countDataStatus == 0) {
+                return billNo;
+            }
         }
         return "true";
     }
@@ -94,10 +89,10 @@ public class WaybillDeclareService {
     public String queryStaDateStatus(String submitKeys) {
         String[] split = submitKeys.split(",");
         String billNo;
-        for (int i = 0;i<split.length;i++){
+        for (int i = 0; i < split.length; i++) {
             billNo = split[i];
-            int countDataStatus =this.waybillMapper.queryStaDateStatus(billNo);
-            if (countDataStatus==0){
+            int countDataStatus = this.waybillMapper.queryStaDateStatus(billNo);
+            if (countDataStatus == 0) {
                 return billNo;
             }
         }

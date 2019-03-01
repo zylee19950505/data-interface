@@ -24,14 +24,6 @@ public interface StockMessageMapper {
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpPayment")
     void insertImpPayment(@Param("impPayment") ImpPayment impPayment);
 
-    @SelectProvider(type = StockMessageSQLProvider.class, method = "queryManifestData")
-    int queryManifestData(@Param("manifestHead") ManifestHead manifestHead);
-
-    @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateManifestData")
-    void updateManifestData(@Param("manifestHead") ManifestHead manifestHead);
-
-    @InsertProvider(type = StockMessageSQLProvider.class, method = "insertManifestData")
-    void insertManifestData(@Param("manifestHead") ManifestHead manifestHead);
     //修改支付单表头
     @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateImpPayment")
     void updateImpPayment(@Param("impPayment") ImpPayment impPayment);
@@ -112,5 +104,16 @@ public interface StockMessageMapper {
     //查询清单表体数据
     @Select("SELECT COUNT(1) FROM T_IMP_INVENTORY_BODY t WHERE t.GUID = #{guid}")
     int queryImpInventoryBody(String guid);
+
+
+    //跨境核放单
+    @SelectProvider(type = StockMessageSQLProvider.class, method = "queryManifestData")
+    int queryManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateManifestData")
+    void updateManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @InsertProvider(type = StockMessageSQLProvider.class, method = "insertManifestData")
+    void insertManifestData(@Param("manifestHead") ManifestHead manifestHead);
 
 }

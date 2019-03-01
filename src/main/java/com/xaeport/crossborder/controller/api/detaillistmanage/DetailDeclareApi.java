@@ -26,10 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/*
- **清单申报
- */
-
+//清单申报
 @RestController
 @RequestMapping("/api/detailManage")
 public class DetailDeclareApi extends BaseApi {
@@ -39,9 +36,7 @@ public class DetailDeclareApi extends BaseApi {
     @Autowired
     DetailDeclareService detailDeclareService;
 
-    /*
-     * 邮件申报查询
-     */
+    //数据查询
     @RequestMapping("/queryDetailDeclare")
     public ResponseData queryOrderDeclare(
             @RequestParam(required = false) String startFlightTimes,
@@ -50,7 +45,7 @@ public class DetailDeclareApi extends BaseApi {
             @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s]", startFlightTimes, endFlightTimes, billNo));
+        this.logger.debug(String.format("清单申报查询参数:[startFlightTimes:%s,endFlightTimes:%s,billNo:%s]", startFlightTimes, endFlightTimes, billNo));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put("billNo", billNo);
@@ -67,7 +62,7 @@ public class DetailDeclareApi extends BaseApi {
         }
 
         //更新人
-        List<ImpInventory> resultList = null;
+        List<ImpInventory> resultList;
         try {
             //查询列表
             resultList = this.detailDeclareService.queryInventoryDeclareList(paramMap);

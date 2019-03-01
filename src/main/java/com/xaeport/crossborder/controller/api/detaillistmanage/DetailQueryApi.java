@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+//清单查询
 @RestController
 @RequestMapping("/api/detailManage")
 public class DetailQueryApi extends BaseApi {
@@ -49,7 +50,7 @@ public class DetailQueryApi extends BaseApi {
             @RequestParam(required = false) String returnStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]", startFlightTimes, endFlightTimes, orderNo));
+        this.logger.debug(String.format("清单查询参数:[startFlightTimes:%s,endFlightTimes:%s,orderNo:%s]", startFlightTimes, endFlightTimes, orderNo));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         String startStr = request.getParameter("start");
@@ -83,8 +84,8 @@ public class DetailQueryApi extends BaseApi {
         }
 
         //更新人
-        DataList<ImpInventory> dataList = null;
-        List<ImpInventory> resultList = null;
+        DataList<ImpInventory> dataList;
+        List<ImpInventory> resultList;
         try {
             //查询列表
             resultList = this.detailQueryService.queryInventoryQueryList(paramMap);
@@ -139,10 +140,8 @@ public class DetailQueryApi extends BaseApi {
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         //清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
         // 清单表头
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
-
         // 清单表体
         ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
 

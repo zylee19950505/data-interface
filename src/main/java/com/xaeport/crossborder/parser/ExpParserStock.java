@@ -34,20 +34,23 @@ public class ExpParserStock {
             type = StockMsgType.CB_YDZT;
         } else if (sample.contains("<ceb:CEB621Message")) {//跨境清单报文
             type = StockMsgType.CB_QD;
-        } else if (sample.contains("<ceb:CEB711Message")) {//跨境入库明细单报文
-            type = StockMsgType.CB_RKMXD;
-        } else if (sample.contains("<DTC_Message")) {//跨境核放单报文
-            type = StockMsgType.CB_MF;
-        } else {//保税核注清单报文、保税核放单报文
-            Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser(StockMsgType.BD_HZQD).expParser(expPath, "EnvelopInfo");
-            List<Map<String, String>> listEnvelopInfo = map.get("EnvelopInfo").get(0);
-            for (Map<String, String> maplist : listEnvelopInfo) {
-                if (maplist.containsKey("message_type")) {
-                    type = maplist.get("message_type");
-                    break;
-                }
-            }
         }
+//        else if (sample.contains("<ceb:CEB711Message")) {//跨境入库明细单报文
+//            type = StockMsgType.CB_RKMXD;
+//        }
+//        else if (sample.contains("<DTC_Message")) {//跨境核放单报文
+//            type = StockMsgType.CB_MF;
+//        }
+//        else {//保税核注清单报文、保税核放单报文
+//            Map<String, List<List<Map<String, String>>>> map = this.parserHolder.getParser(StockMsgType.BD_HZQD).expParser(expPath, "EnvelopInfo");
+//            List<Map<String, String>> listEnvelopInfo = map.get("EnvelopInfo").get(0);
+//            for (Map<String, String> maplist : listEnvelopInfo) {
+//                if (maplist.containsKey("message_type")) {
+//                    type = maplist.get("message_type");
+//                    break;
+//                }
+//            }
+//        }
         return type;
     }
 
@@ -65,30 +68,28 @@ public class ExpParserStock {
             case StockMsgType.CB_QD://跨境清单报文
                 stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_QD).expStockParser(expPath, "Inventory");
                 break;
-            case StockMsgType.CB_RKMXD://跨境入库明细单报文
-                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_RKMXD).expStockParser(expPath, "Delivery");
-                break;
-
             case StockMsgType.CB_ZFD://跨境支付单报文
                 map = this.parserHolder.getStockParserOne(StockMsgType.CB_ZFD).expParserOne(expPath, "PaymentHead");
                 break;
             case StockMsgType.CB_YD://跨境运单报文
                 map = this.parserHolder.getStockParserOne(StockMsgType.CB_YD).expParserOne(expPath, "LogisticsHead");
                 break;
-
             case StockMsgType.CB_YDZT://跨境运单状态报文
                 map = this.parserHolder.getParser(StockMsgType.CB_YDZT).expParser(expPath, "LogisticsStatus");
                 break;
 
-            case StockMsgType.CB_MF://跨境核放单报文
-                map = this.parserHolder.getParser(StockMsgType.CB_MF).expParser(expPath, "MessageHead", "MANIFEST_HEAD");
-                break;
-            case StockMsgType.BD_HZQD://保税核注清单报文
-                map = this.parserHolder.getParser(StockMsgType.BD_HZQD).expParser(expPath, "EnvelopInfo", "InvtHeadType", "InvtListType");
-                break;
-            case StockMsgType.BD_HFD://保税核放单报文
-                map = this.parserHolder.getParser(StockMsgType.BD_HFD).expParser(expPath, "EnvelopInfo", "PassportHead", "PassportAcmp");
-                break;
+//            case StockMsgType.CB_RKMXD://跨境入库明细单报文
+//                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_RKMXD).expStockParser(expPath, "Delivery");
+//                break;
+//            case StockMsgType.CB_MF://跨境核放单报文
+//                map = this.parserHolder.getParser(StockMsgType.CB_MF).expParser(expPath, "MessageHead", "MANIFEST_HEAD");
+//                break;
+//            case StockMsgType.BD_HZQD://保税核注清单报文
+//                map = this.parserHolder.getParser(StockMsgType.BD_HZQD).expParser(expPath, "EnvelopInfo", "InvtHeadType", "InvtListType");
+//                break;
+//            case StockMsgType.BD_HFD://保税核放单报文
+//                map = this.parserHolder.getParser(StockMsgType.BD_HFD).expParser(expPath, "EnvelopInfo", "PassportHead", "PassportAcmp");
+//                break;
         }
         mapData.put("Receipt", map);
         if (!StringUtils.isEmpty(stockMap)) mapData.put("Receipt", stockMap);
