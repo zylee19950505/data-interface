@@ -20,7 +20,9 @@ public class ImpGoodsOrderSQLProvider {
             {
                 SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
                         "select iib.G_CODE hsCode," +
-                        "iib.G_NAME goodsName," +
+                        "(select PRODUCT_NAME" +
+                        " FROM T_PRODUCTCODE tp" +
+                        " WHERE tp.CUSTOMS_CODE = iib.G_CODE) goodsName," +
                         "sum(iib.TOTAL_PRICE)/10000 cargoValue");
                 FROM("T_IMP_INVENTORY_BODY iib");
                 WHERE("1=1");
@@ -37,11 +39,11 @@ public class ImpGoodsOrderSQLProvider {
                 if (!StringUtils.isEmpty(tradeMode)){
                     WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.TRADE_MODE = #{tradeMode})");
                 }
-                GROUP_BY("iib.G_NAME,iib.G_CODE");
+                GROUP_BY("iib.G_CODE");
                 if (!"-1".equals(length)) {
-                    ORDER_BY("iib.G_NAME,iib.G_CODE) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
+                    ORDER_BY("iib.G_CODE) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} AND rn <= 1000");
                 } else {
-                    ORDER_BY("iib.G_NAME,iib.G_CODE) w  )   WHERE rn >= #{start}");
+                    ORDER_BY("iib.G_CODE) w  )   WHERE rn >= #{start} AND rn <= 1000");
                 }
             }
         }.toString();
@@ -54,10 +56,9 @@ public class ImpGoodsOrderSQLProvider {
         final String tradeMode = paramMap.get("tradeMode");
         return new SQL(){
             {
-                SELECT("count(1) from ( " +
-                        "select iib.G_CODE hsCode," +
-                        "iib.G_NAME goodsName," +
-                        "sum(iib.TOTAL_PRICE)/10000 cargoValue");
+                SELECT(" count(1) from ( select w.*, ROWNUM AS rn from ( " +
+                        "select " +
+                        " iib.G_CODE hsCode ");
                 FROM("T_IMP_INVENTORY_BODY iib");
                 WHERE("1=1");
 
@@ -73,9 +74,9 @@ public class ImpGoodsOrderSQLProvider {
                 if (!StringUtils.isEmpty(tradeMode)){
                     WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.TRADE_MODE = #{tradeMode})");
                 }
-                GROUP_BY("iib.G_NAME,iib.G_CODE");
+                GROUP_BY("iib.G_CODE");
+                ORDER_BY("iib.G_CODE) w  )   WHERE rn <= 1000");
 
-                ORDER_BY("iib.G_NAME,iib.G_CODE)");
 
             }
         }.toString();

@@ -24,6 +24,14 @@ public interface StockMessageMapper {
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpPayment")
     void insertImpPayment(@Param("impPayment") ImpPayment impPayment);
 
+    @SelectProvider(type = StockMessageSQLProvider.class, method = "queryManifestData")
+    int queryManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateManifestData")
+    void updateManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+    @InsertProvider(type = StockMessageSQLProvider.class, method = "insertManifestData")
+    void insertManifestData(@Param("manifestHead") ManifestHead manifestHead);
     //修改支付单表头
     @UpdateProvider(type = StockMessageSQLProvider.class, method = "updateImpPayment")
     void updateImpPayment(@Param("impPayment") ImpPayment impPayment);

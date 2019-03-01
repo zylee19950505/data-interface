@@ -14,4 +14,7 @@ public interface ImpCountryMapper {
 
     @SelectProvider(type = ImpCountrySQLProvider.class,method = "queryImpCountryList")
     List<ImpCountryList> queryImpCountryList(Map<String, String> paramMap);
+
+    @SelectProvider(type = ImpCountrySQLProvider.class,method = "queryImpCountryEChart")
+    List<ImpCountryList> queryImpCountryEChart(Map<String, String> paramMap);
 }

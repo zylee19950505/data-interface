@@ -19,4 +19,13 @@ public class ImpTradeVolumeService {
         return this.impTradeVolumeMapper.queryImpTradeVolumeList(paramMap);
 
     }
+
+    public List<ImpTradeVolumeList> queryImpTradeVolumeEChart(Map<String, String> paramMap) {
+        //截取年
+       String startFlightyear = String.valueOf(Integer.valueOf(paramMap.get("endFlightTimes").substring(0,4))-1);
+       String stratFlightMouth = paramMap.get("endFlightTimes").substring(4);
+       String startFlightTimes = startFlightyear+stratFlightMouth;
+       paramMap.put("startFlightTimes",startFlightTimes);
+       return this.impTradeVolumeMapper.queryImpTradeVolumeList(paramMap);
+    }
 }

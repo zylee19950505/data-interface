@@ -18,4 +18,8 @@ public class EntrypriseBillQuantityService {
     public List<EnterpriseBillQuantity> queryEnterpriseBillQuantityList(Map<String, String> paramMap) {
         return this.entrypriseBillQuantityMapper.queryEnterpriseBillQuantityList(paramMap);
     }
+
+    public Integer queryEnterpriseBillQuantityCount(Map<String, String> paramMap) {
+        return this.entrypriseBillQuantityMapper.queryEnterpriseBillQuantityCount(paramMap);
+    }
 }

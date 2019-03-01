@@ -137,7 +137,7 @@ sw.page.modules["trade/statistics/imp_trade_volume"] = sw.page.modules["trade/st
         $.ajax({
             type : "post",
             async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-            url : "api/statistics/queryImpTradeVolumeList",    //请求发送到TestServlet处
+            url : "api/statistics/queryImpTradeVolumeEChart",    //请求发送到TestServlet处
             data: data,
             dataType : "json",        //返回数据形式为json
             success : function(result) {
@@ -201,7 +201,7 @@ sw.page.modules["trade/statistics/imp_trade_volume"] = sw.page.modules["trade/st
         });
 
        // $("[ws-search]").unbind("click").click(this.toLoad());
-        $("[ws-search]").unbind("click").click(this.toLoad()).click();
+        $("[ws-search]").unbind("click").click(this.toLoad);
 
     }
 

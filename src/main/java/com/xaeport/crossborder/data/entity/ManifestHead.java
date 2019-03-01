@@ -38,6 +38,15 @@ public class ManifestHead {
     private String note;
     private String sum_goods_value;
     private String bill_nos;
+    private String writing_mode;//写入方式
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getBill_nos() {
         return bill_nos;

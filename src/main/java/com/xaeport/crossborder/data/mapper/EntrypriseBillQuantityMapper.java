@@ -14,4 +14,8 @@ public interface EntrypriseBillQuantityMapper {
 
     @SelectProvider(type = EntrypriseBillQuantitySQLProvider.class,method = "queryEnterpriseBillQuantityList")
     List<EnterpriseBillQuantity> queryEnterpriseBillQuantityList(Map<String, String> paramMap);
+
+
+    @SelectProvider(type = EntrypriseBillQuantitySQLProvider.class,method = "queryEnterpriseBillQuantityCount")
+    Integer queryEnterpriseBillQuantityCount(Map<String, String> paramMap);
 }

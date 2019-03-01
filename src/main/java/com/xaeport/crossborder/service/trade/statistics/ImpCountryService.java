@@ -17,4 +17,9 @@ public class ImpCountryService {
     public List<ImpCountryList> queryImpCountryList(Map<String, String> paramMap) {
         return this.impCountryMapper.queryImpCountryList(paramMap);
     }
+
+
+    public List<ImpCountryList> queryImpCountryEChart(Map<String, String> paramMap) {
+        return this.impCountryMapper.queryImpCountryEChart(paramMap);
+    }
 }

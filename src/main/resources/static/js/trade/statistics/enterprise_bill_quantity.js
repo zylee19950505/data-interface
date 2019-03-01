@@ -1,5 +1,5 @@
 /**
- * 跨境贸易统计-进口贸易额
+ * 跨境贸易统计-企业清单量
  * @type {*|{init: sw.page.modules.trade/statistics/imp_trade_volume.init, query: sw.page.modules.trade/statistics/imp_trade_volume.query}}
  */
 sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["trade/statistics/enterprise_bill_quantity"] || {
@@ -28,8 +28,8 @@ sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["
             bSort: false, //排序功能
             serverSide: true,////服务器端获取数据
             pagingType: 'simple_numbers',
-            paging:false,
-            info:false,
+            //paging:false,
+            //info:false,
             ajax: function (data, callback, setting) {
                 $.ajax({
                     type: 'GET',
@@ -43,11 +43,11 @@ sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["
                     success: function (res) {
                         var returnData = {};
                         returnData.data = res.data.data;
-                        /*returnData.recordsFiltered = res.data.recordsFiltered;
+                        returnData.recordsFiltered = res.data.recordsFiltered;
                         returnData.draw = res.data.draw;
                         returnData.recordsTotal = res.data.recordsTotal;
                         returnData.start = data.start;
-                        returnData.length = data.length;*/
+                        returnData.length = data.length;
                         callback(returnData);
                     },
                     error: function (xhr, status, error) {
@@ -55,7 +55,7 @@ sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["
                     }
                 });
             },
-            //lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
+            lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
                 {data: "entCustomsCode", label: "海关十位代码"},
@@ -64,8 +64,8 @@ sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["
                 {data: "iInventoryValue", label: "进口清单量"},
                 {data: "eInventoryValue", label: "出口清单量"},
                 {data: "inventoryValue", label: "进出口清单量"}
-            ]
-            //order: [[1, 'asc']]
+            ],
+            order: [[1, 'asc']]
         });
     },
 
@@ -80,7 +80,7 @@ sw.page.modules["trade/statistics/enterprise_bill_quantity"] = sw.page.modules["
         });
 
        // $("[ws-search]").unbind("click").click(this.toLoad());
-        $("[ws-search]").unbind("click").click(this.query).click();
+        $("[ws-search]").unbind("click").click(this.query);
 
     }
 
