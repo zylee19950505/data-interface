@@ -59,6 +59,18 @@ public interface StockMessageMapper {
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpInventoryBody")
     void insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);
 
+    //查询是否存在清单表头价格
+    @SelectProvider(type = StockMessageSQLProvider.class, method = "queryInventoryHeadPrice")
+    String queryInventoryHeadPrice(@Param("guid") String guid);
+
+    //设置清单表头价格
+    @UpdateProvider(type = StockMessageSQLProvider.class, method = "setInventoryHeadPrice")
+    void setInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);
+
+    //计算并添加清单表头价格
+    @UpdateProvider(type = StockMessageSQLProvider.class, method = "countInventoryHeadPrice")
+    void countInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);
+
 
     //入库明细单表头入库
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpDeliveryHead")

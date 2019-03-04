@@ -27,6 +27,8 @@ public class StockMessageService {
 
     int count;
 
+    String price;
+
     @Transactional(rollbackForClassName = "Exception")
     public boolean createStockData(Map map, String refileName) {
         boolean flag = true;
@@ -509,6 +511,7 @@ public class StockMessageService {
                 impInventoryBody = new ImpInventoryBody();
                 impInventoryHead.setCrt_tm(new Date());
                 impInventoryHead.setUpd_tm(new Date());
+                impInventoryHead.setBusiness_type(SystemConstants.T_IMP_INVENTORY);
                 impInventoryHead.setData_status(StatusCode.QDYSB);
                 impInventoryHead.setWriting_mode(StatusCode.RKBW);
                 impInventoryBody.setWriting_mode(StatusCode.RKBW);
@@ -733,6 +736,13 @@ public class StockMessageService {
                         }
                     }
                     this.stockMessageMapper.insertImpInventoryBody(impInventoryBody); //插入清单表体数据
+                    price = this.stockMessageMapper.queryInventoryHeadPrice(guid);
+                    if (StringUtils.isEmpty(price)) {
+                        this.stockMessageMapper.setInventoryHeadPrice(impInventoryBody);
+                    }
+                    if (!StringUtils.isEmpty(price)) {
+                        this.stockMessageMapper.countInventoryHeadPrice(impInventoryBody);
+                    }
                 }
             }
         }

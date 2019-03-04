@@ -6,7 +6,7 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
         var ieFlag = $("[name='ieFlag']").val();
-        var entId = $("[name='entId']").val();
+        var customCode = $("[name='customCode']").val();
         var billNo = $("[name='billNo']").val();
         var invtNo = $("[name='invtNo']").val();
         var gName = $("[name='gName']").val();
@@ -16,7 +16,7 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
-            entId: entId,//企业ID码
+            customCode: customCode,//企业海关十位
             billNo: billNo,//提运单号
             invtNo: invtNo,//清单编号
             gName: gName//商品名称
@@ -116,7 +116,7 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
             startFlightTimes: $("[name='startFlightTimes']").val(),
             endFlightTimes: $("[name='endFlightTimes']").val(),
             ieFlag: $("[name='ieFlag']").val(),
-            entId: $("[name='entId']").val(),
+            customCode: $("[name='customCode']").val(),
             billNo: $("[name='billNo']").val(),
             invtNo: $("[name='invtNo']").val(),
             gName: $("[name='gName']").val(),
@@ -131,14 +131,14 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         })
     },
 
-    EbusinessEnt:function () {
-        sw.ajax("api/querystatistics/EbusinessEnt","GET","",function(rsp){
+    EbusinessEnt: function () {
+        sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
-            for(var idx in result){
-                var id = result[idx].id;
+            for (var idx in result) {
+                var customsCode = result[idx].customs_code;
                 var name = result[idx].ent_name;
-                var option = $("<option>").text(name).val(id);
-                $("#entId").append(option);
+                var option = $("<option>").text(name).val(customsCode);
+                $("#customsCode").append(option);
             }
         });
     },

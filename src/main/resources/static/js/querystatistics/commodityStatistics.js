@@ -6,14 +6,14 @@ sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querys
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var endFlightTimes = $("[name='endFlightTimes']").val();
         var ieFlag = $("[name='ieFlag']").val();
-        var entId = $("[name='entId']").val();
+        var customCode = $("[name='customCode']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("commodity/queryCommodity", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
-            entId: entId//企业ID码
+            customCode: customCode//企业海关十位
         });
 
         // 数据表
@@ -71,10 +71,10 @@ sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querys
         sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
             for (var idx in result) {
-                var id = result[idx].id;
+                var customsCode = result[idx].customs_code;
                 var name = result[idx].ent_name;
-                var option = $("<option>").text(name).val(id);
-                $("#entId").append(option);
+                var option = $("<option>").text(name).val(customsCode);
+                $("#customsCode").append(option);
             }
         });
     },
@@ -102,7 +102,7 @@ sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querys
             startFlightTimes: $("[name='startFlightTimes']").val(),
             endFlightTimes: $("[name='endFlightTimes']").val(),
             ieFlag: $("[name='ieFlag']").val(),
-            entId: $("[name='entId']").val(),
+            customCode: $("[name='customCode']").val(),
             startStr: oSettings._iDisplayStart,
             length: oSettings._iDisplayLength
         };

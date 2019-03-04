@@ -49,7 +49,7 @@ public class InventoryQueryApi extends BaseApi {
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String ieFlag,
-            @RequestParam(required = false) String entId,
+            @RequestParam(required = false) String customCode,
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String invtNo,
             @RequestParam(required = false) String gName,
@@ -68,7 +68,7 @@ public class InventoryQueryApi extends BaseApi {
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("ieFlag", ieFlag);
-        paramMap.put("entId", entId);
+        paramMap.put("customCode", customCode);
         paramMap.put("billNo", billNo);
         paramMap.put("invtNo", invtNo);
         paramMap.put("gName", gName);
@@ -82,8 +82,8 @@ public class InventoryQueryApi extends BaseApi {
         paramMap.put("extra_search", extra_search);
 
         //更新人
-        DataList<ImpInventoryHead> dataList = null;
-        List<ImpInventoryHead> resultList = null;
+        DataList<ImpInventoryHead> dataList;
+        List<ImpInventoryHead> resultList;
         try {
             //查询列表
             resultList = this.inventoryQueryService.queryInventoryQueryList(paramMap);
@@ -137,7 +137,7 @@ public class InventoryQueryApi extends BaseApi {
             @RequestParam String startFlightTimes,
             @RequestParam String endFlightTimes,
             @RequestParam String ieFlag,
-            @RequestParam String entId,
+            @RequestParam String customCode,
             @RequestParam String billNo,
             @RequestParam String invtNo,
             @RequestParam String gName,
@@ -152,7 +152,7 @@ public class InventoryQueryApi extends BaseApi {
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
         map.put("ieFlag", ieFlag);
-        map.put("entId", entId);
+        map.put("customCode", customCode);
         map.put("billNo", billNo);
         map.put("invtNo", invtNo);
         map.put("gName", gName);
@@ -163,7 +163,7 @@ public class InventoryQueryApi extends BaseApi {
         map.put("length", length);
         map.put("end", end);
 
-        List<ImpInventory> impInventoryList = null;
+        List<ImpInventory> impInventoryList;
         String fileName;
 
         try {

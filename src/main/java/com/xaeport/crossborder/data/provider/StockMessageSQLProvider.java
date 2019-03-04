@@ -1611,4 +1611,35 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
+    public String queryInventoryHeadPrice(@Param("guid") String guid){
+        return new SQL(){
+            {
+                SELECT("TOTAL_PRICES");
+                FROM("T_IMP_INVENTORY_HEAD");
+                WHERE("GUID = #{guid}");
+            }
+        }.toString();
+    }
+
+    public String setInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD");
+                WHERE("GUID = #{impInventoryBody.head_guid}");
+                SET("TOTAL_PRICES = #{impInventoryBody.total_price}");
+            }
+        }.toString();
+    }
+
+    public String countInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody){
+        return new SQL(){
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD");
+                WHERE("GUID = #{impInventoryBody.head_guid}");
+                SET("TOTAL_PRICES = TOTAL_PRICES + #{impInventoryBody.total_price}");
+            }
+        }.toString();
+    }
+
 }

@@ -24,7 +24,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
 
@@ -41,10 +41,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
                 } else {
-                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
@@ -69,14 +69,14 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
 
         return new SQL() {
             {
-                SELECT("t.ENT_NAME," +
-                        "t.ENT_CUSTOMS_CODE," +
+                SELECT("t.EBC_CODE," +
+                        "t.EBC_NAME," +
                         "sum(t.TOTAL_PRICES) totalPrice," +
                         "(select c.curr_cn_name from t_currency c where c.curr_code = t.CURRENCY) currency," +
                         "count(distinct t.BILL_NO) billNoCount," +
@@ -87,10 +87,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%')");
                 } else {
-                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
@@ -104,7 +104,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("t.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                GROUP_BY("t.ENT_NAME,t.ENT_CUSTOMS_CODE,t.CURRENCY");
+                GROUP_BY("t.EBC_NAME,t.EBC_CODE,t.CURRENCY");
             }
         }.toString();
     }
@@ -115,7 +115,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
 
@@ -132,10 +132,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("h.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("h.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("h.EBC_CODE like '%'||#{customCode}||'%'");
                 } else {
-                    WHERE("h.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(h.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR h.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("h.DATA_STATUS = #{dataStatus}");
@@ -162,7 +162,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String billNo = paramMap.get("billNo");
         final String invtNo = paramMap.get("invtNo");
         final String gName = paramMap.get("gName");
@@ -187,10 +187,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
                 } else {
-                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.BILL_NO = #{billNo}");
@@ -228,7 +228,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String billNo = paramMap.get("billNo");
         final String invtNo = paramMap.get("invtNo");
         final String gName = paramMap.get("gName");
@@ -242,10 +242,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
                 } else {
-                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.BILL_NO = #{billNo}");
@@ -279,7 +279,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
-        final String entId = paramMap.get("entId");
+        final String customCode = paramMap.get("customCode");
         final String billNo = paramMap.get("billNo");
         final String invtNo = paramMap.get("invtNo");
         final String gName = paramMap.get("gName");
@@ -311,10 +311,10 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(ieFlag)) {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
-                if (!StringUtils.isEmpty(entId)) {
-                    WHERE("t.ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(customCode)) {
+                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
                 } else {
-                    WHERE("t.ENT_ID in (SELECT tt.ID FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business')");
+                    WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.BILL_NO = #{billNo}");

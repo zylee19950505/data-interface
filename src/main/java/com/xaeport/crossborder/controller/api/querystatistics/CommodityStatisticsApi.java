@@ -47,15 +47,15 @@ public class CommodityStatisticsApi extends BaseApi {
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String ieFlag,
-            @RequestParam(required = false) String entId
+            @RequestParam(required = false) String customCode
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,entId:%s]", startFlightTimes, endFlightTimes, entId));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,customsCode:%s]", startFlightTimes, endFlightTimes, customCode));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("ieFlag", ieFlag);
-        paramMap.put("entId", entId);
+        paramMap.put("customCode", customCode);
         paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 
@@ -93,7 +93,7 @@ public class CommodityStatisticsApi extends BaseApi {
             @RequestParam String startFlightTimes,
             @RequestParam String endFlightTimes,
             @RequestParam String ieFlag,
-            @RequestParam String entId,
+            @RequestParam String customCode,
             @RequestParam String startStr,
             @RequestParam String length
 
@@ -105,7 +105,7 @@ public class CommodityStatisticsApi extends BaseApi {
         map.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         map.put("endFlightTimes", StringUtils.isEmpty(endFlightTimes) ? null : endFlightTimes);
         map.put("ieFlag", ieFlag);
-        map.put("entId", entId);
+        map.put("customCode", customCode);
         map.put("dataStatus", StatusCode.QDSBCG);
         map.put("returnStatus", StatusCode.FX);
 

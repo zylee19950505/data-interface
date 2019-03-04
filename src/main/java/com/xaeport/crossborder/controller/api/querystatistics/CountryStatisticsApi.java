@@ -35,15 +35,15 @@ public class CountryStatisticsApi extends BaseApi {
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String ieFlag,
-            @RequestParam(required = false) String entId
+            @RequestParam(required = false) String customCode
     ) {
-        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,entId:%s]", startFlightTimes, endFlightTimes, entId));
+        this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,customsCode:%s]", startFlightTimes, endFlightTimes, customCode));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         paramMap.put("startFlightTimes", startFlightTimes);
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("ieFlag", ieFlag);
-        paramMap.put("entId", entId);
+        paramMap.put("customCode", customCode);
         paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 
