@@ -42,7 +42,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
@@ -88,7 +88,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%')");
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
@@ -133,7 +133,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("h.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("h.EBC_CODE like '%'||#{customCode}||'%'");
+                    WHERE("(h.EBC_CODE like '%'||#{customCode}||'%' OR h.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(h.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR h.WRITING_MODE = 'STOCK')");
                 }
@@ -188,7 +188,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
@@ -243,7 +243,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
@@ -312,7 +312,7 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("t.IE_FLAG = #{ieFlag}");
                 }
                 if (!StringUtils.isEmpty(customCode)) {
-                    WHERE("t.EBC_CODE like '%'||#{customCode}||'%'");
+                    WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
                 }
