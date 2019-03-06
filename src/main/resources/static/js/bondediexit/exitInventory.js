@@ -1,6 +1,5 @@
 //清单查询
 sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exitInventory"] || {
-
     query: function () {
         // 获取查询表单参数
         var invt_dcl_time = $("[name='invt_dcl_time']").val();
@@ -65,18 +64,18 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     }
                 },
                 {
-                    label: "企业内部清单编码", render: function (data, type, row) {
+                    label: "企业内部编码", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
-                }
+                    }
                 },
                 {
-                    data: "invt_preent_no", label: "统一预录入编号"
+                    data: "bond_invt_no", label: "核注清单号"
                 },
                 {
-                    data: "bond_invt_no", label: "核注清单编号"
+                    data: "invt_preent_no", label: "预录入编号"
                 },
                 {
-                    data: "status", label: "申报状态", render: function (data, type, row) {
+                    label: "申报状态", render: function (data, type, row) {
                     switch (row.status) {
                         case "BDDS2"://出区核注清单待申报
                             textColor = "text-yellow";

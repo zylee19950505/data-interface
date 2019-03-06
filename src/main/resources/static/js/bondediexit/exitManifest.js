@@ -68,16 +68,16 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitM
                 {
                     label: "企业内部编号", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitManifest').updateExitManifest('" + row.etps_preent_no + "','" + row.status + "')" + '">' + row.etps_preent_no + '</a>'
-                }
+                    }
+                },
+                {
+                    data: "passport_no", label: "核放单号"
+                },
+                {
+                    data: "sas_passport_preent_no", label: "预录入编号"
                 },
                 {
                     data: "rlt_no", label: "核注清单编号"
-                },
-                {
-                    data: "sas_passport_preent_no", label: "统一预录入编号"
-                },
-                {
-                    data: "passport_no", label: "核放单编号"
                 },
                 {
                     data: "status", label: "申报状态", render: function (data, type, row) {

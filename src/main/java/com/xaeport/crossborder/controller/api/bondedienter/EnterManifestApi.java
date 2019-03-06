@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +40,7 @@ public class EnterManifestApi extends BaseApi {
     @RequestMapping("/queryEnterManifest")
     public ResponseData queryEnterManifest(
             @RequestParam(required = false) String startFlightTimes,
-            @RequestParam(required = false) String inventory_dataStatus,//核注清单回执状态
             @RequestParam(required = false) String bond_invt_no,//核注清单编号
-            @RequestParam(required = false) String billNo,//提运单号
             @RequestParam(required = false) String passport_declareStatus,//核放单申报状态
             @RequestParam(required = false) String passport_dataStatus,//核放单回执状态
             @RequestParam(required = false) String passport_no,//核放单编号
@@ -51,23 +48,21 @@ public class EnterManifestApi extends BaseApi {
             @RequestParam(required = false) String length,
             @RequestParam(required = false) String draw
     ) {
-        this.logger.debug(String.format("入区核注清单:[startFlightTimes:%s,inventory_dataStatus:%s,bond_invt_no:%s,billNo:%s,passport_declareStatus:%s,passport_dataStatus:%s,passport_no:%s]", startFlightTimes, inventory_dataStatus, bond_invt_no, billNo,passport_declareStatus,passport_dataStatus,passport_no));
+        this.logger.debug(String.format("入区核注清单:[startFlightTimes:%s,bond_invt_no:%s,passport_declareStatus:%s,passport_dataStatus:%s,passport_no:%s]", startFlightTimes, bond_invt_no, passport_declareStatus, passport_dataStatus, passport_no));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-        paramMap.put("inventory_dataStatus", inventory_dataStatus);
         paramMap.put("bond_invt_no", bond_invt_no);
-        paramMap.put("billNo", billNo);
         paramMap.put("passport_declareStatus", passport_declareStatus);
         paramMap.put("passport_dataStatus", passport_dataStatus);
         paramMap.put("passport_no", passport_no);
         paramMap.put("entId", this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
-        paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
-        paramMap.put("length",length);
+        paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("start", String.valueOf(Integer.parseInt(start) + 1));
+        paramMap.put("length", length);
 
         DataList<PassPortHead> dataList = new DataList<>();
-        List<PassPortHead> resultList = new ArrayList<PassPortHead>();
+        List<PassPortHead> resultList;
         try {
             //查询列表
             resultList = enterManifestService.queryEnterManifest(paramMap);
@@ -99,6 +94,7 @@ public class EnterManifestApi extends BaseApi {
         }
         return new ResponseData("");
     }
+
     /**
      * 核放单申报-提交海关
      **/
@@ -126,9 +122,9 @@ public class EnterManifestApi extends BaseApi {
     }
 
     /**
-     *点击查看核放单详情
-     * */
-    @RequestMapping(value = "/seeEnterPassportDetail",method = RequestMethod.GET)
+     * 点击查看核放单详情
+     */
+    @RequestMapping(value = "/seeEnterPassportDetail", method = RequestMethod.GET)
     public ResponseData seeEnterPassportDetail(
             @RequestParam(required = false) String etps_preent_no
     ) {
@@ -136,10 +132,9 @@ public class EnterManifestApi extends BaseApi {
         this.logger.debug(String.format("点击查看核放单详情条件参数:[etps_preent_no:%s]", etps_preent_no));
         PassPort passPort = new PassPort();
         try {
-            PassPortHead passPortHead = new PassPortHead();
-            List<PassPortList> passPortLists = new ArrayList<PassPortList>();
+            PassPortHead passPortHead;
+            List<PassPortList> passPortLists;
             passPortHead = enterManifestService.getImpPassportHead(etps_preent_no);
-           // passPortLists = enterManifestService.getImpPassportList(etps_preent_no);
             passPortLists = enterManifestService.getImpPassportList(passPortHead.getId());
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortList(passPortLists);

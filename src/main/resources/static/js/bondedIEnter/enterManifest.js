@@ -4,9 +4,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
     query: function () {
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
-        var inventory_dataStatus = $("[name='inventory_dataStatus']").val();
         var bond_invt_no = $("[name='bond_invt_no']").val();
-        var billNo = $("[name='billNo']").val();
         var passport_declareStatus = $("[name='passport_declareStatus']").val();
         var passport_dataStatus = $("[name='passport_dataStatus']").val();
         var passport_no = $("[name='passport_no']").val();
@@ -14,9 +12,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/enterManifest/queryEnterManifest", {
             startFlightTimes: startFlightTimes,//申报开始时间
-            inventory_dataStatus: inventory_dataStatus,//核注清单回执状态
             bond_invt_no: bond_invt_no,//核注清单编号
-            billNo: billNo,//提运单号
             passport_declareStatus: passport_declareStatus,//核放单申报状态
             passport_dataStatus: passport_dataStatus,//核放单回执状态
             passport_no: passport_no//核放单编号
@@ -70,81 +66,69 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                         }
                     }
                 },
-                //{data: "etps_preent_no", label: "核放单编号"},//订单编号要点击查看订单详情
                 {
-                    label: "核放单编号", render: function (data, type, row) {
-                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seeEnterPassportDetail('"+row.bind_typecd+"','" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
-                    }
-                },
-                {data: "bond_invt_no", label: "核注清单编号"},
-               /* {data: "status", label: "申报状态"},*/
-                {
-                    label: "申报状态", render: function (data, type, row) {
-                        var value = "";
-                        var textColor = "";
-                        switch (row.status) {
-                            case "BDDS3":
-                                value = "核放单待申报";
-                                textColor = "text-green";
-                                break;
-                            case "BDDS30":
-                                value = "核放单申报中";
-                                textColor = "text-green";
-                                break;
-                            case "BDDS31":
-                                value = "核放单已申报";
-                                textColor = "text-green";
-                                break;
-                            case "BDDS32":
-                                value = "核放单申报成功";
-                                textColor = "text-green";
-                                break;
-                            case "BDDS33":
-                                value = "核放单暂存";
-                                textColor = "text-green";
-                                break;
-
-                            default :
-                                value = "状态待确认";
-                                textColor = "text-red";
-                        }
-                        var result = "<span class=" + textColor + ">" + value + "</span>";
-                        return result
+                    label: "企业内部编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seeEnterPassportDetail('" + row.bind_typecd + "','" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
                     }
                 },
                 {
-                    label: "申报日期", render: function (data, type, row) {
-                        if (!isEmpty(row.dcl_time)) {
-                            return moment(row.dcl_time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
-                    }
+                    data: "passport_no", label: "核放单号"
+                },
+                {
+                    data: "sas_passport_preent_no", label: "预录入编号"
+                },
+                {
+                    data: "bond_invt_no", label: "核注清单编号"
                 },
                 {
                     label: "申报状态", render: function (data, type, row) {
-                        var value = "";
-                        var textColor = "";
-                        switch (row.data_status) {
-                            case "BDDS3":
-                                value = "核放单待申报";
-                                textColor = "text-red";
-                                break;
-                            default :
-                                value = "";
-                                textColor = "";
-                        }
-                        var result = "<span class=" + textColor + ">" + value + "</span>";
-                        return result
+                    var value = "";
+                    var textColor = "";
+                    switch (row.status) {
+                        case "BDDS3":
+                            value = "核放单待申报";
+                            textColor = "text-yellow";
+                            break;
+                        case "BDDS30":
+                            value = "核放单申报中";
+                            textColor = "text-green";
+                            break;
+                        case "BDDS31":
+                            value = "核放单已申报";
+                            textColor = "text-green";
+                            break;
+                        case "BDDS32":
+                            value = "核放单申报成功";
+                            textColor = "text-green";
+                            break;
+                        case "BDDS33":
+                            value = "核放单暂存";
+                            textColor = "text-red";
+                            break;
+                        default :
+                            value = "状态待确认";
+                            textColor = "text-red";
                     }
+                    var result = "<span class=" + textColor + ">" + value + "</span>";
+                    return result
+                }
+                },
+                {
+                    label: "申报时间", render: function (data, type, row) {
+                    if (!isEmpty(row.dcl_time)) {
+                        return moment(row.dcl_time).format("YYYY-MM-DD HH:mm:ss");
+                    }
+                    return "";
+                }
                 },
                 {data: "return_status", label: "回执状态"},
                 {
                     label: "回执时间", render: function (data, type, row) {
-                        if (!isEmpty(row.return_date)) {
-                            return moment(row.return_date).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
+                    if (!isEmpty(row.return_date)) {
+                        return moment(row.return_date).format("YYYY-MM-DD HH:mm:ss");
                     }
+                    return "";
+                }
                 },
                 {data: "return_info", label: "回执备注"}
             ]
@@ -165,15 +149,11 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         }
 
         sw.confirm("请确认数据无误并提交海关", "确认", function () {
-
             sw.blockPage();
-
             var postData = {
                 submitKeys: submitKeys
             };
-
             $("#submitCustom").prop("disabled", true);
-
             sw.ajax("api/enterManifest/submitCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
@@ -208,7 +188,6 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         });
     },
     init: function () {
-        // $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -232,10 +211,10 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
         });
     },
 
-    seeEnterPassportDetail: function (bind_typecd,etps_preent_no) {
-        if ("3" != bind_typecd){
+    seeEnterPassportDetail: function (bind_typecd, etps_preent_no) {
+        if ("3" != bind_typecd) {
             var url = "bondedIEnter/seeEnterPassportDetail?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
-        }else{
+        } else {
             var url = "bondedIEnter/seeEnterPassportDetailYPDC?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
         }
         sw.modelPopup(url, "查看核放单详情", false, 1100, 930);

@@ -12,9 +12,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     public String queryEnterManifest(Map<String, String> paramMap){
         final String startFlightTimes = paramMap.get("startFlightTimes");
-        final String inventory_dataStatus = paramMap.get("inventory_dataStatus");
         final String bond_invt_no = paramMap.get("bond_invt_no");
-        final String billNo = paramMap.get("billNo");
         final String passport_declareStatus = paramMap.get("passport_declareStatus");
         final String passport_dataStatus = paramMap.get("passport_dataStatus");
         final String passport_no = paramMap.get("passport_no");
@@ -27,6 +25,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
                         " SELECT " +
                         "t.ID," +
+                        "t.SAS_PASSPORT_PREENT_NO," +
                         "t.PASSPORT_NO," +
                         "t.ETPS_PREENT_NO," +
                         "t.BOND_INVT_NO," +
@@ -44,17 +43,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
-                //核注清单回执状态
-//                if (!StringUtils.isEmpty(inventory_dataStatus)) {
-//                    WHERE("t.status = #{inventory_dataStatus}");
-//                }
                 if (!StringUtils.isEmpty(bond_invt_no)) {
                     WHERE("t.BOND_INVT_NO = #{BOND_INVT_NO}");
                 }
-                //提运单号
-//                if (!StringUtils.isEmpty(billNo)) {
-//                    WHERE("t.billNo = #{billNo}");
-//                }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
                     WHERE("t.STATUS = #{passport_declareStatus}");
                 }
@@ -76,9 +67,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     public String queryEnterManifestCount(Map<String, String> paramMap){
         final String startFlightTimes = paramMap.get("startFlightTimes");
-        final String inventory_dataStatus = paramMap.get("inventory_dataStatus");
         final String bond_invt_no = paramMap.get("bond_invt_no");
-        final String billNo = paramMap.get("billNo");
         final String passport_declareStatus = paramMap.get("passport_declareStatus");
         final String passport_dataStatus = paramMap.get("passport_dataStatus");
         final String passport_no = paramMap.get("passport_no");
@@ -97,17 +86,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
-                //核注清单回执状态
-//                if (!StringUtils.isEmpty(inventory_dataStatus)) {
-//                    WHERE("t.status = #{inventory_dataStatus}");
-//                }
                 if (!StringUtils.isEmpty(bond_invt_no)) {
                     WHERE("t.BOND_INVT_NO = #{BOND_INVT_NO}");
                 }
-                //提运单号
-//                if (!StringUtils.isEmpty(billNo)) {
-//                    WHERE("t.billNo = #{billNo}");
-//                }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
                     WHERE("t.STATUS = #{passport_declareStatus}");
                 }

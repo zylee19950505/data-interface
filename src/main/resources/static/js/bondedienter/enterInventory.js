@@ -1,13 +1,11 @@
 //入区核注清单
 sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/enterInventory"] || {
-
     query: function () {
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
         var dataStatus = $("[name='dataStatus']").val();
         var returnDataStatus = $("[name='returnDataStatus']").val();
         var invtNo = $("[name='invtNo']").val();
-
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/enterInventory/queryEnterInventory", {
@@ -66,12 +64,15 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                     }
                 },
                 {
-                    label: "企业内部清单编码", render: function (data, type, row) {
+                    label: "企业内部编码", render: function (data, type, row) {
                         return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
                     }
                 },
                 {
-                    data: "bond_invt_no", label: "核注清单编号"
+                    data: "bond_invt_no", label: "核注清单号"
+                },
+                {
+                    data: "invt_preent_no", label: "预录入编号"
                 },
                 {
                     label: "申报状态", render: function (data, type, row) {
