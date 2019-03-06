@@ -3,14 +3,14 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
 
     query: function () {
         // 获取查询表单参数
-        var entry_dcl_time = $("[name='entry_dcl_time']").val();
+        var invt_dcl_time = $("[name='invt_dcl_time']").val();
         var status = $("[name='status']").val();
         var return_status = $("[name='return_status']").val();
         var bond_invt_no = $("[name='bond_invt_no']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/bondediexit/queryexitinventory", {
-            entry_dcl_time: entry_dcl_time,//申报时间
+            invt_dcl_time: invt_dcl_time,//申报时间
             status: status,//系统数据状态
             return_status: return_status,//回执状态
             bond_invt_no: bond_invt_no//核注清单编号

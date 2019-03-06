@@ -26,7 +26,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                         "t.ETPS_INNER_INVT_NO," +
                         "t.BOND_INVT_NO," +
                         "t.STATUS," +
-                        "t.ENTRY_DCL_TIME," +
+                        "t.INVT_DCL_TIME," +
                         "t.RETURN_STATUS," +
                         "t.RETURN_TIME," +
                         "t.RETURN_INFO");
@@ -36,7 +36,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                     WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.entry_dcl_time >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.INVT_DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.status = #{dataStatus}");
@@ -75,7 +75,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                     WHERE("t.ent_id = #{entId}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
-                    WHERE("t.entry_dcl_time >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                    WHERE("t.INVT_DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.status = #{dataStatus}");

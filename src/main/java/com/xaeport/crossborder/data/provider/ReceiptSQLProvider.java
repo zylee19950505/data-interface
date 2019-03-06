@@ -400,7 +400,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC");
-                WHERE("STATUS in ('BDDS21','BDDS22')");
+                WHERE("STATUS in ('BDDS21','BDDS22','BDDS11','BDDS12')");
                 if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
                     WHERE("INVT_PREENT_NO = #{bondInvtBsc.invt_preent_no}");
                 }

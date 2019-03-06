@@ -52,7 +52,7 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
     //模板下载
     downLoad: function () {
         var type = "BondedI";
-        window.location.href = "/crtEnterInven/downloadFile?type=" + type;
+        window.location.href = "/api/crtEnterInven/downloadFile?type=" + type;
     }
 
 };

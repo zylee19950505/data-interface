@@ -108,7 +108,6 @@ public class ReceiptService {
             TaxHeadRd taxHeadRd;
             TaxListRd taxListRd;
             for (int i = 0; i < taxHeads.size(); i++) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 taxHeadRd = new TaxHeadRd();
                 String guid = IdUtils.getUUId();
                 taxHeadRd.setGuid(guid);
@@ -367,8 +366,8 @@ public class ReceiptService {
      */
     private void updateBondInvtStatusByCommon(RecBondInvtCommon recBondInvtCommon) throws Exception {
         String etpsPreentNo = recBondInvtCommon.getEtps_preent_no();
-        BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        PassPortHead passPortHead = new PassPortHead();
+        BondInvtBsc bondInvtBsc;
+        PassPortHead passPortHead;
         bondInvtBsc = this.receiptMapper.queryIsBondInvt(etpsPreentNo);
         passPortHead = this.receiptMapper.queryIsPassPort(etpsPreentNo);
 
@@ -487,32 +486,29 @@ public class ReceiptService {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        //出入区回执更新
+        bondInvtBsc.setInvt_preent_no(recBondInvtHdeAppr.getEtps_preent_no());
+        bondInvtBsc.setBond_invt_no(recBondInvtHdeAppr.getBusiness_id());
+        bondInvtBsc.setChg_tms_cnt(Integer.parseInt(recBondInvtHdeAppr.getTms_cnt()));
+        bondInvtBsc.setDclcus_typecd(recBondInvtHdeAppr.getTypecd());
+        bondInvtBsc.setReturn_status(recBondInvtHdeAppr.getManage_result());
+        bondInvtBsc.setReturn_time(sdf.parse(sdf.format(recBondInvtHdeAppr.getManage_date())));
+        bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
+        bondInvtBsc.setEtps_inner_invt_no(bondInvtBscData.getEtps_inner_invt_no());
+
+        //出区更新核注清单表头，表体
         if (bondInvtBscData.getFlag().equals("EXIT")) {
-            //出区回执更新
-            bondInvtBsc.setInvt_preent_no(recBondInvtHdeAppr.getEtps_preent_no());
-            bondInvtBsc.setBond_invt_no(recBondInvtHdeAppr.getBusiness_id());
-            bondInvtBsc.setChg_tms_cnt(Integer.parseInt(recBondInvtHdeAppr.getTms_cnt()));
-            bondInvtBsc.setDclcus_typecd(recBondInvtHdeAppr.getTypecd());
-            bondInvtBsc.setReturn_status(recBondInvtHdeAppr.getManage_result());
-            bondInvtBsc.setReturn_time(sdf.parse(sdf.format(recBondInvtHdeAppr.getManage_date())));
-            bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
-            this.receiptMapper.updateBondInvtStatusByHdeAppr(bondInvtBsc);  //更新核注清单表表头数据状态
-            this.receiptMapper.updateNemssByHdeAppr(bondInvtBsc);  //更新核注清单表表体的数据
+            this.receiptMapper.updateBondInvtStatusByHdeAppr(bondInvtBsc);
+            this.receiptMapper.updateNemssByHdeAppr(bondInvtBsc);
             //实减操作
             if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
                 CountLoader countLoader = new CountActlReduce();
                 countLoader.count(bondInvtBscData);
             }
-        } else if (bondInvtBscData.getFlag().equals("ENTER")) {
-            //入区回执更新
-            bondInvtBsc.setInvt_preent_no(recBondInvtHdeAppr.getEtps_preent_no());
-            bondInvtBsc.setBond_invt_no(recBondInvtHdeAppr.getBusiness_id());
-            bondInvtBsc.setChg_tms_cnt(Integer.parseInt(recBondInvtHdeAppr.getTms_cnt()));
-            bondInvtBsc.setDclcus_typecd(recBondInvtHdeAppr.getTypecd());
-            bondInvtBsc.setReturn_status(recBondInvtHdeAppr.getManage_result());
-            bondInvtBsc.setReturn_time(sdf.parse(sdf.format(recBondInvtHdeAppr.getManage_date())));
-            bondInvtBsc.setReturn_info(recBondInvtHdeAppr.getRmk());
-            bondInvtBsc.setEtps_inner_invt_no(bondInvtBscData.getEtps_inner_invt_no());
+        }
+
+        //入区更新核注清单表头，表体
+        if (bondInvtBscData.getFlag().equals("ENTER")) {
             this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
             //预增操作
@@ -520,8 +516,8 @@ public class ReceiptService {
                 CountLoader countLoader = new CountPreIncrease();
                 countLoader.count(bondInvtBsc);
             }
-
         }
+
     }
 
     /**
@@ -567,10 +563,8 @@ public class ReceiptService {
                 Date systemTime;
                 if (!StringUtils.isEmpty(bondInvtBsc)) {
                     systemTime = bondInvtBsc.getReturn_time();
-                    if (systemTime == null) {
-                        this.updateBondInvtStatusByInvAppr(recBondInvtInvAppr);//更新核注清单表数据
-                    } else if ((systemTime != null) && (returnTime.getTime() >= systemTime.getTime())) {
-                        this.updateBondInvtStatusByInvAppr(recBondInvtInvAppr);//更新核注清单表数据
+                    if (systemTime == null || (returnTime.getTime() >= systemTime.getTime())) {
+                        this.updateBondInvtStatusByInvAppr(recBondInvtInvAppr, bondInvtBsc);//更新核注清单表数据
                     } else {
                         continue;
                     }
@@ -585,16 +579,29 @@ public class ReceiptService {
      * 根据核注清单回执更新表状态（进口保税）（核注清单报文二）
      * 报文类型：INV202
      */
-    private void updateBondInvtStatusByInvAppr(RecBondInvtInvAppr recBondInvtInvAppr) throws Exception {
+    private void updateBondInvtStatusByInvAppr(RecBondInvtInvAppr recBondInvtInvAppr, BondInvtBsc bondInvtBscData) throws Exception {
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
+
         bondInvtBsc.setInvt_preent_no(recBondInvtInvAppr.getInv_preent_no());
         bondInvtBsc.setBond_invt_no(recBondInvtInvAppr.getBusiness_id());
         bondInvtBsc.setEntry_no(recBondInvtInvAppr.getEntry_seq_no());
         bondInvtBsc.setReturn_status(recBondInvtInvAppr.getManage_result());
         bondInvtBsc.setReturn_time(recBondInvtInvAppr.getCreate_date());
         bondInvtBsc.setReturn_info(recBondInvtInvAppr.getReason());
-        this.receiptMapper.updateBondInvtStatusByInvAppr(bondInvtBsc);  //更新核注清单表表头数据状态
-        this.receiptMapper.updateNemssByInvAppr(bondInvtBsc);  //更新核注清单表表体数据状态
+        bondInvtBsc.setEtps_inner_invt_no(bondInvtBscData.getEtps_inner_invt_no());
+
+        //更新核注清单表表头数据状态
+        this.receiptMapper.updateBondInvtStatusByInvAppr(bondInvtBsc);
+
+        //更新核注清单表表体数据状态
+        if (bondInvtBscData.getFlag().equals("EXIT")) {
+            this.receiptMapper.updateNemssByInvAppr(bondInvtBsc);
+        }
+        //更新核注清单表表体数据状态
+        if (bondInvtBscData.getFlag().equals("ENTER")) {
+            this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
+        }
+
     }
 
 
@@ -645,9 +652,7 @@ public class ReceiptService {
                 Date systemTime;
                 if (!StringUtils.isEmpty(passPortHead)) {
                     systemTime = passPortHead.getReturn_date();
-                    if (systemTime == null) {
-                        this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead);//更新核放单表数据
-                    } else if ((systemTime != null) && (returnTime.getTime() >= systemTime.getTime())) {
+                    if (systemTime == null || (returnTime.getTime() >= systemTime.getTime())) {
                         this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead);//更新核放单表数据
                     } else {
                         continue;
@@ -673,10 +678,13 @@ public class ReceiptService {
         passPortHead.setReturn_date(recPassPortHdeAppr.getManage_date());
         passPortHead.setReturn_info(recPassPortHdeAppr.getRmk());
         this.receiptMapper.updatePassportStatusByHdeAppr(passPortHead);  //更新核放表表头数据状态
+
         if (passPortHd.getFlag().equals("EXIT")) {
             //保税出区一车一票
             this.receiptMapper.updatePassPortAcmpByHdeAppr(passPortHead);  //更新核放单表表体数据状态
-        } else if (passPortHd.getFlag().equals("ENTER")) {
+        }
+
+        if (passPortHd.getFlag().equals("ENTER")) {
             switch (passPortHd.getBind_typecd()) {
                 //保税入区一车一票
                 case "2":

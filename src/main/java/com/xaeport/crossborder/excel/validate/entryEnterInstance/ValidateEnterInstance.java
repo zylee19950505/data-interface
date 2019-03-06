@@ -32,8 +32,9 @@ public class ValidateEnterInstance extends ValidateBase {
     private int dcl_total_amtIndex; //总价";//list
     private int dcl_qtyIndex; //数量";//list
     private int natcdIndex; //原产国(地区)";//list
+
     private int usecdIndex; //用途代码//list
-    private int lvyrlf_modecdIndex; //用途代码//list
+    private int lvyrlf_modecdIndex; //征减免方式代码//list
     private int rmkIndex; //备注";//list
 
     private Map<Integer, String> indexMap = new HashMap<>();
@@ -54,8 +55,8 @@ public class ValidateEnterInstance extends ValidateBase {
         dcl_total_amtIndex = list.indexOf(ExcelHeadEnterInventory.dcl_total_amt);//总价
         dcl_qtyIndex = list.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = list.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)
-        usecdIndex = list.indexOf(ExcelHeadEnterInventory.usecd);//原产国(地区)
-        lvyrlf_modecdIndex = list.indexOf(ExcelHeadEnterInventory.lvyrlf_modecd);//原产国(地区)
+        usecdIndex = list.indexOf(ExcelHeadEnterInventory.usecd);//用途代码
+        lvyrlf_modecdIndex = list.indexOf(ExcelHeadEnterInventory.lvyrlf_modecd);//征减免方式代码
         rmkIndex = list.indexOf(ExcelHeadEnterInventory.rmk);//备注
         this.initMap();
     }
@@ -75,8 +76,8 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(dcl_total_amtIndex, "总价,100");
         indexMap.put(dcl_qtyIndex, "数量,60");
         indexMap.put(natcdIndex, "原产国(地区),18");
-        indexMap.put(usecdIndex, "用途代码,6");
-        indexMap.put(natcdIndex, "征免代码,6");
+        indexMap.put(usecdIndex, "用途代码,4");
+        indexMap.put(lvyrlf_modecdIndex, "征免代码,6");
         indexMap.put(rmkIndex, "备注,18");
 
     }

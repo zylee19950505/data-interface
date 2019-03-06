@@ -4,7 +4,6 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
     query: function () {
         // 获取查询表单参数
         var startFlightTimes = $("[name='startFlightTimes']").val();
-        //var endFlightTimes = $("[name='endFlightTimes']").val();
         var dataStatus = $("[name='dataStatus']").val();
         var returnDataStatus = $("[name='returnDataStatus']").val();
         var invtNo = $("[name='invtNo']").val();
@@ -13,7 +12,6 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/enterInventory/queryEnterInventory", {
             startFlightTimes: startFlightTimes,//申报开始时间
-            //endFlightTimes: endFlightTimes,//申报结束时间
             dataStatus: dataStatus,//申报状态
             returnDataStatus: returnDataStatus,//物流运单编号
             invtNo: invtNo//核注清单编号
@@ -75,19 +73,11 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                 {
                     data: "bond_invt_no", label: "核注清单编号"
                 },
-               /* {
-                    data: "status", label: "申报状态"
-                },*/
-
                 {
                     label: "申报状态", render: function (data, type, row) {
                         var textColor = "";
                         var value = "";
                         switch (row.status) {
-                            case null:
-                                textColor = "text-yellow";
-                                value = "待申报";
-                                break;
                             case "BDDS1":
                                 textColor = "text-yellow";
                                 value = "核注清单待申报";
@@ -109,13 +99,10 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                         return "<span class='" + textColor + "'>" + value + "</span>";
                     }
                 },
-               /* {
-                    data: "entry_dcl_time", label: "申报时间"
-                },*/
                 {
                     label: "申报时间", render: function (data, type, row) {
-                        if (!isEmpty(row.entry_dcl_time)) {
-                            return moment(row.entry_dcl_time).format("YYYY-MM-DD HH:mm:ss");
+                        if (!isEmpty(row.invt_dcl_time)) {
+                            return moment(row.invt_dcl_time).format("YYYY-MM-DD HH:mm:ss");
                         }
                         return "";
                     }
@@ -123,9 +110,6 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                 {
                     data: "return_status", label: "回执状态"
                 },
-                /*{
-                    data: "return_time", label: "回执时间"
-                },*/
                 {
                     label: "回执时间", render: function (data, type, row) {
                         if (!isEmpty(row.return_time)) {

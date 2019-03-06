@@ -17,7 +17,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         final String end = paramMap.get("end");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
-        final String entry_dcl_time = paramMap.get("entry_dcl_time");
+        final String invt_dcl_time = paramMap.get("invt_dcl_time");
         final String status = paramMap.get("status");
         final String return_status = paramMap.get("return_status");
         final String bond_invt_no = paramMap.get("bond_invt_no");
@@ -41,8 +41,8 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 if (!roleId.equals("admin")) {
                     WHERE("t.CRT_ENT_ID = #{entId}");
                 }
-                if (!StringUtils.isEmpty(entry_dcl_time)) {
-                    WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                if (!StringUtils.isEmpty(invt_dcl_time)) {
+                    WHERE("t.invt_dcl_time >= to_date( #{invt_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");
@@ -67,7 +67,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
 
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
-        final String entry_dcl_time = paramMap.get("entry_dcl_time");
+        final String invt_dcl_time = paramMap.get("invt_dcl_time");
         final String status = paramMap.get("status");
         final String return_status = paramMap.get("return_status");
         final String bond_invt_no = paramMap.get("bond_invt_no");
@@ -80,8 +80,8 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 if (!roleId.equals("admin")) {
                     WHERE("t.CRT_ENT_ID = #{entId}");
                 }
-                if (!StringUtils.isEmpty(entry_dcl_time)) {
-                    WHERE("t.entry_dcl_time >= to_date( #{entry_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
+                if (!StringUtils.isEmpty(invt_dcl_time)) {
+                    WHERE("t.invt_dcl_time >= to_date( #{invt_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");

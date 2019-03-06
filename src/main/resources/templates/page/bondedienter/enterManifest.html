@@ -35,10 +35,15 @@
                                     <span class="input-group-addon">核注清单回执状态：</span>
                                     <select class="form-control" name="inventory_dataStatus">
                                         <option value="" selected = "selected" >全部</option>
-                                        <option value="CBDS7" >待申报</option>
-                                        <option value="CBDS70" >申报中</option>
-                                        <option value="CBDS71" >已申报</option>
-                                        <option value="CBDS72" >申报成功</option>
+                                        <option value="INV201_1" >通知(已核扣)</option>
+                                        <option value="INV201_2" >转人工</option>
+                                        <option value="INV201_3" >退单</option>
+                                        <option value="INV201_4" >预核扣</option>
+                                        <option value="INV201_5" >通过(未核扣)</option>
+                                        <option value="INV201_Y" >入库成功</option>
+                                        <option value="INV201_Z" >入库失败</option>
+                                        <option value="INV202_1" >生成成功</option>
+                                        <option value="INV202_2" >生成失败</option>
                                     </select>
                                 </div>
                             </div>
@@ -60,10 +65,11 @@
                                     <span class="input-group-addon">核放单申报状态：</span>
                                     <select class="form-control" name="passport_declareStatus">
                                         <option value="" selected = "selected" >全部</option>
-                                        <option value="CBDS7" >待申报</option>
-                                        <option value="CBDS70" >申报中</option>
-                                        <option value="CBDS71" >已申报</option>
-                                        <option value="CBDS72" >申报成功</option>
+                                        <option value="BDDS3" >入区核放单待申报</option>
+                                        <option value="BDDS30" >入区核放单申报中</option>
+                                        <option value="BDDS31" >入区核放单已申报</option>
+                                        <option value="BDDS32" >入区核放单申报成功</option>
+                                        <option value="BDDS33" >入区核放单暂存</option>
                                     </select>
                                 </div>
                             </div>
@@ -73,10 +79,15 @@
                                     <span class="input-group-addon">核放单回执状态：</span>
                                     <select class="form-control" name="passport_dataStatus">
                                         <option value="" selected = "selected" >全部</option>
-                                        <option value="CBDS7" >待申报</option>
-                                        <option value="CBDS70" >申报中</option>
-                                        <option value="CBDS71" >已申报</option>
-                                        <option value="CBDS72" >申报成功</option>
+                                        <option value="SAS221_1" >通过</option>
+                                        <option value="SAS221_2" >转人工</option>
+                                        <option value="SAS221_3" >退单</option>
+                                        <option value="SAS221_Y" >入库成功</option>
+                                        <option value="SAS221_Z" >入库失败</option>
+                                        <option value="SAS223_1" >已过卡</option>
+                                        <option value="SAS223_2" >未过卡</option>
+                                        <option value="SAS224_2" >拒绝过卡</option>
+                                        <option value="SAS224_3" >卡口放行</option>
                                     </select>
                                 </div>
                             </div>

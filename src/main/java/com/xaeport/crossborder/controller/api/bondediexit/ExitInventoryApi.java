@@ -36,13 +36,13 @@ public class ExitInventoryApi extends BaseApi {
     //查询出区核注清单数据
     @RequestMapping(value = "/queryexitinventory", method = RequestMethod.GET)
     public ResponseData queryCrtExitInventory(
-            @RequestParam(required = false) String entry_dcl_time,
+            @RequestParam(required = false) String invt_dcl_time,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String return_status,
             @RequestParam(required = false) String bond_invt_no,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("查询出区核注清单数据参数:[entry_dcl_time:%s,status:%s,return_status:%s,bond_invt_no:%s]", entry_dcl_time, status, return_status, bond_invt_no));
+        this.logger.debug(String.format("查询出区核注清单数据参数:[invt_dcl_time:%s,status:%s,return_status:%s,bond_invt_no:%s]", invt_dcl_time, status, return_status, bond_invt_no));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         String startStr = request.getParameter("start");
@@ -59,13 +59,13 @@ public class ExitInventoryApi extends BaseApi {
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
-        paramMap.put("entry_dcl_time", entry_dcl_time);
+        paramMap.put("invt_dcl_time", invt_dcl_time);
         paramMap.put("status", status);
         paramMap.put("return_status", return_status);
         paramMap.put("bond_invt_no", bond_invt_no);
 
-        DataList<BondInvtBsc> dataList = null;
-        List<BondInvtBsc> resultList = null;
+        DataList<BondInvtBsc> dataList;
+        List<BondInvtBsc> resultList;
         try {
             //查询列表
             resultList = this.exitInventoryService.queryEInventoryList(paramMap);
@@ -93,8 +93,8 @@ public class ExitInventoryApi extends BaseApi {
         paramMap.put("etpsInnerInvtNo", dataInfo);
 
         ExitBondInvt exitBondInvt = new ExitBondInvt();
-        BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
+        BondInvtBsc bondInvtBsc;
+        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
         try {
             //查询列表
             bondInvtBsc = this.exitInventoryService.queryBondInvtBsc(paramMap);
