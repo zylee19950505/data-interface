@@ -26,10 +26,29 @@
                         </a>
                         <ul class="treeview-menu" style=" background-color: #233757;">
                             <li th:each="child2:${childMenuList}" th:if="${child2.pId}==${child.m_Id}">
+
+                                <!--<a href="javascript:void(0);" th:attr="m_Id=${child2.m_Id}" th:contextmenu="${child2.m_Url}">-->
+                                    <!--<i th:class="${child2.m_icon}"></i>-->
+                                    <!--<span th:text="${child2.m_Name}" th:remove="tag"></span>-->
+                                <!--</a>-->
+
                                 <a href="javascript:void(0);" th:attr="m_Id=${child2.m_Id}" th:contextmenu="${child2.m_Url}">
                                     <i th:class="${child2.m_icon}"></i>
-                                    <span th:text="${child2.m_Name}" th:remove="tag"></span>
+                                    <span th:text="${child2.m_Name}" th:remove="tag" style="color: #cccccc !important;"></span>
+                                    <span class="pull-right-container" th:if="${child2.m_Owner}==1">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
                                 </a>
+
+                                <ul class="treeview-menu" style=" background-color: #233757;">
+                                    <li th:each="child3:${childMenuList}" th:if="${child3.pId}==${child2.m_Id}">
+                                        <a href="javascript:void(0);" th:attr="m_Id=${child3.m_Id}" th:contextmenu="${child3.m_Url}">
+                                            <i th:class="${child3.m_icon}"></i>
+                                            <span th:text="${child3.m_Name}" th:remove="tag"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+
                             </li>
                         </ul>
                     </li>
