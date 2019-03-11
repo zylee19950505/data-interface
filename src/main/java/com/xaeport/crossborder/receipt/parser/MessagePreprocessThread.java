@@ -3,7 +3,6 @@ package com.xaeport.crossborder.receipt.parser;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.receipt.DataFile;
 import com.xaeport.crossborder.receipt.DataFolder;
-import com.xaeport.crossborder.receipt.FileData;
 import com.xaeport.crossborder.receipt.ThreadBase;
 import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
@@ -13,9 +12,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
-import javax.xml.crypto.Data;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,11 +63,11 @@ public class MessagePreprocessThread extends ThreadBase {
                     this.loadFileToProcess(files);
                 } else {
                     // 待处理文件夹中是否存在文件，没有文件则等待3秒
-                    this.log.info("待处理接受文件夹没有文件，等待三秒");
+                    this.log.info("待处理文件夹没有文件，等待3秒");
                     sleep(3000);
                 }
             } catch (Exception e) {
-                log.error("消息预处理线程崩溃，3秒后重启", e);
+                log.error("预处理线程崩溃，3秒后重启", e);
                 sleep(3000);
             }
             sleep(20);
@@ -86,25 +87,33 @@ public class MessagePreprocessThread extends ThreadBase {
         }
         String[] oldfiles = new File(oldPath).list();
         String[] newfiles = newFile.list();
+
         //判断路径是否有效
         if (CollectionUtils.isEmpty(Arrays.asList(oldfiles))) {
             return;
         }
+
         //对process文件数量限制为1000条，超出则等待
-        if (newfiles.length > 1000) {
-            this.log.info("处理中文件夹大于1000条数据，等待三秒");
+        if (newfiles.length >= 1000) {
+            this.log.info("处理中文件夹数量大于1000，等待3秒");
             sleep(3000);
             return;
         }
+        //文件移动至处理中目录
+        this.moveToProcess(oldPath, newPath, oldfiles, files);
+    }
+
+    //文件移动至处理中目录
+    private void moveToProcess(String oldPath, String newPath, String[] oldfiles, List<File> files) {
         List<String> list = Arrays.asList(oldfiles);
-        if (list.size() >= 100) {
-            list = list.subList(0, 99);
+        if (list.size() > 100) {
+            list = list.subList(0, 100);
         }
         String oldFilePath, newFilePath;
         File oldFileObj, newFileObj;
         for (int i = 0; i < list.size(); i++) {
-            oldFilePath = oldPath + File.separator + oldfiles[i];
-            newFilePath = newPath + File.separator + oldfiles[i];
+            oldFilePath = oldPath + File.separator + list.get(i);
+            newFilePath = newPath + File.separator + list.get(i);
             oldFileObj = new File(oldFilePath);
             newFileObj = new File(newFilePath);
             if (oldFileObj.isDirectory()) {
@@ -113,53 +122,105 @@ public class MessagePreprocessThread extends ThreadBase {
             }
             if (oldFileObj.isFile()) {
                 //移动文件至另一个目录
-                oldFileObj.renameTo(newFileObj);
-                this.log.info("移动文件成功");
-                if (oldFileObj.exists()) {
+//                oldFileObj.renameTo(newFileObj);
+                try {
+                    this.copyFileUsingFileChannels(oldFileObj, newFileObj);
                     oldFileObj.delete();
+                } catch (Exception e) {
+                    this.log.debug("复制出错辣~~~~");
+                    e.printStackTrace();
                 }
+                this.log.info("移至处理中文件夹成功");
+                files.add(newFileObj);
             }
-        }
-        // 转移报文文件后，把需要解析的报文放入list中
-        for (int i = 0; i < list.size(); i++) {
-            newFilePath = newPath + File.separator + oldfiles[i];
-            newFileObj = new File(newFilePath);
-            files.add(newFileObj);
         }
     }
 
     //报文加载至队列中（最大加载文件数1000）
     private void loadFileToProcess(List<File> files) {
-        File[] filesdata = (File[]) files.toArray(new File[0]);
+//        File[] filesdata = files.toArray(new File[0]);
         // 缓存数据量是否超过1000，超过则等待3秒
         if (this.preprocessFilePathQueue.size() >= 1000) {
-            this.log.info("预处理队列中数据大于1000条，等待3秒");
+            this.log.info("预处理队列数量大于1000，等待3秒");
             sleep(3000);
             return;
-        } else {
-            if (filesdata != null) {
-                for (int i = 0; i < files.size(); i++) {
-                    // 每次提取100个文件转移到“处理中”文件夹下，并将文件添加到文件缓存中等待处理
-                    boolean isContain = this.preprocessFilePathQueue.contains(filesdata[i]);
-                    if (!isContain && !FileUtils.isLocked(filesdata[i])) {
-                        try {
-                            DataFile dataFile = new DataFile();
-                            dataFile.loadFile(filesdata[i]);
-                            this.preprocessFilePathQueue.put(dataFile);
-                            this.log.info("加入预处理队列当中");
-                        } catch (Exception e) {
-                            this.log.error("装载文件错误,fileName=" + filesdata[i].getName() + ",filePath=" + filesdata[i].getAbsolutePath(), e);
-                        }
-                    }
+        } else if (files != null) {
+            this.addPreprocessQueue(files);
+            return;
+        }
+    }
+
+    //文件移至预处理队列中
+    private void addPreprocessQueue(List<File> files) {
+        for (int i = 0; i < files.size(); i++) {
+            if (!files.get(i).exists()) {
+                this.log.debug(String.format("文件已不存在[fileName: %s]", files.get(i).getName()));
+                continue;
+            }
+            if (files.get(i).length() == 0) {
+                continue;
+            }
+            // 每次提取100个文件转移到“处理中”文件夹下，并将文件添加到文件缓存中等待处理
+            boolean isContain = this.preprocessFilePathQueue.contains(files.get(i));
+            if (!isContain && !FileUtils.isLocked(files.get(i))) {
+                try {
+                    DataFile dataFile = new DataFile();
+                    dataFile.loadFile(files.get(i));
+                    this.preprocessFilePathQueue.put(dataFile);
+                    this.log.info("加入预处理队列中");
+                } catch (Exception e) {
+                    this.log.error("装载文件错误,fileName=" + files.get(i).getName() + ",filePath=" + files.get(i).getAbsolutePath(), e);
                 }
-                return;
             }
         }
     }
+
+//    private void addPreprocessQueue(List<File> files) {
+//        for (int i = files.size() - 1; i >= 0; i--) {
+//            if (!files.get(i).exists()) {
+//                this.log.debug(String.format("文件已不存在[fileName: %s]", files.get(i).getName()));
+//                continue;
+//            }
+//            if (files.get(i).length() == 0) {
+//                continue;
+//            }
+//            // 每次提取100个文件转移到“处理中”文件夹下，并将文件添加到文件缓存中等待处理
+//            boolean isContain = this.preprocessFilePathQueue.contains(files.get(i));
+//            if (!isContain && !FileUtils.isLocked(files.get(i))) {
+//                try {
+//                    DataFile dataFile = new DataFile();
+//                    dataFile.loadFile(files.get(i));
+//                    this.preprocessFilePathQueue.put(dataFile);
+//                    this.log.info("加入预处理队列中");
+//                } catch (Exception e) {
+//                    this.log.error("装载文件错误,fileName=" + files.get(i).getName() + ",filePath=" + files.get(i).getAbsolutePath(), e);
+//                }
+//            }
+//            files.remove(files.get(i));
+//        }
+//
+//        if (!files.isEmpty()) {
+//            this.addPreprocessQueue(files);
+//        }
+//    }
 
     // 获取需要处理的报文文件
     public static DataFile getProcessingFileByCache() throws InterruptedException {
         return preprocessFilePathQueue.take();
     }
+
+    public static void copyFileUsingFileChannels(File source, File dest) throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } finally {
+            inputChannel.close();
+            outputChannel.close();
+        }
+    }
+
 
 }

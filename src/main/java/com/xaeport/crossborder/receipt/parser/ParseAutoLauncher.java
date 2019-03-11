@@ -1,8 +1,6 @@
 package com.xaeport.crossborder.receipt.parser;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
-import com.xaeport.crossborder.receipt.ReadFile;
-import com.xaeport.crossborder.receipt.WriteFile;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +21,8 @@ public class ParseAutoLauncher implements ApplicationListener<ApplicationReadyEv
     private final Log log = LogFactory.getLog(this.getClass());
 
     // 线程池
-    private int threadCount = 4;
+    private int threadCount = 5;
     private ExecutorService executorService = Executors.newCachedThreadPool();
-    private ReadFile readFile;
-    private WriteFile writeFile;
 
     @Autowired
     private AppConfiguration appConfiguration;

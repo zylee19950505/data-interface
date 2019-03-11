@@ -44,10 +44,6 @@ public abstract class BaseStockParserTwo {
                 Head = "InventoryHead";
                 List = "InventoryList";
                 break;
-            case "Delivery":
-                Head = "DeliveryHead";
-                List = "DeliveryList";
-                break;
         }
 
         while (it.hasNext()) {// ceb:Order
