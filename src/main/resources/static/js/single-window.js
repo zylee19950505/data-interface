@@ -147,7 +147,7 @@ sw.popup = function (url, title, hasBtn, width, height, apply, cancel) {
 
 };
 
-sw.modelPopup = function (url, title, hasBtn, width, height, apply, cancel) {
+sw.modelPopup = function (url, title, hasBtn, width, height, apply, cancel, close) {
     title = title || "";
     width = width || 600;
     height = height || 300;
@@ -161,6 +161,8 @@ sw.modelPopup = function (url, title, hasBtn, width, height, apply, cancel) {
 
     $("#dialog-popup .close, #dialog-popup .btn[data-dismiss]").unbind("click").click(function () {
         $("#dialog-popup").modal('hide');
+        if (typeof close == "function")
+            (close());
     });
     $("#dialog-popup .btn-apply").unbind("click").click(function () {
         $("#dialog-popup").modal('hide');

@@ -630,4 +630,18 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
             }
         }.toString();
     }
+
+    /**
+     * 取消核放单
+     * */
+    public String canelEnterManifestDetail(Map<String, String> paramMap){
+        return new SQL(){
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
+                WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
+                SET("t.STATUS = #{status}");
+            }
+        }.toString();
+    }
 }

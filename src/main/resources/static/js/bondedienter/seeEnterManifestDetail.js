@@ -119,7 +119,23 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 取消返回
     cancel: function () {
-        $("#dialog-popup").modal("hide");
+        //将此数据状态变更为入区核放单暂存
+        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var data = {
+            "etps_preent_no":param.etps_preent_no,
+            "bond_invt_no":param.bond_invt_no
+        };
+        sw.ajax("api/crtEnterManifest/canelEnterManifestDetail", "PUT", data, function (rsp) {
+            $("#dialog-popup").modal("hide");
+            if (rsp.data.result == "true") {
+                sw.alert("取消核放单成功!状态为暂存!", "提示", function () {
+                }, "modal-success");
+                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].callBackQuery();
+            } else {
+                sw.alert(rsp.data.msg);
+            }
+        });
+        //$("#dialog-popup").modal("hide");
         sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 禁用字段
@@ -212,7 +228,8 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();
+               /* sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();*/
+                $("#dialog-popup").modal("hide");
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
@@ -370,7 +387,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["manifest/seeEnterManifestDetail"].cancel();
+            sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();
         });
     },
 

@@ -477,4 +477,12 @@ public class CrtEnterManifestService {
     public List<BondInvtDt> queryBondDtList(String bond_invt_no) {
         return this.crtEnterManifestMapper.queryBondDtList(bond_invt_no);
     }
+
+    public Map<String, String> canelEnterManifestDetail(Map<String, String> paramMap)throws Exception {
+        Map<String, String> rtnMap = new HashMap<String, String>();
+        this.crtEnterManifestMapper.canelEnterManifestDetail(paramMap);
+        rtnMap.put("result", "true");
+        rtnMap.put("msg", "取消核放单成功!");
+        return rtnMap;
+    }
 }

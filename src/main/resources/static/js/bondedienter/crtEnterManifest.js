@@ -240,10 +240,22 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
     crtEnterManifest: function (bondInvtNo,type,etps_preent_no,editBoundNm) {
         if (type != "YPDC"){
             var url = "bondedIEnter/seeEnterManifestDetail?type="+type+"&isEdit=true&bond_invt_no="+bondInvtNo+"&etps_preent_no="+etps_preent_no;
-            sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
+            sw.modelPopup(url, "新建核放单详情", false, 1100, 930,null,null,function(){
+                sw.page.modules["bondedienter/crtEnterManifest"].close();
+            });
         } else{
             var url = "bondedIEnter/seeEnterManifestDetailYPDC?type="+type+"&isEdit=true&bond_invt_no="+bondInvtNo+"&etps_preent_no="+etps_preent_no+"&editBoundNm="+editBoundNm;
-            sw.modelPopup(url, "新建核放单详情", false, 1100, 930);
+            sw.modelPopup(url, "新建核放单详情", false, 1100, 930,null,null,function(){
+                sw.page.modules["bondedienter/crtEnterManifest"].close();
+            });
+        }
+    },
+    //关闭
+    close:function (etps_inner_invt_no,bondInvtNo,type) {
+        if (type != "YPDC"){
+            sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();
+        }else{
+            sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].cancel();
         }
     }
 };
@@ -279,5 +291,6 @@ function checkboxVerify(){
     else{
         $(":input[id^='id_']").attr("disabled",true);
     }
+
 }
 

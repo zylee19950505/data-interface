@@ -60,7 +60,8 @@ public class CrtEnterInventoryService {
 
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
-            bondInvtDt.setGdecd(String.valueOf(count));
+            bondInvtDt.setGdecd(bondInvtDt.getGdecd());
+            bondInvtDt.setDcl_uprc_amt(String.valueOf(Double.valueOf(bondInvtDt.getDcl_total_amt())/Double.valueOf(bondInvtDt.getDcl_qty())));
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
             count++;
@@ -83,7 +84,9 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setDcl_etpsno(enterpriseDetail.getCustoms_code());//申报企业编号
         bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getEnt_name());//申报企业名称
         bondInvtBsc.setDcl_plc_cuscd(enterpriseDetail.getPort());//主管海关
+        bondInvtBsc.setEc_customs_code(list.get(0).getEc_customs_code());//电商海关编码
         bondInvtBsc.setCrt_user(user.getId());
+        bondInvtBsc.setPutrec_no(this.crtEnterInventoryMapper.queryBws_no(entId));
 
         //设置核注清单原有数量,可绑定数量,绑定数量
         bondInvtBsc.setOriginal_nm(original_nm);

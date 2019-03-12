@@ -48,6 +48,15 @@ public class BondInvtDt {
     private String surplus_nm;//剩余数量
     private double quantity;//申报数量
     private String Usecd;//用途代码
+    private String ec_customs_code;//电商海关编码
+
+    public String getEc_customs_code() {
+        return ec_customs_code;
+    }
+
+    public void setEc_customs_code(String ec_customs_code) {
+        this.ec_customs_code = ec_customs_code;
+    }
 
     public String getUsecd() {
         return Usecd;

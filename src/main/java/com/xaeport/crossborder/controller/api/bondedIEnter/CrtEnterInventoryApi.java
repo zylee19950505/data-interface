@@ -87,6 +87,12 @@ public class CrtEnterInventoryApi extends BaseApi {
                 Map<String, Object> excelMap;
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
+                if (excelMap.containsKey("error")){
+                    httpSession.removeAttribute("importTime");
+                    rtnMap.put("result", "false");
+                    rtnMap.put("msg", "入库失败,电商海关编码不一致!");
+                    return new ResponseData(rtnMap);
+                }
                 etps_inner_invt_no = this.crtEnterInventoryService.createEnterInventory(excelMap, user);//数据创建对应的数据
                 if (etps_inner_invt_no != "") {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - starTime));

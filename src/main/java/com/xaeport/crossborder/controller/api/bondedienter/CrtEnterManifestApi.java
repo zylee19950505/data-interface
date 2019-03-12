@@ -6,6 +6,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.bondedIExit.CrtEnterManifestService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -368,6 +369,31 @@ public class CrtEnterManifestApi extends BaseApi {
                 rtnMap.put("result", "false");
                 rtnMap.put("msg", "保存一票多车信息时发生异常");
             }
+        }
+        return new ResponseData(rtnMap);
+    }
+
+    /**
+    * 点击取消或者点击X关闭
+    * */
+    @RequestMapping(value = "canelEnterManifestDetail",method = RequestMethod.PUT)
+    public ResponseData canelEnterManifestDetail(
+            @RequestParam(required = false) String bond_invt_no,
+            @RequestParam(required = false) String etps_preent_no
+    ){
+        System.out.println(bond_invt_no+"-----------"+etps_preent_no);
+        Map<String, String> rtnMap = new HashMap<>();
+        Users users = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("bond_invt_no",bond_invt_no);
+        paramMap.put("etps_preent_no",etps_preent_no);
+        paramMap.put("status", StatusCode.RQHFDDZC);
+        try {
+            rtnMap = this.crtEnterManifestService.canelEnterManifestDetail(paramMap);
+        } catch (Exception e) {
+            logger.error("取消保存核放单时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "取消保存核放单时发生异常");
         }
         return new ResponseData(rtnMap);
     }

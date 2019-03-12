@@ -56,6 +56,9 @@ public class CrtEnterInventorySQLProvider {
                 if(!StringUtils.isEmpty(bondInvtDt.getNet_wt())){
                     VALUES("NET_WT","#{bondInvtDt.net_wt}");
                 }
+                if(!StringUtils.isEmpty(bondInvtDt.getDcl_uprc_amt())){
+                    VALUES("DCL_UPRC_AMT","#{bondInvtDt.dcl_uprc_amt}");
+                }
                 if(!StringUtils.isEmpty(bondInvtDt.getDcl_total_amt())){
                     VALUES("dcl_total_amt","#{bondInvtDt.dcl_total_amt}");
                 }
@@ -76,6 +79,9 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if(!StringUtils.isEmpty(bondInvtDt.getUsecd())){
                     VALUES("usecd","#{bondInvtDt.usecd}");
+                }
+                if(!StringUtils.isEmpty(bondInvtDt.getEc_customs_code())){
+                    VALUES("EC_CUSTOMS_CODE","#{bondInvtDt.ec_customs_code}");
                 }
                 if(!StringUtils.isEmpty(bondInvtDt.getLvyrlf_modecd())){
                     VALUES("lvyrlf_modecd","#{bondInvtDt.lvyrlf_modecd}");
@@ -129,6 +135,12 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getBound_nm()))){
                     VALUES("BOUND_NM","#{bondInvtBsc.bound_nm}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getPutrec_no()))){
+                    VALUES("PUTREC_NO","#{bondInvtBsc.putrec_no}");
+                }
+                if(!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getEc_customs_code()))){
+                    VALUES("EC_CUSTOMS_CODE","#{bondInvtBsc.ec_customs_code}");
                 }
 
 
