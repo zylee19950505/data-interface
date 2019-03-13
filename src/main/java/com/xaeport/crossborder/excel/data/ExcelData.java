@@ -1,8 +1,5 @@
 package com.xaeport.crossborder.excel.data;
 
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-
 import java.util.List;
 import java.util.Map;
 

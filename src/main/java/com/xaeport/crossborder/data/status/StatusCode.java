@@ -124,6 +124,11 @@ public class StatusCode {
 	public final static String BSQDCB = "BDDS53";//保税清单重报
 	public final static String BSQDSBSB = "BDDS54";//保税清单申报失败
 
+	public final static String BSDDDSB = "BDDS6";//保税订单待申报
+	public final static String BSDDSBZ = "BDDS60";//保税订单申报中
+	public final static String BSDDYSB = "BDDS61";//保税订单已申报
+	public final static String BSDDSBCG = "BDDS62";//保税订单申报成功
+
 
 
 }

@@ -1090,7 +1090,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22','OrderOver')");
+                WHERE("t.DATA_STATUS in ('CBDS21','CBDS22','OrderOver','BDDS61','BDDS62')");
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     WHERE("t.ORDER_NO = #{impOrderHead.order_No}");
                 }

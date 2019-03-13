@@ -769,6 +769,16 @@ public class ReceiptService {
         //订单申报成功
         impOrderHead.setData_status(StatusCode.DDSBCG);
         impOrderHead.setUpd_tm(new Date());
+
+        String type = this.receiptMapper.queryBusiTypeByOrderNo(impRecOrder.getOrderNo());
+        switch (type) {
+            case SystemConstants.T_IMP_ORDER:
+                impOrderHead.setData_status(StatusCode.DDSBCG);
+                break;
+            case SystemConstants.T_IMP_BOND_ORDER:
+                impOrderHead.setData_status(StatusCode.BSDDSBCG);
+                break;
+        }
         this.receiptMapper.updateImpOrder(impOrderHead);
     }
 

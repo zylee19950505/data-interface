@@ -47,7 +47,10 @@ public class ImpOrderHead {
     private String ent_customs_code;//导入企业海关十位
     private String return_status_name;//回执状态对应中文意思
     private String business_type;//业务类型
-    private String writing_mode;
+    private String writing_mode;//写入方式
+    private String gross_weight;//毛重
+    private String net_weight;//净重
+    private String insured_fee;//保价费用
 
     public String getWriting_mode() {
         return writing_mode;
@@ -406,5 +409,29 @@ public class ImpOrderHead {
 
     public void setBusiness_type(String business_type) {
         this.business_type = business_type;
+    }
+
+    public String getGross_weight() {
+        return gross_weight;
+    }
+
+    public void setGross_weight(String gross_weight) {
+        this.gross_weight = gross_weight;
+    }
+
+    public String getNet_weight() {
+        return net_weight;
+    }
+
+    public void setNet_weight(String net_weight) {
+        this.net_weight = net_weight;
+    }
+
+    public String getInsured_fee() {
+        return insured_fee;
+    }
+
+    public void setInsured_fee(String insured_fee) {
+        this.insured_fee = insured_fee;
     }
 }

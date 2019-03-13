@@ -1,14 +1,12 @@
 package com.xaeport.crossborder.data.provider;
 
-
-import com.xaeport.crossborder.data.status.StatusCode;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
 
-public class OrderDeclareSQLProvider extends BaseSQLProvider {
+public class BondOrderDeclSQLProvider extends BaseSQLProvider {
 
     /*
      * 订单申报数据查询
@@ -25,7 +23,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t.bill_no");
                 SELECT("(select max(APP_TIME) from T_IMP_ORDER_HEAD t2 where t2.bill_no = t.bill_no) as appTime");
-                SELECT("(select count(1) from T_IMP_ORDER_HEAD tt where tt.bill_no = t.bill_no and tt.business_type = 'ORDER' ) as totalCount");
+                SELECT("(select count(1) from T_IMP_ORDER_HEAD tt where tt.bill_no = t.bill_no and tt.business_type = 'BONDORDER') as totalCount");
                 SELECT("count(1) as count");
                 SELECT("t.data_status");
                 FROM("T_IMP_ORDER_HEAD t");
@@ -161,7 +159,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("ENT_NAME");
                 SELECT("ENT_CUSTOMS_CODE");
                 FROM("T_IMP_ORDER_HEAD t");
-                WHERE(splitJointIn("DATA_STATUS", dataStatus));
+                WHERE("DATA_STATUS = #{dataStatus}");
                 WHERE("rownum <= 100");
                 ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
             }
@@ -217,7 +215,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("ENT_NAME");
                 SELECT("ENT_CUSTOMS_CODE");
                 FROM("T_IMP_ORDER_HEAD t");
-                WHERE(splitJointIn("DATA_STATUS", dataStatus));
+                WHERE("DATA_STATUS = #{dataStatus}");
                 WHERE("ENT_ID = #{ent_id}");
                 ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
             }
@@ -235,7 +233,7 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_ORDER_HEAD t");
-                WHERE(splitJointIn("DATA_STATUS", dataStatus));
+                WHERE("DATA_STATUS = #{dataStatus}");
                 WHERE("ENT_ID = #{ent_id}");
             }
         }.toString();
@@ -274,37 +272,13 @@ public class OrderDeclareSQLProvider extends BaseSQLProvider {
     * 修改订单状态
     * updateEntryHeadOrderStatus
     * */
-    public String updateEntryHeadOrderStatus(
-            @Param("headGuid") String headGuid,
-            @Param("dataStatusCb") String dataStatusCb,
-            @Param("dataStatusBd") String dataStatusBd,
-            @Param("whereDataStatus") String whereDataStatus
-    ) {
+    public String updateEntryHeadOrderStatus(@Param("headGuid") String headGuid, @Param("ddysb") String ddysb) {
         return new SQL() {
             {
-                UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.GUID = #{headGuid}");
-                if (whereDataStatus.equals(StatusCode.DDSBZ)) {
-                    SET("t.DATA_STATUS = #{dataStatusCb}");
-                }
-                if (whereDataStatus.equals(StatusCode.BSDDSBZ)) {
-                    SET("t.DATA_STATUS = #{dataStatusBd}");
-                }
-                SET("t.UPD_TM = sysdate");
-            }
-        }.toString();
-    }
-
-    public String updateEntryHeadOrderState(
-            @Param("headGuid") String headGuid,
-            @Param("dataStatus") String dataStatus
-    ) {
-        return new SQL() {
-            {
-                UPDATE("T_IMP_ORDER_HEAD t");
-                WHERE("t.GUID = #{headGuid}");
-                SET("t.DATA_STATUS = #{dataStatus}");
-                SET("t.UPD_TM = sysdate");
+                UPDATE("T_IMP_ORDER_HEAD toh");
+                WHERE("toh.GUID = #{headGuid}");
+                SET("toh.DATA_STATUS = #{ddysb}");
+                SET("toh.upd_tm = sysdate");
             }
         }.toString();
     }

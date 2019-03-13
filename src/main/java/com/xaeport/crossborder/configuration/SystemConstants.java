@@ -23,6 +23,7 @@ public interface SystemConstants {
     String T_IMP_PAYMENT = "PAYMENT";
     String T_IMP_LOGISTICS = "LOGISTICS";
     String T_IMP_INVENTORY = "INVENTORY";
+    String T_IMP_BOND_ORDER = "BONDORDER";
     String T_IMP_BOND_INVEN = "BONDINVEN";
 
     /** 系统用户状态 已删除 */

@@ -2,12 +2,14 @@ package com.xaeport.crossborder.excel.validate;
 
 
 import com.xaeport.crossborder.excel.validate.entryBondInven.ValidateBondInven;
+import com.xaeport.crossborder.excel.validate.entryBondOrder.ValidateBondOrder;
 import com.xaeport.crossborder.excel.validate.entryDetail.ValidateDetail;
 import com.xaeport.crossborder.excel.validate.entryEnterInstance.ValidateEnterInstance;
 import com.xaeport.crossborder.excel.validate.entryOrder.ValidateOrder;
 import com.xaeport.crossborder.excel.validate.entryPayment.ValidatePayment;
 import com.xaeport.crossborder.excel.validate.entryWaybill.ValidateWaybill;
 import com.xaeport.crossborder.excel.validate.entryWaybillStatus.ValidateWaybillStatus;
+
 
 /**
  * Created by lzy on 2018/06/28.
@@ -44,6 +46,10 @@ public class ValidateInstance {
             }
             case "bondInven": {
                 validateBase = new ValidateBondInven();
+                break;
+            }
+            case "bondorder": {
+                validateBase = new ValidateBondOrder();
                 break;
             }
         }

@@ -176,6 +176,12 @@ public class ReadExcel {
                                 return map;
                             }
                             break;
+                        case "bondorder":
+                            listSame = excelCheck.isListSame(rowList, ExcelHeadBondOrder.getList(), map);
+                            if (!listSame) {
+                                return map;
+                            }
+                            break;
                     }
 
                 }

@@ -39,7 +39,7 @@ public class OrderMessageThread implements Runnable {
     @Override
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("dataStatus", StatusCode.DDSBZ);//订单申报中
+        paramMap.put("dataStatus", String.format("%s,%s", StatusCode.DDSBZ, StatusCode.BSDDSBZ));//订单申报中,保税订单申报中
 
         CEB311Message ceb311Message = new CEB311Message();
 
@@ -121,7 +121,7 @@ public class OrderMessageThread implements Runnable {
 
                             try {
                                 // 更新订单单状态
-                                this.orderDeclareMapper.updateEntryHeadOrderStatus(guid, StatusCode.DDYSB);
+                                this.orderDeclareMapper.updateEntryHeadOrderStatus(guid, StatusCode.DDYSB, StatusCode.BSDDYSB, impOrderHead.getData_status());
                                 this.logger.debug(String.format("更新订单[guid: %s]状态为: %s", guid, StatusCode.DDYSB));
                             } catch (Exception e) {
                                 String exceptionMsg = String.format("更改订单[headGuid: %s]状态时发生异常", orderHead.getGuid());

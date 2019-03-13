@@ -1,0 +1,131 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>订单详情</span>
+    </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">提运单号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="37" id="bill_No"/>
+            </td>
+            <td class="headTitle">订单编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="order_No"/>
+            </td>
+            <td class="headTitle">总价（合计）</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="goods_Value"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">电商平台代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="ebp_Code"/>
+            </td>
+            <td class="headTitle">电商平台名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="ebp_Name"/>
+            </td>
+            <td class="headTitle">电商企业代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="ebc_Code"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">电商企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="ebc_Name"/>
+            </td>
+            <td class="headTitle">订购人注册号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="buyer_Reg_No"/>
+            </td>
+            <td class="headTitle">订购人证件号码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="buyer_Id_Number"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">订购人姓名</td>
+            <td>
+                <input class="form-control input-sm" maxlength="60" id="buyer_Name"/>
+            </td>
+            <td class="headTitle">订购人电话</td>
+            <td>
+                <input class="form-control input-sm" maxlength="30" id="buyer_TelePhone"/>
+            </td>
+            <td class="headTitle">收货人姓名</td>
+            <td>
+                <input class="form-control input-sm" maxlength="100" id="consignee"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="headTitle">收货人电话</td>
+            <td>
+                <input class="form-control input-sm" maxlength="50" id="consignee_Telephone"/>
+            </td>
+            <td class="headTitle">收货地址</td>
+            <td>
+                <input class="form-control input-sm" maxlength="200" id="consignee_Address"/>
+            </td>
+            <td class="headTitle">非现金抵扣金额</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="discount"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="headTitle">代扣税款</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="tax_Total"/>
+            </td>
+            <td class="headTitle">运杂费</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="freight"/>
+            </td>
+            <td class="headTitle">备注</td>
+            <td>
+                <input class="form-control input-sm" maxlength="1000" id="note"/>
+            </td>
+        </tr>
+    </table>
+
+    <div class="entryTitle">
+        <span>商品信息</span>
+    </div>
+    <table id="entryList" class="listDetail" border="1px solid balck">
+        <tr style="height: 30px">
+            <th width="3%">序号</th>
+            <th width="8%">订单编号</th>
+            <th width="8%">商品名称</th>
+            <th width="8%">商品规格<br/>型号</th>
+            <th>原产国</th>
+            <th width="5%">数量</th>
+            <th>单位</th>
+            <th width="8%">单价</th>
+            <th width="8%">总价</th>
+            <th>促销活动</th>
+        </tr>
+    </table>
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>

@@ -58,7 +58,7 @@ public class DetailDeclareApi extends BaseApi {
         if (!StringUtils.isEmpty(dataStatus)) {
             paramMap.put("dataStatus", dataStatus);
         } else {
-            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ, StatusCode.QDYSB, StatusCode.QDCB, StatusCode.EXPORT, StatusCode.QDBWSCZ, StatusCode.QDBWXZWC, StatusCode.QDSBCG));
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s,%s,%s,%s", StatusCode.QDDSB, StatusCode.QDSBZ, StatusCode.QDYSB, StatusCode.EXPORT, StatusCode.QDBWSCZ, StatusCode.QDBWXZWC, StatusCode.QDSBCG));
         }
 
         //更新人

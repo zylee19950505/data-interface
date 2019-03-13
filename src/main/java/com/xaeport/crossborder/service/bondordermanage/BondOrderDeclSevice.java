@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.service.ordermanage;
+package com.xaeport.crossborder.service.bondordermanage;
 
 
 import com.alibaba.druid.support.logging.Log;
@@ -6,7 +6,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.convert.order.BaseOrderXml;
 import com.xaeport.crossborder.data.entity.*;
-import com.xaeport.crossborder.data.mapper.OrderDeclareMapper;
+import com.xaeport.crossborder.data.mapper.BondOrderDeclMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.FileUtils;
 import com.xaeport.crossborder.tools.ZipUtils;
@@ -25,10 +25,10 @@ import java.util.*;
  * 订单申报
  */
 @Service
-public class OrderDeclareSevice {
+public class BondOrderDeclSevice {
 
     @Autowired
-    OrderDeclareMapper orderDeclareMapper;
+    BondOrderDeclMapper bondOrderDeclMapper;
     @Autowired
     AppConfiguration appConfiguration;
     @Autowired
@@ -43,7 +43,7 @@ public class OrderDeclareSevice {
 
         int hashValue;
         String str;
-        List<OrderSum> orderSums = this.orderDeclareMapper.queryOrderDeclareList(paramMap);
+        List<OrderSum> orderSums = this.bondOrderDeclMapper.queryOrderDeclareList(paramMap);
         List<OrderSum> result = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
 
@@ -70,13 +70,13 @@ public class OrderDeclareSevice {
      * 查询订单申报数据总数
      */
     public Integer queryOrderDeclareCount(Map<String, Object> paramMap) {
-        return orderDeclareMapper.queryOrderDeclareCount(paramMap);
+        return bondOrderDeclMapper.queryOrderDeclareCount(paramMap);
     }
 
     public boolean updateSubmitCustom(Map<String, String> paramMap) {
         boolean flag;
         try {
-            orderDeclareMapper.updateSubmitCustom(paramMap);
+            bondOrderDeclMapper.updateSubmitCustom(paramMap);
             flag = true;
         } catch (Exception e) {
             flag = false;
@@ -89,7 +89,7 @@ public class OrderDeclareSevice {
     public boolean orderXmlDownload(Map<String, String> paramMap) {
         boolean flag;
         try {
-            orderDeclareMapper.updateSubmitCustom(paramMap);
+            bondOrderDeclMapper.updateSubmitCustom(paramMap);
             flag = true;
         } catch (Exception e) {
             flag = false;
@@ -116,11 +116,11 @@ public class OrderDeclareSevice {
         String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         SimpleDateFormat sdflong = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String xmlHeadGuid = null;
-        String nameOrderNo = null;
+        String xmlHeadGuid;
+        String nameOrderNo;
         String orderZipPath = null;
 
-        impOrderHeadLists = orderDeclareMapper.findWaitGeneratedByXml(paramMap);
+        impOrderHeadLists = bondOrderDeclMapper.findWaitGeneratedByXml(paramMap);
 
         entId = impOrderHeadLists.get(0).getEnt_id();
         List<File> fileList = new ArrayList<>();
@@ -166,10 +166,10 @@ public class OrderDeclareSevice {
                 orderHead.setNote(StringUtils.isEmpty(impOrderHead.getNote()) ? "" : impOrderHead.getNote());
 
                 // 更新订单状态
-                this.orderDeclareMapper.updateEntryHeadOrderState(guid, StatusCode.DDBWXZWC);
+                this.bondOrderDeclMapper.updateEntryHeadOrderStatus(guid, StatusCode.DDBWXZWC);
                 this.logger.debug(String.format("更新订单[guid: %s]状态为: %s", guid, StatusCode.DDBWXZWC));
                 orderHeadList.add(orderHead);
-                impOrderBodyList = this.orderDeclareMapper.queryOrderListByGuid(guid);
+                impOrderBodyList = this.bondOrderDeclMapper.queryOrderListByGuid(guid);
                 for (int j = 0; j < impOrderBodyList.size(); j++) {
                     impOrderBody = impOrderBodyList.get(j);
                     orderListLists.add(impOrderBody);
@@ -189,7 +189,7 @@ public class OrderDeclareSevice {
                         ceb311Message.setOrderHeadList(listPage);
                         ceb311Message.setImpOrderBodyList(orderListLists);
                         //设置baseTransfer节点
-                        BaseTransfer baseTransfer = orderDeclareMapper.queryCompany(entId);
+                        BaseTransfer baseTransfer = bondOrderDeclMapper.queryCompany(entId);
                         ceb311Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
@@ -205,7 +205,7 @@ public class OrderDeclareSevice {
                         ceb311Message.setOrderHeadList(orderHeadList);
                         ceb311Message.setImpOrderBodyList(orderListLists);
                         //设置baseTransfer节点
-                        BaseTransfer baseTransfer = orderDeclareMapper.queryCompany(entId);
+                        BaseTransfer baseTransfer = bondOrderDeclMapper.queryCompany(entId);
                         ceb311Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
@@ -221,7 +221,7 @@ public class OrderDeclareSevice {
                     ceb311Message.setOrderHeadList(orderHeadList);
                     ceb311Message.setImpOrderBodyList(orderListLists);
                     //设置baseTransfer节点
-                    BaseTransfer baseTransfer = orderDeclareMapper.queryCompany(entId);
+                    BaseTransfer baseTransfer = bondOrderDeclMapper.queryCompany(entId);
                     ceb311Message.setBaseTransfer(baseTransfer);
 
                     //开始生成报文

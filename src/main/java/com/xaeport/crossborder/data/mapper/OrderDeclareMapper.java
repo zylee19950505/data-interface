@@ -3,6 +3,7 @@ package com.xaeport.crossborder.data.mapper;
 /*
  * 订单申报
  */
+
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.OrderDeclareSQLProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -53,12 +54,18 @@ public interface OrderDeclareMapper {
     @SelectProvider(type = OrderDeclareSQLProvider.class, method = "queryOrderListByGuid")
     List<ImpOrderBody> queryOrderListByGuid(@Param("headGuid") String headGuid);
 
-
     /*
     * 修改申报状态
     * */
     @UpdateProvider(type = OrderDeclareSQLProvider.class, method = "updateEntryHeadOrderStatus")
-    void updateEntryHeadOrderStatus(@Param("headGuid") String headGuid, @Param("ddysb") String ddysb);
+    void updateEntryHeadOrderStatus(
+            @Param("headGuid") String headGuid,
+            @Param("dataStatusCb") String dataStatusCb,
+            @Param("dataStatusBd") String dataStatusBd,
+            @Param("whereDataStatus") String whereDataStatus);
+
+    @UpdateProvider(type = OrderDeclareSQLProvider.class, method = "updateEntryHeadOrderState")
+    void updateEntryHeadOrderState(@Param("headGuid") String headGuid, @Param("dataStatus") String dataStatus);
 
     @SelectProvider(type = OrderDeclareSQLProvider.class, method = "queryEntId")
     String queryEntId(@Param("crt_id") String crt_id);

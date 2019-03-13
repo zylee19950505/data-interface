@@ -28,6 +28,9 @@ public interface ReceiptMapper {
     BwlListType checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
 
 
+    @Select("SELECT BUSINESS_TYPE FROM T_IMP_ORDER_HEAD WHERE ORDER_NO = #{orderNo}")
+    String queryBusiTypeByOrderNo(@Param("orderNo") String orderNo);
+
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_INVENTORY_HEAD WHERE COP_NO = #{copNo}")
     String queryBusiTypeByCopNo(@Param("copNo") String copNo);
 
