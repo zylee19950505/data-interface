@@ -65,7 +65,7 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                 },
                 {
                     label: "企业内部编码", render: function (data, type, row) {
-                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
+                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
                     }
                 },
                 {
@@ -208,8 +208,12 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
             }
         });
     },
-    seeEnterInventoryInfo: function (etpsInnerInvtNo) {
-        var url = "bondedIEnter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
+    seeEnterInventoryInfo: function (etpsInnerInvtNo,status) {
+        if ("BDDS10"==status || "BDDS11"==status || "BDDS12"==status){
+            var url = "bondedIEnter/seeEnterInventoryDetail?type=RQHZQD&isEdit=false&etps_inner_invt_no=" + etpsInnerInvtNo;
+        }else{
+            var url = "bondedIEnter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
+        }
         sw.modelPopup(url, "查看清单详情", false, 1100, 930);
     }
 

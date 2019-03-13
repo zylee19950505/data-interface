@@ -182,9 +182,30 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     callBackQuery: function () {
         $("#dialog-popup").modal("hide");
     },
-    // 取消返回
+    /*// 取消返回
     cancel: function () {
         $("#dialog-popup").modal("hide");
+        sw.page.modules["bondedienter/crtEnterManifest"].query();
+    },*/
+    // 取消返回
+    cancel: function () {
+        //将此数据状态变更为入区核放单暂存
+        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetailYPDC");
+        var data = {
+            "etps_preent_no":param.etps_preent_no,
+            "bond_invt_no":param.bond_invt_no
+        };
+        sw.ajax("api/crtEnterManifest/canelEnterManifestDetail", "PUT", data, function (rsp) {
+            $("#dialog-popup").modal("hide");
+            if (rsp.data.result == "true") {
+                sw.alert("取消核放单成功!状态为暂存!", "提示", function () {
+                }, "modal-success");
+                sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].callBackQuery();
+            } else {
+                sw.alert(rsp.data.msg);
+            }
+        });
+        //$("#dialog-popup").modal("hide");
         sw.page.modules["bondedienter/crtEnterManifest"].query();
     },
     // 禁用字段

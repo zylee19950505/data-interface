@@ -81,6 +81,18 @@ public class BondInvtBsc {
     private int usable_nm;//核注清单可绑定数量
     private int bound_nm;//绑定数量
 
+    private String ec_customs_code;//电商海关编码
+
+
+
+    public String getEc_customs_code() {
+        return ec_customs_code;
+    }
+
+    public void setEc_customs_code(String ec_customs_code) {
+        this.ec_customs_code = ec_customs_code;
+    }
+
     public int getBound_nm() {
         return bound_nm;
     }
