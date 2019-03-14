@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.ImpLogistics;
+import com.xaeport.crossborder.data.entity.OrderNo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
@@ -115,6 +116,40 @@ public class WaybillImportSQLProvider extends BaseSQLProvider {
                 SELECT("count(1)");
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("t.logistics_no = #{impLogistics.logistics_no}");
+            }
+        }.toString();
+    }
+
+    //查询订单号数据
+    public String queryOrderNoList(){
+        return new SQL(){
+            {
+                SELECT("ORDER_NO");
+                FROM("T_ORDER_NO");
+            }
+        }.toString();
+    }
+
+    //查询订单号数据
+    public String queryOrderNoData(@Param("orderNo") OrderNo orderNo){
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("T_IMP_ORDER_HEAD");
+                WHERE("ORDER_NO = #{orderNo.order_no}");
+            }
+        }.toString();
+    }
+
+    //查询订单号数据
+    public String queryLogisticsNo(String type){
+        return new SQL(){
+            {
+                SELECT("LOGISTICS_NO");
+                FROM("T_LOGISTICS_NO");
+                WHERE("LOGISTICS_TYPE = #{type}");
+                WHERE("ROWNUM = 1");
+                WHERE("USED = '0'");
             }
         }.toString();
     }

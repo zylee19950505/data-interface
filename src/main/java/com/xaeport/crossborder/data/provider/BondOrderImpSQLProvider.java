@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
+import com.xaeport.crossborder.data.entity.OrderNo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
@@ -33,8 +34,8 @@ public class BondOrderImpSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     VALUES("order_No", "#{impOrderHead.order_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getBill_No())){
-                    VALUES("bill_No","#{impOrderHead.bill_No}");
+                if (!StringUtils.isEmpty(impOrderHead.getBill_No())) {
+                    VALUES("bill_No", "#{impOrderHead.bill_No}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getEbp_Code())) {
                     VALUES("ebp_Code", "#{impOrderHead.ebp_Code}");
@@ -123,26 +124,26 @@ public class BondOrderImpSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
                     VALUES("data_status", "#{impOrderHead.data_status}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getEnt_id())){
-                    VALUES("ent_id","#{impOrderHead.ent_id}");
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_id())) {
+                    VALUES("ent_id", "#{impOrderHead.ent_id}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getEnt_name())){
-                    VALUES("ent_name","#{impOrderHead.ent_name}");
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_name())) {
+                    VALUES("ent_name", "#{impOrderHead.ent_name}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())){
-                    VALUES("ent_customs_code","#{impOrderHead.ent_customs_code}");
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())) {
+                    VALUES("ent_customs_code", "#{impOrderHead.ent_customs_code}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getBusiness_type())){
-                    VALUES("business_type","#{impOrderHead.business_type}");
+                if (!StringUtils.isEmpty(impOrderHead.getBusiness_type())) {
+                    VALUES("business_type", "#{impOrderHead.business_type}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getInsured_fee())){
-                    VALUES("insured_fee","#{impOrderHead.insured_fee}");
+                if (!StringUtils.isEmpty(impOrderHead.getInsured_fee())) {
+                    VALUES("insured_fee", "#{impOrderHead.insured_fee}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getGross_weight())){
-                    VALUES("gross_weight","#{impOrderHead.gross_weight}");
+                if (!StringUtils.isEmpty(impOrderHead.getGross_weight())) {
+                    VALUES("gross_weight", "#{impOrderHead.gross_weight}");
                 }
-                if(!StringUtils.isEmpty(impOrderHead.getNet_weight())){
-                    VALUES("net_weight","#{impOrderHead.net_weight}");
+                if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
+                    VALUES("net_weight", "#{impOrderHead.net_weight}");
                 }
             }
         }.toString();
@@ -240,6 +241,18 @@ public class BondOrderImpSQLProvider {
                 SELECT("max(t.G_NUM)");
                 FROM("T_IMP_ORDER_BODY t");
                 WHERE("t.ORDER_NO = #{listOrder_no}");
+            }
+        }.toString();
+    }
+
+    public String insertOrderNo(@Param("orderNo") OrderNo orderNo) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_ORDER_NO");
+                VALUES("ID", "#{orderNo.id}");
+                VALUES("ORDER_NO", "#{orderNo.order_no}");
+                VALUES("CRT_TM", "#{orderNo.crt_tm}");
+                VALUES("USED", "#{orderNo.used}");
             }
         }.toString();
     }

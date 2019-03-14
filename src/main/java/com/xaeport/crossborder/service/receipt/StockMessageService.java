@@ -5,6 +5,7 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.StockMessageMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.data.status.StockMsgType;
+import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -198,7 +199,10 @@ public class StockMessageService {
                     }
                     count = this.stockMessageMapper.queryImpOrderHead(impOrderHead);//查询是否存在订单数据
                     if (count == 0) {
+                        impOrderHead.setBill_No(refileName.substring(0, refileName.indexOf("_")));
+                        impOrderHead.setNet_weight(impOrderHead.getNote());
                         this.stockMessageMapper.insertImpOrderHead(impOrderHead); //插入订单表头数据
+                        this.insertOrderNo(impOrderHead);
                         remark = 1;
                     }
                     if (count > 0 && (impOrderHead.getApp_Type().equals("2"))) {
@@ -251,6 +255,18 @@ public class StockMessageService {
                     this.stockMessageMapper.insertImpOrderBody(impOrderBody); //插入订单表体数据
                 }
             }
+        }
+    }
+
+    private void insertOrderNo(ImpOrderHead impOrderHead) {
+        String billNo = impOrderHead.getBill_No();
+        if (billNo.contains("EM")) {
+            OrderNo orderNo = new OrderNo();
+            orderNo.setId(IdUtils.getUUId());
+            orderNo.setOrder_no(impOrderHead.getOrder_No());
+            orderNo.setCrt_tm(new Date());
+            orderNo.setUsed("0");
+            this.stockMessageMapper.insertOrderNo(orderNo);
         }
     }
 

@@ -40,6 +40,8 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private OrderMessageThread orderMessageThread;
     //支付单线程
     private PaymentMessageThread paymentMessageThread;
+    //物流运单数据生成线程
+    private LogisticsGenerateDataThread logisticsGenerateDataThread;
     //物流运单线程
     private LogisticsMessageThread logisticsMessageThread;
     //物流运单状态线程
@@ -54,13 +56,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private ManifestManageThread manifestManageThread;
     //保税清单线程
     private BondInvenMessageThread bondInvenMessageThread;
-
     //入区核注清单线程
     private EnterBondInvtThread enterBondInvtThread;
-
     //入区核注清单线程
     private EnterPassPortThread enterPassPortThread;
-
     //出区核注清单线程
     private EBondInvtThread eBondInvtThread;
     //出区核放单线程
@@ -72,6 +71,9 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //支付单
     @Autowired
     PaymentDeclareMapper paymentDeclareMapper;
+    //物流运单数据导入
+    @Autowired
+    WaybillImportMapper waybillImportMapper;
     //物流运单
     @Autowired
     WaybillDeclareMapper waybillDeclareMapper;
@@ -87,15 +89,12 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //保税清单
     @Autowired
     BondinvenDeclareMapper bondinvenDeclareMapper;
-
     //入区核注清单
     @Autowired
     EnterInventoryMapper enterInventoryMapper;
-
     //入区核放单
     @Autowired
     EnterManifestMapper enterManifestMapper;
-
     //出区核注清单
     @Autowired
     ExitInventoryMapper exitInventoryMapper;
@@ -127,15 +126,12 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //保税清单报文
     @Autowired
     BaseBondInvenXML baseBondInvenXML;
-
     //入区核注清单报文
     @Autowired
     EnterBaseBondInvtXML enterBaseBondInvtXML;
-
     //入区核放单报文
     @Autowired
     EnterBasePassPortXML enterBasePassPortXML;
-
     //出区核注清单报文
     @Autowired
     EBaseBondInvtXML eBaseBondInvtXML;
@@ -157,6 +153,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         this.logger.debug("跨境支付单报文CEB411生成启动器初始化开始");
         paymentMessageThread = new PaymentMessageThread(this.paymentDeclareMapper, this.appConfiguration, this.basePaymentXml);
         executorService.execute(paymentMessageThread);
+
+        this.logger.debug("跨境运单生成数据启动器初始化开始");
+        logisticsGenerateDataThread = new LogisticsGenerateDataThread(this.waybillImportMapper);
+        executorService.execute(logisticsGenerateDataThread);
 
         this.logger.debug("跨境运单报文CEB511生成启动器初始化开始");
         logisticsMessageThread = new LogisticsMessageThread(this.waybillDeclareMapper, this.appConfiguration, this.baseLogisticsXml);

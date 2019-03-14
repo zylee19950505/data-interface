@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.provider.BondOrderImpSQLProvider;
 import com.xaeport.crossborder.data.provider.StockMessageSQLProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -18,6 +19,10 @@ public interface StockMessageMapper {
     //订单报文表体入库
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertImpOrderBody")
     void insertImpOrderBody(@Param("impOrderBody") ImpOrderBody impOrderBody);
+
+    //插入订单表数据
+    @InsertProvider(type = StockMessageSQLProvider.class, method = "insertOrderNo")
+    void insertOrderNo(@Param("orderNo") OrderNo orderNo);
 
 
     //支付单报文入库
@@ -127,5 +132,7 @@ public interface StockMessageMapper {
 
     @InsertProvider(type = StockMessageSQLProvider.class, method = "insertManifestData")
     void insertManifestData(@Param("manifestHead") ManifestHead manifestHead);
+
+
 
 }

@@ -147,6 +147,15 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getBusiness_type())) {
                     VALUES("BUSINESS_TYPE", "#{impOrderHead.business_type}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getInsured_fee())) {
+                    VALUES("INSURED_FEE", "0");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getGross_weight())) {
+                    VALUES("GROSS_WEIGHT", "#{impOrderHead.gross_weight}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
+                    VALUES("NET_WEIGHT", "#{impOrderHead.net_weight}");
+                }
             }
         }.toString();
     }
@@ -203,6 +212,18 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
                     VALUES("G_MODEL", "#{impOrderBody.g_Model}");
                 }
+            }
+        }.toString();
+    }
+
+    public String insertOrderNo(@Param("orderNo") OrderNo orderNo) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_ORDER_NO");
+                VALUES("ID", "#{orderNo.id}");
+                VALUES("ORDER_NO", "#{orderNo.order_no}");
+                VALUES("CRT_TM", "#{orderNo.crt_tm}");
+                VALUES("USED", "#{orderNo.used}");
             }
         }.toString();
     }
@@ -892,8 +913,9 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
-    public String queryManifestData(@Param("manifestHead") ManifestHead manifestHead){
-        return new SQL(){
+
+    public String queryManifestData(@Param("manifestHead") ManifestHead manifestHead) {
+        return new SQL() {
             {
                 SELECT("count(1)");
                 FROM("T_MANIFEST_HEAD mh");
@@ -902,8 +924,8 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateManifestData(@Param("manifestHead") ManifestHead manifestHead){
-        return new SQL(){
+    public String updateManifestData(@Param("manifestHead") ManifestHead manifestHead) {
+        return new SQL() {
             {
                 UPDATE("T_MANIFEST_HEAD mh");
                 WHERE("mh.AUTO_ID = #{manifestHead.auto_id}");
@@ -939,99 +961,99 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String insertManifestData(@Param("manifestHead") ManifestHead manifestHead){
-        return new SQL(){
+    public String insertManifestData(@Param("manifestHead") ManifestHead manifestHead) {
+        return new SQL() {
             {
                 INSERT_INTO("T_MANIFEST_HEAD");
-                if (!StringUtils.isEmpty(manifestHead.getAuto_id())){
-                    VALUES("AUTO_ID","#{manifestHead.auto_id}");
+                if (!StringUtils.isEmpty(manifestHead.getAuto_id())) {
+                    VALUES("AUTO_ID", "#{manifestHead.auto_id}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getManifest_no())){
-                    VALUES("MANIFEST_NO","#{manifestHead.manifest_no}");
+                if (!StringUtils.isEmpty(manifestHead.getManifest_no())) {
+                    VALUES("MANIFEST_NO", "#{manifestHead.manifest_no}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getBiz_type())){
-                    VALUES("BIZ_TYPE","#{manifestHead.biz_type}");
+                if (!StringUtils.isEmpty(manifestHead.getBiz_type())) {
+                    VALUES("BIZ_TYPE", "#{manifestHead.biz_type}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getBiz_mode())){
-                    VALUES("BIZ_MODE","#{manifestHead.biz_mode}");
+                if (!StringUtils.isEmpty(manifestHead.getBiz_mode())) {
+                    VALUES("BIZ_MODE", "#{manifestHead.biz_mode}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getI_e_flag())){
-                    VALUES("I_E_FLAG","#{manifestHead.i_e_flag}");
+                if (!StringUtils.isEmpty(manifestHead.getI_e_flag())) {
+                    VALUES("I_E_FLAG", "#{manifestHead.i_e_flag}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getI_e_mark())){
-                    VALUES("I_E_MARK","#{manifestHead.i_e_mark}");
+                if (!StringUtils.isEmpty(manifestHead.getI_e_mark())) {
+                    VALUES("I_E_MARK", "#{manifestHead.i_e_mark}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getStart_land())){
-                    VALUES("START_LAND","#{manifestHead.start_land}");
+                if (!StringUtils.isEmpty(manifestHead.getStart_land())) {
+                    VALUES("START_LAND", "#{manifestHead.start_land}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getGoal_land())){
-                    VALUES("GOAL_LAND","#{manifestHead.goal_land}");
+                if (!StringUtils.isEmpty(manifestHead.getGoal_land())) {
+                    VALUES("GOAL_LAND", "#{manifestHead.goal_land}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getCar_no())){
-                    VALUES("CAR_NO","#{manifestHead.car_no}");
+                if (!StringUtils.isEmpty(manifestHead.getCar_no())) {
+                    VALUES("CAR_NO", "#{manifestHead.car_no}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getCar_wt())){
-                    VALUES("CAR_WT","#{manifestHead.car_wt}");
+                if (!StringUtils.isEmpty(manifestHead.getCar_wt())) {
+                    VALUES("CAR_WT", "#{manifestHead.car_wt}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getIc_code())){
-                    VALUES("IC_CODE","#{manifestHead.ic_code}");
+                if (!StringUtils.isEmpty(manifestHead.getIc_code())) {
+                    VALUES("IC_CODE", "#{manifestHead.ic_code}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getGoods_wt())){
-                    VALUES("GOODS_WT","#{manifestHead.goods_wt}");
+                if (!StringUtils.isEmpty(manifestHead.getGoods_wt())) {
+                    VALUES("GOODS_WT", "#{manifestHead.goods_wt}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getFact_weight())){
-                    VALUES("FACT_WEIGHT","#{manifestHead.fact_weight}");
+                if (!StringUtils.isEmpty(manifestHead.getFact_weight())) {
+                    VALUES("FACT_WEIGHT", "#{manifestHead.fact_weight}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getPack_no())){
-                    VALUES("PACK_NO","#{manifestHead.pack_no}");
+                if (!StringUtils.isEmpty(manifestHead.getPack_no())) {
+                    VALUES("PACK_NO", "#{manifestHead.pack_no}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getM_status())){
-                    VALUES("M_STATUS","#{manifestHead.m_status}");
+                if (!StringUtils.isEmpty(manifestHead.getM_status())) {
+                    VALUES("M_STATUS", "#{manifestHead.m_status}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getB_status())){
-                    VALUES("B_STATUS","#{manifestHead.b_status}");
+                if (!StringUtils.isEmpty(manifestHead.getB_status())) {
+                    VALUES("B_STATUS", "#{manifestHead.b_status}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getStatus())){
-                    VALUES("STATUS","#{manifestHead.status}");
+                if (!StringUtils.isEmpty(manifestHead.getStatus())) {
+                    VALUES("STATUS", "#{manifestHead.status}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getPort_status())){
-                    VALUES("PORT_STATUS","#{manifestHead.port_status}");
+                if (!StringUtils.isEmpty(manifestHead.getPort_status())) {
+                    VALUES("PORT_STATUS", "#{manifestHead.port_status}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getApp_person())){
-                    VALUES("APP_PERSON","#{manifestHead.app_person}");
+                if (!StringUtils.isEmpty(manifestHead.getApp_person())) {
+                    VALUES("APP_PERSON", "#{manifestHead.app_person}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getApp_date())){
-                    VALUES("APP_DATE","#{manifestHead.app_date}");
+                if (!StringUtils.isEmpty(manifestHead.getApp_date())) {
+                    VALUES("APP_DATE", "#{manifestHead.app_date}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getInput_code())){
-                    VALUES("INPUT_CODE","#{manifestHead.input_code}");
+                if (!StringUtils.isEmpty(manifestHead.getInput_code())) {
+                    VALUES("INPUT_CODE", "#{manifestHead.input_code}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getInput_name())){
-                    VALUES("INPUT_NAME","#{manifestHead.input_name}");
+                if (!StringUtils.isEmpty(manifestHead.getInput_name())) {
+                    VALUES("INPUT_NAME", "#{manifestHead.input_name}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getTrade_code())){
-                    VALUES("TRADE_CODE","#{manifestHead.trade_code}");
+                if (!StringUtils.isEmpty(manifestHead.getTrade_code())) {
+                    VALUES("TRADE_CODE", "#{manifestHead.trade_code}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getTrade_name())){
-                    VALUES("TRADE_NAME","#{manifestHead.trade_name}");
+                if (!StringUtils.isEmpty(manifestHead.getTrade_name())) {
+                    VALUES("TRADE_NAME", "#{manifestHead.trade_name}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getRegion_code())){
-                    VALUES("REGION_CODE","#{manifestHead.region_code}");
+                if (!StringUtils.isEmpty(manifestHead.getRegion_code())) {
+                    VALUES("REGION_CODE", "#{manifestHead.region_code}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getCustoms_code())){
-                    VALUES("CUSTOMS_CODE","#{manifestHead.customs_code}");
+                if (!StringUtils.isEmpty(manifestHead.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{manifestHead.customs_code}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getNote())){
-                    VALUES("NOTE","#{manifestHead.note}");
+                if (!StringUtils.isEmpty(manifestHead.getNote())) {
+                    VALUES("NOTE", "#{manifestHead.note}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getExtend_field_3())){
-                    VALUES("EXTEND_FIELD_3","#{manifestHead.extend_field_3}");
+                if (!StringUtils.isEmpty(manifestHead.getExtend_field_3())) {
+                    VALUES("EXTEND_FIELD_3", "#{manifestHead.extend_field_3}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getPlat_from())){
-                    VALUES("PLAT_FROM","#{manifestHead.plat_from}");
+                if (!StringUtils.isEmpty(manifestHead.getPlat_from())) {
+                    VALUES("PLAT_FROM", "#{manifestHead.plat_from}");
                 }
-                if (!StringUtils.isEmpty(manifestHead.getWriting_mode())){
-                    VALUES("WRITING_MODE","#{manifestHead.writing_mode}");
+                if (!StringUtils.isEmpty(manifestHead.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{manifestHead.writing_mode}");
                 }
 
 
@@ -1612,8 +1634,8 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
     }
 
 
-    public String queryInventoryHeadPrice(@Param("guid") String guid){
-        return new SQL(){
+    public String queryInventoryHeadPrice(@Param("guid") String guid) {
+        return new SQL() {
             {
                 SELECT("TOTAL_PRICES");
                 FROM("T_IMP_INVENTORY_HEAD");
@@ -1622,8 +1644,8 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String setInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody){
-        return new SQL(){
+    public String setInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD");
                 WHERE("GUID = #{impInventoryBody.head_guid}");
@@ -1632,8 +1654,8 @@ public class StockMessageSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String countInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody){
-        return new SQL(){
+    public String countInventoryHeadPrice(@Param("impInventoryBody") ImpInventoryBody impInventoryBody) {
+        return new SQL() {
             {
                 UPDATE("T_IMP_INVENTORY_HEAD");
                 WHERE("GUID = #{impInventoryBody.head_guid}");

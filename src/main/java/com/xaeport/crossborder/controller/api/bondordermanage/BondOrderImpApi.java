@@ -50,11 +50,11 @@ public class BondOrderImpApi extends BaseApi {
     public ResponseData MultipartFile(
             @RequestParam(value = "importTime", required = false) String importTime,//申报时间
             @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板,
-            @RequestParam(value = "billNo",required = false) String billNo,
+            @RequestParam(value = "billNo", required = false) String billNo,
             HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
-       // if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
+        // if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
         if (billNo == null) return new ResponseData("提运单号不能为空");
 
@@ -62,7 +62,7 @@ public class BondOrderImpApi extends BaseApi {
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
-        if (billNo.length()>37) return new ResponseData("提运单号长度超过限制,请重新输入");
+        if (billNo.length() > 37) return new ResponseData("提运单号长度超过限制,请重新输入");
         //获取企业信息
         Users user = this.getCurrentUsers();
 
@@ -98,7 +98,7 @@ public class BondOrderImpApi extends BaseApi {
                 }
 
 
-                flag = this.bondOrderImpService.createOrderForm(excelMap, importTime, user,billNo);//数据创建对应的数据
+                flag = this.bondOrderImpService.createOrderForm(excelMap, importTime, user, billNo);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");

@@ -2,10 +2,7 @@ package com.xaeport.crossborder.service.bondordermanage;
 
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.configuration.SystemConstants;
-import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BondOrderImpMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -38,11 +35,11 @@ public class BondOrderImpService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createOrderForm(Map<String, Object> excelMap, String importTime, Users user,String billNo) {
+    public int createOrderForm(Map<String, Object> excelMap, String importTime, Users user, String billNo) {
         int flag;
         try {
             String id = user.getId();
-            flag = this.createImpOrderHead(excelMap, importTime, user,billNo);
+            flag = this.createImpOrderHead(excelMap, importTime, user, billNo);
         } catch (Exception e) {
             flag = 2;
             this.log.error("导入失败", e);
@@ -54,7 +51,7 @@ public class BondOrderImpService {
     /*
      * 创建ImpOrderHead信息
      */
-    private int createImpOrderHead(Map<String, Object> excelMap, String importTime, Users user,String billNo) throws Exception {
+    private int createImpOrderHead(Map<String, Object> excelMap, String importTime, Users user, String billNo) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpOrderHead> impOrderHeadList = (List<ImpOrderHead>) excelMap.get("ImpOrderHead");
@@ -67,8 +64,21 @@ public class BondOrderImpService {
             }
             this.bondOrderImpMapper.insertImpOrderHead(impOrderHead);//查询无订单号则插入ImpOrderHead数据
             this.createImpOrderList(excelMap, impOrderHead, user);//插入ImpOrderGoodsList
+            this.insertOrderNo(impOrderHead);
         }
         return flag;
+    }
+
+    private void insertOrderNo(ImpOrderHead impOrderHead) {
+        String billNo = impOrderHead.getBill_No();
+        if (billNo.contains("EM")) {
+            OrderNo orderNo = new OrderNo();
+            orderNo.setId(IdUtils.getUUId());
+            orderNo.setOrder_no(impOrderHead.getOrder_No());
+            orderNo.setCrt_tm(new Date());
+            orderNo.setUsed("0");
+            this.bondOrderImpMapper.insertOrderNo(orderNo);
+        }
     }
 
     /*
