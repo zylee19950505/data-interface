@@ -2,9 +2,7 @@ package com.xaeport.crossborder.controller.api.sysmanage;
 
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
-import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.mapper.EntManageMapper;
 import com.xaeport.crossborder.service.sysmanage.EntManageSerivce;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,8 +12,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +19,6 @@ import java.util.Map;
 /**
  * Created by wx on 2018/4/27.
  */
-
 @RestController
 @RequestMapping(value = "/entManage")
 public class EntManageApi extends BaseApi {
@@ -102,33 +97,44 @@ public class EntManageApi extends BaseApi {
 
     private ResponseData checkEnterpriseData(Enterprise enterprise, boolean isUpdate) {
         try {
+
             if (StringUtils.isEmpty(enterprise.getEnt_name())) {
                 return rtnResponse("false", "企业名称不能为空！");
+            }
+            if (StringUtils.isEmpty(enterprise.getCredit_code())) {
+                return rtnResponse("false", "统一社会信用代码不能为空！");
+            }
+            if (StringUtils.isEmpty(enterprise.getEnt_legal())) {
+                return rtnResponse("false", "法定代表人不能为空！");
+            }
+            if (StringUtils.isEmpty(enterprise.getPort())) {
+                return rtnResponse("false", "主管海关不能为空！");
+            }
+            if (StringUtils.isEmpty(enterprise.getDeclare_ent_name())) {
+                return rtnResponse("false", "申报企业名称不能为空！");
+            }
+            if (StringUtils.isEmpty(enterprise.getAssure_ent_name())) {
+                return rtnResponse("false", "担保企业名称不能为空！");
             }
             if (StringUtils.isEmpty(enterprise.getDxp_id())) {
                 return rtnResponse("false", "企业DXPID不能为空！");
             }
 
+            if (StringUtils.isEmpty(enterprise.getBrevity_code())) {
+                return rtnResponse("false", "企业简码不能为空！");
+            }
             if (StringUtils.isEmpty(enterprise.getCustoms_code())) {
-                return rtnResponse("false", "企业海关代码不能为空！");
+                return rtnResponse("false", "海关注册编码不能为空！");
             }
-
-            if (StringUtils.isEmpty(enterprise.getBusiness_code())) {
-                return rtnResponse("false", "工商营业执照号不能为空！");
+            if (StringUtils.isEmpty(enterprise.getEnt_phone())) {
+                return rtnResponse("false", "联系电话不能为空！");
             }
-
-            if (StringUtils.isEmpty(enterprise.getOrg_code())) {
-                return rtnResponse("false", "组织机构代码不能为空！");
+            if (StringUtils.isEmpty(enterprise.getDeclare_ent_code())) {
+                return rtnResponse("false", "申报企业海关注册编码不能为空！");
             }
-
-            if (StringUtils.isEmpty(enterprise.getTax_code())) {
-                return rtnResponse("false", "税务登记代码不能为空！");
+            if (StringUtils.isEmpty(enterprise.getAssure_ent_code())) {
+                return rtnResponse("false", "担保企业海关注册编码不能为空！");
             }
-
-            if (StringUtils.isEmpty(enterprise.getPort())) {
-                return rtnResponse("false", "主管海关不能为空！");
-            }
-
         } catch (Exception e) {
             logger.error(String.format("企业新增校验时发生异常导致失败[enterprise_name: %s]", enterprise.getEnt_name()), e);
             return rtnResponse("false", "企业新增校验时发生异常导致失败");
@@ -145,22 +151,18 @@ public class EntManageApi extends BaseApi {
     public ResponseData entEdit(
             @ModelAttribute Enterprise enterprise
     ) {
-
         String id = enterprise.getId();
         if (StringUtils.isEmpty(id)) {
             return rtnResponse("false", "修改企业信息时企业信息ID不能为空");
         }
-
         ResponseData responseData = checkEnterpriseData(enterprise, true);
         if (responseData != null) {
             return responseData;
         }
-
         boolean updateFlag = entManageSerivce.updateEnterprise(enterprise);
         if (updateFlag) {
             return rtnResponse("true", "企业信息修改成功");
         }
-
         return rtnResponse("false", "企业信息修改失败");
     }
 

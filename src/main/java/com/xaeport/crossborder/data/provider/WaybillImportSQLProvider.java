@@ -121,8 +121,8 @@ public class WaybillImportSQLProvider extends BaseSQLProvider {
     }
 
     //查询订单号数据
-    public String queryOrderNoList(){
-        return new SQL(){
+    public String queryOrderNoList() {
+        return new SQL() {
             {
                 SELECT("ORDER_NO");
                 FROM("T_ORDER_NO");
@@ -131,8 +131,8 @@ public class WaybillImportSQLProvider extends BaseSQLProvider {
     }
 
     //查询订单号数据
-    public String queryOrderNoData(@Param("orderNo") OrderNo orderNo){
-        return new SQL(){
+    public String queryOrderNoData(@Param("orderNo") OrderNo orderNo) {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("T_IMP_ORDER_HEAD");
@@ -142,14 +142,29 @@ public class WaybillImportSQLProvider extends BaseSQLProvider {
     }
 
     //查询订单号数据
-    public String queryLogisticsNo(String type){
-        return new SQL(){
+    public String queryLogisticsNo(String type) {
+        return new SQL() {
             {
                 SELECT("LOGISTICS_NO");
                 FROM("T_LOGISTICS_NO");
                 WHERE("LOGISTICS_TYPE = #{type}");
                 WHERE("ROWNUM = 1");
                 WHERE("USED = '0'");
+            }
+        }.toString();
+    }
+
+    public String queryEnterpriseInfo(String brevityCode) {
+        return new SQL() {
+            {
+                SELECT("ID");
+                SELECT("ENT_NAME");
+                SELECT("CREDIT_CODE");
+                SELECT("CUSTOMS_CODE");
+                SELECT("PORT");
+                SELECT("DXP_ID");
+                FROM("T_ENTERPRISE");
+                WHERE("BREVITY_CODE = #{brevityCode}");
             }
         }.toString();
     }

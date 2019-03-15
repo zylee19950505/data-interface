@@ -14,9 +14,9 @@ import java.util.Map;
 public class EntManageProvider extends BaseSQLProvider {
 
     //系统日志—查询数据
-    public String queryAllEntInfo(Map<String,String> paramMap) throws Exception{
+    public String queryAllEntInfo(Map<String, String> paramMap) throws Exception {
         final String entInfo = paramMap.get("entInfo");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT("t.ID");
                 SELECT("t.ENT_NAME");
@@ -38,6 +38,11 @@ public class EntManageProvider extends BaseSQLProvider {
                 SELECT("t.CRT_ID");
                 SELECT("t.UPD_ID");
                 SELECT("t.ENT_BUSINESS_TYPE");
+                SELECT("t.BREVITY_CODE");
+                SELECT("t.DECLARE_ENT_NAME");
+                SELECT("t.DECLARE_ENT_CODE");
+                SELECT("t.ASSURE_ENT_NAME");
+                SELECT("t.ASSURE_ENT_CODE");
                 SELECT("t.STATUS as STATUS");
                 SELECT("DECODE(STATUS,'1','已激活','0','已冻结','') as ENT_STATUS");
                 SELECT("(select CUSTOMS_FULL_NAME from T_CUSTOMS c where t.PORT = c.CUSTOMS_CODE ) as PORT_STR");
@@ -52,8 +57,8 @@ public class EntManageProvider extends BaseSQLProvider {
     }
 
     //更改企业信息数据
-    public String updateEnterprise(final Enterprise enterprise){
-        return new SQL(){
+    public String updateEnterprise(final Enterprise enterprise) {
+        return new SQL() {
             {
                 UPDATE("T_ENTERPRISE");
                 if (!StringUtils.isEmpty(enterprise.getId())) {
@@ -110,95 +115,107 @@ public class EntManageProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(enterprise.getDxp_id())) {
                     SET("DXP_ID = #{dxp_id}");
                 }
-                if (!StringUtils.isEmpty(enterprise.getEnt_business_type())) {
-                    SET("ENT_BUSINESS_TYPE = #{ent_business_type}");
+                if (!StringUtils.isEmpty(enterprise.getBrevity_code())) {
+                    SET("BREVITY_CODE = #{brevity_code}");
                 }
+                if (!StringUtils.isEmpty(enterprise.getDeclare_ent_name())) {
+                    SET("DECLARE_ENT_NAME = #{declare_ent_name}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getDeclare_ent_code())) {
+                    SET("DECLARE_ENT_CODE = #{declare_ent_code}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getAssure_ent_name())) {
+                    SET("ASSURE_ENT_NAME = #{assure_ent_name}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getAssure_ent_code())) {
+                    SET("ASSURE_ENT_CODE = #{assure_ent_code}");
+                }
+                SET("ENT_BUSINESS_TYPE = #{ent_business_type}");
             }
         }.toString();
     }
 
     //创建企业信息数据
-    public String createEntInfo(final Enterprise enterprise){
-        return new SQL(){
+    public String createEntInfo(final Enterprise enterprise) {
+        return new SQL() {
             {
                 INSERT_INTO("T_ENTERPRISE");
-                if(!StringUtils.isEmpty(enterprise.getId())){
-                    VALUES("ID","#{id}");
+                if (!StringUtils.isEmpty(enterprise.getId())) {
+                    VALUES("ID", "#{id}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_name())){
-                    VALUES("ENT_NAME","#{ent_name}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_name())) {
+                    VALUES("ENT_NAME", "#{ent_name}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_code())){
-                    VALUES("ENT_CODE","#{ent_code}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_code())) {
+                    VALUES("ENT_CODE", "#{ent_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_legal())){
-                    VALUES("ENT_LEGAL","#{ent_legal}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_legal())) {
+                    VALUES("ENT_LEGAL", "#{ent_legal}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_phone())){
-                    VALUES("ENT_PHONE","#{ent_phone}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_phone())) {
+                    VALUES("ENT_PHONE", "#{ent_phone}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_unique_code())){
-                    VALUES("ENT_UNIQUE_CODE","#{ent_unique_code}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_unique_code())) {
+                    VALUES("ENT_UNIQUE_CODE", "#{ent_unique_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getOrg_code())){
-                    VALUES("ORG_CODE","#{org_code}");
+                if (!StringUtils.isEmpty(enterprise.getOrg_code())) {
+                    VALUES("ORG_CODE", "#{org_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getBusiness_code())){
-                    VALUES("BUSINESS_CODE","#{business_code}");
+                if (!StringUtils.isEmpty(enterprise.getBusiness_code())) {
+                    VALUES("BUSINESS_CODE", "#{business_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getTax_code())){
-                    VALUES("TAX_CODE","#{tax_code}");
+                if (!StringUtils.isEmpty(enterprise.getTax_code())) {
+                    VALUES("TAX_CODE", "#{tax_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getCredit_code())){
-                    VALUES("CREDIT_CODE","#{credit_code}");
+                if (!StringUtils.isEmpty(enterprise.getCredit_code())) {
+                    VALUES("CREDIT_CODE", "#{credit_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_type())){
-                    VALUES("ENT_TYPE","#{ent_type}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_type())) {
+                    VALUES("ENT_TYPE", "#{ent_type}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_nature())){
-                    VALUES("ENT_NATURE","#{ent_nature}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_nature())) {
+                    VALUES("ENT_NATURE", "#{ent_nature}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getPort())){
-                    VALUES("PORT","#{port}");
+                if (!StringUtils.isEmpty(enterprise.getPort())) {
+                    VALUES("PORT", "#{port}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getCustoms_code())){
-                    VALUES("CUSTOMS_CODE","#{customs_code}");
+                if (!StringUtils.isEmpty(enterprise.getCustoms_code())) {
+                    VALUES("CUSTOMS_CODE", "#{customs_code}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_classify())){
-                    VALUES("ENT_CLASSIFY","#{ent_classify}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_classify())) {
+                    VALUES("ENT_CLASSIFY", "#{ent_classify}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getStatus())){
-                    VALUES("STATUS","#{status}");
+                if (!StringUtils.isEmpty(enterprise.getStatus())) {
+                    VALUES("STATUS", "#{status}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getCrt_tm())){
-                    VALUES("CRT_TM","#{crt_tm}");
+                if (!StringUtils.isEmpty(enterprise.getCrt_tm())) {
+                    VALUES("CRT_TM", "#{crt_tm}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getDxp_id())){
-                    VALUES("DXP_ID","#{dxp_id}");
+                if (!StringUtils.isEmpty(enterprise.getDxp_id())) {
+                    VALUES("DXP_ID", "#{dxp_id}");
                 }
-                if(!StringUtils.isEmpty(enterprise.getEnt_business_type())){
-                    VALUES("ENT_BUSINESS_TYPE","#{ent_business_type}");
+                if (!StringUtils.isEmpty(enterprise.getEnt_business_type())) {
+                    VALUES("ENT_BUSINESS_TYPE", "#{ent_business_type}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getBrevity_code())) {
+                    VALUES("BREVITY_CODE", "#{brevity_code}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getDeclare_ent_name())) {
+                    VALUES("DECLARE_ENT_NAME", "#{declare_ent_name}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getDeclare_ent_name())) {
+                    VALUES("DECLARE_ENT_CODE", "#{declare_ent_code}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getAssure_ent_name())) {
+                    VALUES("ASSURE_ENT_NAME", "#{assure_ent_name}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getAssure_ent_code())) {
+                    VALUES("ASSURE_ENT_CODE", "#{assure_ent_code}");
                 }
 
             }
         }.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

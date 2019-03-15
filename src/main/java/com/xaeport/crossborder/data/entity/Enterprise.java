@@ -28,6 +28,60 @@ public class Enterprise {
     private String port_str;//主管海关
     private String dxp_id;//企业dxp_id
     private String ent_business_type;//企业业务类型
+    private String brevity_code;//企业简码
+    private String declare_ent_name;//申报企业名称
+    private String declare_ent_code;//申报企业海关注册编码
+    private String assure_ent_name;//担保企业名称
+    private String assure_ent_code;//担保企业海关注册编码
+    private String portCnName;//主管海关中文名称
+
+    public String getPortCnName() {
+        return portCnName;
+    }
+
+    public void setPortCnName(String portCnName) {
+        this.portCnName = portCnName;
+    }
+
+    public String getBrevity_code() {
+        return brevity_code;
+    }
+
+    public void setBrevity_code(String brevity_code) {
+        this.brevity_code = brevity_code;
+    }
+
+    public String getDeclare_ent_name() {
+        return declare_ent_name;
+    }
+
+    public void setDeclare_ent_name(String declare_ent_name) {
+        this.declare_ent_name = declare_ent_name;
+    }
+
+    public String getDeclare_ent_code() {
+        return declare_ent_code;
+    }
+
+    public void setDeclare_ent_code(String declare_ent_code) {
+        this.declare_ent_code = declare_ent_code;
+    }
+
+    public String getAssure_ent_name() {
+        return assure_ent_name;
+    }
+
+    public void setAssure_ent_name(String assure_ent_name) {
+        this.assure_ent_name = assure_ent_name;
+    }
+
+    public String getAssure_ent_code() {
+        return assure_ent_code;
+    }
+
+    public void setAssure_ent_code(String assure_ent_code) {
+        this.assure_ent_code = assure_ent_code;
+    }
 
     public String getDxp_id() {
         return dxp_id;

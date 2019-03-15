@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/enterprise")
-public class EnterpriseApi extends BaseApi{
+public class EnterpriseApi extends BaseApi {
 
     private Log log = LogFactory.getLog(this.getClass());
 
     @Autowired
     EnterpriseService enterpriseService;
 
-
     @RequestMapping("/load")
-    public ResponseData loadEnterprise(){
+    public ResponseData loadEnterprise() {
         Users user = this.getCurrentUsers();
         String entId = user.getEnt_Id();
         Enterprise enterprise = this.enterpriseService.getEnterpriseDetail(entId);

@@ -11,11 +11,9 @@ public class EnterpriseService {
     @Autowired
     EnterpriseMapper enterpriseMapper;
 
-    public Enterprise getEnterpriseDetail(String entId){
+    public Enterprise getEnterpriseDetail(String entId) {
         return this.enterpriseMapper.getEnterpriseDetail(entId);
     }
-
-
 
 
 }

@@ -56,6 +56,9 @@ public class LogisticsGenerateDataThread implements Runnable {
                         if (billNo.contains("EM")) {
                             type = "EMS";
                         }
+                        String brevityCode = billNo.substring(0, 2);
+
+                        Enterprise enterprise = this.waybillImportMapper.queryEnterpriseInfo(brevityCode);
                         logisticsNo = this.waybillImportMapper.queryLogisticsNo(type);
                         impLogistics = new ImpLogistics();
                         impLogistics.setBill_no(impOrderHead.getBill_No());
@@ -67,15 +70,15 @@ public class LogisticsGenerateDataThread implements Runnable {
                         impLogistics.setData_status(StatusCode.YDDSB);//运单待申报
                         impLogistics.setCrt_tm(new Date());//创建时间
                         impLogistics.setUpd_tm(new Date());//更新时间
-                        impLogistics.setEnt_id("企业Id");
-                        impLogistics.setEnt_name("企业名称");
-                        impLogistics.setEnt_customs_code("1234567890");
+                        impLogistics.setEnt_id(StringUtils.isEmpty(enterprise.getId()) ? "暂无" : enterprise.getId());
+                        impLogistics.setEnt_name(StringUtils.isEmpty(enterprise.getEnt_name()) ? "暂无" : enterprise.getEnt_name());
+                        impLogistics.setEnt_customs_code(StringUtils.isEmpty(enterprise.getCustoms_code()) ? "暂无" : enterprise.getCustoms_code());
                         impLogistics.setBusiness_type(SystemConstants.T_IMP_LOGISTICS);
 
                         impLogistics.setOrder_no(impOrderHead.getOrder_No());
-                        impLogistics.setLogistics_no(StringUtils.isEmpty(logisticsNo) ? "暂无运单编号可用" : logisticsNo);//物流运单编号
-                        impLogistics.setLogistics_code("物流企业编号");//物流运单编号
-                        impLogistics.setLogistics_name("物流企业名称");//物流企业名称
+                        impLogistics.setLogistics_no(StringUtils.isEmpty(logisticsNo) ? "暂无" : logisticsNo);//物流运单编号
+                        impLogistics.setLogistics_code(StringUtils.isEmpty(enterprise.getCustoms_code()) ? "暂无" : enterprise.getCustoms_code());//物流企业编号
+                        impLogistics.setLogistics_name(StringUtils.isEmpty(enterprise.getEnt_name()) ? "暂无" : enterprise.getEnt_name());//物流企业名称
                         impLogistics.setConsingee(impOrderHead.getConsignee());//收货人姓名
                         impLogistics.setConsignee_telephone(impOrderHead.getConsignee_Telephone());//收货人电话
                         impLogistics.setConsignee_address(impOrderHead.getConsignee_Address());//收件地址

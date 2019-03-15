@@ -18,6 +18,7 @@
 
                 <div class="box-body" id="enterpriseId">
                     <div class="row">
+
                         <div class="col-md-6">
                             <div class="form-group col-xs-12 margin_b">
                                 <label>企业名称</label>
@@ -25,61 +26,14 @@
                                        name="ent_name" id="ent_name"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
-                                <label>企业代码</label>
-                                <input type="text" class="form-control"
-                                       name="ent_code" id="ent_code"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                 <label>企业法人</label>
-                                 <input type="text" class="form-control"
-                                   name="ent_legal" id="ent_legal"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业电话</label>
-                                <input type="text" class="form-control"
-                                       name="ent_phone" id="ent_phone"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业唯一编号</label>
-                                <input type="text" class="form-control"
-                                        name="ent_unique_code" id="ent_unique_code"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业组织机构代码</label>
-                                <input type="text" class="form-control"
-                                       name="org_code" id="org_code"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业工商营业执照号</label>
-                                <input type="text" class="form-control"
-                                       name="business_code" id="business_code"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业DXPID</label>
-                                <input type="text" class="form-control"
-                                       name="dxp_id" id="dxp_id"/>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业税务登记代码</label>
-                                <input type="text" class="form-control"
-                                       name="tax_code" id="tax_code"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业统一社会信用代码</label>
+                                <label>统一社会信用代码</label>
                                 <input type="text" class="form-control"
                                        name="credit_code" id="credit_code"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
-                                <label>企业类别</label>
+                                <label>法定代表人</label>
                                 <input type="text" class="form-control"
-                                        name="ent_type" id="ent_type"/>
-                            </div>
-                            <div class="form-group col-xs-12 margin_b">
-                                <label>企业性质</label>
-                                <input type="text" class="form-control"
-                                       name="ent_nature" id="ent_nature"/>
+                                       name="ent_legal" id="ent_legal"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
                                 <label>主管海关</label>
@@ -87,47 +41,86 @@
                                        name="port" id="port"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
-                                <label>海关10位代码</label>
+                                <label>申报企业名称</label>
+                                <input type="text" class="form-control"
+                                       name="declare_ent_name" id="declare_ent_name"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>担保企业名称</label>
+                                <input type="text" class="form-control"
+                                       name="assure_ent_name" id="assure_ent_name"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业DXPID</label>
+                                <input type="text" class="form-control"
+                                       name="dxp_id" id="dxp_id"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>企业简码</label>
+                                <input type="text" class="form-control"
+                                       name="brevity_code" id="brevity_code"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>海关注册编码</label>
                                 <input type="text" class="form-control"
                                        name="customs_code" id="customs_code"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
-                                <label>企业分类</label>
+                                <label>联系电话</label>
                                 <input type="text" class="form-control"
-                                       name="ent_classify" id="ent_classify"/>
+                                       name="ent_phone" id="ent_phone"/>
                             </div>
                             <div class="form-group col-xs-12 margin_b">
-                                <label>业务类型</label>
+                                <label>业务类别</label>
+                                <select class="form-control input-sm" id="ent_business_type" name="ent_business_type">
+                                    <option value="">无</option>
+                                    <option value="E-business">电商企业</option>
+                                    <option value="EB-platform">电商平台</option>
+                                    <option value="Payment">支付企业</option>
+                                    <option value="Logistics">物流企业</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>申报企业海关注册编码</label>
                                 <input type="text" class="form-control"
-                                       name="ent_business_type" id="ent_business_type"/>
+                                       name="declare_ent_code" id="declare_ent_code"/>
+                            </div>
+                            <div class="form-group col-xs-12 margin_b">
+                                <label>担保企业海关注册编码</label>
+                                <input type="text" class="form-control"
+                                       name="assure_ent_code" id="assure_ent_code"/>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!--<div class="box-footer">-->
-                    <!--<div class="form-group">-->
-                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
-                                <!--style="margin-right:10px;"-->
-                                <!--id="cancelId"-->
-                                <!--data-toggle="tooltip-disabled"-->
-                                <!--onclick="sw.pageModule('information/enterprise_info').cancelEnterprise()">-->
-                            <!--取消-->
-                        <!--</button>-->
-                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
-                                <!--style="margin-right:10px;"-->
-                                <!--id="saveId"-->
-                                <!--data-toggle="tooltip-disabled"-->
-                                <!--onclick="sw.pageModule('information/enterprise_info').saveEnterprise()">-->
-                            <!--保存-->
-                        <!--</button>-->
-                        <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
-                                <!--style="margin-right:10px;"-->
-                                <!--id="editId"-->
-                                <!--data-toggle="tooltip-disabled"-->
-                                <!--onclick="sw.pageModule('information/enterprise_info').editEnterprise()">-->
-                            <!--修改-->
-                        <!--</button>-->
-                    <!--</div>-->
+                <!--<div class="form-group">-->
+                <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                <!--style="margin-right:10px;"-->
+                <!--id="cancelId"-->
+                <!--data-toggle="tooltip-disabled"-->
+                <!--onclick="sw.pageModule('information/enterprise_info').cancelEnterprise()">-->
+                <!--取消-->
+                <!--</button>-->
+                <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                <!--style="margin-right:10px;"-->
+                <!--id="saveId"-->
+                <!--data-toggle="tooltip-disabled"-->
+                <!--onclick="sw.pageModule('information/enterprise_info').saveEnterprise()">-->
+                <!--保存-->
+                <!--</button>-->
+                <!--<button class="btn btn-sm btn-info pull-right" type="button"-->
+                <!--style="margin-right:10px;"-->
+                <!--id="editId"-->
+                <!--data-toggle="tooltip-disabled"-->
+                <!--onclick="sw.pageModule('information/enterprise_info').editEnterprise()">-->
+                <!--修改-->
+                <!--</button>-->
+                <!--</div>-->
                 <!--</div>-->
             </div>
         </div>

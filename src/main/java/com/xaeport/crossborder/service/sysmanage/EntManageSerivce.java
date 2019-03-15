@@ -2,7 +2,6 @@ package com.xaeport.crossborder.service.sysmanage;
 
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.entity.SysLog;
 import com.xaeport.crossborder.data.mapper.EntManageMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -87,22 +86,18 @@ public class EntManageSerivce {
             case SystemConstants.CODE_TYPE_AGENT_CODE: {
                 selectOptionList = entManageMapper.getAgentCode();
             }
-            ;
             break;
             case SystemConstants.CODE_TYPE_CUSTOMS_CODE: {
                 selectOptionList = entManageMapper.getCustomsCode();
             }
-            ;
             break;
             case SystemConstants.CODE_TYPE_AGENT_TYPE: {
                 selectOptionList = entManageMapper.getAgentType();
             }
-            ;
             break;
             case SystemConstants.CODE_TYPE_AGENT_NATURE: {
                 selectOptionList = entManageMapper.getAgentNature();
             }
-            ;
             break;
             default:
                 selectOptionList = new ArrayList<Map<String, String>>();
@@ -144,13 +139,9 @@ public class EntManageSerivce {
         return flag;
     }
 
-    public Enterprise getEnterpriseDetail(String entId){
+    public Enterprise getEnterpriseDetail(String entId) {
         return this.entManageMapper.getEnterpriseDetail(entId);
     }
-
-
-
-
 
 
 }

@@ -12,6 +12,7 @@ logging:
     com.xaeport.crossborder.generated.thread: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
+    com.xaeport.crossborder.data.mapper.WaybillImportMapper: info
     com.xaeport.crossborder.data.mapper.WaybillDeclareMapper: info
     com.xaeport.crossborder.data.mapper.DetailDeclareMapper: info
     com.xaeport.crossborder.data.mapper.DeliveryDeclareMapper: info

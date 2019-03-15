@@ -18,7 +18,7 @@ public interface EntManageMapper {
     @SelectProvider(type = EntManageProvider.class, method = "queryAllEntInfo")
     List<Enterprise> queryAllEntInfo(Map<String, String> paramMap);
 
-    @Select("SELECT COUNT(0) FROM T_ENTERPRISE t where t.ID = #{ID} ")
+    @Select("SELECT COUNT(1) FROM T_ENTERPRISE t where t.ID = #{ID} ")
     int getEnterpriseCount(@Param("ID") String ID);
 
     @UpdateProvider(type = EntManageProvider.class, method = "updateEnterprise")
@@ -28,42 +28,19 @@ public interface EntManageMapper {
     boolean createEntInfo(Enterprise enterprise) throws Exception;
 
     @Select("select t.AGENT_CODE as value,t.AGENT_NAME as name from T_AGENT_CODE t")
-    List<Map<String,String>> getAgentCode();
+    List<Map<String, String>> getAgentCode();
 
     @Select("select t.CUSTOMS_CODE as value,t.CUSTOMS_NAME as name from T_CUSTOMS t")
-    List<Map<String,String>> getCustomsCode();
+    List<Map<String, String>> getCustomsCode();
 
     @Select("select t.AGENT_CODE as value,t.AGENT_NAME as name from T_AGENT_TYPE t")
-    List<Map<String,String>> getAgentType();
+    List<Map<String, String>> getAgentType();
 
     @Select("select t.AGENT_CODE as value,t.AGENT_NAME as name from T_AGENT_NATURE t")
-    List<Map<String,String>> getAgentNature();
+    List<Map<String, String>> getAgentNature();
 
     @Select("SELECT * FROM T_ENTERPRISE t where t.ID = #{entId}")
     Enterprise getEnterpriseDetail(String entId);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
