@@ -46,4 +46,8 @@ public interface BondOrderImpMapper {
     @InsertProvider(type = BondOrderImpSQLProvider.class, method = "insertOrderNo")
     void insertOrderNo(@Param("orderNo") OrderNo orderNo);
 
+    //根据企业简码查询物流企业是否存在
+    @SelectProvider(type = BondOrderImpSQLProvider.class,method = "queryEntInfoByBrevityCode")
+    Integer queryEntInfoByBrevityCode(String brevityCode);
+
 }

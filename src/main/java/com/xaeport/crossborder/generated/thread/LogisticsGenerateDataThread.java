@@ -31,7 +31,6 @@ public class LogisticsGenerateDataThread implements Runnable {
     public void run() {
         List<OrderNo> orderNoList;
         String logisticsNo;
-        String type = null;
         ImpLogistics impLogistics;
         ImpOrderHead impOrderHead;
         while (true) {
@@ -53,13 +52,10 @@ public class LogisticsGenerateDataThread implements Runnable {
                     try {
                         impOrderHead = this.waybillImportMapper.queryOrderNoData(orderNo);
                         String billNo = impOrderHead.getBill_No();
-                        if (billNo.contains("EM")) {
-                            type = "EMS";
-                        }
                         String brevityCode = billNo.substring(0, 2);
 
                         Enterprise enterprise = this.waybillImportMapper.queryEnterpriseInfo(brevityCode);
-                        logisticsNo = this.waybillImportMapper.queryLogisticsNo(type);
+                        logisticsNo = this.waybillImportMapper.queryLogisticsNo(brevityCode);
                         impLogistics = new ImpLogistics();
                         impLogistics.setBill_no(impOrderHead.getBill_No());
                         impLogistics.setGuid(IdUtils.getUUId());

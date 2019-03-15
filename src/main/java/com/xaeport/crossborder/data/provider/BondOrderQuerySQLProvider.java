@@ -253,6 +253,15 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("consignee_Ditrict"))) {
                     SET("t.CONSIGNEE_DITRICT = #{consignee_Ditrict}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("insured_fee"))) {
+                    SET("t.INSURED_FEE = #{insured_fee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
+                    SET("t.GROSS_WEIGHT = #{gross_weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
+                    SET("t.NET_WEIGHT = #{net_weight}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.NOTE = #{note}");
                 }
@@ -360,6 +369,15 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("consignee_Ditrict"))) {
                     SET("t.CONSIGNEE_DITRICT = #{consignee_Ditrict}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("insured_fee"))) {
+                    SET("t.INSURED_FEE = #{insured_fee}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("gross_weight"))) {
+                    SET("t.GROSS_WEIGHT = #{gross_weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
+                    SET("t.NET_WEIGHT = #{net_weight}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.NOTE = #{note}");
                 }
@@ -393,6 +411,9 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 WHERE("t.G_NUM = #{g_no}");
                 if (!StringUtils.isEmpty(entryList.get("order_No"))) {
                     SET("t.ORDER_NO = #{order_No}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("item_No"))) {
+                    SET("t.ITEM_NO = #{item_No}");
                 }
                 if (!StringUtils.isEmpty(entryList.get("item_Name"))) {
                     SET("t.ITEM_NAME = #{item_Name}");

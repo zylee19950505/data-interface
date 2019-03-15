@@ -71,7 +71,9 @@ public class BondOrderImpService {
 
     private void insertOrderNo(ImpOrderHead impOrderHead) {
         String billNo = impOrderHead.getBill_No();
-        if (billNo.contains("EM")) {
+        String brevityCode = billNo.substring(0, 2);
+        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
+        if (sum > 0) {
             OrderNo orderNo = new OrderNo();
             orderNo.setId(IdUtils.getUUId());
             orderNo.setOrder_no(impOrderHead.getOrder_No());

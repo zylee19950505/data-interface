@@ -2,6 +2,7 @@ package com.xaeport.crossborder.service.receipt;
 
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.mapper.BondOrderImpMapper;
 import com.xaeport.crossborder.data.mapper.StockMessageMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.data.status.StockMsgType;
@@ -23,11 +24,13 @@ import java.util.Map;
 @Service
 public class StockMessageService {
     private final Log log = LogFactory.getLog(this.getClass());
+
     @Autowired
     StockMessageMapper stockMessageMapper;
+    @Autowired
+    BondOrderImpMapper bondOrderImpMapper;
 
     int count;
-
     String price;
 
     @Transactional(rollbackForClassName = "Exception")
@@ -260,7 +263,9 @@ public class StockMessageService {
 
     private void insertOrderNo(ImpOrderHead impOrderHead) {
         String billNo = impOrderHead.getBill_No();
-        if (billNo.contains("EM")) {
+        String brevityCode = billNo.substring(0, 2);
+        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
+        if (sum > 0) {
             OrderNo orderNo = new OrderNo();
             orderNo.setId(IdUtils.getUUId());
             orderNo.setOrder_no(impOrderHead.getOrder_No());

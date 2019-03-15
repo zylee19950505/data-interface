@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -94,7 +88,6 @@ function inputChanged(id) {
                 //var dVal = parseFloat($("#decl_price_" + gno).val()).toFixed(4);
                 var dVal = parseFloat($("#price_" + gno).val());
                 sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal);
-
                 sumTotalPriceB();
             }
             // 记录变更信息
@@ -147,6 +140,9 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
             "consignee_Telephone",
             "consignee_Address",
             "consignee_Ditrict",
+            "insured_fee",
+            "gross_weight",
+            "net_weight",
             "note",
             "crt_id",
             "crt_tm",
@@ -191,9 +187,10 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
         $("#discount").val(parseFloat(entryHead.discount).toFixed(5));
         $("#tax_Total").val(parseFloat(entryHead.tax_Total).toFixed(5));
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        // selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
+        $("#insured_fee").val(parseFloat(entryHead.insured_fee).toFixed(5));
+        $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
+        $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#note").val(entryHead.note);
-
     },
 
     //加载表体信息
@@ -203,6 +200,7 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
             var str = "<tr>" +
                 "<td ><input class=\"form-control input-sm\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +//递增序号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"60\" id='order_No_" + g_num + "' value='" + entryLists[i].order_No + "' /></td>" +//订单编号
+                "<td ><input class=\"form-control input-sm\" maxlength=\"30\" id='item_No_" + g_num + "' value='" + entryLists[i].item_No + "' /></td>" +//商品货号
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_Model_" + g_num + "' value='" + entryLists[i].g_Model + "' /></td>" +//商品规格型号
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
@@ -224,7 +222,6 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
             var result = JSON.parse(vertify.result);
             var gno = result.g_num;
             var field = result.field;
-
             if (isNotEmpty(gno)) {
                 $("#" + field + "_" + gno).addClass("bg-red");
                 $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
@@ -244,7 +241,6 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
         for (var key in listChangeKeyValsB) {
             entryLists.push(listChangeKeyValsB[key]);
         }
-
         var entryData = {
             entryHead: headChangeKeyValB,
             entryList: entryLists
@@ -266,12 +262,10 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
 
     // 查询订单详情
     query: function () {
-
         // 表头变化
         headChangeKeyValB = {};
         // 表体变化
         listChangeKeyValsB = {};
-
         //从路径上找参数
         var param = sw.getPageParams("bondordermanage/seeOrderDetail");
         var guid = param.guid;
@@ -329,13 +323,16 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
             "consignee_Telephone": "收货人电话",
             "discount": "非现金支付金额",
             "tax_Total": "代扣税款",
-            "freight": "运杂费"
+            "freight": "运杂费",
+            "insured_fee": "保价费",
+            "gross_weight": "毛重",
+            "net_weight": "净重"
         };
-
         // 校验表体
         var validataListField = {
             "g_num": "序号",
             "order_No": "订单编号",
+            "item_No": "商品货号",
             "item_Name": "企业商品名称",
             "country": "原产国",
             "qty": "数量",
@@ -354,7 +351,14 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
                 hasError("[" + fieldName + "]不能为空");
                 return false;
             }
-
+            if (fieldId == "net_weight") {
+                var net_weight = parseFloat($("#net_weight").val());
+                var gross_weight = parseFloat($("#gross_weight").val());
+                if (net_weight > gross_weight) {
+                    hasError("[净重]不能大于毛重");
+                    return false;
+                }
+            }
         }
 
         var gno, fields;
@@ -371,7 +375,6 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
                 }
             }
         }
-
         return true;
     },
 
@@ -402,7 +405,6 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
                         "goods_Value",
                         "total_Price",//商品总价，等于单价乘以数量。
                         "g_num"
-
                     ];
                 }
                 //保存的路径
@@ -413,22 +415,22 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
                 break;
             }
             //逻辑校验(预留)
-            case "LJJY": {
-                if (isEdit == "true") {
-                    this.detailParam.disableField = [
-                        "bill_No",
-                        "goods_Value",
-                        "total_Price",//商品总价，等于单价乘以数量。
-                        "g_num"
-                    ]
-                }
-                //保存的路径
-                this.detailParam.url = "/api/bondorder/saveLogicalDetail";
-                //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondordermanage/bondOrderLogVerify";
-                this.detailParam.isShowError = true;
-                break;
-            }
+            // case "LJJY": {
+            //     if (isEdit == "true") {
+            //         this.detailParam.disableField = [
+            //             "bill_No",
+            //             "goods_Value",
+            //             "total_Price",//商品总价，等于单价乘以数量。
+            //             "g_num"
+            //         ]
+            //     }
+            //     //保存的路径
+            //     this.detailParam.url = "/api/bondorder/saveLogicalDetail";
+            //     //返回之后的查询路径
+            //     this.detailParam.callBackUrl = "bondordermanage/bondOrderLogVerify";
+            //     this.detailParam.isShowError = true;
+            //     break;
+            // }
 
         } // 不可编辑状态
         if (isEdit == "false") {
@@ -439,6 +441,7 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
             // 显示保存取消按钮
             $("#btnDiv").removeClass("hidden");
         }
+
         // 查询详情
         this.query();
 

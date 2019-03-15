@@ -245,6 +245,7 @@ public class BondOrderImpSQLProvider {
         }.toString();
     }
 
+    //插入订单表数据
     public String insertOrderNo(@Param("orderNo") OrderNo orderNo) {
         return new SQL() {
             {
@@ -253,6 +254,18 @@ public class BondOrderImpSQLProvider {
                 VALUES("ORDER_NO", "#{orderNo.order_no}");
                 VALUES("CRT_TM", "#{orderNo.crt_tm}");
                 VALUES("USED", "#{orderNo.used}");
+            }
+        }.toString();
+    }
+
+    //根据企业简码查询物流企业是否存在
+    public String queryEntInfoByBrevityCode(String brevityCode){
+        return new SQL(){
+            {
+                SELECT("COUNT(1)");
+                FROM("T_ENTERPRISE");
+                WHERE("ENT_BUSINESS_TYPE = 'Logistics'");
+                WHERE("BREVITY_CODE = #{brevityCode}");
             }
         }.toString();
     }
