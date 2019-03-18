@@ -30,6 +30,7 @@ sw.page.modules["infomanage/enterpriseInfo"] = sw.page.modules["infomanage/enter
                 $("input[name='declare_ent_name']").val(data.declare_ent_name);
                 $("input[name='assure_ent_name']").val(data.assure_ent_name);
                 $("input[name='dxp_id']").val(data.dxp_id);
+                $("input[name='area_name']").val(data.area_name);
 
                 $("input[name='brevity_code']").val(data.brevity_code);
                 $("input[name='customs_code']").val(data.customs_code);
@@ -37,6 +38,7 @@ sw.page.modules["infomanage/enterpriseInfo"] = sw.page.modules["infomanage/enter
                 $("select[name='ent_business_type']").val(data.ent_business_type);
                 $("input[name='declare_ent_code']").val(data.declare_ent_code);
                 $("input[name='assure_ent_code']").val(data.assure_ent_code);
+                $("input[name='area_code']").val(data.area_code);
             }
         });
     }

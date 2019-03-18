@@ -34,6 +34,24 @@ public class Enterprise {
     private String assure_ent_name;//担保企业名称
     private String assure_ent_code;//担保企业海关注册编码
     private String portCnName;//主管海关中文名称
+    private String area_code;//区内企业编码
+    private String area_name;//区内企业名称
+
+    public String getArea_code() {
+        return area_code;
+    }
+
+    public void setArea_code(String area_code) {
+        this.area_code = area_code;
+    }
+
+    public String getArea_name() {
+        return area_name;
+    }
+
+    public void setArea_name(String area_name) {
+        this.area_name = area_name;
+    }
 
     public String getPortCnName() {
         return portCnName;

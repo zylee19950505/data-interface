@@ -110,6 +110,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
                 $("input[name='declare_ent_name']").val(data.declare_ent_name);
                 $("input[name='assure_ent_name']").val(data.assure_ent_name);
                 $("input[name='dxp_id']").val(data.dxp_id);
+                $("input[name='area_name']").val(data.area_name);
 
                 $("input[name='brevity_code']").val(data.brevity_code);
                 $("input[name='customs_code']").val(data.customs_code);
@@ -117,6 +118,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
                 $("select[name='ent_business_type']").val(data.ent_business_type);
                 $("input[name='declare_ent_code']").val(data.declare_ent_code);
                 $("input[name='assure_ent_code']").val(data.assure_ent_code);
+                $("input[name='area_code']").val(data.area_code);
             }
         });
     },
@@ -128,6 +130,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
         var port = $("select[name='port']").val();
         var declare_ent_name = $("input[name='declare_ent_name']").val();
         var assure_ent_name = $("input[name='assure_ent_name']").val();
+        var area_name = $("input[name='area_name']").val();
         var dxp_id = $("input[name='dxp_id']").val();
 
         var brevity_code = $("input[name='brevity_code']").val();
@@ -136,6 +139,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
         var ent_business_type = $("select[name='ent_business_type']").val();
         var declare_ent_code = $("input[name='declare_ent_code']").val();
         var assure_ent_code = $("input[name='assure_ent_code']").val();
+        var area_code = $("input[name='area_code']").val();
 
         if (isEmpty(ent_name) || ent_name.length < 3) {
             hasErrorEnterprise("input[name='ent_name'", "企业名称不能为空或小于3个字符");
@@ -171,7 +175,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             return false;
         }
         if (isEmpty(customs_code) || customs_code.length != 10) {
-            hasErrorEnterprise("input[name='customs_code'", "海关注册编码不能为空")
+            hasErrorEnterprise("input[name='customs_code'", "海关注册编码不能为空");
             return false;
         }
         if (isEmpty(ent_phone)) {
@@ -242,6 +246,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
         $("input[name='declare_ent_name']").val("");
         $("input[name='assure_ent_name']").val("");
         $("input[name='dxp_id']").val("");
+        $("input[name='area_name']").val("");
 
         $("input[name='brevity_code']").val("");
         $("input[name='customs_code']").val("");
@@ -249,6 +254,7 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
         $("select[name='ent_business_type']").val("");
         $("input[name='declare_ent_code']").val("");
         $("input[name='assure_ent_code']").val("");
+        $("input[name='area_code']").val("");
     },
 
     loadSelectCode: function () {

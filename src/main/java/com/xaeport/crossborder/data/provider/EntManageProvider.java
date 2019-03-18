@@ -1,8 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.entity.SysLog;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -131,6 +129,12 @@ public class EntManageProvider extends BaseSQLProvider {
                     SET("ASSURE_ENT_CODE = #{assure_ent_code}");
                 }
                 SET("ENT_BUSINESS_TYPE = #{ent_business_type}");
+                if (!StringUtils.isEmpty(enterprise.getArea_code())) {
+                    SET("AREA_CODE = #{area_code}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getArea_name())) {
+                    SET("AREA_NAME = #{area_name}");
+                }
             }
         }.toString();
     }
@@ -212,7 +216,12 @@ public class EntManageProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(enterprise.getAssure_ent_code())) {
                     VALUES("ASSURE_ENT_CODE", "#{assure_ent_code}");
                 }
-
+                if (!StringUtils.isEmpty(enterprise.getArea_code())) {
+                    VALUES("AREA_CODE", "#{area_code}");
+                }
+                if (!StringUtils.isEmpty(enterprise.getArea_name())) {
+                    VALUES("AREA_NAME", "#{area_name}");
+                }
             }
         }.toString();
     }
