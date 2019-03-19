@@ -38,7 +38,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
@@ -81,7 +81,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
                     WHERE("t.DCL_TIME >= to_date( #{startFlightTimes} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");

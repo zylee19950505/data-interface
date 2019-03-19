@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.controller.api.booksandrecords;
+package com.xaeport.crossborder.controller.api.bondinvenmanage;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
@@ -6,7 +6,8 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.BwlListType;
 import com.xaeport.crossborder.data.entity.DataList;
-import com.xaeport.crossborder.service.booksandrecords.AccountQueryService;
+import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.service.bondinvenmanage.StockManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,27 +15,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/booksandrecords")
-public class AccountQueryApi extends BaseApi {
+@RequestMapping("/api/bondinvenmanage")
+public class StockManageApi extends BaseApi {
 
     private Log logger = LogFactory.getLog(this.getClass());
-
     @Autowired
-    AccountQueryService accountQueryService;
+    StockManageService stockManageService;
 
-    //账册商品查询
-    @RequestMapping("/accountquery")
+    //库存管理数据查询
+    @RequestMapping("/stockmanage")
     public ResponseData queryOrderHeadList(
             @RequestParam(required = false) String gds_seqno,
             @RequestParam(required = false) String gds_mtno,
             @RequestParam(required = false) String gdecd,
             @RequestParam(required = false) String gds_nm,
+            @RequestParam(required = false) String surplus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("账册查询条件参数:[gds_seqno:%s,gds_mtno:%s,gdecd:%s,gds_nm:%s]", gds_seqno, gds_mtno, gdecd, gds_nm));
+        this.logger.debug(String.format("库存管理查询条件参数:[gds_seqno:%s,gds_mtno:%s,gdecd:%s,gds_nm:%s,surplus:%s]", gds_seqno, gds_mtno, gdecd, gds_nm, surplus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
         //分页参数
@@ -45,14 +48,18 @@ public class AccountQueryApi extends BaseApi {
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
+        Users users = this.getCurrentUsers();
+
         //条件参数
         paramMap.put("gds_seqno", gds_seqno);
         paramMap.put("gds_mtno", gds_mtno);
         paramMap.put("gdecd", gdecd);
         paramMap.put("gds_nm", gds_nm);
+        paramMap.put("surplus", surplus);
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("entCustomsCode", users.getEnt_Customs_Code());
 
         //分页参数
         paramMap.put("start", start);
@@ -64,19 +71,20 @@ public class AccountQueryApi extends BaseApi {
         List<BwlListType> resultList;
         try {
             //查询账册表体数据
-            resultList = accountQueryService.queryBwlListTypeData(paramMap);
+            resultList = stockManageService.queryStockControlData(paramMap);
             //查询账册表体数据总数
-            Integer count = accountQueryService.queryBwlListTypeCount(paramMap);
+            Integer count = stockManageService.queryStockControlCount(paramMap);
             dataList.setDraw(draw);
             dataList.setData(resultList);
             dataList.setRecordsTotal(count);
             dataList.setRecordsFiltered(count);
         } catch (Exception e) {
-            this.logger.error("账册查询数据失败", e);
-            return new ResponseData("获取账册查询数据错误", HttpStatus.BAD_REQUEST);
+            this.logger.error("库存管理查询数据失败", e);
+            return new ResponseData("获取库存管理数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
     }
+
 }
 
 

@@ -12,12 +12,14 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
     public String setPrevdRedcQty(
             @Param("qtySum") double qtySum,
             @Param("item_record_no") String item_record_no,
-            @Param("emsNo") String emsNo
-    ){
-        return new SQL(){
+            @Param("emsNo") String emsNo,
+            @Param("entCustomsCode") String entCustomsCode
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
+                WHERE("BIZOP_ETPSNO = #{entCustomsCode}");
                 WHERE("GDS_MTNO = #{item_record_no}");
                 SET("PREVD_REDC_QTY = PREVD_REDC_QTY + #{qtySum}");
             }
@@ -27,12 +29,13 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
     /*
      * 查询保税清单库存是否允许导入
      */
-    public String checkStockSurplus(@Param("user") Users user, @Param("item_record_no") String g_code, @Param("emsNo") String emsNo) {
+    public String checkStockSurplus(@Param("entCustomsCode") String entCustomsCode, @Param("item_record_no") String g_code, @Param("emsNo") String emsNo) {
         return new SQL() {
             {
                 SELECT("(ACTL_INC_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS");
                 SELECT("DCL_UNITCD");
                 FROM("T_BWL_LIST_TYPE t");
+                WHERE("t.BIZOP_ETPSNO = #{entCustomsCode}");
                 WHERE("t.BWS_NO = #{emsNo}");
                 WHERE("t.GDS_MTNO = #{item_record_no}");
             }

@@ -18,7 +18,6 @@ sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenm
         $("#detailImport").unbind("click").click(this.bondInvenImport);
     },
 
-    //加载发件人信息
     emsNo: function () {
         sw.ajax("accountrecord/getemsnos", "GET", {}, function (rsp) {
             var data = rsp.data;

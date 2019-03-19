@@ -63,8 +63,8 @@ public class CrtExitManifestApi extends BaseApi {
         paramMap.put("returnStatus", returnStatus);
         paramMap.put("status", StatusCode.CQHZQDSBCG);
 
-        DataList<BondInvtBsc> dataList = null;
-        List<BondInvtBsc> resultList = null;
+        DataList<BondInvtBsc> dataList;
+        List<BondInvtBsc> resultList;
         try {
             //查询列表
             resultList = this.crtExitManifestService.queryEInventoryList(paramMap);
@@ -121,8 +121,8 @@ public class CrtExitManifestApi extends BaseApi {
         paramMap.put("etps_preent_no", "HFD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
 
         PassPort passPort = new PassPort();
-        PassPortHead passPortHead = new PassPortHead();
-        List<PassPortAcmp> passPortAcmpList = new ArrayList<>();
+        PassPortHead passPortHead;
+        List<PassPortAcmp> passPortAcmpList;
         try {
             //查询列表
             passPortHead = this.crtExitManifestService.queryPassPortHead(paramMap);

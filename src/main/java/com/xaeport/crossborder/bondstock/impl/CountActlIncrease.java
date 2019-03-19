@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,8 +20,7 @@ public class CountActlIncrease implements CountLoader {
     private ReceiptMapper receiptMapper = SpringUtils.getBean(ReceiptMapper.class);
 
     @Override
-    public void count(BondInvtBsc bondInvtBsc) {
-    }
+    public void count(BondInvtBsc bondInvtBsc) { }
     @Override
     public int count(Map<String, Object> excelMap, Users users, String emsNo) {
         return 999;
@@ -57,24 +55,29 @@ public class CountActlIncrease implements CountLoader {
             //按照料号获取商品数据
             Map<String, List<BondInvtDt>> gdsMtnoData = BusinessUtils.classifyByGdsMtno(bondInvtDtList);
             //料号
-            String gds_mtno = null;
+            String gds_mtno;
             //账册号
-            String emsNo = null;
+            String emsNo;
+            //经营企业编号
+            String bizopEtpsno;
+            //核注清单表头
+            List<BondInvtDt> bondInvtDts;
             for (String gdsMtno : gdsMtnoData.keySet()) {
-                List<BondInvtDt> bondInvtDts = new ArrayList<>();
                 //获取按照料号划分的入区核注清单表体数据
                 bondInvtDts = gdsMtnoData.get(gdsMtno);
                 //获取料号
                 gds_mtno = bondInvtDts.get(0).getGds_mtno();
                 //获取账册号
                 emsNo = bondInvtBsc.getPutrec_no();
+                //经营企业编号
+                bizopEtpsno = bondInvtBsc.getBizop_etpsno();
                 //根据账册号查询是否存在该账册
                 BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
-                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno);
+                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno, bizopEtpsno);
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
-                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno);
+                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
                     this.logger.info("入区核放单成功完成一车一单实增操作");
                 } else {
                     this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");
@@ -96,24 +99,30 @@ public class CountActlIncrease implements CountLoader {
             //按照料号获取商品数据
             Map<String, List<BondInvtDt>> gdsMtnoData = BusinessUtils.classifyByGdsMtno(bondInvtDtList);
             //料号
-            String gds_mtno = null;
+            String gds_mtno;
             //账册号
-            String emsNo = null;
+            String emsNo;
+            //经营企业编号
+            String bizopEtpsno;
+            //核注清单表头
+            List<BondInvtDt> bondInvtDts;
             for (String gdsMtno : gdsMtnoData.keySet()) {
-                List<BondInvtDt> bondInvtDts = new ArrayList<>();
                 //获取按照料号划分的入区核注清单表体数据
                 bondInvtDts = gdsMtnoData.get(gdsMtno);
                 //获取料号
                 gds_mtno = bondInvtDts.get(0).getGds_mtno();
                 //获取账册号
                 emsNo = bondInvtBscList.get(0).getPutrec_no();
+                //经营企业编号
+                bizopEtpsno = bondInvtBscList.get(0).getBizop_etpsno();
+
                 //根据账册号查询是否存在该账册
                 BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
-                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno);
+                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno, bizopEtpsno);
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
-                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno);
+                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
                     this.logger.info("入区核放单成功完成一车多单实增操作");
                 } else {
                     this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");
@@ -134,11 +143,14 @@ public class CountActlIncrease implements CountLoader {
             //按照料号获取商品数据
             Map<String, List<PassPortList>> gdsMtNoData = BusinessUtils.classifyByGdsMtnoByPassPort(passPortListList);
             //料号
-            String gds_mtNo = null;
+            String gds_mtNo;
             //账册号
-            String emsNo = null;
+            String emsNo;
+            //经营企业编号
+            String bizopEtpsno;
+            //核放单表头
+            List<PassPortList> passPortLists;
             for (String gdsMtNo : gdsMtNoData.keySet()) {
-                List<PassPortList> passPortLists = new ArrayList<>();
                 //获取按照料号划分的入区核放单表体数据
                 passPortLists = gdsMtNoData.get(gdsMtNo);
                 //获取料号
@@ -146,12 +158,14 @@ public class CountActlIncrease implements CountLoader {
                 //获取账册号
                 emsNo = bondInvtBsc.getPutrec_no();
                 //根据账册号查询是否存在该账册
+                bizopEtpsno = bondInvtBsc.getBizop_etpsno();
+
                 BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
-                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtNo);
+                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtNo, bizopEtpsno);
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = passPortLists.stream().mapToDouble(PassPortList::getQuantity).sum();
                     //进行实增数据库计算程序
-                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtNo);
+                    this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtNo, bizopEtpsno);
                     this.logger.info("入区核放单成功完成一单多车实增操作");
                 } else {
                     this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");

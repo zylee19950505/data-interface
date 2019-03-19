@@ -1,7 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.ImpInventory;
-import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.CrtExitInventorySQLProvider;
@@ -23,11 +22,15 @@ public interface CrtExitInventoryMapper {
     Integer queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception;
 
     //查询账册表头海关编码
-    @Select("SELECT t.MASTER_CUSCD FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id}")
+    @Select("SELECT * FROM ( " +
+            "SELECT t.MASTER_CUSCD FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id} ORDER BY t.CRT_TIME ASC " +
+            ") WHERE ROWNUM = 1")
     String queryDcl_plc_cuscd(String ent_id);
 
     //查询账册表头账册编码
-    @Select("SELECT t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id}")
+    @Select("SELECT * FROM ( " +
+            "select t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id} ORDER BY t.CRT_TIME ASC " +
+            ") WHERE ROWNUM = 1")
     String queryBws_no(String ent_id);
 
     //查询该企业海关编码

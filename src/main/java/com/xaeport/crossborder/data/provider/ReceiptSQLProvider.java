@@ -51,12 +51,14 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     public String setPrevdRedcQty(
             @Param("qtySum") double qtySum,
             @Param("item_record_no") String item_record_no,
-            @Param("emsNo") String emsNo
+            @Param("emsNo") String emsNo,
+            @Param("bizopEtpsno") String bizopEtpsno
     ) {
         return new SQL() {
             {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
+                WHERE("BIZOP_ETPSNO = #{bizopEtpsno}");
                 WHERE("GDS_MTNO = #{item_record_no}");
                 SET("PREVD_REDC_QTY = PREVD_REDC_QTY - #{qtySum}");
                 SET("ACTL_REDC_QTY = ACTL_REDC_QTY + #{qtySum}");
@@ -66,7 +68,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
 
 
     //查询保税清单库存是否允许进行实减
-    public String checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo) {
+    public String checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno) {
         return new SQL() {
             {
                 SELECT("IN_QTY inQty");
@@ -76,6 +78,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("DCL_UNITCD");
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BWS_NO = #{emsNo}");
+                WHERE("t.BIZOP_ETPSNO = #{bizopEtpsno}");
                 WHERE("t.GDS_MTNO = #{item_record_no}");
             }
         }.toString();
@@ -1472,6 +1475,8 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("INVT_PREENT_NO");
                 SELECT("PUTREC_NO");
                 SELECT("ETPS_INNER_INVT_NO");
+                SELECT("BIZOP_ETPSNO");
+                SELECT("BIZOP_ETPS_NM");
                 FROM("T_BOND_INVT_BSC");
                 WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
             }
@@ -1512,7 +1517,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno) {
+    public String checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno, @Param("bizopEtpsno") String bizopEtpsno) {
         return new SQL() {
             {
                 SELECT("ID");
@@ -1524,6 +1529,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("IN_QTY");
                 FROM("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
+                WHERE("BIZOP_ETPSNO = #{bizopEtpsno}");
                 WHERE("GDS_MTNO = #{gds_mtno}");
             }
         }.toString();
@@ -1641,6 +1647,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bwlListType.getUpd_user())) {
                     VALUES("UPD_USER", "#{bwlListType.upd_user}");
                 }
+                if (!StringUtils.isEmpty(bwlListType.getBizop_etpsno())) {
+                    VALUES("BIZOP_ETPSNO", "#{bwlListType.bizop_etpsno}");
+                }
             }
         }.toString();
     }
@@ -1648,12 +1657,14 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     public String addBwlListType(
             @Param("qtySum") double qtySum,
             @Param("emsNo") String emsNo,
-            @Param("gds_mtno") String gds_mtno
+            @Param("gds_mtno") String gds_mtno,
+            @Param("bizopEtpsno") String bizopEtpsno
     ) {
         return new SQL() {
             {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
+                WHERE("BIZOP_ETPSNO = #{bizopEtpsno}");
                 WHERE("GDS_MTNO = #{gds_mtno}");
                 SET("PREVD_INC_QTY = PREVD_INC_QTY + #{qtySum}");
             }
@@ -1663,11 +1674,13 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
     public String actlIncreaseBwlListType(
             @Param("qtySum") double qtySum,
             @Param("emsNo") String emsNo,
-            @Param("gds_mtno") String gds_mtno
+            @Param("gds_mtno") String gds_mtno,
+            @Param("bizopEtpsno") String bizopEtpsno
     ) {
         return new SQL() {
             {
                 UPDATE("T_BWL_LIST_TYPE");
+                WHERE("BIZOP_ETPSNO = #{bizopEtpsno}");
                 WHERE("BWS_NO = #{emsNo}");
                 WHERE("GDS_MTNO = #{gds_mtno}");
                 SET("PREVD_INC_QTY = PREVD_INC_QTY - #{qtySum}");

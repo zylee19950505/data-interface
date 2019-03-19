@@ -39,9 +39,9 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
-                if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
-                }
+//                if (!roleId.equals("admin")) {
+//                    WHERE("t.ent_id = #{entId}");
+//                }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
                 }
@@ -68,9 +68,9 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
-                if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
-                }
+//                if (!roleId.equals("admin")) {
+//                    WHERE("t.ent_id = #{entId}");
+//                }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
                 }

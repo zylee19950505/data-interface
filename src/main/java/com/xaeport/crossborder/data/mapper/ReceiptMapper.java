@@ -21,11 +21,11 @@ public interface ReceiptMapper {
 
     //确认保税清单库存无误后，设置账册表体预减数量
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "setPrevdRedcQty")
-    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
+    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
 
     //查询检验库存余量是否大于excel导入数量
     @SelectProvider(type = ReceiptSQLProvider.class, method = "checkStockSurplus")
-    BwlListType checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo);
+    BwlListType checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
 
 
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_ORDER_HEAD WHERE ORDER_NO = #{orderNo}")
@@ -243,7 +243,7 @@ public interface ReceiptMapper {
 
     //查询是否存在账册表体信息
     @SelectProvider(type = ReceiptSQLProvider.class, method = "checkBwlListType")
-    BwlListType checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+    BwlListType checkBwlListType(@Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno, @Param("bizopEtpsno") String bizopEtpsno);
 
     //插入入区账册预增数据
     @SelectProvider(type = ReceiptSQLProvider.class, method = "insertBwlListType")
@@ -251,11 +251,11 @@ public interface ReceiptMapper {
 
     //入区账册预增叠加操作
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "addBwlListType")
-    void addBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+    void addBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno, @Param("bizopEtpsno") String bizopEtpsno);
 
     //入区账册预增叠加操作
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "actlIncreaseBwlListType")
-    void actlIncreaseBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno);
+    void actlIncreaseBwlListType(@Param("qtySum") double qtySum, @Param("emsNo") String emsNo, @Param("gds_mtno") String gds_mtno, @Param("bizopEtpsno") String bizopEtpsno);
 
     //根据保税清单编号查询核注清单表头信息
     @Select("SELECT * FROM T_BOND_INVT_BSC t WHERE t.BOND_INVT_NO = #{bondInvtNo}")

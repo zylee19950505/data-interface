@@ -19,11 +19,10 @@ public class CountPreReduce implements CountLoader {
     private BondinvenImportMapper bondinvenImportMapper = SpringUtils.getBean(BondinvenImportMapper.class);
 
     @Override
-    public void count(BondInvtBsc bondInvtBsc) {
-    }
+    public void count(BondInvtBsc bondInvtBsc) { }
 
     @Override
-    public void count(PassPortHead passPortHead) {}
+    public void count(PassPortHead passPortHead) { }
 
     @Override
     //检查对应库存余量是否大于导入商品数量
@@ -34,13 +33,15 @@ public class CountPreReduce implements CountLoader {
         Map<String, List<ImpInventoryBody>> itemRecordNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
         List<ImpInventoryBody> impBondInvenBodyList;
         String item_record_no;
+        String entCustomsCode = null;
         for (String itemRecordNo : itemRecordNoData.keySet()) {
             //获取按照料号划分的保税清单表体数据
             impBondInvenBodyList = itemRecordNoData.get(itemRecordNo);
             //获取料号
             item_record_no = impBondInvenBodyList.get(0).getItem_record_no();
             //根据料号，账册号查询是否存在账册表体数据
-            BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(user, item_record_no, emsNo);
+            entCustomsCode = user.getEnt_Customs_Code();
+            BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(entCustomsCode, item_record_no, emsNo);
             if (!StringUtils.isEmpty(bwlListType)) {
                 //获取导入保税清单的表体总数
                 double qtySum = impBondInvenBodyList.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
@@ -68,7 +69,7 @@ public class CountPreReduce implements CountLoader {
         }
         if (flag == 0) {
             //确认保税清单库存无误后，设置账册表体预减数量
-            this.setPrevdRedcQty(itemRecordNoData, emsNo);
+            this.setPrevdRedcQty(itemRecordNoData, emsNo, entCustomsCode);
             return flag;
         } else {
             return flag;
@@ -76,14 +77,14 @@ public class CountPreReduce implements CountLoader {
     }
 
     //确认保税清单库存无误后，设置账册表体预减数量
-    public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemRecordNoData, String emsNo) {
+    public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemRecordNoData, String emsNo, String entCustomsCode) {
         List<ImpInventoryBody> impBondInvenBodyList;
         String item_record_no;
         for (String itemRecordNo : itemRecordNoData.keySet()) {
             impBondInvenBodyList = itemRecordNoData.get(itemRecordNo);
             item_record_no = impBondInvenBodyList.get(0).getItem_record_no();
             double qtySum = impBondInvenBodyList.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
-            this.bondinvenImportMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo);
+            this.bondinvenImportMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo, entCustomsCode);
         }
     }
 

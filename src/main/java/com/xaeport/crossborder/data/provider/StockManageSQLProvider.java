@@ -5,8 +5,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-public class StockControlSQLProvider extends BaseSQLProvider{
-
+public class StockManageSQLProvider extends BaseSQLProvider {
     public String queryStockControlData(Map<String, String> paramMap) {
 
         final String gds_seqno = paramMap.get("gds_seqno");
@@ -15,6 +14,7 @@ public class StockControlSQLProvider extends BaseSQLProvider{
         final String gds_nm = paramMap.get("gds_nm");
         final String entId = paramMap.get("entId");
         final String surplus = paramMap.get("surplus");
+        final String entCustomsCode = paramMap.get("entCustomsCode");
 
         return new SQL() {
             {
@@ -32,7 +32,7 @@ public class StockControlSQLProvider extends BaseSQLProvider{
                         "PREVD_INC_QTY," +
                         "PREVD_REDC_QTY " +
                         "FROM T_BWL_LIST_TYPE " +
-                        "WHERE BWS_NO in (SELECT BWS_NO FROM T_BWL_HEAD_TYPE WHERE CRT_ENT_ID = #{entId}) )");
+                        "WHERE BIZOP_ETPSNO = #{entCustomsCode} )");
                 if (!StringUtils.isEmpty(surplus)) {
                     WHERE("SURPLUS >= #{surplus}");
                 }
@@ -61,6 +61,7 @@ public class StockControlSQLProvider extends BaseSQLProvider{
         final String gds_nm = paramMap.get("gds_nm");
         final String entId = paramMap.get("entId");
         final String surplus = paramMap.get("surplus");
+        final String entCustomsCode = paramMap.get("entCustomsCode");
 
         return new SQL() {
             {
@@ -76,7 +77,7 @@ public class StockControlSQLProvider extends BaseSQLProvider{
                         "PREVD_INC_QTY," +
                         "PREVD_REDC_QTY " +
                         "FROM T_BWL_LIST_TYPE " +
-                        "WHERE BWS_NO in (SELECT BWS_NO FROM T_BWL_HEAD_TYPE WHERE CRT_ENT_ID = #{entId}) )");
+                        "WHERE BIZOP_ETPSNO = #{entCustomsCode} )");
                 if (!StringUtils.isEmpty(surplus)) {
                     WHERE("SURPLUS >= #{surplus}");
                 }

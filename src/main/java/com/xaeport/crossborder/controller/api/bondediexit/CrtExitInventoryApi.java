@@ -29,7 +29,6 @@ public class CrtExitInventoryApi extends BaseApi {
 
     @Autowired
     CrtExitInventoryService crtExitInventoryService;
-
     /*
      *  保税清单数据查询
      */
@@ -57,8 +56,8 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("returnStatus", returnStatus);
         paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
 
-        DataList<ImpInventory> dataList = null;
-        List<ImpInventory> resultList = null;
+        DataList<ImpInventory> dataList;
+        List<ImpInventory> resultList;
         try {
             //查询列表
             resultList = this.crtExitInventoryService.queryCrtEInventoryList(paramMap);
@@ -101,8 +100,8 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("etps_inner_invt_no", "HZQD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
 
         ExitBondInvt exitBondInvt = new ExitBondInvt();
-        BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
+        BondInvtBsc bondInvtBsc;
+        List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
         try {
             //查询列表
             bondInvtBsc = this.crtExitInventoryService.queryBondInvtBsc(paramMap);

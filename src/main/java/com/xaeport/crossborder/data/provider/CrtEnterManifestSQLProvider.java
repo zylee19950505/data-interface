@@ -40,7 +40,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 WHERE("t.FLAG = 'ENTER'");
                 WHERE("t.USABLE_NM > 0");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.status = #{dataStatus}");
@@ -74,7 +74,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.FLAG = 'ENTER'");
                 if (!roleId.equals("admin")) {
-                    WHERE("t.ent_id = #{entId}");
+                    WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.status = #{dataStatus}");

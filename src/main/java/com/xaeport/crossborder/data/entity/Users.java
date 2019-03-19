@@ -27,9 +27,36 @@ public class Users {
     private String ent_Customs_Code;//海关十位码
     private String ic_Card;//IC卡号
     private String ic_Pwd;//IC卡密码
+    private String area_code;//区内企业编号
+    private String credit_code;//企业统一社会信用代码
+    private String ent_business_type;//跨境企业类型
     private List<Menu> subMenuList;//菜单表
     private List<Menu> childMenuList;//子菜单表
     private Enterprise enterprise;//企业信息
+
+    public String getArea_code() {
+        return area_code;
+    }
+
+    public void setArea_code(String area_code) {
+        this.area_code = area_code;
+    }
+
+    public String getCredit_code() {
+        return credit_code;
+    }
+
+    public void setCredit_code(String credit_code) {
+        this.credit_code = credit_code;
+    }
+
+    public String getEnt_business_type() {
+        return ent_business_type;
+    }
+
+    public void setEnt_business_type(String ent_business_type) {
+        this.ent_business_type = ent_business_type;
+    }
 
     public String getEnt_Customs_Code() {
         return ent_Customs_Code;

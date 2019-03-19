@@ -34,6 +34,12 @@ public interface CrtEnterInventoryMapper {
     @DeleteProvider(type = CrtEnterInventorySQLProvider.class,method="deleteEnterInvenDt")
     void deleteEnterInvenDt(@Param("invt_no") String invt_no);
 
-    @Select("SELECT t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{entId}")
-    String queryBws_no(String entId);
+//    @Select("SELECT t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{entId}")
+//    String queryBws_no(String entId);
+
+    //查询账册表头账册编码
+    @Select("SELECT * FROM ( " +
+            "select t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id} ORDER BY t.CRT_TIME ASC " +
+            ") WHERE ROWNUM = 1")
+    String queryBws_no(String ent_id);
 }

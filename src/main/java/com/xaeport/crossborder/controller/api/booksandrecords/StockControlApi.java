@@ -62,7 +62,7 @@ public class StockControlApi extends BaseApi {
         paramMap.put("extra_search", extra_search);
 
         DataList<BwlListType> dataList = new DataList<BwlListType>();
-        List<BwlListType> resultList = new ArrayList<BwlListType>();
+        List<BwlListType> resultList;
         try {
             //查询账册表体数据
             resultList = stockControlService.queryStockControlData(paramMap);

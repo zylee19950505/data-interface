@@ -43,6 +43,8 @@ public class BwlListType {
     private String crt_user;//创建人
     private Date upd_time;//更新时间
     private String upd_user;//更新人
+    private double norm_qty;//申报数量和法定数量之比
+    private String bizop_etpsno;//经营企业编号 关联海关参数库
 
     private double surplus;//剩余量
     private String dcl_unitcd_name;//申报计量单位中文名称
@@ -50,6 +52,22 @@ public class BwlListType {
     private double inQty;
     private double actlRedcQty;
     private double prevdRedcQty;
+
+    public double getNorm_qty() {
+        return norm_qty;
+    }
+
+    public void setNorm_qty(double norm_qty) {
+        this.norm_qty = norm_qty;
+    }
+
+    public String getBizop_etpsno() {
+        return bizop_etpsno;
+    }
+
+    public void setBizop_etpsno(String bizop_etpsno) {
+        this.bizop_etpsno = bizop_etpsno;
+    }
 
     public double getInQty() {
         return inQty;

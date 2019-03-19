@@ -33,6 +33,9 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                         case "Logistics":
                             row.ent_business_type = "物流企业";
                             break;
+                        case "Storage":
+                            row.ent_business_type = "仓储企业";
+                            break;
                         default:
                             row.ent_business_type = "";
                             break;

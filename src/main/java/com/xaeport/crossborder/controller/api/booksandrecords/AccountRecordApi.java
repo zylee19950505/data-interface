@@ -36,8 +36,8 @@ public class AccountRecordApi extends BaseApi {
         Map<String, String> paramMap = new HashMap<String, String>();
         Users user = this.getCurrentUsers();
         paramMap.put("accountinfo", accountinfo);
-        paramMap.put("crt_ent_id",user.getEnt_Id());
-        paramMap.put("crt_ent_name",user.getEnt_Name());
+        paramMap.put("crt_ent_id", user.getEnt_Id());
+        paramMap.put("crt_ent_name", user.getEnt_Name());
         try {
             List<BwlHeadType> allBooksInfo = this.accountRecordService.queryAllAccountsInfo(paramMap);
             return new ResponseData(allBooksInfo);
@@ -97,8 +97,8 @@ public class AccountRecordApi extends BaseApi {
     @RequestMapping(value = "/getemsnos", method = RequestMethod.GET)
     public ResponseData getSendName() {
         Map<String, String> map = new HashMap<>();
-        map.put("ent_id", this.getCurrentUserEntId());
-        map.put("ent_name", this.getCurrentUserEntName());
+        Users users = this.getCurrentUsers();
+        map.put("customsCode", users.getArea_code());
         List<BwlHeadType> bwlHeadTypeList;
         try {
             bwlHeadTypeList = this.accountRecordService.getEmsNos(map);

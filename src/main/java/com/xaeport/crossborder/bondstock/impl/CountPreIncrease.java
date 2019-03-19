@@ -27,7 +27,8 @@ public class CountPreIncrease implements CountLoader {
     }
 
     @Override
-    public void count(PassPortHead passPortHead) {}
+    public void count(PassPortHead passPortHead) {
+    }
 
     @Override
     public void count(BondInvtBsc bondInvtBsc) {
@@ -41,27 +42,29 @@ public class CountPreIncrease implements CountLoader {
             //按照料号获取商品数据
             Map<String, List<BondInvtDt>> gdsMtnoData = BusinessUtils.classifyByGdsMtno(bondInvtDtList);
             //料号
-            String gds_mtno = null;
+            String gds_mtno;
             //账册号
-            String emsNo = null;
+            String emsNo;
+            String bizopEtpsno;
+            List<BondInvtDt> bondInvtDts;
             for (String gdsMtno : gdsMtnoData.keySet()) {
-                List<BondInvtDt> bondInvtDts = new ArrayList<>();
                 //获取按照料号划分的入区核注清单表体数据
                 bondInvtDts = gdsMtnoData.get(gdsMtno);
                 //获取料号
                 gds_mtno = bondInvtDts.get(0).getGds_mtno();
                 //获取账册号
                 emsNo = bondInvtBscList.get(0).getPutrec_no();
-
+                //查询经营企业编号
+                bizopEtpsno = bondInvtBscList.get(0).getBizop_etpsno();
                 //根据账册号查询是否存在该账册
                 BwlHeadType bwlHeadType = this.receiptMapper.checkBwlHeadType(emsNo);
-                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno);
+                BwlListType bwlList = this.receiptMapper.checkBwlListType(emsNo, gds_mtno, bizopEtpsno);
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
-                    this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno);
+                    this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
                     this.logger.info("入区核注清单成功进行预增叠加操作");
                 } else if (!StringUtils.isEmpty(bwlHeadType) && StringUtils.isEmpty(bwlList)) {
-                    BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts);
+                    BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts, bizopEtpsno);
                     //插入入区账册表体的数据
                     this.receiptMapper.insertBwlListType(bwlListType);
                     this.logger.info("入区核注清单成功进行预增添加操作");
@@ -76,7 +79,7 @@ public class CountPreIncrease implements CountLoader {
     }
 
     //封装数据操作
-    public BwlListType crtBwlListType(String emsNo, String gds_mtno, List<BondInvtDt> bondInvtDts) {
+    public BwlListType crtBwlListType(String emsNo, String gds_mtno, List<BondInvtDt> bondInvtDts, String bizopEtpsno) {
         BwlListType bwlListType = new BwlListType();
         BondInvtDt bondInvtDt = bondInvtDts.get(0);
         double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
@@ -93,7 +96,16 @@ public class CountPreIncrease implements CountLoader {
         bwlListType.setPrevd_redc_qty("0");
         bwlListType.setCrt_time(new Date());
         bwlListType.setUpd_time(new Date());
+        bwlListType.setBizop_etpsno(bizopEtpsno);
+        //法定单位及法定数量
+        bwlListType.setLawf_unitcd(bondInvtDt.getLawf_unitcd());
+        bwlListType.setIn_lawf_qty(bondInvtDt.getLawf_qty());
+        bwlListType.setSecd_lawf_unitcd(StringUtils.isEmpty(bondInvtDt.getSecd_lawf_unitcd()) ? "" : bondInvtDt.getSecd_lawf_unitcd());
+        bwlListType.setIn_secd_lawf_qty(StringUtils.isEmpty(bondInvtDt.getSecd_lawf_qty()) ? "" : bondInvtDt.getSecd_lawf_qty());
+        //法定数量和申报数量之比
+        bwlListType.setNorm_qty(Double.parseDouble(bondInvtDt.getLawf_qty()) / qtySum);
         return bwlListType;
     }
 
 }
+
