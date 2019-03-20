@@ -27,29 +27,16 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                         "t.order_no," +
                         "t.logistics_no," +
                         "t.invt_no," +
-                        "t.ebp_name," +
-                        "t.ebc_name," +
-                        "t.logistics_name," +
                         "t.app_time," +
                         "t.return_status," +
-                        "t.cop_no," +
-                        "(select ss.status_name " +
-                        "from t_status ss " +
-                        "where ss.status_code = t.return_status) return_status_name");
+                        "t.cop_no");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = #{businessType}");
-//                if (!roleId.equals("admin")) {
-//                    WHERE("t.ent_id = #{entId}");
-//                }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
                 }
-                if (!"-1".equals(end)) {
-                    ORDER_BY("t.app_time desc ) f  )  WHERE rn between #{start} and #{end}");
-                } else {
-                    ORDER_BY("t.app_time desc ) f  )  WHERE rn >= #{start}");
-                }
+                WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
+                ORDER_BY("t.app_time ) f  )  WHERE rn between #{start} and #{end}");
             }
         }.toString();
     }
@@ -68,9 +55,6 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
-//                if (!roleId.equals("admin")) {
-//                    WHERE("t.ent_id = #{entId}");
-//                }
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
                 }

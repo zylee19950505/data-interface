@@ -150,7 +150,7 @@ var gds_mtno = {};
 var gds_nm = {};
 //用来显示最终的表体数据
 var entryLists = [];
-sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] || {
+sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] || {
 
 
     detailParam: {
@@ -190,7 +190,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     // 取消返回
     cancel: function () {
         //将此数据状态变更为入区核放单暂存
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetailYPDC");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var data = {
             "etps_preent_no":param.etps_preent_no,
             "bond_invt_no":param.bond_invt_no
@@ -200,7 +200,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             if (rsp.data.result == "true") {
                 sw.alert("取消核放单成功!状态为暂存!", "提示", function () {
                 }, "modal-success");
-                sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].callBackQuery();
+                sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].callBackQuery();
             } else {
                 sw.alert(rsp.data.msg);
             }
@@ -210,7 +210,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].detailParam.disableField;
+        var disableField = sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -274,7 +274,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_qty_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_qty) ? 0:entryLists[i].dcl_qty) + "' /></td>" +
-                "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedIEnter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
+                "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedienter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
                 "</tr>";
             $("#entryList").append(str);
             /!*selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
@@ -288,11 +288,11 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
         }*/
         //重新渲染表体
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].entryListsViem(entryLists);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].entryListsViem(entryLists);
         //重新加载禁用框
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].disabledFieldInput();
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].disabledFieldInput();
         //重新加载select下拉框
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
 
 
     },
@@ -314,7 +314,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='surplus_nm_" + g_num + "' type='number' min='1' value='0' /></td>" +
                 // "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='surplus_nm_" + g_num + "' type='number' min='1' value='" + (isEmpty(entryLists[i].surplus_nm) ? 0:entryLists[i].surplus_nm) + "' /></td>" +
-                "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedIEnter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
+                "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedienter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
                 "</tr>";
             $("#entryList").append(str);
             /*selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
@@ -343,12 +343,12 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             }
         }
         //重新渲染表体
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].entryListsViem(entryLists);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].entryListsViem(entryLists);
         //重新加载select2下拉框
         //重新加载禁用框
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].disabledFieldInput();
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].disabledFieldInput();
         //重新加载select下拉框
-        sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
 
     },
 
@@ -427,7 +427,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].callBackQuery();
+                sw.page.modules["bondedienter/seeEnterInventoryDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -444,7 +444,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetailYPDC");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var bond_invt_no = param.bond_invt_no;
         var bind_typecd = param.type;
         var etps_preent_no = param.etps_preent_no;
@@ -461,7 +461,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"];
+                    var entryModule = sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"];
                     var entryHead = data.data.passPortHead;
                     //var entryLists = data.data.bondInvtDtList;
                     gds_mtno = data.data.gds_mtno;
@@ -571,7 +571,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"];
+                    var entryModule = sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"];
                     var bondDtLists = data.data;
                     //var vertify = data.data.verify;
                     if (isNotEmpty(bondDtLists)) {
@@ -585,7 +585,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     init: function () {
         entryLists=[];
         //从路径上获取参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetailYPDC");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var bond_invt_no = param.bond_invt_no;
         var etps_preent_no = param.etps_preent_no;
         var editBoundNm = param.editBoundNm;
@@ -702,14 +702,14 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].saveEntryInfo(editBoundNm);
+            sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].saveEntryInfo(editBoundNm);
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].cancel();
+            sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].cancel();
         });
         $("#ws-list-search").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterManifestDetailYPDC"].createPassPortList(bond_invt_no,etps_preent_no);
+            sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].createPassPortList(bond_invt_no,etps_preent_no);
         });
     }
 

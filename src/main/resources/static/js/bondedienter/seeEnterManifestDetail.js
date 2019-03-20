@@ -99,7 +99,7 @@ var bind_typecdList = {
     "3":"一票多车"
 };
 
-sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bondedIEnter/seeEnterManifestDetail"] || {
+sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bondedienter/seeEnterManifestDetail"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
@@ -120,7 +120,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
     // 取消返回
     cancel: function () {
         //将此数据状态变更为入区核放单暂存
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetail");
         var data = {
             "etps_preent_no":param.etps_preent_no,
             "bond_invt_no":param.bond_invt_no
@@ -130,7 +130,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
             if (rsp.data.result == "true") {
                 sw.alert("取消核放单成功!状态为暂存!", "提示", function () {
                 }, "modal-success");
-                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].callBackQuery();
+                sw.page.modules["bondedienter/seeEnterManifestDetail"].callBackQuery();
             } else {
                 sw.alert(rsp.data.msg);
             }
@@ -140,7 +140,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["bondedIEnter/seeEnterManifestDetail"].detailParam.disableField;
+        var disableField = sw.page.modules["bondedienter/seeEnterManifestDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -228,12 +228,12 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-               /* sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();*/
+               /* sw.page.modules["bondedienter/seeEnterManifestDetail"].cancel();*/
                 $("#dialog-popup").modal("hide");
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondedIEnter/seeEnterManifestDetail"].callBackQuery();
+                sw.page.modules["bondedienter/seeEnterManifestDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -250,7 +250,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetail");
         var bond_invt_no = param.bond_invt_no;
         var bind_typecd = param.type;
         var etps_preent_no = param.etps_preent_no;
@@ -267,7 +267,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeEnterManifestDetail"];
+                    var entryModule = sw.page.modules["bondedienter/seeEnterManifestDetail"];
                     var entryHead = data.data;
                     //var vertify = data.data.verify;
                     if (isNotEmpty(entryHead)) {
@@ -318,7 +318,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterManifestDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterManifestDetail");
         var bond_invt_no = param.bond_invt_no;
         var etps_preent_no = param.etps_preent_no;
         var type = param.type;
@@ -346,7 +346,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
                 //保存的路径
                 this.detailParam.url = "/api/crtEnterManifest/saveEnterManifestDetailOneCar";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondedIEnter/seeEnterManifestDetail";
+                this.detailParam.callBackUrl = "bondedienter/seeEnterManifestDetail";
                 this.detailParam.isShowError = false;
                 break;
             }
@@ -366,7 +366,7 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
                 //保存的路径
                 this.detailParam.url = "/api/crtEnterManifest/saveEnterManifestDetailOneCar";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondedIEnter/seeEnterManifestDetail";
+                this.detailParam.callBackUrl = "bondedienter/seeEnterManifestDetail";
                 this.detailParam.isShowError = false;
                 break;
 
@@ -383,11 +383,11 @@ sw.page.modules["bondedIEnter/seeEnterManifestDetail"] = sw.page.modules["bonded
         this.query();
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterManifestDetail"].saveManifestDetail(bond_invt_no);
+            sw.page.modules["bondedienter/seeEnterManifestDetail"].saveManifestDetail(bond_invt_no);
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterManifestDetail"].cancel();
+            sw.page.modules["bondedienter/seeEnterManifestDetail"].cancel();
         });
     },
 

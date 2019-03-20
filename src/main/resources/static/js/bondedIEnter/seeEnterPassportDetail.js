@@ -53,7 +53,7 @@ var supv_modecd = {
     "1239":"保税电商A"
 };
 
-sw.page.modules["bondedIEnter/seeEnterPassportDetail"] = sw.page.modules["bondedIEnter/seeEnterPassportDetail"] || {
+sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bondedienter/seeEnterPassportDetail"] || {
 
 
     detailParam: {
@@ -84,7 +84,7 @@ sw.page.modules["bondedIEnter/seeEnterPassportDetail"] = sw.page.modules["bonded
 
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["bondedIEnter/seeEnterPassportDetail"].detailParam.disableField;
+        var disableField = sw.page.modules["bondedienter/seeEnterPassportDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -136,7 +136,7 @@ sw.page.modules["bondedIEnter/seeEnterPassportDetail"] = sw.page.modules["bonded
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterPassportDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterPassportDetail");
         var etps_preent_no = param.etps_preent_no;
         var data = {
             etps_preent_no: etps_preent_no
@@ -147,7 +147,7 @@ sw.page.modules["bondedIEnter/seeEnterPassportDetail"] = sw.page.modules["bonded
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeEnterPassportDetail"];
+                    var entryModule = sw.page.modules["bondedienter/seeEnterPassportDetail"];
                     console.log(data.data.passPortHead);
                     var entryHead = data.data.passPortHead;
                     //var entryLists = data.data.bondInvtDtList;
@@ -174,7 +174,7 @@ sw.page.modules["bondedIEnter/seeEnterPassportDetail"] = sw.page.modules["bonded
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterPassportDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterPassportDetail");
         var etps_preent_no = param.etps_preent_no;
         var type = param.type;
         var isEdit = param.isEdit;

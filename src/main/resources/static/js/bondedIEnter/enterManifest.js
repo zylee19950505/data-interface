@@ -213,9 +213,9 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
 
     seeEnterPassportDetail: function (bind_typecd, etps_preent_no) {
         if ("3" != bind_typecd) {
-            var url = "bondedIEnter/seeEnterPassportDetail?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
+            var url = "bondedienter/seeEnterPassportDetail?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
         } else {
-            var url = "bondedIEnter/seeEnterPassportDetailYPDC?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
+            var url = "bondedienter/seeEnterPassportDetailYPDC?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
         }
         sw.modelPopup(url, "查看核放单详情", false, 1100, 930);
     }

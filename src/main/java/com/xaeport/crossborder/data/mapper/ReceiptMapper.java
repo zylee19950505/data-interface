@@ -270,8 +270,7 @@ public interface ReceiptMapper {
     List<BondInvtDt> queryBondInvtDtLists(String listNo);
 
     //查询入区核放单的表体数据（一单多车的表体数据）
-//    @Select("SELECT t.DCL_QTY quantity,t.* FROM T_PASS_PORT_LIST t WHERE t.PASSPORT_NO = #{passPortHead.etps_preent_no}")
-    @Select("SELECT t.DCL_QTY quantity,t.* FROM T_PASS_PORT_LIST t WHERE t.HEAD_ID = #{passPortHead.etps_preent_no}")
+    @Select("SELECT t.DCL_QTY quantity,t.* FROM T_PASS_PORT_LIST t WHERE t.HEAD_ID = #{passPortHead.id}")
     List<PassPortList> queryPassPortList(@Param("passPortHead") PassPortHead passPortHead);
 
 }

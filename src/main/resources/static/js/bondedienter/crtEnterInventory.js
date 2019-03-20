@@ -35,7 +35,7 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
                         if (rsp.data.result!="false"){
                             if (rsp.data.data != "" || rsp.data.data != null || rsp.data.data != undefined){
                                 //显示表体详情和表头信息
-                                var url = "bondedIEnter/seeEnterInventoryDetail?type=XJHFD&isEdit=true&etps_inner_invt_no=" + rsp.data.data;
+                                var url = "bondedienter/seeEnterInventoryDetail?type=XJHFD&isEdit=true&etps_inner_invt_no=" + rsp.data.data;
                                 sw.modelPopup(url, "入区核注清单详情", false, 1000, 930,null,null,function(){
                                     sw.page.modules["bondedienter/crtEnterInventory"].close(rsp.data.data);
                                 });
@@ -59,7 +59,7 @@ sw.page.modules["bondedienter/crtEnterInventory"] = sw.page.modules["bondediente
     },
     //关闭
     close:function (etps_inner_invt_no) {
-        sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
+        sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
     }
 
 };

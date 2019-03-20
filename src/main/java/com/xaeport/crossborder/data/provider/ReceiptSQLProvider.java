@@ -1647,6 +1647,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bwlListType.getUpd_user())) {
                     VALUES("UPD_USER", "#{bwlListType.upd_user}");
                 }
+                if (!StringUtils.isEmpty(bwlListType.getNorm_qty())) {
+                    VALUES("NORM_QTY", "#{bwlListType.norm_qty}");
+                }
                 if (!StringUtils.isEmpty(bwlListType.getBizop_etpsno())) {
                     VALUES("BIZOP_ETPSNO", "#{bwlListType.bizop_etpsno}");
                 }

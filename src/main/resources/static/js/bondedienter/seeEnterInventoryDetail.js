@@ -113,7 +113,7 @@ var supv_modecd = {
     "1239":"保税电商A"
 };
 
-sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] || {
+sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bondedienter/seeEnterInventoryDetail"] || {
 
 
     detailParam: {
@@ -156,7 +156,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].detailParam.disableField;
+        var disableField = sw.page.modules["bondedienter/seeEnterInventoryDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -260,7 +260,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].callBackQuery();
+                sw.page.modules["bondedienter/seeEnterInventoryDetail"].callBackQuery();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -278,7 +278,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterInventoryDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterInventoryDetail");
         var etps_inner_invt_no = param.etps_inner_invt_no;
         var data = {
             etps_inner_invt_no: etps_inner_invt_no
@@ -289,7 +289,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeEnterInventoryDetail"];
+                    var entryModule = sw.page.modules["bondedienter/seeEnterInventoryDetail"];
                     console.log(data.data.bondInvtDtList);
                     var entryHead = data.data.bondInvtBsc;
                     var entryLists = data.data.bondInvtDtList;
@@ -397,7 +397,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("bondedIEnter/seeEnterInventoryDetail");
+        var param = sw.getPageParams("bondedienter/seeEnterInventoryDetail");
         var etps_inner_invt_no = param.etps_inner_invt_no;
         var type = param.type;
         var isEdit = param.isEdit;
@@ -479,7 +479,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 //this.detailParam.isShowError = false;
                 //点击取消
                 $("#ws-page-back").click(function () {
-                    sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
+                    sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
                 });
                 break;
             }
@@ -550,7 +550,7 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 //this.detailParam.isShowError = false;
                 //点击取消
                 $("#ws-page-back").click(function () {
-                    sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].callBackQuery();
+                    sw.page.modules["bondedienter/seeEnterInventoryDetail"].callBackQuery();
                 });
                 break;
             }
@@ -603,11 +603,11 @@ sw.page.modules["bondedIEnter/seeEnterInventoryDetail"] = sw.page.modules["bonde
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].saveEntryInfo(etps_inner_invt_no, type, sw.ie);
+            sw.page.modules["bondedienter/seeEnterInventoryDetail"].saveEntryInfo(etps_inner_invt_no, type, sw.ie);
         });
        /* //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["bondedIEnter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
+            sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
         });*/
     },
 

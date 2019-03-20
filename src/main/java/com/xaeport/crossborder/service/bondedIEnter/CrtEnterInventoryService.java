@@ -4,7 +4,6 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtEnterInventoryMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
-import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class CrtEnterInventoryService {
             BondInvtDt bondInvtDt = list.get(i);
 
             //设置表头原有数量
-            original_nm += Integer.parseInt(bondInvtDt.getDcl_qty());
+            original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());

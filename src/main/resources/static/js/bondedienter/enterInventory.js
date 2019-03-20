@@ -210,9 +210,9 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
     },
     seeEnterInventoryInfo: function (etpsInnerInvtNo,status) {
         if ("BDDS10"==status || "BDDS11"==status || "BDDS12"==status){
-            var url = "bondedIEnter/seeEnterInventoryDetail?type=RQHZQD&isEdit=false&etps_inner_invt_no=" + etpsInnerInvtNo;
+            var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=false&etps_inner_invt_no=" + etpsInnerInvtNo;
         }else{
-            var url = "bondedIEnter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
+            var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
         }
         sw.modelPopup(url, "查看清单详情", false, 1100, 930);
     }
