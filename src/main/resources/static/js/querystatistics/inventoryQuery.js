@@ -156,6 +156,6 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         $("[ws-search]").unbind("click").click(this.query);
         $("[ws-download]").unbind("click").click(this.download);
         $(".btn[ws-search]").click();
-    },
+    }
 
 };

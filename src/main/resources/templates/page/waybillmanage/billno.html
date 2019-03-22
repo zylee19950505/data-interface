@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:text="${pageName}"></title>
+    <link rel="stylesheet" href="/css/verify_update.css"/>
+    <style>
+        .modal-body {
+            padding: 0px !important;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="box-body" style=" padding:20px">
+        <form class="form-inline" align="center">
+            <div class="form-group disBlock">
+                <div class="input-group">
+                    <span class="input-group-addon">提运单号：</span>
+                    <input type="text" name="send_id" id="send_id" class="form-control" placeholder="请输入提运单号"/>
+                </div>
+                <div class="color-red tishiInfor" id="al2" style="display: none"><label id="se">提运单号</label></div>
+            </div>
+        </form>
+    </div>
+    <div class="form-group" align="center" style="border-top:1px solid #ccc;padding-top:10px;">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled" title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back" data-toggle="tooltip-disabled"
+                title="放弃并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>
+</body>
+</html>

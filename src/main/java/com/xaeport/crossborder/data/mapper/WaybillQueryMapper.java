@@ -21,6 +21,10 @@ public interface WaybillQueryMapper {
     int deleteVerifyStatus(String guid);
 
     //查询运单数据
+    @SelectProvider(type = WaybillQuerySQLProvider.class, method = "queryImpLogisticsByBillNo")
+    List<ImpLogistics> queryImpLogisticsByBillNo(Map<String, String> paramMap) throws Exception;
+
+    //查询运单数据
     @SelectProvider(type = WaybillQuerySQLProvider.class, method = "queryWaybillQueryDataList")
     List<ImpLogisticsData> queryWaybillQueryDataList(Map<String, String> paramMap) throws Exception;
 

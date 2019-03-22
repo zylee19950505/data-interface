@@ -112,6 +112,6 @@ sw.page.modules["querystatistics/commodityStatistics"] = sw.page.modules["querys
                 window.location.href = "/api/commodity/query/downloadFile?fileName=" + fileName;
             }
         })
-    },
+    }
 
 };

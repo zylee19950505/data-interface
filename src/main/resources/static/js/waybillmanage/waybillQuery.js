@@ -13,8 +13,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query);
-        $("[ws-download]").unbind("click").click(this.billDownLoad);
-        $("[ws-back]").unbind("click").click(this.back);
+        // $("[ws-download]").unbind("click").click(this.download);
         $(".btn[ws-search]").click();
     },
 
@@ -128,11 +127,6 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
 
     },
 
-    back: function () {
-        $("#bill").show();
-        $("#preview").hide();
-    },
-
     //打开一个页面，并且用路径传递参数
     queryWaybillbyid: function (guid, logistics_no) {
         var url = "waybillmanage/seeWaybillDetail?type=YDCX&isEdit=true&guid=" + guid + "&logistics_no=" + logistics_no;
@@ -144,21 +138,23 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         sw.modelPopup(url, "回执备注详情", false, 900, 350);
     },
 
-    billDownLoad: function () {
-        sw.ajax("api/bill", "GET", {
-            ieFlag: sw.ie,
-            entryType: sw.type,
-            startFlightTimes: $("[name='startFlightTimes']").val(),
-            endFlightTimes: $("[name='endFlightTimes']").val(),
-            billNo: $("[name='billNo']").val(),
-            flag: "1"
-        }, function (rsp) {
-            if (rsp.status == 200) {
-                var fileName = rsp.data;
-                window.location.href = "/api/downloadFile?fileName=" + fileName;
-            }
-        });
+    download: function () {
 
+        sw.alert("运单数据下载啦！！！","提示","","modal-info");
+
+        // var oTable = $('#query-waybillQuery-table').dataTable();
+        // var oSettings = oTable.fnSettings();
+        // var paramJson = {
+        //     billNo: $("[name='billNo']").val(),
+        //     startStr: oSettings._iDisplayStart,
+        //     length: oSettings._iDisplayLength
+        // };
+        // sw.ajax("api/waybillManage/load", "GET", paramJson, function (rsp) {
+        //     if (rsp.status == 200) {
+        //         var fileName = rsp.data;
+        //         window.location.href = "/api/waybillManage/downloadFile?fileName=" + fileName;
+        //     }
+        // })
     }
 
 };

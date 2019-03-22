@@ -96,8 +96,12 @@
                     <div class="box-header with-border">
                         <i class="fa fa-search"></i>
                         <h3 class="box-title">运单查询</h3>
-                        <div class="box-tools pull-right">
-                        </div>
+                        <!--<div class="box-tools pull-right">-->
+                            <!--<button class="btn btn-sm btn-info pull-right" type="button" ws-download="exportExcel"-->
+                                    <!--id="exportBtn"-->
+                                    <!--data-toggle="tooltip-disabled">导出表格-->
+                            <!--</button>-->
+                        <!--</div>-->
                     </div>
                     <div class="box-body">
                         <div style="text-align: center">
@@ -114,70 +118,6 @@
             </div>
         </div>
 
-    </div>
-    <!-- 报单预览 打印-->
-    <div class="row">
-        <div class="info-box" id="preview" style="display: none;">
-            <div class="box-header with-border hidden-print">
-                <i class="fa fa-desktop"></i>
-                <h3 class="box-title" id="ws-preview-title">报单预览</h3>
-            </div>
-            <div class="box-body" id="ws-preview">
-                <div class="box-tools pull-right">
-                    <button class="btn btn-sm btn-info pull-right margin hidden-print" type="button" ws-back=""
-                            data-toggle="tooltip-disabled"><i class="fa fa-undo"></i> 返回
-                    </button>
-
-                    <button class="btn btn-sm btn-info pull-right margin hidden-print" type="button" ws-print=""
-                            data-toggle="tooltip-disabled"><i class="fa fa-print"></i> 打印
-                    </button>
-                </div>
-                <div id="previewBox" style="margin-top:3% ">
-                    <table id="previewHead" border="solid 1px black" width="100%">
-                        <tr style="height: 35px">
-                            <th colspan="15" style="font-size:25px;font-weight: 500;text-align: center">
-                                中华人民共和国海关进境Ｂ类快件报关单（清单）
-                            </th>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td colspan="2"> &nbsp; 总运单号 &nbsp; <span id="bill_no"></span></td>
-                            <td> &nbsp; 进境日期 &nbsp; <span id="enter_date"></span></td>
-                            <td> &nbsp; 申报日期 &nbsp; <span id="del_date"></span></td>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td> &nbsp; 进口口岸 &nbsp; <span id="import_port"></span></td>
-                            <td> &nbsp; 申报口岸 &nbsp; <span id="del_port"></span></td>
-                            <td> &nbsp; 运输方式 &nbsp; <span id="transport_mode"></span></td>
-                            <td> &nbsp; 运输工具名称 &nbsp; <span id="transport_name"></span></td>
-                        </tr>
-                        <tr style="height: 20px">
-                            <td colspan="2"> &nbsp; 起运国（地区） &nbsp; <span id="origin_country"></span></td>
-                            <td> &nbsp; 件数 &nbsp; <span id="pack_no"></span></td>
-                            <td> &nbsp; 重量（千克） &nbsp; <span id="weight"></span></td>
-                        </tr>
-                    </table>
-                    <table id="previewId" width="100%" border="solid 1px black" style="border-top:none">
-                        <tr style="height: 22px">
-                            <th class="text-center">序号</th>
-                            <th class="text-center">报关单号</th>
-                            <th class="text-center">分运单号</th>
-                            <th class="text-center">税号</th>
-                            <th class="text-center">物品名称</th>
-                            <th class="text-center">件数</th>
-                            <th class="text-center">重量(千克)</th>
-                            <th class="text-center">税率</th>
-                            <th class="text-center">完税价格</th>
-                            <th class="text-center">税额</th>
-                            <th class="text-center">原产国</th>
-                            <th class="text-center">发件人</th>
-                            <th class="text-center">贸易国别</th>
-                            <th class="text-center">收件人</th>
-                            <th class="text-center">海关回执信息</th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
 </section>

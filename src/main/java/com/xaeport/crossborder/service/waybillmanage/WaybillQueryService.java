@@ -114,4 +114,10 @@ public class WaybillQueryService {
         return false;
     }
 
+    /*
+     * 查询运单查询数据
+     */
+    public List<ImpLogistics> queryImpLogisticsByBillNo(Map<String, String> paramMap) throws Exception {
+        return this.waybillMapper.queryImpLogisticsByBillNo(paramMap);
+    }
 }

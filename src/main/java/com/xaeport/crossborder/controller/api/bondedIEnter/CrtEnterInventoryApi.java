@@ -87,7 +87,7 @@ public class CrtEnterInventoryApi extends BaseApi {
                 Map<String, Object> excelMap;
                 ExcelData excelData = ExcelDataInstance.getExcelDataObject(type);
                 excelMap = excelData.getExcelData(excelDataList);
-                if (excelMap.containsKey("error")){
+                if (excelMap.containsKey("error")) {
                     httpSession.removeAttribute("importTime");
                     rtnMap.put("result", "false");
                     rtnMap.put("msg", "入库失败,电商海关编码不一致!");
@@ -128,16 +128,15 @@ public class CrtEnterInventoryApi extends BaseApi {
 
     /**
      * 新建入区核放清单
-     *
      */
     @RequestMapping(value = "seeEnterInventoryDetail")
     public ResponseData seeEnterInventoryDetail(
             @RequestParam(required = false) String etps_inner_invt_no
-    ){
+    ) {
         if (StringUtils.isEmpty(etps_inner_invt_no)) return new ResponseData("数据为空,查询失败", HttpStatus.FORBIDDEN);
-        this.log.debug(String.format("新建入区核放清单条件参数:[etps_inner_invt_no:%s]",etps_inner_invt_no));
-        BondInvt dataList = new BondInvt();
-        Map<String,String> paramMap = new HashMap<String,String>();
+        this.log.debug(String.format("新建入区核放清单条件参数:[etps_inner_invt_no:%s]", etps_inner_invt_no));
+        BondInvt dataList;
+        Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("inner_ivt_no", etps_inner_invt_no);
 
         try {
@@ -152,18 +151,17 @@ public class CrtEnterInventoryApi extends BaseApi {
     /**
      * 新建入区核注清单的保存
      * saveInventoryDetail
-     * */
+     */
     @RequestMapping(value = "saveInventoryDetail")
-    public ResponseData saveInventoryDetail(@Param("entryJson")String entryJson){
+    public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
         //表头信息
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
         Map<String, String> rtnMap = new HashMap<>();
         Users users = this.getCurrentUsers();
         try {
             // 保存表头信息
-            rtnMap = crtEnterInventoryService.updateEnterInventoryDetail(entryHead,users);
+            rtnMap = crtEnterInventoryService.updateEnterInventoryDetail(entryHead, users);
         } catch (Exception e) {
             log.error("保存入区核注清单表头信息时发生异常", e);
             rtnMap.put("result", "false");
@@ -171,9 +169,10 @@ public class CrtEnterInventoryApi extends BaseApi {
         }
         return new ResponseData(rtnMap);
     }
+
     /**
-     *取消时返回并删除
-     * */
+     * 取消时返回并删除
+     */
     //核放单删除
     @RequestMapping(value = "/deleteEnterInven/{invt_no}", method = RequestMethod.DELETE)
     public ResponseData deleteEnterInven(
