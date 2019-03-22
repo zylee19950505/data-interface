@@ -29,12 +29,14 @@ public class CrtExitInventoryApi extends BaseApi {
 
     @Autowired
     CrtExitInventoryService crtExitInventoryService;
+
     /*
      *  保税清单数据查询
      */
     @RequestMapping(value = "/querycrtexitinventory", method = RequestMethod.GET)
     public ResponseData queryCrtExitInventory(
             @RequestParam(required = false) String returnStatus,
+            @RequestParam(required = false) String customCode,
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("查询进口保税清单数据参数:[returnStatus:%s]", returnStatus));
@@ -47,13 +49,17 @@ public class CrtExitInventoryApi extends BaseApi {
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
+        Users users = this.getCurrentUsers();
+
         paramMap.put("start", start);
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
-        paramMap.put("entId", this.getCurrentUserEntId());
-        paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("entId", users.getEnt_Id());
+        paramMap.put("roleId", users.getRoleId());
+        paramMap.put("port", users.getPort());
         paramMap.put("returnStatus", returnStatus);
+        paramMap.put("ebcCode", customCode);
         paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
 
         DataList<ImpInventory> dataList;
@@ -92,11 +98,7 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("invtNo", dataInfo);
         paramMap.put("ent_id", users.getEnt_Id());
         paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
-        paramMap.put("bizop_etpsno", users.getEnt_Customs_Code());
-        paramMap.put("bizop_etps_nm", users.getEnt_Name());
-        paramMap.put("dcl_etpsno", users.getEnt_Customs_Code());
-        paramMap.put("dcl_etps_nm", users.getEnt_Name());
-        paramMap.put("ent_code", users.getEnt_Code());
+        paramMap.put("credit_code", users.getCredit_code());
         paramMap.put("etps_inner_invt_no", "HZQD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
 
         ExitBondInvt exitBondInvt = new ExitBondInvt();
@@ -137,6 +139,23 @@ public class CrtExitInventoryApi extends BaseApi {
             map.put("msg", "保存出区核注清单时发生异常");
         }
         return new ResponseData(map);
+    }
+
+    @RequestMapping(value = "/EbusinessEnt")
+    public ResponseData queryEbusinessEnt() {
+        List<Enterprise> enterpriseList;
+        Users users = this.getCurrentUsers();
+        Map<String, String> paramMap = new HashMap<>();
+
+        paramMap.put("port", users.getPort());
+        paramMap.put("roleId", users.getRoleId());
+        try {
+            enterpriseList = this.crtExitInventoryService.queryEbusinessEnt(paramMap);
+        } catch (Exception e) {
+            this.logger.error("查询电商企业数据失败", e);
+            return new ResponseData("查询电商企业数据失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(enterpriseList);
     }
 
 

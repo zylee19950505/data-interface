@@ -2,9 +2,7 @@ package com.xaeport.crossborder.excel.validate.entryEnterInstance;
 
 import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadEnterInventory;
-import com.xaeport.crossborder.excel.headings.ExcelHeadOrder;
 import com.xaeport.crossborder.excel.validate.ValidateBase;
-import com.xaeport.crossborder.excel.validate.ValidateUtil;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 
@@ -67,22 +65,21 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(gds_MtnoIndex, "账册备案料号,60");
         indexMap.put(gdecdIndex, "商品编码,250");
         indexMap.put(gds_nmIndex, "商品名称,510");
-        indexMap.put(gds_spcf_model_descIndex, "商品规格型号,19");//double
+        indexMap.put(gds_spcf_model_descIndex, "商品规格型号,19");
         indexMap.put(dcl_unitcdIndex, "计量单位,10");
-        indexMap.put(lawf_unitcdIndex, "法定计量单位,19");//double
-        indexMap.put(lawf_qtyIndex, "法定数量,18");
-        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
-        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
-        indexMap.put(gross_wtIndex, "毛重,18");
-        indexMap.put(net_wtIndex, "净重,18");
-        indexMap.put(dcl_total_amtIndex, "总价,100");
-        indexMap.put(dcl_qtyIndex, "数量,60");
+        indexMap.put(lawf_unitcdIndex, "法定计量单位,19");
+        indexMap.put(lawf_qtyIndex, "法定数量,18");//double
+//        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
+//        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
+        indexMap.put(gross_wtIndex, "毛重,18");//double
+        indexMap.put(net_wtIndex, "净重,18");//double
+        indexMap.put(dcl_total_amtIndex, "总价,100");//double
+        indexMap.put(dcl_qtyIndex, "数量,60");//double
         indexMap.put(natcdIndex, "原产国(地区),18");
         //indexMap.put(usecdIndex, "用途代码,4");
         indexMap.put(ec_customs_codeIndex, "电商海关编码,10");
         indexMap.put(lvyrlf_modecdIndex, "征免代码,6");
-        indexMap.put(rmkIndex, "备注,18");
-
+//        indexMap.put(rmkIndex, "备注,18");
     }
 
 

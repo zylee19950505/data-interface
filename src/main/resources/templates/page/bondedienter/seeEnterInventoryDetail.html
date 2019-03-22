@@ -53,19 +53,22 @@
         <tr>
             <td class="headTitle">进出口标记代码</td>
             <td>
-                <select class="form-control input-sm"  maxlength="1" id="impexp_markcd">
-                    <option value="I" selected="selected">进口(I)</option>
+                <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
+                    <option value="I" selected="selected">进口（I）</option>
                 </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
             <td>
                 <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
-                    <option value="I" selected="selected">料件(I)</option>
+                    <option value="I" selected="selected">料件（I）</option>
                 </select>
             </td>
             <td class="headTitle">监管方式代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="30" id="supv_modecd"/>
+                <select class="form-control input-sm" id="supv_modecd">
+                    <option value="1210">保税电商（1210）</option>
+                    <option value="1239">保税电商A（1239）</option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -75,29 +78,41 @@
             </td>
             <td class="headTitle">是否报关标志</td>
             <td>
-                <input class="form-control input-sm" id="dclcus_flag"/>
+                <select class="form-control input-sm" id="dclcus_flag">
+                    <option value="1" selected="selected">报关（1）</option>
+                </select>
             </td>
             <td class="headTitle">报关类型代码</td>
             <td>
-                <input class="form-control input-sm" id="dclcus_typecd"/>
+                <select class="form-control input-sm" id="dclcus_typecd">
+                    <option value="1" selected="selected">报关（1）</option>
+                </select>
             </td>
         </tr>
         <tr>
             <td class="headTitle">报关单类型</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" value="进境备案清单" id="dclcus_type"/>
+                <select class="form-control input-sm" id="dclcus_type">
+                    <option value="3" selected="selected">进境备案清单（3）</option>
+                </select>
             </td>
             <td class="headTitle">起运抵国别代码</td>
             <td>
                 <select class="form-control input-sm" maxlength="60" id="stship_trsarv_natcd"/>
             </td>
             <td class="headTitle">清单类型</td>
-            <td><input class="form-control input-sm" maxlength="30"  id="invt_type"/></td>
+            <td>
+                <select class="form-control input-sm" id="invt_type">
+                    <option value="8" selected="selected">保税电商（8）</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td class="headTitle">申报类型</td>
-            <td >
-                <input class="form-control input-sm" maxlength="200"  id="dcl_typecd"/>
+            <td>
+                <select class="form-control input-sm" id="dcl_typecd">
+                    <option value="1" selected="selected">备案申请（1）</option>
+                </select>
             </td>
             <td class="headTitle">备注</td>
             <td colspan="4">
@@ -121,7 +136,7 @@
             <th>申报单价</th>
             <th>申报总价</th>
             <th>币制</th>
-           <!-- <th>美元统计总金额</th>-->
+            <!-- <th>美元统计总金额</th>-->
         </tr>
     </table>
     <div class="text-center">

@@ -4,22 +4,21 @@ import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtExitInventoryMapper;
+import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.tools.IdUtils;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CrtExitInventoryService {
 
     @Autowired
     CrtExitInventoryMapper crtExitInventoryMapper;
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     private Log logger = LogFactory.getLog(this.getClass());
 
@@ -39,17 +38,17 @@ public class CrtExitInventoryService {
 
     //获取出区核注清单表头数据
     public BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception {
+        Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(paramMap.get("ent_id"));
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         bondInvtBsc.setId(IdUtils.getUUId());
         bondInvtBsc.setEtps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
-        bondInvtBsc.setBizop_etpsno(paramMap.get("bizop_etpsno"));
-        bondInvtBsc.setBizop_etps_nm(paramMap.get("bizop_etps_nm"));
-        bondInvtBsc.setDcl_etpsno(paramMap.get("dcl_etpsno"));
-        bondInvtBsc.setDcl_etps_nm(paramMap.get("dcl_etps_nm"));
+        bondInvtBsc.setBizop_etpsno("");
+        bondInvtBsc.setBizop_etps_nm("");
+        bondInvtBsc.setDcl_etpsno(enterprise.getDeclare_ent_code());
+        bondInvtBsc.setDcl_etps_nm(enterprise.getDeclare_ent_name());
+        bondInvtBsc.setRcvgd_etpsno(enterprise.getCustoms_code());
+        bondInvtBsc.setRcvgd_etps_nm(enterprise.getEnt_name());
         bondInvtBsc.setInvt_no(paramMap.get("invtNo"));
-//        bondInvtBsc.setBizop_etps_sccd(paramMap.get("ent_code"));
-//        bondInvtBsc.setDcl_etps_sccd(paramMap.get("ent_code"));
-//        bondInvtBsc.setRvsngd_etps_sccd(paramMap.get("ent_code"));
         bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
         return bondInvtBsc;
@@ -94,6 +93,11 @@ public class CrtExitInventoryService {
         map.put("result", "true");
         map.put("msg", "编辑成功，请到“出区核注清单”处进行后续操作");
         return map;
+    }
+
+    //查询电商企业
+    public List<Enterprise> queryEbusinessEnt(Map<String, String> paramMap) throws Exception {
+        return this.crtExitInventoryMapper.queryEbusinessEnt(paramMap);
     }
 
 

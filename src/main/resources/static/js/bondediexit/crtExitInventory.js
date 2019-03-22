@@ -4,10 +4,12 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
     query: function () {
         // 获取查询表单参数
         var returnStatus = $("[name='returnStatus']").val();
+        var customCode = $("[name='customCode']").val();
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/bondediexit/querycrtexitinventory", {
-            returnStatus: returnStatus//回执状态
+            returnStatus: returnStatus,//回执状态
+            customCode: customCode//海关编码
         });
 
         // 数据表
@@ -90,6 +92,18 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
         sw.modelPopup(url, "新建出区核注清单信息", false, 1000, 700);
     },
 
+    EbusinessEnt: function () {
+        sw.ajax("api/bondediexit/EbusinessEnt", "GET", "", function (rsp) {
+            var result = rsp.data;
+            for (var idx in result) {
+                var customsCode = result[idx].customs_code;
+                var name = result[idx].ent_name;
+                var option = $("<option>").text(name).val(customsCode);
+                $("#customsCode").append(option);
+            }
+        });
+    },
+
     init: function () {
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -111,6 +125,7 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
                 $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
             }
         });
+        this.EbusinessEnt();
     },
 
     seeExitInfo: function (guid, order_no) {

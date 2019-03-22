@@ -30,9 +30,18 @@ public class Users {
     private String area_code;//区内企业编号
     private String credit_code;//企业统一社会信用代码
     private String ent_business_type;//跨境企业类型
+    private String port;//主管海关
     private List<Menu> subMenuList;//菜单表
     private List<Menu> childMenuList;//子菜单表
     private Enterprise enterprise;//企业信息
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
 
     public String getArea_code() {
         return area_code;

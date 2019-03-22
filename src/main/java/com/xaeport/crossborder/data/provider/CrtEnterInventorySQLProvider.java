@@ -122,27 +122,52 @@ public class CrtEnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getDcl_plc_cuscd())) {
                     VALUES("dcl_plc_cuscd", "#{bondInvtBsc.dcl_plc_cuscd}");
                 }
-                VALUES("crt_time", "sysdate");
+                if (!StringUtils.isEmpty(bondInvtBsc.getRcvgd_etpsno())) {
+                    VALUES("rcvgd_etpsno", "#{bondInvtBsc.rcvgd_etpsno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRcvgd_etps_nm())) {
+                    VALUES("rcvgd_etps_nm", "#{bondInvtBsc.rcvgd_etps_nm}");
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCrt_user())) {
                     VALUES("crt_user", "#{bondInvtBsc.crt_user}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getOriginal_nm()))) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getOriginal_nm().toString())) {
                     VALUES("ORIGINAL_NM", "#{bondInvtBsc.original_nm}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getUsable_nm()))) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getUsable_nm().toString())) {
                     VALUES("USABLE_NM", "#{bondInvtBsc.usable_nm}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getBound_nm()))) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getBound_nm().toString())) {
                     VALUES("BOUND_NM", "#{bondInvtBsc.bound_nm}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getPutrec_no()))) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getPutrec_no())) {
                     VALUES("PUTREC_NO", "#{bondInvtBsc.putrec_no}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtBsc.getEc_customs_code()))) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getEc_customs_code())) {
                     VALUES("EC_CUSTOMS_CODE", "#{bondInvtBsc.ec_customs_code}");
                 }
-
-
+                if (!StringUtils.isEmpty(bondInvtBsc.getImpexp_markcd())) {
+                    VALUES("IMPEXP_MARKCD", "#{bondInvtBsc.impexp_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getMtpck_endprd_markcd())) {
+                    VALUES("MTPCK_ENDPRD_MARKCD", "#{bondInvtBsc.mtpck_endprd_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getSupv_modecd())) {
+                    VALUES("SUPV_MODECD", "#{bondInvtBsc.supv_modecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_flag())) {
+                    VALUES("DCLCUS_FLAG", "#{bondInvtBsc.dclcus_flag}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    VALUES("DCLCUS_TYPECD", "#{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_typecd())) {
+                    VALUES("BOND_INVT_TYPECD", "#{bondInvtBsc.bond_invt_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDcl_typecd())) {
+                    VALUES("DCL_TYPECD", "#{bondInvtBsc.dcl_typecd}");
+                }
+                VALUES("crt_time", "sysdate");
             }
         }.toString();
     }
@@ -231,18 +256,30 @@ public class CrtEnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getDcl_plc_cuscd())) {
                     SET("t.DCL_PLC_CUSCD = #{bondInvtBsc.dcl_plc_cuscd}");
                 }
-                SET("t.IMPEXP_MARKCD = #{bondInvtBsc.impexp_markcd}");
-                SET("t.MTPCK_ENDPRD_MARKCD = #{bondInvtBsc.mtpck_endprd_markcd}");
+                if (!StringUtils.isEmpty(bondInvtBsc.getImpexp_markcd())) {
+                    SET("t.IMPEXP_MARKCD = #{bondInvtBsc.impexp_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getMtpck_endprd_markcd())) {
+                    SET("t.MTPCK_ENDPRD_MARKCD = #{bondInvtBsc.mtpck_endprd_markcd}");
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getSupv_modecd())) {
                     SET("t.SUPV_MODECD = #{bondInvtBsc.supv_modecd}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getTrsp_modecd())) {
                     SET("t.TRSP_MODECD = #{bondInvtBsc.trsp_modecd}");
                 }
-                SET("t.DCLCUS_FLAG = #{bondInvtBsc.dclcus_flag}");
-                SET("t.BOND_INVT_TYPECD = #{bondInvtBsc.bond_invt_typecd}");
-                SET("t.DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
-                SET("t.DCL_TYPECD = #{bondInvtBsc.dcl_typecd}");
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_flag())) {
+                    SET("t.DCLCUS_FLAG = #{bondInvtBsc.dclcus_flag}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_typecd())) {
+                    SET("t.BOND_INVT_TYPECD = #{bondInvtBsc.bond_invt_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDclcus_typecd())) {
+                    SET("t.DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDcl_typecd())) {
+                    SET("t.DCL_TYPECD = #{bondInvtBsc.dcl_typecd}");
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getStship_trsarv_natcd())) {
                     SET("t.STSHIP_TRSARV_NATCD = #{bondInvtBsc.stship_trsarv_natcd}");
                 }

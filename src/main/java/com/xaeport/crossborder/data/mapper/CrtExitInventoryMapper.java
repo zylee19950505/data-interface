@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventory;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
@@ -60,6 +61,10 @@ public interface CrtExitInventoryMapper {
     //插入核注清单新数据（表体数据）
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveNemsInvtCbecBillType")
     void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
+
+    //查询统计——查询电商企业
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryEbusinessEnt")
+    List<Enterprise> queryEbusinessEnt(Map<String, String> paramMap) throws Exception;
 
 
 }

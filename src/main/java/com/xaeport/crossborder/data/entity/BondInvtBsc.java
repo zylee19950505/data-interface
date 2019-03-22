@@ -6,7 +6,7 @@ public class BondInvtBsc {
 
     private String id;//ID
     private String bond_invt_no;//保税清单编号 QD+4位主管海关+2位年份+1位进出口标志+9位流水号,首次备案填写清单预录入编号
-    private int chg_tms_cnt;//变更次数 首次备案时为0
+    private Integer chg_tms_cnt;//变更次数 首次备案时为0
     private String invt_preent_no;//清单预录入编号 企业端生成的清单预录入号
     private String putrec_no;//备案编号 清单对应电子账册号或手册等
     private String etps_inner_invt_no;//企业内部清单编号 由企业自行编写，必须保证每份清单具有唯一编号
@@ -77,9 +77,9 @@ public class BondInvtBsc {
     private String sum;
 
 
-    private int original_nm;//核注清单原有可绑定数量
-    private int usable_nm;//核注清单可绑定数量
-    private int bound_nm;//绑定数量
+    private Integer original_nm;//核注清单原有可绑定数量
+    private Integer usable_nm;//核注清单可绑定数量
+    private Integer bound_nm;//绑定数量
 
     private String ec_customs_code;//电商海关编码
 
@@ -93,27 +93,27 @@ public class BondInvtBsc {
         this.ec_customs_code = ec_customs_code;
     }
 
-    public int getBound_nm() {
+    public Integer getBound_nm() {
         return bound_nm;
     }
 
-    public void setBound_nm(int bound_nm) {
+    public void setBound_nm(Integer bound_nm) {
         this.bound_nm = bound_nm;
     }
 
-    public int getOriginal_nm() {
+    public Integer getOriginal_nm() {
         return original_nm;
     }
 
-    public void setOriginal_nm(int original_nm) {
+    public void setOriginal_nm(Integer original_nm) {
         this.original_nm = original_nm;
     }
 
-    public int getUsable_nm() {
+    public Integer getUsable_nm() {
         return usable_nm;
     }
 
-    public void setUsable_nm(int usable_nm) {
+    public void setUsable_nm(Integer usable_nm) {
         this.usable_nm = usable_nm;
     }
 
@@ -141,11 +141,11 @@ public class BondInvtBsc {
         this.bond_invt_no = bond_invt_no;
     }
 
-    public int getChg_tms_cnt() {
+    public Integer getChg_tms_cnt() {
         return chg_tms_cnt;
     }
 
-    public void setChg_tms_cnt(int chg_tms_cnt) {
+    public void setChg_tms_cnt(Integer chg_tms_cnt) {
         this.chg_tms_cnt = chg_tms_cnt;
     }
 

@@ -55,14 +55,13 @@ public class UserManageSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t1.ID");
                 SELECT("t1.LOGINNAME");
-                SELECT("t1.PHONE");
-                SELECT("t1.EMAIL");
                 SELECT("t1.PASSWORD");
                 SELECT("t1.ENT_ID");
                 SELECT("t1.ENT_NAME");
                 SELECT("t1.IC_CARD");
                 SELECT("t1.IC_PWD");
                 SELECT("t2.ROLEID");
+                SELECT("t3.PORT");
                 SELECT("t3.ENT_BUSINESS_TYPE");
                 SELECT("t3.CREDIT_CODE");
                 SELECT("t3.CUSTOMS_CODE ENT_CUSTOMS_CODE");

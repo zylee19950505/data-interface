@@ -59,10 +59,13 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setEtps_inner_invt_no(etpsInnerInvtNo);
         bondInvtBsc.setCrt_ent_id(enterpriseDetail.getId());
         bondInvtBsc.setCrt_ent_name(enterpriseDetail.getEnt_name());
-        bondInvtBsc.setBizop_etpsno(enterpriseDetail.getCustoms_code());//经营企业编号
-        bondInvtBsc.setBizop_etps_nm(enterpriseDetail.getEnt_name());//经营企业名称
-        bondInvtBsc.setDcl_etpsno(enterpriseDetail.getCustoms_code());//申报企业编号
-        bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getEnt_name());//申报企业名称
+        bondInvtBsc.setBizop_etpsno("");//经营企业编号:用户自行填写
+        bondInvtBsc.setBizop_etps_nm("");//经营企业名称:用户自行填写
+        bondInvtBsc.setDcl_etpsno(enterpriseDetail.getDeclare_ent_code());//获取信息的申报企业编号
+        bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getDeclare_ent_name());//获取信息的申报企业名称
+        bondInvtBsc.setRcvgd_etpsno(enterpriseDetail.getCustoms_code());//获取企业的海关十位
+        bondInvtBsc.setRcvgd_etps_nm(enterpriseDetail.getEnt_name());//获取企业的名称
+
         bondInvtBsc.setDcl_plc_cuscd(enterpriseDetail.getPort());//主管海关
         bondInvtBsc.setEc_customs_code(list.get(0).getEc_customs_code());//电商海关编码
         bondInvtBsc.setCrt_user(user.getId());
@@ -73,16 +76,23 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setUsable_nm(original_nm);
         bondInvtBsc.setBound_nm(original_nm);
 
+        bondInvtBsc.setImpexp_markcd("I");
+        bondInvtBsc.setMtpck_endprd_markcd("I");
+        bondInvtBsc.setSupv_modecd("1210");
+        bondInvtBsc.setDclcus_flag("1");
+        bondInvtBsc.setDclcus_typecd("1");
+//        bondInvtBsc.setdclcus("3");
+        bondInvtBsc.setBond_invt_typecd("8");
+        bondInvtBsc.setDcl_typecd("1");
+
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);
         //是否需要返回保税清单编号,以供保存和取消时使用
         return etpsInnerInvtNo;
     }
 
     public BondInvt seeEnterInventoryDetail(Map<String, String> paramMap) throws Exception {
-        BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        bondInvtBsc = this.crtEnterInventoryMapper.queryEnterInventoryBsc(paramMap);
-        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
-        bondInvtDtList = this.crtEnterInventoryMapper.queryEnterInventoryDt(paramMap);
+        BondInvtBsc bondInvtBsc = this.crtEnterInventoryMapper.queryEnterInventoryBsc(paramMap);
+        List<BondInvtDt> bondInvtDtList = this.crtEnterInventoryMapper.queryEnterInventoryDt(paramMap);
         BondInvt bondInvt = new BondInvt();
         bondInvt.setBondInvtBsc(bondInvtBsc);
         bondInvt.setBondInvtDtList(bondInvtDtList);
@@ -142,18 +152,32 @@ public class CrtEnterInventoryService {
         if (!StringUtils.isEmpty(entryHead.get("dcl_plc_cuscd"))) {
             bondInvtBsc.setDcl_plc_cuscd(entryHead.get("dcl_plc_cuscd"));
         }
-        bondInvtBsc.setImpexp_markcd("I");
-        bondInvtBsc.setMtpck_endprd_markcd("1");
-        if (!StringUtils.isEmpty(entryHead.get("supv_modecd"))) {
-            bondInvtBsc.setSupv_modecd(entryHead.get("supv_modecd"));
-        }
         if (!StringUtils.isEmpty(entryHead.get("trsp_modecd"))) {
             bondInvtBsc.setTrsp_modecd(entryHead.get("trsp_modecd"));
         }
-        bondInvtBsc.setDclcus_flag("1");
-        bondInvtBsc.setBond_invt_typecd("8");
-        bondInvtBsc.setDclcus_typecd("1");
-        bondInvtBsc.setDcl_typecd("1");
+
+        if (!StringUtils.isEmpty(entryHead.get("supv_modecd"))) {
+            bondInvtBsc.setSupv_modecd(entryHead.get("supv_modecd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("impexp_markcd"))) {
+            bondInvtBsc.setImpexp_markcd(entryHead.get("impexp_markcd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("mtpck_endprd_markcd"))) {
+            bondInvtBsc.setMtpck_endprd_markcd(entryHead.get("mtpck_endprd_markcd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("dclcus_flag"))) {
+            bondInvtBsc.setDclcus_flag(entryHead.get("dclcus_flag"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("dclcus_typecd"))) {
+            bondInvtBsc.setDclcus_typecd(entryHead.get("dclcus_typecd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("bond_invt_typecd"))) {
+            bondInvtBsc.setBond_invt_typecd(entryHead.get("bond_invt_typecd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("dcl_typecd"))) {
+            bondInvtBsc.setDcl_typecd(entryHead.get("dcl_typecd"));
+        }
+
         if (!StringUtils.isEmpty(entryHead.get("stship_trsarv_natcd"))) {
             bondInvtBsc.setStship_trsarv_natcd(entryHead.get("stship_trsarv_natcd"));
         }

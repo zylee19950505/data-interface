@@ -179,7 +179,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
-
     },
 
     // 装载表头信息
@@ -189,6 +188,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
+        $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
+        $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
+
         $("#putrec_no").val(entryHead.putrec_no);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
@@ -203,9 +205,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
     //加载表体信息
     fillNemsInvtCbecBillTypeList: function (entryLists) {
-
         for (var i = 0; i < entryLists.length; i++) {
-
             var no = entryLists[i].no;
             var str =
                 "<tr>" +

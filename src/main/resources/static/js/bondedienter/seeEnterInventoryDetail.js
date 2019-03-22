@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -170,27 +164,21 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#putrec_no").val(entryHead.putrec_no);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
-        selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        //$("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
-        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        //selecterInitDetail("impexp_markcd", entryHead.impexp_markcd, impexp_markcd);
+
         $("#impexp_markcd").val(entryHead.impexp_markcd);
-        //selecterInitDetail("mtpck_endprd_markcd", entryHead.mtpck_endprd_markcd, mtpck_endprd_markcd);
         $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
-        selecterInitDetail("supv_modecd", entryHead.supv_modecd, supv_modecd);
-        //$("#supv_modecd").val(entryHead.supv_modecd);
-        selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        //$("#trsp_modecd").val(entryHead.trsp_modecd);
-        //selecterInitDetail("dclcus_flag", entryHead.dclcus_flag, dclcus_flag);
-        $("#dclcus_flag").val("报关");//是否报关是固定的
-        $("#dclcus_typecd").val("报关");//报关单类型代码
-        //selecterInitDetail("dclcusIE_typecd", entryHead.dclcus_typecd, dclcus_typecd);
-        $("#dclcus_type").val("进境备案清单");//报关单类型
-        selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
-        $("#invt_type").val("保税电商");//保税电商
-        $("#dcl_typecd").val("备案申请");//备案申请
+        $("#dclcus_flag").val(entryHead.dclcus_flag);//是否报关是固定的
+        $("#dclcus_typecd").val(entryHead.dclcus_typecd);//报关单类型代码
+        $("#dclcus_type").val("3");//报关单类型
+        $("#invt_type").val(entryHead.bond_invt_typecd);//保税电商
+        $("#dcl_typecd").val(entryHead.dcl_typecd);//备案申请
         $("#rmk").val(entryHead.rmk);
 
+        selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
+        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
+        selecterInitDetail("supv_modecd", entryHead.supv_modecd, supv_modecd);
+        selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
     },
 
     //加载表体信息
@@ -294,7 +282,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     var entryHead = data.data.bondInvtBsc;
                     var entryLists = data.data.bondInvtDtList;
                     var vertify = data.data.verify;
-
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }

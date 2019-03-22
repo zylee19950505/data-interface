@@ -10,6 +10,29 @@ import java.util.Map;
 
 public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
+    public String queryEbusinessEnt(Map<String, String> paramMap) throws Exception {
+
+        final String port = paramMap.get("port");
+        final String roleId = paramMap.get("roleId");
+
+        return new SQL() {
+            {
+                SELECT("t.ENT_NAME");
+                SELECT("t.CUSTOMS_CODE");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.ENT_BUSINESS_TYPE = 'E-business'");
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9007")) {
+                        WHERE("t.PORT = '9009'");
+                    }
+                    if (port.equals("9013")) {
+                        WHERE("t.PORT = '9013'");
+                    }
+                }
+            }
+        }.toString();
+    }
+
     //查询保税清单页面数据
     public String queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
 
@@ -18,6 +41,8 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String returnStatus = paramMap.get("returnStatus");
         final String businessType = paramMap.get("businessType");
+        final String port = paramMap.get("port");
+        final String ebcCode = paramMap.get("ebcCode");
 
         return new SQL() {
             {
@@ -31,12 +56,24 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                         "t.return_status," +
                         "t.cop_no");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.TRADE_MODE = '1210'");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
                 }
-                WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = #{businessType}");
-                ORDER_BY("t.app_time ) f  )  WHERE rn between #{start} and #{end}");
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if (port.equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
+                }
+                ORDER_BY("t.CRT_TM ) f  )  WHERE rn between #{start} and #{end}");
             }
         }.toString();
     }
@@ -48,15 +85,29 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         final String roleId = paramMap.get("roleId");
         final String returnStatus = paramMap.get("returnStatus");
         final String businessType = paramMap.get("businessType");
+        final String port = paramMap.get("port");
+        final String ebcCode = paramMap.get("ebcCode");
 
         return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(returnStatus)) {
                     WHERE(splitJointIn("t.return_Status", returnStatus));
+                }
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if (port.equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
                 }
             }
         }.toString();
