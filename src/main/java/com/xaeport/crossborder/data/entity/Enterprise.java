@@ -85,6 +85,7 @@ public class Enterprise {
         this.declare_ent_code = declare_ent_code;
     }
 
+
     public String getAssure_ent_name() {
         return assure_ent_name;
     }

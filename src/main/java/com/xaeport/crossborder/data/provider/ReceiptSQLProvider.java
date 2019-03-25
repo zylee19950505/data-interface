@@ -1635,6 +1635,10 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bwlListType.getModf_markcd())) {
                     VALUES("MODF_MARKCD", "#{bwlListType.modf_markcd}");
                 }
+
+                if (!StringUtils.isEmpty(bwlListType.getNorm_qty())) {
+                    VALUES("NORM_QTY", "#{bwlListType.norm_qty}");
+                }
                 if (!StringUtils.isEmpty(bwlListType.getCrt_time())) {
                     VALUES("CRT_TIME", "#{bwlListType.crt_time}");
                 }

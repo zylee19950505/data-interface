@@ -211,6 +211,13 @@ public class BondInvenMessageThread implements Runnable {
 //        String sendFilePath = this.appConfiguration.getXmlPath().get("sendInventoryPath") + File.separator + fileName;
 //        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
 
+        String wmsFilePath = this.appConfiguration.getXmlPath().get("wmsPath") + File.separator + fileName;
+        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
+
+        File wmsFile = new File(wmsFilePath);
+        FileUtils.save(wmsFile, xmlByte);
+        this.logger.debug(String.format("保税清单报文发送wms文件[backFilePath: %s]生成完毕", wmsFile));
+
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
         this.logger.debug(String.format("保税清单报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));

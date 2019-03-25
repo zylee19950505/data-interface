@@ -47,10 +47,34 @@ public class ImpOrderHead {
     private String ent_customs_code;//导入企业海关十位
     private String return_status_name;//回执状态对应中文意思
     private String business_type;//业务类型
-    private String writing_mode;//写入方式
-    private String gross_weight;//毛重
-    private String net_weight;//净重
-    private String insured_fee;//保价费用
+    private String writing_mode;
+    private String insured_fee;//物流企业实际收取的商品保价费用。
+    private String gross_weight;//货物及其包装材料的重量之和，计量单位为千克。
+    private String net_weight;//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
+
+    public String getInsured_fee() {
+        return insured_fee;
+    }
+
+    public void setInsured_fee(String insured_fee) {
+        this.insured_fee = insured_fee;
+    }
+
+    public String getGross_weight() {
+        return gross_weight;
+    }
+
+    public void setGross_weight(String gross_weight) {
+        this.gross_weight = gross_weight;
+    }
+
+    public String getNet_weight() {
+        return net_weight;
+    }
+
+    public void setNet_weight(String net_weight) {
+        this.net_weight = net_weight;
+    }
 
     public String getWriting_mode() {
         return writing_mode;
@@ -409,29 +433,5 @@ public class ImpOrderHead {
 
     public void setBusiness_type(String business_type) {
         this.business_type = business_type;
-    }
-
-    public String getGross_weight() {
-        return gross_weight;
-    }
-
-    public void setGross_weight(String gross_weight) {
-        this.gross_weight = gross_weight;
-    }
-
-    public String getNet_weight() {
-        return net_weight;
-    }
-
-    public void setNet_weight(String net_weight) {
-        this.net_weight = net_weight;
-    }
-
-    public String getInsured_fee() {
-        return insured_fee;
-    }
-
-    public void setInsured_fee(String insured_fee) {
-        this.insured_fee = insured_fee;
     }
 }

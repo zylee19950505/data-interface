@@ -94,6 +94,8 @@ public class CountPreIncrease implements CountLoader {
         bwlListType.setActl_redc_qty("0");
         bwlListType.setPrevd_inc_qty(String.valueOf(qtySum));
         bwlListType.setPrevd_redc_qty("0");
+        //设置标准数量(法定数量/申报数量)
+        bwlListType.setNorm_qty(Double.parseDouble(bondInvtDt.getLawf_qty())/Double.parseDouble(bondInvtDt.getDcl_qty()));
         bwlListType.setCrt_time(new Date());
         bwlListType.setUpd_time(new Date());
         bwlListType.setBizop_etpsno(bizopEtpsno);

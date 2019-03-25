@@ -61,6 +61,7 @@ public class BwlListType {
         this.norm_qty = norm_qty;
     }
 
+
     public String getBizop_etpsno() {
         return bizop_etpsno;
     }
