@@ -51,6 +51,7 @@ public class StatusCode {
 	public final static String YDZTSBSB = "CBDS54";//运单状态申报失败
 
 	//清单数据状态
+	public final static String QDZC = "CBDS65";
 	public final static String QDDSB = "CBDS6";//清单待申报
 	public final static String QDSBZ = "CBDS60";//清单申报中
 	public final static String QDYSB = "CBDS61";//清单已申报

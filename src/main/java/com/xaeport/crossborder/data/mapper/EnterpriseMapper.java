@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.BwlHeadType;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

@@ -59,6 +59,7 @@ appConfig:
     sascebPath: "kj/sasceb"
     transpondPath: "kj/transpond"
     sendWmsPath: "kj/wms"
+    wmsPath: "kj/wms"
     sendDeliveryPath: "kj/DeliveryBak"
     sendOrderPath: "kj/OrderBak"
     sendInventoryPath: "kj/InventoryBak"

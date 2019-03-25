@@ -65,6 +65,9 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区核放单线程
     private EPassPortThread ePassPortThread;
 
+    //生成清单的线程
+    private BuilderDetailThread builderDetailThread;
+
     //订单
     @Autowired
     OrderDeclareMapper orderDeclareMapper;
@@ -101,6 +104,13 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区核放单
     @Autowired
     ExitManifestMapper exitManifestMapper;
+
+    //生成清单
+    @Autowired
+    BuilderDetailMapper builderDetailMapper;
+
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     //订单报文
     @Autowired
@@ -142,6 +152,7 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //系统配置文件参数
     @Autowired
     AppConfiguration appConfiguration;
+
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -201,6 +212,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         this.logger.debug("进口入区核放单报文生成启动器初始化开始");
         enterPassPortThread = new EnterPassPortThread(this.enterManifestMapper,this.appConfiguration,this.enterBasePassPortXML);
         executorService.execute(enterPassPortThread);
+
+        this.logger.debug("扫描生成清单启动器初始化开始");
+        builderDetailThread = new BuilderDetailThread(this.builderDetailMapper,this.enterpriseMapper,this.appConfiguration);
+        executorService.execute(builderDetailThread);
 
     }
 }
