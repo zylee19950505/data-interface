@@ -156,7 +156,7 @@ public class LogisticsMessageThread implements Runnable {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB511_" + nameBillNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseLogisticsXml.createXML(ceb511Message, "logistics", xmlHeadGuid);
-            saveXmlFile(fileName, xmlByte);
+            saveXmlFile(fileName, xmlByte, nameBillNo);
             this.logger.debug(String.format("完成生成运单申报报文[fileName: %s]", fileName));
         } catch (Exception e) {
             String exceptionMsg = String.format("生成运单报文时发生异常");
@@ -170,7 +170,7 @@ public class LogisticsMessageThread implements Runnable {
      * @param fileName 文件名称
      * @param xmlByte  文件内容Bytes
      */
-    private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
+    private void saveXmlFile(String fileName, byte[] xmlByte, String billNo) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "logistics" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("运单511申报报文发送备份文件[backFilePath: %s]", backFilePath));
@@ -186,6 +186,17 @@ public class LogisticsMessageThread implements Runnable {
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("运单511发送完毕" + fileName);
         this.logger.debug(String.format("运单511申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+
+        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
+            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
+
+            File sendWmsFile = new File(sendWmsFilePath);
+            FileUtils.save(sendWmsFile, xmlByte);
+            this.logger.info("运单511发送WMS完毕" + fileName);
+            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+        }
+
     }
 
 }

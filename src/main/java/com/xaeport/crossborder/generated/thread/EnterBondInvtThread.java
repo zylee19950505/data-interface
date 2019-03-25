@@ -195,11 +195,11 @@ public class EnterBondInvtThread implements Runnable {
 
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "Ebondinvt" + File.separator + sdf.format(new Date()) + File.separator + fileName;
+        String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "EnterBondinvt" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("入区核注清单报文发送备份文件[backFilePath: %s]", backFilePath));
 
-        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
-        this.logger.debug(String.format("入区核注清单报文发送文件[sendFilePath: %s]", sendFilePath));
+        String sendFilePath = this.appConfiguration.getXmlPath().get("sascebPath") + File.separator + fileName;
+        this.logger.debug(String.format("入区核注清单报文发送文件[sascebPath: %s]", sendFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
@@ -208,7 +208,7 @@ public class EnterBondInvtThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("入区核注清单发送完毕" + fileName);
-        this.logger.debug(String.format("入区核注清单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+        this.logger.debug(String.format("入区核注清单报文发送文件[sascebPath: %s]生成完毕", sendFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, BondInvtBsc bondInvtBsc) {

@@ -119,7 +119,7 @@ public class MessageParseThread extends ThreadBase implements Cloneable {
     private void transpond(File rawFile, String fileName) {
         try {
 //            File oldFile = rawFile;
-            String newFile = appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
+            String newFile = appConfiguration.getXmlPath().get("transpondPath") + File.separator + fileName;
             File file = new File(newFile);
 
             this.copyFileUsingFileChannel(rawFile, file);

@@ -59,6 +59,7 @@ public class BondInvenMessageThread implements Runnable {
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlHeadGuid = null;
         String nameOrderNo = null;
+        String billNo = null;
 
         while (true) {
 
@@ -90,6 +91,7 @@ public class BondInvenMessageThread implements Runnable {
 
                             xmlHeadGuid = inventoryHeadLists.get(0).getGuid();
                             nameOrderNo = inventoryHeadLists.get(0).getOrder_no();
+                            billNo = inventoryHeadLists.get(0).getBill_no();
                             entId = inventoryHeadLists.get(0).getEnt_id();
 
                             guid = impInventoryHead.getGuid();
@@ -167,7 +169,7 @@ public class BondInvenMessageThread implements Runnable {
                         ceb621Message.setBaseTransfer(baseTransfer);
 
                         //开始生成报文
-                        this.entryProcess(ceb621Message, nameOrderNo, xmlHeadGuid);
+                        this.entryProcess(ceb621Message, nameOrderNo, xmlHeadGuid, billNo);
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理企业[entId: %s]保税清单数据时发生异常", entId);
@@ -186,13 +188,13 @@ public class BondInvenMessageThread implements Runnable {
         }
     }
 
-    private void entryProcess(CEB621Message ceb621Message, String nameOrderNo, String xmlHeadGuid) throws TransformerException, IOException {
+    private void entryProcess(CEB621Message ceb621Message, String nameOrderNo, String xmlHeadGuid, String billNo) throws TransformerException, IOException {
         try {
             // 生成申报报文
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
             String fileName = "CEB621_" + "Bond_" + nameOrderNo + "_" + sdf.format(new Date()) + ".xml";
             byte[] xmlByte = this.baseBondInvenXML.createXML(ceb621Message, "BondInven", xmlHeadGuid);//flag
-            saveXmlFile(fileName, xmlByte);
+            saveXmlFile(fileName, xmlByte, billNo);
             this.logger.debug(String.format("完成生成保税清单报文[fileName: %s]", fileName));
         } catch (Exception e) {
             String exceptionMsg = String.format("处理保税清单[headGuid: %s]时发生异常", xmlHeadGuid);
@@ -200,7 +202,7 @@ public class BondInvenMessageThread implements Runnable {
         }
     }
 
-    private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
+    private void saveXmlFile(String fileName, byte[] xmlByte, String billNo) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "bondinven" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("保税清单报文发送备份文件[backFilePath: %s]", backFilePath));
@@ -219,5 +221,16 @@ public class BondInvenMessageThread implements Runnable {
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("保税清单发送完毕" + fileName);
         this.logger.debug(String.format("保税清单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+
+        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
+            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
+
+            File sendWmsFile = new File(sendWmsFilePath);
+            FileUtils.save(sendWmsFile, xmlByte);
+            this.logger.info("保税清单发送WMS完毕" + fileName);
+            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+        }
+
     }
 }

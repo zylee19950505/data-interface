@@ -1,6 +1,5 @@
 package com.xaeport.crossborder.data.provider;
 
-import com.xaeport.crossborder.data.entity.ManifestHead;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
@@ -116,7 +115,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("bill_nos"))) {
                     VALUES("t.bill_nos", "#{bill_nos}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("manifest_no"))) {
                     VALUES("t.manifest_no", "#{manifest_no}");
                 }
@@ -135,21 +133,18 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("i_e_mark"))) {
                     VALUES("t.i_e_mark", "#{i_e_mark}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("trade_mode"))) {
                     VALUES("t.trade_mode", "#{trade_mode}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("delivery_way"))) {
                     VALUES("t.delivery_way", "#{delivery_way}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("start_land"))) {
                     VALUES("t.start_land", "#{start_land}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("goal_land"))) {
                     VALUES("t.goal_land", "#{goal_land}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("goods_wt"))) {
                     VALUES("t.goods_wt", "#{goods_wt}");
                 }
@@ -162,7 +157,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("sum_goods_value"))) {
                     VALUES("t.sum_goods_value", "#{sum_goods_value}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("m_status"))) {
                     VALUES("t.m_status", "#{m_status}");
                 }
@@ -175,7 +169,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("port_status"))) {
                     VALUES("t.port_status", "#{port_status}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("input_name"))) {
                     VALUES("t.input_name", "#{input_name}");
                 }
@@ -188,7 +181,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("trade_code"))) {
                     VALUES("t.trade_code", "#{trade_code}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("app_person"))) {
                     VALUES("t.app_person", "#{app_person}");
                 }
@@ -204,7 +196,6 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("extend_field_3"))) {
                     VALUES("t.extend_field_3", "#{extend_field_3}");
                 }
-
                 if (!StringUtils.isEmpty(entryHead.get("car_no"))) {
                     VALUES("t.car_no", "#{car_no}");
                 }
@@ -214,11 +205,8 @@ public class ManifestCreateSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("ic_code"))) {
                     VALUES("t.ic_code", "#{ic_code}");
                 }
-
                 VALUES("t.data_status","'CBDS8'");
                 VALUES("t.create_time", "sysdate");
-
-
             }
         }.toString();
     }

@@ -185,11 +185,14 @@ public class EnterPassPortThread implements Runnable {
 
     private void saveXmlFile(String fileName, byte[] xmlByte) throws IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "EnterPassPort" + File.separator + sdf.format(new Date()) + File.separator + fileName;
+        String backFilePath = this.appConfiguration.getXmlPath().get("sendBakPath") + File.separator + "EnterPassport" + File.separator + sdf.format(new Date()) + File.separator + fileName;
         this.logger.debug(String.format("入区核放单报文发送备份文件[backFilePath: %s]", backFilePath));
 
-        String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
-        this.logger.debug(String.format("入区核放单报文发送文件[sendFilePath: %s]", sendFilePath));
+        String sendFilePath = this.appConfiguration.getXmlPath().get("sascebPath") + File.separator + fileName;
+        this.logger.debug(String.format("入区核放单报文发送文件[sascebPath: %s]", sendFilePath));
+
+        String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+        this.logger.debug(String.format("出区核注清单报文发送文件[sendWmsPath: %s]", sendWmsFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
@@ -198,7 +201,12 @@ public class EnterPassPortThread implements Runnable {
         File sendFile = new File(sendFilePath);
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("入区核放单发送完毕" + fileName);
-        this.logger.debug(String.format("入区核放单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
+        this.logger.debug(String.format("入区核放单报文发送文件[sascebPath: %s]生成完毕", sendFilePath));
+
+        File sendWmsFile = new File(sendWmsFilePath);
+        FileUtils.save(sendWmsFile, xmlByte);
+        this.logger.info("出区核注清单发送完毕" + fileName);
+        this.logger.debug(String.format("出区核注清单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, PassPortHead passPortHead) {
