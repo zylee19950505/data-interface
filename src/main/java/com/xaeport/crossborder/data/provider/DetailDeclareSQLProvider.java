@@ -25,6 +25,7 @@ public class DetailDeclareSQLProvider extends BaseSQLProvider{
                 SELECT("DATA_STATUS");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.WRITING_MODE IS NULL");
+                WHERE("t.BUSINESS_TYPE = #{business_type}");
                 if(!roleId.equals("admin")){
                     WHERE("t.ent_id = #{entId}");
                 }

@@ -54,6 +54,7 @@ public class DetailDeclareApi extends BaseApi {
 
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("business_type", "INVENTORY");
 
         if (!StringUtils.isEmpty(dataStatus)) {
             paramMap.put("dataStatus", dataStatus);

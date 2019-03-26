@@ -1,8 +1,8 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
 import com.xaeport.crossborder.data.provider.BuilderDetailSQLProvider;
-import com.xaeport.crossborder.data.provider.DetailBuilderSQLProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -30,8 +30,8 @@ public interface BuilderDetailMapper {
     @Select("SELECT * FROM T_ENTERPRISE t where t.ID = #{entId}")
     Enterprise getEnterpriseDetail(@Param("entId") String entId);
 
-    @Select("select * from T_BWL_LIST_TYPE t where t.BWS_NO = #{bws_no} and t.GDS_MTNO = #{item_no}")
-    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no);
+    @Select("select * from T_BWL_LIST_TYPE t where t.BWS_NO = #{bws_no} and t.GDS_MTNO = #{item_no} and t.BIZOP_ETPSNO = #{customs_code}")
+    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no,@Param("customs_code")String customs_code);
 
     @InsertProvider(type = BuilderDetailSQLProvider.class,method = "insertImpInventoryBody")
     void insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);
@@ -41,4 +41,10 @@ public interface BuilderDetailMapper {
 
     @UpdateProvider(type = BuilderDetailSQLProvider.class,method = "updateBuilderCacheByOrderNo")
     void updateBuilderCacheByOrderNo(@Param("orderNo") String orderNo,@Param("dataStatus") String dataStatus);
+
+    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryBwlHeadType")
+    String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name);
+
+    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryAreaenterprise")
+    Enterprise queryAreaenterprise(@Param("area_code") String area_code);
 }

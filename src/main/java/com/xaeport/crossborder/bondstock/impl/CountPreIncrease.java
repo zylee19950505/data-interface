@@ -31,6 +31,11 @@ public class CountPreIncrease implements CountLoader {
     }
 
     @Override
+    public int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail) {
+        return 999;
+    }
+
+    @Override
     public void count(BondInvtBsc bondInvtBsc) {
         //TODO 保税入区进行预增操作
         //获取导入的入区保税清单表头信息

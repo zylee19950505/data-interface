@@ -33,6 +33,11 @@ public class CountActlReduce implements CountLoader {
     }
 
     @Override
+    public int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail) {
+        return 999;
+    }
+
+    @Override
     public void count(BondInvtBsc bondInvtBscData) {
         //TODO 保税出区进行实减操作
         //根据企业内部编码查询保税清单表头信息

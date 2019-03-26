@@ -53,7 +53,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.orderStatus == "CBDS21" && row.logisticsStatus == "CBDS41" && row.dataStatus == null) {
+                        if (row.orderStatus == "BDDS61" && row.logisticsStatus == "CBDS41" && row.dataStatus == null) {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
                         }
@@ -92,6 +92,31 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             case "CBDS24":
                                 textColor = "text-red";
                                 value = "订单申报失败";
+                                break;
+
+                            case "BDDS6"://待申报
+                                textColor = "text-red";
+                                value = "保税订单待申报";
+                                break;
+                            case "BDDS60"://待申报
+                                textColor = "text-red";
+                                value = "保税订单待申报";
+                                break;
+                            case "BDDS61":
+                                textColor = "text-yellow";
+                                value = "保税订单已申报";
+                                break;
+                            case "BDDS62":
+                                textColor = "text-green";
+                                value = "保税订单申报成功";
+                                break;
+                            case "BDDS63":
+                                textColor = "text-yellow";
+                                value = "保税订单重报";
+                                break;
+                            case "BDDS64":
+                                textColor = "text-red";
+                                value = "保税订单申报失败";
                                 break;
                         }
                         return "<span class='" + textColor + "'>" + value + "</span>";
@@ -168,6 +193,17 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
         $("[ws-search]").unbind("click").click(this.query).click();
         $("#submitDetailBtn").unbind("click").click(this.submitCustom);
         $(".btn[ws-search]").click();
+        $table = $("#query-detailQuery-table");
+        $table.on("change", ":checkbox", function () {
+            if ($(this).is("[name='cb-check-all']")) {
+                //全选
+                $(":checkbox", $table).prop("checked", $(this).prop("checked"));
+            } else {
+                //复选
+                var checkbox = $("tbody :checkbox", $table);
+                $(":checkbox[name='cb-check-all']", $table).prop('checked', checkbox.length == checkbox.filter(':checked').length);
+            }
+        });
     },
     // 生成清单
     submitCustom: function () {

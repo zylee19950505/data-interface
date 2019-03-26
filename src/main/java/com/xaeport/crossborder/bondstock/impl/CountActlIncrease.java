@@ -44,6 +44,11 @@ public class CountActlIncrease implements CountLoader {
         }
     }
 
+    @Override
+    public int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail) {
+        return 999;
+    }
+
     //一车一单
     public void computeOneToOne(PassPortHead passPortHead) {
         //保税清单编号

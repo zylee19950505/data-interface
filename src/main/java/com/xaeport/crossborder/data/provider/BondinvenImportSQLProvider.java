@@ -4,6 +4,7 @@ import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -313,4 +314,24 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+
+    public String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name){
+        return new SQL(){
+            {
+                SELECT("*");
+                FROM("(select t.bws_no from T_BWL_HEAD_TYPE t where t.CRT_ENT_ID = #{id} order by t.crt_time asc)");
+                WHERE("rownum = 1");
+            }
+        }.toString();
+    }
+
+    public String queryAreaenterprise(@Param("area_code") String area_code){
+        return new SQL(){
+            {
+                SELECT("t.*");
+                FROM("T_ENTERPRISE t");
+                WHERE("t.CUSTOMS_CODE = #{area_code}");
+            }
+        }.toString();
+    }
 }

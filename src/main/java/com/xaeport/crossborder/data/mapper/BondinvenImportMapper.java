@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.BwlListType;
+import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
 import com.xaeport.crossborder.data.provider.BondinvenImportSQLProvider;
@@ -36,4 +37,9 @@ public interface BondinvenImportMapper {
     @UpdateProvider(type = BondinvenImportSQLProvider.class, method = "setPrevdRedcQty")
     void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("entCustomsCode") String entCustomsCode);
 
+    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryBwlHeadType")
+    String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name);
+
+    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryAreaenterprise")
+    Enterprise queryAreaenterprise(@Param("area_code") String area_code);
 }

@@ -1,27 +1,21 @@
 package com.xaeport.crossborder.generated.thread;
 
+import com.xaeport.crossborder.bondstock.CountLoader;
+import com.xaeport.crossborder.bondstock.impl.CountBudDetail;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BuilderDetailMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.security.SecurityUsers;
 import com.xaeport.crossborder.service.sysmanage.UserManageService;
-import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.IdUtils;
-import org.apache.catalina.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -75,7 +69,6 @@ public class BuilderDetailThread implements Runnable{
                     }
                     continue;
                 }
-                long time1 = System.currentTimeMillis();
                 for (String orderNo:orderList){
                     //利用订单编号查询出来订单数据
                     imporderHead = this.builderDetailMapper.queryOrderHead(orderNo);
@@ -89,17 +82,23 @@ public class BuilderDetailThread implements Runnable{
                     //Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(ent_id);
                     Enterprise enterpriseDetail = builderDetailMapper.getEnterpriseDetail(ent_id);
                     impInventoryHead = this.getInventoryData(imporderHead,impOrderBodyList,impLogistics,enterpriseDetail);
-                    this.getInventoryBodyData(impOrderBodyList,imporderHead.getBusiness_type(),enterpriseDetail,impInventoryHead.getGuid());
+                    impInventoryBodyList = this.getInventoryBodyData(impOrderBodyList, imporderHead.getBusiness_type(), enterpriseDetail, impInventoryHead.getGuid());
 
-                    //信息整合完毕后,进行插入操作
-                    this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
+                    //先在这里进行库存检查
+                    CountLoader countLoader = new CountBudDetail();
+                    int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
 
-                    //再将缓存数据库的数据状态改为已经生成;
-                    String dataStatus = "QDYSC";//清单已生成
-                    this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo,dataStatus);
+                    if (flag == 0){
+                        //信息整合完毕后,进行插入操作
+                        this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
+                        for (ImpInventoryBody impInventoryBody:impInventoryBodyList) {
+                            this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
+                        }
+                        //再将缓存数据库的数据状态改为已经生成;
+                        String dataStatus = "QDYSC";//清单已生成
+                        this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo,dataStatus);
+                    }
                 }
-                long time2 = System.currentTimeMillis();
-                System.out.println("所用时间--------------------------------------------------------------:"+(time2 - time1));
             }catch (Exception e){
                 try {
                     Thread.sleep(5000);
@@ -113,17 +112,20 @@ public class BuilderDetailThread implements Runnable{
 
     }
 
-    private void getInventoryBodyData(List<ImpOrderBody> impOrderBodyList,String business_type,Enterprise enterpriseDetail,String guid) {
+    private List<ImpInventoryBody> getInventoryBodyData(List<ImpOrderBody> impOrderBodyList, String business_type, Enterprise enterpriseDetail, String guid) {
 
         //查找账册信息里企业id是订单的企业id的情况
-        String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getId(), enterpriseDetail.getEnt_name());
+        //String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getId(), enterpriseDetail.getEnt_name());
 
-        //List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
+        //账册企业信息的企业信息
+        Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
+        List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
         int count = 0;
         for (ImpOrderBody impOrderBody : impOrderBodyList){
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(bws_no,impOrderBody.getItem_No());
+            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo,impOrderBody.getItem_No(),enterpriseDetail.getCustoms_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(count);//商品序号
@@ -133,7 +135,7 @@ public class BuilderDetailThread implements Runnable{
             if ("BONDORDER".equals(business_type)){
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
-                //impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
+                impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
             }
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。
@@ -149,7 +151,7 @@ public class BuilderDetailThread implements Runnable{
            // impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
            // impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
             impInventoryBody.setNote(impOrderBody.getNote());//促销活动，商品单价偏离市场价格的，可以在此说明。
-
+            impInventoryBody.setQuantity(Double.parseDouble(impOrderBody.getQty()));
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
            // impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
            // impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
@@ -160,10 +162,10 @@ public class BuilderDetailThread implements Runnable{
                 String price = df.format(Price);
                 impInventoryBody.setPrice(price);//单价
             }
-            this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
-            //impInventoryBodyList.add(impInventoryBody);
+//            this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
+            impInventoryBodyList.add(impInventoryBody);
         }
-        //return impInventoryBodyList;
+        return impInventoryBodyList;
     }
 
 
@@ -211,8 +213,7 @@ public class BuilderDetailThread implements Runnable{
         impInventoryHead.setInsured_fee(impLogistics.getInsured_fee());//物流企业实际收取的商品保价费用。
         impInventoryHead.setFreight(impLogistics.getFreight());//运杂费
 
-        impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
-        impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
+
 
         double totalPrices = 0;
         for (ImpOrderBody impOrderBody: impOrderBodyList){
@@ -236,7 +237,7 @@ public class BuilderDetailThread implements Runnable{
 
 
         impInventoryHead.setBill_no(imporderHead.getBill_No().trim());
-        impInventoryHead.setData_status(StatusCode.QDZC);//数据状态(暂存)
+
         impInventoryHead.setCrt_id(StringUtils.isEmpty(crt_id) ? "" : crt_id);//创建人
         impInventoryHead.setCrt_tm(new Date());//创建时间
         impInventoryHead.setUpd_id(StringUtils.isEmpty(crt_id) ? "" : crt_id);//更新人
@@ -245,17 +246,28 @@ public class BuilderDetailThread implements Runnable{
         impInventoryHead.setEnt_name(enterpriseDetail.getEnt_name());
         impInventoryHead.setEnt_customs_code(enterpriseDetail.getCustoms_code());
         if ("ORDER".equals(imporderHead.getBusiness_type())){
-            impInventoryHead.setVoyage_no(impLogistics.getVoyage_no().trim());
+            //直购的毛重和净重从运单里获取
+            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight())*1.1));//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setNet_weight(impLogistics.getWeight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
+            impInventoryHead.setVoyage_no(StringUtils.isEmpty(impLogistics.getVoyage_no()) ? "":impLogistics.getVoyage_no());
             impInventoryHead.setTraf_mode("");//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
             impInventoryHead.setTraf_no("");//直购进口必填。货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。保税进口免填。
 
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_INVENTORY);
+            impInventoryHead.setData_status(StatusCode.QDDSB);//数据状态(暂存)
         }else if ("BONDORDER".equals(imporderHead.getBusiness_type())){
+            //保税的毛重和净重从订单获取
+            impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
             String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(),enterpriseDetail.getEnt_name());
+
+            //账册编号通过查找企业信息的区内企业名称和区内企业编码,去账册信息里查找
+
             impInventoryHead.setEms_no(bws_no);//保税模式必填，填写区内仓储企业在海关备案的账册编号，用于保税进口业务在特殊区域辅助系统记账（二线出区核减）。
             impInventoryHead.setArea_code("");//保税模式必填，区内仓储企业的海关注册登记编号。(企业信息里有)
             impInventoryHead.setArea_name("");//保税模式必填，区内仓储企业在海关注册登记的名称。(企业信息里有)
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_BOND_INVEN);
+            impInventoryHead.setData_status(StatusCode.BSQDDSB);//数据状态(暂存)
         }
         return impInventoryHead;
     }

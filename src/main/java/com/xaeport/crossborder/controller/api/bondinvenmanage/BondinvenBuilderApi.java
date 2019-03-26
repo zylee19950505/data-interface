@@ -40,8 +40,6 @@ public class BondinvenBuilderApi extends BaseApi {
 
     @RequestMapping("/queryDetailBuilder")
     public ResponseData queryOrderDeclare(
-            /*@RequestParam(required = false) String startFlightTimes,
-            @RequestParam(required = false) String endFlightTimes,*/
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String logisticsNo,
@@ -57,8 +55,6 @@ public class BondinvenBuilderApi extends BaseApi {
         String start = String.valueOf((Integer.parseInt(startStr) + 1));
         String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
-      /*  paramMap.put("startFlightTimes", startFlightTimes);
-        paramMap.put("endFlightTimes", endFlightTimes);*/
         paramMap.put("billNo", billNo);
         paramMap.put("orderNo", orderNo);
         paramMap.put("logisticsNo", logisticsNo);

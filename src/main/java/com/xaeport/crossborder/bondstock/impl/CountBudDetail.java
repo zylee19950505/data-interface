@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 //账册表体预减方法
-public class CountPreReduce implements CountLoader {
+public class CountBudDetail implements CountLoader {
 
     private final Log logger = LogFactory.getLog(this.getClass());
     private BondinvenImportMapper bondinvenImportMapper = SpringUtils.getBean(BondinvenImportMapper.class);
@@ -27,26 +27,24 @@ public class CountPreReduce implements CountLoader {
     @Override
     //检查对应库存余量是否大于导入商品数量
     public int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail) {
-       return 999;
-    }
-
-    @Override
-    //检查对应库存余量是否大于导入商品数量
-    public int count(Map<String, Object> excelMap, Users user, String emsNo) {
-        //TODO 保税出区进行预减操作
         int flag = 0;
-        List<ImpInventoryBody> impInventoryBodyList = (List<ImpInventoryBody>) excelMap.get("ImpInventoryBody");
         Map<String, List<ImpInventoryBody>> itemRecordNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
         List<ImpInventoryBody> impBondInvenBodyList;
         String item_record_no;
         String entCustomsCode = null;
+        //查找企业信息里的区内企业信息
+        //再在账册表头里查找创建账册的创建人所属企业ID匹配账册信息
+        Enterprise enterprise = this.bondinvenImportMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+        String emsNo = this.bondinvenImportMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
         for (String itemRecordNo : itemRecordNoData.keySet()) {
             //获取按照料号划分的保税清单表体数据
             impBondInvenBodyList = itemRecordNoData.get(itemRecordNo);
             //获取料号
             item_record_no = impBondInvenBodyList.get(0).getItem_record_no();
             //根据料号，账册号查询是否存在账册表体数据
-            entCustomsCode = user.getEnt_Customs_Code();
+            entCustomsCode = enterpriseDetail.getCustoms_code();
+
+
             BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(entCustomsCode, item_record_no, emsNo);
             if (!StringUtils.isEmpty(bwlListType)) {
                 //获取导入保税清单的表体总数
@@ -80,6 +78,12 @@ public class CountPreReduce implements CountLoader {
         } else {
             return flag;
         }
+    }
+
+    @Override
+    //检查对应库存余量是否大于导入商品数量
+    public int count(Map<String, Object> excelMap, Users user, String emsNo) {
+        return 999;
     }
 
     //确认保税清单库存无误后，设置账册表体预减数量

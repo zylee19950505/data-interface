@@ -1,0 +1,103 @@
+<section class="content-header">
+    <h1>生成清单申报</h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i>清单管理</a></li>
+        <li class="active">生成清单申报</li>
+    </ol>
+</section>
+
+
+<section class="content">
+    <div id="bill">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-solid box-default ws-query">
+                    <div class="box-header with-border" style="background-color: #95bfff;color: #fff">
+                        <i class="fa fa-search"></i>
+                        <h3 class="box-title">检索</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-sm btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus" style="color: #fff;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <form class="form-inline" role="form">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="input-group input-daterange">
+                                    <span class="input-group-addon"
+                                          style="border-width: 1px;">导入日期：</span>
+                                        <input class="form-control" type="text" name="startFlightTimes"/>
+                                    </div>
+                                    到
+                                    <div class="input-group input-daterange">
+                                        <input class="form-control" type="text" name="endFlightTimes"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">提运单号</span>
+                                        <input type="text" class="form-control" name="billNo" placeholder="请输入提运编号"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">业务状态：</span>
+                                        <select class="form-control" name="dataStatus">
+                                            <option value="" selected="selected">全部</option>
+                                            <option value="BDDS5">保税订单待申报</option>
+                                            <option value="BDDS50">保税清单申报中</option>
+                                            <option value="BDDS51">保税清单已申报</option>
+                                            <option value="BDDS52">保税清单申报成功</option>
+                                            <option value="BDDS53">保税清单重报</option>
+                                            <option value="BDDS54" >保税清单申报失败</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-info" type="button" ws-search=""
+                                            data-toggle="tooltip-disabled"
+                                            title="查询"><i class="fa fa-search"></i></button>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary ws-query">
+                    <div class="box-header with-border">
+                        <i class="fa fa-file-code-o"></i>
+                        <h3 class="box-title">保税清单申报</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-sm btn-info pull-right" type="button" style="margin-right: 10px"
+                                    ws-submit="" id="submitManifestBtn"
+                                    data-toggle="tooltip-disabled">提交海关
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div style="text-align: center">
+                            <table id="query-budDeclare-table" align="center"
+                                   class="table table-striped table-bordered table-hover table-condensed"
+                                   width="100%">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay hidden" id="loadingDiv">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+        </div>
+
+    </div>
+
+</section>
