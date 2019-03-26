@@ -165,10 +165,10 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             hasErrorEnterprise("input[name='declare_ent_name'", "申报企业名称不能为空");
             return false;
         }
-        if (isEmpty(assure_ent_name)) {
-            hasErrorEnterprise("input[name='assure_ent_name'", "担保企业名称不能为空");
-            return false;
-        }
+        // if (isEmpty(assure_ent_name)) {
+        //     hasErrorEnterprise("input[name='assure_ent_name'", "担保企业名称不能为空");
+        //     return false;
+        // }
         if (isEmpty(dxp_id) || ent_name.length < 3) {
             hasErrorEnterprise("input[name='dxp_id'", "企业DXPID不能为空或小于3个字符");
             return false;
@@ -190,10 +190,10 @@ sw.page.modules["sysmanage/entEdit"] = sw.page.modules["sysmanage/entEdit"] || {
             hasErrorEnterprise("input[name='declare_ent_code'", "申报企业海关注册编码不能为空");
             return false;
         }
-        if (isEmpty(assure_ent_code)) {
-            hasErrorEnterprise("input[name='assure_ent_code'", "担保企业海关注册编码不能为空");
-            return false;
-        }
+        // if (isEmpty(assure_ent_code)) {
+        //     hasErrorEnterprise("input[name='assure_ent_code'", "担保企业海关注册编码不能为空");
+        //     return false;
+        // }
 
         return true;
     },
