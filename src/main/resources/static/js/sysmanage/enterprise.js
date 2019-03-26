@@ -43,6 +43,7 @@ sw.page.modules["sysmanage/enterprise"] = sw.page.modules["sysmanage/enterprise"
                     return row.ent_business_type;
                 }
                 },
+                {data: "brevity_code", label: "企业简码"},
                 {data: "port_str", label: "主管海关"},
                 {data: "customs_code", label: "企业海关代码"},
                 {data: "ent_status", label: "企业状态"},

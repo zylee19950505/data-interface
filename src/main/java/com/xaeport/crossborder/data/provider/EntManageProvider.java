@@ -32,9 +32,6 @@ public class EntManageProvider extends BaseSQLProvider {
                 SELECT("t.CUSTOMS_CODE");
                 SELECT("t.ENT_CLASSIFY");
                 SELECT("t.CRT_TM");
-                SELECT("t.UPD_TM");
-                SELECT("t.CRT_ID");
-                SELECT("t.UPD_ID");
                 SELECT("t.ENT_BUSINESS_TYPE");
                 SELECT("t.BREVITY_CODE");
                 SELECT("t.DECLARE_ENT_NAME");
