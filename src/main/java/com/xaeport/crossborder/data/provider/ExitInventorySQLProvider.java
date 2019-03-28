@@ -134,10 +134,13 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
         return new SQL() {
             {
-                SELECT("*");
+                SELECT("BILL_NO");
+                SELECT("SEQ_NO");
+                SELECT("BOND_INVT_NO");
+                SELECT("count(1) count");
                 FROM("T_NEMS_INVT_CBEC_BILL_TYPE");
                 WHERE("HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
-                ORDER_BY("NO");
+                GROUP_BY("BILL_NO,SEQ_NO,BOND_INVT_NO");
             }
         }.toString();
     }

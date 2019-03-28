@@ -1,8 +1,10 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
+import org.springframework.security.access.method.P;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -34,6 +36,49 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
     }
 
     //查询保税清单页面数据
+    public String queryCrtEInventoryData(Map<String, String> paramMap) throws Exception {
+
+        final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
+        final String returnStatus = paramMap.get("returnStatus");
+        final String businessType = paramMap.get("businessType");
+        final String port = paramMap.get("port");
+        final String ebcCode = paramMap.get("ebcCode");
+        final String billNo = paramMap.get("billNo");
+
+        return new SQL() {
+            {
+                SELECT("t.BILL_NO");
+                SELECT("t.EBC_CODE");
+                SELECT("t.RETURN_STATUS");
+                SELECT("COUNT(t.ORDER_NO) asscount");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.TRADE_MODE = '1210'");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.BILL_NO = #{billNo}");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("t.RETURN_STATUS = #{returnStatus}");
+                }
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if (port.equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
+                }
+                GROUP_BY("t.BILL_NO,t.EBC_CODE,t.RETURN_STATUS");
+            }
+        }.toString();
+    }
+
+    //查询保税清单页面数据
     public String queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
 
         final String end = paramMap.get("end");
@@ -43,6 +88,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         final String businessType = paramMap.get("businessType");
         final String port = paramMap.get("port");
         final String ebcCode = paramMap.get("ebcCode");
+        final String billNo = paramMap.get("billNo");
 
         return new SQL() {
             {
@@ -59,8 +105,11 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_no = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(returnStatus)) {
-                    WHERE(splitJointIn("t.return_Status", returnStatus));
+                    WHERE("t.return_Status = #{returnStatus}");
                 }
                 if (!roleId.equals("admin")) {
                     if (port.equals("9013")) {
@@ -87,6 +136,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         final String businessType = paramMap.get("businessType");
         final String port = paramMap.get("port");
         final String ebcCode = paramMap.get("ebcCode");
+        final String billNo = paramMap.get("billNo");
 
         return new SQL() {
             {
@@ -95,8 +145,11 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE("t.bill_no = #{billNo}");
+                }
                 if (!StringUtils.isEmpty(returnStatus)) {
-                    WHERE(splitJointIn("t.return_Status", returnStatus));
+                    WHERE("t.return_Status = #{returnStatus}");
                 }
                 if (!roleId.equals("admin")) {
                     if (port.equals("9013")) {
@@ -113,12 +166,85 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryGuidByInvtNos(String invtNos) throws Exception {
+    public String queryGuidByBillNos(Map<String, String> paramMap) throws Exception {
+
+        final String entId = paramMap.get("ent_id");
+        final String roleId = paramMap.get("roleId");
+        final String returnStatus = paramMap.get("returnStatus");
+        final String businessType = paramMap.get("businessType");
+        final String port = paramMap.get("port");
+        final String ebcCode = paramMap.get("ebcCode");
+        final String billNo = paramMap.get("billNo");
+
         return new SQL() {
             {
-                SELECT("guid");
-                FROM("T_IMP_INVENTORY_HEAD");
-                WHERE(splitJointIn("INVT_NO", invtNos));
+                SELECT("t.BILL_NO");
+                SELECT("t.EBC_CODE");
+                SELECT("t.RETURN_STATUS");
+                SELECT("COUNT(t.ORDER_NO) asscount");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.TRADE_MODE = '1210'");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE(splitJointIn("t.BILL_NO", billNo));
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("t.RETURN_STATUS = #{returnStatus}");
+                }
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if (port.equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
+                }
+                GROUP_BY("t.BILL_NO,t.EBC_CODE,t.RETURN_STATUS");
+            }
+        }.toString();
+    }
+
+    public String queryListByBillNos(Map<String, String> paramMap) throws Exception {
+
+        final String entId = paramMap.get("ent_id");
+        final String roleId = paramMap.get("roleId");
+        final String port = paramMap.get("port");
+        final String businessType = paramMap.get("businessType");
+        final String returnStatus = paramMap.get("returnStatus");
+        final String ebcCode = paramMap.get("ebcCode");
+        final String billNo = paramMap.get("billNo");
+
+        return new SQL() {
+            {
+                SELECT("t.BILL_NO");
+                SELECT("t.INVT_NO");
+                SELECT("t.EBC_CODE");
+                SELECT("t.RETURN_STATUS");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.TRADE_MODE = '1210'");
+                WHERE("t.IS_BOND_INVT_EXIT = 'Y'");
+                WHERE("t.BUSINESS_TYPE = #{businessType}");
+                if (!StringUtils.isEmpty(billNo)) {
+                    WHERE(splitJointIn("t.BILL_NO", billNo));
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("t.RETURN_STATUS = #{returnStatus}");
+                }
+                if (!roleId.equals("admin")) {
+                    if (port.equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if (port.equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
+                }
             }
         }.toString();
     }
@@ -134,12 +260,29 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
     }
 
     public String updateInventoryDataByBondInvt(
-            @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc
+            @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc,
+            @Param("ebcCode") String ebcCode,
+            @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
-                UPDATE("T_IMP_INVENTORY_HEAD");
-                WHERE(splitJointIn("INVT_NO", BondInvtBsc.get("invt_no")));
+                UPDATE("T_IMP_INVENTORY_HEAD t");
+                WHERE(splitJointIn("t.BILL_NO", BondInvtBsc.get("invt_no")));
+                WHERE("t.TRADE_MODE = '1210'");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
+                WHERE("t.BUSINESS_TYPE = 'BONDINVEN'");
+                WHERE("t.RETURN_STATUS = '800'");
+                if (!(userInfo.getRoleId()).equals("admin")) {
+                    if ((userInfo.getPort()).equals("9013")) {
+                        WHERE("t.CUSTOMS_CODE = '9013'");
+                    }
+                    if ((userInfo.getPort()).equals("9007")) {
+                        WHERE("t.CUSTOMS_CODE = '9009'");
+                    }
+                }
+                if (!StringUtils.isEmpty(ebcCode)) {
+                    WHERE("t.EBC_CODE = #{ebcCode}");
+                }
                 SET("IS_BOND_INVT_EXIT = 'Y'");
             }
         }.toString();
@@ -338,28 +481,31 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
     }
 
     public String saveNemsInvtCbecBillType(
-            @Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType,
+            @Param("nemsInvtCbecBillType") NemsInvtCbecBillType nemsInvtCbecBillType,
             @Param("userInfo") Users userInfo
     ) {
         return new SQL() {
             {
                 INSERT_INTO("T_NEMS_INVT_CBEC_BILL_TYPE");
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("id"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getId())) {
                     VALUES("id", "#{nemsInvtCbecBillType.id}");
                 }
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("no"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getNo())) {
                     VALUES("no", "#{nemsInvtCbecBillType.no}");
                 }
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("seq_no"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getSeq_no())) {
                     VALUES("seq_no", "#{nemsInvtCbecBillType.seq_no}");
                 }
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("bond_invt_no"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getBond_invt_no())) {
                     VALUES("bond_invt_no", "#{nemsInvtCbecBillType.bond_invt_no}");
                 }
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("cbec_bill_no"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getBill_no())) {
+                    VALUES("BILL_NO", "#{nemsInvtCbecBillType.bill_no}");
+                }
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getCbec_bill_no())) {
                     VALUES("cbec_bill_no", "#{nemsInvtCbecBillType.cbec_bill_no}");
                 }
-                if (!StringUtils.isEmpty(nemsInvtCbecBillType.get("head_etps_inner_invt_no"))) {
+                if (!StringUtils.isEmpty(nemsInvtCbecBillType.getHead_etps_inner_invt_no())) {
                     VALUES("head_etps_inner_invt_no", "#{nemsInvtCbecBillType.head_etps_inner_invt_no}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {

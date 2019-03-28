@@ -41,18 +41,21 @@ public class BondinvenImportApi extends BaseApi {
 
     /**
      * 保税清单excel新快件上传
+     *
      * @param importTime // 进口时间
-     * @param emsNo // 账册编号
-     * @param file // 上传的文件
+     * @param emsNo      // 账册编号
+     * @param file       // 上传的文件
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(
+            @RequestParam(value = "billNo", required = false) String billNo,//提运单号
             @RequestParam(value = "importTime", required = false) String importTime,//进口时间
             @RequestParam(value = "emsNo", required = false) String emsNo,//账册编号
             @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板
             HttpServletRequest request
     ) {
         HttpSession httpSession = request.getSession();
+        if (billNo.isEmpty()) return new ResponseData("提运单号不能为空");
         if (importTime.isEmpty()) return new ResponseData("进口时间不能为空");
         if (emsNo.isEmpty()) return new ResponseData("账册编号不能为空");
         if (file == null) return new ResponseData("请选择要导入的文件");
@@ -60,6 +63,7 @@ public class BondinvenImportApi extends BaseApi {
         String fileName = file.getOriginalFilename();
         if (!fileName.endsWith("xls") && !fileName.endsWith("xlsx")) return new ResponseData("导入文件不为excel文件，请重新选择");
 
+        if (billNo.length() > 37) return new ResponseData("提运单号长度超过37位，请重新输入");
         if (file.getSize() > (5 * 1024 * 1024)) return new ResponseData("文件大小超过5M，请重新选择文件");
 
         //获取企业信息
@@ -96,7 +100,7 @@ public class BondinvenImportApi extends BaseApi {
                     return new ResponseData("订单号【" + orderNoCount + "】不能重复");
                 }
 
-                flag = this.bondinvenImportService.createBondInvenForm(excelMap, importTime, user, emsNo);//数据创建对应的数据
+                flag = this.bondinvenImportService.createBondInvenForm(excelMap, importTime, user, emsNo, billNo);//数据创建对应的数据
                 if (flag == 0) {
                     this.log.info("入库耗时" + (System.currentTimeMillis() - startTime));
                     httpSession.removeAttribute("importTime");

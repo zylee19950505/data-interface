@@ -38,10 +38,15 @@ sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenm
     //导入保税清单数据
     bondInvenImport: function () {
 
+        var billNo = $("[name='billNo']").val();
         var importTime = $("[name='importTime']").val();
         var emsNo = $("[name='emsNo']").val();
         var file = $("#file").val();
 
+        if (isEmpty(billNo)) {
+            sw.alert("请填写提运单号", "提示", "", "modal-info");
+            return false;
+        }
         if (isEmpty(importTime)) {
             sw.alert("请选择进口时间", "提示", "", "modal-info");
             return false;

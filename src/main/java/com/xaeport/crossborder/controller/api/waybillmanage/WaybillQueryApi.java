@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 //运单查询
@@ -183,27 +183,22 @@ public class WaybillQueryApi extends BaseApi {
         DownloadUtils.download(response, file, SystemConstants.HTTP_CONTENT_TYPE_EXCEL);
     }
 
-    //清单数据Excel下载
+    //运单数据Excel下载
     @RequestMapping(value = "/load", method = RequestMethod.GET)
     public ResponseData implogisticsListLoad(
-            @RequestParam String billNo,
-            @RequestParam String startStr,
-            @RequestParam String length
+            @RequestParam String billNo
     ) {
         Map<String, String> map = new HashMap<String, String>();
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
         map.put("billNo", billNo);
-        map.put("dataStatus", StatusCode.QDSBCG);
-        map.put("start", start);
-        map.put("length", length);
-        map.put("end", end);
+        map.put("dataStatus", String.format("%s,%s", StatusCode.YDSBCG, StatusCode.YDZTSBCG));
 
         List<ImpLogistics> impLogisticsList;
-        String fileName;
+        String fileName = "0";
         try {
             impLogisticsList = this.waybillService.queryImpLogisticsByBillNo(map);
-            fileName = this.generateImpLogisticsListExcel(impLogisticsList);
+            if (!CollectionUtils.isEmpty(impLogisticsList)) {
+                fileName = this.generateImpLogisticsListExcel(impLogisticsList);
+            }
         } catch (Exception e) {
             this.logger.error("物流数据下载时发生异常", e);
             return new ResponseData("物流数据下载时发生异常", HttpStatus.BAD_REQUEST);
@@ -233,7 +228,7 @@ public class WaybillQueryApi extends BaseApi {
         HSSFCellStyle style = wb.createCellStyle();
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER); //水平布局：居中
         style.setWrapText(true);
-        String[] head = new String[]{"序号", "提运单号", "物流运单号", "订单号", "物流企业编码", "物流企业名称", "重量"};
+        String[] head = new String[]{"序号", "提运单号", "物流运单号", "订单号", "物流企业编码", "物流企业名称", "运费", "保价费", "重量", "收货人姓名", "收货地址", "收货人电话"};
 
         HSSFCell cell;
         for (int i = 0; i < head.length; i++) {
@@ -243,8 +238,7 @@ public class WaybillQueryApi extends BaseApi {
         }
 
         ImpLogistics impLogistics;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        HSSFCell cell0, cell1, cell2, cell3, cell4, cell5, cell6;
+        HSSFCell cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11;
         for (int i = 0; i < list.size(); i++) {
             row = sheet.createRow(i + 1);
             impLogistics = list.get(i);
@@ -279,10 +273,35 @@ public class WaybillQueryApi extends BaseApi {
             cell5.setCellValue(impLogistics.getLogistics_name());
             cell5.setCellStyle(style);
 
-            // 重量
+            // 运费
             cell6 = row.createCell(6);
-            cell6.setCellValue(impLogistics.getWeight());
+            cell6.setCellValue(impLogistics.getFreight());
             cell6.setCellStyle(style);
+
+            // 保价费
+            cell7 = row.createCell(7);
+            cell7.setCellValue(impLogistics.getInsured_fee());
+            cell7.setCellStyle(style);
+
+            // 重量
+            cell8 = row.createCell(8);
+            cell8.setCellValue(impLogistics.getWeight());
+            cell8.setCellStyle(style);
+
+            // 收货人姓名
+            cell9 = row.createCell(9);
+            cell9.setCellValue(impLogistics.getConsingee());
+            cell9.setCellStyle(style);
+
+            // 收货地址
+            cell10 = row.createCell(10);
+            cell10.setCellValue(impLogistics.getConsignee_address());
+            cell10.setCellStyle(style);
+
+            // 收货人电话
+            cell11 = row.createCell(11);
+            cell11.setCellValue(impLogistics.getConsignee_telephone());
+            cell11.setCellStyle(style);
 
         }
 
@@ -292,7 +311,7 @@ public class WaybillQueryApi extends BaseApi {
         }
 
         // 第六步，将文件存到指定位置
-        String fileName = sdf + "-" + DateTools.getDateTimeStr17String(new Date()) + ".xls";
+        String fileName = "Logistics-" + DateTools.getDateTimeStr17String(new Date()) + ".xls";
         String generatePath = this.appConfiguration.getDownloadFolder() + File.separator + this.getCurrentUserEntId();
         String filePath = generatePath + File.separator + fileName;
         File file = new File(generatePath);
@@ -302,7 +321,7 @@ public class WaybillQueryApi extends BaseApi {
             wb.write(fos);
             fos.close();
         } catch (Exception e) {
-            this.logger.error("生成商品统计下载excel失败，filePath=" + filePath, e);
+            this.logger.error("物流运单数据下载excel失败，filePath=" + filePath, e);
         }
         return fileName;
     }

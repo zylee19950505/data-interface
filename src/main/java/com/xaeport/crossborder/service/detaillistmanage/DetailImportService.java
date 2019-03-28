@@ -42,7 +42,6 @@ public class DetailImportService {
     public int createDetailForm(Map<String, Object> excelMap, String importTime, Users user, String voyageNo, String billNo) {
         int flag;
         try {
-            String id = user.getId();
             flag = this.createImpInventoryHead(excelMap, importTime, user, voyageNo, billNo);
         } catch (Exception e) {
             flag = 2;

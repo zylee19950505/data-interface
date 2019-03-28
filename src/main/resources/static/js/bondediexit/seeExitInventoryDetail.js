@@ -23,7 +23,7 @@ function selectEInvenDetail(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -133,7 +133,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "body_seqNo",
             "body_bondInvtNo",
             "body_cbecBillNo",
-            "body_etpsInnerInvtNo"
+            "body_etpsInnerInvtNo",
+
+            "body_billNo",
+            "body_count"
         ]
     },
     // 保存成功时回调查询
@@ -200,7 +203,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
-
     },
 
     //加载表体信息
@@ -211,9 +213,11 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 "<tr>" +
                 "<td hidden='hidden'><input class=\"form-control input-sm listCount\" maxlength=\"36\" id='body_id_" + no + "' value='" + entryLists[i].id + "'/></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"20\" id='body_no_" + no + "' value='" + entryLists[i].no + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"37\" id='body_billNo_" + no + "' value='" + (isEmpty(entryLists[i].bill_no) ? "" : entryLists[i].bill_no) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_count_" + no + "' value='" + (isEmpty(entryLists[i].count) ? "" : entryLists[i].count) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_seqNo_" + no + "' value='" + (isEmpty(entryLists[i].seq_no) ? "" : entryLists[i].seq_no) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"64\" id='body_bondInvtNo_" + no + "' value='" + (isEmpty(entryLists[i].bond_invt_no) ? "" : entryLists[i].bond_invt_no) + "'/></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_cbecBillNo_" + no + "' value='" + entryLists[i].cbec_bill_no + "'/></td>" +
+                // "<td ><input class=\"form-control input-sm\" maxlength=\"18\" id='body_cbecBillNo_" + no + "' value='" + entryLists[i].cbec_bill_no + "'/></td>" +
                 "<td hidden='hidden'><input class=\"form-control input-sm\" maxlength=\"64\" id='body_etpsInnerInvtNo_" + no + "' value='" + entryLists[i].head_etps_inner_invt_no + "' /></td>" +
                 "</tr>";
             $("#table_body_result").append(str);
@@ -239,7 +243,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     // },
 
     // 保存清单编辑信息
-    saveExitInventoryInfo: function () {
+    saveExitInventoryInfo: function (customsCode) {
         if (!this.valiFieldExitInventory()) {
             return;
         }
@@ -267,30 +271,36 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             rmk: $("#rmk").val()
         };
         var nemsInvtCbecBillTypeList = new Array();
-        for (var i = 0; i <= $(".listCount").length; i++) {
+        for (var i = 0; i < $(".listCount").length; i++) {
             var body_id = $("#body_id_" + i).val();
             var body_no = $("#body_no_" + i).val();
             var body_seqNo = $("#body_seqNo_" + i).val();
             var body_bondInvtNo = $("#body_bondInvtNo_" + i).val();
-            var body_cbecBillNo = $("#body_cbecBillNo_" + i).val();
+            // var body_cbecBillNo = $("#body_cbecBillNo_" + i).val();
             var body_etpsInnerInvtNo = $("#body_etpsInnerInvtNo_" + i).val();
+
+            var body_billNo = $("#body_billNo_" + i).val();
+            var body_count = $("#body_count_" + i).val();
 
             var nemsInvtCbecBillType = {
                 id: body_id,
                 no: body_no,
                 seq_no: body_seqNo,
                 bond_invt_no: body_bondInvtNo,
-                cbec_bill_no: body_cbecBillNo,
-                head_etps_inner_invt_no: body_etpsInnerInvtNo
+                // cbec_bill_no: body_cbecBillNo,
+                head_etps_inner_invt_no: body_etpsInnerInvtNo,
+
+                body_billNo: body_billNo,
+                body_count: body_count
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
         var entryData = {
             BondInvtBsc: BondInvtBsc,
-            nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
+            nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList,
+            customsCode: customsCode
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
-
             if (rsp.data.result) {
                 sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
                 setTimeout(function () {
@@ -335,7 +345,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     },
 
     // 查询订单详情
-    query: function (mark) {
+    query: function (mark, customsCode) {
 
         // 表头变化
         headChangeKeyValEInven = {};
@@ -346,7 +356,8 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
         var dataInfo = param.submitKeys;
         var data = {
-            dataInfo: dataInfo
+            dataInfo: dataInfo,
+            customsCode: customsCode
         };
 
         if (mark == "crt") {
@@ -361,6 +372,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         var entryHead = data.data.bondInvtBsc;
                         var entryLists = data.data.nemsInvtCbecBillTypeList;
 
+                        debugger;
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillNewBondInvtBsc(entryHead);
                         }
@@ -545,6 +557,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         var type = param.type;
         var isEdit = param.isEdit;
         var mark = param.mark;
+        var customsCode = param.customsCode;
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -552,6 +565,8 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             format: "yyyy-mm-dd",
             autoclose: true
         });
+
+        debugger;
 
         switch (type) {
             //出区核注清单查询
@@ -565,7 +580,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         "body_seqNo",
                         "body_bondInvtNo",
                         "body_cbecBillNo",
-                        "body_etpsInnerInvtNo"
+                        "body_etpsInnerInvtNo",
+                        "body_billNo",
+                        "body_count"
                     ];
                 }
                 //保存的路径
@@ -587,7 +604,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         "body_seqNo",
                         "body_bondInvtNo",
                         "body_cbecBillNo",
-                        "body_etpsInnerInvtNo"
+                        "body_etpsInnerInvtNo",
+                        "body_billNo",
+                        "body_count"
                     ];
                 }
                 //保存的路径
@@ -625,7 +644,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 "body_seqNo",
                 "body_bondInvtNo",
                 "body_cbecBillNo",
-                "body_etpsInnerInvtNo"
+                "body_etpsInnerInvtNo",
+                "body_billNo",
+                "body_count"
             ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
@@ -636,12 +657,12 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         // 查询详情
 
         if (mark == "crt") {
-            this.query(mark);
+            this.query(mark, customsCode);
             $("#ws-page-apply").click(function () {
-                sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo();
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo(customsCode);
             });
         } else if (mark == "upd") {
-            this.query(mark);
+            this.query(mark, customsCode);
             $("#ws-page-apply").click(function () {
                 sw.page.modules["bondediexit/seeExitInventoryDetail"].updateExitInventoryInfo();
             });
@@ -655,4 +676,4 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     }
 
 
-}
+};

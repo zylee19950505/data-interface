@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class WaybillQuerySQLProvider {
+public class WaybillQuerySQLProvider extends BaseSQLProvider {
 
     public String queryWaybillQueryDataList(Map<String, String> paramMap) throws Exception {
         final String startFlightTimes = paramMap.get("startFlightTimes");
@@ -320,7 +320,7 @@ public class WaybillQuerySQLProvider {
                 SELECT("t.*");
                 FROM("T_IMP_LOGISTICS t");
                 WHERE("t.BILL_NO = #{billNo}");
-                WHERE("t.DATA_STATUS = #{dataStatus}");
+                WHERE(splitJointIn("t.DATA_STATUS", dataStatus));
             }
         }.toString();
     }

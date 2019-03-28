@@ -82,8 +82,15 @@ public class BondInvtBsc {
     private Integer bound_nm;//绑定数量
 
     private String ec_customs_code;//电商海关编码
+    private String bill_no;
 
+    public String getBill_no() {
+        return bill_no;
+    }
 
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
+    }
 
     public String getEc_customs_code() {
         return ec_customs_code;

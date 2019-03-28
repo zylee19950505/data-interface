@@ -13,7 +13,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
             autoclose: true
         });
         $("[ws-search]").unbind("click").click(this.query);
-        // $("[ws-download]").unbind("click").click(this.download);
+        $("[ws-download]").unbind("click").click(this.download);
         $(".btn[ws-search]").click();
     },
 
@@ -138,23 +138,12 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
         sw.modelPopup(url, "回执备注详情", false, 900, 350);
     },
 
+    seeBillNoDetail: function () {
+        sw.popup("waybillmanage/seeWaybillDetail", "提运单号", false, 450, 250);
+    },
+
     download: function () {
-
-        sw.alert("运单数据下载啦！！！","提示","","modal-info");
-
-        // var oTable = $('#query-waybillQuery-table').dataTable();
-        // var oSettings = oTable.fnSettings();
-        // var paramJson = {
-        //     billNo: $("[name='billNo']").val(),
-        //     startStr: oSettings._iDisplayStart,
-        //     length: oSettings._iDisplayLength
-        // };
-        // sw.ajax("api/waybillManage/load", "GET", paramJson, function (rsp) {
-        //     if (rsp.status == 200) {
-        //         var fileName = rsp.data;
-        //         window.location.href = "/api/waybillManage/downloadFile?fileName=" + fileName;
-        //     }
-        // })
+        sw.pageModule('waybillmanage/waybillQuery').seeBillNoDetail();
     }
 
 };

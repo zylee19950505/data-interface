@@ -2,6 +2,7 @@ package com.xaeport.crossborder.service.bondedIExit;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtExitInventoryMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
@@ -21,6 +22,11 @@ public class CrtExitInventoryService {
     EnterpriseMapper enterpriseMapper;
 
     private Log logger = LogFactory.getLog(this.getClass());
+
+    //查询进口保税清单数据
+    public List<ImpInventory> queryCrtEInventoryData(Map<String, String> paramMap) throws Exception {
+        return this.crtExitInventoryMapper.queryCrtEInventoryData(paramMap);
+    }
 
     //查询进口保税清单数据
     public List<ImpInventory> queryCrtEInventoryList(Map<String, String> paramMap) throws Exception {
@@ -48,7 +54,7 @@ public class CrtExitInventoryService {
         bondInvtBsc.setDcl_etps_nm(enterprise.getDeclare_ent_name());
         bondInvtBsc.setRcvgd_etpsno(enterprise.getCustoms_code());
         bondInvtBsc.setRcvgd_etps_nm(enterprise.getEnt_name());
-        bondInvtBsc.setInvt_no(paramMap.get("invtNo"));
+        bondInvtBsc.setInvt_no(paramMap.get("billNo"));
         bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
         return bondInvtBsc;
@@ -56,10 +62,12 @@ public class CrtExitInventoryService {
 
     //获取出区核注清单表体数据
     public List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(Map<String, String> paramMap) throws Exception {
-        String InvtNos = paramMap.get("invtNo");
-        List<String> guidStrs = this.crtExitInventoryMapper.queryGuidByInvtNos(InvtNos);
-        String guids = String.join(",", guidStrs);
-        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(guids);
+//        List<String> guidStrs = this.crtExitInventoryMapper.queryGuidByBillNos(paramMap);
+//        String guids = String.join(",", guidStrs);
+//        List<ImpInventoryHead> impInventoryHeadList = this.crtExitInventoryMapper.queryInvtNos(guids);
+
+        List<ImpInventory> impInventoryHeadList = this.crtExitInventoryMapper.queryGuidByBillNos(paramMap);
+
         List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList = new ArrayList<>();
         NemsInvtCbecBillType nemsInvtCbecBillType;
         for (int i = 0; i < impInventoryHeadList.size(); i++) {
@@ -68,26 +76,52 @@ public class CrtExitInventoryService {
             nemsInvtCbecBillType.setNo(i + 1);
             nemsInvtCbecBillType.setSeq_no("");
             nemsInvtCbecBillType.setBond_invt_no("");
-            nemsInvtCbecBillType.setCbec_bill_no(impInventoryHeadList.get(i).getInvt_no());
+//            nemsInvtCbecBillType.setCbec_bill_no(impInventoryHeadList.get(i).getInvt_no());
             nemsInvtCbecBillType.setHead_etps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
+            nemsInvtCbecBillType.setBill_no(impInventoryHeadList.get(i).getBill_no());
+            nemsInvtCbecBillType.setCount(impInventoryHeadList.get(i).getAsscount());
             nemsInvtCbecBillTypeList.add(nemsInvtCbecBillType);
         }
         return nemsInvtCbecBillTypeList;
     }
 
     //保存进口出区核注清单表头及表体数据
-    public Map<String, String> saveExitBondInvt(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
+    public Map<String, String> saveExitBondInvt(
+            LinkedHashMap<String, String> BondInvtBsc,
+            ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList,
+            Users userInfo,
+            String ebcCode
+    ) {
         Map<String, String> map = new HashMap<String, String>();
 
-        this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc);
+        this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc, ebcCode, userInfo);
         this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
 
-        if (!CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
+        String billNostr = BondInvtBsc.get("invt_no");
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("roleId", userInfo.getRoleId());
+        paramMap.put("port", userInfo.getPort());
+        paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
+        paramMap.put("returnStatus", "800");
+        paramMap.put("ebcCode", ebcCode);
+        paramMap.put("billNo", billNostr);
+
+        List<ImpInventory> impInventoryList = this.crtExitInventoryMapper.queryListByBillNos(paramMap);
+        NemsInvtCbecBillType nemsInvtCbecBillType;
+
+        if (!CollectionUtils.isEmpty(impInventoryList)) {
             // 更新表体数据
-            for (LinkedHashMap<String, String> nemsInvtCbecBillType : nemsInvtCbecBillTypeList) {
-                if (!CollectionUtils.isEmpty(nemsInvtCbecBillType)) {
-                    this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
-                }
+            for (int i = 0; i < impInventoryList.size(); i++) {
+                nemsInvtCbecBillType = new NemsInvtCbecBillType();
+                nemsInvtCbecBillType.setId(IdUtils.getUUId());
+                nemsInvtCbecBillType.setNo(i + 1);
+                nemsInvtCbecBillType.setSeq_no("");
+                nemsInvtCbecBillType.setBond_invt_no("");
+                nemsInvtCbecBillType.setCbec_bill_no(impInventoryList.get(i).getInvt_no());
+                nemsInvtCbecBillType.setHead_etps_inner_invt_no(BondInvtBsc.get("etps_inner_invt_no"));
+                nemsInvtCbecBillType.setBill_no(impInventoryList.get(i).getBill_no());
+                this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
             }
         }
         map.put("result", "true");

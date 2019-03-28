@@ -14,6 +14,24 @@ public class NemsInvtCbecBillType {
     private Date upd_time;//
     private String upd_user;//
     private String head_etps_inner_invt_no;//表头唯一关联码
+    private String bill_no;//提运单号
+    private String count;
+
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getBill_no() {
+        return bill_no;
+    }
+
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
+    }
 
     public String getId() {
         return id;

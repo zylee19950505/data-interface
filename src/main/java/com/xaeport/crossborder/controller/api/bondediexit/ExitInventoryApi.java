@@ -84,7 +84,7 @@ public class ExitInventoryApi extends BaseApi {
 
     }
 
-    //新建出区核注清单数据，获取数据
+    //查询出区核注清单数据，获取数据
     @RequestMapping(value = "/exitinventory", method = RequestMethod.GET)
     public ResponseData exitInventory(
             @RequestParam(required = false) String dataInfo
@@ -99,6 +99,9 @@ public class ExitInventoryApi extends BaseApi {
             //查询列表
             bondInvtBsc = this.exitInventoryService.queryBondInvtBsc(paramMap);
             nemsInvtCbecBillTypeList = this.exitInventoryService.queryNemsInvtCbecBillTypeList(paramMap);
+            for (int i = 0; i < nemsInvtCbecBillTypeList.size(); i++) {
+                nemsInvtCbecBillTypeList.get(i).setNo(i + 1);
+            }
             exitBondInvt.setBondInvtBsc(bondInvtBsc);
             exitBondInvt.setNemsInvtCbecBillTypeList(nemsInvtCbecBillTypeList);
         } catch (Exception e) {

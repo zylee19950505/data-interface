@@ -8,7 +8,6 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BondinvenImportMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.DateTools;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.juli.logging.Log;
@@ -37,13 +36,13 @@ public class BondinvenImportService {
      * @param importTime 申报时间
      */
     @Transactional
-    public int createBondInvenForm(Map<String, Object> excelMap, String importTime, Users user, String emsNo) {
+    public int createBondInvenForm(Map<String, Object> excelMap, String importTime, Users user, String emsNo, String billNo) {
         int flag;
         try {
             CountLoader countLoader = new CountPreReduce();
             flag = countLoader.count(excelMap, user, emsNo);
             if (flag != 3) {
-                flag = this.createImpBondInvenHead(excelMap, importTime, user, emsNo);
+                flag = this.createImpBondInvenHead(excelMap, importTime, user, emsNo, billNo);
             } else {
                 return flag;
             }
@@ -58,12 +57,12 @@ public class BondinvenImportService {
     /*
      * 创建保税ImpOrderHead信息
      */
-    private int createImpBondInvenHead(Map<String, Object> excelMap, String importTime, Users user, String emsNo) throws Exception {
+    private int createImpBondInvenHead(Map<String, Object> excelMap, String importTime, Users user, String emsNo, String billNo) throws Exception {
         int flag = 0;
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
         List<ImpInventoryHead> impInventoryHeadList = (List<ImpInventoryHead>) excelMap.get("ImpInventoryHead");
         for (ImpInventoryHead anImpInventoryHeadList : impInventoryHeadList) {
-            ImpInventoryHead impInventoryHead = this.impBondInvenHeadData(importTime, anImpInventoryHeadList, user, enterprise, emsNo);
+            ImpInventoryHead impInventoryHead = this.impBondInvenHeadData(importTime, anImpInventoryHeadList, user, enterprise, emsNo, billNo);
             flag = this.bondinvenImportMapper.isRepeatOrderNo(impInventoryHead);
             if (flag > 0) {
                 return 0;
@@ -115,7 +114,7 @@ public class BondinvenImportService {
     /**
      * 表头自生成信息
      */
-    private ImpInventoryHead impBondInvenHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user, Enterprise enterprise, String emsNo) throws Exception {
+    private ImpInventoryHead impBondInvenHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user, Enterprise enterprise, String emsNo, String billNo) throws Exception {
         impInventoryHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impInventoryHead.setCop_no(enterprise.getCustoms_code() + IdUtils.getShortUUId().substring(0, 10));//保税清单企业内部编码
         impInventoryHead.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
@@ -125,10 +124,12 @@ public class BondinvenImportService {
         impInventoryHead.setTrade_mode("1210");//贸易方式
         impInventoryHead.setCurrency("142");//币制
         impInventoryHead.setPack_no("1");//件数
+
+        impInventoryHead.setEms_no(emsNo);
         impInventoryHead.setIe_date(DateTools.shortDateTimeString(importTime));
+        impInventoryHead.setBill_no(billNo.trim());
 
         impInventoryHead.setCountry("142");
-        impInventoryHead.setEms_no(emsNo);
         impInventoryHead.setEbc_code(user.getEnt_Customs_Code());
         impInventoryHead.setEbc_name(user.getEnt_Name());
         impInventoryHead.setEbp_code(user.getEnt_Customs_Code());

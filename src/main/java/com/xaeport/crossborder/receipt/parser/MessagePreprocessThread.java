@@ -63,7 +63,7 @@ public class MessagePreprocessThread extends ThreadBase {
                     this.loadFileToProcess(files);
                 } else {
                     // 待处理文件夹中是否存在文件，没有文件则等待3秒
-                    this.log.info("待处理文件夹没有文件，等待3秒");
+                    this.log.debug("待处理文件夹没有文件，等待3秒");
                     sleep(3000);
                 }
             } catch (Exception e) {
@@ -95,7 +95,7 @@ public class MessagePreprocessThread extends ThreadBase {
 
         //对process文件数量限制为1000条，超出则等待
         if (newfiles.length >= 1000) {
-            this.log.info("处理中文件夹数量大于1000，等待3秒");
+            this.log.debug("处理中文件夹数量大于1000，等待3秒");
             sleep(3000);
             return;
         }
@@ -127,7 +127,7 @@ public class MessagePreprocessThread extends ThreadBase {
                     this.copyFileUsingFileChannels(oldFileObj, newFileObj);
                     oldFileObj.delete();
                 } catch (Exception e) {
-                    this.log.debug("复制出错辣~~~~");
+                    this.log.debug("复制入库文件错误");
                     e.printStackTrace();
                 }
                 this.log.info("移至处理中文件夹成功");
@@ -141,7 +141,7 @@ public class MessagePreprocessThread extends ThreadBase {
 //        File[] filesdata = files.toArray(new File[0]);
         // 缓存数据量是否超过1000，超过则等待3秒
         if (this.preprocessFilePathQueue.size() >= 1000) {
-            this.log.info("预处理队列数量大于1000，等待3秒");
+            this.log.debug("预处理队列数量大于1000，等待3秒");
             sleep(3000);
             return;
         } else if (files != null) {
@@ -167,7 +167,7 @@ public class MessagePreprocessThread extends ThreadBase {
                     DataFile dataFile = new DataFile();
                     dataFile.loadFile(files.get(i));
                     this.preprocessFilePathQueue.put(dataFile);
-                    this.log.info("加入预处理队列中");
+                    this.log.debug("加入预处理队列中");
                 } catch (Exception e) {
                     this.log.error("装载文件错误,fileName=" + files.get(i).getName() + ",filePath=" + files.get(i).getAbsolutePath(), e);
                 }

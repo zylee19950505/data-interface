@@ -1,9 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.entity.ImpInventory;
-import com.xaeport.crossborder.data.entity.ImpInventoryHead;
-import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.CrtExitInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -13,6 +10,10 @@ import java.util.Map;
 
 @Mapper
 public interface CrtExitInventoryMapper {
+
+    //查询保税清单数据
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryCrtEInventoryData")
+    List<ImpInventory> queryCrtEInventoryData(Map<String, String> paramMap) throws Exception;
 
     //查询保税清单数据
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryCrtEInventoryList")
@@ -39,8 +40,12 @@ public interface CrtExitInventoryMapper {
     String queryCustomsByEndId(String ent_id);
 
     //根据保税清单编码查询对应guid
-    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryGuidByInvtNos")
-    List<String> queryGuidByInvtNos(String invtNos);
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryGuidByBillNos")
+    List<ImpInventory> queryGuidByBillNos(Map<String, String> paramMap);
+
+    //根据保税清单编码查询对应guid
+    @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryListByBillNos")
+    List<ImpInventory> queryListByBillNos(Map<String, String> paramMap);
 
     //根据保税清单编码查询对应保税清单表头数据
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryInvtNos")
@@ -52,7 +57,7 @@ public interface CrtExitInventoryMapper {
 
     //根据所选数据修改对应保税清单的数据状态
     @UpdateProvider(type = CrtExitInventorySQLProvider.class, method = "updateInventoryDataByBondInvt")
-    void updateInventoryDataByBondInvt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc);
+    void updateInventoryDataByBondInvt(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("ebcCode") String ebcCode, @Param("userInfo") Users userInfo);
 
     //插入核注清单新数据（表头数据）
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveBondInvtBsc")
@@ -60,7 +65,7 @@ public interface CrtExitInventoryMapper {
 
     //插入核注清单新数据（表体数据）
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveNemsInvtCbecBillType")
-    void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
+    void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") NemsInvtCbecBillType nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
 
     //查询统计——查询电商企业
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryEbusinessEnt")

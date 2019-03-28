@@ -35,6 +35,7 @@ public class CrtExitInventoryApi extends BaseApi {
      */
     @RequestMapping(value = "/querycrtexitinventory", method = RequestMethod.GET)
     public ResponseData queryCrtExitInventory(
+            @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String returnStatus,
             @RequestParam(required = false) String customCode,
             HttpServletRequest request
@@ -42,43 +43,48 @@ public class CrtExitInventoryApi extends BaseApi {
         this.logger.debug(String.format("查询进口保税清单数据参数:[returnStatus:%s]", returnStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
 
-        String startStr = request.getParameter("start");
-        String length = request.getParameter("length");
-        String extra_search = request.getParameter("extra_search");
-        String draw = request.getParameter("draw");
-        String start = String.valueOf((Integer.parseInt(startStr) + 1));
-        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
+//        String startStr = request.getParameter("start");
+//        String length = request.getParameter("length");
+//        String extra_search = request.getParameter("extra_search");
+//        String draw = request.getParameter("draw");
+//        String start = String.valueOf((Integer.parseInt(startStr) + 1));
+//        String end = String.valueOf((Integer.parseInt(startStr) + Integer.parseInt(length)));
 
         Users users = this.getCurrentUsers();
 
-        paramMap.put("start", start);
-        paramMap.put("length", length);
-        paramMap.put("end", end);
-        paramMap.put("extra_search", extra_search);
+//        paramMap.put("start", start);
+//        paramMap.put("length", length);
+//        paramMap.put("end", end);
+//        paramMap.put("extra_search", extra_search);
         paramMap.put("entId", users.getEnt_Id());
         paramMap.put("roleId", users.getRoleId());
         paramMap.put("port", users.getPort());
+
+        paramMap.put("billNo", billNo);
         paramMap.put("returnStatus", returnStatus);
         paramMap.put("ebcCode", customCode);
         paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
 
-        DataList<ImpInventory> dataList;
+//        DataList<ImpInventory> dataList;
         List<ImpInventory> resultList;
         try {
-            //查询列表
-            resultList = this.crtExitInventoryService.queryCrtEInventoryList(paramMap);
-            //查询总数
-            Integer count = this.crtExitInventoryService.queryCrtEInventoryCount(paramMap);
-            dataList = new DataList<>();
-            dataList.setDraw(draw);
-            dataList.setData(resultList);
-            dataList.setRecordsTotal(count);
-            dataList.setRecordsFiltered(count);
+//            //查询列表
+//            resultList = this.crtExitInventoryService.queryCrtEInventoryList(paramMap);
+//            //查询总数
+//            Integer count = this.crtExitInventoryService.queryCrtEInventoryCount(paramMap);
+//            dataList = new DataList<>();
+//            dataList.setDraw(draw);
+//            dataList.setData(resultList);
+//            dataList.setRecordsTotal(count);
+//            dataList.setRecordsFiltered(count);
+
+            resultList = this.crtExitInventoryService.queryCrtEInventoryData(paramMap);
+
         } catch (Exception e) {
             this.logger.error("查询进口保税清单数据失败", e);
             return new ResponseData("查询进口保税清单数据错误", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseData(dataList);
+        return new ResponseData(resultList);
     }
 
     /**
@@ -86,7 +92,8 @@ public class CrtExitInventoryApi extends BaseApi {
      **/
     @RequestMapping(value = "/crtexitinventory", method = RequestMethod.GET)
     public ResponseData crtexitinventory(
-            @RequestParam(required = false) String dataInfo
+            @RequestParam(required = false) String dataInfo,
+            @RequestParam(required = false) String customsCode
     ) {
         Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
@@ -95,7 +102,13 @@ public class CrtExitInventoryApi extends BaseApi {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateNowStr = sdf.format(date);
 
-        paramMap.put("invtNo", dataInfo);
+        paramMap.put("roleId", users.getRoleId());
+        paramMap.put("port", users.getPort());
+        paramMap.put("businessType", SystemConstants.T_IMP_BOND_INVEN);
+        paramMap.put("returnStatus", "800");
+        paramMap.put("ebcCode", customsCode);
+        paramMap.put("billNo", dataInfo);
+
         paramMap.put("ent_id", users.getEnt_Id());
         paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
         paramMap.put("credit_code", users.getCredit_code());
@@ -127,12 +140,14 @@ public class CrtExitInventoryApi extends BaseApi {
         LinkedHashMap<String, String> BondInvtBsc = (LinkedHashMap<String, String>) object.get("BondInvtBsc");
         //出区核注清单表体
         ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList = (ArrayList<LinkedHashMap<String, String>>) object.get("nemsInvtCbecBillTypeList");
+        //电商企业编码
+        String ebcCode = (String) object.get("customsCode");
 
         Users userInfo = this.getCurrentUsers();
         Map<String, String> map = new HashMap<>();
         try {
             // 保存详情信息
-            map = this.crtExitInventoryService.saveExitBondInvt(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo);
+            map = this.crtExitInventoryService.saveExitBondInvt(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo, ebcCode);
         } catch (Exception e) {
             logger.error("保存出区核注清单时发生异常", e);
             map.put("result", "false");
