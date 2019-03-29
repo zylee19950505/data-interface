@@ -284,13 +284,13 @@ public class CrtEnterInventorySQLProvider {
                     SET("t.STSHIP_TRSARV_NATCD = #{bondInvtBsc.stship_trsarv_natcd}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCorr_entry_dcl_etps_sccd())) {
-                    SET("t.CORR_ENTRYDCL_ETPS_SCCD = #{bondInvtBsc.corr_entry_dcl_etps_sccd}");
+                    SET("t.CORR_ENTRY_DCL_ETPS_SCCD = #{bondInvtBsc.corr_entry_dcl_etps_sccd}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCorr_entry_dcl_etps_no())) {
-                    SET("t.CORR_ENTRYDCL_ETPS_NO = #{bondInvtBsc.corr_entry_dcl_etps_no}");
+                    SET("t.CORR_ENTRY_DCL_ETPS_NO = #{bondInvtBsc.corr_entry_dcl_etps_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCorr_entry_dcl_etps_nm())) {
-                    SET("t.CORR_ENTRYDCL_ETPS_NM = #{bondInvtBsc.corr_entry_dcl_etps_nm}");
+                    SET("t.CORR_ENTRY_DCL_ETPS_NM = #{bondInvtBsc.corr_entry_dcl_etps_nm}");
                 }
             }
         }.toString();
