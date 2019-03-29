@@ -285,7 +285,6 @@ sw.page.modules["deliverymanage/seeDeliveryDetail"] = sw.page.modules["deliverym
             };
             nemsInvtCbecBillTypeList.push(nemsInvtCbecBillType);
         }
-        debugger;
         var entryData = {
             BondInvtBsc: BondInvtBsc,
             nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
@@ -517,7 +516,6 @@ sw.page.modules["deliverymanage/seeDeliveryDetail"] = sw.page.modules["deliverym
 
         // //从路径上获取参数
         // var param = sw.getPageParams("deliverymanage/seeDeliveryDetail");
-        // debugger;
         // var billNos = param.billNos;
         // var copNo = param.copNo;
         // var type = param.type;

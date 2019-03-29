@@ -187,8 +187,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
 
     //加载表体信息
     fillEntryListInfo: function (entryLists) {
-        console.log("表体:"+entryLists);
-        console.log(sw.dict.unitCode);
         for (var i = 0; i < entryLists.length; i++) {
             var g_num = entryLists[i].putrec_seqno;
             var str =
@@ -206,13 +204,80 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_currcd_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_currcd) ? "人民币":entryLists[i].dcl_currcd) + "' /></td>" +
                 /*"<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='usd_stat_total_amt_" + g_num + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "' /></td>" +*/
                 "</tr>";
-            $("#entryList").append(str);
+            $("#table_body").append(str);
             selecterInitDetail("dcl_unitcd_" + g_num, entryLists[i].dcl_unitcd, sw.dict.unitCode);
           /*  selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
             selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
             selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
             selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);*/
         }
+        this.enterPage(1, 5);
+    },
+
+    enterPage: function (pno, psize) {
+
+        var itable = document.getElementById("table_body");//通过ID找到表格
+        var num = itable.rows.length;//表格所有行数(所有记录数)
+        var totalPage = 0;//总页数
+        var pageSize = psize;//每页显示行数
+        //总共分几页
+        if (num / pageSize > parseInt(num / pageSize)) {
+            totalPage = parseInt(num / pageSize) + 1;
+        } else {
+            totalPage = parseInt(num / pageSize);
+        }
+        var currentPage = pno;//当前页数
+        var startRow = (currentPage - 1) * pageSize + 1;//开始显示的行  1
+        var endRow = currentPage * pageSize;//结束显示的行   15
+        endRow = (endRow > num) ? num : endRow;
+        //遍历显示数据实现分页
+        for (var i = 1; i < (num + 1); i++) {
+            var irow = itable.rows[i - 1];
+
+            if (i >= startRow && i <= endRow) {
+                // irow.style.display = "block";
+                $(irow).show();
+            } else {
+                // irow.style.display = "none";
+                $(irow).hide();
+            }
+        }
+        var tempStr = "";
+        if (currentPage > 1) {
+            tempStr += "<li class='prev'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + (currentPage - 1) + "," + psize + ")\"> 上一页&nbsp;&nbsp;</a><li>";
+            for (var j = 1; j <= totalPage; j++) {
+                if (currentPage == j) {
+                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else if (j == 1 || j == totalPage) {
+                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else {
+                    tempStr += "<li><a hidden='hidden' href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                }
+
+            }
+        }
+        else {
+            tempStr += "<li> <a href='javascript:void(0)'> 上一页&nbsp;&nbsp;</a></li>";
+            for (var j = 1; j <= totalPage; j++) {
+                if (currentPage == j) {
+                    tempStr += "<li class='active'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else if (j == 1 || j == totalPage) {
+                    tempStr += "<li><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                } else {
+                    tempStr += "<li><a hidden='hidden' href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + j + "," + psize + ")\">" + j + "&nbsp;&nbsp;</a><li>";
+                }
+
+            }
+        }
+
+        if (currentPage < totalPage) {
+            tempStr += "<li class='next'><a href='javascript:void(0)' onClick=\"sw.page.modules['bondedienter/seeEnterInventoryDetail'].enterPage(" + (currentPage + 1) + "," + psize + ")\"> 下一页&nbsp;&nbsp;</a><li>";
+        } else {
+            tempStr += "<li> <a href='javascript:void(0)'> 下一页&nbsp;&nbsp;</a></li>";
+        }
+
+        $("#listData").text("核注清单数据共计" + num + "条");
+        document.getElementById("barcon").innerHTML = tempStr;
     },
 
     // 标记问题字段

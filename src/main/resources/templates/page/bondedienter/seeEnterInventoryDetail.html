@@ -7,18 +7,18 @@
             为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
         </small>
     </div>
-    <div class="form-group text-center margin" id="btnDiv">
-        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
-                data-toggle="tooltip-disabled"
-                title="提交保存">
-            <i class="fa fa-check"></i>
-        </button>
-        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
-                data-toggle="tooltip-disabled"
-                title="取消并返回">
-            <i class="fa fa-reply"></i>
-        </button>
-    </div>
+    <!--<div class="form-group text-center margin" id="btnDiv">-->
+        <!--<button class="btn btn-sm btn-success" type="button" id="ws-page-apply"-->
+                <!--data-toggle="tooltip-disabled"-->
+                <!--title="提交保存">-->
+            <!--<i class="fa fa-check"></i>-->
+        <!--</button>-->
+        <!--<button class="btn btn-sm btn-warning" type="button" id="ws-page-back"-->
+                <!--data-toggle="tooltip-disabled"-->
+                <!--title="取消并返回">-->
+            <!--<i class="fa fa-reply"></i>-->
+        <!--</button>-->
+    <!--</div>-->
     <table id="entryHead" class="headDetail" border="1px solid balck">
         <tr>
             <td class="headTitle">经营企业编号</td>
@@ -151,6 +151,7 @@
         <span>核注清单表体信息</span>
     </div>
     <table id="entryList" class="listDetail" border="1px solid balck">
+        <thead>
         <tr style="height: 30px">
             <th>备案序号</th>
             <th>商品料号</th>
@@ -164,11 +165,22 @@
             <th>币制</th>
             <!-- <th>美元统计总金额</th>-->
         </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
     </table>
+    <div class="row">
+        <div class="col-sm-5">
+            <div style="margin: 20px 0px 0px 0px;font-size: 15px;font-weight: 600" id="listData"></div>
+        </div>
+        <div class="col-sm-7">
+            <ul class="pagination" id="barcon" name="barcon" style="margin: 20px 0px 0px 211px"></ul>
+        </div>
+    </div>
     <div class="text-center">
         <small class="help-block text-red" id="errorMsg"></small>
     </div>
-    <!--<div class="form-group text-center margin" id="btnDiv">
+    <div class="form-group text-center margin" id="btnDiv">
         <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
                 data-toggle="tooltip-disabled"
                 title="提交保存">
@@ -179,5 +191,5 @@
                 title="取消并返回">
             <i class="fa fa-reply"></i>
         </button>
-    </div>-->
+    </div>
 </div>

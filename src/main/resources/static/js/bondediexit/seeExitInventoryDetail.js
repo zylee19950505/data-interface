@@ -372,7 +372,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         var entryHead = data.data.bondInvtBsc;
                         var entryLists = data.data.nemsInvtCbecBillTypeList;
 
-                        debugger;
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillNewBondInvtBsc(entryHead);
                         }
@@ -565,8 +564,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             format: "yyyy-mm-dd",
             autoclose: true
         });
-
-        debugger;
 
         switch (type) {
             //出区核注清单查询

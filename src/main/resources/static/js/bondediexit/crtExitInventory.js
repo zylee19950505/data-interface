@@ -115,12 +115,10 @@ sw.page.modules["bondediexit/crtExitInventory"] = sw.page.modules["bondediexit/c
             submitKeys: submitKeys,
             customCode: customCode
         };
-        debugger;
         sw.pageModule('bondediexit/crtExitInventory').seeExitInventoryDetail(submitKeys, customCode);
     },
 
     seeExitInventoryDetail: function (submitKeys, customCode) {
-        debugger;
         var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCJ&isEdit=true&mark=crt&submitKeys=" + submitKeys + "&customsCode=" + customCode;
         sw.modelPopup(url, "新建出区核注清单信息", false, 1000, 700);
     },
