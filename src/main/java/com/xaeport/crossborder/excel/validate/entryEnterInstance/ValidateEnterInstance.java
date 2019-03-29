@@ -3,6 +3,7 @@ package com.xaeport.crossborder.excel.validate.entryEnterInstance;
 import com.xaeport.crossborder.data.LoadData;
 import com.xaeport.crossborder.excel.headings.ExcelHeadEnterInventory;
 import com.xaeport.crossborder.excel.validate.ValidateBase;
+import com.xaeport.crossborder.excel.validate.ValidateUtil;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 
@@ -46,7 +47,7 @@ public class ValidateEnterInstance extends ValidateBase {
         dcl_unitcdIndex = list.indexOf(ExcelHeadEnterInventory.dcl_unitcd);//计量单位
         lawf_unitcdIndex = list.indexOf(ExcelHeadEnterInventory.lawf_unitcd);//法定计量单位
         lawf_qtyIndex = list.indexOf(ExcelHeadEnterInventory.lawf_qty);//法定数量
-        secd_lawf_qtyIndex = list.indexOf(ExcelHeadEnterInventory.secd_lawf_qty);//第二法定数量
+//        secd_lawf_qtyIndex = list.indexOf(ExcelHeadEnterInventory.secd_lawf_qty);//第二法定数量
         secd_lawf_unitcdIndex = list.indexOf(ExcelHeadEnterInventory.secd_lawf_unitcd);//第二法定计量单位
         gross_wtIndex = list.indexOf(ExcelHeadEnterInventory.gross_wt);//毛重
         net_wtIndex = list.indexOf(ExcelHeadEnterInventory.net_wt);//净重
@@ -68,8 +69,8 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(dcl_unitcdIndex, "计量单位,10");
         indexMap.put(lawf_unitcdIndex, "法定计量单位,19");
         indexMap.put(lawf_qtyIndex, "法定数量,18");//double
-        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
-        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
+//        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
+//        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
         indexMap.put(gross_wtIndex, "毛重,18");//double
         indexMap.put(net_wtIndex, "净重,18");//double
         indexMap.put(dcl_total_amtIndex, "总价,100");//double
@@ -83,11 +84,19 @@ public class ValidateEnterInstance extends ValidateBase {
 
 
     public int CheckRowError(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
-
         //导入excel模板非空和长度判断
         boolean isEmpty = this.CheckedEmptyAndLen(indexMap, error_num, cell, rowNum, cell_num);
         if (!isEmpty) {
             return -1;
+        }
+        // 导入数据double类型判断
+        if (cell_num == dcl_qtyIndex || cell_num == lawf_qtyIndex || cell_num == dcl_total_amtIndex || cell_num == gross_wtIndex || cell_num == net_wtIndex) {
+            String message = indexMap.get(cell_num).split(",")[0];
+            int flag = ValidateUtil.checkDoubleValue(cell);
+            boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);
+            if (!checkNumberType) {
+                return -1;
+            }
         }
         return 0;
     }
@@ -95,7 +104,15 @@ public class ValidateEnterInstance extends ValidateBase {
     public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
         int flag = 0;
         String unitValue = cell.toString().replace(" ", "");
-        if (cell_num == dcl_unitcdIndex || cell_num == lawf_unitcdIndex || cell_num == secd_lawf_unitcdIndex) {
+        if (cell_num == secd_lawf_unitcdIndex) {
+            if (!unitMap.containsKey(unitValue)) {
+                cell.setCellValue("");
+            } else {
+                String unitCode = unitMap.get(unitValue);
+                cell.setCellValue(unitCode);
+            }
+        }
+        if (cell_num == dcl_unitcdIndex || cell_num == lawf_unitcdIndex) {
             String message = indexMap.get(cell_num).split(",")[0];
             if (!unitMap.containsKey(unitValue)) {
                 error_num.put("error", String.format(String.format("导入失败请修改后重新导入，第%%d行第%%d列。<%s>数据格式不对！", message), rowNum + 1, cell_num + 1));
