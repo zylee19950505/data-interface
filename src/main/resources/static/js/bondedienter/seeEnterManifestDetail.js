@@ -149,6 +149,14 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#master_cuscds").append(option);
+            // $("#impexp_portcds").append(option);
+        }
+
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
 

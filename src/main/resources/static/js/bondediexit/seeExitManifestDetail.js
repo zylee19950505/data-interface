@@ -145,6 +145,13 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
 
     //装在出区核放单真实数据
     fillPassPortHead: function (entryHead) {
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#master_cuscds").append(option);
+            // $("#impexp_portcds").append(option);
+        }
         $("#id").val(entryHead.id);
 
         $("#passport_no").val(entryHead.passport_no);
@@ -177,7 +184,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+        //selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
 
     // 装载出区核放单新数据
@@ -192,7 +199,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+        //selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
 
     //加载表体信息
