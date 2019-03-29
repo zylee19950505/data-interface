@@ -71,6 +71,7 @@ public class ReceiptService {
                 case ReceiptType.KJSD://跨境电子税单
                     this.createTax(receipt, refileName);
                     break;
+
                 case ReceiptType.BSSJZX://保税数据中心回执
                     this.createInvtCommon(receiptNew, refileName);
                     break;
@@ -501,7 +502,7 @@ public class ReceiptService {
             this.receiptMapper.updateBondInvtStatusByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateNemssByHdeAppr(bondInvtBsc);
             //实减操作
-            if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
+            if (recBondInvtHdeAppr.getManage_result().equals("INV201_5")) {
                 CountLoader countLoader = new CountActlReduce();
                 countLoader.count(bondInvtBscData);
             }
@@ -512,7 +513,7 @@ public class ReceiptService {
             this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
             //预增操作
-            if (recBondInvtHdeAppr.getManage_result().equals("INV201_1")) {
+            if (recBondInvtHdeAppr.getManage_result().equals("INV201_5")) {
                 CountLoader countLoader = new CountPreIncrease();
                 countLoader.count(bondInvtBsc);
             }

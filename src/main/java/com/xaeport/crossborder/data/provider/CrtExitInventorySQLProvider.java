@@ -226,7 +226,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("t.RETURN_STATUS");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.TRADE_MODE = '1210'");
-                WHERE("t.IS_BOND_INVT_EXIT = 'Y'");
+                WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE(splitJointIn("t.BILL_NO", billNo));

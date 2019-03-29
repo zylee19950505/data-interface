@@ -93,12 +93,8 @@ public class CrtExitInventoryService {
             String ebcCode
     ) {
         Map<String, String> map = new HashMap<String, String>();
-
-        this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc, ebcCode, userInfo);
         this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
-
         String billNostr = BondInvtBsc.get("invt_no");
-
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("roleId", userInfo.getRoleId());
         paramMap.put("port", userInfo.getPort());
@@ -109,7 +105,6 @@ public class CrtExitInventoryService {
 
         List<ImpInventory> impInventoryList = this.crtExitInventoryMapper.queryListByBillNos(paramMap);
         NemsInvtCbecBillType nemsInvtCbecBillType;
-
         if (!CollectionUtils.isEmpty(impInventoryList)) {
             // 更新表体数据
             for (int i = 0; i < impInventoryList.size(); i++) {
@@ -124,6 +119,8 @@ public class CrtExitInventoryService {
                 this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
             }
         }
+
+        this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc, ebcCode, userInfo);
         map.put("result", "true");
         map.put("msg", "编辑成功，请到“出区核注清单”处进行后续操作");
         return map;
