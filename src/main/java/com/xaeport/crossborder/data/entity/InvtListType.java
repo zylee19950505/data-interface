@@ -25,6 +25,24 @@ public class InvtListType {
     private String SeqNo;
     private String BondInvtNo;
     private String CbecBillNo;
+    private String DestinationNatcd;
+    private String ModfMarkcd;
+
+    public String getDestinationNatcd() {
+        return DestinationNatcd;
+    }
+
+    public void setDestinationNatcd(String destinationNatcd) {
+        DestinationNatcd = destinationNatcd;
+    }
+
+    public String getModfMarkcd() {
+        return ModfMarkcd;
+    }
+
+    public void setModfMarkcd(String modfMarkcd) {
+        ModfMarkcd = modfMarkcd;
+    }
 
     public String getGdsSeqno() {
         return gdsSeqno;

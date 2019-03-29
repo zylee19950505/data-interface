@@ -117,7 +117,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         isShowError: true,
         isEdit: "true",
         disableField: [
-            "dclcus_type",
+            "dec_type",
             "invt_type",
             "dcl_typecd",
 
@@ -184,7 +184,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
         $("#dclcus_flag").val(entryHead.dclcus_flag);//是否报关是固定的
         $("#dclcus_typecd").val(entryHead.dclcus_typecd);//报关单类型代码
-        $("#dclcus_type").val("3");//报关单类型
+        $("#dec_type").val(entryHead.dec_type);//报关单类型
 
         $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
         $("#impexp_portcd").val(entryHead.impexp_portcd);
@@ -408,7 +408,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "trsp_modecd": "运输方式代码",
             "dclcus_flag": "是否报关标志",
             "dclcus_typecd": "报关类型代码",
-            "dclcus_type": "报关单类型",
+            "dec_type": "报关单类型",
             "stship_trsarv_natcd": "起运抵国别代码",
             "invt_type": "清单类型",
             "dcl_typecd": "申报类型",
@@ -497,7 +497,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        /*"dclcus_type",
+                        /*"dec_type",
                         "invt_type",
                         "dcl_typecd",
 
@@ -531,7 +531,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "trsp_modecd",
                         "dclcus_flag",
                         "dclcus_typecd",
-                        "dclcus_type",
+                        "dec_type",
                         "stship_trsarv_natcd",
                         "invt_type",
                         "dcl_typecd",
@@ -567,7 +567,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                       /* "dclcus_type",
+                       /* "dec_type",
                         "invt_type",
                         "dcl_typecd",
 
@@ -602,7 +602,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "trsp_modecd",
                         "dclcus_flag",
                         "dclcus_typecd",
-                        "dclcus_type",
+                        "dec_type",
                         "stship_trsarv_natcd",
                         "invt_type",
                         "dcl_typecd",
@@ -652,7 +652,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 "trsp_modecd",
                 "dclcus_flag",
                 "dclcus_typecd",
-                "dclcus_type",
+                "dec_type",
                 "stship_trsarv_natcd",
                 "invt_type",
                 "dcl_typecd",

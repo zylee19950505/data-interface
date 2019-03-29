@@ -48,4 +48,7 @@ public interface EnterInventoryMapper {
     //查询用户IcCard
     @Select("SELECT IC_CARD FROM T_USERS WHERE ID = #{userId}")
     String getIcCard(String userId);
+
+    @Select("select CUSTOMS_CODE from T_ENTERPRISE where id = #{crt_ent_id}")
+    String queryEnterCustoms(@Param("crt_ent_id") String crt_ent_id);
 }

@@ -79,7 +79,8 @@ public class EnterBondInvtThread implements Runnable {
                         invtListTypeList = new ArrayList<>();
 
                         xmlName = bondInvtBsc.getEtps_inner_invt_no();
-
+                        //获取海关十位
+                        String customs_code = this.enterInventoryMapper.queryEnterCustoms(bondInvtBsc.getCrt_ent_id());
                         headEtpsInnerInvtNo = bondInvtBsc.getEtps_inner_invt_no();
                         invtHeadType.setBondInvtNo(bondInvtBsc.getBond_invt_no());
                         invtHeadType.setPutrecNo(bondInvtBsc.getPutrec_no());
@@ -112,7 +113,7 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setListStat("");
                         invtHeadType.setCorrEntryDclEtpsNo(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setCorrEntryDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
-                        invtHeadType.setDecType("");
+                        invtHeadType.setDecType(bondInvtBsc.getDec_type());
                         invtHeadType.setAddTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setStshipTrsarvNatcd(bondInvtBsc.getStship_trsarv_natcd());
                         //invtHeadType.setInvtType("8");
@@ -121,6 +122,8 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setCorr_entry_dcl_etps_no(bondInvtBsc.getCorr_entry_dcl_etps_no());
                         invtHeadType.setCorr_entry_dcl_etps_nm(bondInvtBsc.getCorr_entry_dcl_etps_nm());
                         invtHeadType.setRmk(bondInvtBsc.getRmk());
+
+                        invtHeadType.setOperCusRegCode(customs_code);
                         try {
                             // 更新清单状态
                             this.enterInventoryMapper.updateBondInvtBscStatus(headEtpsInnerInvtNo, StatusCode.RQHZQDYSB);
@@ -143,7 +146,6 @@ public class EnterBondInvtThread implements Runnable {
                             invtListType.setDclUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_unitcd()) ? "":bondInvtDtList.get(j).getDcl_unitcd());
                             invtListType.setLawfUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getLawf_unitcd()) ? "":bondInvtDtList.get(j).getLawf_unitcd());
                             invtListType.setNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getNatcd()) ? "":bondInvtDtList.get(j).getNatcd());
-
                             invtListType.setDclUprcAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_uprc_amt()) ? "":bondInvtDtList.get(j).getDcl_uprc_amt());
                             invtListType.setDclTotalAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_total_amt()) ? "":bondInvtDtList.get(j).getDcl_total_amt());
                             invtListType.setDclCurrcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_currcd()) ? "":bondInvtDtList.get(j).getDcl_currcd());
@@ -154,6 +156,8 @@ public class EnterBondInvtThread implements Runnable {
                             invtListType.setUseCd(StringUtils.isEmpty(bondInvtDtList.get(j).getUsecd()) ? "":bondInvtDtList.get(j).getUsecd());
                             invtListType.setLvyrlfModecd(StringUtils.isEmpty(bondInvtDtList.get(j).getLvyrlf_modecd()) ? "":bondInvtDtList.get(j).getLvyrlf_modecd());
                             invtListType.setEntryGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getEntry_gds_seqno()) ? "":bondInvtDtList.get(j).getEntry_gds_seqno());
+                            invtListType.setDestinationNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDestination_natcd()) ? "":bondInvtDtList.get(j).getDestination_natcd());
+                            invtListType.setModfMarkcd(StringUtils.isEmpty(bondInvtDtList.get(j).getModf_markcd()) ? "":bondInvtDtList.get(j).getModf_markcd());
                             invtListTypeList.add(invtListType);
                         }
 

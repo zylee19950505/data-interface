@@ -90,7 +90,15 @@ public class BondInvtBsc {
     private String corr_entry_dcl_etps_sccd;//对应报关单申报单位社会统一信用代码
     private String corr_entry_dcl_etps_no;//对应报关单申报单位代码
     private String corr_entry_dcl_etps_nm;//对应报关单申报单位名称
+    private String dec_type;//报关单类型
 
+    public String getDec_type() {
+        return dec_type;
+    }
+
+    public void setDec_type(String dec_type) {
+        this.dec_type = dec_type;
+    }
 
     public void setBill_no(String bill_no) {
         this.bill_no = bill_no;

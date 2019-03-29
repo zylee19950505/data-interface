@@ -82,6 +82,15 @@ public class CrtEnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(bondInvtDt.getEc_customs_code())) {
                     VALUES("EC_CUSTOMS_CODE", "#{bondInvtDt.ec_customs_code}");
                 }
+                if (!StringUtils.isEmpty(bondInvtDt.getDcl_currcd())) {
+                    VALUES("DCL_CURRCD", "#{bondInvtDt.dcl_currcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getDestination_natcd())) {
+                    VALUES("DESTINATION_NATCD", "#{bondInvtDt.destination_natcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getModf_markcd())) {
+                    VALUES("MODF_MARKCD", "#{bondInvtDt.modf_markcd}");
+                }
                 if (!StringUtils.isEmpty(bondInvtDt.getLvyrlf_modecd())) {
                     VALUES("lvyrlf_modecd", "#{bondInvtDt.lvyrlf_modecd}");
                 }
@@ -291,6 +300,9 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCorr_entry_dcl_etps_nm())) {
                     SET("t.CORR_ENTRY_DCL_ETPS_NM = #{bondInvtBsc.corr_entry_dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDec_type())) {
+                    SET("t.DEC_TYPE = #{bondInvtBsc.dec_type}");
                 }
             }
         }.toString();

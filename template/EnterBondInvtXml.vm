@@ -39,11 +39,12 @@
                             <DclEtpsSccd>$!invtHeadType.DclEtpsSccd</DclEtpsSccd>
                             <DclEtpsno>$!invtHeadType.DclEtpsno</DclEtpsno>
                             <DclEtpsNm>$!invtHeadType.DclEtpsNm</DclEtpsNm>
-                            <InvtDclTime>$!invtHeadType.InvtDclTime</InvtDclTime>
                             <RltInvtNo>$!invtHeadType.RltInvtNo</RltInvtNo>
                             <RltPutrecNo>$!invtHeadType.RltPutrecNo</RltPutrecNo>
                             <ImpexpPortcd>$!invtHeadType.ImpexpPortcd</ImpexpPortcd>
                             <DclPlcCuscd>$!invtHeadType.DclPlcCuscd</DclPlcCuscd>
+                            <DclcusTypecd>$!invtHeadType.DclcusTypecd</DclcusTypecd>
+                            <DecType>$!invtHeadType.DecType</DecType>
                             <ImpexpMarkcd>$!invtHeadType.ImpexpMarkcd</ImpexpMarkcd>
                             <MtpckEndprdMarkcd>$!invtHeadType.MtpckEndprdMarkcd</MtpckEndprdMarkcd>
                             <SupvModecd>$!invtHeadType.SupvModecd</SupvModecd>
@@ -65,7 +66,6 @@
 #foreach($invtListType in $invtListTypeList)
                         <InvtListType>
                             <GdsSeqno>$!invtListType.gdsSeqno</GdsSeqno>
-                            <PutrecSeqno>$!invtListType.PutrecSeqno</PutrecSeqno>
                             <GdsMtno>$!invtListType.GdsMtno</GdsMtno>
                             <Gdecd>$!invtListType.Gdecd</Gdecd>
                             <GdsNm>$!invtListType.GdsNm</GdsNm>
@@ -83,9 +83,11 @@
                             <UseCd>$!invtListType.UseCd</UseCd>
                             <LvyrlfModecd>$!invtListType.LvyrlfModecd</LvyrlfModecd>
                             <EntryGdsSeqno>$!invtListType.EntryGdsSeqno</EntryGdsSeqno>
+                            <DestinationNatcd>$!invtListType.DestinationNatcd</DestinationNatcd>
+                            <ModfMarkcd>$!invtListType.ModfMarkcd</ModfMarkcd>
                         </InvtListType>
 #end
-                        <OperCusRegCode>6101540003</OperCusRegCode>
+                        <OperCusRegCode>$!invtHeadType.OperCusRegCode</OperCusRegCode>
                         <SysId>Z8</SysId>
                     </InvtMessage>
                     <DelcareFlag>1</DelcareFlag>

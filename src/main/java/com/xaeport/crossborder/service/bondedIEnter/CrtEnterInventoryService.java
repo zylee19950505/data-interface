@@ -43,6 +43,10 @@ public class CrtEnterInventoryService {
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());
             bondInvtDt.setDcl_uprc_amt(String.valueOf(Double.valueOf(bondInvtDt.getDcl_total_amt()) / Double.valueOf(bondInvtDt.getDcl_qty())));
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
+            bondInvtDt.setDcl_currcd("142");//币制
+            bondInvtDt.setDestination_natcd("142");//最终目的国
+            bondInvtDt.setModf_markcd("3");//最终目的国
+            bondInvtDt.setGds_seqno(i+1);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
             count++;
         }
@@ -189,6 +193,9 @@ public class CrtEnterInventoryService {
         }
         if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_nm"))) {
             bondInvtBsc.setCorr_entry_dcl_etps_nm(entryHead.get("corr_entry_dcl_etps_nm"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("dec_type"))) {
+            bondInvtBsc.setDec_type(entryHead.get("dec_type"));
         }
         this.crtEnterInventoryMapper.updateEnterInventoryDetail(bondInvtBsc);
         return false;

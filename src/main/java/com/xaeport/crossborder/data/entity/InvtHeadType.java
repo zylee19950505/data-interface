@@ -43,6 +43,16 @@ public class InvtHeadType {
     private String corr_entry_dcl_etps_nm;//对应报关单申报单位名称
 
 
+    private String OperCusRegCode;//海关十位;
+
+    public String getOperCusRegCode() {
+        return OperCusRegCode;
+    }
+
+    public void setOperCusRegCode(String OperCusRegCode) {
+        this.OperCusRegCode = OperCusRegCode;
+    }
+
     public String getCorr_entry_dcl_etps_sccd(){return corr_entry_dcl_etps_sccd;}
     public void setCorr_entry_dcl_etps_sccd(String corr_entry_dcl_etps_sccd){this.corr_entry_dcl_etps_sccd = corr_entry_dcl_etps_sccd;}
 
