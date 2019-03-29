@@ -125,9 +125,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t.BIND_TYPECD");
                 SELECT("t.PASSPORT_NO");
+                SELECT("t.id");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.FLAG = 'ENTER'");
-                WHERE("t.STATUS = #{status}");
+                WHERE("(t.STATUS = #{status} or t.STATUS = #{zcStatus})");
                 WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
             }
         }.toString();

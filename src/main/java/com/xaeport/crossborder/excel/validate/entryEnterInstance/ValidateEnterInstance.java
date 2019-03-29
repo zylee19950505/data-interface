@@ -37,7 +37,6 @@ public class ValidateEnterInstance extends ValidateBase {
     private int rmkIndex; //备注";//list
 
     private Map<Integer, String> indexMap = new HashMap<>();
-    private Map<String, Integer> orderNoMap = new HashMap<>();
 
     public void getIndexValue(List<String> list) {
         gds_MtnoIndex = list.indexOf(ExcelHeadEnterInventory.gds_mtno);//账册备案料号
@@ -69,8 +68,8 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(dcl_unitcdIndex, "计量单位,10");
         indexMap.put(lawf_unitcdIndex, "法定计量单位,19");
         indexMap.put(lawf_qtyIndex, "法定数量,18");//double
-//        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
-//        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
+        indexMap.put(secd_lawf_qtyIndex, "第二法定数量,100");
+        indexMap.put(secd_lawf_unitcdIndex, "第二法定计量单位,18");
         indexMap.put(gross_wtIndex, "毛重,18");//double
         indexMap.put(net_wtIndex, "净重,18");//double
         indexMap.put(dcl_total_amtIndex, "总价,100");//double
@@ -96,7 +95,7 @@ public class ValidateEnterInstance extends ValidateBase {
     public int getUnitCode(Cell cell, Map<String, Object> error_num, int rowNum, int cell_num) {
         int flag = 0;
         String unitValue = cell.toString().replace(" ", "");
-        if (cell_num == dcl_unitcdIndex) {
+        if (cell_num == dcl_unitcdIndex || cell_num == lawf_unitcdIndex || cell_num == secd_lawf_unitcdIndex) {
             String message = indexMap.get(cell_num).split(",")[0];
             if (!unitMap.containsKey(unitValue)) {
                 error_num.put("error", String.format(String.format("导入失败请修改后重新导入，第%%d行第%%d列。<%s>数据格式不对！", message), rowNum + 1, cell_num + 1));

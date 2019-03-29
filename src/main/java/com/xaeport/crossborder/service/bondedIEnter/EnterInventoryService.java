@@ -3,8 +3,10 @@ package com.xaeport.crossborder.service.bondedIEnter;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.EnterInventoryMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +34,11 @@ public class EnterInventoryService {
     }
 
     @Transactional
-    public void deleteEnterInventory(String submitKeys, String entId) throws Exception{
+    public void deleteEnterInventory(String submitKeys, Users users) throws Exception{
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("etpsInnerInvtNo", submitKeys);
-        paramMap.put("entId", entId);
+        paramMap.put("entId", users.getEnt_Id());
+        paramMap.put("roleId", users.getRoleId());
         paramMap.put("status", StatusCode.RQHZQDDSB);
         List<BondInvtBsc> bondInvtBscList;
         try {

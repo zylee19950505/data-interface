@@ -81,7 +81,7 @@ public class EnterInventoryApi extends BaseApi {
         }
     }
 
-    //删除运单
+    //删除入区核注清单
     @RequestMapping(value = "/enterinventory/deleteEnterInventory", method = RequestMethod.POST)
     public ResponseData deleteEnterInventory(
             String submitKeys
@@ -89,7 +89,7 @@ public class EnterInventoryApi extends BaseApi {
         if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
 
         try {
-            this.enterInventoryService.deleteEnterInventory(submitKeys, this.getCurrentUserEntId());
+            this.enterInventoryService.deleteEnterInventory(submitKeys, this.getCurrentUsers());
         } catch (Exception e) {
             this.logger.error("删除入区核注清单失败，submitKeys=" + submitKeys, e);
             return new ResponseData("删除入区核注清单失败", HttpStatus.BAD_REQUEST);

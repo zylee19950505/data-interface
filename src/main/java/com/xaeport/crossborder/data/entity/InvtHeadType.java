@@ -38,6 +38,19 @@ public class InvtHeadType {
     private String StshipTrsarvNatcd;
     private String InvtType;
     private String rmk;
+    private String corr_entry_dcl_etps_sccd;//对应报关单申报单位社会统一信用代码
+    private String corr_entry_dcl_etps_no;//对应报关单申报单位代码
+    private String corr_entry_dcl_etps_nm;//对应报关单申报单位名称
+
+
+    public String getCorr_entry_dcl_etps_sccd(){return corr_entry_dcl_etps_sccd;}
+    public void setCorr_entry_dcl_etps_sccd(String corr_entry_dcl_etps_sccd){this.corr_entry_dcl_etps_sccd = corr_entry_dcl_etps_sccd;}
+
+    public String getCorr_entry_dcl_etps_no(){return corr_entry_dcl_etps_no;}
+    public void setCorr_entry_dcl_etps_no(String corr_entry_dcl_etps_no){this.corr_entry_dcl_etps_no = corr_entry_dcl_etps_no;}
+
+    public String getCorr_entry_dcl_etps_nm(){return corr_entry_dcl_etps_nm;}
+    public void setCorr_entry_dcl_etps_nm(String corr_entry_dcl_etps_nm){this.corr_entry_dcl_etps_nm = corr_entry_dcl_etps_nm;}
 
 
     public String getRmk() {

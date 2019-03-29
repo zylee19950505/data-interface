@@ -115,7 +115,11 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setDecType("");
                         invtHeadType.setAddTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setStshipTrsarvNatcd(bondInvtBsc.getStship_trsarv_natcd());
-                        invtHeadType.setInvtType("8");
+                        //invtHeadType.setInvtType("8");
+                        invtHeadType.setInvtType(bondInvtBsc.getBond_invt_typecd());
+                        invtHeadType.setCorr_entry_dcl_etps_sccd(bondInvtBsc.getCorr_entry_dcl_etps_sccd());
+                        invtHeadType.setCorr_entry_dcl_etps_no(bondInvtBsc.getCorr_entry_dcl_etps_no());
+                        invtHeadType.setCorr_entry_dcl_etps_nm(bondInvtBsc.getCorr_entry_dcl_etps_nm());
                         invtHeadType.setRmk(bondInvtBsc.getRmk());
                         try {
                             // 更新清单状态

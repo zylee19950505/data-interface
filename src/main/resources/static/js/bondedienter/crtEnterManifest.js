@@ -125,6 +125,8 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                         // sw.alert("提交海关成功", "提示", function () {
                         // }, "modal-success");
                         var etps_preent_no = rsp.data.hfd;
+
+                        console.log("@@@@@@@@@@@@:"+etps_preent_no+"!!!"+invtNo);
                         $("#crtEnterManifest").prop("disabled", false);
                         sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo, bind_typecd, etps_preent_no, editBoundNm);
                     } else {
@@ -186,6 +188,8 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     // sw.alert("提交海关成功", "提示", function () {
                     // }, "modal-success");
                     var etps_preent_no = rsp.data.hfd;
+                    console.log("@@@@@@@@@@@@:"+etps_preent_no);
+
                     $("#crtEnterManifest").prop("disabled", false);
                     sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo, bind_typecd, etps_preent_no, editBoundNm);
                 } else {
@@ -208,14 +212,14 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
     },
     crtEnterManifest: function (bondInvtNo, type, etps_preent_no, editBoundNm) {
         if (type != "YPDC") {
-            var url = "bondedIEnter/seeEnterManifestDetail?type=" + type + "&isEdit=true&bond_invt_no=" + bondInvtNo + "&etps_preent_no=" + etps_preent_no;
+            var url = "bondedienter/seeEnterManifestDetail?type=" + type + "&isEdit=true&bond_invt_no=" + bondInvtNo + "&etps_preent_no=" + etps_preent_no;
             sw.modelPopup(url, "新建核放单详情", false, 1100, 930, null, null, function () {
-                sw.page.modules["bondedienter/crtEnterManifest"].close();
+                sw.page.modules["bondedienter/crtEnterManifest"].close(etps_preent_no,bondInvtNo,type);
             });
         } else {
             var url = "bondedienter/seeEnterManifestDetailYPDC?type=" + type + "&isEdit=true&bond_invt_no=" + bondInvtNo + "&etps_preent_no=" + etps_preent_no + "&editBoundNm=" + editBoundNm;
             sw.modelPopup(url, "新建核放单详情", false, 1100, 930, null, null, function () {
-                sw.page.modules["bondedienter/crtEnterManifest"].close();
+                sw.page.modules["bondedienter/crtEnterManifest"].close(etps_preent_no,bondInvtNo,type);
             });
         }
     },

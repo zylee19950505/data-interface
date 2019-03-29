@@ -247,7 +247,7 @@ public class BuilderDetailThread implements Runnable{
         impInventoryHead.setEnt_customs_code(enterpriseDetail.getCustoms_code());
         if ("ORDER".equals(imporderHead.getBusiness_type())){
             //直购的毛重和净重从运单里获取
-            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight())*1.1));//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight())/1.1));//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(impLogistics.getWeight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
             impInventoryHead.setVoyage_no(StringUtils.isEmpty(impLogistics.getVoyage_no()) ? "":impLogistics.getVoyage_no());
             impInventoryHead.setTraf_mode("");//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
