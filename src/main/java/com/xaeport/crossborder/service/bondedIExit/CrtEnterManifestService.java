@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.service.bondedIExit;
 
 import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.mapper.BuilderDetailMapper;
 import com.xaeport.crossborder.data.mapper.CrtEnterManifestMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
@@ -23,6 +24,9 @@ public class CrtEnterManifestService {
 
     @Autowired
     EnterpriseMapper enterpriseMapper;
+
+    @Autowired
+    BuilderDetailMapper builderDetailMapper;
 
     public List<BondInvtBsc> queryCrtEnterManifestList(Map<String, String> paramMap) {
         return crtEnterManifestMapper.queryCrtEnterManifestList(paramMap);
@@ -67,6 +71,13 @@ public class CrtEnterManifestService {
         passPortHead.setCrt_user(user.getId());
         passPortHead.setCrt_ent_id(user.getEnt_Id());
         passPortHead.setCrt_ent_name(user.getEnt_Name());
+
+
+        //账册企业信息的企业信息
+        Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
+
+        passPortHead.setAreain_oriact_no(emsNo);
 
         //绑定类型代码
         switch (paramMap.get("bind_typecd")) {

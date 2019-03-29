@@ -89,6 +89,11 @@ public class EnterBaseBondInvtXML {
         invtHeadType.put("AddTime",invtMessage.getInvtHeadType().getAddTime());
         invtHeadType.put("StshipTrsarvNatcd",invtMessage.getInvtHeadType().getStshipTrsarvNatcd());
         invtHeadType.put("InvtType",invtMessage.getInvtHeadType().getInvtType());
+
+        invtHeadType.put("CorrEntryDclEtpsSccd",invtMessage.getInvtHeadType().getCorr_entry_dcl_etps_sccd());
+        invtHeadType.put("CorrEntryDclEtpsNo",invtMessage.getInvtHeadType().getCorr_entry_dcl_etps_no());
+        invtHeadType.put("CorrEntryDclEtpsNm",invtMessage.getInvtHeadType().getCorr_entry_dcl_etps_nm());
+
         invtHeadType.put("Rmk",invtMessage.getInvtHeadType().getRmk());
 
         //if for 是否占用空格

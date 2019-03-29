@@ -56,6 +56,9 @@
                             <ListStat>$!invtHeadType.ListStat</ListStat>
                             <AddTime>$!invtHeadType.AddTime</AddTime>
                             <StshipTrsarvNatcd>$!invtHeadType.StshipTrsarvNatcd</StshipTrsarvNatcd>
+                            <CorrEntryDclEtpsSccd>$!invtHeadType.CorrEntryDclEtpsSccd</CorrEntryDclEtpsSccd>
+                            <CorrEntryDclEtpsNo>$!invtHeadType.CorrEntryDclEtpsNo</CorrEntryDclEtpsNo>
+                            <CorrEntryDclEtpsNm>$!invtHeadType.CorrEntryDclEtpsNm</CorrEntryDclEtpsNm>
                             <InvtType>$!invtHeadType.InvtType</InvtType>
                             <Rmk>$!invtHeadType.Rmk</Rmk>
                         </InvtHeadType>

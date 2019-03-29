@@ -49,7 +49,7 @@ public class CrtEnterInventoryApi extends BaseApi {
      */
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseData MultipartFile(
-            @RequestParam(value = "file", required = false) MultipartFile file,//出口国际邮件模板,
+            @RequestParam(value = "file", required = false) MultipartFile file,
             HttpServletRequest request
     ) {
         if (file == null) return new ResponseData("请选择需要导入的文件");

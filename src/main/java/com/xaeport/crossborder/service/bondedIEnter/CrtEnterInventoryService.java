@@ -80,9 +80,9 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setMtpck_endprd_markcd("I");
         bondInvtBsc.setSupv_modecd("1210");
         bondInvtBsc.setDclcus_flag("1");
-        bondInvtBsc.setDclcus_typecd("1");
 //        bondInvtBsc.setdclcus("3");
-        bondInvtBsc.setBond_invt_typecd("8");
+        bondInvtBsc.setBond_invt_typecd("0");
+        bondInvtBsc.setDclcus_typecd("2");
         bondInvtBsc.setDcl_typecd("1");
 
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);
@@ -180,6 +180,15 @@ public class CrtEnterInventoryService {
 
         if (!StringUtils.isEmpty(entryHead.get("stship_trsarv_natcd"))) {
             bondInvtBsc.setStship_trsarv_natcd(entryHead.get("stship_trsarv_natcd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_sccd"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_sccd(entryHead.get("corr_entry_dcl_etps_sccd"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_no"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_no(entryHead.get("corr_entry_dcl_etps_no"));
+        }
+        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_nm"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_nm(entryHead.get("corr_entry_dcl_etps_nm"));
         }
         this.crtEnterInventoryMapper.updateEnterInventoryDetail(bondInvtBsc);
         return false;

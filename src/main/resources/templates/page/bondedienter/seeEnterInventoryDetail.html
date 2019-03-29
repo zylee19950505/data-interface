@@ -11,7 +11,7 @@
         <tr>
             <td class="headTitle">经营企业编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="60" id="bizop_etpsno"/>
+                <input class="form-control input-sm" maxlength="10" id="bizop_etpsno"/>
             </td>
             <td class="headTitle">经营企业名称</td>
             <td>
@@ -85,7 +85,7 @@
             <td class="headTitle">报关类型代码</td>
             <td>
                 <select class="form-control input-sm" id="dclcus_typecd">
-                    <option value="1" selected="selected">报关（1）</option>
+                    <option value="2" selected="selected">对应报关（2）</option>
                 </select>
             </td>
         </tr>
@@ -103,8 +103,22 @@
             <td class="headTitle">清单类型</td>
             <td>
                 <select class="form-control input-sm" id="invt_type">
-                    <option value="8" selected="selected">保税电商（8）</option>
+                    <option value="0" selected="selected">普通清单(0)</option>
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">对应报关单申报单位社会统一信用代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="18" id="corr_entry_dcl_etps_sccd"/>
+            </td>
+            <td class="headTitle">对应报关单申报单位代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="corr_entry_dcl_etps_no"/>
+            </td>
+            <td class="headTitle">对应报关单申报单位名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="corr_entry_dcl_etps_nm"/>
             </td>
         </tr>
         <tr>

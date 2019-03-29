@@ -120,6 +120,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())){
                     VALUES("t.areain_etps_nm","#{passPortHead.areain_etps_nm}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_oriact_no())){
+                    VALUES("t.areain_oriact_no","#{passPortHead.areain_oriact_no}");
+                }
                 if (!StringUtils.isEmpty(passPortHead.getVehicle_no())){
                     VALUES("t.vehicle_no","#{passPortHead.vehicle_no}");
                 }
@@ -226,6 +229,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())){
                     VALUES("t.areain_etps_nm","#{passPortHead.areain_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_oriact_no())){
+                    VALUES("t.areain_oriact_no","#{passPortHead.areain_oriact_no}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getVehicle_no())){
                     VALUES("t.vehicle_no","#{passPortHead.vehicle_no}");

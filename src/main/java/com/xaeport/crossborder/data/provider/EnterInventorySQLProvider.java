@@ -97,6 +97,7 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
     public String queryDeleteDataByCode(Map<String, String> paramMap) throws Exception {
         final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
         final String entId = paramMap.get("entId");
+        final String roleId = paramMap.get("roleId");
         final String status = paramMap.get("status");
         return new SQL() {
             {
@@ -106,7 +107,11 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                     String str = etpsInnerInvtNo.replace(",", "','");
                     WHERE("t.ETPS_INNER_INVT_NO in ('" + str + "')");
                 }
-                if (!StringUtils.isEmpty(entId)) WHERE("t.CRT_ENT_ID = #{entId}");
+                if (!StringUtils.isEmpty(roleId)){
+                    if (!roleId.equals("admin")) {
+                        if (!StringUtils.isEmpty(entId)) WHERE("t.CRT_ENT_ID = #{entId}");
+                    }
+                }
                 if (!StringUtils.isEmpty(status)) WHERE("t.STATUS = #{status}");
             }
         }.toString();

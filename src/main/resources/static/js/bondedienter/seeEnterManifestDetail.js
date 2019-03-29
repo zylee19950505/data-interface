@@ -121,9 +121,11 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     cancel: function () {
         //将此数据状态变更为入区核放单暂存
         var param = sw.getPageParams("bondedienter/seeEnterManifestDetail");
+        var etps_preent_no = param.etps_preent_no;
+        var bond_invt_no = param.bond_invt_no
         var data = {
-            "etps_preent_no":param.etps_preent_no,
-            "bond_invt_no":param.bond_invt_no
+            "etps_preent_no":etps_preent_no,
+            "bond_invt_no":bond_invt_no
         };
         sw.ajax("api/crtEnterManifest/canelEnterManifestDetail", "PUT", data, function (rsp) {
             $("#dialog-popup").modal("hide");

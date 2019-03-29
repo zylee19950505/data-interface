@@ -8,6 +8,7 @@ import com.xaeport.crossborder.data.mapper.EnterManifestMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class EnterManifestService {
         Map<String,String> paramMap = new HashMap<String,String>();
         for (String etps_preent_no:etps_preent_nos) {
             paramMap.put("status", StatusCode.RQHFDDSB);
+            paramMap.put("zcStatus", StatusCode.RQHFDDZC);
             paramMap.put("etps_preent_no",etps_preent_no);
             paramMap.put("userId",users.getId());
             PassPortHead passPortHead = new PassPortHead();
@@ -51,18 +53,19 @@ public class EnterManifestService {
 
                 //查找关联单里的核注清单信息
                 String rtl_nos = this.enterManifestMapper.queryEnterPassportAcmp(paramMap);
-                String rtl_no = rtl_nos.replaceAll("/", ",");
-                //先恢复核注清单表头
-                paramMap.put("rtl_no",rtl_no);
-                this.enterManifestMapper.updateEnterBondInvtBsc(paramMap);
-                //再恢复核注清单表体
-                String[] etps_invt_nos = this.enterManifestMapper.queryEnterBondInvtDtID(paramMap);
-                for (String etps_invt_no:etps_invt_nos) {
-                    this.enterManifestMapper.updateEnterBondInvtDt(etps_invt_no);
+                if (!StringUtils.isEmpty(rtl_nos)) {
+                    String rtl_no = rtl_nos.replaceAll("/", ",");
+                    //先恢复核注清单表头
+                    paramMap.put("rtl_no", rtl_no);
+                    this.enterManifestMapper.updateEnterBondInvtBsc(paramMap);
+                    //再恢复核注清单表体
+                    String[] etps_invt_nos = this.enterManifestMapper.queryEnterBondInvtDtID(paramMap);
+                    for (String etps_invt_no : etps_invt_nos) {
+                        this.enterManifestMapper.updateEnterBondInvtDt(etps_invt_no);
+                    }
+                    //删除关联单信息
+                    this.enterManifestMapper.deleteEnterPassportAcmp(paramMap);
                 }
-                //删除关联单信息
-                this.enterManifestMapper.deleteEnterPassportAcmp(paramMap);
-
                 //删除核放单
                 this.enterManifestMapper.deleteEnterPassportHead(paramMap);
 

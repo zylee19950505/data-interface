@@ -70,8 +70,8 @@ sw.page.modules["bondinvenmanage/bondinvenbudDeclare"] = sw.page.modules["bondin
                         var value = "";
                         switch (row.data_status) {
                             case "CBDS1"://待申报
-                                textColor = "text-red";
-                                value = "校验未通过";
+                                textColor = "text-yellow";
+                                value = "保税清单待申报";
                                 break;
                             case "BDDS5":
                                 textColor = "text-yellow";

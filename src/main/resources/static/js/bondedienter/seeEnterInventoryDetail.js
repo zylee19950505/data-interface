@@ -103,8 +103,9 @@ function inputChangeInvent(id) {
 
 //数据字典
 var supv_modecd = {
-    "1210":"保税电商",
-    "1239":"保税电商A"
+    /*"1210":"保税电商",
+    "1239":"保税电商A"*/
+    "0":"普通清单"
 };
 
 sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bondedienter/seeEnterInventoryDetail"] || {
@@ -171,6 +172,9 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#dclcus_typecd").val(entryHead.dclcus_typecd);//报关单类型代码
         $("#dclcus_type").val("3");//报关单类型
         $("#invt_type").val(entryHead.bond_invt_typecd);//保税电商
+        $("#corr_entry_dcl_etps_sccd").val(entryHead.corr_entry_dcl_etps_sccd);//社会信用代码
+        $("#corr_entry_dcl_etps_no").val(entryHead.corr_entry_dcl_etps_no);//代码
+        $("#corr_entry_dcl_etps_nm").val(entryHead.corr_entry_dcl_etps_nm);//名称
         $("#dcl_typecd").val(entryHead.dcl_typecd);//备案申请
         $("#rmk").val(entryHead.rmk);
 
@@ -324,12 +328,15 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "stship_trsarv_natcd": "起运抵国别代码",
             "invt_type": "清单类型",
             "dcl_typecd": "申报类型",
+            "corr_entry_dcl_etps_sccd":"对应报关单申报单位社会统一信用代码",
+            "corr_entry_dcl_etps_no":"对应报关单申报单位代码",
+            "corr_entry_dcl_etps_nm":"对应报关单申报单位名称"
 
         };
 
         // 校验表体
         var validataListField = {
-            "putrec_seqno": "备案序号",
+            //"putrec_seqno": "备案序号",
             "gds_seqno": "商品序号",
             "gds_mtno": "商品料号",
             "gdecd": "商品编码",
@@ -406,7 +413,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "dclcus_type",
+                        /*"dclcus_type",
                         "invt_type",
                         "dcl_typecd",
 
@@ -420,12 +427,12 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "dcl_uprc_amt",
                         "dcl_total_amt",
                         "dcl_currcd",
-                        "usd_stat_total_amt"
+                        "usd_stat_total_amt"*/
                     ];
                 }else{
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "bizop_etpsno",
+                       /* "bizop_etpsno",
                         "bizop_etps_nm",
                         "dcl_etpsno",
                         "dcl_etps_nm",
@@ -456,7 +463,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "dcl_uprc_amt",
                         "dcl_total_amt",
                         "dcl_currcd",
-                        "usd_stat_total_amt"
+                        "usd_stat_total_amt"*/
                     ];
                 }
                 //保存的路径
@@ -476,7 +483,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "dclcus_type",
+                       /* "dclcus_type",
                         "invt_type",
                         "dcl_typecd",
 
@@ -491,12 +498,12 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "dcl_uprc_amt",
                         "dcl_total_amt",
                         "dcl_currcd",
-                        "usd_stat_total_amt"
+                        "usd_stat_total_amt"*/
                     ];
                 }else{
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        "bizop_etpsno",
+                        /*"bizop_etpsno",
                         "bizop_etps_nm",
                         "dcl_etpsno",
                         "dcl_etps_nm",
@@ -527,7 +534,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                         "dcl_uprc_amt",
                         "dcl_total_amt",
                         "dcl_currcd",
-                        "usd_stat_total_amt"
+                        "usd_stat_total_amt"*/
                     ];
                 }
                 //保存的路径

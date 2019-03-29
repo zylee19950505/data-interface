@@ -69,41 +69,16 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                         var textColor = "";
                         var value = "";
                         switch (row.orderStatus) {
-                            case "CBDS2"://待申报
-                                textColor = "text-red";
-                                value = "订单待申报";
-                                break;
-                            case "CBDS20"://待申报
-                                textColor = "text-red";
-                                value = "订单待申报";
-                                break;
-                            case "CBDS21":
-                                textColor = "text-yellow";
-                                value = "订单已申报";
-                                break;
-                            case "CBDS22":
-                                textColor = "text-green";
-                                value = "订单申报成功";
-                                break;
-                            case "CBDS23":
-                                textColor = "text-yellow";
-                                value = "订单重报";
-                                break;
-                            case "CBDS24":
-                                textColor = "text-red";
-                                value = "订单申报失败";
-                                break;
-
                             case "BDDS6"://待申报
-                                textColor = "text-red";
+                                textColor = "text-yellow";
                                 value = "保税订单待申报";
                                 break;
                             case "BDDS60"://待申报
-                                textColor = "text-red";
+                                textColor = "text-yellow";
                                 value = "保税订单待申报";
                                 break;
                             case "BDDS61":
-                                textColor = "text-yellow";
+                                textColor = "text-green";
                                 value = "保税订单已申报";
                                 break;
                             case "BDDS62":
@@ -128,15 +103,15 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                         var value = "";
                         switch (row.logisticsStatus) {
                             case "CBDS4"://待申报
-                                textColor = "text-red";
+                                textColor = "text-yellow";
                                 value = "运单待申报";
                                 break;
                             case "CBDS40"://待申报
-                                textColor = "text-red";
+                                textColor = "text-yellow";
                                 value = "运单待申报";
                                 break;
                             case "CBDS41":
-                                textColor = "text-yellow";
+                                textColor = "text-green";
                                 value = "运单已申报";
                                 break;
                             case "CBDS42":
