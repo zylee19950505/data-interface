@@ -217,6 +217,14 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
+
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#master_cuscds").append(option);
+            // $("#impexp_portcds").append(option);
+        }
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#head_id").val(entryHead.id);
         $("#bond_invt_no").val(entryHead.bond_invt_no);

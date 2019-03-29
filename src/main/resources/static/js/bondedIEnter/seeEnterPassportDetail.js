@@ -91,6 +91,14 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
+
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#master_cuscds").append(option);
+            // $("#impexp_portcds").append(option);
+        }
         $("#id").val(entryHead.id);
 
         $("#passport_no").val(entryHead.passport_no);
@@ -123,7 +131,7 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+        //selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
 
     },
 

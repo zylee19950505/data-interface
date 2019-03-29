@@ -43,11 +43,11 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                     WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
-                    WHERE("t.status = #{dataStatus}");
+                    WHERE("t.RETURN_STATUS = #{dataStatus}");
                 }
-                if (!StringUtils.isEmpty(recordDataStatus)) {
+                /*if (!StringUtils.isEmpty(recordDataStatus)) {
                     WHERE("t.return_status = #{recordDataStatus}");
-                }
+                }*/
                 if (!StringUtils.isEmpty(invtNo)) {
                     WHERE("t.bond_invt_no = #{invtNo}");
                 }
@@ -77,11 +77,11 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                     WHERE("t.CRT_ENT_ID = #{entId}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
-                    WHERE("t.status = #{dataStatus}");
+                    WHERE("t.RETURN_STATUS = #{dataStatus}");
                 }
-                if (!StringUtils.isEmpty(recordDataStatus)) {
+               /* if (!StringUtils.isEmpty(recordDataStatus)) {
                     WHERE("t.return_status = #{recordDataStatus}");
-                }
+                }*/
                 if (!StringUtils.isEmpty(invtNo)) {
                     WHERE("t.bond_invt_no = #{invtNo}");
                 }
