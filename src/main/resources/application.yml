@@ -67,6 +67,7 @@ appConfig:
     sendManifestPath: "kj/Manifest"
     sendBakPath: "kj/sendBak"
     xmlDownload: "xmlDownload"
+    xmlTemplatePath: "template"
 
   #下载文件夹
   downloadFolder: d:/app/download

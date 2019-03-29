@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.transform.TransformerException;
+import java.io.File;
 import java.io.StringWriter;
 import java.util.Properties;
 
@@ -46,17 +47,19 @@ public class EnterBasePassPortXML {
 
         VelocityContext context = new VelocityContext();
         //可以放入多个object,用来装不同的节点
-        context.put("envelopInfo",envelopInfo);
-        context.put("passPortHead",passPortMessage.getPassportHeadXml());
-        context.put("passPortAcmpXmlList",passPortMessage.getPassportAcmpXmlList());
-        context.put("passPortListXmlList",passPortMessage.getPassPortListXmlList());
+        context.put("envelopInfo", envelopInfo);
+        context.put("passPortHead", passPortMessage.getPassportHeadXml());
+        context.put("passPortAcmpXmlList", passPortMessage.getPassportAcmpXmlList());
+        context.put("passPortListXmlList", passPortMessage.getPassPortListXmlList());
         Template t;
-        if (!"3".equals(passPortMessage.getPassportHeadXml().getBindTypecd())){
+        if (!"3".equals(passPortMessage.getPassportHeadXml().getBindTypecd())) {
             //一车一票和一车多票
-             t = ve.getTemplate("./template/EnterPassPortXml.vm");
-        }else {
+//            t = ve.getTemplate("./template/EnterPassPortXml.vm");
+            t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortXml.vm");
+        } else {
             //一票多车
-             t = ve.getTemplate("./template/EnterPassPortYPDCXml.vm");
+//            t = ve.getTemplate("./template/EnterPassPortYPDCXml.vm");
+            t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortYPDCXml.vm");
         }
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
