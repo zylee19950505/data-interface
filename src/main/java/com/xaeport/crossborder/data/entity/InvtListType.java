@@ -10,12 +10,14 @@ public class InvtListType {
     private String gdsSpcfModelDesc;
     private String dclUnitcd;
     private String lawfUnitcd;
+    private String secdLawfUnitcd;
     private String natcd;
     private String dclUprcAmt;
     private String dclTotalAmt;
     private String dclCurrcd;
     private String lawfQty;
     private String dclQty;
+    private String secdLawfQty;
     private String grossWt;
     private String netWt;
     private String useCd;
@@ -27,6 +29,22 @@ public class InvtListType {
     private String CbecBillNo;
     private String DestinationNatcd;
     private String ModfMarkcd;
+
+    public String getSecdLawfUnitcd() {
+        return secdLawfUnitcd;
+    }
+
+    public void setSecdLawfUnitcd(String secdLawfUnitcd) {
+        this.secdLawfUnitcd = secdLawfUnitcd;
+    }
+
+    public String getSecdLawfQty() {
+        return secdLawfQty;
+    }
+
+    public void setSecdLawfQty(String secdLawfQty) {
+        this.secdLawfQty = secdLawfQty;
+    }
 
     public String getDestinationNatcd() {
         return DestinationNatcd;

@@ -53,9 +53,7 @@ public class EnterBondInvtThread implements Runnable {
         List<InvtListType> invtListTypeList;
         String headEtpsInnerInvtNo = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
-        String xmlName = null;
-
+        String xmlName;
 
         while (true) {
 
@@ -138,26 +136,28 @@ public class EnterBondInvtThread implements Runnable {
                         for (int j = 0; j < bondInvtDtList.size(); j++) {
                             invtListType = new InvtListType();
                             invtListType.setGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_seqno()) ? "" : String.valueOf(bondInvtDtList.get(j).getGds_seqno()));
-                            invtListType.setPutrecSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getPutrec_seqno()) ? "": String.valueOf(bondInvtDtList.get(j).getPutrec_seqno()));
-                            invtListType.setGdsMtno(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_mtno()) ?  "":bondInvtDtList.get(j).getGds_mtno());
-                            invtListType.setGdecd(StringUtils.isEmpty(bondInvtDtList.get(j).getGdecd()) ? "":bondInvtDtList.get(j).getGdecd());
-                            invtListType.setGdsNm(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_nm()) ? "":bondInvtDtList.get(j).getGds_nm());
-                            invtListType.setGdsSpcfModelDesc(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_spcf_model_desc()) ? "":bondInvtDtList.get(j).getGds_spcf_model_desc());
-                            invtListType.setDclUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_unitcd()) ? "":bondInvtDtList.get(j).getDcl_unitcd());
-                            invtListType.setLawfUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getLawf_unitcd()) ? "":bondInvtDtList.get(j).getLawf_unitcd());
-                            invtListType.setNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getNatcd()) ? "":bondInvtDtList.get(j).getNatcd());
-                            invtListType.setDclUprcAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_uprc_amt()) ? "":bondInvtDtList.get(j).getDcl_uprc_amt());
-                            invtListType.setDclTotalAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_total_amt()) ? "":bondInvtDtList.get(j).getDcl_total_amt());
-                            invtListType.setDclCurrcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_currcd()) ? "":bondInvtDtList.get(j).getDcl_currcd());
-                            invtListType.setLawfQty(StringUtils.isEmpty(bondInvtDtList.get(j).getLawf_qty()) ? "":bondInvtDtList.get(j).getLawf_qty());
-                            invtListType.setDclQty(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_qty()) ? "":bondInvtDtList.get(j).getDcl_qty());
-                            invtListType.setGrossWt(StringUtils.isEmpty(bondInvtDtList.get(j).getGross_wt()) ? "":bondInvtDtList.get(j).getGross_wt());
-                            invtListType.setNetWt(StringUtils.isEmpty(bondInvtDtList.get(j).getNet_wt()) ? "":bondInvtDtList.get(j).getNet_wt());
-                            invtListType.setUseCd(StringUtils.isEmpty(bondInvtDtList.get(j).getUsecd()) ? "":bondInvtDtList.get(j).getUsecd());
-                            invtListType.setLvyrlfModecd(StringUtils.isEmpty(bondInvtDtList.get(j).getLvyrlf_modecd()) ? "":bondInvtDtList.get(j).getLvyrlf_modecd());
-                            invtListType.setEntryGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getEntry_gds_seqno()) ? "":bondInvtDtList.get(j).getEntry_gds_seqno());
-                            invtListType.setDestinationNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDestination_natcd()) ? "":bondInvtDtList.get(j).getDestination_natcd());
-                            invtListType.setModfMarkcd(StringUtils.isEmpty(bondInvtDtList.get(j).getModf_markcd()) ? "":bondInvtDtList.get(j).getModf_markcd());
+                            invtListType.setPutrecSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getPutrec_seqno()) ? "" : String.valueOf(bondInvtDtList.get(j).getPutrec_seqno()));
+                            invtListType.setGdsMtno(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_mtno()) ? "" : bondInvtDtList.get(j).getGds_mtno());
+                            invtListType.setGdecd(StringUtils.isEmpty(bondInvtDtList.get(j).getGdecd()) ? "" : bondInvtDtList.get(j).getGdecd());
+                            invtListType.setGdsNm(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_nm()) ? "" : bondInvtDtList.get(j).getGds_nm());
+                            invtListType.setGdsSpcfModelDesc(StringUtils.isEmpty(bondInvtDtList.get(j).getGds_spcf_model_desc()) ? "" : bondInvtDtList.get(j).getGds_spcf_model_desc());
+                            invtListType.setDclUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_unitcd()) ? "" : bondInvtDtList.get(j).getDcl_unitcd());
+                            invtListType.setLawfUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getLawf_unitcd()) ? "" : bondInvtDtList.get(j).getLawf_unitcd());
+                            invtListType.setSecdLawfUnitcd(StringUtils.isEmpty(bondInvtDtList.get(j).getSecd_lawf_unitcd()) ? "" : bondInvtDtList.get(j).getSecd_lawf_unitcd());
+                            invtListType.setNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getNatcd()) ? "" : bondInvtDtList.get(j).getNatcd());
+                            invtListType.setDclUprcAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_uprc_amt()) ? "" : bondInvtDtList.get(j).getDcl_uprc_amt());
+                            invtListType.setDclTotalAmt(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_total_amt()) ? "" : bondInvtDtList.get(j).getDcl_total_amt());
+                            invtListType.setDclCurrcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_currcd()) ? "" : bondInvtDtList.get(j).getDcl_currcd());
+                            invtListType.setLawfQty(StringUtils.isEmpty(bondInvtDtList.get(j).getLawf_qty()) ? "" : bondInvtDtList.get(j).getLawf_qty());
+                            invtListType.setDclQty(StringUtils.isEmpty(bondInvtDtList.get(j).getDcl_qty()) ? "" : bondInvtDtList.get(j).getDcl_qty());
+                            invtListType.setSecdLawfQty(StringUtils.isEmpty(bondInvtDtList.get(j).getSecd_lawf_qty()) ? "" : bondInvtDtList.get(j).getSecd_lawf_qty());
+                            invtListType.setGrossWt(StringUtils.isEmpty(bondInvtDtList.get(j).getGross_wt()) ? "" : bondInvtDtList.get(j).getGross_wt());
+                            invtListType.setNetWt(StringUtils.isEmpty(bondInvtDtList.get(j).getNet_wt()) ? "" : bondInvtDtList.get(j).getNet_wt());
+                            invtListType.setUseCd(StringUtils.isEmpty(bondInvtDtList.get(j).getUsecd()) ? "" : bondInvtDtList.get(j).getUsecd());
+                            invtListType.setLvyrlfModecd(StringUtils.isEmpty(bondInvtDtList.get(j).getLvyrlf_modecd()) ? "" : bondInvtDtList.get(j).getLvyrlf_modecd());
+                            invtListType.setEntryGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getEntry_gds_seqno()) ? "" : bondInvtDtList.get(j).getEntry_gds_seqno());
+                            invtListType.setDestinationNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDestination_natcd()) ? "" : bondInvtDtList.get(j).getDestination_natcd());
+                            invtListType.setModfMarkcd(StringUtils.isEmpty(bondInvtDtList.get(j).getModf_markcd()) ? "" : bondInvtDtList.get(j).getModf_markcd());
                             invtListTypeList.add(invtListType);
                         }
 

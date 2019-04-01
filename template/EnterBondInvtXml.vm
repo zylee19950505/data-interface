@@ -72,11 +72,13 @@
                             <GdsSpcfModelDesc>$!invtListType.GdsSpcfModelDesc</GdsSpcfModelDesc>
                             <DclUnitcd>$!invtListType.DclUnitcd</DclUnitcd>
                             <LawfUnitcd>$!invtListType.LawfUnitcd</LawfUnitcd>
+                            <SecdLawfUnitcd>$!invtListType.SecdLawfUnitcd</SecdLawfUnitcd>
                             <Natcd>$!invtListType.Natcd</Natcd>
                             <DclUprcAmt>$!invtListType.DclUprcAmt</DclUprcAmt>
                             <DclTotalAmt>$!invtListType.DclTotalAmt</DclTotalAmt>
                             <DclCurrcd>$!invtListType.DclCurrcd</DclCurrcd>
                             <LawfQty>$!invtListType.LawfQty</LawfQty>
+                            <SecdLawfQty>$!invtListType.SecdLawfQty</SecdLawfQty>
                             <DclQty>$!invtListType.DclQty</DclQty>
                             <GrossWt>$!invtListType.GrossWt</GrossWt>
                             <NetWt>$!invtListType.NetWt</NetWt>
