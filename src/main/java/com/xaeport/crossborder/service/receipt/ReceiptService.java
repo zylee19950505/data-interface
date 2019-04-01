@@ -513,7 +513,7 @@ public class ReceiptService {
             this.receiptMapper.updateBondInvtBscByHdeAppr(bondInvtBsc);
             this.receiptMapper.updateBondInvtDtByHdeAppr(bondInvtBsc);
             //预增操作
-            if (recBondInvtHdeAppr.getManage_result().equals("INV201_5")) {
+            if (recBondInvtHdeAppr.getManage_result().equals("INV201_4")) {
                 CountLoader countLoader = new CountPreIncrease();
                 countLoader.count(bondInvtBsc);
             }
