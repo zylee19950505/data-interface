@@ -94,9 +94,9 @@ function inputChange(id) {
 
 //数据字典
 var bind_typecdList = {
-    "1":"一车多票",
-    "2":"一票一车",
-    "3":"一票多车"
+    "1": "一车多票",
+    "2": "一票一车",
+    "3": "一票多车"
 };
 
 sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bondedienter/seeEnterManifestDetail"] || {
@@ -122,10 +122,10 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
         //将此数据状态变更为入区核放单暂存
         var param = sw.getPageParams("bondedienter/seeEnterManifestDetail");
         var etps_preent_no = param.etps_preent_no;
-        var bond_invt_no = param.bond_invt_no
+        var bond_invt_no = param.bond_invt_no;
         var data = {
-            "etps_preent_no":etps_preent_no,
-            "bond_invt_no":bond_invt_no
+            "etps_preent_no": etps_preent_no,
+            "bond_invt_no": bond_invt_no
         };
         sw.ajax("api/crtEnterManifest/canelEnterManifestDetail", "PUT", data, function (rsp) {
             $("#dialog-popup").modal("hide");
@@ -186,7 +186,6 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
 
 
-
     // 标记问题字段
     errorMessageShow: function (vertify) {
         if (vertify) {
@@ -234,11 +233,11 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             input_code: $("#input_code").val(),
 
             input_name: $("#input_name").val(),
-            rmk: $("#rmk").val(),
+            rmk: $("#rmk").val()
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-               /* sw.page.modules["bondedienter/seeEnterManifestDetail"].cancel();*/
+                /* sw.page.modules["bondedienter/seeEnterManifestDetail"].cancel();*/
                 $("#dialog-popup").modal("hide");
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
@@ -289,27 +288,27 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                     entryModule.disabledFieldInput();
                 }
             },
-            async:false
+            async: false
         });
     },
     //校验
     valiFieldInventory: function () {
         // 校验表头
         var validataHeadField = {
-            "master_cuscd":"主管关区代码",
-           "areain_etpsno":"区内企业编码",
-           "areain_etps_nm":"区内企业名称",
-           "vehicle_no":"承运车车牌号",
-           "vehicle_wt":"车自重",
-           "vehicle_frame_wt":"车架重",
-           "container_type":"集装箱箱型",
-           "container_wt":"集装箱重",
-           "total_wt":"总重量",
-           "dcl_er_conc":"申请人及联系方式",
-           "dcl_etpsno":"申报企业编号",
-           "dcl_etps_nm":"申报企业名称",
-           "input_code":"录入单位代码",
-           "input_name":"录入单位名称"
+            "master_cuscd": "主管关区代码",
+            "areain_etpsno": "区内企业编码",
+            "areain_etps_nm": "区内企业名称",
+            "vehicle_no": "承运车车牌号",
+            "vehicle_wt": "车自重",
+            "vehicle_frame_wt": "车架重",
+            "container_type": "集装箱箱型",
+            "container_wt": "集装箱重",
+            "total_wt": "总重量",
+            "dcl_er_conc": "申请人及联系方式",
+            "dcl_etpsno": "申报企业编号",
+            "dcl_etps_nm": "申报企业名称",
+            "input_code": "录入单位代码",
+            "input_name": "录入单位名称"
         };
 
         var fieldId, fieldName, fieldVal;
@@ -399,7 +398,6 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
         $("#ws-page-back").click(function () {
             sw.page.modules["bondedienter/seeEnterManifestDetail"].cancel();
         });
-    },
+    }
 
-
-}
+};

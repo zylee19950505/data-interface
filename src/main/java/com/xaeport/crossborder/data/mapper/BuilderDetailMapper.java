@@ -12,39 +12,39 @@ import java.util.Map;
 public interface BuilderDetailMapper {
 
 
-    @SelectProvider(type = BuilderDetailSQLProvider.class,method = "findBuilderOrderNo")
+    @SelectProvider(type = BuilderDetailSQLProvider.class, method = "findBuilderOrderNo")
     List<String> findBuilderOrderNo(Map<String, String> paramMap);
 
-    @SelectProvider(type = BuilderDetailSQLProvider.class,method = "queryOrderHead")
+    @SelectProvider(type = BuilderDetailSQLProvider.class, method = "queryOrderHead")
     ImpOrderHead queryOrderHead(@Param("orderNo") String orderNo);
 
-    @SelectProvider(type = BuilderDetailSQLProvider.class,method = "queryOrderList")
+    @SelectProvider(type = BuilderDetailSQLProvider.class, method = "queryOrderList")
     List<ImpOrderBody> queryOrderList(@Param("orderNo") String orderNo);
 
-    @SelectProvider(type = BuilderDetailSQLProvider.class,method = "queryLogistics")
+    @SelectProvider(type = BuilderDetailSQLProvider.class, method = "queryLogistics")
     ImpLogistics queryLogistics(@Param("orderNo") String orderNo);
 
-    @SelectProvider(type = BuilderDetailSQLProvider.class,method = "queryBwsNoByEntId")
+    @SelectProvider(type = BuilderDetailSQLProvider.class, method = "queryBwsNoByEntId")
     String queryBwsNoByEntId(@Param("ent_code") String ent_code, @Param("ent_name") String ent_name);
 
     @Select("SELECT * FROM T_ENTERPRISE t where t.ID = #{entId}")
     Enterprise getEnterpriseDetail(@Param("entId") String entId);
 
     @Select("select * from T_BWL_LIST_TYPE t where t.BWS_NO = #{bws_no} and t.GDS_MTNO = #{item_no} and t.BIZOP_ETPSNO = #{customs_code}")
-    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no,@Param("customs_code")String customs_code);
+    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no, @Param("customs_code") String customs_code);
 
-    @InsertProvider(type = BuilderDetailSQLProvider.class,method = "insertImpInventoryBody")
+    @InsertProvider(type = BuilderDetailSQLProvider.class, method = "insertImpInventoryBody")
     void insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);
 
-    @InsertProvider(type = BuilderDetailSQLProvider.class,method = "insertImpInventoryHead")
+    @InsertProvider(type = BuilderDetailSQLProvider.class, method = "insertImpInventoryHead")
     void insertImpInventoryHead(@Param("impInventoryHead") ImpInventoryHead impInventoryHead);
 
-    @UpdateProvider(type = BuilderDetailSQLProvider.class,method = "updateBuilderCacheByOrderNo")
-    void updateBuilderCacheByOrderNo(@Param("orderNo") String orderNo,@Param("dataStatus") String dataStatus);
+    @UpdateProvider(type = BuilderDetailSQLProvider.class, method = "updateBuilderCacheByOrderNo")
+    void updateBuilderCacheByOrderNo(@Param("orderNo") String orderNo, @Param("dataStatus") String dataStatus);
 
-    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryBwlHeadType")
-    String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name);
+    @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryBwlHeadType")
+    String queryBwlHeadType(@Param("id") String id);
 
-    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryAreaenterprise")
+    @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryAreaenterprise")
     Enterprise queryAreaenterprise(@Param("area_code") String area_code);
 }

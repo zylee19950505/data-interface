@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class BuilderDetailThread implements Runnable{
+public class BuilderDetailThread implements Runnable {
 
     private Log logger = LogFactory.getLog(this.getClass());
     private BuilderDetailMapper builderDetailMapper;
@@ -31,12 +31,13 @@ public class BuilderDetailThread implements Runnable{
 
     @Autowired
     protected UserManageService userMaService;
+
     //无参数的构造方法。
     private BuilderDetailThread() {
     }
 
     //有参数的构造方法。
-    public BuilderDetailThread(BuilderDetailMapper builderDetailMapper,EnterpriseMapper enterpriseMapper, AppConfiguration appConfiguration) {
+    public BuilderDetailThread(BuilderDetailMapper builderDetailMapper, EnterpriseMapper enterpriseMapper, AppConfiguration appConfiguration) {
         this.builderDetailMapper = builderDetailMapper;
         this.enterpriseMapper = enterpriseMapper;
         this.appConfiguration = appConfiguration;
@@ -56,7 +57,7 @@ public class BuilderDetailThread implements Runnable{
         ImpLogistics impLogistics;
         List<ImpInventoryBody> impInventoryBodyList;
         ImpInventoryHead impInventoryHead = new ImpInventoryHead();
-        while (true){
+        while (true) {
             try {
                 orderList = this.builderDetailMapper.findBuilderOrderNo(paramMap);
                 if (CollectionUtils.isEmpty(orderList)) {
@@ -69,37 +70,37 @@ public class BuilderDetailThread implements Runnable{
                     }
                     continue;
                 }
-                for (String orderNo:orderList){
+                for (String orderNo : orderList) {
                     //利用订单编号查询出来订单数据
                     imporderHead = this.builderDetailMapper.queryOrderHead(orderNo);
                     impOrderBodyList = this.builderDetailMapper.queryOrderList(orderNo);
                     //查询出来运单数据
                     impLogistics = this.builderDetailMapper.queryLogistics(orderNo);
                     //将订单数据和运单数据整合生成清单数据
-                        //根据订单的商品料号去查账册备案清单,找出法定数量,法定计量单位
+                    //根据订单的商品料号去查账册备案清单,找出法定数量,法定计量单位
                     //封装订单和运单里的数据
                     String ent_id = imporderHead.getEnt_id();
                     //Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(ent_id);
                     Enterprise enterpriseDetail = builderDetailMapper.getEnterpriseDetail(ent_id);
-                    impInventoryHead = this.getInventoryData(imporderHead,impOrderBodyList,impLogistics,enterpriseDetail);
+                    impInventoryHead = this.getInventoryData(imporderHead, impOrderBodyList, impLogistics, enterpriseDetail);
                     impInventoryBodyList = this.getInventoryBodyData(impOrderBodyList, imporderHead.getBusiness_type(), enterpriseDetail, impInventoryHead.getGuid());
 
                     //先在这里进行库存检查
                     CountLoader countLoader = new CountBudDetail();
                     int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
 
-                    if (flag == 0){
+                    if (flag == 0) {
                         //信息整合完毕后,进行插入操作
                         this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
-                        for (ImpInventoryBody impInventoryBody:impInventoryBodyList) {
+                        for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
                             this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
                         }
                         //再将缓存数据库的数据状态改为已经生成;
                         String dataStatus = "QDYSC";//清单已生成
-                        this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo,dataStatus);
+                        this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo, dataStatus);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 try {
                     Thread.sleep(5000);
                     logger.error("生成清单时发生异常，等待5秒重新开始获取数据", e);
@@ -119,20 +120,20 @@ public class BuilderDetailThread implements Runnable{
 
         //账册企业信息的企业信息
         Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
+        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
         int count = 0;
-        for (ImpOrderBody impOrderBody : impOrderBodyList){
+        for (ImpOrderBody impOrderBody : impOrderBodyList) {
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo,impOrderBody.getItem_No(),enterpriseDetail.getCustoms_code());
+            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getCustoms_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(count);//商品序号
             count++;
             DecimalFormat df = new DecimalFormat("0.00000");
             impInventoryBody.setOrder_no(impOrderBody.getOrder_No());//订单编号
-            if ("BONDORDER".equals(business_type)){
+            if ("BONDORDER".equals(business_type)) {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
                 impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
@@ -147,14 +148,13 @@ public class BuilderDetailThread implements Runnable{
             impInventoryBody.setUnit(impOrderBody.getUnit());//计量单位
 
 
-
-           // impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
-           // impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
+            // impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
+            // impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
             impInventoryBody.setNote(impOrderBody.getNote());//促销活动，商品单价偏离市场价格的，可以在此说明。
             impInventoryBody.setQuantity(Double.parseDouble(impOrderBody.getQty()));
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
-           // impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
-           // impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
+            // impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
+            // impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
             impInventoryBody.setTotal_price(impOrderBody.getTotal_Price());//总价
 
             double Price = Double.parseDouble(impInventoryBody.getTotal_price()) / Double.parseDouble(impInventoryBody.getQty());
@@ -169,9 +169,8 @@ public class BuilderDetailThread implements Runnable{
     }
 
 
-    private ImpInventoryHead getInventoryData(ImpOrderHead imporderHead, List<ImpOrderBody> impOrderBodyList, ImpLogistics impLogistics,Enterprise enterpriseDetail) {
+    private ImpInventoryHead getInventoryData(ImpOrderHead imporderHead, List<ImpOrderBody> impOrderBodyList, ImpLogistics impLogistics, Enterprise enterpriseDetail) {
         String crt_id = imporderHead.getCrt_id();
-
 
 
         ImpInventoryHead impInventoryHead = new ImpInventoryHead();
@@ -214,9 +213,8 @@ public class BuilderDetailThread implements Runnable{
         impInventoryHead.setFreight(impLogistics.getFreight());//运杂费
 
 
-
         double totalPrices = 0;
-        for (ImpOrderBody impOrderBody: impOrderBodyList){
+        for (ImpOrderBody impOrderBody : impOrderBodyList) {
             totalPrices += Double.parseDouble(impOrderBody.getTotal_Price());
         }
         impInventoryHead.setTotal_prices(String.valueOf(totalPrices));//取表体商品总价之和
@@ -245,21 +243,21 @@ public class BuilderDetailThread implements Runnable{
         impInventoryHead.setEnt_id(enterpriseDetail.getId());
         impInventoryHead.setEnt_name(enterpriseDetail.getEnt_name());
         impInventoryHead.setEnt_customs_code(enterpriseDetail.getCustoms_code());
-        if ("ORDER".equals(imporderHead.getBusiness_type())){
+        if ("ORDER".equals(imporderHead.getBusiness_type())) {
             //直购的毛重和净重从运单里获取
-            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight())/1.1));//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight()) / 1.1));//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(impLogistics.getWeight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-            impInventoryHead.setVoyage_no(StringUtils.isEmpty(impLogistics.getVoyage_no()) ? "":impLogistics.getVoyage_no());
+            impInventoryHead.setVoyage_no(StringUtils.isEmpty(impLogistics.getVoyage_no()) ? "" : impLogistics.getVoyage_no());
             impInventoryHead.setTraf_mode("");//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
             impInventoryHead.setTraf_no("");//直购进口必填。货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。保税进口免填。
 
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_INVENTORY);
             impInventoryHead.setData_status(StatusCode.QDDSB);//数据状态(暂存)
-        }else if ("BONDORDER".equals(imporderHead.getBusiness_type())){
+        } else if ("BONDORDER".equals(imporderHead.getBusiness_type())) {
             //保税的毛重和净重从订单获取
             impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-            String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(),enterpriseDetail.getEnt_name());
+            String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(), enterpriseDetail.getEnt_name());
 
             //账册编号通过查找企业信息的区内企业名称和区内企业编码,去账册信息里查找
 

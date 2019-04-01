@@ -6,7 +6,6 @@ import com.xaeport.crossborder.data.mapper.CrtEnterManifestMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,41 +41,30 @@ public class CrtEnterManifestService {
         PassPortHead passPortHead = new PassPortHead();
 
         Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(user.getEnt_Id());
+        //账册企业信息的企业信息
+//        Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterpriseDetail.getId());
         //创建核放单企业内部编号;HFD+海关十位+进出口标志（I/E）+年月日+四位流水号
-        String nextVal = crtEnterManifestMapper.querySeqPassPortHeadNextval();
         //海关十位
         String customs_code = enterpriseDetail.getCustoms_code();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String yMd = sdf.format(new Date());
-        String etps_preent_no = "HFD" + customs_code + "I" + yMd + nextVal;
+        String etps_preent_no = "HFD" + customs_code + "I" + yMd + (IdUtils.getShortUUId()).substring(0, 4);
 
         passPortHead.setId(IdUtils.getUUId());
         passPortHead.setEtps_preent_no(etps_preent_no);
-        //核注清单编号
         passPortHead.setBond_invt_no(paramMap.get("invtNo"));
-        //主管关区代码
         passPortHead.setMaster_cuscd(enterpriseDetail.getPort());
-        //关联单证类型
         passPortHead.setRlt_tb_typecd("1");
         passPortHead.setPassport_typecd("1");
         passPortHead.setRlt_no(paramMap.get("invtNo"));
-        //申报企业编号
         passPortHead.setDcl_etpsno(enterpriseDetail.getCustoms_code());
-        //申报企业名称
         passPortHead.setDcl_etps_nm(enterpriseDetail.getEnt_name());
-        //申报企业编号
         passPortHead.setInput_code(enterpriseDetail.getCustoms_code());
-        //申报企业名称
         passPortHead.setInput_name(enterpriseDetail.getEnt_name());
         passPortHead.setCrt_user(user.getId());
         passPortHead.setCrt_ent_id(user.getEnt_Id());
         passPortHead.setCrt_ent_name(user.getEnt_Name());
-
-
-        //账册企业信息的企业信息
-        Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
-
         passPortHead.setAreain_oriact_no(emsNo);
 
         //绑定类型代码
@@ -99,11 +87,9 @@ public class CrtEnterManifestService {
         double gross_wts = 0;
         double net_wts = 0;
         for (String invtNo : invtNos) {
-            List<BondInvtDt> bondInvtDtList = new ArrayList<>();
-            bondInvtDtList = this.crtEnterManifestMapper.queryEnterInvtory(invtNo);
+            List<BondInvtDt> bondInvtDtList = this.crtEnterManifestMapper.queryEnterInvtory(invtNo);
             bondInvtDtListAll.addAll(bondInvtDtList);
         }
-
         if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
             for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
                 gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
@@ -116,7 +102,6 @@ public class CrtEnterManifestService {
         passPortHead.setDcl_typecd("1");
         passPortHead.setIo_typecd("I");
         passPortHead.setFlag("ENTER");
-        //创建时为待申报
         passPortHead.setStatus(StatusCode.RQHFDDSB);
         crtEnterManifestMapper.createEnterManifest(passPortHead);
 

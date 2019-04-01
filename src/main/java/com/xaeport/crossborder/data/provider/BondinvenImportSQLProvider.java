@@ -315,8 +315,8 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
     }
 
 
-    public String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name){
-        return new SQL(){
+    public String queryBwlHeadType(@Param("id") String id) {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("(select t.bws_no from T_BWL_HEAD_TYPE t where t.CRT_ENT_ID = #{id} order by t.crt_time asc)");
@@ -325,8 +325,8 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryAreaenterprise(@Param("area_code") String area_code){
-        return new SQL(){
+    public String queryAreaenterprise(@Param("area_code") String area_code) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_ENTERPRISE t");

@@ -99,7 +99,6 @@ public class CrtEnterManifestApi extends BaseApi {
 
         //一车一票和一车多票是否需要原有数量是否等于申报数量(前端已经判断,但是为了防止多人操作)
         //一票多车时需要判断是否是最后一车,进行四舍五入(毛重和净重)
-        List<BondInvtDt> bondInvtDtList = new ArrayList<>();
         //1.先查询出表体内容(循环)
         try {
             if (!"YPDC".equals(bind_typecd)) {
@@ -324,7 +323,6 @@ public class CrtEnterManifestApi extends BaseApi {
     ) {
         System.out.println(bond_invt_no + "-----------" + etps_preent_no);
         Map<String, String> rtnMap = new HashMap<>();
-        Users users = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("bond_invt_no", bond_invt_no);
         paramMap.put("etps_preent_no", etps_preent_no);
