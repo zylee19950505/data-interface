@@ -209,6 +209,9 @@ public class EnterBondInvtThread implements Runnable {
         String sendFilePath = this.appConfiguration.getXmlPath().get("sascebPath") + File.separator + fileName;
         this.logger.debug(String.format("入区核注清单报文发送文件[sascebPath: %s]", sendFilePath));
 
+        String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+        this.logger.debug(String.format("入区核注清单报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
+
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
         this.logger.debug(String.format("入区核注清单报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
@@ -217,6 +220,11 @@ public class EnterBondInvtThread implements Runnable {
         FileUtils.save(sendFile, xmlByte);
         this.logger.info("入区核注清单发送完毕" + fileName);
         this.logger.debug(String.format("入区核注清单报文发送文件[sascebPath: %s]生成完毕", sendFilePath));
+
+        File sendWmsFile = new File(sendWmsFilePath);
+        FileUtils.save(sendWmsFile, xmlByte);
+        this.logger.info("入区核注清单发送完毕" + fileName);
+        this.logger.debug(String.format("出区核注清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, BondInvtBsc bondInvtBsc) {

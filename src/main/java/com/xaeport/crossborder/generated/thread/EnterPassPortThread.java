@@ -192,7 +192,7 @@ public class EnterPassPortThread implements Runnable {
         this.logger.debug(String.format("入区核放单报文发送文件[sascebPath: %s]", sendFilePath));
 
         String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
-        this.logger.debug(String.format("出区核注清单报文发送文件[sendWmsPath: %s]", sendWmsFilePath));
+        this.logger.debug(String.format("入区核注清单报文发送文件[sendWmsPath: %s]", sendWmsFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
@@ -206,7 +206,7 @@ public class EnterPassPortThread implements Runnable {
         File sendWmsFile = new File(sendWmsFilePath);
         FileUtils.save(sendWmsFile, xmlByte);
         this.logger.info("出区核注清单发送完毕" + fileName);
-        this.logger.debug(String.format("出区核注清单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+        this.logger.debug(String.format("入区核注清单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, PassPortHead passPortHead) {
