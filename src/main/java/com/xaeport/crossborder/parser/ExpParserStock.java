@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.parser;
 
 import com.xaeport.crossborder.data.status.StockMsgType;
+import org.apache.commons.codec.binary.Base64;
 import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class ExpParserStock {
@@ -38,28 +41,41 @@ public class ExpParserStock {
         return type;
     }
 
+    public String extractByPattern(Pattern pattern, String content) {
+        Matcher matcher = pattern.matcher(content);
+        if (matcher.find())
+            return matcher.group(1);
+        return "";
+    }
+
     //生成报文类型，并解析报文节点
     public Map stockExpParser(byte[] expPath) throws IOException, DocumentException {
         Map<String, Object> mapData = new HashMap<>();
-        String type = this.getStockType(expPath);
+        // byte[] -> String
+        String xmlContent = new String(expPath, "UTF-8").trim();
+        // 获取data段数据
+        String dataContent = this.extractByPattern(Pattern.compile("<Data>(.*?)</Data>"),xmlContent);
+
+        byte[] base64Bytes = Base64.decodeBase64(dataContent);
+        String type = this.getStockType(base64Bytes);
         mapData.put("type", type);
         Map<String, List<List<Map<String, String>>>> map = null;
         Map<String, List<Map<String, List<Map<String, String>>>>> stockMap = null;
         switch (type) {
             case StockMsgType.CB_DD://跨境订单报文
-                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_DD).expStockParser(expPath, "Order");
+                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_DD).expStockParser(base64Bytes, "Order");
                 break;
             case StockMsgType.CB_QD://跨境清单报文
-                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_QD).expStockParser(expPath, "Inventory");
+                stockMap = this.parserHolder.getStockParserTwo(StockMsgType.CB_QD).expStockParser(base64Bytes, "Inventory");
                 break;
             case StockMsgType.CB_ZFD://跨境支付单报文
-                map = this.parserHolder.getStockParserOne(StockMsgType.CB_ZFD).expParserOne(expPath, "PaymentHead");
+                map = this.parserHolder.getStockParserOne(StockMsgType.CB_ZFD).expParserOne(base64Bytes, "PaymentHead");
                 break;
             case StockMsgType.CB_YD://跨境运单报文
-                map = this.parserHolder.getStockParserOne(StockMsgType.CB_YD).expParserOne(expPath, "LogisticsHead");
+                map = this.parserHolder.getStockParserOne(StockMsgType.CB_YD).expParserOne(base64Bytes, "LogisticsHead");
                 break;
             case StockMsgType.CB_YDZT://跨境运单状态报文
-                map = this.parserHolder.getParser(StockMsgType.CB_YDZT).expParser(expPath, "LogisticsStatus");
+                map = this.parserHolder.getParser(StockMsgType.CB_YDZT).expParser(base64Bytes, "LogisticsStatus");
                 break;
         }
         mapData.put("Receipt", map);

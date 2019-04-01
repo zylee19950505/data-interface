@@ -23,6 +23,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,7 +115,8 @@ public class EnterBaseBondInvtXML {
         context.put("invtHeadType",invtHeadType);
         context.put("invtListTypeList",invtMessage.getInvtListTypeList());
 
-        Template t = ve.getTemplate("./template/EnterBondInvtXML.vm");
+        Template t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterBondInvtXml.vm");
+//        Template t = ve.getTemplate("./template/EnterBondInvtXML.vm");
 
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
