@@ -160,7 +160,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             var customsCode = key;
             var name = sw.dict.customs[key];
             var option = $("<option>").text(name).val(customsCode);
-            //$("#dcl_plc_cuscds").append(option);
             $("#impexp_portcds").append(option);
         }
         for (var key in sw.dict.customs) {
@@ -168,8 +167,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             var name = sw.dict.customs[key];
             var option = $("<option>").text(name).val(customsCode);
             $("#dcl_plc_cuscds").append(option);
-            // $("#impexp_portcds").append(option);
         }
+        // $("#impexp_portcds").append(option);
+        //$("#dcl_plc_cuscds").append(option);
+
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -203,6 +204,18 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     // 装载表头信息
     fillNewBondInvtBsc: function (entryHead) {
 
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#impexp_portcds").append(option);
+        }
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#dcl_plc_cuscds").append(option);
+        }
         $("#invt_no").val(entryHead.invt_no);
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
@@ -214,8 +227,8 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#putrec_no").val(entryHead.putrec_no);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
-        $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
-        $("#impexp_portcd").val(entryHead.impexp_portcd);
+        // $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
+        // $("#impexp_portcd").val(entryHead.impexp_portcd);
 
 
         //selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
@@ -568,6 +581,25 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         document.getElementById("barcon").innerHTML = tempStr;
     },
 
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
+    },
+
     init: function () {
         //从路径上获取参数
         var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
@@ -576,6 +608,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         var isEdit = param.isEdit;
         var mark = param.mark;
         var customsCode = param.customsCode;
+
+        this.dclEtps();
+        this.dclEtpsName();
 
         $(".input-daterange").datepicker({
             language: "zh-CN",

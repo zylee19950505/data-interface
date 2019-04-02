@@ -174,7 +174,7 @@ public class ReceiptService {
                 ImpInventoryHead impInventoryHead = this.receiptMapper.findByInvtNo(invtNo);
                 if (!StringUtils.isEmpty(impInventoryHead)) {
                     long taxPreTime = StringUtils.isEmpty(impInventoryHead.getTax_return_time()) ? 0 : Long.parseLong(impInventoryHead.getTax_return_time());
-                    if (returnTime >= taxPreTime) {
+                    if (returnTime > taxPreTime) {
                         this.receiptMapper.updateInventoryHeadTax(taxHeadRd);
                         for (int j = 0; j < taxLists.size(); j++) {
                             taxListRd = new TaxListRd();
@@ -309,7 +309,7 @@ public class ReceiptService {
                 CheckGoodsInfo checkGoodsInfoData = this.receiptMapper.findByOrderNo(orderNo);
                 if (!StringUtils.isEmpty(checkGoodsInfoData)) {
                     long systemTime = StringUtils.isEmpty(checkGoodsInfoData.getMessage_time()) ? 0 : (checkGoodsInfoData.getMessage_time()).getTime();
-                    if (newTime >= systemTime) {
+                    if (newTime > systemTime) {
                         this.receiptMapper.updateCheckGoodsInfo(checkGoodsInfo);
                     } else {
                         continue;
@@ -464,7 +464,7 @@ public class ReceiptService {
                     Date systemTime;
                     if (!StringUtils.isEmpty(bondInvtBsc)) {
                         systemTime = bondInvtBsc.getReturn_time();
-                        if (systemTime == null || (returnTime.getTime() >= systemTime.getTime())) {
+                        if (systemTime == null || (returnTime.getTime() > systemTime.getTime())) {
                             this.updateBondInvtStatusByHdeAppr(recBondInvtHdeAppr, bondInvtBsc);//更新核注清单表状态
                         } else {
                             continue;
@@ -564,7 +564,7 @@ public class ReceiptService {
                 Date systemTime;
                 if (!StringUtils.isEmpty(bondInvtBsc)) {
                     systemTime = bondInvtBsc.getReturn_time();
-                    if (systemTime == null || (returnTime.getTime() >= systemTime.getTime())) {
+                    if (systemTime == null || (returnTime.getTime() > systemTime.getTime())) {
                         this.updateBondInvtStatusByInvAppr(recBondInvtInvAppr, bondInvtBsc);//更新核注清单表数据
                     } else {
                         continue;
@@ -653,7 +653,7 @@ public class ReceiptService {
                 Date systemTime;
                 if (!StringUtils.isEmpty(passPortHead)) {
                     systemTime = passPortHead.getReturn_date();
-                    if (systemTime == null || (returnTime.getTime() >= systemTime.getTime())) {
+                    if (systemTime == null || (returnTime.getTime() > systemTime.getTime())) {
                         this.updatePassportStatusByHdeAppr(recPassPortHdeAppr, passPortHead);//更新核放单表数据
                     } else {
                         continue;
@@ -1025,7 +1025,7 @@ public class ReceiptService {
                 ImpInventoryHead impInventoryHead = this.receiptMapper.findByCopNo(copNo);
                 if (!StringUtils.isEmpty(impInventoryHead)) {
                     long systemTime = StringUtils.isEmpty(impInventoryHead.getReturn_time()) ? 0 : Long.parseLong(impInventoryHead.getReturn_time());
-                    if (returnTime >= systemTime) {
+                    if (returnTime > systemTime) {
                         this.updateImpInventoryStatus(impRecInventory);    //更新清单表状态
                     } else {
                         continue;
@@ -1125,7 +1125,7 @@ public class ReceiptService {
                 ImpDeliveryHead impDeliveryHead = this.receiptMapper.findDeliveryByCopNo(copNo);
                 if (!StringUtils.isEmpty(impDeliveryHead)) {
                     long systemTime = StringUtils.isEmpty(impDeliveryHead.getReturn_time()) ? 0 : Long.parseLong(impDeliveryHead.getReturn_time());
-                    if (returnTime >= systemTime) {
+                    if (returnTime > systemTime) {
                         this.updateImpDeliveryStatus(impRecDelivery);    //更新清单表状态
                     } else {
                         continue;

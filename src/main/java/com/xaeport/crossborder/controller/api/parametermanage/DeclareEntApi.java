@@ -109,5 +109,19 @@ public class DeclareEntApi extends BaseApi {
         return new ResponseData();
     }
 
+    // 发件人信息查询
+    @RequestMapping(value = "/getDclEtps", method = RequestMethod.GET)
+    public ResponseData getTrafList() {
+        Map<String, String> map = new HashMap<>();
+        map.put("ent_id", this.getCurrentUserEntId());
+        List<DclEtps> dclEtpsList;
+        try {
+            dclEtpsList = this.declareEntService.queryDclEtpsLists(map);
+        } catch (Exception e) {
+            this.log.error("查询申报企业参数失败，ent_id=" + this.getCurrentUserEntId(), e);
+            return new ResponseData("查询申报企业参数失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(dclEtpsList);
+    }
 
 }

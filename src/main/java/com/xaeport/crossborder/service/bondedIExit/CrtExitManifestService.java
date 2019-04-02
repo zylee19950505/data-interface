@@ -41,8 +41,8 @@ public class CrtExitManifestService {
         BondInvtBsc bondInvtBsc = this.crtExitManifestMapper.queryBondInvtBsc(paramMap.get("bond_invt_no"));
         passPortHead.setId(IdUtils.getUUId());
         passPortHead.setAreain_oriact_no(bondInvtBsc.getPutrec_no());
-        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());
-        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());
+//        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());
+//        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());
         passPortHead.setMaster_cuscd(bondInvtBsc.getDcl_plc_cuscd());
         passPortHead.setInput_code(paramMap.get("input_code"));
         passPortHead.setInput_name(paramMap.get("input_name"));

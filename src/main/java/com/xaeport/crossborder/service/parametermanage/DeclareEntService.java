@@ -27,5 +27,8 @@ public class DeclareEntService {
         this.declareEntMapper.createDcletps(dclEtps);
     }
 
+    public List<DclEtps> queryDclEtpsLists(Map<String, String> map) throws Exception {
+        return this.declareEntMapper.queryDclEtpsLists(map);
+    }
 
 }

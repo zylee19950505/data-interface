@@ -474,6 +474,25 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         return true;
     },
 
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
+    },
+
     init: function () {
         //从路径上获取参数
         var param = sw.getPageParams("bondediexit/seeExitManifestDetail");
@@ -481,6 +500,9 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         var type = param.type;
         var isEdit = param.isEdit;
         var mark = param.mark;
+
+        this.dclEtps();
+        this.dclEtpsName();
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -596,7 +618,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#ws-page-back").click(function () {
             sw.page.modules["bondediexit/seeExitManifestDetail"].cancel();
         });
-    },
+    }
 
 
-}
+};

@@ -65,8 +65,8 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setCrt_ent_name(enterpriseDetail.getEnt_name());
         bondInvtBsc.setBizop_etpsno("");//经营企业编号:用户自行填写
         bondInvtBsc.setBizop_etps_nm("");//经营企业名称:用户自行填写
-        bondInvtBsc.setDcl_etpsno(enterpriseDetail.getDeclare_ent_code());//获取信息的申报企业编号
-        bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getDeclare_ent_name());//获取信息的申报企业名称
+//        bondInvtBsc.setDcl_etpsno(enterpriseDetail.getDeclare_ent_code());//获取信息的申报企业编号
+//        bondInvtBsc.setDcl_etps_nm(enterpriseDetail.getDeclare_ent_name());//获取信息的申报企业名称
         bondInvtBsc.setRcvgd_etpsno(enterpriseDetail.getCustoms_code());//获取企业的海关十位
         bondInvtBsc.setRcvgd_etps_nm(enterpriseDetail.getEnt_name());//获取企业的名称
 

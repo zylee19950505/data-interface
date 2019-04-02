@@ -72,4 +72,16 @@ public class DeclareEntSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String queryDclEtpsLists(Map<String, String> map) {
+        final String ent_id = map.get("ent_id");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_DCL_ETPS t");
+                WHERE("t.ENT_ID = #{ent_id}");
+                ORDER_BY("DCL_ETPS_NAME");
+            }
+        }.toString();
+    }
+
 }

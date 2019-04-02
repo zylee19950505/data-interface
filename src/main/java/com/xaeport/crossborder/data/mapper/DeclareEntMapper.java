@@ -19,4 +19,7 @@ public interface DeclareEntMapper {
     @InsertProvider(type = DeclareEntSQLProvider.class, method = "createDcletps")
     void createDcletps(@Param("dclEtps") DclEtps dclEtps) throws Exception;
 
+    @SelectProvider(type = DeclareEntSQLProvider.class, method = "queryDclEtpsLists")
+    List<DclEtps> queryDclEtpsLists(Map<String, String> map) throws Exception;
+
 }

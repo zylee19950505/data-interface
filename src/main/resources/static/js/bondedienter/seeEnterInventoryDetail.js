@@ -110,7 +110,6 @@ var supv_modecd = {
 
 sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bondedienter/seeEnterInventoryDetail"] || {
 
-
     detailParam: {
         url: "",
         callBackUrl: "",
@@ -120,7 +119,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "dec_type",
             "invt_type",
             "dcl_typecd",
-
             "putrec_seqno",
             "gds_seqno",
             "gds_mtno",
@@ -133,7 +131,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "dcl_total_amt",
             "dcl_currcd",
             "usd_stat_total_amt"
-
         ]
     },
     // 保存成功时回调查询
@@ -429,7 +426,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "dcl_unitcd": "申报计量单位",
             "dcl_qty": "申报数量",
             "dcl_uprc_amt": "申报单价",
-            "dcl_total_amt": "申报总价",
+            "dcl_total_amt": "申报总价"
             //"dcl_currcd": "币制",
             //"usd_stat_total_amt": "美元统计总金额"
         };
@@ -473,6 +470,25 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         return true;
     },
 
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
+    },
+
     init: function () {
         //从路径上获取参数
         var param = sw.getPageParams("bondedienter/seeEnterInventoryDetail");
@@ -480,8 +496,8 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         var type = param.type;
         var isEdit = param.isEdit;
 
-        console.log("type:"+type);
-        console.log("isEdit:"+isEdit);
+        this.dclEtps();
+        this.dclEtpsName();
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -687,7 +703,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#ws-page-back").click(function () {
             sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
         });*/
-    },
+    }
 
-
-}
+};
