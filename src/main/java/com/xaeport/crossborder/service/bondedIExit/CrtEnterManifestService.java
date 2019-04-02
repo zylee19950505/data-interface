@@ -58,14 +58,17 @@ public class CrtEnterManifestService {
         passPortHead.setRlt_tb_typecd("1");
         passPortHead.setPassport_typecd("1");
         passPortHead.setRlt_no(paramMap.get("invtNo"));
-        passPortHead.setDcl_etpsno(enterpriseDetail.getCustoms_code());
-        passPortHead.setDcl_etps_nm(enterpriseDetail.getEnt_name());
+
+
         passPortHead.setInput_code(enterpriseDetail.getCustoms_code());
         passPortHead.setInput_name(enterpriseDetail.getEnt_name());
         passPortHead.setCrt_user(user.getId());
         passPortHead.setCrt_ent_id(user.getEnt_Id());
         passPortHead.setCrt_ent_name(user.getEnt_Name());
         passPortHead.setAreain_oriact_no(emsNo);
+
+        passPortHead.setAreain_etpsno(enterpriseDetail.getArea_code());//区内企业编码
+        passPortHead.setAreain_etps_nm(enterpriseDetail.getArea_name());//区内企业名称
 
         //绑定类型代码
         switch (paramMap.get("bind_typecd")) {
@@ -81,6 +84,11 @@ public class CrtEnterManifestService {
 
         //设置总毛重和总净重
         String[] invtNos = paramMap.get("invtNo").split("/");
+        //取第一个核注清单的申报企业信息
+        BondInvtBsc bondInvtBsc = this.crtEnterManifestMapper.queryDclEtpsMsg(invtNos[0]);
+
+        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());//申报企业编码
+        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());//申报企业名称
 
         List<BondInvtDt> bondInvtDtListAll = new ArrayList<>();
         //总毛重
@@ -90,12 +98,16 @@ public class CrtEnterManifestService {
             List<BondInvtDt> bondInvtDtList = this.crtEnterManifestMapper.queryEnterInvtory(invtNo);
             bondInvtDtListAll.addAll(bondInvtDtList);
         }
-        if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
+        for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
+            gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
+            net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
+        }
+        /*if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
             for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
                 gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
                 net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
             }
-        }
+        }*/
         DecimalFormat df = new DecimalFormat("######0.00000");
         passPortHead.setTotal_gross_wt(df.format(gross_wts));
         passPortHead.setTotal_net_wt(df.format(net_wts));
@@ -103,6 +115,7 @@ public class CrtEnterManifestService {
         passPortHead.setIo_typecd("I");
         passPortHead.setFlag("ENTER");
         passPortHead.setStatus(StatusCode.RQHFDDSB);
+        passPortHead.setTotal_wt(df.format(gross_wts));
         crtEnterManifestMapper.createEnterManifest(passPortHead);
 
         //一车一单和一车多单 创建核放单关联单证 核放单编号和关联单证编号
@@ -188,6 +201,7 @@ public class CrtEnterManifestService {
         passPortHead.setTotal_net_wt(object.get("total_net_wt").toString());
         passPortHead.setDcl_er_conc(object.get("dcl_er_conc").toString());
         passPortHead.setDcl_etps_nm(object.get("dcl_etps_nm").toString());
+        passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
         passPortHead.setInput_code(object.get("input_code").toString());
         passPortHead.setInput_name(object.get("input_name").toString());
         passPortHead.setStatus(StatusCode.RQHFDDSB);
@@ -226,6 +240,7 @@ public class CrtEnterManifestService {
         passPortHead.setDcl_er_conc(object.get("dcl_er_conc").toString());
         passPortHead.setDcl_etpsno(object.get("dcl_etpsno").toString());
         passPortHead.setDcl_etps_nm(object.get("dcl_etps_nm").toString());
+        passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
         passPortHead.setInput_code(object.get("input_code").toString());
         passPortHead.setInput_name(object.get("input_name").toString());
         passPortHead.setUpd_user(users.getId());

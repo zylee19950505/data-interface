@@ -52,6 +52,13 @@ function sumDeclTotal(dVal, qty, gno, listChangeKeyVal) {
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
+//计算表头总重量
+function sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt) {
+    console.log(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt)
+    var totalWt = parseFloat(parseFloat(vehicle_wt)+parseFloat(vehicle_frame_wt)+parseFloat(container_wt)+parseFloat(total_gross_wt)).toFixed(5);
+    console.log(totalWt);
+    $("#total_wt").val(totalWt);
+}
 
 function inputChange(id) {
     $(".detailPage input,select").change(function () {
@@ -85,6 +92,14 @@ function inputChange(id) {
             listChangeKeyVal["entryhead_guid"] = id;
             listChangeKeyVals[gno] = listChangeKeyVal;
         } else {
+            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key){
+                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
+                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
+                var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
+                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+                //计算总重量
+                sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
+            }
             headChangeKeyVal[key] = val;
         }
     }).focus(function () {
@@ -232,6 +247,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             dcl_etps_nm: $("#dcl_etps_nm").val(),
             input_code: $("#input_code").val(),
 
+            vehicle_ic_no: $("#vehicle_ic_no").val(),
             input_name: $("#input_name").val(),
             rmk: $("#rmk").val()
         };
@@ -307,6 +323,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             "dcl_er_conc": "申请人及联系方式",
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
+            "vehicle_ic_no":"IC卡号(电子车牌)",
             "input_code": "录入单位代码",
             "input_name": "录入单位名称"
         };
@@ -349,7 +366,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                         "bond_invt_no",//核注清单编号
                         "bind_typecd",//绑定类型代码
                         "total_gross_wt",//总毛重
-                        "total_net_wt"//总净重
+                        "total_net_wt",//总净重
+                        "total_wt"//总重
                     ];
                 }
                 //保存的路径
@@ -369,7 +387,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                         "bond_invt_no",//核注清单编号
                         "bind_typecd",//绑定类型代码
                         "total_gross_wt",//总毛重
-                        "total_net_wt"//总净重
+                        "total_net_wt",//总净重
+                        "total_wt",//总重
                     ];
                 }
                 //保存的路径
