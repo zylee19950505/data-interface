@@ -45,10 +45,10 @@ public interface EnterInventoryMapper {
     @Select("SELECT DXP_ID FROM T_ENTERPRISE WHERE ID = #{entId}")
     String getDxpId(String entId);
 
-    //查询用户IcCard
-    @Select("SELECT IC_CARD FROM T_USERS WHERE ID = #{userId}")
-    String getIcCard(String userId);
-
     @Select("select CUSTOMS_CODE from T_ENTERPRISE where id = #{crt_ent_id}")
     String queryEnterCustoms(@Param("crt_ent_id") String crt_ent_id);
+
+    //查询申报企业IcCard
+    @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{entId} AND DCL_ETPS_CUSTOMS_CODE = #{customsCode}")
+    String getDclEtpsIcCard(@Param("crt_ent_id") String crt_ent_id, @Param("dcl_etpsno") String dcl_etpsno);
 }

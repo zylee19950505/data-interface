@@ -33,7 +33,7 @@ public class ValidateEnterInstance extends ValidateBase {
     private int natcdIndex; //原产国(地区)";//list
 
     //private int usecdIndex; //用途代码//list
-    private int ec_customs_codeIndex; //电商海关编码//list
+    //private int ec_customs_codeIndex; //电商海关编码//list
     private int lvyrlf_modecdIndex; //征减免方式代码//list
     private int rmkIndex; //备注";//list
 
@@ -55,7 +55,7 @@ public class ValidateEnterInstance extends ValidateBase {
         dcl_qtyIndex = list.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = list.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)
         //usecdIndex = list.indexOf(ExcelHeadEnterInventory.usecd);//用途代码
-        ec_customs_codeIndex = list.indexOf(ExcelHeadEnterInventory.ec_customs_code);//电商海关编码
+        //ec_customs_codeIndex = list.indexOf(ExcelHeadEnterInventory.ec_customs_code);//电商海关编码
         lvyrlf_modecdIndex = list.indexOf(ExcelHeadEnterInventory.lvyrlf_modecd);//征减免方式代码
         rmkIndex = list.indexOf(ExcelHeadEnterInventory.rmk);//备注
         this.initMap();
@@ -77,7 +77,7 @@ public class ValidateEnterInstance extends ValidateBase {
         indexMap.put(dcl_qtyIndex, "数量,60");//double
         indexMap.put(natcdIndex, "原产国(地区),18");
         //indexMap.put(usecdIndex, "用途代码,4");
-        indexMap.put(ec_customs_codeIndex, "电商海关编码,10");
+        //indexMap.put(ec_customs_codeIndex, "电商海关编码,10");
         indexMap.put(lvyrlf_modecdIndex, "征免代码,6");
 //        indexMap.put(rmkIndex, "备注,18");
     }

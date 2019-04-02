@@ -197,7 +197,6 @@ public class ReadExcel {
                         return map;
                     }
                 }
-
                 dataList.add(rowList);
             }
         }

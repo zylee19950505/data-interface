@@ -205,7 +205,7 @@ public class EnterPassPortThread implements Runnable {
 
         File sendWmsFile = new File(sendWmsFilePath);
         FileUtils.save(sendWmsFile, xmlByte);
-        this.logger.info("出区核注清单发送完毕" + fileName);
+        this.logger.info("入区核注清单发送完毕" + fileName);
         this.logger.debug(String.format("入区核注清单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
@@ -221,7 +221,7 @@ public class EnterPassPortThread implements Runnable {
         envelopInfo.setSender_id(this.enterManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
-        envelopInfo.setIc_Card(StringUtils.isEmpty(this.enterManifestMapper.getIcCard(passPortHead.getCrt_user())) ? "" : this.enterManifestMapper.getIcCard(passPortHead.getCrt_user()));
+        envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
         return envelopInfo;
     }
 }

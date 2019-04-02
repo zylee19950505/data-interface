@@ -26,7 +26,7 @@ public class ExcelHeadEnterInventory {
     public final static String natcd = "原产国(地区)";//list
     //public final static String usecd = "用途代码";//list
     public final static String lvyrlf_modecd = "征免代码";//list
-    public final static String ec_customs_code = "电商海关编码";//list
+    //public final static String ec_customs_code = "电商海关编码";//list
     public final static String rmk = "备注";//list
 
 
@@ -50,7 +50,7 @@ public class ExcelHeadEnterInventory {
         inventoryList.add("原产国(地区)");
         //inventoryList.add("用途代码");
         inventoryList.add("征免代码");
-        inventoryList.add("电商海关编码");
+        //inventoryList.add("电商海关编码");
         inventoryList.add("备注");
         return inventoryList;
     }
