@@ -81,6 +81,6 @@ public interface EnterManifestMapper {
     String getDxpId(String entId);
 
     //查询申报企业IcCard
-    @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{entId} AND DCL_ETPS_CUSTOMS_CODE = #{customsCode}")
-    String getDclEtpsIcCard(String crt_ent_id, String dcl_etpsno);
+    @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{crt_ent_id} AND DCL_ETPS_CUSTOMS_CODE = #{dcl_etpsno}")
+    String getDclEtpsIcCard(@Param("crt_ent_id") String crt_ent_id, @Param("dcl_etpsno") String dcl_etpsno);
 }
