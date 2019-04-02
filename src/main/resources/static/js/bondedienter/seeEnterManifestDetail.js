@@ -338,8 +338,26 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                 return false;
             }
         }
-
         return true;
+    },
+
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
     },
 
     init: function () {
@@ -349,12 +367,17 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
         var etps_preent_no = param.etps_preent_no;
         var type = param.type;
         var isEdit = param.isEdit;
+
+        this.dclEtps();
+        this.dclEtpsName();
+
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
             format: "yyyy-mm-dd",
             autoclose: true
         });
+
         switch (type) {
             //订单查询
             case "YCYP": {
