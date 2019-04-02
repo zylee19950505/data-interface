@@ -86,7 +86,7 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setDclcus_flag("1");
 //        bondInvtBsc.setdclcus("3");
         bondInvtBsc.setBond_invt_typecd("0");
-        bondInvtBsc.setDclcus_typecd("2");
+        //bondInvtBsc.setDclcus_typecd("2");
         bondInvtBsc.setDcl_typecd("1");
 
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);

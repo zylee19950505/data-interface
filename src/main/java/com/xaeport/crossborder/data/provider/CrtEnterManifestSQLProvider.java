@@ -389,12 +389,15 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SELECT("t.BOND_INVT_NO");
                 SELECT("t.MASTER_CUSCD");
                 SELECT("t.BIND_TYPECD");
+                SELECT("t.TOTAL_WT");
                 SELECT("t.TOTAL_GROSS_WT");
                 SELECT("t.TOTAL_NET_WT");
                 SELECT("t.DCL_ETPSNO");
                 SELECT("t.DCL_ETPS_NM");
                 SELECT("t.INPUT_CODE");
                 SELECT("t.INPUT_NAME");
+                SELECT("t.AREAIN_ETPSNO");
+                SELECT("t.AREAIN_ETPS_NM");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
                 WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
@@ -462,6 +465,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(passPortHead.getDcl_etps_nm())){
                     SET("t.dcl_etps_nm = #{passPortHead.dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_ic_no())){
+                    SET("t.vehicle_ic_no = #{passPortHead.vehicle_ic_no}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.getInput_code())){
                     SET("t.input_code = #{passPortHead.input_code}");
@@ -559,6 +565,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SET("t.vehicle_wt = #{vehicle_wt}");
                 SET("t.vehicle_frame_wt = #{vehicle_frame_wt}");
                 SET("t.container_wt = #{container_wt}");
+                SET("t.container_type = #{container_type}");
                 SET("t.total_wt = #{total_wt}");
                 SET("t.total_gross_wt = #{total_gross_wt}");
                 SET("t.total_net_wt = #{total_net_wt}");
@@ -566,6 +573,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SET("t.dcl_etpsno = #{dcl_etpsno}");
                 SET("t.dcl_etps_nm = #{dcl_etps_nm}");
                 SET("t.input_code = #{input_code}");
+                SET("t.vehicle_ic_no = #{vehicle_ic_no}");
                 SET("t.input_name = #{input_name}");
                 SET("t.rmk = #{rmk}");
                 SET("t.UPD_USER = #{upd_user}");
@@ -647,6 +655,20 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
                 WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
                 SET("t.STATUS = #{status}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 查询申报企业信息
+     * */
+    public String queryDclEtpsMsg(@Param("invtNo") String invtNo){
+        return new SQL(){
+            {
+                SELECT("t.DCL_ETPSNO");
+                SELECT("t.DCL_ETPS_NM");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE("t.BOND_INVT_NO = #{invtNo}");
             }
         }.toString();
     }

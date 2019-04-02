@@ -54,44 +54,47 @@ function sumTotalPricesInvent() {
 // 计算表体申报总价
 function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
     var declTotal = parseFloat(dVal * qty).toFixed(5);
-    $("#total_price_" + gno).val(declTotal);
-    listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
+    $("#dcl_total_amt_" + gno).val(declTotal);
+    listChangeKeyVal["dcl_total_amt"] = $("#dcl_total_amt_" + gno).val();
 }
 
-function inputChangeInvent(id) {
+function inputChangeEnterInventory(id) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
         if (!isNotEmpty(val)) {
             return;
         }
+        debugger;
         if (pattern.test(key)) {
-            var gno = key.substring(key.lastIndexOf("_") + 1, key.length);
+            var gds_seqno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));
+            console.log(gds_seqno);
+            console.log(keys);
             var listChangeKeyVal;
-            if (listChangeKeyVals[gno]) {
-                listChangeKeyVal = listChangeKeyVals[gno];
+            if (listChangeKeyVals[gds_seqno]) {
+                listChangeKeyVal = listChangeKeyVals[gds_seqno];
             } else {
                 listChangeKeyVal = {};
             }
             // 修改字段为单价
-            if (keys == "price") {// 单价
+            if (keys == "dcl_uprc_amt") {// 单价
                 var dVal = parseFloat(val);
-                var qty = parseFloat($("#g_qty_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
-            } else if (keys == "g_qty") {// 数量
+                var qty = parseFloat($("#dcl_qty_" + gds_seqno).val());
+                sumDeclTotalInvent(dVal, qty, gds_seqno, listChangeKeyVal);
+                //sumTotalPricesInvent();
+            } else if (keys == "dcl_qty") {// 数量
                 console.log(keys);
                 var qty = parseFloat(val);
-                var dVal = parseFloat($("#price_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
+                var dVal = parseFloat($("#dcl_uprc_amt_" + gds_seqno).val());
+                sumDeclTotalInvent(dVal, qty, gds_seqno, listChangeKeyVal);
+                //sumTotalPricesInvent();
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
-            listChangeKeyVal["g_no"] = gno;
+            listChangeKeyVal["gds_seqno"] = gds_seqno;
             listChangeKeyVal["entryhead_guid"] = id;
-            listChangeKeyVals[gno] = listChangeKeyVal;
+            listChangeKeyVals[gds_seqno] = listChangeKeyVal;
         } else {
             headChangeKeyVal[key] = val;
         }
@@ -204,10 +207,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     //加载表体信息
     fillEntryListInfo: function (entryLists) {
         for (var i = 0; i < entryLists.length; i++) {
-            var g_num = entryLists[i].putrec_seqno;
+            var g_num = entryLists[i].gds_seqno;
             var str =
                 "<tr>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='putrec_seqno_" + g_num + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='gds_seqno_" + g_num + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "":entryLists[i].gds_mtno) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='gdecd_" + g_num + "' value='" + (isEmpty(entryLists[i].gdecd) ? "":entryLists[i].gdecd) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "":entryLists[i].gds_nm) + "' /></td>" +
@@ -379,7 +382,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     }
                     headChangeKeyVal["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChangeInvent(param.guid);
+                    inputChangeEnterInventory(param.etps_inner_invt_no);
                     entryModule.disabledFieldInput();
                 }
             }
@@ -579,7 +582,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             }
             case "RQHZQD": {
                 // 不可编辑状态
-                console.log(isEdit+"2222222222222")
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改

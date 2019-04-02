@@ -77,4 +77,7 @@ public interface CrtEnterManifestMapper {
 
     @UpdateProvider(type = CrtEnterManifestSQLProvider.class,method = "canelEnterManifestDetail")
     void canelEnterManifestDetail(Map<String, String> paramMap);
+
+    @SelectProvider(type = CrtEnterManifestSQLProvider.class,method = "queryDclEtpsMsg")
+    BondInvtBsc queryDclEtpsMsg(@Param("invtNo") String invtNo);
 }

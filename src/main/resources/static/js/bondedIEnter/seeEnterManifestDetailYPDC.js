@@ -64,8 +64,8 @@ function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
 
-function inputChangeManifestInvent() {
-   /* $(".detailPage input,select").change(function () {
+function inputChangeManifestInventYPDC() {
+    $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
         if (!isNotEmpty(val)) {
@@ -84,14 +84,11 @@ function inputChangeManifestInvent() {
             if (keys == "price") {// 单价
                 var dVal = parseFloat(val);
                 var qty = parseFloat($("#g_qty_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
-            } else if (keys == "dcl_qty") {// 数量
-                console.log(keys);
+                sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
+            } else if (keys == "g_qty") {// 数量
                 var qty = parseFloat(val);
                 var dVal = parseFloat($("#price_" + gno).val());
-                sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal);
-                sumTotalPricesInvent();
+                sumDeclTotal(dVal, qty, gno, listChangeKeyVal);
             }
             // 记录变更信息
             listChangeKeyVal[keys] = val;
@@ -99,12 +96,21 @@ function inputChangeManifestInvent() {
             listChangeKeyVal["entryhead_guid"] = id;
             listChangeKeyVals[gno] = listChangeKeyVal;
         } else {
+            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key){
+                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
+                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
+                var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
+                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+                //计算总重量
+                sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
+            }
             headChangeKeyVal[key] = val;
         }
-        console.log(headChangeKeyVal, listChangeKeyVal);
     }).focus(function () {
         clearError();
-    });*/
+    });
+}
+function inputChangeManifestInvent() {
     $(".listDetail input[id^=surplus_nm]").change(function () {
         //当前输入框的id
         var surplus_nmId = $(this).attr("id");
@@ -136,9 +142,14 @@ function inputChangeManifestInvent() {
         }
         $("#total_gross_wt").val(parseFloat(totalGrossWt).toFixed(5));
         $("#total_net_wt").val(parseFloat(totalNetWt).toFixed(5));
+
+        var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
+        var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
+        var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
+        var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+        //计算总重量
+        sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
     })
-
-
 }
 
 //数据字典
@@ -423,6 +434,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 dcl_etps_nm: $("#dcl_etps_nm").val(),
                 input_code: $("#input_code").val(),
 
+                vehicle_ic_no: $("#vehicle_ic_no").val(),
                 input_name: $("#input_name").val(),
                 rmk: $("#rmk").val(),
             },
@@ -492,7 +504,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                     }
                     headChangeKeyVal["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    //inputChangeInvent();
+                    inputChangeManifestInventYPDC(etps_preent_no);
                     entryModule.disabledFieldInput();
                 }
             },
@@ -516,6 +528,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             "dcl_er_conc":"申请人及联系方式",
             "dcl_etpsno":"申报企业编号",
             "dcl_etps_nm":"申报企业名称",
+            "vehicle_ic_no":"IC卡号(电子车牌)",
             "input_code":"录入单位代码",
             "input_name":"录入单位名称"
 
@@ -622,6 +635,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                         "bind_typecd",//绑定类型代码
                         "total_gross_wt",//总毛重
                         "total_net_wt",//总净重,
+                        "total_wt",//总重,
 
                         "passport_seqno",//序号
                         "gds_mtno",//料号

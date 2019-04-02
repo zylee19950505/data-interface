@@ -127,7 +127,7 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                         $("#crtEnterManifest").prop("disabled", false);
                         sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo, bind_typecd, etps_preent_no, editBoundNm);
                     } else {
-                        sw.page.modules["bondedienter/crtEnterManifest"].query();
+                        sw.pageModule('bondedienter/crtEnterManifest').query();
                         sw.alert(rsp.data.msg);
                     }
                     $.unblockUI();
@@ -184,7 +184,7 @@ sw.page.modules["bondedienter/crtEnterManifest"] = sw.page.modules["bondedienter
                     $("#crtEnterManifest").prop("disabled", false);
                     sw.pageModule('bondedienter/crtEnterManifest').crtEnterManifest(invtNo, bind_typecd, etps_preent_no, editBoundNm);
                 } else {
-                    sw.page.modules["bondedienter/crtEnterManifest"].query();
+                    sw.pageModule('bondedienter/crtEnterManifest').query();
                     sw.alert(rsp.data.msg);
                 }
                 $.unblockUI();
