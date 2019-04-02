@@ -208,7 +208,7 @@ public class EBondInvtThread implements Runnable {
         envelopInfo.setSender_id(this.exitInventoryMapper.getDxpId(bondInvtBsc.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(bondInvtBsc.getInvt_dcl_time()));
-        envelopInfo.setIc_Card(StringUtils.isEmpty(this.exitInventoryMapper.getIcCard(bondInvtBsc.getCrt_user())) ? "" : this.exitInventoryMapper.getIcCard(bondInvtBsc.getCrt_user()));
+        envelopInfo.setIc_Card(this.exitInventoryMapper.getDclEtpsIcCard(bondInvtBsc.getCrt_ent_id(),bondInvtBsc.getDcl_etpsno()));
         return envelopInfo;
     }
 }

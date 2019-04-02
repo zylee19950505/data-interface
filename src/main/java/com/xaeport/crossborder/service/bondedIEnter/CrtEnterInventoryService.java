@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -32,6 +33,8 @@ public class CrtEnterInventoryService {
         String etpsInnerInvtNo = "HZQD" + user.getEnt_Customs_Code() + "I" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4);
         int count = 1;
         int original_nm = 0;
+        DecimalFormat dfFour = new DecimalFormat("0.0000");
+
         for (int i = 0; i < list.size(); i++) {
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
@@ -41,12 +44,12 @@ public class CrtEnterInventoryService {
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());
-            bondInvtDt.setDcl_uprc_amt(String.valueOf(Double.valueOf(bondInvtDt.getDcl_total_amt()) / Double.valueOf(bondInvtDt.getDcl_qty())));
+            bondInvtDt.setDcl_uprc_amt(dfFour.format(Double.valueOf(bondInvtDt.getDcl_total_amt()) / Double.valueOf(bondInvtDt.getDcl_qty())));
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
             bondInvtDt.setDcl_currcd("142");//币制
             bondInvtDt.setDestination_natcd("142");//最终目的国
             bondInvtDt.setModf_markcd("3");//最终目的国
-            bondInvtDt.setGds_seqno(i+1);
+            bondInvtDt.setGds_seqno(i + 1);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
             count++;
         }

@@ -49,8 +49,8 @@ public class ExcelDataEnterInstance implements ExcelData {
         for (int i = 1, length = excelData.size(); i < length; i++) {
             bondInvtDt = new BondInvtDt();
             String ecCustomsCode = excelData.get(1).get(ec_customs_codeIndex);
-            if (!ecCustomsCode.equals(excelData.get(i).get(ec_customs_codeIndex))){
-                map.put("error","电商海关编码不一致");
+            if (!ecCustomsCode.equals(excelData.get(i).get(ec_customs_codeIndex))) {
+                map.put("error", "电商海关编码不一致");
                 return map;
             }
             bondInvtDtList = this.bondInvtDtData(excelData.get(i), bondInvtDt, bondInvtDtList);
@@ -68,7 +68,10 @@ public class ExcelDataEnterInstance implements ExcelData {
      * @return
      */
     public List<BondInvtDt> bondInvtDtData(List<String> entryLists, BondInvtDt bondInvtDt, List<BondInvtDt> bondInvtDtList) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+//        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat dfTwo = new DecimalFormat("0.00");
+        DecimalFormat dfFour = new DecimalFormat("0.0000");
+
         bondInvtDt.setGds_mtno(entryLists.get(gds_MtnoIndex));//账册备案料号(商品料号)
         bondInvtDt.setGdecd(entryLists.get(gdecdIndex));//商品编码
         bondInvtDt.setGds_nm(entryLists.get(gds_nmIndex));//商品名称
@@ -80,8 +83,14 @@ public class ExcelDataEnterInstance implements ExcelData {
         bondInvtDt.setSecd_lawf_unitcd((entryLists.get(secd_lawf_unitcdIndex)));//第二法定计量单位
         bondInvtDt.setGross_wt(entryLists.get(gross_wtIndex));//毛重
         bondInvtDt.setNet_wt(entryLists.get(net_wtIndex));//净重
-        bondInvtDt.setDcl_total_amt((entryLists.get(dcl_total_amtIndex)));//总价
-        bondInvtDt.setDcl_qty((entryLists.get(dcl_qtyIndex)));//数量
+
+        bondInvtDt.setDcl_qty(entryLists.get(dcl_qtyIndex));//数量
+
+        String dclTotalAmt = dfTwo.format(Double.parseDouble(entryLists.get(dcl_total_amtIndex)));
+        String dclUprcAmt = dfFour.format(Double.parseDouble(entryLists.get(dcl_total_amtIndex)) / Double.parseDouble(entryLists.get(dcl_qtyIndex)));
+        bondInvtDt.setDcl_uprc_amt(dclUprcAmt);//单价
+        bondInvtDt.setDcl_total_amt(dclTotalAmt);//总价
+
         bondInvtDt.setNatcd(entryLists.get(natcdIndex));//原产国(地区)
         //bondInvtDt.setUsecd(entryLists.get(usecdIndex));//用途代码
         bondInvtDt.setEc_customs_code(entryLists.get(ec_customs_codeIndex));//电商海关编码

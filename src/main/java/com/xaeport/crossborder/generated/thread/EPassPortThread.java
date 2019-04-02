@@ -9,7 +9,6 @@ import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -198,7 +197,7 @@ public class EPassPortThread implements Runnable {
         envelopInfo.setSender_id(this.exitManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
-        envelopInfo.setIc_Card(StringUtils.isEmpty(this.exitManifestMapper.getIcCard(passPortHead.getCrt_user())) ? "" : this.exitManifestMapper.getIcCard(passPortHead.getCrt_user()));
+        envelopInfo.setIc_Card(this.exitManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(), passPortHead.getDcl_etpsno()));
         return envelopInfo;
     }
 }

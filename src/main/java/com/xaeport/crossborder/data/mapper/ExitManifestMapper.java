@@ -85,4 +85,8 @@ public interface ExitManifestMapper {
     @Select("SELECT IC_CARD FROM T_USERS WHERE ID = #{userId}")
     String getIcCard(String userId);
 
+    //查询申报企业IcCard
+    @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{entId} AND DCL_ETPS_CUSTOMS_CODE = #{customsCode}")
+    String getDclEtpsIcCard(@Param("entId") String entId, @Param("customsCode") String customsCode);
+
 }
