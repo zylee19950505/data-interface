@@ -72,13 +72,13 @@ public class BaseApi {
     }
 
     /**
-     * 获取当前用户的企业代码
+     * 获取当前用户的企业海关编码
      *
      * @return
      */
-    protected String getCurrentUserEntCode() {
+    protected String getCurrentCustomsCode() {
         Users currentUsers = this.getCurrentUsers();
-        return currentUsers.getEnt_Code();
+        return currentUsers.getEnt_Customs_Code();
     }
 
     /**

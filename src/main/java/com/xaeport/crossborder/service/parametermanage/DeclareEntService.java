@@ -1,34 +1,31 @@
-//package com.xaeport.crossborder.service.parametermanage;
-//
-//import com.xaeport.crossborder.data.mapper.DeclareEntMapper;
-//import org.apache.ibatis.annotations.Param;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.List;
-//import java.util.Map;
-//
-//@Service
-//public class DeclareEntService {
-//
-//    @Autowired
-//    DeclareEntMapper sendNameMapper;
-//
-//    public List<SendReceiveName> querySendNameInfo(Map<String, String> map) throws Exception {
-//        return this.sendNameMapper.querySendNameInfo(map);
-//    }
-//
-//    public List<SendReceiveName> getSendName(Map<String, String> map) throws Exception {
-//        return this.sendNameMapper.getSendName(map);
-//    }
-//
-//    public void deleteSendNameInfo(String sn_id) throws Exception {
-//        this.sendNameMapper.deleteSendNameInfo(sn_id);
-//    }
-//
-//    public void createSendName(@Param("sendReceiveName") SendReceiveName sendReceiveName) throws Exception {
-//        this.sendNameMapper.createSendName(sendReceiveName);
-//    }
-//
-//
-//}
+package com.xaeport.crossborder.service.parametermanage;
+
+import com.xaeport.crossborder.data.entity.DclEtps;
+import com.xaeport.crossborder.data.mapper.DeclareEntMapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class DeclareEntService {
+
+    @Autowired
+    DeclareEntMapper declareEntMapper;
+
+    public List<DclEtps> queryDclEtpsList(Map<String, String> map) throws Exception {
+        return this.declareEntMapper.queryDclEtpsList(map);
+    }
+
+    public void deleteDcletps(String id) throws Exception {
+        this.declareEntMapper.deleteDcletps(id);
+    }
+
+    public void createDcletps(@Param("dclEtps") DclEtps dclEtps) throws Exception {
+        this.declareEntMapper.createDcletps(dclEtps);
+    }
+
+
+}

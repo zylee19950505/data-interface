@@ -1,53 +1,53 @@
-/**
- * 运输工具管理
- *
- */
 sw.page.modules["parametermanage/declareEnt"] = sw.page.modules["parametermanage/declareEnt"] || {
-
     query: function () {
         var data = sw.serialize(".ws-query form");
         var url = $("[ws-search]").attr("ws-search");
         if (data.length > 0)
             url += "?" + data;
         // 数据表
-        sw.datatable("#query-declareEnt-table", {
+        sw.datatable("#query-dcletps-table", {
             ajax: sw.resolve("api", url),
             lengthMenu: [[10, 50, 100, -1], [10, 50, 100, "所有"]],
             searching: false,
             columns: [
                 {
-                    label: "进出口", render: function (data, type, row) {
-                    var i_e_flag = row.i_e_flag;
-                    if (i_e_flag == "I") {
-                        return "进口";
-                    } else if (i_e_flag == "E") {
-                        return "出口";
-                    }
+                    label: "企业名称", render: function (data, type, row) {
+                    return (row.dcl_etps_name).replace(/\ /g, "&nbsp;");
                 }
                 },
                 {
-                  label: "发件人名称", render:function (data,type,row) {
-                    return (row.send_name).replace(/\ /g,"&nbsp;");
+                    label: "海关编码", render: function (data, type, row) {
+                    return (row.dcl_etps_customs_code).replace(/\ /g, "&nbsp;");
                 }
                 },
                 {
-                    label: "英文发件人名称", render: function (data, type, row) {
-                    return (row.send_name_en).replace(/\ /g,"&nbsp;");
+                    label: "社会信用代码", render: function (data, type, row) {
+                    return (row.dcl_etps_credit_code).replace(/\ /g, "&nbsp;");
+                }
+                },
+                {
+                    label: "IC卡号", render: function (data, type, row) {
+                    return (row.dcl_etps_ic_no).replace(/\ /g, "&nbsp;");
+                }
+                },
+                {
+                    label: "主管海关", render: function (data, type, row) {
+                    return (row.dcl_etps_port).replace(/\ /g, "&nbsp;");
                 }
                 },
                 {
                     label: "操作",
                     render: function (data, type, row) {
-                        return '<button class="btn btn-sm btn-danger" title="用户删除" onclick="' + "javascript:sw.page.modules['parametermanage/declareEnt'].delete('" + row.sn_id + "', '" + row.send_name + "')" + '"><i class="fa fa-remove"></i> </button>';
+                        return '<button class="btn btn-sm btn-danger" title="用户删除" onclick="' + "javascript:sw.page.modules['parametermanage/declareEnt'].delete('" + row.id + "', '" + row.dcl_etps_customs_code + "')" + '"><i class="fa fa-remove"></i> </button>';
                     }
                 }
             ]
         });
     },
 
-    delete: function (sn_id, send_name) {
-        sw.confirm("确定删除该发件人信息 " + send_name, "确认", function () {
-            sw.ajax("api/declareEnt/" + sn_id, "DELETE", {sn_id: sn_id}, function (rsp) {
+    delete: function (id, dcl_etps_customs_code) {
+        sw.confirm("确定删除该企业信息 " + dcl_etps_customs_code, "确认", function () {
+            sw.ajax("api/dcletpsDelete/" + id, "DELETE", {id: id}, function (rsp) {
                 sw.page.modules['parametermanage/declareEnt'].query();
             });
         });
@@ -76,29 +76,34 @@ sw.page.modules["parametermanage/declareEntAdd"] = sw.page.modules["parameterman
     //新增运输工具信息
     createdeclareEnt: function () {
         var formData = sw.serialize("#ws-host");
-        var i_e_flag = $("#i_e_flag").val();
-        var entry_type = $("#entry_type").val();
-        var send_name = $("#send_name").val();
-        var send_name_en = $("#send_name_en").val();
+        var dcl_etps_name = $("#dcl_etps_name").val();
+        var dcl_etps_customs_code = $("#dcl_etps_customs_code").val();
+        var dcl_etps_credit_code = $("#dcl_etps_credit_code").val();
+        var dcl_etps_ic_no = $("#dcl_etps_ic_no").val();
+        var dcl_etps_port = $("#dcl_etps_port").val();
 
-        if (typeof(i_e_flag) == "undefined" || null == i_e_flag || "" == i_e_flag) {
-            sw.alert("进出口必选", "提示", null, "modal-info");
+        if (typeof(dcl_etps_name) == "undefined" || null == dcl_etps_name || "" == dcl_etps_name) {
+            sw.alert("企业名称必填", "提示", null, "modal-info");
             return;
         }
-        if (typeof(entry_type) == "undefined" || null == entry_type || "" == entry_type) {
-            sw.alert("报关类别必填", "提示", null, "modal-info");
+        if (typeof(dcl_etps_customs_code) == "undefined" || null == dcl_etps_customs_code || "" == dcl_etps_customs_code) {
+            sw.alert("海关编码必填", "提示", null, "modal-info");
             return;
         }
-        if (typeof(send_name) == "undefined" || null == send_name || "" == send_name) {
-            sw.alert("发件人名称必填", "提示", null, "modal-info");
+        if (typeof(dcl_etps_credit_code) == "undefined" || null == dcl_etps_credit_code || "" == dcl_etps_credit_code) {
+            sw.alert("社会信用代码必填", "提示", null, "modal-info");
             return;
         }
-        if (typeof(send_name_en) == "undefined" || null == send_name_en || "" == send_name_en) {
-            sw.alert("英文发件人名称必填", "提示", null, "modal-info");
+        if (typeof(dcl_etps_ic_no) == "undefined" || null == dcl_etps_ic_no || "" == dcl_etps_ic_no) {
+            sw.alert("IC卡号必填", "提示", null, "modal-info");
+            return;
+        }
+        if (typeof(dcl_etps_port) == "undefined" || null == dcl_etps_port || "" == dcl_etps_port) {
+            sw.alert("主管海关必选", "提示", null, "modal-info");
             return;
         }
 
-        sw.ajax("api/declareEntAdd", "POST", formData, function (rep) {
+        sw.ajax("api/dcletpsAdd", "POST", formData, function (rep) {
             sw.pageModule("parametermanage/declareEntAdd").back();
             sw.page.modules['parametermanage/declareEnt'].query();
         }, function (status, err, xhr) {
@@ -107,13 +112,18 @@ sw.page.modules["parametermanage/declareEntAdd"] = sw.page.modules["parameterman
         });
     },
 
+    loadSelectCode: function () {
+        sw.selectOptionByType("dcl_etps_port", "CUSTOMS_CODE");
+    },
+
     init: function () {
         var params = sw.getPageParams("auth/menuEdit");
+        this.loadSelectCode();
         if (!params) {
-            $("#ws-work-title").text("新增发件人信息");
+            $("#ws-work-title").text("新增申报企业信息");
             $("#ws-page-apply").click(this.createdeclareEnt);
         } else {
-            $("#ws-work-title").text("编辑发件人信息");
+            $("#ws-work-title").text("编辑申报企业信息");
         }
         $("#ws-page-back").click(this.back);
     }

@@ -6,31 +6,36 @@
 
             <div class="col-md-6">
                 <div class="form-group col-xs-12 margin_b">
-                    <label><strong class="text-red">*</strong>进/出口:</label>
-                    <div class="input-group eportW">
-                        <select class="form-control" name="i_e_flag" id="i_e_flag">
-                            <option value="I" selected="selected">进口</option>
-                            <option value="E">出口</option>
-                        </select>
-                    </div>
+                    <label><strong class="text-red">*</strong>企业名称:</label>
+                    <input type="text" class="form-control" id="dcl_etps_name" name="dcl_etps_name"
+                           placeholder="请输入企业名称"
+                           maxlength="512"/>
                 </div>
                 <div class="form-group col-xs-12 margin_b">
-                    <label><strong class="text-red">*</strong>申报企业名称:</label>
-                    <input type="text" class="form-control" id="declare_name" name="declare_name" placeholder="请输入申报企业名称"
-                           maxlength="512"/>
+                    <label><strong class="text-red">*</strong>海关编码:</label>
+                    <input type="text" class="form-control" id="dcl_etps_customs_code" name="dcl_etps_customs_code"
+                           placeholder="请输入海关编码"
+                           maxlength="10"/>
+                </div>
+                <div class="form-group col-xs-12 margin_b">
+                    <label><strong class="text-red">*</strong>社会信用代码:</label>
+                    <input type="text" class="form-control" id="dcl_etps_credit_code" name="dcl_etps_credit_code"
+                           placeholder="请输入社会信用代码"
+                           maxlength="18"/>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="form-group col-xs-12 margin_b">
-                    <label><strong class="text-red">*</strong>申报企业海关编码:</label>
-                    <input type="text" class="form-control" id="declare_customs_code" name="declare_customs_code" placeholder="请输入申报企业海关编码"
-                           maxlength="10"/>
+                    <label><strong class="text-red">*</strong>IC卡号:</label>
+                    <input type="text" class="form-control" id="dcl_etps_ic_no" name="dcl_etps_ic_no"
+                           placeholder="请输入IC卡号"
+                           maxlength="100"/>
                 </div>
                 <div class="form-group col-xs-12 margin_b">
-                    <label><strong class="text-red">*</strong>申报企业社会信用代码:</label>
-                    <input type="text" class="form-control" id="declare_credit_code" name="declare_credit_code" placeholder="请输入申报企业社会信用代码"
-                           maxlength="18"/>
+                    <label><strong class="text-red">*</strong>主管海关:</label>
+                    <select type="text" class="form-control" id="dcl_etps_port" name="dcl_etps_port"
+                            placeholder="请选择主管海关"/>
                 </div>
             </div>
         </div>
