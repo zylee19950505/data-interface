@@ -603,15 +603,39 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             }
         });
     },
+
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
+    },
+
     init: function () {
-        entryLists=[];
         //从路径上获取参数
+        entryLists=[];
+
         var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var bond_invt_no = param.bond_invt_no;
         var etps_preent_no = param.etps_preent_no;
         var editBoundNm = param.editBoundNm;
         var type = param.type;
         var isEdit = param.isEdit;
+
+        this.dclEtps();
+        this.dclEtpsName();
 
         //初始化select2插件
         $("#gdsMtno").select2();
@@ -736,4 +760,4 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     }
 
 
-}
+};

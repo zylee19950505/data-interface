@@ -87,8 +87,8 @@ public class CrtEnterManifestService {
         //取第一个核注清单的申报企业信息
         BondInvtBsc bondInvtBsc = this.crtEnterManifestMapper.queryDclEtpsMsg(invtNos[0]);
 
-        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());//申报企业编码
-        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());//申报企业名称
+//        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());//申报企业编码
+//        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());//申报企业名称
 
         List<BondInvtDt> bondInvtDtListAll = new ArrayList<>();
         //总毛重
