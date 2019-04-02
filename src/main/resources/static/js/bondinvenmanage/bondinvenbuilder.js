@@ -53,7 +53,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.orderStatus == "BDDS61" && row.logisticsStatus == "CBDS41" && row.dataStatus == null) {
+                        if (row.orderStatus == "BDDS62" && row.logisticsStatus == "CBDS42" && row.dataStatus == null) {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
                         }
@@ -137,7 +137,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                         var value = "";
                         switch (row.dataStatus) {
                             case null://可生成清单
-                                textColor = "text-green";
+                                textColor = "text-yellow";
                                 value = "可生成清单";
                                 break;
                             case "QDSCZ"://清单生成中
