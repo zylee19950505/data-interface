@@ -41,5 +41,5 @@ public interface CrtEnterInventoryMapper {
     @Select("SELECT * FROM ( " +
             "select t.BWS_NO FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id} ORDER BY t.CRT_TIME ASC " +
             ") WHERE ROWNUM = 1")
-    String queryBws_no(String ent_id);
+    String queryBws_no(@Param("ent_id") String ent_id);
 }

@@ -257,7 +257,12 @@ public class BuilderDetailThread implements Runnable {
             //保税的毛重和净重从订单获取
             impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-            String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(), enterpriseDetail.getEnt_name());
+
+            //查找企业信息里的区内企业信息
+            //再在账册表头里查找创建账册的创建人所属企业ID匹配账册信息
+            Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+            String bws_no = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
+            //String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(), enterpriseDetail.getEnt_name());
 
             //账册编号通过查找企业信息的区内企业名称和区内企业编码,去账册信息里查找
 
