@@ -10,6 +10,7 @@ import com.xaeport.crossborder.service.sysmanage.UserManageService;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.runtime.directive.Parse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -162,9 +163,11 @@ public class BuilderDetailThread implements Runnable {
             impInventoryBody.setNote(impOrderBody.getNote());//促销活动，商品单价偏离市场价格的，可以在此说明。
             impInventoryBody.setQuantity(Double.parseDouble(impOrderBody.getQty()));
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
-            impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
-            if (!StringUtils.isEmpty(bwlListType.getIn_secd_lawf_qty())){
-                impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
+
+            //第一法定数量 = 订单申报数量 * 账册信息第一标准数量
+            impInventoryBody.setQty1(String.valueOf(bwlListType.getNorm_qty() * Double.parseDouble(impOrderBody.getQty())));//第一法定数量
+            if (!StringUtils.isEmpty(bwlListType.getSecond_norm_qty())){
+                impInventoryBody.setQty2(String.valueOf(bwlListType.getSecond_norm_qty() * Double.parseDouble(impOrderBody.getQty())));//第二法定数量
             }
             impInventoryBody.setTotal_price(impOrderBody.getTotal_Price());//总价
 

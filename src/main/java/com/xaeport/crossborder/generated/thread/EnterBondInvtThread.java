@@ -78,7 +78,7 @@ public class EnterBondInvtThread implements Runnable {
 
                         xmlName = bondInvtBsc.getEtps_inner_invt_no();
                         //获取海关十位
-                        String customs_code = this.enterInventoryMapper.queryEnterCustoms(bondInvtBsc.getCrt_ent_id());
+                        //String customs_code = this.enterInventoryMapper.queryEnterCustoms(bondInvtBsc.getDcl_etpsno(),bondInvtBsc.getDcl_etps_nm());
                         headEtpsInnerInvtNo = bondInvtBsc.getEtps_inner_invt_no();
                         invtHeadType.setBondInvtNo(bondInvtBsc.getBond_invt_no());
                         invtHeadType.setPutrecNo(bondInvtBsc.getPutrec_no());
@@ -121,7 +121,7 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setCorr_entry_dcl_etps_nm(bondInvtBsc.getCorr_entry_dcl_etps_nm());
                         invtHeadType.setRmk(bondInvtBsc.getRmk());
 
-                        invtHeadType.setOperCusRegCode(customs_code);
+                        invtHeadType.setOperCusRegCode(bondInvtBsc.getDcl_etpsno());
                         try {
                             // 更新清单状态
                             this.enterInventoryMapper.updateBondInvtBscStatus(headEtpsInnerInvtNo, StatusCode.RQHZQDYSB);
