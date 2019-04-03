@@ -122,7 +122,7 @@ public class EPassPortThread implements Runnable {
 
                         passPortMessage.setPassportHeadXml(passportHeadXml);
                         passPortMessage.setPassportAcmpXmlList(passportAcmpXmlList);
-                        passPortMessage.setOperCusRegCode("6101380018");
+                        passPortMessage.setOperCusRegCode(passportHeadXml.getDclEtpsno());
 
                         //开始生成报文
                         this.entryProcess(passPortMessage, xmlName, passPortHead);

@@ -173,7 +173,7 @@ public class BondInvenXML {
             areaCode.setTextContent(inventoryHeads.get(i).getAreaCode());
 
             areaName = document.createElement("ceb:areaName");
-            areaName.setTextContent(inventoryHeads.get(i).getAgentName());
+            areaName.setTextContent(inventoryHeads.get(i).getAreaName());
 
             tradeMode = document.createElement("ceb:tradeMode");
             tradeMode.setTextContent(inventoryHeads.get(i).getTradeMode());

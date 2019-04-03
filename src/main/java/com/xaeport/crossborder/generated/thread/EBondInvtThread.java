@@ -132,7 +132,7 @@ public class EBondInvtThread implements Runnable {
 
                         invtMessage.setInvtHeadType(invtHeadType);
                         invtMessage.setInvtListTypeList(invtListTypeList);
-                        invtMessage.setOperCusRegCode("6101380018");
+                        invtMessage.setOperCusRegCode(invtHeadType.getDclEtpsno());
                         invtMessage.setSysId("Z8");
 
                         //开始生成报文
