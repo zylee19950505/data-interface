@@ -98,10 +98,18 @@ public class CrtEnterManifestService {
             List<BondInvtDt> bondInvtDtList = this.crtEnterManifestMapper.queryEnterInvtory(invtNo);
             bondInvtDtListAll.addAll(bondInvtDtList);
         }
-        for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
-            gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
-            net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
+        if ("YPDC".equals(paramMap.get("bind_typecd"))) {
+            for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
+                gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
+                net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
+            }
+        }else {
+            for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
+                gross_wts += Double.parseDouble(bondInvtDt.getGross_wt());
+                net_wts += Double.parseDouble(bondInvtDt.getNet_wt());
+            }
         }
+
         /*if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
             for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
                 gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
