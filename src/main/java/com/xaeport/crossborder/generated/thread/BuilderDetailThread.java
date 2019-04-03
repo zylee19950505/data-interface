@@ -193,7 +193,6 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setConsignee_address(imporderHead.getConsignee_Address());//收货地址
         impInventoryHead.setAgent_code(enterpriseDetail.getEnt_code());//申报单位的海关注册登记编号。
         impInventoryHead.setAgent_name(enterpriseDetail.getEnt_name());//申报单位在海关注册登记的名称。
-        impInventoryHead.setCountry(impOrderBodyList.get(0).getCountry());//直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；保税进口填写代码“142”。
         impInventoryHead.setWrap_type("");//包装种类
         impInventoryHead.setInsured_fee(impLogistics.getInsured_fee());//物流企业实际收取的商品保价费用。
         impInventoryHead.setFreight(impLogistics.getFreight());//运杂费
@@ -224,6 +223,7 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setEnt_customs_code(enterpriseDetail.getCustoms_code());
         if ("ORDER".equals(imporderHead.getBusiness_type())) {
             impInventoryHead.setTrade_mode("9610");//贸易方式
+            impInventoryHead.setCountry(impOrderBodyList.get(0).getCountry());//直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；
             //直购的毛重和净重从运单里获取
             impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight()) / 1.1));//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(impLogistics.getWeight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
@@ -234,6 +234,7 @@ public class BuilderDetailThread implements Runnable {
             impInventoryHead.setData_status(StatusCode.QDDSB);//数据状态(暂存)
         } else if ("BONDORDER".equals(imporderHead.getBusiness_type())) {
             impInventoryHead.setTrade_mode("1210");//贸易方式
+            impInventoryHead.setCountry("142");//保税进口填写代码“142”。
             //保税的毛重和净重从订单获取
             impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
