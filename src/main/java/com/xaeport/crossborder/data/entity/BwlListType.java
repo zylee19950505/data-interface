@@ -44,7 +44,7 @@ public class BwlListType {
     private Date upd_time;//更新时间
     private String upd_user;//更新人
     private double norm_qty;//法定数量与申报之比
-    private double second_norm_qty;//第二申报数量和法定数量之比
+    private Double second_norm_qty;//第二申报数量和法定数量之比
     private String bizop_etpsno;//经营企业编号 关联海关参数库
 
     private double surplus;//剩余量
@@ -62,11 +62,11 @@ public class BwlListType {
         this.norm_qty = norm_qty;
     }
 
-    public double getSecond_norm_qty() {
+    public Double getSecond_norm_qty() {
         return second_norm_qty;
     }
 
-    public void setSecond_norm_qty(double second_norm_qty) {
+    public void setSecond_norm_qty(Double second_norm_qty) {
         this.second_norm_qty = second_norm_qty;
     }
 
