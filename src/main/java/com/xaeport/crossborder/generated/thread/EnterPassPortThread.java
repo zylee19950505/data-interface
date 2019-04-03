@@ -106,14 +106,7 @@ public class EnterPassPortThread implements Runnable {
                         passportHeadXml.setInputName(passPortHead.getInput_name());
                         passportHeadXml.setEtpsPreentNo(passPortHead.getEtps_preent_no());
 
-                        try {
-                            // 更新入区核放单状态为已申报
-                            this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQHFDYSB);
-                            this.logger.debug(String.format("更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.CQHFDYSB));
-                        } catch (Exception e) {
-                            String exceptionMsg = String.format("更改入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
-                            this.logger.error(exceptionMsg, e);
-                        }
+
 
                         if (!"3".equals(passPortHead.getBind_typecd())){
                             //一票一车和一车多票(关联单证)
@@ -147,9 +140,16 @@ public class EnterPassPortThread implements Runnable {
                         }
                         passPortMessage.setOperCusRegCode("6101380018");
 
-
                         //开始生成报文
                         this.entryProcess(passPortMessage, xmlName, passPortHead);
+                        try {
+                            // 更新入区核放单状态为已申报
+                            this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQHFDYSB);
+                            this.logger.debug(String.format("更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.CQHFDYSB));
+                        } catch (Exception e) {
+                            String exceptionMsg = String.format("更改入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
+                            this.logger.error(exceptionMsg, e);
+                        }
 
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理企业[etpsPreentNo: %s]入区核放单数据时发生异常", etpsPreentNo);
@@ -221,7 +221,8 @@ public class EnterPassPortThread implements Runnable {
         envelopInfo.setSender_id(this.enterManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
-        envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
+        //envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
+        envelopInfo.setIc_Card("2222222");
         return envelopInfo;
     }
 }
