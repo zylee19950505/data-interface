@@ -55,8 +55,8 @@ sw.page.modules["bondordermanage/bondOrderQuery"] = sw.page.modules["bondorderma
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondordermanage/bondOrderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'
                 }
                 },
-                {data: "ebp_Name", label: "电商企业名称"},
-                {data: "ebc_Name", label: "电商平台名称"},
+                {data: "ebc_Name", label: "电商企业名称"},
+                {data: "ebp_Name", label: "电商平台名称"},
                 {data: "goods_Value", label: "总价"},
                 {data: "buyer_Name", label: "订购人"},
                 {
