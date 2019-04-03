@@ -380,7 +380,7 @@ public class BondInvenXML {
                 InventoryList.appendChild(unit);
                 InventoryList.appendChild(qty1);
                 InventoryList.appendChild(unit1);
-                if (!(inventoryBodyList.get(i).getQty2()).equals("0")) {
+                if (!StringUtils.isEmpty(inventoryBodyList.get(i).getQty2()) && !(inventoryBodyList.get(i).getQty2()).equals("0")) {
                     qty2 = document.createElement("ceb:qty2");
                     qty2.setTextContent(inventoryBodyList.get(i).getQty2());
                     InventoryList.appendChild(qty2);
