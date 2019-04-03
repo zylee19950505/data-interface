@@ -186,7 +186,7 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setEbp_code(imporderHead.getEbp_Code());//电商平台的海关注册登记编号；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台标识编号为准。
         impInventoryHead.setEbp_name(imporderHead.getEbp_Name());//电商平台的海关注册登记名称；电商平台未在海关注册登记，由电商企业发送订单的，以中国电子口岸发布的电商平台名称为准。
         impInventoryHead.setEbc_code(imporderHead.getEbc_Code());//电商企业的海关注册登记编号。
-        impInventoryHead.setEbc_name(impInventoryHead.getEbc_name());//电商企业的海关注册登记名称。
+        impInventoryHead.setEbc_name(imporderHead.getEbc_Name());//电商企业的海关注册登记名称。
         impInventoryHead.setLogistics_no(impLogistics.getLogistics_no());//物流企业的运单包裹面单号。同一物流企业的运单编号在6个月内不重复。运单编号长度不能超过60位。
         impInventoryHead.setLogistics_code(impLogistics.getLogistics_code());//物流企业的海关注册登记编号。
         impInventoryHead.setLogistics_name(impLogistics.getLogistics_name());//物流企业在海关注册登记的名称。
