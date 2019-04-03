@@ -15,6 +15,7 @@ public class StockManageSQLProvider extends BaseSQLProvider {
         final String entId = paramMap.get("entId");
         final String surplus = paramMap.get("surplus");
         final String entCustomsCode = paramMap.get("entCustomsCode");
+        final String brevity_code = paramMap.get("brevity_code");
 
         return new SQL() {
             {
@@ -31,8 +32,8 @@ public class StockManageSQLProvider extends BaseSQLProvider {
                         "IN_QTY," +
                         "PREVD_INC_QTY," +
                         "PREVD_REDC_QTY " +
-                        "FROM T_BWL_LIST_TYPE " +
-                        "WHERE BIZOP_ETPSNO = #{entCustomsCode} )");
+                        "FROM T_BWL_LIST_TYPE )");
+                WHERE("GDS_MTNO like #{brevity_code}||'%'");
                 if (!StringUtils.isEmpty(surplus)) {
                     WHERE("SURPLUS >= #{surplus}");
                 }
@@ -62,6 +63,7 @@ public class StockManageSQLProvider extends BaseSQLProvider {
         final String entId = paramMap.get("entId");
         final String surplus = paramMap.get("surplus");
         final String entCustomsCode = paramMap.get("entCustomsCode");
+        final String brevity_code = paramMap.get("brevity_code");
 
         return new SQL() {
             {
@@ -76,8 +78,8 @@ public class StockManageSQLProvider extends BaseSQLProvider {
                         "IN_QTY," +
                         "PREVD_INC_QTY," +
                         "PREVD_REDC_QTY " +
-                        "FROM T_BWL_LIST_TYPE " +
-                        "WHERE BIZOP_ETPSNO = #{entCustomsCode} )");
+                        "FROM T_BWL_LIST_TYPE)");
+                WHERE("GDS_MTNO like #{brevity_code}||'%'");
                 if (!StringUtils.isEmpty(surplus)) {
                     WHERE("SURPLUS >= #{surplus}");
                 }

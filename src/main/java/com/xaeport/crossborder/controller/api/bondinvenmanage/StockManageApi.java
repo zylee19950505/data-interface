@@ -61,6 +61,8 @@ public class StockManageApi extends BaseApi {
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("entCustomsCode", users.getEnt_Customs_Code());
 
+        paramMap.put("brevity_code", users.getBrevity_code());
+
         //分页参数
         paramMap.put("start", start);
         paramMap.put("length", length);

@@ -31,9 +31,18 @@ public class Users {
     private String credit_code;//企业统一社会信用代码
     private String ent_business_type;//跨境企业类型
     private String port;//主管海关
+    private String brevity_code;//简码
     private List<Menu> subMenuList;//菜单表
     private List<Menu> childMenuList;//子菜单表
     private Enterprise enterprise;//企业信息
+
+    public String getBrevity_code() {
+        return brevity_code;
+    }
+
+    public void setBrevity_code(String brevity_code) {
+        this.brevity_code = brevity_code;
+    }
 
     public String getPort() {
         return port;

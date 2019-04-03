@@ -66,6 +66,7 @@ public class UserManageSQLProvider extends BaseSQLProvider {
                 SELECT("t3.CREDIT_CODE");
                 SELECT("t3.CUSTOMS_CODE ENT_CUSTOMS_CODE");
                 SELECT("t3.AREA_CODE");
+                SELECT("t3.BREVITY_CODE");
                 FROM("T_USERS t1");
                 FROM("T_USER_ROLE t2");
                 FROM("T_ENTERPRISE t3");
