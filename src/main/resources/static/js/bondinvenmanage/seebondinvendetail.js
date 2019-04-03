@@ -224,7 +224,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='g_unit_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
                 "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_1_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + parseFloat(entryLists[i].qty2).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + (isEmpty(entryLists[i].qty2) ? "" : parseFloat(entryLists[i].qty2).toFixed(5)) + "' /></td>" +
                 "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +

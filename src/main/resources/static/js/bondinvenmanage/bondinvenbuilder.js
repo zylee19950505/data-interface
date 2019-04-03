@@ -147,6 +147,9 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             case "QDYSC"://清单已生成
                                 textColor = "text-green";
                                 value = "清单已生成";
+                            case "QDSCSB"://清单已生成
+                                textColor = "text-red";
+                                value = "清单生成失败";
                         }
 
                         return "<span class='" + textColor + "'>" + value + "</span>";

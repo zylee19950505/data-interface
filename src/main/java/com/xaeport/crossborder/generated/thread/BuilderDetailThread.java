@@ -1,7 +1,5 @@
 package com.xaeport.crossborder.generated.thread;
 
-import com.xaeport.crossborder.bondstock.CountLoader;
-import com.xaeport.crossborder.bondstock.impl.CountBudDetail;
 import com.xaeport.crossborder.configuration.AppConfiguration;
 import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
@@ -131,24 +129,24 @@ public class BuilderDetailThread implements Runnable {
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
         int count = 0;
         for (ImpOrderBody impOrderBody : impOrderBodyList) {
+            count++;
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            //BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
+            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(count);//商品序号
-            count++;
             DecimalFormat df = new DecimalFormat("0.00000");
             impInventoryBody.setOrder_no(impOrderBody.getOrder_No());//订单编号
             if ("BONDORDER".equals(business_type)) {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
-                //impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
-                impInventoryBody.setItem_record_no(impInventoryBody.getItem_no());
+                impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
+                //impInventoryBody.setItem_record_no(impInventoryBody.getItem_no());
             }
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。
-            //impInventoryBody.setG_code();//商品编码: 按商品分类编码规则确定的进出口商品的商品编号，分为商品编号和附加编号，其中商品编号栏应填报《中华人民共和国进出口税则》8位税则号列，附加编号应填报商品编号，附加编号第9、10位。
+            impInventoryBody.setG_code(bwlListType.getGdecd());//商品编码: 按商品分类编码规则确定的进出口商品的商品编号，分为商品编号和附加编号，其中商品编号栏应填报《中华人民共和国进出口税则》8位税则号列，附加编号应填报商品编号，附加编号第9、10位。
             impInventoryBody.setG_name(impOrderBody.getItem_Name());//商品名称: 商品名称应据实填报，与电子订单一致。
             impInventoryBody.setG_model(impOrderBody.getG_Model());//商品规格型号: 满足海关归类、审价以及监管的要求为准。包括：品牌、规格、型号等。
             impInventoryBody.setBar_code(impOrderBody.getBar_Code());//条形码: 商品条形码一般由前缀部分、制造厂商代码、商品代码和校验码组成。
@@ -156,13 +154,18 @@ public class BuilderDetailThread implements Runnable {
             impInventoryBody.setUnit(impOrderBody.getUnit());//计量单位
 
 
-            //impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
-            //impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
+            impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
+            if (!StringUtils.isEmpty(bwlListType.getSecd_lawf_unitcd())){
+                impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
+            }
+
             impInventoryBody.setNote(impOrderBody.getNote());//促销活动，商品单价偏离市场价格的，可以在此说明。
             impInventoryBody.setQuantity(Double.parseDouble(impOrderBody.getQty()));
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
-            // impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
-            // impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
+            impInventoryBody.setQty1(bwlListType.getIn_lawf_qty());//第一法定数量
+            if (!StringUtils.isEmpty(bwlListType.getIn_secd_lawf_qty())){
+                impInventoryBody.setQty2(bwlListType.getIn_secd_lawf_qty());//第二法定数量
+            }
             impInventoryBody.setTotal_price(impOrderBody.getTotal_Price());//总价
 
             double Price = Double.parseDouble(impInventoryBody.getTotal_price()) / Double.parseDouble(impInventoryBody.getQty());
@@ -204,8 +207,8 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setConsignee_address(imporderHead.getConsignee_Address());//收货地址
         impInventoryHead.setAgent_code(enterpriseDetail.getEnt_code());//申报单位的海关注册登记编号。
         impInventoryHead.setAgent_name(enterpriseDetail.getEnt_name());//申报单位在海关注册登记的名称。
-//            impInventoryHead.setArea_code("");//保税模式必填，区内仓储企业的海关注册登记编号。
-//            impInventoryHead.setArea_name("");//保税模式必填，区内仓储企业在海关注册登记的名称。
+//        impInventoryHead.setArea_code(enterpriseDetail.getArea_code());//保税模式必填，区内仓储企业的海关注册登记编号。
+//        impInventoryHead.setArea_name(enterpriseDetail.getArea_name());//保税模式必填，区内仓储企业在海关注册登记的名称。
 
 //            impInventoryHead.setVoyage_no(value.get(flightVoyageIndex));//直购进口必填。货物进出境的运输工具的航次编号。保税进口免填。
 //            impInventoryHead.setBill_no(value.get(billNoIndex));//直购进口必填。货物提单或运单的编号，保税进口免填。
@@ -239,7 +242,7 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setCurrency("142");//币制
         impInventoryHead.setPack_no("1");//件数
         //运载所申报商品的运输工具申报进境的日期，进口申报时无法确知相应的运输工具的实际进境日期时，免填。格式:YYYYMMDD
-        //impInventoryHead.setIe_date(DateTools.shortDateTimeString(importTime));
+        impInventoryHead.setIe_date(new Date());//进口日期
 
 
         impInventoryHead.setBill_no(imporderHead.getBill_No().trim());
@@ -273,10 +276,9 @@ public class BuilderDetailThread implements Runnable {
             //String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(), enterpriseDetail.getEnt_name());
 
             //账册编号通过查找企业信息的区内企业名称和区内企业编码,去账册信息里查找
-
             impInventoryHead.setEms_no(bws_no);//保税模式必填，填写区内仓储企业在海关备案的账册编号，用于保税进口业务在特殊区域辅助系统记账（二线出区核减）。
-            impInventoryHead.setArea_code("");//保税模式必填，区内仓储企业的海关注册登记编号。(企业信息里有)
-            impInventoryHead.setArea_name("");//保税模式必填，区内仓储企业在海关注册登记的名称。(企业信息里有)
+            impInventoryHead.setArea_code(enterprise.getArea_code());//保税模式必填，区内仓储企业的海关注册登记编号。(企业信息里有)
+            impInventoryHead.setArea_name(enterprise.getArea_name());//保税模式必填，区内仓储企业在海关注册登记的名称。(企业信息里有)
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_BOND_INVEN);
             impInventoryHead.setData_status(StatusCode.BSQDDSB);//数据状态(暂存)
         }
