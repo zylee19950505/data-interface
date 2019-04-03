@@ -33,18 +33,15 @@ public class CrtEnterInventoryService {
         String etpsInnerInvtNo = "HZQD" + user.getEnt_Customs_Code() + "I" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4);
         int count = 1;
         int original_nm = 0;
-        DecimalFormat dfFour = new DecimalFormat("0.0000");
 
         for (int i = 0; i < list.size(); i++) {
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
-
             //设置表头原有数量
             original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
             bondInvtDt.setId(dtId);
             bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());
-            bondInvtDt.setDcl_uprc_amt(dfFour.format(Double.valueOf(bondInvtDt.getDcl_total_amt()) / Double.valueOf(bondInvtDt.getDcl_qty())));
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
             bondInvtDt.setDcl_currcd("142");//币制
             bondInvtDt.setDestination_natcd("142");//最终目的国

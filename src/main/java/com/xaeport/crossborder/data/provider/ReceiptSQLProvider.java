@@ -1638,6 +1638,9 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bwlListType.getNorm_qty())) {
                     VALUES("NORM_QTY", "#{bwlListType.norm_qty}");
                 }
+                if (!StringUtils.isEmpty(bwlListType.getSecond_norm_qty())) {
+                    VALUES("SECOND_NORM_QTY", "#{bwlListType.second_norm_qty}");
+                }
                 if (!StringUtils.isEmpty(bwlListType.getCrt_time())) {
                     VALUES("CRT_TIME", "#{bwlListType.crt_time}");
                 }

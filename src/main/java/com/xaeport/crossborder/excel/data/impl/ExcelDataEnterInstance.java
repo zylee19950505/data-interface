@@ -33,8 +33,6 @@ public class ExcelDataEnterInstance implements ExcelData {
     private int dcl_total_amtIndex; //总价";//list
     private int dcl_qtyIndex; //数量";//list
     private int natcdIndex; //原产国(地区)";//list
-    //private int usecdIndex; //用途代码//list
-    //private int ec_customs_codeIndex; //电商海关编码//list
     private int lvyrlf_modecdIndex; //征免方式代码//list
     private int rmkIndex; //备注";//list
 
@@ -48,11 +46,6 @@ public class ExcelDataEnterInstance implements ExcelData {
         this.getIndexValue(excelData.get(0));//初始化表头索引
         for (int i = 1, length = excelData.size(); i < length; i++) {
             bondInvtDt = new BondInvtDt();
-            /*String ecCustomsCode = excelData.get(1).get(ec_customs_codeIndex);
-            if (!ecCustomsCode.equals(excelData.get(i).get(ec_customs_codeIndex))) {
-                map.put("error", "电商海关编码不一致");
-                return map;
-            }*/
             bondInvtDtList = this.bondInvtDtData(excelData.get(i), bondInvtDt, bondInvtDtList);
         }
         map.put("bondInvtDtList", bondInvtDtList);
@@ -68,7 +61,6 @@ public class ExcelDataEnterInstance implements ExcelData {
      * @return
      */
     public List<BondInvtDt> bondInvtDtData(List<String> entryLists, BondInvtDt bondInvtDt, List<BondInvtDt> bondInvtDtList) {
-//        DecimalFormat df = new DecimalFormat("0.00000");
         DecimalFormat dfTwo = new DecimalFormat("0.00");
         DecimalFormat dfFour = new DecimalFormat("0.0000");
 
@@ -85,15 +77,12 @@ public class ExcelDataEnterInstance implements ExcelData {
         bondInvtDt.setNet_wt(entryLists.get(net_wtIndex));//净重
 
         bondInvtDt.setDcl_qty(entryLists.get(dcl_qtyIndex));//数量
-
         String dclTotalAmt = dfTwo.format(Double.parseDouble(entryLists.get(dcl_total_amtIndex)));
-        String dclUprcAmt = dfFour.format(Double.parseDouble(entryLists.get(dcl_total_amtIndex)) / Double.parseDouble(entryLists.get(dcl_qtyIndex)));
-        bondInvtDt.setDcl_uprc_amt(dclUprcAmt);//单价
         bondInvtDt.setDcl_total_amt(dclTotalAmt);//总价
+        String dclUprcAmt = dfFour.format(Double.parseDouble(dclTotalAmt) / Double.parseDouble(entryLists.get(dcl_qtyIndex)));
+        bondInvtDt.setDcl_uprc_amt(dclUprcAmt);//单价
 
         bondInvtDt.setNatcd(entryLists.get(natcdIndex));//原产国(地区)
-        //bondInvtDt.setUsecd(entryLists.get(usecdIndex));//用途代码
-        //bondInvtDt.setEc_customs_code(entryLists.get(ec_customs_codeIndex));//电商海关编码
         bondInvtDt.setLvyrlf_modecd(entryLists.get(lvyrlf_modecdIndex));//征免方式
         bondInvtDt.setRmk(entryLists.get(rmkIndex));//备注
 
@@ -122,8 +111,6 @@ public class ExcelDataEnterInstance implements ExcelData {
         dcl_total_amtIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_total_amt);//总价
         dcl_qtyIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.dcl_qty);//数量
         natcdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.natcd);//原产国(地区)
-        //usecdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.usecd);
-        //ec_customs_codeIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.ec_customs_code);//用途代码
         lvyrlf_modecdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.lvyrlf_modecd);//征免方式代码
         rmkIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.rmk);//备注
 

@@ -87,20 +87,27 @@ public class CountPreIncrease implements CountLoader {
     public BwlListType crtBwlListType(String emsNo, String gds_mtno, List<BondInvtDt> bondInvtDts, String bizopEtpsno) {
         BwlListType bwlListType = new BwlListType();
         BondInvtDt bondInvtDt = bondInvtDts.get(0);
-        double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
+        Double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
         bwlListType.setId(IdUtils.getUUId());
         bwlListType.setBws_no(emsNo);
         bwlListType.setGds_mtno(gds_mtno);
         bwlListType.setGdecd(bondInvtDt.getGdecd());
         bwlListType.setGds_nm(bondInvtDt.getGds_nm());
         bwlListType.setDcl_unitcd(bondInvtDt.getDcl_unitcd());
-        bwlListType.setIn_qty("0");
         bwlListType.setActl_inc_qty("0");
         bwlListType.setActl_redc_qty("0");
-        bwlListType.setPrevd_inc_qty(String.valueOf(qtySum));
+        bwlListType.setPrevd_inc_qty(qtySum.toString());
         bwlListType.setPrevd_redc_qty("0");
-        //设置标准数量(法定数量/申报数量)
-        bwlListType.setNorm_qty(Double.parseDouble(bondInvtDt.getLawf_qty())/Double.parseDouble(bondInvtDt.getDcl_qty()));
+
+        //申报数量
+        bwlListType.setIn_qty(qtySum.toString());
+        //设置标准数量(第一法定数量/申报数量)
+        bwlListType.setNorm_qty(Double.parseDouble(bondInvtDt.getLawf_qty()) / qtySum);
+        //设置第二标准数量(第二法定数量/申报数量)
+        if (!StringUtils.isEmpty(bondInvtDt.getSecd_lawf_qty())) {
+            bwlListType.setSecond_norm_qty(Double.parseDouble(bondInvtDt.getSecd_lawf_qty()) / qtySum);
+        }
+
         bwlListType.setCrt_time(new Date());
         bwlListType.setUpd_time(new Date());
         bwlListType.setBizop_etpsno(bizopEtpsno);
@@ -109,8 +116,6 @@ public class CountPreIncrease implements CountLoader {
         bwlListType.setIn_lawf_qty(bondInvtDt.getLawf_qty());
         bwlListType.setSecd_lawf_unitcd(StringUtils.isEmpty(bondInvtDt.getSecd_lawf_unitcd()) ? "" : bondInvtDt.getSecd_lawf_unitcd());
         bwlListType.setIn_secd_lawf_qty(StringUtils.isEmpty(bondInvtDt.getSecd_lawf_qty()) ? "" : bondInvtDt.getSecd_lawf_qty());
-        //法定数量和申报数量之比
-        bwlListType.setNorm_qty(Double.parseDouble(bondInvtDt.getLawf_qty()) / qtySum);
         return bwlListType;
     }
 
