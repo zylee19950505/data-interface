@@ -30,8 +30,8 @@ public interface BuilderDetailMapper {
     @Select("SELECT * FROM T_ENTERPRISE t where t.ID = #{entId}")
     Enterprise getEnterpriseDetail(@Param("entId") String entId);
 
-    @Select("select * from T_BWL_LIST_TYPE t where t.BWS_NO = #{bws_no} and t.GDS_MTNO = #{item_no} and t.BIZOP_ETPSNO = #{customs_code}")
-    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no, @Param("customs_code") String customs_code);
+    @Select("select * from T_BWL_LIST_TYPE t where t.BWS_NO = #{bws_no} and t.GDS_MTNO = #{item_no} and t.GDS_MTNO like #{brevity_code}||'%'")
+    BwlListType queryBwsListByEntBwsNo(@Param("bws_no") String bws_no, @Param("item_no") String item_no, @Param("brevity_code") String brevity_code);
 
     @InsertProvider(type = BuilderDetailSQLProvider.class, method = "insertImpInventoryBody")
     void insertImpInventoryBody(@Param("impInventoryBody") ImpInventoryBody impInventoryBody);

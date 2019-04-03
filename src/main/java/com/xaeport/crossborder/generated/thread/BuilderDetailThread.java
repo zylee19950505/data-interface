@@ -55,7 +55,7 @@ public class BuilderDetailThread implements Runnable {
         ImpOrderHead imporderHead;
         List<ImpOrderBody> impOrderBodyList;
         ImpLogistics impLogistics;
-        List<ImpInventoryBody> impInventoryBodyList;
+        List<ImpInventoryBody> impInventoryBodyList = null;
         ImpInventoryHead impInventoryHead = new ImpInventoryHead();
         while (true) {
             try {
@@ -82,23 +82,30 @@ public class BuilderDetailThread implements Runnable {
                     String ent_id = imporderHead.getEnt_id();
                     //Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(ent_id);
                     Enterprise enterpriseDetail = builderDetailMapper.getEnterpriseDetail(ent_id);
-                    impInventoryHead = this.getInventoryData(imporderHead, impOrderBodyList, impLogistics, enterpriseDetail);
-                    impInventoryBodyList = this.getInventoryBodyData(impOrderBodyList, imporderHead.getBusiness_type(), enterpriseDetail, impInventoryHead.getGuid());
+                    try {
+                        impInventoryHead = this.getInventoryData(imporderHead, impOrderBodyList, impLogistics, enterpriseDetail);
+                        impInventoryBodyList = this.getInventoryBodyData(impOrderBodyList, imporderHead.getBusiness_type(), enterpriseDetail, impInventoryHead.getGuid());
+                    } catch (Exception e) {
+                        logger.error("生成清单["+orderNo+"]时发生异常，等待5秒重新开始获取数据", e);
+                        String dataStatus = "QDSCSB";//清单生成失败
+                        builderDetailMapper.updateBuilderCacheByOrderNo(orderNo,dataStatus);
+                        continue;
+                    }
 
                     //先在这里进行库存检查
-                    CountLoader countLoader = new CountBudDetail();
-                    int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
+                    //CountLoader countLoader = new CountBudDetail();
+                    //int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
 
-                    if (flag == 0) {
+                    //if (flag == 0) {}
                         //信息整合完毕后,进行插入操作
-                        this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
-                        for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
-                            this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
-                        }
-                        //再将缓存数据库的数据状态改为已经生成;
-                        String dataStatus = "QDYSC";//清单已生成
-                        this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo, dataStatus);
+                    this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
+                    for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
+                        this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
                     }
+                    //再将缓存数据库的数据状态改为已经生成;
+                    String dataStatus = "QDYSC";//清单已生成
+                    this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo, dataStatus);
+
                 }
             } catch (Exception e) {
                 try {
@@ -126,7 +133,7 @@ public class BuilderDetailThread implements Runnable {
         for (ImpOrderBody impOrderBody : impOrderBodyList) {
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getCustoms_code());
+            //BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(count);//商品序号
@@ -136,7 +143,8 @@ public class BuilderDetailThread implements Runnable {
             if ("BONDORDER".equals(business_type)) {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
-                impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
+                //impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
+                impInventoryBody.setItem_record_no(impInventoryBody.getItem_no());
             }
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。
@@ -148,8 +156,8 @@ public class BuilderDetailThread implements Runnable {
             impInventoryBody.setUnit(impOrderBody.getUnit());//计量单位
 
 
-            // impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
-            // impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
+            //impInventoryBody.setUnit1(bwlListType.getLawf_unitcd());//第一计量单位
+            //impInventoryBody.setUnit2(bwlListType.getSecd_lawf_unitcd());//第二计量单位
             impInventoryBody.setNote(impOrderBody.getNote());//促销活动，商品单价偏离市场价格的，可以在此说明。
             impInventoryBody.setQuantity(Double.parseDouble(impOrderBody.getQty()));
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
