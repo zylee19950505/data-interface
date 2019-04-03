@@ -201,7 +201,9 @@ public class BondOrderImpSQLProvider {
                 if (!StringUtils.isEmpty(impOrderBody.getNote())) {
                     VALUES("note", "#{impOrderBody.note}");
                 }
-
+                if (!StringUtils.isEmpty(impOrderBody.getGds_seqno())) {
+                    VALUES("GDS_SEQNO", "#{impOrderBody.gds_seqno}");
+                }
             }
         }.toString();
     }
@@ -259,8 +261,8 @@ public class BondOrderImpSQLProvider {
     }
 
     //根据企业简码查询物流企业是否存在
-    public String queryEntInfoByBrevityCode(String brevityCode){
-        return new SQL(){
+    public String queryEntInfoByBrevityCode(String brevityCode) {
+        return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_ENTERPRISE");

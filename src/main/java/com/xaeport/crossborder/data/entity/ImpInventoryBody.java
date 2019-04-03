@@ -28,6 +28,15 @@ public class ImpInventoryBody {
     private String value_added_tax;//应征增值税
     private String consumption_tax;//应征消费税
     private String writing_mode;
+    private String gds_seqno;//备案序号
+
+    public String getGds_seqno() {
+        return gds_seqno;
+    }
+
+    public void setGds_seqno(String gds_seqno) {
+        this.gds_seqno = gds_seqno;
+    }
 
     public String getWriting_mode() {
         return writing_mode;

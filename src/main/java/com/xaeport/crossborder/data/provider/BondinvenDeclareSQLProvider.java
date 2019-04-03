@@ -401,6 +401,7 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("PRICE");
                 SELECT("TOTAL_PRICE");
                 SELECT("NOTE");
+                SELECT("GDS_SEQNO");
                 FROM("T_IMP_INVENTORY_BODY t");
                 WHERE("t.HEAD_GUID = #{headGuid}");
             }

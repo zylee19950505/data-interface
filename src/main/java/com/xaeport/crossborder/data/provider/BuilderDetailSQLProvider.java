@@ -128,6 +128,9 @@ public class BuilderDetailSQLProvider {
                 if (!StringUtils.isEmpty(impInventoryBody.getNote())) {
                     VALUES("note", "#{impInventoryBody.note}");
                 }
+                if (!StringUtils.isEmpty(impInventoryBody.getGds_seqno())) {
+                    VALUES("GDS_SEQNO", "#{impInventoryBody.gds_seqno}");
+                }
             }
         }.toString();
     }

@@ -4,10 +4,7 @@ import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.OrderNo;
 import com.xaeport.crossborder.data.provider.BondOrderImpSQLProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface BondOrderImpMapper {
@@ -47,7 +44,11 @@ public interface BondOrderImpMapper {
     void insertOrderNo(@Param("orderNo") OrderNo orderNo);
 
     //根据企业简码查询物流企业是否存在
-    @SelectProvider(type = BondOrderImpSQLProvider.class,method = "queryEntInfoByBrevityCode")
+    @SelectProvider(type = BondOrderImpSQLProvider.class, method = "queryEntInfoByBrevityCode")
     Integer queryEntInfoByBrevityCode(String brevityCode);
+
+    @Select("SELECT GDS_SEQNO FROM T_BWL_LIST_TYPE t WHERE t.GDS_MTNO = #{gds_mtno} AND t.GDS_MTNO like #{brevity_code}||'%'")
+    String queryGdsSeqnoByItemNo(@Param("gds_mtno") String gds_mtno, @Param("brevity_code") String brevity_code);
+
 
 }

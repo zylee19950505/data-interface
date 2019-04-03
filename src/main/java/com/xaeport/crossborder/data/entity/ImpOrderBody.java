@@ -18,6 +18,15 @@ public class ImpOrderBody {
     private String country;//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 国家（地区）代码表。
     private String note;//促销活动，商品单价偏离市场价格的，可以在此说明。
     private String writing_mode;
+    private String gds_seqno;//备案序号
+
+    public String getGds_seqno() {
+        return gds_seqno;
+    }
+
+    public void setGds_seqno(String gds_seqno) {
+        this.gds_seqno = gds_seqno;
+    }
 
     public String getWriting_mode() {
         return writing_mode;

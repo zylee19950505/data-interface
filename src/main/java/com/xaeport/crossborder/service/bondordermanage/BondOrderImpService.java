@@ -146,7 +146,11 @@ public class BondOrderImpService {
      * 表体自生成信息
      */
     private ImpOrderBody impOrderGoodsListData(ImpOrderBody impOrderBody, String headGuid, Users user) throws Exception {
+        String brevity_code = user.getBrevity_code();
+        String gds_seqno = this.bondOrderImpMapper.queryGdsSeqnoByItemNo(impOrderBody.getItem_No(), brevity_code);
+
         impOrderBody.setHead_guid(headGuid);//
+        impOrderBody.setGds_seqno(StringUtils.isEmpty(gds_seqno) ? "无" : gds_seqno);
         impOrderBody.setCurrency("142");//币制
         impOrderBody.setBar_Code("无");//非必填项，没有必须写“无”
         return impOrderBody;
