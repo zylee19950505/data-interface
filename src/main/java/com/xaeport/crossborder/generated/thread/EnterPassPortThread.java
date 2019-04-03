@@ -221,8 +221,7 @@ public class EnterPassPortThread implements Runnable {
         envelopInfo.setSender_id(this.enterManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
-        //envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
-        envelopInfo.setIc_Card("2222222");
+        envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
         return envelopInfo;
     }
 }

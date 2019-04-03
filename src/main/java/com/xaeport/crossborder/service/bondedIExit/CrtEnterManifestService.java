@@ -209,7 +209,7 @@ public class CrtEnterManifestService {
         passPortHead.setTotal_net_wt(object.get("total_net_wt").toString());
         passPortHead.setDcl_er_conc(object.get("dcl_er_conc").toString());
         passPortHead.setDcl_etps_nm(object.get("dcl_etps_nm").toString());
-        passPortHead.setDcl_etps_nm(object.get("dcl_etpsno").toString());
+        passPortHead.setDcl_etpsno(object.get("dcl_etpsno").toString());
         passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
         passPortHead.setInput_code(object.get("input_code").toString());
         passPortHead.setInput_name(object.get("input_name").toString());
