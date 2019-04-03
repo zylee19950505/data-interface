@@ -96,6 +96,7 @@ public class EnterPassPortThread implements Runnable {
                         passportHeadXml.setVehicleWt(passPortHead.getVehicle_wt());
                         passportHeadXml.setVehicleFrameWt(passPortHead.getVehicle_frame_wt());
                         passportHeadXml.setContainerWt(passPortHead.getContainer_wt());
+                        passportHeadXml.setContainerType(passPortHead.getContainer_type());
                         passportHeadXml.setTotalWt(passPortHead.getTotal_wt());
                         passportHeadXml.setTotalGrossWt(passPortHead.getTotal_gross_wt());
                         passportHeadXml.setTotalNetWt(passPortHead.getTotal_net_wt());
@@ -138,7 +139,7 @@ public class EnterPassPortThread implements Runnable {
                             passPortMessage.setPassportHeadXml(passportHeadXml);
                             passPortMessage.setPassPortListXmlList(passPortListXmlList);
                         }
-                        passPortMessage.setOperCusRegCode("6101380018");
+                        passPortMessage.setOperCusRegCode(passPortHead.getDcl_etpsno());
 
                         //开始生成报文
                         this.entryProcess(passPortMessage, xmlName, passPortHead);

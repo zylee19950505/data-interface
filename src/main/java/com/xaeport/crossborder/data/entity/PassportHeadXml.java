@@ -16,6 +16,7 @@ public class PassportHeadXml {
     private String VehicleWt;
     private String VehicleFrameWt;
     private String ContainerWt;
+    private String ContainerType;
     private String TotalWt;
     private String TotalGrossWt;
     private String TotalNetWt;
@@ -136,6 +137,14 @@ public class PassportHeadXml {
 
     public void setContainerWt(String containerWt) {
         ContainerWt = containerWt;
+    }
+
+    public String getContainerType() {
+        return ContainerType;
+    }
+
+    public void setContainerType(String containerType) {
+        ContainerType = containerType;
     }
 
     public String getTotalWt() {

@@ -45,6 +45,7 @@
                             <VehicleWt>$!passPortHead.VehicleWt</VehicleWt>
                             <VehicleFrameWt>$!passPortHead.VehicleFrameWt</VehicleFrameWt>
                             <ContainerWt>$!passPortHead.ContainerWt</ContainerWt>
+                            <ContainerType>$!passPortHead.ContainerType</ContainerType>
                             <TotalWt>$!passPortHead.TotalWt</TotalWt>
                             <TotalGrossWt>$!passPortHead.TotalGrossWt</TotalGrossWt>
                             <TotalNetWt>$!passPortHead.TotalNetWt</TotalNetWt>
