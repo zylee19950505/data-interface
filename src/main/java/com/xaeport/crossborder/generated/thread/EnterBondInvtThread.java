@@ -163,7 +163,7 @@ public class EnterBondInvtThread implements Runnable {
 
                         invtMessage.setInvtHeadType(invtHeadType);
                         invtMessage.setInvtListTypeList(invtListTypeList);
-                        invtMessage.setOperCusRegCode("6101380003");
+                        invtMessage.setOperCusRegCode(bondInvtBsc.getDcl_etpsno());
                         invtMessage.setSysId("Z8");
 
                         //开始生成报文
