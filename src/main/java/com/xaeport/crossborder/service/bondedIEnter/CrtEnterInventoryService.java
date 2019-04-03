@@ -40,7 +40,8 @@ public class CrtEnterInventoryService {
             //设置表头原有数量
             original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
             bondInvtDt.setId(dtId);
-            bondInvtDt.setPutrec_seqno(count);
+            bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
+            //bondInvtDt.setPutrec_seqno(count);
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
             bondInvtDt.setDcl_currcd("142");//币制

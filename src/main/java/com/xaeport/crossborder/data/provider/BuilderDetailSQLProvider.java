@@ -321,6 +321,7 @@ public class BuilderDetailSQLProvider {
             {
                 UPDATE("T_BUILDER_CACHE t");
                 SET("t.DATASTATUS = #{dataStatus}");
+                SET("t.UPD_TIME = sysdate");
                 WHERE("t.ORDER_NO = #{orderNo}");
             }
         }.toString();

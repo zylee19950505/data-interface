@@ -56,7 +56,7 @@ public class DetailBuilderSQLProvider extends BaseSQLProvider{
                 VALUES("ID", "#{id}");
                 VALUES("ORDER_NO", "#{orderNo}");
                 VALUES("DATASTATUS", "#{dataStatus}");
-
+                VALUES("CRT_TIME", "sysdate");
             }
         }.toString();
     }
