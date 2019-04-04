@@ -136,7 +136,7 @@ public class BuilderDetailThread implements Runnable {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
                 //impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//
-                impInventoryBody.setItem_record_no(impInventoryBody.getGds_seqno());//账册备案料号从订单取备案序号
+                impInventoryBody.setItem_record_no(impOrderBody.getGds_seqno());//账册备案料号从订单取备案序号
             }
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。

@@ -66,95 +66,97 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                 {data: "logistics_no", label: "物流运单编号"},
                 {
                     label: "订单状态", render: function (data, type, row) {
-                        var textColor = "";
-                        var value = "";
-                        switch (row.orderStatus) {
-                            case "BDDS6"://待申报
-                                textColor = "text-yellow";
-                                value = "保税订单待申报";
-                                break;
-                            case "BDDS60"://待申报
-                                textColor = "text-yellow";
-                                value = "保税订单待申报";
-                                break;
-                            case "BDDS61":
-                                textColor = "text-green";
-                                value = "保税订单已申报";
-                                break;
-                            case "BDDS62":
-                                textColor = "text-green";
-                                value = "保税订单申报成功";
-                                break;
-                            case "BDDS63":
-                                textColor = "text-yellow";
-                                value = "保税订单重报";
-                                break;
-                            case "BDDS64":
-                                textColor = "text-red";
-                                value = "保税订单申报失败";
-                                break;
-                        }
-                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    var textColor = "";
+                    var value = "";
+                    switch (row.orderStatus) {
+                        case "BDDS6"://待申报
+                            textColor = "text-yellow";
+                            value = "保税订单待申报";
+                            break;
+                        case "BDDS60"://待申报
+                            textColor = "text-yellow";
+                            value = "保税订单待申报";
+                            break;
+                        case "BDDS61":
+                            textColor = "text-green";
+                            value = "保税订单已申报";
+                            break;
+                        case "BDDS62":
+                            textColor = "text-green";
+                            value = "保税订单申报成功";
+                            break;
+                        case "BDDS63":
+                            textColor = "text-yellow";
+                            value = "保税订单重报";
+                            break;
+                        case "BDDS64":
+                            textColor = "text-red";
+                            value = "保税订单申报失败";
+                            break;
                     }
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                }
                 },
                 {
                     label: "运单状态", render: function (data, type, row) {
-                        var textColor = "";
-                        var value = "";
-                        switch (row.logisticsStatus) {
-                            case "CBDS4"://待申报
-                                textColor = "text-yellow";
-                                value = "运单待申报";
-                                break;
-                            case "CBDS40"://待申报
-                                textColor = "text-yellow";
-                                value = "运单待申报";
-                                break;
-                            case "CBDS41":
-                                textColor = "text-green";
-                                value = "运单已申报";
-                                break;
-                            case "CBDS42":
-                                textColor = "text-green";
-                                value = "运单申报成功";
-                                break;
-                            case "CBDS43":
-                                textColor = "text-yellow";
-                                value = "运单重报";
-                                break;
-                            case "CBDS44":
-                                textColor = "text-red";
-                                value = "运单申报失败";
-                                break;
-                        }
-
-                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    var textColor = "";
+                    var value = "";
+                    switch (row.logisticsStatus) {
+                        case "CBDS4"://待申报
+                            textColor = "text-yellow";
+                            value = "运单待申报";
+                            break;
+                        case "CBDS40"://待申报
+                            textColor = "text-yellow";
+                            value = "运单待申报";
+                            break;
+                        case "CBDS41":
+                            textColor = "text-green";
+                            value = "运单已申报";
+                            break;
+                        case "CBDS42":
+                            textColor = "text-green";
+                            value = "运单申报成功";
+                            break;
+                        case "CBDS43":
+                            textColor = "text-yellow";
+                            value = "运单重报";
+                            break;
+                        case "CBDS44":
+                            textColor = "text-red";
+                            value = "运单申报失败";
+                            break;
                     }
+
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                }
                 },
                 {
                     label: "清单生成状态", render: function (data, type, row) {
-                        var textColor = "";
-                        var value = "";
-                        switch (row.dataStatus) {
-                            case null://可生成清单
-                                textColor = "text-yellow";
-                                value = "可生成清单";
-                                break;
-                            case "QDSCZ"://清单生成中
-                                textColor = "text-blue";
-                                value = "清单生成中";
-                                break;
-                            case "QDYSC"://清单已生成
-                                textColor = "text-green";
-                                value = "清单已生成";
-                            case "QDSCSB"://清单已生成
-                                textColor = "text-red";
-                                value = "清单生成失败";
-                        }
-
-                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    var textColor = "";
+                    var value = "";
+                    switch (row.dataStatus) {
+                        case null://可生成清单
+                            textColor = "text-yellow";
+                            value = "可生成清单";
+                            break;
+                        case "QDSCZ"://清单生成中
+                            textColor = "text-blue";
+                            value = "清单生成中";
+                            break;
+                        case "QDYSC"://清单已生成
+                            textColor = "text-green";
+                            value = "清单已生成";
+                            break;
+                        case "QDSCSB"://清单已生成
+                            textColor = "text-red";
+                            value = "清单生成失败";
+                            break;
                     }
-                },
+
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                }
+                }
             ]
         });
     },
