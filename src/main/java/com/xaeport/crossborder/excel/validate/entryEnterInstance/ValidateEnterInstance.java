@@ -17,7 +17,6 @@ import java.util.Map;
 public class ValidateEnterInstance extends ValidateBase {
     //要校验字段索引
     private LoadData loadData = SpringUtils.getBean(LoadData.class);
-    private int putrec_seqnoIndex; //备案序号";//list
     private int gds_MtnoIndex; //账册备案料号";//list
     private int gdecdIndex; //商品编码";//list
     private int gds_nmIndex; //商品名称";//list
@@ -41,7 +40,6 @@ public class ValidateEnterInstance extends ValidateBase {
     private Map<Integer, String> indexMap = new HashMap<>();
 
     public void getIndexValue(List<String> list) {
-        putrec_seqnoIndex = list.indexOf(ExcelHeadEnterInventory.putrec_seqno);//备案序号
         gds_MtnoIndex = list.indexOf(ExcelHeadEnterInventory.gds_mtno);//账册备案料号
         gdecdIndex = list.indexOf(ExcelHeadEnterInventory.gdecd);//商品编码
         gds_nmIndex = list.indexOf(ExcelHeadEnterInventory.gds_nm);//商品名称
@@ -64,7 +62,6 @@ public class ValidateEnterInstance extends ValidateBase {
     }
 
     public void initMap() {
-        indexMap.put(putrec_seqnoIndex, "备案序号,19");
         indexMap.put(gds_MtnoIndex, "账册备案料号,60");
         indexMap.put(gdecdIndex, "商品编码,250");
         indexMap.put(gds_nmIndex, "商品名称,510");
@@ -93,7 +90,7 @@ public class ValidateEnterInstance extends ValidateBase {
             return -1;
         }
         // 导入数据double类型判断
-        if (cell_num == dcl_qtyIndex || cell_num == lawf_qtyIndex || cell_num == dcl_total_amtIndex || cell_num == gross_wtIndex || cell_num == net_wtIndex || cell_num == putrec_seqnoIndex) {
+        if (cell_num == dcl_qtyIndex || cell_num == lawf_qtyIndex || cell_num == dcl_total_amtIndex || cell_num == gross_wtIndex || cell_num == net_wtIndex) {
             String message = indexMap.get(cell_num).split(",")[0];
             int flag = ValidateUtil.checkDoubleValue(cell);
             boolean checkNumberType = this.CheckNumberType(flag, error_num, rowNum, cell_num, message);

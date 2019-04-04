@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class ExcelDataEnterInstance implements ExcelData {
     private Log log = LogFactory.getLog(this.getClass());
-    private int putrec_seqnoIndex; //备案序号;//list
     private int gds_MtnoIndex; //账册备案料号(商品料号)";//list
     private int gdecdIndex; //商品编码";//list
     private int gds_nmIndex; //商品名称";//list
@@ -65,7 +64,6 @@ public class ExcelDataEnterInstance implements ExcelData {
         DecimalFormat dfTwo = new DecimalFormat("0.00");
         DecimalFormat dfFour = new DecimalFormat("0.0000");
 
-        bondInvtDt.setPutrec_seqno(Integer.parseInt(entryLists.get(putrec_seqnoIndex)));//备案序号
         bondInvtDt.setGds_mtno(entryLists.get(gds_MtnoIndex));//账册备案料号(商品料号)
         bondInvtDt.setGdecd(entryLists.get(gdecdIndex));//商品编码
         bondInvtDt.setGds_nm(entryLists.get(gds_nmIndex));//商品名称
@@ -99,7 +97,6 @@ public class ExcelDataEnterInstance implements ExcelData {
      * @param bondInvtLists
      */
     public void getIndexValue(List<String> bondInvtLists) {
-        putrec_seqnoIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.putrec_seqno);//备案序号
         gds_MtnoIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.gds_mtno);//账册备案料号
         gdecdIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.gdecd);//商品编码
         gds_nmIndex = bondInvtLists.indexOf(ExcelHeadEnterInventory.gds_nm);//商品名称
