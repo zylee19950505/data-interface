@@ -167,7 +167,7 @@ public class BuilderDetailThread implements Runnable {
                 String price = df.format(Price);
                 impInventoryBody.setPrice(price);//单价
             }
-//            impInventoryBody.setGds_seqno(impOrderBody.getGds_seqno());
+            impInventoryBody.setGds_seqno(impOrderBody.getGds_seqno());
             impInventoryBodyList.add(impInventoryBody);
         }
         return impInventoryBodyList;
