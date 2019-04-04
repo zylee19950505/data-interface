@@ -316,8 +316,8 @@ public class BondInvenXML {
                 InventoryList = document.createElement("ceb:InventoryList");
 
                 gnum = document.createElement("ceb:gnum");
-//                gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getG_num()));
-                gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getGds_seqno()));
+                gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getG_num()));
+//                gnum.setTextContent(String.valueOf(inventoryBodyList.get(i).getGds_seqno()));
 
                 itemRecordNo = document.createElement("ceb:itemRecordNo");
                 itemRecordNo.setTextContent(inventoryBodyList.get(i).getItem_record_no());
