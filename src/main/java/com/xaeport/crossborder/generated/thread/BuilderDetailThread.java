@@ -129,14 +129,14 @@ public class BuilderDetailThread implements Runnable {
             BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
-            impInventoryBody.setG_num(count);//商品序号
+            impInventoryBody.setG_num(impOrderBody.getG_num());//商品序号(从订单表体获取)
             DecimalFormat df = new DecimalFormat("0.00000");
             impInventoryBody.setOrder_no(impOrderBody.getOrder_No());//订单编号
             if ("BONDORDER".equals(business_type)) {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()
 
-                impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//账册备案料号: 保税进口必填()
-                //impInventoryBody.setItem_record_no(impInventoryBody.getItem_no());
+                //impInventoryBody.setItem_record_no(bwlListType.getGds_mtno());//
+                impInventoryBody.setItem_record_no(impInventoryBody.getGds_seqno());//账册备案料号从订单取备案序号
             }
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。

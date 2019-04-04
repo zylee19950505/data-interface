@@ -147,6 +147,11 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
                             case "QDYSC"://清单已生成
                                 textColor = "text-green";
                                 value = "清单已生成";
+                                break;
+                            case "QDSCSB"://清单已生成
+                                textColor = "text-red";
+                                value = "清单生成失败";
+                                break;
                         }
 
                         return "<span class='" + textColor + "'>" + value + "</span>";

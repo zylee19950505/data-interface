@@ -10,6 +10,7 @@ import java.util.List;
 public class ExcelHeadEnterInventory {
 
     //校验字段
+    public final static String putrec_seqno = "备案序号";//list
     public final static String gds_mtno = "账册备案料号";//list
     public final static String gdecd = "商品编码";//list
     public final static String gds_nm = "商品名称";//list
@@ -32,6 +33,7 @@ public class ExcelHeadEnterInventory {
     //订单Excel模板表头所有字段名
     public static List<String> getList() {
         List<String> inventoryList = new ArrayList<>();
+        inventoryList.add("备案序号");
         inventoryList.add("账册备案料号");
         inventoryList.add("商品编码");
         inventoryList.add("商品名称");
