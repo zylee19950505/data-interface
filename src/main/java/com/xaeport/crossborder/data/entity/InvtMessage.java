@@ -5,9 +5,18 @@ import java.util.List;
 public class InvtMessage {
 
     private InvtHeadType invtHeadType;
+    private List<ExitInvtListType> exitInvtListTypeList;
     private List<InvtListType> invtListTypeList;
     private String operCusRegCode;
     private String sysId;
+
+    public List<ExitInvtListType> getExitInvtListTypeList() {
+        return exitInvtListTypeList;
+    }
+
+    public void setExitInvtListTypeList(List<ExitInvtListType> exitInvtListTypeList) {
+        this.exitInvtListTypeList = exitInvtListTypeList;
+    }
 
     public InvtHeadType getInvtHeadType() {
         return invtHeadType;

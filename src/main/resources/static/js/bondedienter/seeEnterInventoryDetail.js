@@ -65,7 +65,6 @@ function inputChangeEnterInventory(id) {
         if (!isNotEmpty(val)) {
             return;
         }
-        debugger;
         if (pattern.test(key)) {
             var gds_seqno = key.substring(key.lastIndexOf("_") + 1, key.length);
             var keys = key.substring(0, key.lastIndexOf("_"));

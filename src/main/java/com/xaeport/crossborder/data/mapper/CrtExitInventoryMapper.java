@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.CrtExitInventorySQLProvider;
+import com.xaeport.crossborder.data.provider.ExitInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.LinkedHashMap;
@@ -10,6 +11,17 @@ import java.util.Map;
 
 @Mapper
 public interface CrtExitInventoryMapper {
+
+    @Select("SELECT CBEC_BILL_NO FROM T_NEMS_INVT_CBEC_BILL_TYPE t WHERE t.HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
+    List<NemsInvtCbecBillType> queryNemsInvtCbecBillList(@Param("etpsInnerInvtNo") String etpsInnerInvtNo);
+
+    //查询核注清单申报中所对应表体信息
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
+    List<ImpInventoryBody> queryImpInventoryBodyList(@Param("invtNo") String invtNo);
+
+    //查询核注清单申报中所对应表体信息
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryNemsInvtCbecBillTypeList")
+    List<NemsInvtCbecBillType> queryNemsInvtCbecBillTypeList(@Param("etpsInnerInvtNo") String etpsInnerInvtNo);
 
     //查询保税清单数据
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryCrtEInventoryData")
@@ -66,6 +78,10 @@ public interface CrtExitInventoryMapper {
     //插入核注清单新数据（表体数据）
     @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "saveNemsInvtCbecBillType")
     void saveNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") NemsInvtCbecBillType nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
+
+    //插入核注清单新数据（表体数据）
+    @InsertProvider(type = CrtExitInventorySQLProvider.class, method = "insertInvtListType")
+    void insertInvtListType(@Param("invtListType") InvtListType invtListType);
 
     //查询统计——查询电商企业
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryEbusinessEnt")

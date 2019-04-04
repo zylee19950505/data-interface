@@ -63,11 +63,19 @@
         <tr>
             <td class="headTitle">申报海关代码</td>
             <td>
-                <select class="form-control input-sm" id="customs_code"/>
+                <!--<select class="form-control input-sm" id="customs_code"/>-->
+                <input type="text" id="customs_code" name="customs_code" list="customs_codes"/>
+                <datalist id="customs_codes" name="customs_codes" style="display: none;">
+                    <option value="" selected="selected"></option>
+                </datalist>
             </td>
             <td class="headTitle">口岸海关代码</td>
             <td>
-                <select class="form-control input-sm" id="port_code"/>
+                <!--<select class="form-control input-sm" id="port_code"/>-->
+                <input type="text" id="port_code" name="port_code" list="port_codes"/>
+                <datalist id="port_codes" name="port_codes" style="display: none;">
+                    <option value="" selected="selected"></option>
+                </datalist>
             </td>
             <td class="headTitle">进口日期</td>
             <td>
@@ -105,7 +113,7 @@
         <tr>
             <td class="headTitle">申报企业代码</td>
             <td>
-                <input class="form-control input-sm" maxlength="18" id="agent_code"/>
+                <select class="form-control input-sm" maxlength="18" id="agent_code"/>
             </td>
             <td class="headTitle">申报企业名称</td>
             <td>
@@ -168,6 +176,7 @@
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
             <th width="3%">序号</th>
+            <th>备案序号</th>
             <th>账册料号</th>
             <th>商品名称</th>
             <th>商品编码</th>
@@ -181,9 +190,9 @@
             <th>第二<br/>单位</th>
             <th width="5%">单价</th>
             <th width="5%">总价</th>
-            <th width="5%">关税</th>
-            <th width="5%">增值税</th>
-            <th width="5%">消费税</th>
+            <!--<th width="5%">关税</th>-->
+            <!--<th width="5%">增值税</th>-->
+            <!--<th width="5%">消费税</th>-->
         </tr>
     </table>
     <div class="text-center">

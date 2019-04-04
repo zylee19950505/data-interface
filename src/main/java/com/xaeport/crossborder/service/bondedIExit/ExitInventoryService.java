@@ -68,6 +68,7 @@ public class ExitInventoryService {
             for (int i = 0; i < bondInvtBscList.size(); i++) {
                 etpsInnerInvtNo = bondInvtBscList.get(i).getEtps_inner_invt_no();
                 //删除表头及表体数据
+                this.exitInventoryMapper.deleteBondtInvtDtByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteNemsInvtCbecBillTypeByNo(etpsInnerInvtNo);
                 this.exitInventoryMapper.deleteBondInvtBscByNo(etpsInnerInvtNo);
             }

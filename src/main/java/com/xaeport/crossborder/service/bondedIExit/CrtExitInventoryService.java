@@ -118,6 +118,36 @@ public class CrtExitInventoryService {
                 nemsInvtCbecBillType.setBill_no(impInventoryList.get(i).getBill_no());
                 this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
             }
+            String etpsInnerInvtNo = BondInvtBsc.get("etps_inner_invt_no");
+            List<NemsInvtCbecBillType> NemsInvtCbecBillType = this.crtExitInventoryMapper.queryNemsInvtCbecBillList(etpsInnerInvtNo);
+
+            for (int k = 0; k < NemsInvtCbecBillType.size(); k++) {
+                String invtNo = NemsInvtCbecBillType.get(k).getCbec_bill_no();
+                List<ImpInventoryBody> impInventoryBodyList = crtExitInventoryMapper.queryImpInventoryBodyList(invtNo);
+                for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
+                    InvtListType invtListType = new InvtListType();
+                    invtListType.setId(IdUtils.getUUId());
+                    invtListType.setHeadEtpsInnerInvtNo(etpsInnerInvtNo);
+                    invtListType.setGdsSeqno(String.valueOf(impInventoryBody.getG_num()));
+                    invtListType.setPutrecSeqno(impInventoryBody.getItem_record_no());
+                    invtListType.setGdsMtno(impInventoryBody.getItem_no());
+                    invtListType.setGdecd(impInventoryBody.getG_code());
+                    invtListType.setGdsNm(impInventoryBody.getG_name());
+                    invtListType.setGdsSpcfModelDesc(impInventoryBody.getG_model());
+                    invtListType.setDclUnitcd(impInventoryBody.getUnit());
+                    invtListType.setLawfUnitcd(impInventoryBody.getUnit1());
+                    invtListType.setDclUprcAmt(impInventoryBody.getPrice());
+                    invtListType.setDclTotalAmt(impInventoryBody.getTotal_price());
+                    invtListType.setDclCurrcd(impInventoryBody.getCurrency());
+                    invtListType.setLawfQty(impInventoryBody.getQty1());
+                    invtListType.setDclQty(impInventoryBody.getQty());
+                    invtListType.setNatcd(impInventoryBody.getCountry());
+                    invtListType.setLvyrlfModecd("1");
+                    invtListType.setModfMarkcd("3");
+                    invtListType.setDestinationNatcd("142");
+                    this.crtExitInventoryMapper.insertInvtListType(invtListType);
+                }
+            }
         }
 
         this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc, ebcCode, userInfo);

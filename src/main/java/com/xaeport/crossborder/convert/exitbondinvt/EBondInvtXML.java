@@ -5,7 +5,6 @@ import com.xaeport.crossborder.data.entity.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -60,7 +59,6 @@ public class EBondInvtXML {
         Element VrfdedMarkcd;
         Element InputCode;
         Element InputName;
-        Element InputTime;
         Element ListStat;
         Element CorrEntryDclEtpsNo;
         Element CorrEntryDclEtpsNm;
@@ -159,9 +157,6 @@ public class EBondInvtXML {
         InputName = document.createElement("InputName");
         InputName.setTextContent(invtHeadType.getInputName());
 
-        InputTime = document.createElement("InputTime");
-        InputTime.setTextContent(invtHeadType.getInputTime());
-
         ListStat = document.createElement("ListStat");
         ListStat.setTextContent(invtHeadType.getListStat());
 
@@ -208,7 +203,6 @@ public class EBondInvtXML {
         InvtHeadType.appendChild(VrfdedMarkcd);
         InvtHeadType.appendChild(InputCode);
         InvtHeadType.appendChild(InputName);
-        InvtHeadType.appendChild(InputTime);
         InvtHeadType.appendChild(ListStat);
         InvtHeadType.appendChild(CorrEntryDclEtpsNo);
         InvtHeadType.appendChild(CorrEntryDclEtpsNm);
@@ -217,10 +211,13 @@ public class EBondInvtXML {
         InvtHeadType.appendChild(StshipTrsarvNatcd);
         InvtHeadType.appendChild(InvtType);
 
-//        String etpsInnerInvtNo = invtHeadType.getEtpsInnerInvtNo();
-
         InvtMessage.appendChild(InvtHeadType);
-        this.getBondInvenList(document, invtMessage, InvtMessage);
+
+        //设置InvtListType节点报文内容
+        this.getInvtListType(document, invtMessage, InvtMessage);
+
+        //设置InvtCbecBillType节点报文内容
+        this.getInvtCbecBillType(document, invtMessage, InvtMessage);
 
         InvtMessage.appendChild(OperCusRegCode);
         InvtMessage.appendChild(SysId);
@@ -235,19 +232,122 @@ public class EBondInvtXML {
     }
 
     /**
+     * 构建出区核注清单表体详情节点
+     */
+    public void getInvtListType(Document document, InvtMessage invtMessage, Element InvtMessage) {
+
+        List<ExitInvtListType> exitInvtListTypes = invtMessage.getExitInvtListTypeList();
+        Element InvtListType;
+
+        Element GdsSeqno;
+        Element PutrecSeqno;
+        Element GdsMtno;
+        Element Gdecd;
+        Element GdsNm;
+        Element GdsSpcfModelDesc;
+        Element DclUnitcd;
+        Element LawfUnitcd;
+        Element DclUprcAmt;
+        Element DclTotalAmt;
+        Element DclCurrcd;
+        Element LawfQty;
+        Element DclQty;
+        Element Natcd;
+        Element LvyrlfModecd;
+        Element ModfMarkcd;
+        Element DestinationNatcd;
+
+        for (int i = 0; i < exitInvtListTypes.size(); i++) {
+            InvtListType = document.createElement("InvtListType");
+
+            GdsSeqno = document.createElement("GdsSeqno");
+            GdsSeqno.setTextContent(String.valueOf(i + 1));
+
+            PutrecSeqno = document.createElement("PutrecSeqno");
+            PutrecSeqno.setTextContent(exitInvtListTypes.get(i).getPutrecSeqno());
+
+            GdsMtno = document.createElement("GdsMtno");
+            GdsMtno.setTextContent(exitInvtListTypes.get(i).getGdsMtno());
+
+            Gdecd = document.createElement("Gdecd");
+            Gdecd.setTextContent(exitInvtListTypes.get(i).getGdecd());
+
+            GdsNm = document.createElement("GdsNm");
+            GdsNm.setTextContent(exitInvtListTypes.get(i).getGdsNm());
+
+            GdsSpcfModelDesc = document.createElement("GdsSpcfModelDesc");
+            GdsSpcfModelDesc.setTextContent(exitInvtListTypes.get(i).getGdsSpcfModelDesc());
+
+            DclUnitcd = document.createElement("DclUnitcd");
+            DclUnitcd.setTextContent(exitInvtListTypes.get(i).getDclUnitcd());
+
+            LawfUnitcd = document.createElement("LawfUnitcd");
+            LawfUnitcd.setTextContent(exitInvtListTypes.get(i).getLawfUnitcd());
+
+            DclUprcAmt = document.createElement("DclUprcAmt");
+            DclUprcAmt.setTextContent(exitInvtListTypes.get(i).getDclUprcAmt());
+
+            DclTotalAmt = document.createElement("DclTotalAmt");
+            DclTotalAmt.setTextContent(exitInvtListTypes.get(i).getDclTotalAmt());
+
+            DclCurrcd = document.createElement("DclCurrcd");
+            DclCurrcd.setTextContent(exitInvtListTypes.get(i).getDclCurrcd());
+
+            LawfQty = document.createElement("LawfQty");
+            LawfQty.setTextContent(exitInvtListTypes.get(i).getLawfQty());
+
+            DclQty = document.createElement("DclQty");
+            DclQty.setTextContent(exitInvtListTypes.get(i).getDclQty());
+
+            Natcd = document.createElement("Natcd");
+            Natcd.setTextContent(exitInvtListTypes.get(i).getNatcd());
+
+            LvyrlfModecd = document.createElement("LvyrlfModecd");
+            LvyrlfModecd.setTextContent(exitInvtListTypes.get(i).getLvyrlfModecd());
+
+            ModfMarkcd = document.createElement("ModfMarkcd");
+            ModfMarkcd.setTextContent(exitInvtListTypes.get(i).getModfMarkcd());
+
+            DestinationNatcd = document.createElement("DestinationNatcd");
+            DestinationNatcd.setTextContent(exitInvtListTypes.get(i).getDestinationNatcd());
+
+            InvtListType.appendChild(GdsSeqno);
+            InvtListType.appendChild(PutrecSeqno);
+            InvtListType.appendChild(GdsMtno);
+            InvtListType.appendChild(Gdecd);
+            InvtListType.appendChild(GdsNm);
+            InvtListType.appendChild(GdsSpcfModelDesc);
+            InvtListType.appendChild(DclUnitcd);
+            InvtListType.appendChild(LawfUnitcd);
+            InvtListType.appendChild(DclUprcAmt);
+            InvtListType.appendChild(DclTotalAmt);
+            InvtListType.appendChild(DclCurrcd);
+            InvtListType.appendChild(LawfQty);
+            InvtListType.appendChild(DclQty);
+            InvtListType.appendChild(Natcd);
+            InvtListType.appendChild(LvyrlfModecd);
+            InvtListType.appendChild(ModfMarkcd);
+            InvtListType.appendChild(DestinationNatcd);
+
+            InvtMessage.appendChild(InvtListType);
+        }
+    }
+
+
+    /**
      * 构建出区核注清单报文表体节点
      */
-    public void getBondInvenList(Document document, InvtMessage invtMessage, Element InvtMessage) {
+    public void getInvtCbecBillType(Document document, InvtMessage invtMessage, Element InvtMessage) {
 
         List<InvtListType> invtListTypeList = invtMessage.getInvtListTypeList();
 
-        Element InvtListType;
+        Element InvtCbecBillType;
         Element SeqNo;
         Element BondInvtNo;
         Element CbecBillNo;
 
         for (int i = 0; i < invtListTypeList.size(); i++) {
-            InvtListType = document.createElement("InvtListType");
+            InvtCbecBillType = document.createElement("InvtCbecBillType");
 
             SeqNo = document.createElement("SeqNo");
             SeqNo.setTextContent(String.valueOf(invtListTypeList.get(i).getSeqNo()));
@@ -258,10 +358,10 @@ public class EBondInvtXML {
             CbecBillNo = document.createElement("CbecBillNo");
             CbecBillNo.setTextContent(invtListTypeList.get(i).getCbecBillNo());
 
-            InvtListType.appendChild(SeqNo);
-            InvtListType.appendChild(BondInvtNo);
-            InvtListType.appendChild(CbecBillNo);
-            InvtMessage.appendChild(InvtListType);
+            InvtCbecBillType.appendChild(SeqNo);
+            InvtCbecBillType.appendChild(BondInvtNo);
+            InvtCbecBillType.appendChild(CbecBillNo);
+            InvtMessage.appendChild(InvtCbecBillType);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.InvtListType;
 import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CrtExitInventorySQLProvider extends BaseSQLProvider {
+
+    public String queryNemsInvtCbecBillTypeList(@Param("etpsInnerInvtNo") String etpsInnerInvtNo) {
+
+        return new SQL() {
+            {
+                SELECT("SEQ_NO");
+                SELECT("BOND_INVT_NO");
+                SELECT("CBEC_BILL_NO");
+                FROM("T_NEMS_INVT_CBEC_BILL_TYPE t");
+                WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
+            }
+        }.toString();
+    }
 
     public String queryEbusinessEnt(Map<String, String> paramMap) throws Exception {
 
@@ -519,6 +533,74 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("upd_user", "#{userInfo.id}");
+                }
+            }
+        }.toString();
+    }
+
+    public String insertInvtListType(@Param("invtListType") InvtListType invtListType) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_BOND_INVT_DT");
+                if (!StringUtils.isEmpty(invtListType.getId())) {
+                    VALUES("ID", "#{invtListType.id}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getId())) {
+                    VALUES("CRT_TIME", "sysdate");
+                }
+                if (!StringUtils.isEmpty(invtListType.getHeadEtpsInnerInvtNo())) {
+                    VALUES("HEAD_ETPS_INNER_INVT_NO", "#{invtListType.headEtpsInnerInvtNo}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getGdsSeqno())) {
+                    VALUES("GDS_SEQNO", "#{invtListType.gdsSeqno}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getPutrecSeqno())) {
+                    VALUES("PUTREC_SEQNO", "#{invtListType.putrecSeqno}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getGdsMtno())) {
+                    VALUES("GDS_MTNO", "#{invtListType.gdsMtno}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getGdecd())) {
+                    VALUES("GDECD", "#{invtListType.gdecd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getGdsNm())) {
+                    VALUES("GDS_NM", "#{invtListType.gdsNm}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getGdsSpcfModelDesc())) {
+                    VALUES("GDS_SPCF_MODEL_DESC", "#{invtListType.gdsSpcfModelDesc}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDclUnitcd())) {
+                    VALUES("DCL_UNITCD", "#{invtListType.dclUnitcd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getLawfUnitcd())) {
+                    VALUES("LAWF_UNITCD", "#{invtListType.lawfUnitcd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDclUprcAmt())) {
+                    VALUES("DCL_UPRC_AMT", "#{invtListType.dclUprcAmt}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDclTotalAmt())) {
+                    VALUES("DCL_TOTAL_AMT", "#{invtListType.dclTotalAmt}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDclCurrcd())) {
+                    VALUES("DCL_CURRCD", "#{invtListType.dclCurrcd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getLawfQty())) {
+                    VALUES("LAWF_QTY", "#{invtListType.lawfQty}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDclQty())) {
+                    VALUES("DCL_QTY", "#{invtListType.dclQty}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getNatcd())) {
+                    VALUES("NATCD", "#{invtListType.natcd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getLvyrlfModecd())) {
+                    VALUES("LVYRLF_MODECD", "#{invtListType.lvyrlfModecd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getModfMarkcd())) {
+                    VALUES("MODF_MARKCD", "#{invtListType.ModfMarkcd}");
+                }
+                if (!StringUtils.isEmpty(invtListType.getDestinationNatcd())) {
+                    VALUES("DESTINATION_NATCD", "#{invtListType.DestinationNatcd}");
                 }
             }
         }.toString();

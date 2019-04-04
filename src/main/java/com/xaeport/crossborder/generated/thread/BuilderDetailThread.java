@@ -192,8 +192,9 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setBuyer_name(imporderHead.getBuyer_Name());//订购人的真实姓名。
         impInventoryHead.setBuyer_telephone(imporderHead.getBuyer_TelePhone());//订购人电话。
         impInventoryHead.setConsignee_address(imporderHead.getConsignee_Address());//收货地址
-        impInventoryHead.setAgent_code(enterpriseDetail.getEnt_code());//申报单位的海关注册登记编号。
-        impInventoryHead.setAgent_name(enterpriseDetail.getEnt_name());//申报单位在海关注册登记的名称。
+        //暂取消申报企业信息，由界面企业自行填写
+//        impInventoryHead.setAgent_code(enterpriseDetail.getEnt_code());//申报单位的海关注册登记编号。
+//        impInventoryHead.setAgent_name(enterpriseDetail.getEnt_name());//申报单位在海关注册登记的名称。
         impInventoryHead.setWrap_type("");//包装种类
         impInventoryHead.setInsured_fee(impLogistics.getInsured_fee());//物流企业实际收取的商品保价费用。
         impInventoryHead.setFreight(impLogistics.getFreight());//运杂费

@@ -23,7 +23,7 @@ function selecterInitBondInven(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -144,6 +144,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
 
             "g_num",
             "g_itemRecordNo",
+            "g_itemNo",
             "g_name",
             "g_code",
             "g_model",
@@ -173,6 +174,23 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
     },
     // 装载表头信息
     fillBondInvenHead: function (entryHead) {
+
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#customs_codes").append(option);
+        }
+        for (var key in sw.dict.customs) {
+            var customsCode = key;
+            var name = sw.dict.customs[key];
+            var option = $("<option>").text(name).val(customsCode);
+            $("#port_codes").append(option);
+        }
+
+        $("#customs_code").val(entryHead.customs_code);
+        $("#port_code").val(entryHead.port_code);
+
         $("#order_no").val(entryHead.order_no);
         $("#cop_no").val(entryHead.cop_no);
         $("#logistics_no").val(entryHead.logistics_no);
@@ -183,8 +201,8 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.customs);
+        // selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
+        // selecterInitBondInven("port_code", entryHead.port_code, sw.dict.customs);
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
@@ -201,9 +219,9 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
-        $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
-        $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
-        $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
+        // $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
+        // $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
+        // $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
         $("#note").val(entryHead.note);
 
     },
@@ -216,6 +234,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"30\" id='g_itemRecordNo_" + g_num + "' value='" + entryLists[i].item_record_no + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_itemNo_" + g_num + "' value='" + entryLists[i].item_no + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
@@ -228,9 +247,9 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
+                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
+                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
+                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
             selecterInitBondInven("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
@@ -265,9 +284,11 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         for (var key in listChangeValBondInven) {
             entryLists.push(listChangeValBondInven[key]);
         }
+        var agent_name = $("#agent_name").val();
         var entryData = {
             entryHead: headChangeValBondInven,
-            entryList: entryLists
+            entryList: entryLists,
+            agent_name: agent_name
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
@@ -369,7 +390,8 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         // 校验表体
         var validataListField = {
             "g_num": "序号",
-            "g_itemRecordNo": "账册料号",
+            "g_itemRecordNo": "备案序号",
+            "g_itemNo": "账册料号",
             "g_name": "商品名称",
             "g_code": "商品编码",
             "g_model": "商品规格/型号",
@@ -417,9 +439,28 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 }
             }
         }
-
         return true;
     },
+
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
+                $("#agent_code").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#agent_code").change(function () {
+            var name = $("#agent_code option:selected").attr("name");
+            $("#agent_name").text(name).val(name);
+        })
+    },
+
 
     init: function () {
         //从路径上获取参数
@@ -428,6 +469,9 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         var orderNo = param.orderNo;
         var type = param.type;
         var isEdit = param.isEdit;
+
+        this.dclEtps();
+        this.dclEtpsName();
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -548,6 +592,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
 
                 "g_num",
                 "g_itemRecordNo",
+                "g_itemNo",
                 "g_name",
                 "g_code",
                 "g_model",
@@ -555,8 +600,8 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 "g_unit",
                 "qty_1",
                 "unit_1",
-                //"qty_2",
-                //"unit_2",
+                "qty_2",
+                "unit_2",
                 "price",
                 "total_price",
                 "country",
@@ -582,7 +627,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#ws-page-back").click(function () {
             sw.page.modules["bondinvenmanage/seebondinvendetail"].cancel();
         });
-    },
+    }
 
 
 };

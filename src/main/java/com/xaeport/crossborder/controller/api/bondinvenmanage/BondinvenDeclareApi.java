@@ -141,10 +141,15 @@ public class BondinvenDeclareApi extends BaseApi {
     public ResponseData saveInventoryDetail(@Param("entryJson") String entryJson) {
         //保税清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        String agent_name = (String) object.get("agent_name");
+
         //保税清单表头
         LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
         //保税清单表体
         ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
+
+        entryHead.put("agent_name", agent_name);
 
         Map<String, String> rtnMap = new HashMap<>();
         try {

@@ -46,14 +46,17 @@ public class EBondInvtThread implements Runnable {
         InvtMessage invtMessage = new InvtMessage();
 
         List<BondInvtBsc> bondInvtBscList;
+        List<BondInvtDt> bondInvtDtList;
         List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
         InvtHeadType invtHeadType;
         InvtListType invtListType;
+        ExitInvtListType exitInvtListType;
+        List<ExitInvtListType> exitInvtListTypeList = null;
         List<InvtListType> invtListTypeList;
         String headEtpsInnerInvtNo = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
-        String xmlName = null;
+        String xmlName;
 
         while (true) {
 
@@ -130,7 +133,34 @@ public class EBondInvtThread implements Runnable {
                             invtListTypeList.add(invtListType);
                         }
 
+                        bondInvtDtList = this.exitInventoryMapper.queryExitInvtListType(headEtpsInnerInvtNo);
+
+                        exitInvtListTypeList = new ArrayList<>();
+
+                        for (BondInvtDt bondInvtDt : bondInvtDtList) {
+                            exitInvtListType = new ExitInvtListType();
+                            exitInvtListType.setGdsSeqno(String.valueOf(bondInvtDt.getGds_seqno()));
+                            exitInvtListType.setPutrecSeqno(String.valueOf(bondInvtDt.getPutrec_seqno()));
+                            exitInvtListType.setGdsMtno(bondInvtDt.getGds_mtno());
+                            exitInvtListType.setGdecd(bondInvtDt.getGdecd());
+                            exitInvtListType.setGdsNm(bondInvtDt.getGds_nm());
+                            exitInvtListType.setGdsSpcfModelDesc(bondInvtDt.getGds_spcf_model_desc());
+                            exitInvtListType.setDclUnitcd(bondInvtDt.getDcl_unitcd());
+                            exitInvtListType.setLawfUnitcd(bondInvtDt.getLawf_unitcd());
+                            exitInvtListType.setNatcd(bondInvtDt.getNatcd());
+                            exitInvtListType.setDclUprcAmt(bondInvtDt.getDcl_uprc_amt());
+                            exitInvtListType.setDclTotalAmt(bondInvtDt.getDcl_total_amt());
+                            exitInvtListType.setDclCurrcd(bondInvtDt.getDcl_currcd());
+                            exitInvtListType.setLawfQty(bondInvtDt.getLawf_qty());
+                            exitInvtListType.setDclQty(bondInvtDt.getDcl_qty());
+                            exitInvtListType.setLvyrlfModecd(bondInvtDt.getLvyrlf_modecd());
+                            exitInvtListType.setModfMarkcd(bondInvtDt.getModf_markcd());
+                            exitInvtListType.setDestinationNatcd(bondInvtDt.getDestination_natcd());
+                            exitInvtListTypeList.add(exitInvtListType);
+                        }
+
                         invtMessage.setInvtHeadType(invtHeadType);
+                        invtMessage.setExitInvtListTypeList(exitInvtListTypeList);
                         invtMessage.setInvtListTypeList(invtListTypeList);
                         invtMessage.setOperCusRegCode(invtHeadType.getDclEtpsno());
                         invtMessage.setSysId("Z8");
@@ -208,7 +238,7 @@ public class EBondInvtThread implements Runnable {
         envelopInfo.setSender_id(this.exitInventoryMapper.getDxpId(bondInvtBsc.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(bondInvtBsc.getInvt_dcl_time()));
-        envelopInfo.setIc_Card(this.exitInventoryMapper.getDclEtpsIcCard(bondInvtBsc.getCrt_ent_id(),bondInvtBsc.getDcl_etpsno()));
+        envelopInfo.setIc_Card(this.exitInventoryMapper.getDclEtpsIcCard(bondInvtBsc.getCrt_ent_id(), bondInvtBsc.getDcl_etpsno()));
         return envelopInfo;
     }
 }

@@ -35,9 +35,17 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryDeleteListByCode")
     List<NemsInvtCbecBillType> queryDeleteListByCode(Map<String, String> paramMap);
 
+    //查询需要的InvtListType数据
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryImpInventoryBodyList")
+    List<ImpInventoryBody> queryImpInventoryBodyList(String invtNo);
+
     //修改保税清单数据状态为“未生成”
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateInventoryByInvtNo")
     void updateInventoryByInvtNo(String invtNo);
+
+    //删除核注清单表体数据
+    @Delete("DELETE FROM T_BOND_INVT_DT WHERE HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
+    void deleteBondtInvtDtByNo(String etpsInnerInvtNo);
 
     //删除核注清单表体数据
     @Delete("DELETE FROM T_NEMS_INVT_CBEC_BILL_TYPE WHERE HEAD_ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}")
@@ -74,6 +82,12 @@ public interface ExitInventoryMapper {
     //查询核注清单申报中所对应表体信息
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryBondInvtListByHeadNo")
     List<NemsInvtCbecBillType> queryBondInvtListByHeadNo(@Param("head_etps_inner_invt_no") String head_etps_inner_invt_no);
+
+    //查询核注清单申报中所对应表体信息
+//    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryExitInvtListType")
+//    List<BondInvtDt> queryExitInvtListType(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo);
+    @Select("SELECT * FROM T_BOND_INVT_DT t WHERE t.HEAD_ETPS_INNER_INVT_NO = #{headEtpsInnerInvtNo}")
+    List<BondInvtDt> queryExitInvtListType(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo);
 
     //查询企业信息
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryCompany")

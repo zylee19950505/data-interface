@@ -117,6 +117,18 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String queryImpInventoryBodyList(@Param("invtNo") String invtNo) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_IMP_INVENTORY_BODY");
+                WHERE("HEAD_GUID IN (" +
+                        " SELECT GUID FROM T_IMP_INVENTORY_HEAD t WHERE t.INVT_NO = #{invtNo}" +
+                        " )");
+            }
+        }.toString();
+    }
+
     public String queryBondInvtBsc(Map<String, String> paramMap) {
 
         final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
@@ -144,6 +156,18 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
+//    public String queryImpInventoryBodyList(String invtNo) {
+//        return new SQL() {
+//            {
+//                SELECT("*");
+//                FROM("T_IMP_INVENTORY_BODY");
+//                WHERE("HEAD_GUID in ( " +
+//                        "SELECT GUID FROM T_IMP_INVENTORY_HEAD WHERE INVT_NO = #{invtNo}" +
+//                        " )");
+//            }
+//        }.toString();
+//    }
 
     public String updateInventoryByInvtNo(String invtNo) {
         return new SQL() {

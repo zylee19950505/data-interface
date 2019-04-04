@@ -299,6 +299,9 @@ public class BondinvenQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryList.get("g_itemRecordNo"))) {
                     SET("t.ITEM_RECORD_NO = #{g_itemRecordNo}");
                 }
+                if (!StringUtils.isEmpty(entryList.get("g_itemNo"))) {
+                    SET("t.ITEM_NO = #{g_itemNo}");
+                }
                 if (!StringUtils.isEmpty(entryList.get("g_code"))) {
                     SET("t.G_CODE = #{g_code}");
                 }

@@ -2,6 +2,9 @@ package com.xaeport.crossborder.data.entity;
 
 public class InvtListType {
 
+    private String id;
+    private String headEtpsInnerInvtNo;
+
     private String gdsSeqno;
     private String putrecSeqno;
     private String gdsMtno;
@@ -29,6 +32,22 @@ public class InvtListType {
     private String CbecBillNo;
     private String DestinationNatcd;
     private String ModfMarkcd;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getHeadEtpsInnerInvtNo() {
+        return headEtpsInnerInvtNo;
+    }
+
+    public void setHeadEtpsInnerInvtNo(String headEtpsInnerInvtNo) {
+        this.headEtpsInnerInvtNo = headEtpsInnerInvtNo;
+    }
 
     public String getSecdLawfUnitcd() {
         return secdLawfUnitcd;
