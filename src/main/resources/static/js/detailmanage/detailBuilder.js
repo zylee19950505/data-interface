@@ -56,9 +56,6 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
                         if (row.orderStatus == "CBDS21" && row.logisticsStatus == "CBDS41" && row.dataStatus == null) {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
-                        }else if (row.orderStatus == "CBDS21" && row.logisticsStatus == "CBDS41" && row.dataStatus == "QDSCSB") {
-                            return '<input type="checkbox" class="submitKey" value="' +
-                                row.order_no + '" />';
                         }
                         else {
                             return "";
