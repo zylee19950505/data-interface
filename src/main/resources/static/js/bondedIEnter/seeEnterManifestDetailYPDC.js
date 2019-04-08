@@ -53,13 +53,13 @@ function sumTotalPricesInvent() {
         var decTotal = $(this).val();
         totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
     });
-    $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
+    $("#total_sum").val(parseFloat(totalPrices).toFixed(2));
     headChangeKeyVal["total_sum"] = $("#total_sum").val();
 }
 
 // 计算表体申报总价
 function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
-    var declTotal = parseFloat(dVal * qty).toFixed(5);
+    var declTotal = parseFloat(dVal * qty).toFixed(2);
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
@@ -140,8 +140,8 @@ function inputChangeManifestInvent() {
             totalGrossWt+=entryLists[i].surplus_nm*entryLists[i].gross_wt;
             totalNetWt+=entryLists[i].surplus_nm*entryLists[i].net_wt;
         }
-        $("#total_gross_wt").val(parseFloat(totalGrossWt).toFixed(5));
-        $("#total_net_wt").val(parseFloat(totalNetWt).toFixed(5));
+        $("#total_gross_wt").val(parseFloat(totalGrossWt).toFixed(2));
+        $("#total_net_wt").val(parseFloat(totalNetWt).toFixed(2));
 
         var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
         var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
@@ -329,8 +329,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='passport_seqno_" + g_num + "' value='" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "":entryLists[i].gds_mtno) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "":entryLists[i].gds_nm) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(2) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='surplus_nm_" + g_num + "' type='number' min='1' value='0' /></td>" +
                 // "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='surplus_nm_" + g_num + "' type='number' min='1' value='" + (isEmpty(entryLists[i].surplus_nm) ? 0:entryLists[i].surplus_nm) + "' /></td>" +
                 "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedienter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +

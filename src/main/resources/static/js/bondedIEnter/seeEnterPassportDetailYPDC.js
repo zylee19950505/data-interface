@@ -146,8 +146,8 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='passport_seqno_" + g_num + "' value='" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='gds_mtNo_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtNo) ? "":entryLists[i].gds_mtNo) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "":entryLists[i].gds_nm) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(5) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(2) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_qty_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_qty) ? "":entryLists[i].dcl_qty) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
