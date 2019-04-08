@@ -21,11 +21,11 @@ public interface ReceiptMapper {
 
     //确认保税清单库存无误后，设置账册表体预减数量
     @UpdateProvider(type = ReceiptSQLProvider.class, method = "setPrevdRedcQty")
-    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
+    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_no") String item_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
 
     //查询检验库存余量是否大于excel导入数量
     @SelectProvider(type = ReceiptSQLProvider.class, method = "checkStockSurplus")
-    BwlListType checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
+    BwlListType checkStockSurplus(@Param("id") String id, @Param("item_no") String item_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno);
 
 
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_ORDER_HEAD WHERE ORDER_NO = #{orderNo}")

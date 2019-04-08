@@ -34,6 +34,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("HEAD_GUID");
                 SELECT("ORDER_NO");
                 SELECT("ITEM_RECORD_NO");
+                SELECT("ITEM_NO");
                 SELECT("G_CODE");
                 SELECT("QTY quantity");
                 SELECT("UNIT");
@@ -50,7 +51,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
 
     public String setPrevdRedcQty(
             @Param("qtySum") double qtySum,
-            @Param("item_record_no") String item_record_no,
+            @Param("item_no") String item_no,
             @Param("emsNo") String emsNo,
             @Param("bizopEtpsno") String bizopEtpsno
     ) {
@@ -59,7 +60,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
                 WHERE("BIZOP_ETPSNO = #{bizopEtpsno}");
-                WHERE("GDS_MTNO = #{item_record_no}");
+                WHERE("GDS_MTNO = #{item_no}");
                 SET("PREVD_REDC_QTY = PREVD_REDC_QTY - #{qtySum}");
                 SET("ACTL_REDC_QTY = ACTL_REDC_QTY + #{qtySum}");
             }
@@ -68,7 +69,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
 
 
     //查询保税清单库存是否允许进行实减
-    public String checkStockSurplus(@Param("id") String id, @Param("item_record_no") String item_record_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno) {
+    public String checkStockSurplus(@Param("id") String id, @Param("item_no") String item_no, @Param("emsNo") String emsNo, @Param("bizopEtpsno") String bizopEtpsno) {
         return new SQL() {
             {
                 SELECT("IN_QTY inQty");
@@ -79,7 +80,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BWS_NO = #{emsNo}");
                 WHERE("t.BIZOP_ETPSNO = #{bizopEtpsno}");
-                WHERE("t.GDS_MTNO = #{item_record_no}");
+                WHERE("t.GDS_MTNO = #{item_no}");
             }
         }.toString();
     }

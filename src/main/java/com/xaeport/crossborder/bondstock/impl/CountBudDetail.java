@@ -28,24 +28,24 @@ public class CountBudDetail implements CountLoader {
     //检查对应库存余量是否大于导入商品数量
     public int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail) {
         int flag = 0;
-        Map<String, List<ImpInventoryBody>> itemRecordNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
+        Map<String, List<ImpInventoryBody>> itemNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
         List<ImpInventoryBody> impBondInvenBodyList;
-        String item_record_no;
+        String item_no;
         String entCustomsCode = null;
         //查找企业信息里的区内企业信息
         //再在账册表头里查找创建账册的创建人所属企业ID匹配账册信息
         Enterprise enterprise = this.bondinvenImportMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
         String emsNo = this.bondinvenImportMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
-        for (String itemRecordNo : itemRecordNoData.keySet()) {
+        for (String itemNo : itemNoData.keySet()) {
             //获取按照料号划分的保税清单表体数据
-            impBondInvenBodyList = itemRecordNoData.get(itemRecordNo);
+            impBondInvenBodyList = itemNoData.get(itemNo);
             //获取料号
-            item_record_no = impBondInvenBodyList.get(0).getItem_record_no();
+            item_no = impBondInvenBodyList.get(0).getItem_no();
             //根据料号，账册号查询是否存在账册表体数据
             entCustomsCode = enterpriseDetail.getCustoms_code();
 
 
-            BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(entCustomsCode, item_record_no, emsNo);
+            BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(entCustomsCode, item_no, emsNo);
             if (!StringUtils.isEmpty(bwlListType)) {
                 //获取导入保税清单的表体总数
                 double qtySum = impBondInvenBodyList.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
@@ -73,7 +73,7 @@ public class CountBudDetail implements CountLoader {
         }
         if (flag == 0) {
             //确认保税清单库存无误后，设置账册表体预减数量
-            this.setPrevdRedcQty(itemRecordNoData, emsNo, entCustomsCode);
+            this.setPrevdRedcQty(itemNoData, emsNo, entCustomsCode);
             return flag;
         } else {
             return flag;
@@ -87,14 +87,14 @@ public class CountBudDetail implements CountLoader {
     }
 
     //确认保税清单库存无误后，设置账册表体预减数量
-    public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemRecordNoData, String emsNo, String entCustomsCode) {
+    public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemNoData, String emsNo, String entCustomsCode) {
         List<ImpInventoryBody> impBondInvenBodyList;
-        String item_record_no;
-        for (String itemRecordNo : itemRecordNoData.keySet()) {
-            impBondInvenBodyList = itemRecordNoData.get(itemRecordNo);
-            item_record_no = impBondInvenBodyList.get(0).getItem_record_no();
+        String item_no;
+        for (String itemNo : itemNoData.keySet()) {
+            impBondInvenBodyList = itemNoData.get(itemNo);
+            item_no = impBondInvenBodyList.get(0).getItem_no();
             double qtySum = impBondInvenBodyList.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
-            this.bondinvenImportMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo, entCustomsCode);
+            this.bondinvenImportMapper.setPrevdRedcQty(qtySum, item_no, emsNo, entCustomsCode);
         }
     }
 

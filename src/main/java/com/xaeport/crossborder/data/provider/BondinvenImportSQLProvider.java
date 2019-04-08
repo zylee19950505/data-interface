@@ -2,9 +2,7 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.ImpInventoryBody;
 import com.xaeport.crossborder.data.entity.ImpInventoryHead;
-import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
 
@@ -12,7 +10,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
 
     public String setPrevdRedcQty(
             @Param("qtySum") double qtySum,
-            @Param("item_record_no") String item_record_no,
+            @Param("item_no") String item_no,
             @Param("emsNo") String emsNo,
             @Param("entCustomsCode") String entCustomsCode
     ) {
@@ -21,7 +19,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
                 UPDATE("T_BWL_LIST_TYPE");
                 WHERE("BWS_NO = #{emsNo}");
                 WHERE("BIZOP_ETPSNO = #{entCustomsCode}");
-                WHERE("GDS_MTNO = #{item_record_no}");
+                WHERE("GDS_MTNO = #{item_no}");
                 SET("PREVD_REDC_QTY = PREVD_REDC_QTY + #{qtySum}");
             }
         }.toString();
@@ -30,7 +28,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
     /*
      * 查询保税清单库存是否允许导入
      */
-    public String checkStockSurplus(@Param("entCustomsCode") String entCustomsCode, @Param("item_record_no") String g_code, @Param("emsNo") String emsNo) {
+    public String checkStockSurplus(@Param("entCustomsCode") String entCustomsCode, @Param("item_no") String item_no, @Param("emsNo") String emsNo) {
         return new SQL() {
             {
                 SELECT("(ACTL_INC_QTY - ACTL_REDC_QTY - PREVD_REDC_QTY) as SURPLUS");
@@ -38,7 +36,7 @@ public class BondinvenImportSQLProvider extends BaseSQLProvider {
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BIZOP_ETPSNO = #{entCustomsCode}");
                 WHERE("t.BWS_NO = #{emsNo}");
-                WHERE("t.GDS_MTNO = #{item_record_no}");
+                WHERE("t.GDS_MTNO = #{item_no}");
             }
         }.toString();
     }

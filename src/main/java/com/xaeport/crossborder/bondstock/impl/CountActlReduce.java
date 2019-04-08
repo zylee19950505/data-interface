@@ -3,7 +3,6 @@ package com.xaeport.crossborder.bondstock.impl;
 import com.xaeport.crossborder.bondstock.CountLoader;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ReceiptMapper;
-import com.xaeport.crossborder.service.bondinvenmanage.BondinvenImportService;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
@@ -46,26 +45,26 @@ public class CountActlReduce implements CountLoader {
         impInventoryBodyList = receiptMapper.queryImpInventoryBodyList(bondInvtBscData.getEtps_inner_invt_no());
 
         if (!StringUtils.isEmpty(impInventoryBodyList) && !StringUtils.isEmpty(impInventoryHeads)) {
-            Map<String, List<ImpInventoryBody>> itemRecordNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
+            Map<String, List<ImpInventoryBody>> itemNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
             //料号
-            String item_record_no;
+            String item_no;
             //账册编号
             String emsNo;
             //经营企业编号
             String bizopEtpsno;
             //保税清单表体
             List<ImpInventoryBody> impBondInvenBody;
-            for (String itemRecordNo : itemRecordNoData.keySet()) {
+            for (String itemNo : itemNoData.keySet()) {
                 //获取按照料号划分的保税清单表体数据
-                impBondInvenBody = itemRecordNoData.get(itemRecordNo);
+                impBondInvenBody = itemNoData.get(itemNo);
                 //获取料号
-                item_record_no = impBondInvenBody.get(0).getItem_record_no();
+                item_no = impBondInvenBody.get(0).getItem_no();
                 //获取账册号
                 emsNo = impInventoryHeads.get(0).getEms_no();
                 //经营企业编号
                 bizopEtpsno = bondInvtBscData.getBizop_etpsno();
                 //根据料号，账册号查询是否存在账册表体数据
-                BwlListType bwlListType = this.receiptMapper.checkStockSurplus(bondInvtBscData.getCrt_user(), item_record_no, emsNo, bizopEtpsno);
+                BwlListType bwlListType = this.receiptMapper.checkStockSurplus(bondInvtBscData.getCrt_user(), item_no, emsNo, bizopEtpsno);
                 double qtySum = 0;
                 double stockCount = 0;
                 if (!StringUtils.isEmpty(bwlListType)) {
@@ -80,7 +79,7 @@ public class CountActlReduce implements CountLoader {
                     } else {
                         //计算数量是否符合
                         if ((bwlListType.getPrevdRedcQty() - qtySum) >= 0) {
-                            this.receiptMapper.setPrevdRedcQty(qtySum, item_record_no, emsNo, bizopEtpsno);
+                            this.receiptMapper.setPrevdRedcQty(qtySum, item_no, emsNo, bizopEtpsno);
                             this.logger.info("出区核注清单成功进行实减操作");
                         } else {
                             this.logger.info("出区核注清单解析回执：实减操作计算数据为负");

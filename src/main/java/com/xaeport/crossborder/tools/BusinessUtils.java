@@ -164,20 +164,20 @@ public class BusinessUtils {
 
     //根据料号，对保税清单表体数据进行分类
     public static Map<String, List<ImpInventoryBody>> classifyByGcode(List<ImpInventoryBody> impInventoryBodyList) {
-        Map<String, List<ImpInventoryBody>> itemRecordNoDataListMap = new HashMap<String, List<ImpInventoryBody>>();
-        String itemRecordNo = null;
+        Map<String, List<ImpInventoryBody>> itemNoDataListMap = new HashMap<String, List<ImpInventoryBody>>();
+        String itemNo = null;
         for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
-            itemRecordNo = impInventoryBody.getItem_record_no();
-            if (itemRecordNoDataListMap.containsKey(itemRecordNo)) {
-                List<ImpInventoryBody> impInventoryBodies = itemRecordNoDataListMap.get(itemRecordNo);
+            itemNo = impInventoryBody.getItem_no();
+            if (itemNoDataListMap.containsKey(itemNo)) {
+                List<ImpInventoryBody> impInventoryBodies = itemNoDataListMap.get(itemNo);
                 impInventoryBodies.add(impInventoryBody);
             } else {
                 List<ImpInventoryBody> impInventoryBodies = new ArrayList<>();
                 impInventoryBodies.add(impInventoryBody);
-                itemRecordNoDataListMap.put(itemRecordNo, impInventoryBodies);
+                itemNoDataListMap.put(itemNo, impInventoryBodies);
             }
         }
-        return itemRecordNoDataListMap;
+        return itemNoDataListMap;
     }
 
 }
