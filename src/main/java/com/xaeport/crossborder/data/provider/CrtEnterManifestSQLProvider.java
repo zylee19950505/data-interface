@@ -572,14 +572,17 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SET("t.dcl_er_conc = #{dcl_er_conc}");
                 SET("t.dcl_etpsno = #{dcl_etpsno}");
                 SET("t.dcl_etps_nm = #{dcl_etps_nm}");
-                SET("t.input_code = #{input_code}");
+
+                SET("t.input_code = #{dcl_etpsno}");
+                SET("t.input_name = #{dcl_etps_nm}");
                 SET("t.vehicle_ic_no = #{vehicle_ic_no}");
-                SET("t.input_name = #{input_name}");
                 SET("t.rmk = #{rmk}");
                 SET("t.UPD_USER = #{upd_user}");
                 SET("t.UPD_TIME = sysdate");
             }
         }.toString();
+        /*SET("t.input_code = #{input_code}");
+                SET("t.input_name = #{input_name}");*/
     }
 
     /**

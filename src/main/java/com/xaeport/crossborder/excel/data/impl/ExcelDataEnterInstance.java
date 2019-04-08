@@ -63,7 +63,7 @@ public class ExcelDataEnterInstance implements ExcelData {
      */
     public List<BondInvtDt> bondInvtDtData(List<String> entryLists, BondInvtDt bondInvtDt, List<BondInvtDt> bondInvtDtList) {
         DecimalFormat dfTwo = new DecimalFormat("0.00");
-        DecimalFormat dfFour = new DecimalFormat("0.0000");
+        DecimalFormat dfFour = new DecimalFormat("0.00");
 
         bondInvtDt.setPutrec_seqno(Integer.parseInt(entryLists.get(putrec_seqnoIndex)));//备案序号
         bondInvtDt.setGds_mtno(entryLists.get(gds_MtnoIndex));//账册备案料号(商品料号)
@@ -129,7 +129,7 @@ public class ExcelDataEnterInstance implements ExcelData {
     }
 
     protected String getDouble(String str) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (!StringUtils.isEmpty(str)) {
             return df.format(Double.parseDouble(str));
         } else {

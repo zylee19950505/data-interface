@@ -259,8 +259,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
 
-        $("#input_code").val(entryHead.input_code);
-        $("#input_name").val(entryHead.input_name);
+        //$("#input_code").val(entryHead.input_code);
+        //$("#input_name").val(entryHead.input_name);
         $("#rmk").val(entryHead.rmk);
 
     },
@@ -432,10 +432,10 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
                 dcl_etpsno: $("#dcl_etpsno").val(),
                 dcl_etps_nm: $("#dcl_etps_nm").val(),
-                input_code: $("#input_code").val(),
+                //input_code: $("#input_code").val(),
 
                 vehicle_ic_no: $("#vehicle_ic_no").val(),
-                input_name: $("#input_name").val(),
+                //input_name: $("#input_name").val(),
                 rmk: $("#rmk").val(),
             },
             entryList: entryLists,
@@ -529,8 +529,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             "dcl_etpsno":"申报企业编号",
             "dcl_etps_nm":"申报企业名称",
             "vehicle_ic_no":"IC卡号(电子车牌)",
-            "input_code":"录入单位代码",
-            "input_name":"录入单位名称"
+            //"input_code":"录入单位代码",
+            //"input_name":"录入单位名称"
 
         };
 

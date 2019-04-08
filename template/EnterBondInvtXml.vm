@@ -65,6 +65,7 @@
                         </InvtHeadType>
 #foreach($invtListType in $invtListTypeList)
                         <InvtListType>
+                            <PutrecSeqno>$!invtListType.putrecSeqno</PutrecSeqno>
                             <GdsSeqno>$!invtListType.gdsSeqno</GdsSeqno>
                             <GdsMtno>$!invtListType.GdsMtno</GdsMtno>
                             <Gdecd>$!invtListType.Gdecd</Gdecd>

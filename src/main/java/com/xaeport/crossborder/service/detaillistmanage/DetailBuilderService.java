@@ -37,7 +37,12 @@ public class DetailBuilderService {
                 map.put("id",id);
                 map.put("orderNo",orderNo);
                 map.put("dataStatus","QDSCZ");
-                this.detailBuilderMapper.insertBuilderCache(map);
+                int count =  this.detailBuilderMapper.queryBuilderCache(map);
+                if (count >0){
+                    this.detailBuilderMapper.updateBuilderCache(map);
+                }else{
+                    this.detailBuilderMapper.insertBuilderCache(map);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

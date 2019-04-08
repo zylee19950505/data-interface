@@ -55,7 +55,7 @@ function sumDeclTotal(dVal, qty, gno, listChangeKeyVal) {
 //计算表头总重量
 function sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt) {
     console.log(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt)
-    var totalWt = parseFloat(parseFloat(vehicle_wt)+parseFloat(vehicle_frame_wt)+parseFloat(container_wt)+parseFloat(total_gross_wt)).toFixed(5);
+    var totalWt = parseFloat(parseFloat(vehicle_wt)+parseFloat(vehicle_frame_wt)+parseFloat(container_wt)+parseFloat(total_gross_wt)).toFixed(2);
     console.log(totalWt);
     $("#total_wt").val(totalWt);
 }
@@ -194,8 +194,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
 
-        $("#input_code").val(entryHead.input_code);
-        $("#input_name").val(entryHead.input_name);
+        //$("#input_code").val(entryHead.input_code);
+        //$("#input_name").val(entryHead.input_name);
         $("#rmk").val(entryHead.rmk);
 
     },
@@ -245,10 +245,10 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
 
             dcl_etpsno: $("#dcl_etpsno").val(),
             dcl_etps_nm: $("#dcl_etps_nm").val(),
-            input_code: $("#input_code").val(),
+            //input_code: $("#input_code").val(),
 
             vehicle_ic_no: $("#vehicle_ic_no").val(),
-            input_name: $("#input_name").val(),
+            //input_name: $("#input_name").val(),
             rmk: $("#rmk").val()
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
@@ -324,8 +324,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
             "vehicle_ic_no":"IC卡号(电子车牌)",
-            "input_code": "录入单位代码",
-            "input_name": "录入单位名称"
+           //"input_code": "录入单位代码",
+            //"input_name": "录入单位名称"
         };
 
         var fieldId, fieldName, fieldVal;

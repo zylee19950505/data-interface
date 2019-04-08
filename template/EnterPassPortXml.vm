@@ -64,7 +64,7 @@
 #end
                         <OperCusRegCode>6101380018</OperCusRegCode>
                     </PassPortMessage>
-                    <DelcareFlag>0</DelcareFlag>
+                    <DelcareFlag>1</DelcareFlag>
                 </BussinessData>
             </DataInfo>
         </Package>

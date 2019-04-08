@@ -62,6 +62,8 @@ public class CrtEnterManifestService {
 
         passPortHead.setInput_code(enterpriseDetail.getCustoms_code());
         passPortHead.setInput_name(enterpriseDetail.getEnt_name());
+        passPortHead.setDcl_etpsno(enterpriseDetail.getCustoms_code());
+        passPortHead.setDcl_etps_nm(enterpriseDetail.getEnt_name());
         passPortHead.setCrt_user(user.getId());
         passPortHead.setCrt_ent_id(user.getEnt_Id());
         passPortHead.setCrt_ent_name(user.getEnt_Name());
@@ -211,8 +213,10 @@ public class CrtEnterManifestService {
         passPortHead.setDcl_etps_nm(object.get("dcl_etps_nm").toString());
         passPortHead.setDcl_etpsno(object.get("dcl_etpsno").toString());
         passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
-        passPortHead.setInput_code(object.get("input_code").toString());
-        passPortHead.setInput_name(object.get("input_name").toString());
+        //passPortHead.setInput_code(object.get("input_code").toString());
+        //passPortHead.setInput_name(object.get("input_name").toString());
+        passPortHead.setInput_code(object.get("dcl_etpsno").toString());
+        passPortHead.setInput_name(object.get("dcl_etps_nm").toString());
         passPortHead.setStatus(StatusCode.RQHFDDSB);
         passPortHead.setUpd_user(users.getId());
         crtEnterManifestMapper.updateEnterManifestDetailOneCar(passPortHead);

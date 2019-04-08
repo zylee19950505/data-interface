@@ -56,6 +56,9 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
                         if (row.orderStatus == "CBDS21" && row.logisticsStatus == "CBDS41" && row.dataStatus == null) {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
+                        }else if (row.orderStatus == "CBDS21" && row.logisticsStatus == "CBDS41" && row.dataStatus == "QDSCSB") {
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.order_no + '" />';
                         }
                         else {
                             return "";
@@ -200,7 +203,7 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
 
             sw.ajax("api/detailBuilder/builderDetail", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
-                    sw.alert("生成清单成功!", "提示", function () {
+                    sw.alert("正在生成清单!", "提示", function () {
                     }, "modal-success");
                     $("#submitManifestBtn").prop("disabled", false);
                     sw.page.modules["detailmanage/detailBuilder"].query();

@@ -61,4 +61,15 @@ public class DetailBuilderSQLProvider extends BaseSQLProvider{
         }.toString();
     }
 
+    public String updateBuilderCache(Map<String, String> map){
+        return new SQL(){
+            {
+                UPDATE("T_BUILDER_CACHE t");
+                SET("t.DATASTATUS = #{dataStatus}");
+                SET("t.CRT_TIME = sysdate");
+                WHERE("t.ORDER_NO = #{orderNo}");
+            }
+        }.toString();
+    }
+
 }
