@@ -119,10 +119,15 @@ public class ExitManifestApi extends BaseApi {
     public ResponseData updateExitManifest(@Param("entryJson") String entryJson) {
         //出区核注清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        String dcl_etps_nm = (String) object.get("dcl_etps_nm");
+
         // 出区核注清单表头
         LinkedHashMap<String, String> passPortHead = (LinkedHashMap<String, String>) object.get("passPortHead");
         // 出区核注清单表体
         LinkedHashMap<String, String> passPortAcmpList = (LinkedHashMap<String, String>) object.get("passPortAcmpList");
+
+        passPortHead.put("dcl_etps_nm", dcl_etps_nm);
 
         Users userInfo = this.getCurrentUsers();
         Map<String, String> rtnMap = new HashMap<>();

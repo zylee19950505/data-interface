@@ -357,9 +357,12 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             nemsInvtCbecBillTypeList.push(listChangeKeyValsEInven[key]);
         }
 
+        var dcl_etps_nm = $("#dcl_etps_nm").val();
+
         var entryData = {
             BondInvtBsc: headChangeKeyValEInven,
-            nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList
+            nemsInvtCbecBillTypeList: nemsInvtCbecBillTypeList,
+            dcl_etps_nm: dcl_etps_nm
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
@@ -587,7 +590,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         })

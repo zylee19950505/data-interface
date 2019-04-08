@@ -116,10 +116,15 @@ public class ExitInventoryApi extends BaseApi {
     public ResponseData updateExitInventory(@Param("entryJson") String entryJson) {
         //出区核注清单json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+
+        String dcl_etps_nm = (String) object.get("dcl_etps_nm");
+
         // 出区核注清单表头
         LinkedHashMap<String, String> BondInvtBsc = (LinkedHashMap<String, String>) object.get("BondInvtBsc");
         // 出区核注清单表体
         ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList = (ArrayList<LinkedHashMap<String, String>>) object.get("nemsInvtCbecBillTypeList");
+
+        BondInvtBsc.put("dcl_etps_nm", dcl_etps_nm);
 
         Users userInfo = this.getCurrentUsers();
         Map<String, String> rtnMap = new HashMap<>();

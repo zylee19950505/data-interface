@@ -245,11 +245,11 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))) {
                     SET("dcl_etps_nm = #{passPortHead.dcl_etps_nm}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.get("input_code"))) {
-                    SET("input_code = #{passPortHead.input_code}");
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))) {
+                    SET("input_code = #{passPortHead.dcl_etpsno}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.get("input_name"))) {
-                    SET("input_name = #{passPortHead.input_name}");
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))) {
+                    SET("input_name = #{passPortHead.dcl_etps_nm}");
                 }
                 if (!StringUtils.isEmpty(passPortHead.get("areain_oriact_no"))) {
                     SET("areain_oriact_no = #{passPortHead.areain_oriact_no}");

@@ -102,8 +102,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             "master_cuscd",
             "dcl_etpsno",
             "dcl_etps_nm",
-            "input_code",
-            "input_name",
+            // "input_code",
+            // "input_name",
             "areain_oriact_no",
             "io_typecd",
             "vehicle_no",
@@ -162,8 +162,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
-        $("#input_code").val(entryHead.input_code);
-        $("#input_name").val(entryHead.input_name);
+        // $("#input_code").val(entryHead.input_code);
+        // $("#input_name").val(entryHead.input_name);
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
@@ -250,8 +250,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             master_cuscd: $("#master_cuscd").val(),
             dcl_etpsno: $("#dcl_etpsno").val(),
             dcl_etps_nm: $("#dcl_etps_nm").val(),
-            input_code: $("#input_code").val(),
-            input_name: $("#input_name").val(),
+            // input_code: $("#input_code").val(),
+            // input_name: $("#input_name").val(),
             areain_oriact_no: $("#areain_oriact_no").val(),
             io_typecd: $("#io_typecd").val(),
             vehicle_no: $("#vehicle_no").val(),
@@ -322,9 +322,12 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             rlt_no: $("#rlt_no").val()
         };
 
+        var dcl_etps_nm = $("#dcl_etps_nm").val();
+
         var entryData = {
             passPortHead: headChangeKeyValEManifest,
-            passPortAcmpList: passPortAcmpList
+            passPortAcmpList: passPortAcmpList,
+            dcl_etps_nm: dcl_etps_nm
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
@@ -416,8 +419,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             "master_cuscd": "主管关区代码",
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
-            "input_code": "录入单位代码",
-            "input_name": "录入单位名称",
+            // "input_code": "录入单位代码",
+            // "input_name": "录入单位名称",
             "areain_oriact_no": "区内账册编号",
             "io_typecd": "进出标志代码",
             "vehicle_no": "车牌号",
@@ -480,7 +483,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         })

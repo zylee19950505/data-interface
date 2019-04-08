@@ -130,7 +130,7 @@ public class BuilderDetailThread implements Runnable {
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(impOrderBody.getG_num());//商品序号(从订单表体获取)
-            DecimalFormat df = new DecimalFormat("0.00000");
+            DecimalFormat df = new DecimalFormat("0.00");
             impInventoryBody.setOrder_no(impOrderBody.getOrder_No());//订单编号
             if ("BONDORDER".equals(business_type)) {
                 //impInventoryBody.setItem_record_no(bws_no);//账册备案料号: 保税进口必填()

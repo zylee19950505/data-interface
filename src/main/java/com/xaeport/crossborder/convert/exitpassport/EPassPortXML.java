@@ -50,6 +50,7 @@ public class EPassPortXML {
         Element VehicleWt;
         Element VehicleFrameWt;
         Element ContainerWt;
+        Element ContainerType;
         Element TotalWt;
         Element TotalGrossWt;
         Element TotalNetWt;
@@ -70,7 +71,7 @@ public class EPassPortXML {
         PocketInfo.appendChild(is_unstructured);
 
         DelcareFlag = document.createElement("DelcareFlag");
-        DelcareFlag.setTextContent("0");
+        DelcareFlag.setTextContent("1");
 
         PassPortMessage = document.createElement("PassPortMessage");
         PassportHead = document.createElement("PassportHead");
@@ -120,6 +121,9 @@ public class EPassPortXML {
         ContainerWt = document.createElement("ContainerWt");
         ContainerWt.setTextContent(passportHeadXml.getContainerWt());
 
+        ContainerType = document.createElement("ContainerType");
+        ContainerType.setTextContent(passportHeadXml.getContainerType());
+
         TotalWt = document.createElement("TotalWt");
         TotalWt.setTextContent(passportHeadXml.getTotalWt());
 
@@ -161,6 +165,7 @@ public class EPassPortXML {
         PassportHead.appendChild(VehicleWt);
         PassportHead.appendChild(VehicleFrameWt);
         PassportHead.appendChild(ContainerWt);
+        PassportHead.appendChild(ContainerType);
         PassportHead.appendChild(TotalWt);
         PassportHead.appendChild(TotalGrossWt);
         PassportHead.appendChild(TotalNetWt);

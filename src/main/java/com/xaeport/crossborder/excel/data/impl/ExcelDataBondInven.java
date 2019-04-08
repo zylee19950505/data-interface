@@ -75,7 +75,7 @@ public class ExcelDataBondInven implements ExcelData {
     public List<ImpInventoryHead> getInventoryHeadData(Map<String, List<String>> data) {
         List<ImpInventoryHead> listData = new ArrayList<>();
         ImpInventoryHead impInventoryHead;
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         for (Map.Entry<String, List<String>> entry : data.entrySet()) {
             impInventoryHead = new ImpInventoryHead();
             List<String> value = entry.getValue();
@@ -116,7 +116,7 @@ public class ExcelDataBondInven implements ExcelData {
      * @return
      */
     public List<ImpInventoryBody> impInventoryBodyData(List<String> inventoryBodies, ImpInventoryBody impInventoryBody, List<ImpInventoryBody> impInventoryBodyData) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         impInventoryBody.setOrder_no(inventoryBodies.get(orderNoIndex));//清单编号
 
         impInventoryBody.setItem_record_no(inventoryBodies.get(itemRecordNoIndex));//账册备案料号: 保税进口必填
@@ -197,7 +197,7 @@ public class ExcelDataBondInven implements ExcelData {
      */
     public Map<String, List<String>> getMergeData(List<String> impInventoryHeadLists, Map<String, List<String>> impInventoryHeadMap) throws Exception {
         String orderNo = impInventoryHeadLists.get(orderNoIndex);
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (impInventoryHeadMap.containsKey(orderNo)) {
             List<String> list = impInventoryHeadMap.get(orderNo);//存放每次合并的结果
             String allTotalPrice = list.get(totalPriceIndex);
@@ -232,7 +232,7 @@ public class ExcelDataBondInven implements ExcelData {
     }
 
     protected String getDouble(String str) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (!StringUtils.isEmpty(str)) {
             return df.format(Double.parseDouble(str));
         } else {

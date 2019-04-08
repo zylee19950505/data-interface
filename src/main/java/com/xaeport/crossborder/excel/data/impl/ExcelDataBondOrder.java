@@ -70,7 +70,7 @@ public class ExcelDataBondOrder implements ExcelData {
     public List<ImpOrderHead> getOrderHeadData(Map<String, List<String>> data) {
         List<ImpOrderHead> listData = new ArrayList<>();
         ImpOrderHead impOrderHead;
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         for (Map.Entry<String, List<String>> entry : data.entrySet()) {
             impOrderHead = new ImpOrderHead();
             List<String> value = entry.getValue();
@@ -117,7 +117,7 @@ public class ExcelDataBondOrder implements ExcelData {
      */
     public Map<String, List<String>> getMergeData(List<String> orderHeadLists, Map<String, List<String>> impOrderHeadMap) throws Exception {
         String orderNo = orderHeadLists.get(orderNoIndex);
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (impOrderHeadMap.containsKey(orderNo)) {
             List<String> list = impOrderHeadMap.get(orderNo);//存放每次合并的结果
             String allTotalPrice = list.get(total_PriceIndex);
@@ -151,7 +151,7 @@ public class ExcelDataBondOrder implements ExcelData {
      * @return
      */
     public List<ImpOrderBody> impOrderBodyData(List<String> entryLists, ImpOrderBody impOrderBody, List<ImpOrderBody> impOrderBodyData) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         impOrderBody.setOrder_No(entryLists.get(orderNoIndex));//订单编号
         impOrderBody.setItem_No(entryLists.get(itemNoIndex));//企业商品货号
         impOrderBody.setItem_Name(entryLists.get(itemNameIndex));//商品名称
@@ -217,7 +217,7 @@ public class ExcelDataBondOrder implements ExcelData {
     }
 
     protected String getDouble(String str) {
-        DecimalFormat df = new DecimalFormat("0.00000");
+        DecimalFormat df = new DecimalFormat("0.00");
         if (!StringUtils.isEmpty(str)) {
             return df.format(Double.parseDouble(str));
         } else {

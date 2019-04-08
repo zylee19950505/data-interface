@@ -92,6 +92,7 @@ public class EPassPortThread implements Runnable {
                         passportHeadXml.setVehicleWt(passPortHead.getVehicle_wt());
                         passportHeadXml.setVehicleFrameWt(passPortHead.getVehicle_frame_wt());
                         passportHeadXml.setContainerWt(passPortHead.getContainer_wt());
+                        passportHeadXml.setContainerType(passPortHead.getContainer_type());
                         passportHeadXml.setTotalWt(passPortHead.getTotal_wt());
                         passportHeadXml.setTotalGrossWt(passPortHead.getTotal_gross_wt());
                         passportHeadXml.setTotalNetWt(passPortHead.getTotal_net_wt());

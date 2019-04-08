@@ -60,8 +60,8 @@ public class EBondInvtXML {
         Element InputCode;
         Element InputName;
         Element ListStat;
-        Element CorrEntryDclEtpsNo;
-        Element CorrEntryDclEtpsNm;
+//        Element CorrEntryDclEtpsNo;
+//        Element CorrEntryDclEtpsNm;
         Element DecType;
         Element AddTime;
         Element StshipTrsarvNatcd;
@@ -71,7 +71,7 @@ public class EBondInvtXML {
         BussinessData = document.createElement("BussinessData");
 
         DelcareFlag = document.createElement("DelcareFlag");
-        DelcareFlag.setTextContent("0");
+        DelcareFlag.setTextContent("1");
 
         InvtMessage = document.createElement("InvtMessage");
         InvtHeadType = document.createElement("InvtHeadType");
@@ -160,11 +160,11 @@ public class EBondInvtXML {
         ListStat = document.createElement("ListStat");
         ListStat.setTextContent(invtHeadType.getListStat());
 
-        CorrEntryDclEtpsNo = document.createElement("CorrEntryDclEtpsNo");
-        CorrEntryDclEtpsNo.setTextContent(invtHeadType.getCorrEntryDclEtpsNo());
-
-        CorrEntryDclEtpsNm = document.createElement("CorrEntryDclEtpsNm");
-        CorrEntryDclEtpsNm.setTextContent(invtHeadType.getCorrEntryDclEtpsNm());
+//        CorrEntryDclEtpsNo = document.createElement("CorrEntryDclEtpsNo");
+//        CorrEntryDclEtpsNo.setTextContent(invtHeadType.getCorrEntryDclEtpsNo());
+//
+//        CorrEntryDclEtpsNm = document.createElement("CorrEntryDclEtpsNm");
+//        CorrEntryDclEtpsNm.setTextContent(invtHeadType.getCorrEntryDclEtpsNm());
 
         DecType = document.createElement("DecType");
         DecType.setTextContent(invtHeadType.getDecType());
@@ -204,8 +204,8 @@ public class EBondInvtXML {
         InvtHeadType.appendChild(InputCode);
         InvtHeadType.appendChild(InputName);
         InvtHeadType.appendChild(ListStat);
-        InvtHeadType.appendChild(CorrEntryDclEtpsNo);
-        InvtHeadType.appendChild(CorrEntryDclEtpsNm);
+//        InvtHeadType.appendChild(CorrEntryDclEtpsNo);
+//        InvtHeadType.appendChild(CorrEntryDclEtpsNm);
         InvtHeadType.appendChild(DecType);
         InvtHeadType.appendChild(AddTime);
         InvtHeadType.appendChild(StshipTrsarvNatcd);
