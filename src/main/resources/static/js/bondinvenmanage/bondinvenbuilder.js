@@ -57,6 +57,10 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.order_no + '" />';
                         }
+                        else if (row.orderStatus == "BDDS62" && row.logisticsStatus == "CBDS42" && row.dataStatus == "QDSCSB") {
+                            return '<input type="checkbox" class="submitKey" value="' +
+                                row.order_no + '" />';
+                        }
                         else {
                             return "";
                         }

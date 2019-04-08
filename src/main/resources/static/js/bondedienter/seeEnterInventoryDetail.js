@@ -47,13 +47,13 @@ function sumTotalPricesInvent() {
         var decTotal = $(this).val();
         totalPrices = parseFloat(totalPrices) + parseFloat(decTotal);
     });
-    $("#total_sum").val(parseFloat(totalPrices).toFixed(5));
+    $("#total_sum").val(parseFloat(totalPrices).toFixed(2));
     headChangeKeyVal["total_sum"] = $("#total_sum").val();
 }
 
 // 计算表体申报总价
 function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
-    var declTotal = parseFloat(dVal * qty).toFixed(5);
+    var declTotal = parseFloat(dVal * qty).toFixed(2);
     $("#dcl_total_amt_" + gno).val(declTotal);
     listChangeKeyVal["dcl_total_amt"] = $("#dcl_total_amt_" + gno).val();
 }
@@ -217,7 +217,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 /*"<td ><select class=\"form-control input-sm\" maxlength=\"510\" id='dcl_unitcd_" + g_num + "' value='" + entryLists[i].dcl_unitcd + "' /></td>" +*/
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='dcl_unitcd_" + g_num + "' value='" + entryLists[i].dcl_unitcd + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_qty_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_qty) ? "":entryLists[i].dcl_qty) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_uprc_amt_" + g_num + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(4) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_uprc_amt_" + g_num + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_total_amt_" + g_num + "' value='" + parseFloat(entryLists[i].dcl_total_amt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_currcd_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_currcd) ? "人民币":entryLists[i].dcl_currcd) + "' /></td>" +
                 /*"<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='usd_stat_total_amt_" + g_num + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "' /></td>" +*/
