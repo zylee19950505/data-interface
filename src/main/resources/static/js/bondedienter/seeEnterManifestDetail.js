@@ -48,7 +48,7 @@ var pattern = /^.*_[0-9]+$/;
 
 // 计算表体申报总价
 function sumDeclTotal(dVal, qty, gno, listChangeKeyVal) {
-    var declTotal = parseFloat(dVal * qty).toFixed(5);
+    var declTotal = parseFloat(dVal * qty).toFixed(2);
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
