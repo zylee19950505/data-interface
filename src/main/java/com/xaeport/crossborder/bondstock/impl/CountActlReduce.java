@@ -74,20 +74,20 @@ public class CountActlReduce implements CountLoader {
                     stockCount = StringUtils.isEmpty(bwlListType.getSurplus()) ? 0 : bwlListType.getSurplus();
                     //对比导入表体数量与仓库库存
                     if (qtySum > stockCount || stockCount <= 0) {
-                        this.logger.info("出区核注清单解析回执：实减库存量大于剩余库存量，或剩余库存小于等于零");
+                        this.logger.info("出区核注清单库存：实减库存量大于剩余库存量，或剩余库存小于等于零");
                         continue;
                     } else {
                         //计算数量是否符合
                         if ((bwlListType.getPrevdRedcQty() - qtySum) >= 0) {
                             this.receiptMapper.setPrevdRedcQty(qtySum, item_no, emsNo, bizopEtpsno);
-                            this.logger.info("出区核注清单成功进行实减操作");
+                            this.logger.info("出区核注清单库存：成功完成实减操作");
                         } else {
-                            this.logger.info("出区核注清单解析回执：实减操作计算数据为负");
+                            this.logger.info("出区核注清单库存：实减操作计算数据为负");
                             continue;
                         }
                     }
                 } else {
-                    this.logger.info("出区核注清单解析回执：查询无对应账册表体数据，无法进行实减操作");
+                    this.logger.info("出区核注清单库存：查询无账册数据，无法进行实减");
                     continue;
                 }
             }

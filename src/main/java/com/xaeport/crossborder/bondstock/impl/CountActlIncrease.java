@@ -83,9 +83,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核放单成功完成一车一单实增操作");
+                    this.logger.info("入区核放单库存：成功完成一车一单实增操作");
                 } else {
-                    this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");
+                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一车一单实增");
                     continue;
                 }
             }
@@ -128,9 +128,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核放单成功完成一车多单实增操作");
+                    this.logger.info("入区核放单库存：成功完成一车多单实增操作");
                 } else {
-                    this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");
+                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一车多单实增");
                     continue;
                 }
             }
@@ -171,9 +171,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = passPortLists.stream().mapToDouble(PassPortList::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtNo, bizopEtpsno);
-                    this.logger.info("入区核放单成功完成一单多车实增操作");
+                    this.logger.info("入区核放单库存：成功完成一单多车实增操作");
                 } else {
-                    this.logger.info("入区核放单回执：查询无对应账册信息，无法实增");
+                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一单多车实增");
                     continue;
                 }
             }

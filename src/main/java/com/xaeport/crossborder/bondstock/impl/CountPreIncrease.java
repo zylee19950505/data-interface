@@ -67,14 +67,14 @@ public class CountPreIncrease implements CountLoader {
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核注清单成功进行预增叠加操作");
+                    this.logger.info("入区核注清单库存：成功完成预增--叠加操作");
                 } else if (!StringUtils.isEmpty(bwlHeadType) && StringUtils.isEmpty(bwlList)) {
                     BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts, bizopEtpsno);
                     //插入入区账册表体的数据
                     this.receiptMapper.insertBwlListType(bwlListType);
-                    this.logger.info("入区核注清单成功进行预增添加操作");
+                    this.logger.info("入区核注清单库存：成功完成预增--添加新数据操作");
                 } else {
-                    this.logger.info("入区核注清单解析回执：查询无对应账册信息，无法预增操作");
+                    this.logger.info("入区核注清单库存：查询无账册信息，无法预增");
                     continue;
                 }
 
