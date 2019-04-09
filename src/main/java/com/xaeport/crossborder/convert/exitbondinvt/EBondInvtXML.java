@@ -347,7 +347,7 @@ public class EBondInvtXML {
         Element CbecBillNo;
 
         for (int i = 0; i < invtListTypeList.size(); i++) {
-            InvtCbecBillType = document.createElement("InvtCbecBillType");
+            InvtCbecBillType = document.createElement("InvtCbecBill");
 
             SeqNo = document.createElement("SeqNo");
             SeqNo.setTextContent(String.valueOf(invtListTypeList.get(i).getSeqNo()));
