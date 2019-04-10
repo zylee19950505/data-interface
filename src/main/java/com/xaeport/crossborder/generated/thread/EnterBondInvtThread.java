@@ -105,9 +105,9 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setDclcusFlag(bondInvtBsc.getDclcus_flag());
                         invtHeadType.setDclcusTypecd(bondInvtBsc.getDclcus_typecd());
                         invtHeadType.setVrfdedMarkcd(bondInvtBsc.getVrfded_markcd());
-                        invtHeadType.setInputCode("6101380018");
-                        invtHeadType.setInputName("西安口岸电子科技有限公司");
-                        invtHeadType.setInputTime("20181210");
+                        invtHeadType.setInputCode(bondInvtBsc.getDcl_etpsno());
+                        invtHeadType.setInputName(bondInvtBsc.getDcl_etps_nm());
+//                        invtHeadType.setInputTime("20181210");
                         invtHeadType.setListStat("");
                         invtHeadType.setCorrEntryDclEtpsNo(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setCorrEntryDclEtpsNm(bondInvtBsc.getDcl_etps_nm());

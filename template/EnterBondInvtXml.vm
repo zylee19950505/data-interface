@@ -53,7 +53,7 @@
                             <VrfdedMarkcd>$!invtHeadType.VrfdedMarkcd</VrfdedMarkcd>
                             <InputCode>$!invtHeadType.InputCode</InputCode>
                             <InputName>$!invtHeadType.InputName</InputName>
-                            <InputTime>$!invtHeadType.InputTime</InputTime>
+##                            <InputTime>$!invtHeadType.InputTime</InputTime>
                             <ListStat>$!invtHeadType.ListStat</ListStat>
                             <AddTime>$!invtHeadType.AddTime</AddTime>
                             <StshipTrsarvNatcd>$!invtHeadType.StshipTrsarvNatcd</StshipTrsarvNatcd>
