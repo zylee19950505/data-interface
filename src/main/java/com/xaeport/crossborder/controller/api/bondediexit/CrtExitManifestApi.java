@@ -13,6 +13,7 @@ import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,7 +81,6 @@ public class CrtExitManifestApi extends BaseApi {
             return new ResponseData("出区核放单—获取出区核注清单数据错误", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData(dataList);
-
     }
 
     //查询该核注清单已生成核放单信息
@@ -89,10 +89,19 @@ public class CrtExitManifestApi extends BaseApi {
             @RequestParam(required = false) String submitKeys
     ) {
         Map<String, String> map = new HashMap<>();
+        List<BondInvtBsc> bondInvtBscList;
         map.put("submitKeys", submitKeys);
-        Integer count;
+        Integer count = 0;
+        String passportUsedTypecd;
         try {
-            count = crtExitManifestService.queryBondinvtIsRepeat(map);
+            bondInvtBscList = crtExitManifestService.queryBondinvtIsRepeat(map);
+            for (BondInvtBsc bondInvtBsc : bondInvtBscList) {
+                passportUsedTypecd = StringUtils.isEmpty(bondInvtBsc.getPassport_used_typecd()) ? "1" : bondInvtBsc.getPassport_used_typecd();
+                if (passportUsedTypecd.equals("3")) {
+                    count = 1;
+                    break;
+                }
+            }
         } catch (Exception e) {
             this.logger.error("查询出区核注清单数据失败", e);
             return new ResponseData("查询出区核注清单数据失败", HttpStatus.BAD_REQUEST);
@@ -129,7 +138,7 @@ public class CrtExitManifestApi extends BaseApi {
             passPortAcmpList = this.crtExitManifestService.queryPassPortAcmpList(paramMap);
             passPort.setPassPortHead(passPortHead);
             passPort.setPassPortAcmpList(passPortAcmpList);
-            this.crtExitManifestService.insertPassHeadData(passPortHead, passPortAcmpList, userInfo);
+            this.crtExitManifestService.insertPassHeadData(passPortHead, passPortAcmpList, userInfo, dataInfo);
         } catch (Exception e) {
             this.logger.error("新建出区核放单数据失败", e);
             return new ResponseData("获取出区核放单数据错误", HttpStatus.BAD_REQUEST);

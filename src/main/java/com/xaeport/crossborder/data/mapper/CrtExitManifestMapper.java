@@ -24,15 +24,15 @@ public interface CrtExitManifestMapper {
 
     //查询出区核注清单数据数据是否重复
     @SelectProvider(type = CrtExitManifestSQLProvider.class, method = "queryBondinvtIsRepeat")
-    Integer queryBondinvtIsRepeat(Map<String, String> paramMap) throws Exception;
+    List<BondInvtBsc> queryBondinvtIsRepeat(Map<String, String> paramMap) throws Exception;
 
     //根据核注清单编号查询核注清单表头数据
-    @Select("SELECT * FROM T_BOND_INVT_BSC t WHERE t.BOND_INVT_NO = #{bond_invt_no}")
-    BondInvtBsc queryBondInvtBsc(String bond_invt_no) throws Exception;
+    @SelectProvider(type = CrtExitManifestSQLProvider.class, method = "queryBondInvtBscList")
+    List<BondInvtBsc> queryBondInvtBscList(@Param("bond_invt_no") String bond_invt_no) throws Exception;
 
     //修改核注清单表状态为“已生成核放单”状态
     @UpdateProvider(type = CrtExitManifestSQLProvider.class, method = "updateBondInvt")
-    void updateBondInvt(@Param("passPortHead") PassPortHead passPortHead);
+    void updateBondInvt(@Param("bond_invt_no") String bond_invt_no);
 
     //创建并预插入出区核放单表头（用户未确认保存前）
     @InsertProvider(type = CrtExitManifestSQLProvider.class, method = "insertPassPortHead")
@@ -42,9 +42,9 @@ public interface CrtExitManifestMapper {
     @InsertProvider(type = CrtExitManifestSQLProvider.class, method = "insertPassPortAcmp")
     void insertPassPortAcmp(@Param("passPortAcmp") PassPortAcmp passPortAcmp, @Param("userInfo") Users userInfo);
 
-    //修改核注清单表状态为“已生成核放单”状态
-    @UpdateProvider(type = CrtExitManifestSQLProvider.class, method = "updateBondInvtStatus")
-    void updateBondInvtStatus(@Param("passPortHead") LinkedHashMap<String, String> passPortHead);
+//    //修改核注清单表状态为“已生成核放单”状态
+//    @UpdateProvider(type = CrtExitManifestSQLProvider.class, method = "updateBondInvtStatus")
+//    void updateBondInvtStatus(@Param("passPortHead") LinkedHashMap<String, String> passPortHead);
 
     //保存并更新出区核放单表头（用户确认保存后）
     @InsertProvider(type = CrtExitManifestSQLProvider.class, method = "savePassPortHead")

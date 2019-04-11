@@ -23,7 +23,7 @@ function selecterEManifestDetail(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -318,8 +318,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         // }
 
         var passPortAcmpList = {
-            rlt_tb_typecd: $("#rlt_tb_typecd").val(),
-            rlt_no: $("#rlt_no").val()
+            rlt_tb_typecd: $("#rlt_tb_typecd").val()
         };
 
         var dcl_etps_nm = $("#dcl_etps_nm").val();

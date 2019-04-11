@@ -181,11 +181,11 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String updateBondInvtBsc(String bondInvtNo) {
+    public String updateBondInvtBsc(String BondInvtNos) {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC t");
-                WHERE(splitJointIn("BOND_INVT_NO", bondInvtNo));
+                WHERE(splitJointIn("BOND_INVT_NO", BondInvtNos));
                 SET("t.PASSPORT_USED_TYPECD = ''");
             }
         }.toString();

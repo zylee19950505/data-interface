@@ -30,7 +30,7 @@ public class CrtExitManifestService {
     }
 
     //查询出区核注清单数据数据是否重复
-    public Integer queryBondinvtIsRepeat(Map<String, String> paramMap) throws Exception {
+    public List<BondInvtBsc> queryBondinvtIsRepeat(Map<String, String> paramMap) throws Exception {
         return this.crtExitManifestMapper.queryBondinvtIsRepeat(paramMap);
     }
 
@@ -38,17 +38,14 @@ public class CrtExitManifestService {
     public PassPortHead queryPassPortHead(Map<String, String> paramMap) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
 
-        BondInvtBsc bondInvtBsc = this.crtExitManifestMapper.queryBondInvtBsc(paramMap.get("bond_invt_no"));
+        List<BondInvtBsc> bondInvtBscList = this.crtExitManifestMapper.queryBondInvtBscList(paramMap.get("bond_invt_no"));
+        String BondInvtNo = paramMap.get("bond_invt_no").replaceAll(",", "/");
         passPortHead.setId(IdUtils.getUUId());
-        passPortHead.setAreain_oriact_no(bondInvtBsc.getPutrec_no());
-//        passPortHead.setDcl_etpsno(bondInvtBsc.getDcl_etpsno());
-//        passPortHead.setDcl_etps_nm(bondInvtBsc.getDcl_etps_nm());
-        passPortHead.setMaster_cuscd(bondInvtBsc.getDcl_plc_cuscd());
-//        passPortHead.setInput_code(paramMap.get("input_code"));
-//        passPortHead.setInput_name(paramMap.get("input_name"));
+        passPortHead.setAreain_oriact_no(bondInvtBscList.get(0).getPutrec_no());
+        passPortHead.setMaster_cuscd(bondInvtBscList.get(0).getDcl_plc_cuscd());
         passPortHead.setEtps_preent_no(paramMap.get("etps_preent_no"));
-        passPortHead.setBond_invt_no(paramMap.get("bond_invt_no"));
-        passPortHead.setRlt_no(paramMap.get("bond_invt_no"));
+        passPortHead.setBond_invt_no(BondInvtNo);
+        passPortHead.setRlt_no(BondInvtNo);
         return passPortHead;
     }
 
@@ -56,19 +53,25 @@ public class CrtExitManifestService {
     public List<PassPortAcmp> queryPassPortAcmpList(Map<String, String> paramMap) throws Exception {
         List<PassPortAcmp> passPortAcmpList = new ArrayList<>();
         PassPortAcmp passPortAcmp;
-        passPortAcmp = new PassPortAcmp();
-        passPortAcmp.setId(IdUtils.getUUId());
-        passPortAcmp.setNo(1);
-        passPortAcmp.setRtl_tb_typecd("");
-        passPortAcmp.setRtl_no("");
-        passPortAcmp.setHead_etps_preent_no(paramMap.get("etps_preent_no"));
-        passPortAcmpList.add(passPortAcmp);
+        String etpsPreentNo = paramMap.get("etps_preent_no");
+        String bondInvtNo = paramMap.get("bond_invt_no");
+        List<String> bondInvtNos = Arrays.asList(bondInvtNo.split(","));
+
+        for (int i = 0; i < bondInvtNos.size(); i++) {
+            passPortAcmp = new PassPortAcmp();
+            passPortAcmp.setId(IdUtils.getUUId());
+            passPortAcmp.setNo(i + 1);
+            passPortAcmp.setRtl_tb_typecd("1");
+            passPortAcmp.setRtl_no(bondInvtNos.get(i));
+            passPortAcmp.setHead_etps_preent_no(etpsPreentNo);
+            passPortAcmpList.add(passPortAcmp);
+        }
         return passPortAcmpList;
     }
 
     //创建并预插入出区核放单数据（用户未保存确认前）
-    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList, Users userInfo) {
-        this.crtExitManifestMapper.updateBondInvt(passPortHead);
+    public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList, Users userInfo, String bond_invt_no) {
+        this.crtExitManifestMapper.updateBondInvt(bond_invt_no);
         this.crtExitManifestMapper.insertPassPortHead(passPortHead, userInfo);
 
         for (PassPortAcmp passPortAcmp : passPortAcmpList) {
@@ -80,7 +83,7 @@ public class CrtExitManifestService {
     public Map<String, String> saveExitManifest(LinkedHashMap<String, String> passPortHead, ArrayList<LinkedHashMap<String, String>> passPortAcmpList, Users userInfo) {
         Map<String, String> map = new HashMap<String, String>();
 
-        this.crtExitManifestMapper.updateBondInvtStatus(passPortHead);
+//        this.crtExitManifestMapper.updateBondInvtStatus(passPortHead);
         this.crtExitManifestMapper.savePassPortHead(passPortHead, userInfo);
 
         if (!CollectionUtils.isEmpty(passPortAcmpList)) {

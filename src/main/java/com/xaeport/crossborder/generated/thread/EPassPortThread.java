@@ -49,10 +49,8 @@ public class EPassPortThread implements Runnable {
         PassportHeadXml passportHeadXml;
         PassportAcmpXml passportAcmpXml;
         List<PassportAcmpXml> passportAcmpXmlList;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String etpsPreentNo = null;
-        String xmlName = null;
+        String xmlName;
 
         while (true) {
 

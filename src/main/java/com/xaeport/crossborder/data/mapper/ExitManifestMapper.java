@@ -43,7 +43,7 @@ public interface ExitManifestMapper {
 
     //修改出区核注清单状态为“未生成核放单”状态
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updateBondInvtBsc")
-    void updateBondInvtBsc(String bondInvtNo);
+    void updateBondInvtBsc(String BondInvtNos);
 
     //删除出区核放单表头数据
     @Delete("DELETE FROM T_PASS_PORT_ACMP WHERE HEAD_ETPS_PREENT_NO = #{etpsPreentNo}")

@@ -59,10 +59,12 @@ public class ExitManifestService {
             if (CollectionUtils.isEmpty(passPortAcmpList)) return;
             String etpsPreentNo;
             String bondInvtNo;
+            String BondInvtNos;
             for (int i = 0; i < passPortHeadList.size(); i++) {
                 bondInvtNo = passPortHeadList.get(i).getBond_invt_no();
+                BondInvtNos = bondInvtNo.replaceAll("/", ",");
                 etpsPreentNo = passPortHeadList.get(i).getEtps_preent_no();
-                this.exitManifestMapper.updateBondInvtBsc(bondInvtNo);
+                this.exitManifestMapper.updateBondInvtBsc(BondInvtNos);
                 this.exitManifestMapper.deletePassPortAcmp(etpsPreentNo);
                 this.exitManifestMapper.deletePassPortHead(etpsPreentNo);
             }
@@ -74,12 +76,12 @@ public class ExitManifestService {
     }
 
     //查询数据是否填写完整
-    public boolean queryDataFull(Map<String,String> paramMap){
+    public boolean queryDataFull(Map<String, String> paramMap) {
         boolean flag;
         List<String> status = this.exitManifestMapper.queryDataFull(paramMap);
-        if(status.contains("INIT")){
+        if (status.contains("INIT")) {
             flag = false;
-        }else {
+        } else {
             flag = true;
         }
         return flag;
@@ -126,18 +128,9 @@ public class ExitManifestService {
             // 更新表头数据
             this.exitManifestMapper.updatePassPortHead(passPortHead, userInfo);
         }
-
-//        if (!CollectionUtils.isEmpty(passPortHead)) {
-//            exitManifestMapper.updatePassPortAcmp(passPortHead, userInfo);
-//        }
-
         if (!CollectionUtils.isEmpty(passPortAcmpList) && !CollectionUtils.isEmpty(passPortHead)) {
             // 更新表体数据
-//            for (LinkedHashMap<String, String> passPortAcmp : passPortAcmpList) {
-//                if (!CollectionUtils.isEmpty(passPortAcmpList)) {
             exitManifestMapper.updatePassPortAcmp(passPortHead, passPortAcmpList, userInfo);
-//                }
-//            }
         }
         return false;
     }

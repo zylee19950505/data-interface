@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CrtExitManifestSQLProvider {
+public class CrtExitManifestSQLProvider extends BaseSQLProvider {
 
     //查询出区核注清单数据
     public String queryEInventoryList(Map<String, String> paramMap) throws Exception {
@@ -89,26 +89,38 @@ public class CrtExitManifestSQLProvider {
         }.toString();
     }
 
+    public String queryBondInvtBscList(@Param("bond_invt_no") String bond_invt_no) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_BOND_INVT_BSC");
+                WHERE(splitJointIn("BOND_INVT_NO", bond_invt_no));
+            }
+        }.toString();
+    }
+
     public String queryBondinvtIsRepeat(Map<String, String> map) {
         String submitKeys = map.get("submitKeys");
 
         return new SQL() {
             {
-                SELECT("COUNT(1)");
-                FROM("T_PASS_PORT_HEAD");
-                WHERE("BOND_INVT_NO = #{submitKeys}");
+                SELECT("ETPS_INNER_INVT_NO");
+                SELECT("BOND_INVT_NO");
+                SELECT("PASSPORT_USED_TYPECD");
+                FROM("T_BOND_INVT_BSC");
+                WHERE(splitJointIn("BOND_INVT_NO", submitKeys));
             }
         }.toString();
     }
 
     //更新核注清单表状态
     public String updateBondInvt(
-            @Param("passPortHead") PassPortHead passPortHead
+            @Param("bond_invt_no") String bond_invt_no
     ) {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC t");
-                WHERE("t.BOND_INVT_NO = #{passPortHead.bond_invt_no}");
+                WHERE(splitJointIn("t.BOND_INVT_NO ", bond_invt_no));
                 SET("t.PASSPORT_USED_TYPECD = '3'");
             }
         }.toString();
@@ -123,7 +135,7 @@ public class CrtExitManifestSQLProvider {
             {
                 INSERT_INTO("T_PASS_PORT_HEAD");
                 VALUES("status", "'INIT'");
-                VALUES("FLAG","'EXIT'");
+                VALUES("FLAG", "'EXIT'");
                 if (!StringUtils.isEmpty(passPortHead.getId())) {
                     VALUES("id", "#{passPortHead.id}");
                 }
@@ -154,16 +166,16 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.getRlt_no())) {
                     VALUES("rlt_no", "#{passPortHead.rlt_no}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("CRT_USER", "#{userInfo.id}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("CRT_TIME", "sysdate");
                 }
-                if(!StringUtils.isEmpty(userInfo.getEnt_Id())){
+                if (!StringUtils.isEmpty(userInfo.getEnt_Id())) {
                     VALUES("CRT_ENT_ID", "#{userInfo.ent_Id}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getEnt_Name())){
+                if (!StringUtils.isEmpty(userInfo.getEnt_Name())) {
                     VALUES("CRT_ENT_NAME", "#{userInfo.ent_Name}");
                 }
             }
@@ -184,31 +196,37 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(passPortAcmp.getNo())) {
                     VALUES("no", "#{passPortAcmp.no}");
                 }
+                if (!StringUtils.isEmpty(passPortAcmp.getRtl_tb_typecd())) {
+                    VALUES("rtl_tb_typecd", "#{passPortAcmp.rtl_tb_typecd}");
+                }
+                if (!StringUtils.isEmpty(passPortAcmp.getRtl_no())) {
+                    VALUES("rtl_no", "#{passPortAcmp.rtl_no}");
+                }
                 if (!StringUtils.isEmpty(passPortAcmp.getHead_etps_preent_no())) {
                     VALUES("head_etps_preent_no", "#{passPortAcmp.head_etps_preent_no}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("CRT_USER", "#{userInfo.id}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("CRT_TIME", "sysdate");
                 }
             }
         }.toString();
     }
 
-    //更新核注清单表状态
-    public String updateBondInvtStatus(
-            @Param("passPortHead") LinkedHashMap<String, String> passPortHead
-    ) {
-        return new SQL() {
-            {
-                UPDATE("T_BOND_INVT_BSC t");
-                WHERE("t.BOND_INVT_NO = #{passPortHead.bond_invt_no}");
-                SET("t.PASSPORT_USED_TYPECD = '3'");
-            }
-        }.toString();
-    }
+//    //更新核注清单表状态
+//    public String updateBondInvtStatus(
+//            @Param("passPortHead") LinkedHashMap<String, String> passPortHead
+//    ) {
+//        return new SQL() {
+//            {
+//                UPDATE("T_BOND_INVT_BSC t");
+//                WHERE(splitJointIn("t.BOND_INVT_NO ", passPortHead.get("bond_invt_no")));
+//                SET("t.PASSPORT_USED_TYPECD = '3'");
+//            }
+//        }.toString();
+//    }
 
     //保存并更新出区核放单表头
     public String savePassPortHead(
@@ -351,7 +369,7 @@ public class CrtExitManifestSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))) {
                     SET("rtl_tb_typecd = #{passPortHead.rlt_tb_typecd}");
                 }
-                if (!StringUtils.isEmpty(passPortHead.get("rlt_no"))) {
+                if (!StringUtils.isEmpty(passPortAcmp.get("rlt_no"))) {
                     SET("rtl_no = #{passPortHead.rlt_no}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
