@@ -71,7 +71,6 @@ public class EnterPassPortThread implements Runnable {
                     }
                     continue;
                 }
-
                 for (PassPortHead passPortHead : passPortHeadList) {
                     try {
                         passportHeadXml = new PassportHeadXml();
