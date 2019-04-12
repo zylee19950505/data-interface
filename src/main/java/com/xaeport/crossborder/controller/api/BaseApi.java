@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/api")
 public class BaseApi {
 
-
     @Autowired
     protected UserManageService userMaService;
 
