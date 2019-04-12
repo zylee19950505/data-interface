@@ -51,16 +51,22 @@ public class EnterBasePassPortXML {
         context.put("passPortHead", passPortMessage.getPassportHeadXml());
         context.put("passPortAcmpXmlList", passPortMessage.getPassportAcmpXmlList());
         context.put("passPortListXmlList", passPortMessage.getPassPortListXmlList());
+        context.put("operCusRegCode", passPortMessage.getOperCusRegCode());
         Template t;
-        if (!"3".equals(passPortMessage.getPassportHeadXml().getBindTypecd())) {
-            //一车一票和一车多票
+        if ("6".equals(passPortMessage.getPassportHeadXml().getPassportTypecd())){
+            t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterEmptyPassPortXml.vm");
+        }else{
+            if (!"3".equals(passPortMessage.getPassportHeadXml().getBindTypecd())) {
+                //一车一票和一车多票
 //            t = ve.getTemplate("./template/EnterPassPortXml.vm");
-            t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortXml.vm");
-        } else {
-            //一票多车
+                t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortXml.vm");
+            } else {
+                //一票多车
 //            t = ve.getTemplate("./template/EnterPassPortYPDCXml.vm");
-            t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortYPDCXml.vm");
+                t = ve.getTemplate(appConfiguration.getXmlPath().get("xmlTemplatePath") + File.separator + "EnterPassPortYPDCXml.vm");
+            }
         }
+
         StringWriter writer = new StringWriter();
         t.merge(context, writer);
         return writer.toString().getBytes();

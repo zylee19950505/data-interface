@@ -22,7 +22,7 @@
                 <sender_id>$!envelopInfo.sender_id</sender_id>
                 <receiver_id>$!envelopInfo.receiver_id</receiver_id>
                 <send_time>$!envelopInfo.send_time</send_time>
-                <Ic_Card>$!envelopInfo.Ic_Card</Ic_Card>
+                <Ic_Card>$!envelopInfo.ic_Card</Ic_Card>
             </EnvelopInfo>
             <DataInfo>
                 <PocketInfo>
@@ -35,9 +35,6 @@
                             <MasterCuscd>$!passPortHead.MasterCuscd</MasterCuscd>
                             <DclTypecd>$!passPortHead.DclTypecd</DclTypecd>
                             <IoTypecd>$!passPortHead.IoTypecd</IoTypecd>
-                            <BindTypecd>$!passPortHead.BindTypecd</BindTypecd>
-                            <RltTbTypecd>$!passPortHead.RltTbTypecd</RltTbTypecd>
-                            <RltNo>$!passPortHead.RltNo</RltNo>
                             <AreainEtpsno>$!passPortHead.AreainEtpsno</AreainEtpsno>
                             <AreainEtpsNm>$!passPortHead.AreainEtpsNm</AreainEtpsNm>
                             <VehicleNo>$!passPortHead.VehicleNo</VehicleNo>
@@ -56,18 +53,6 @@
                             <InputName>$!passPortHead.InputName</InputName>
                             <EtpsPreentNo>$!passPortHead.EtpsPreentNo</EtpsPreentNo>
                         </PassportHead>
-#foreach($passPortList in $passPortListXmlList)
-                        <PassPortList>
-                            <PASSPORT_SEQNO>$!passPortList.passPort_seqNo</PASSPORT_SEQNO>
-                            <GDS_MTNO>$!passPortList.gds_mtNo</GDS_MTNO>
-                            <GDECD>$!passPortList.gdecd</GDECD>
-                            <GDS_NM>$!passPortList.gds_nm</GDS_NM>
-                            <GROSS_WT>$!passPortList.gross_wt</GROSS_WT>
-                            <NET_WT>$!passPortList.net_wt</NET_WT>
-                            <DCL_UNITCD>$!passPortList.dcl_unitcd</DCL_UNITCD>
-                            <DCL_QTY>$!passPortList.dcl_qty</DCL_QTY>
-                        </PassPortList>
-#end
                         <OperCusRegCode>$!operCusRegCode</OperCusRegCode>
                     </PassPortMessage>
                     <DelcareFlag>1</DelcareFlag>
