@@ -9,7 +9,6 @@ import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -42,6 +41,7 @@ public class EnterPassPortThread implements Runnable {
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("status", StatusCode.RQHFDSBZ);//在map中添加状态（dataStatus）为：入区核放单申报中（BDDS30）
+        paramMap.put("kcstatus", StatusCode.RQKCHFDSBZ);//入区空车核放单申报中（BDDS70）
 
         PassPortMessage passPortMessage = new PassPortMessage();
 
@@ -138,15 +138,25 @@ public class EnterPassPortThread implements Runnable {
 
                         //开始生成报文
                         this.entryProcess(passPortMessage, xmlName, passPortHead);
-                        try {
-                            // 更新入区核放单状态为已申报
-                            this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQHFDYSB);
-                            this.logger.debug(String.format("更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.CQHFDYSB));
-                        } catch (Exception e) {
-                            String exceptionMsg = String.format("更改入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
-                            this.logger.error(exceptionMsg, e);
+                        if ("6".equals(passPortHead.getPassport_typecd())){
+                            try {
+                                // 更新入区空车核放单状态为已申报
+                                this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
+                                this.logger.debug(String.format("更新入区空车核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
+                            } catch (Exception e) {
+                                String exceptionMsg = String.format("更改入区空车核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
+                                this.logger.error(exceptionMsg, e);
+                            }
+                        }else{
+                            try {
+                                // 更新入区核放单状态为已申报
+                                this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
+                                this.logger.debug(String.format("更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
+                            } catch (Exception e) {
+                                String exceptionMsg = String.format("更改入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
+                                this.logger.error(exceptionMsg, e);
+                            }
                         }
-
                     } catch (Exception e) {
                         String exceptionMsg = String.format("处理企业[etpsPreentNo: %s]入区核放单数据时发生异常", etpsPreentNo);
                         this.logger.error(exceptionMsg, e);

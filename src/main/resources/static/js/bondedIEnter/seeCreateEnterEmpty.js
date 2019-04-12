@@ -82,6 +82,7 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
             return;
         }
         var entryData = {
+            etps_preent_no: $("#etps_preent_no").val(),
             vehicle_no: $("#vehicle_no").val(),
             vehicle_ic_no: $("#vehicle_ic_no").val(),
 
@@ -201,8 +202,66 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
             $("#input_name").text(name).val(name);
         })
     },
+    query: function () {
+        // 表头变化
+        headChangeKeyVal = {};
+        // 表体变化
+        listChangeKeyVals = {};
+
+        //从路径上找参数
+        var param = sw.getPageParams("bondedIEnter/seeCreateEnterEmpty");
+        var etps_preent_no = param.etps_preent_no;
+
+        var data = {
+            etps_preent_no: etps_preent_no
+        };
+        $.ajax({
+            method: "GET",
+            url: "api/crtEnterEmpty/queryEnterEmptyDetails",
+            data: data,
+            success: function (data, status, xhr) {
+                if (xhr.status == 200) {
+                    var entryModule = sw.page.modules["bondedIEnter/seeCreateEnterEmpty"];
+                    var entryHead = data.data;
+                    if (isNotEmpty(entryHead)) {
+                        entryModule.fillManifestInfo(entryHead);
+                    }
+                }
+            },
+            async: false
+        });
+    },
+    // 装载表头信息
+    fillManifestInfo: function (entryHead) {
+
+         $("#etps_preent_no").val(entryHead.etps_preent_no),
+         $("#vehicle_no").val(entryHead.vehicle_no),
+         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no),
+
+         $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt),
+         $("#vehicle_wt").val(entryHead.vehicle_wt),
+
+         $("#container_type").val(entryHead.container_type),
+         $("#container_wt").val(entryHead.container_wt),
+
+         $("#total_gross_wt").val(entryHead.total_gross_wt),
+         $("#dcl_er_conc").val(entryHead.dcl_er_conc),
+
+         $("#master_cuscd").val(entryHead.master_cuscd),
+         $("#total_wt").val(entryHead.total_wt),
+
+         $("#dcl_etpsno").val(entryHead.dcl_etpsno),
+         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm),
+
+         $("#areain_etpsno").val(entryHead.areain_etpsno),
+         $("#areain_etps_nm").val(entryHead.areain_etps_nm)
+
+    },
 
     init: function () {
+        //从路径上获取参数
+        var param = sw.getPageParams("bondedIEnter/seeCreateEnterEmpty");
+        var etps_preent_no = param.etps_preent_no;
         this.dclEtps();
         this.dclEtpsName();
         this.fillEntryEmptyInfo();
@@ -214,8 +273,16 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
             autoclose: true
         });
 
-        //保存的路径
-        this.detailParam.url = "/api/crtEnterEmpty/saveEntryEmptyInfo";
+        if ("0" == etps_preent_no){
+            //保存的路径(新增)
+            this.detailParam.url = "/api/crtEnterEmpty/saveEntryEmptyInfo";
+        }else{
+            //保存的路径(修改)
+            this.query();
+            this.detailParam.url = "/api/crtEnterEmpty/updateEntryEmptyInfo";
+        }
+        
+
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {

@@ -22,4 +22,13 @@ public interface CrtEnterEmptyMapper {
 
     @Delete("DELETE from T_PASS_PORT_HEAD t where t.id = #{id}")
     void deleteEnterEmpty(@Param("id") String id);
+
+    @Select("select t.* from T_PASS_PORT_HEAD t where t.ETPS_PREENT_NO = #{etps_preent_no}")
+    PassPortHead queryEnterEmptyDetails(Map<String, String> paramMap);
+
+    @UpdateProvider(type = CrtEnterEmptySQLProvider.class,method = "updateEntryEmptyInfo")
+    void updateEntryEmptyInfo(@Param("passPortHead") PassPortHead passPortHead);
+
+    @UpdateProvider(type = CrtEnterEmptySQLProvider.class,method = "submitEmptyCustom")
+    boolean submitEmptyCustom(Map<String, String> paramMap);
 }

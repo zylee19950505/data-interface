@@ -130,6 +130,12 @@ public class StatusCode {
 	public final static String BSDDYSB = "BDDS61";//保税订单已申报
 	public final static String BSDDSBCG = "BDDS62";//保税订单申报成功
 
+	public final static String RQKCHFDDSB = "BDDS7";//入区空车核放单待申报
+	public final static String RQKCHFDSBZ = "BDDS70";//入区空车核放单申报中
+	public final static String RQKCHFDYSB = "BDDS71";//入区空车核放单已申报
+	public final static String RQKCHFDSBCG = "BDDS72";//入区空车核放单申报成功
+	public final static String RQKCHFDDZC = "BDDS73";//入区空车核放单暂存
+
 
 
 }

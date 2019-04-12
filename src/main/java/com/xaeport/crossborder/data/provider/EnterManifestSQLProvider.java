@@ -324,7 +324,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_HEAD t");
-                WHERE("t.STATUS = #{status}");
+                WHERE("t.STATUS = #{status} or t.STATUS = #{kcstatus}");
             }
         }.toString();
     }
