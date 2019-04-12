@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Signature xmlns:sas="http://www.chinaport.gov.cn/sas" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaLocation="http://www.chinaport.gov.cn/sas SAS101.xsd">
+    <SignedInfo>
+        <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+        <Reference URI="String">
+            <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+            <DigestValue/>
+        </Reference>
+    </SignedInfo>
+    <SignatureValue/>
+    <KeyInfo>
+        <KeyName>aa</KeyName>
+    </KeyInfo>
+    <Object Id="String">
+        <Package>
+            <EnvelopInfo>
+                <version>1.0</version>
+                <message_id>HFD6104W6003CE201904118628</message_id>
+                <file_name>PASSPORT_Exit_HFD6104W6003CE201904118628_20190411160347138.zip</file_name>
+                <message_type>SAS121</message_type>
+                <sender_id>DXPENT0000021945</sender_id>
+                <receiver_id>DXPEDCSAS0000001</receiver_id>
+                <send_time>2019-04-11T16:12:07</send_time>
+                <Ic_Card>2118030005294</Ic_Card>
+            </EnvelopInfo>
+            <DataInfo>
+                <PocketInfo>
+                    <is_unstructured>1</is_unstructured>
+                </PocketInfo>
+                <BussinessData>
+                    <PassPortMessage>
+                        <PassportHead>
+                            <PassportTypecd>2</PassportTypecd>
+                            <MasterCuscd>9013</MasterCuscd>
+                            <DclTypecd>1</DclTypecd>
+                            <IoTypecd>E</IoTypecd>
+                            <BindTypecd>2</BindTypecd>
+                            <RltTbTypecd>1</RltTbTypecd>
+                            <RltNo>QD901319E000000187</RltNo>
+                            <AreainEtpsno>6104W6003C</AreainEtpsno>
+                            <AreainEtpsNm>陕西空港丝路云跨境供应链管理服务有限公司</AreainEtpsNm>
+                            <VehicleNo>陕A532DB</VehicleNo>
+                            <VehicleIcNo>SP20089104</VehicleIcNo>
+                            <VehicleWt>1255</VehicleWt>
+                            <VehicleFrameWt>570</VehicleFrameWt>
+                            <ContainerWt>0</ContainerWt>
+                            <ContainerType>0</ContainerType>
+                            <TotalWt>1825</TotalWt>
+                            <TotalGrossWt>3.12</TotalGrossWt>
+                            <TotalNetWt>2.72</TotalNetWt>
+                            <DclErConc>孙进 18510236675</DclErConc>
+                            <DclEtpsno>6104W6003C</DclEtpsno>
+                            <DclEtpsNm>陕西空港丝路云跨境供应链管理服务有限公司</DclEtpsNm>
+                            <InputCode>6104W6003C</InputCode>
+                            <InputName>陕西空港丝路云跨境供应链管理服务有限公司</InputName>
+                            <EtpsPreentNo>HFD6104W6003CE201904118628</EtpsPreentNo>
+                        </PassportHead>
+                        <PassportAcmp>
+                            <RtlBillTypecd>1</RtlBillTypecd>
+                            <RtlBillNo>QD901319E000000187</RtlBillNo>
+                        </PassportAcmp>
+                        <OperCusRegCode>6104W6003C</OperCusRegCode>
+                    </PassPortMessage>
+                    <DelcareFlag>1</DelcareFlag>
+                </BussinessData>
+            </DataInfo>
+        </Package>
+    </Object>
+</Signature>

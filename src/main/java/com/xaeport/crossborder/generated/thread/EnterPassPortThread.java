@@ -53,10 +53,8 @@ public class EnterPassPortThread implements Runnable {
         PassPortListXml passPortListXml;
         List<PassportAcmpXml> passportAcmpXmlList;
         List<PassPortListXml> passPortListXmlList;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String etpsPreentNo = null;
-        String xmlName = null;
+        String xmlName;
 
         while (true) {
 
@@ -107,9 +105,7 @@ public class EnterPassPortThread implements Runnable {
                         passportHeadXml.setInputName(passPortHead.getInput_name());
                         passportHeadXml.setEtpsPreentNo(passPortHead.getEtps_preent_no());
 
-
-
-                        if (!"3".equals(passPortHead.getBind_typecd())){
+                        if (!"3".equals(passPortHead.getBind_typecd())) {
                             //一票一车和一车多票(关联单证)
                             passPortAcmpList = this.enterManifestMapper.queryPassPortAcmpByHeadNo(etpsPreentNo);
                             for (int j = 0; j < passPortAcmpList.size(); j++) {
@@ -120,9 +116,9 @@ public class EnterPassPortThread implements Runnable {
                             }
                             passPortMessage.setPassportHeadXml(passportHeadXml);
                             passPortMessage.setPassportAcmpXmlList(passportAcmpXmlList);
-                        }else {
+                        } else {
                             //一票多车(表体)
-                            passPortListXmlList =  new ArrayList<>();
+                            passPortListXmlList = new ArrayList<>();
                             passPortLists = this.enterManifestMapper.queryPassPortListByHeadNo(etpsPreentNo);
                             for (int j = 0; j < passPortLists.size(); j++) {
                                 passPortListXml = new PassPortListXml();
@@ -222,7 +218,7 @@ public class EnterPassPortThread implements Runnable {
         envelopInfo.setSender_id(this.enterManifestMapper.getDxpId(passPortHead.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(passPortHead.getDcl_time()));
-        envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(),passPortHead.getDcl_etpsno()));
+        envelopInfo.setIc_Card(this.enterManifestMapper.getDclEtpsIcCard(passPortHead.getCrt_ent_id(), passPortHead.getDcl_etpsno()));
         return envelopInfo;
     }
 }

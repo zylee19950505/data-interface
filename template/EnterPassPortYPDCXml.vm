@@ -68,7 +68,7 @@
                             <DCL_QTY>$!passPortList.dcl_qty</DCL_QTY>
                         </PassPortList>
 #end
-                        <OperCusRegCode>6101380018</OperCusRegCode>
+                        <OperCusRegCode>$!passPortHead.DclEtpsno</OperCusRegCode>
                     </PassPortMessage>
                     <DelcareFlag>1</DelcareFlag>
                 </BussinessData>

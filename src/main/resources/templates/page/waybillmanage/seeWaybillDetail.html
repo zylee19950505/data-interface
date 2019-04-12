@@ -1,40 +1,99 @@
-<div>
 
-    <div class="box-body" style=" padding:20px">
-
-        <form class="form-inline" align="center">
-            <div class="form-group disBlock">
-                <div class="input-group">
-                    <span class="input-group-addon">提&nbsp;运&nbsp;单&nbsp;号：</span>
-                    <input class="form-control" type="text" id="bill_no" name="bill_no"
-                           placeholder="请输入运单编号"/>
-                </div>
-                <div class="color-red tishiInfor" id="remark1" style="height:1px;display: none;">
-                    <label id="tag1" style="margin-top: 5px">提运单号不能为空</label>
-                </div>
-            </div>
-        </form>
-
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>运单详情</span>
     </div>
+    <div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>
+    <table id="entryHead" class="headDetail" content="content" align="center" border="1px solid balck">
+        <tr>
+            <td class="headTitle">提运单号</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="37" id="bill_no"/>
+            </td>
+            <td class="headTitle">物流运输时间</td>
+            <td colspan="2">
+                <input class="form-control input-sm" id="logistics_time"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">物流运单编号</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="logistics_no"/>
+            </td>
+            <td class="headTitle">订单编号</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="60" id="order_no"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">物流企业代码</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="18" id="logistics_code"/>
+            </td>
+            <td class="headTitle">物流企业名称</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="100" id="logistics_name"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">收货人姓名</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="100" id="consingee"/>
+            </td>
+            <td class="headTitle">收货人电话</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="50" id="consignee_telephone"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">收货地址</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="200" id="consignee_address"/>
+            </td>
+            <td class="headTitle">运费</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="19" id="freight"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">保价费</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="19" id="insured_fee"/>
+            </td>
+            <td class="headTitle">件数</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="9" id="pack_no"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">毛重</td>
+            <td colspan="2">
+                <input class="form-control input-sm" maxlength="19" id="weight"/>
+            </td>
+            <td class="headTitle ieDate">备注</td>
+            <td class="ieDate" colspan="2">
+                <input class="form-control input-sm" maxlength="1000" id="note"/>
+            </td>
+        </tr>
+    </table>
 
     <div class="text-center">
         <small class="help-block text-red" id="errorMsg"></small>
     </div>
-
     <div class="form-group text-center margin" id="btnDiv">
-
         <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
                 data-toggle="tooltip-disabled"
                 title="提交保存">
             <i class="fa fa-check"></i>
         </button>
-
         <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
                 data-toggle="tooltip-disabled"
                 title="取消并返回">
             <i class="fa fa-reply"></i>
         </button>
-
     </div>
-
 </div>

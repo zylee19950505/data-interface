@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Package xmlns="http://www.w3.org/2000/09/xmldsig#">
+<EnvelopInfo>
+<version>1.0</version>
+<business_id>QD900819I000000011</business_id>
+<message_id>DXPEDCINVT000001DXPENT00000180502019010309185300010607445</message_id>
+<file_name>DXPEDCINVT000001DXPENT00000180502019010309185300010607445.INVT</file_name>
+<message_type>INV202</message_type>
+<sender_id>DXPEDCINVT000001</sender_id>
+<receiver_id>DXPENT0000018050</receiver_id>
+<send_time>2019-01-03T09:18:53</send_time>
+</EnvelopInfo>
+<DataInfo>
+<BussinessData>
+<INV202>
+
+
+<InvApprResult>
+<invPreentNo>seq201903061435</invPreentNo>
+<businessId>QD900919E201903061439</businessId>
+<entrySeqNo>I2019123456789</entrySeqNo>
+<manageResult>0</manageResult>
+<createDate>2019-01-25 23:59:59</createDate>
+<reason>888</reason>
+</InvApprResult>
+
+
+</INV202>
+</BussinessData>
+</DataInfo>
+</Package>

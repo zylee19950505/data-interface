@@ -190,7 +190,7 @@ public class WaybillQueryApi extends BaseApi {
     ) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("billNo", billNo);
-        map.put("dataStatus", String.format("%s,%s", StatusCode.YDSBCG, StatusCode.YDZTSBCG));
+        map.put("dataStatus", String.format("%s,%s,%s,%s,%s", StatusCode.YDSBCG, StatusCode.YDZTDSB, StatusCode.YDZTSBZ, StatusCode.YDZTYSB, StatusCode.YDZTSBCG));
 
         List<ImpLogistics> impLogisticsList;
         String fileName = "0";

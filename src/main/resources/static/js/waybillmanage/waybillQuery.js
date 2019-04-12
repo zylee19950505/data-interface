@@ -139,7 +139,7 @@ sw.page.modules["waybillmanage/waybillQuery"] = sw.page.modules["waybillmanage/w
     },
 
     seeBillNoDetail: function () {
-        sw.popup("waybillmanage/seeWaybillDetail", "提运单号", false, 450, 250);
+        sw.popup("waybillmanage/billno", "提运单号", false, 450, 250);
     },
 
     download: function () {

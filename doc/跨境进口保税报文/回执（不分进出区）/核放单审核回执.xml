@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Package>
+<EnvelopInfo>
+<version>1.0</version>
+<message_id>CUS0000E0100002019010309242300017943432</message_id>
+<file_name>CUS0000E0100002019010309242300017943432.SAS</file_name>
+<message_type>SAS221</message_type>
+<sender_id>CUS0000</sender_id>
+<receiver_id>E010000</receiver_id>
+<send_time>2019-01-03T09:24:23</send_time>
+</EnvelopInfo>
+<DataInfo>
+<PocketInfo>
+<pocket_id>Z9008I1901030000000000019292d53472b34be09b253c0a4101334e</pocket_id>
+<total_pocket_qty>1</total_pocket_qty>
+<cur_pocket_no>1</cur_pocket_no>
+<is_unstructured>
+</is_unstructured>
+</PocketInfo>
+<BussinessData>
+<SAS221>
+
+<HdeApprResult>
+<etpsPreentNo>eport201904081009</etpsPreentNo>
+<businessId>Z9008I19010300999</businessId>
+<tmsCnt>0</tmsCnt>
+<typecd>1</typecd>
+<manageResult>1</manageResult>
+<manageDate>2019-01-30 23:59:59</manageDate>
+<rmk>111</rmk>
+</HdeApprResult>
+
+</SAS221>
+</BussinessData>
+</DataInfo>
+</Package>

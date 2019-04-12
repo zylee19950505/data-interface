@@ -62,7 +62,7 @@
                             <RtlBillNo>$!passPortAcmp.RtlBillNo</RtlBillNo>
                         </PassportAcmp>
 #end
-                        <OperCusRegCode>6101380018</OperCusRegCode>
+                        <OperCusRegCode>$!passPortHead.DclEtpsno</OperCusRegCode>
                     </PassPortMessage>
                     <DelcareFlag>1</DelcareFlag>
                 </BussinessData>
