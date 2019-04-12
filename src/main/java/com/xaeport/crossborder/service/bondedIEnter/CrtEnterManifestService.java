@@ -1,4 +1,4 @@
-package com.xaeport.crossborder.service.bondedIExit;
+package com.xaeport.crossborder.service.bondedIEnter;
 
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BuilderDetailMapper;

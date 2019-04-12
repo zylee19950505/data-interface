@@ -1,0 +1,114 @@
+<div class="detailPage">
+    <div class="entryTitle">
+        <span>创建出区空车核放单</span>
+    </div>
+    <!--<div class="text-center">
+        <small class="help-block text-red">
+            为保证申报内容准确，请在修改国别、币制、包装种类、计量单位等信息时填写对应代码。
+        </small>
+    </div>-->
+    <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">车牌号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="128" id="vehicle_no"/>
+            </td>
+            <td class="headTitle">IC卡号(电子车牌)</td>
+            <td>
+                <input class="form-control input-sm" maxlength="128" id="vehicle_ic_no"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">车架重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="vehicle_frame_wt"/>
+            </td>
+            <td class="headTitle">车自重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="vehicle_wt"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="headTitle">集装箱箱型</td>
+            <td>
+                <input class="form-control input-sm" maxlength="256" id="container_type"/>
+            </td>
+            <td class="headTitle">集装箱重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="container_wt"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="headTitle">货物总毛重</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="total_gross_wt"/>
+            </td>
+            <td class="headTitle">申请人及联系方式</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="dcl_er_conc"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="headTitle">主管海关</td>
+            <td>
+                <input type="text" id="master_cuscd" list="master_cuscds"/>
+                <datalist id="master_cuscds" name="dcl_plc_cuscds" style="display: none;">
+                    <option value="" selected="selected">全部</option>
+                </datalist>
+            </td>
+            <td class="headTitle">总重量</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="total_wt"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">申报企业代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="10" id="dcl_etpsno"/>
+            </td>
+            <td class="headTitle">申报企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
+            </td>
+        </tr>
+        <!--<tr>
+            <td class="headTitle">录入企业代码</td>
+            <td>
+                <select class="form-control input-sm" maxlength="64" id="input_code"/>
+            </td>
+            <td class="headTitle">录入企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="input_name"/>
+            </td>
+        </tr>-->
+        <tr>
+            <td class="headTitle">区内企业代码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="10" id="areain_etpsno"/>
+            </td>
+            <td class="headTitle">区内企业名称</td>
+            <td>
+                <input class="form-control input-sm" maxlength="512" id="areain_etps_nm"/>
+            </td>
+        </tr>
+    </table>
+
+    <div class="text-center">
+        <small class="help-block text-red" id="errorMsg"></small>
+    </div>
+    <div class="form-group text-center margin" id="btnDiv">
+        <button class="btn btn-sm btn-success" type="button" id="ws-page-apply"
+                data-toggle="tooltip-disabled"
+                title="提交保存">
+            <i class="fa fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-warning" type="button" id="ws-page-back"
+                data-toggle="tooltip-disabled"
+                title="取消并返回">
+            <i class="fa fa-reply"></i>
+        </button>
+    </div>
+</div>
