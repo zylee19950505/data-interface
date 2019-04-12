@@ -134,5 +134,12 @@ public class StatusCode {
 	public final static String CQKCHFDSBZ = "BDDS80";//出区空车核放单申报中
 	public final static String CQKCHFDYSB = "BDDS81";//出区空车核放单已申报
 	public final static String CQKCHFDSBCG = "BDDS82";//出区空车核放单申报成功
+	public final static String RQKCHFDDSB = "BDDS7";//入区空车核放单待申报
+	public final static String RQKCHFDSBZ = "BDDS70";//入区空车核放单申报中
+	public final static String RQKCHFDYSB = "BDDS71";//入区空车核放单已申报
+	public final static String RQKCHFDSBCG = "BDDS72";//入区空车核放单申报成功
+	public final static String RQKCHFDDZC = "BDDS73";//入区空车核放单暂存
+
+
 
 }

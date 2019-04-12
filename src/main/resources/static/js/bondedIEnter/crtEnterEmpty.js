@@ -48,7 +48,7 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        if (row.status == "BDDS33" || row.status == "BDDS3") {
+                        if (row.status == "BDDS73" || row.status == "BDDS7") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.etps_preent_no + '" />';
                         }
@@ -58,34 +58,36 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
                     }
                 },
                 {
-                    data: "vehicle_no", label: "车牌号"
+                    label: "企业内部编号", render: function (data, type, row) {
+                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/crtEnterEmpty').seeEnterPassportDetail('" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
+                    }
                 },
                 {
-                    data: "etps_preent_no", label: "企业内部编号"
+                    data: "vehicle_no", label: "车牌号"
                 },
                 {
                     label: "当前状态", render: function (data, type, row) {
                     var value = "";
                     var textColor = "";
                     switch (row.status) {
-                        case "BDDS3":
-                            value = "核放单待申报";
+                        case "BDDS7":
+                            value = "入区空车核放单待申报";
                             textColor = "text-yellow";
                             break;
-                        case "BDDS30":
-                            value = "核放单申报中";
+                        case "BDDS70":
+                            value = "入区空车核放单申报中";
                             textColor = "text-green";
                             break;
-                        case "BDDS31":
-                            value = "核放单已申报";
+                        case "BDDS71":
+                            value = "入区空车核放单已申报";
                             textColor = "text-green";
                             break;
-                        case "BDDS32":
-                            value = "核放单申报成功";
+                        case "BDDS72":
+                            value = "入区空车核放单申报成功";
                             textColor = "text-green";
                             break;
-                        case "BDDS33":
-                            value = "核放单暂存";
+                        case "BDDS73":
+                            value = "入区空车核放单暂存";
                             textColor = "text-red";
                             break;
                     }
@@ -160,7 +162,7 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
                 submitKeys: submitKeys
             };
             $("#submitCustom").prop("disabled", true);
-            sw.ajax("api/enterManifest/submitCustom", "POST", postData, function (rsp) {
+            sw.ajax("api/crtEnterEmpty/submitEmptyCustom", "POST", postData, function (rsp) {
                 if (rsp.data.result == "true") {
                     sw.alert("提交海关成功", "提示", function () {
                     }, "modal-success");
@@ -175,8 +177,12 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
     },
 
     createEnterEmpty: function () {
-        var url = "bondedIEnter/seeCreateEnterEmpty?type=RQKC&isEdit=true";
+        var url = "bondedIEnter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=0";
         sw.modelPopup(url, "创建入区空车核放单", false, 900, 400);
+    },
+    seeEnterPassportDetail: function (etps_preent_no) {
+        var url = "bondedIEnter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=" + etps_preent_no;
+        sw.modelPopup(url, "查看入区空车核放单详情", false, 900, 400);
     },
     init: function () {
         $(".input-daterange").datepicker({
