@@ -150,7 +150,7 @@ public class EnterBondInvtThread implements Runnable {
                             invtListType.setNetWt(StringUtils.isEmpty(bondInvtDtList.get(j).getNet_wt()) ? "" : bondInvtDtList.get(j).getNet_wt());
                             invtListType.setUseCd(StringUtils.isEmpty(bondInvtDtList.get(j).getUsecd()) ? "" : bondInvtDtList.get(j).getUsecd());
                             invtListType.setLvyrlfModecd(StringUtils.isEmpty(bondInvtDtList.get(j).getLvyrlf_modecd()) ? "" : bondInvtDtList.get(j).getLvyrlf_modecd());
-                            invtListType.setEntryGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getEntry_gds_seqno()) ? "" : bondInvtDtList.get(j).getEntry_gds_seqno());
+                            invtListType.setEntryGdsSeqno(StringUtils.isEmpty(bondInvtDtList.get(j).getEntry_gds_seqno()) ? "" : String.valueOf(bondInvtDtList.get(j).getEntry_gds_seqno()));
                             invtListType.setDestinationNatcd(StringUtils.isEmpty(bondInvtDtList.get(j).getDestination_natcd()) ? "" : bondInvtDtList.get(j).getDestination_natcd());
                             invtListType.setModfMarkcd(StringUtils.isEmpty(bondInvtDtList.get(j).getModf_markcd()) ? "" : bondInvtDtList.get(j).getModf_markcd());
                             invtListTypeList.add(invtListType);

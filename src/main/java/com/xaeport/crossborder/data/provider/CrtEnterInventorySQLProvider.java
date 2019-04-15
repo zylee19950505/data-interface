@@ -22,7 +22,10 @@ public class CrtEnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getGds_seqno()))) {
                     VALUES("gds_seqno", "#{bondInvtDt.gds_seqno}");
                 }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))) {
+                /*if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))) {
+                    VALUES("putrec_seqno", "#{bondInvtDt.putrec_seqno}");
+                }*/
+                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))||bondInvtDt.getPutrec_seqno() !=0) {
                     VALUES("putrec_seqno", "#{bondInvtDt.putrec_seqno}");
                 }
                 if (!StringUtils.isEmpty(bondInvtDt.getGds_mtno())) {
@@ -96,6 +99,9 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if (!StringUtils.isEmpty(bondInvtDt.getRmk())) {
                     VALUES("rmk", "#{bondInvtDt.rmk}");
+                }
+                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getEntry_gds_seqno()))) {
+                    VALUES("ENTRY_GDS_SEQNO", "#{bondInvtDt.entry_gds_seqno}");
                 }
             }
         }.toString();

@@ -55,10 +55,10 @@ public class CrtEnterInventoryService {
             if (bondInvtDt.getPutrec_seqno() > Integer.parseInt(maxGdsSeqno)){
                 //新增
                 bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
-                bondInvtDt.setPutrec_seqno(null);
+                bondInvtDt.setPutrec_seqno(0);
             }else{
                 //原有
-                bondInvtDt.setGds_seqno(i + 1);
+                bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
                 bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
             }
 
@@ -68,6 +68,7 @@ public class CrtEnterInventoryService {
             bondInvtDt.setDcl_currcd("142");//币制
             bondInvtDt.setDestination_natcd("142");//最终目的国
             bondInvtDt.setModf_markcd("3");//最终目的国
+            bondInvtDt.setEntry_gds_seqno(i+1);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
         }
 

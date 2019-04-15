@@ -33,7 +33,7 @@ public class BondInvtDt {
     private String net_wt;//净重量
     private String lvyrlf_modecd;//征减免方式代码
     private String ucns_verno;//账册备案单耗明细版本号
-    private String entry_gds_seqno;//报关单商品序号 需报关的清单，为必填项
+    private Integer entry_gds_seqno;//报关单商品序号 需报关的清单，为必填项
     private String apply_tb_seqno;//申请表序号 流转类专用。用于建立清单商品与流转申请表商品之间的关系
     private String cly_markcd;//归类标记代码
 
@@ -298,11 +298,11 @@ public class BondInvtDt {
         this.ucns_verno = ucns_verno;
     }
 
-    public String getEntry_gds_seqno() {
+    public Integer getEntry_gds_seqno() {
         return entry_gds_seqno;
     }
 
-    public void setEntry_gds_seqno(String entry_gds_seqno) {
+    public void setEntry_gds_seqno(Integer entry_gds_seqno) {
         this.entry_gds_seqno = entry_gds_seqno;
     }
 

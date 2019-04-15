@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
