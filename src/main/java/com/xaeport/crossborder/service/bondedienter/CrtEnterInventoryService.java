@@ -30,32 +30,47 @@ public class CrtEnterInventoryService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dateNowStr = sdf.format(date);
         String etpsInnerInvtNo = "HZQD" + user.getEnt_Customs_Code() + "I" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4);
-        int count = 1;
         int original_nm = 0;
-
-        for (int i = 0; i < list.size(); i++) {
-            String dtId = IdUtils.getUUId();
-            BondInvtDt bondInvtDt = list.get(i);
-            //设置表头原有数量
-            original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
-            bondInvtDt.setId(dtId);
-            bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
-            //bondInvtDt.setPutrec_seqno(count);
-            bondInvtDt.setGdecd(bondInvtDt.getGdecd());
-            bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
-            bondInvtDt.setDcl_currcd("142");//币制
-            bondInvtDt.setDestination_natcd("142");//最终目的国
-            bondInvtDt.setModf_markcd("3");//最终目的国
-            bondInvtDt.setGds_seqno(i + 1);
-            this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
-            count++;
-        }
         //将企业信息暂时保存在表头里
         String bscId = IdUtils.getUUId();
         //根据当前用户查找企业id
         String entId = userMapper.getEnterpriseId(user.getId());
         //根据企业id查找企业信息
         Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(entId);
+
+        //查找当前登录企业的区内企业信息
+        Enterprise enterprise = enterpriseMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+        String maxGdsSeqno = crtEnterInventoryMapper.getMaxGdsSeqno(enterprise.getCustoms_code());
+        for (int i = 0; i < list.size(); i++) {
+            String dtId = IdUtils.getUUId();
+            BondInvtDt bondInvtDt = list.get(i);
+            //设置表头原有数量
+            original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
+            bondInvtDt.setId(dtId);
+            //查找当前企业的账册备案序号的最大的一位;
+
+            //如果导入的备案序号大于企业的账册序号后几位,则为新增  备案序号置为空,序号置为新增的备案序号;
+
+            //是否将新增的备案序号加入账册备案序号里
+            if (bondInvtDt.getPutrec_seqno() > Integer.parseInt(maxGdsSeqno)){
+                //新增
+                bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
+                bondInvtDt.setPutrec_seqno(null);
+            }else{
+                //原有
+                bondInvtDt.setGds_seqno(i + 1);
+                bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
+            }
+
+            //bondInvtDt.setPutrec_seqno(count);
+            bondInvtDt.setGdecd(bondInvtDt.getGdecd());
+            bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
+            bondInvtDt.setDcl_currcd("142");//币制
+            bondInvtDt.setDestination_natcd("142");//最终目的国
+            bondInvtDt.setModf_markcd("3");//最终目的国
+            this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
+        }
+
 
         //将企业信息和表头基本信息预存在bond_invt_bsc里
         BondInvtBsc bondInvtBsc = new BondInvtBsc();

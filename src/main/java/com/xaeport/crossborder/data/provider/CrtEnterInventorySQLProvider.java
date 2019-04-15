@@ -327,4 +327,15 @@ public class CrtEnterInventorySQLProvider {
     }
 
 
+    public  String  getMaxGdsSeqno(@Param("customs_code") String customs_code){
+        return new SQL(){
+            {
+                SELECT("MAX(t.GDS_SEQNO)");
+                FROM("T_BWL_LIST_TYPE t");
+                WHERE("t.BIZOP_ETPSNO = #{customs_code}");
+            }
+        }.toString();
+    }
+
+
 }
