@@ -7,7 +7,7 @@ import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
-import com.xaeport.crossborder.service.bondedIExit.CrtExitInventoryService;
+import com.xaeport.crossborder.service.bondediexit.CrtExitInventoryService;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;

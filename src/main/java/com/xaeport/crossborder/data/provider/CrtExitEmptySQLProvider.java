@@ -202,4 +202,68 @@ public class CrtExitEmptySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String updatePassport(@Param("passPortHead") PassPortHead passPortHead) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_no())) {
+                    SET("t.vehicle_no = #{passPortHead.vehicle_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_ic_no())) {
+                    SET("t.vehicle_ic_no = #{passPortHead.vehicle_ic_no}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_frame_wt())) {
+                    SET("t.vehicle_frame_wt = #{passPortHead.vehicle_frame_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getVehicle_wt())) {
+                    SET("t.vehicle_wt = #{passPortHead.vehicle_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getContainer_type())) {
+                    SET("t.container_type = #{passPortHead.container_type}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getContainer_wt())) {
+                    SET("t.container_wt = #{passPortHead.container_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_gross_wt())) {
+                    SET("t.total_gross_wt = #{passPortHead.total_gross_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_er_conc())) {
+                    SET("t.dcl_er_conc = #{passPortHead.dcl_er_conc}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getMaster_cuscd())) {
+                    SET("t.master_cuscd = #{passPortHead.master_cuscd}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_wt())) {
+                    SET("t.total_wt = #{passPortHead.total_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_etpsno())) {
+                    SET("t.dcl_etpsno = #{passPortHead.dcl_etpsno}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getDcl_etps_nm())) {
+                    SET("t.dcl_etps_nm = #{passPortHead.dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getInput_code())) {
+                    SET("t.input_code = #{passPortHead.input_code}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getInput_name())) {
+                    SET("t.input_name = #{passPortHead.input_name}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etpsno())) {
+                    SET("t.areain_etpsno = #{passPortHead.areain_etpsno}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())) {
+                    SET("t.areain_etps_nm = #{passPortHead.areain_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getUpd_user())) {
+                    SET("t.upd_user = #{passPortHead.upd_user}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getStatus())) {
+                    SET("t.status = #{passPortHead.status}");
+                }
+                SET("t.upd_time = sysdate");
+            }
+        }.toString();
+    }
+
 }

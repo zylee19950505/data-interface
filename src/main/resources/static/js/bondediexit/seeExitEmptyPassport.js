@@ -40,9 +40,7 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
         callBackUrl: "",
         isShowError: true,
         isEdit: "true",
-        disableField: [
-
-        ]
+        disableField: []
     },
     // 取消返回
     cancel: function () {
@@ -81,6 +79,7 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
             return;
         }
         var entryData = {
+            etps_preent_no: $("#etps_preent_no").val(),
             vehicle_no: $("#vehicle_no").val(),
             vehicle_ic_no: $("#vehicle_ic_no").val(),
 
@@ -125,10 +124,10 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
             "vehicle_ic_no": "IC卡号(电子车牌)",
             "vehicle_frame_wt": "车架重",
             "vehicle_wt": "车自重",
-            "container_type":"集装箱箱型",
-            "container_wt":"集装箱重",
-            "total_gross_wt":"货物总毛重",
-            "dcl_er_conc":"申请人及联系方式",
+            "container_type": "集装箱箱型",
+            "container_wt": "集装箱重",
+            "total_gross_wt": "货物总毛重",
+            "dcl_er_conc": "申请人及联系方式",
             "master_cuscd": "主管海关",
             "total_wt": "总重量",
             "dcl_etpsno": "申报企业代码",
@@ -166,7 +165,7 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         });
@@ -179,10 +178,68 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
         });
     },
 
+    query: function () {
+        // 表头变化
+        headChangeKeyVal = {};
+        // 表体变化
+        listChangeKeyVals = {};
+
+        //从路径上找参数
+        var param = sw.getPageParams("bondediexit/seeExitEmptyPassport");
+        var etps_preent_no = param.etps_preent_no;
+
+        var data = {
+            etps_preent_no: etps_preent_no
+        };
+        $.ajax({
+            method: "GET",
+            url: "api/crtexitempty/querypassportdetail",
+            data: data,
+            success: function (data, status, xhr) {
+                if (xhr.status == 200) {
+                    var entryModule = sw.page.modules["bondediexit/seeExitEmptyPassport"];
+                    var passporthead = data.data;
+                    if (isNotEmpty(passporthead)) {
+                        entryModule.fillExitEmptyPassport(passporthead);
+                    }
+                }
+            },
+            async: false
+        });
+    },
+    // 装载表头信息
+    fillExitEmptyPassport: function (passporthead) {
+        $("#etps_preent_no").val(passporthead.etps_preent_no),
+            $("#vehicle_no").val(passporthead.vehicle_no),
+            $("#vehicle_ic_no").val(passporthead.vehicle_ic_no),
+
+            $("#vehicle_frame_wt").val(passporthead.vehicle_frame_wt),
+            $("#vehicle_wt").val(passporthead.vehicle_wt),
+
+            $("#container_type").val(passporthead.container_type),
+            $("#container_wt").val(passporthead.container_wt),
+
+            $("#total_gross_wt").val(passporthead.total_gross_wt),
+            $("#dcl_er_conc").val(passporthead.dcl_er_conc),
+
+            $("#master_cuscd").val(passporthead.master_cuscd),
+            $("#total_wt").val(passporthead.total_wt),
+
+            $("#dcl_etpsno").val(passporthead.dcl_etpsno),
+            $("#dcl_etps_nm").val(passporthead.dcl_etps_nm),
+
+            $("#areain_etpsno").val(passporthead.areain_etpsno),
+            $("#areain_etps_nm").val(passporthead.areain_etps_nm)
+
+    },
+
     init: function () {
         this.dclEtps();
         this.dclEtpsName();
         this.fillEntryEmptyInfo();
+
+        var param = sw.getPageParams("bondediexit/seeExitEmptyPassport");
+        var etps_preent_no = param.etps_preent_no;
 
         $(".input-daterange").datepicker({
             language: "zh-CN",
@@ -191,8 +248,14 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
             autoclose: true
         });
 
-        //保存的路径
-        this.detailParam.url = "/api/crtexitempty/savenewpassport";
+        if ("0" == etps_preent_no){
+            //新增路径
+            this.detailParam.url = "/api/crtexitempty/savenewpassport";
+        }else{
+            //修改路径
+            this.query();
+            this.detailParam.url = "/api/crtexitempty/updatepassport";
+        }
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {

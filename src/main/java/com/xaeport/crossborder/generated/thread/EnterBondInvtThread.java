@@ -45,7 +45,6 @@ public class EnterBondInvtThread implements Runnable {
         paramMap.put("impexp_markcd", "I");//入区核注清单的进出口标识
 
         InvtMessage invtMessage = new InvtMessage();
-
         List<BondInvtBsc> bondInvtBscList;
         List<BondInvtDt> bondInvtDtList;
         InvtHeadType invtHeadType;
@@ -64,7 +63,7 @@ public class EnterBondInvtThread implements Runnable {
                     // 如无待生成数据，则等待3s后重新确认
                     try {
                         Thread.sleep(3000);
-                        logger.debug("未发现需生成出区核注清单报文的数据，中等待3秒");
+                        logger.debug("未发现需生成入区核注清单报文的数据，等待3秒");
                     } catch (InterruptedException e) {
                         logger.error("入区核注清单报文生成器暂停时发生异常", e);
                     }
@@ -78,7 +77,6 @@ public class EnterBondInvtThread implements Runnable {
 
                         xmlName = bondInvtBsc.getEtps_inner_invt_no();
                         //获取海关十位
-                        //String customs_code = this.enterInventoryMapper.queryEnterCustoms(bondInvtBsc.getDcl_etpsno(),bondInvtBsc.getDcl_etps_nm());
                         headEtpsInnerInvtNo = bondInvtBsc.getEtps_inner_invt_no();
                         invtHeadType.setBondInvtNo(bondInvtBsc.getBond_invt_no());
                         invtHeadType.setPutrecNo(bondInvtBsc.getPutrec_no());
@@ -94,7 +92,6 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
                         invtHeadType.setRltPutrecNo(bondInvtBsc.getRlt_putrec_no());
                         invtHeadType.setRltInvtNo(bondInvtBsc.getRlt_invt_no());
-
                         invtHeadType.setInvtDclTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setImpexpPortcd(bondInvtBsc.getImpexp_portcd());
                         invtHeadType.setDclPlcCuscd(bondInvtBsc.getDcl_plc_cuscd());
@@ -107,14 +104,12 @@ public class EnterBondInvtThread implements Runnable {
                         invtHeadType.setVrfdedMarkcd(bondInvtBsc.getVrfded_markcd());
                         invtHeadType.setInputCode(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setInputName(bondInvtBsc.getDcl_etps_nm());
-//                        invtHeadType.setInputTime("20181210");
                         invtHeadType.setListStat("");
                         invtHeadType.setCorrEntryDclEtpsNo(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setCorrEntryDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
                         invtHeadType.setDecType(bondInvtBsc.getDec_type());
                         invtHeadType.setAddTime(sdf.format(bondInvtBsc.getInvt_dcl_time()));
                         invtHeadType.setStshipTrsarvNatcd(bondInvtBsc.getStship_trsarv_natcd());
-                        //invtHeadType.setInvtType("8");
                         invtHeadType.setInvtType(bondInvtBsc.getBond_invt_typecd());
                         invtHeadType.setCorr_entry_dcl_etps_sccd(bondInvtBsc.getCorr_entry_dcl_etps_sccd());
                         invtHeadType.setCorr_entry_dcl_etps_no(bondInvtBsc.getCorr_entry_dcl_etps_no());
@@ -170,7 +165,7 @@ public class EnterBondInvtThread implements Runnable {
                         this.entryProcess(invtMessage, xmlName, bondInvtBsc);
 
                     } catch (Exception e) {
-                        String exceptionMsg = String.format("处理企业[headEtpsInnerInvtNo: %s]核注清单数据时发生异常", headEtpsInnerInvtNo);
+                        String exceptionMsg = String.format("封装入区核注清单报文数据[headEtpsInnerInvtNo: %s]异常", headEtpsInnerInvtNo);
                         this.logger.error(exceptionMsg, e);
                     }
                 }
@@ -194,9 +189,9 @@ public class EnterBondInvtThread implements Runnable {
             EnvelopInfo envelopInfo = this.setEnvelopInfo(xmlName, bondInvtBsc);
             byte[] xmlByte = this.enterBaseBondInvtXML.createXML(invtMessage, "EnterBondInvt", envelopInfo);//flag
             saveXmlFile(fileName, xmlByte);
-            this.logger.debug(String.format("完成入区核注清单清单报文[fileName: %s]", fileName));
+            this.logger.debug(String.format("成功生成入区核注清单清单报文[fileName: %s]", fileName));
         } catch (Exception e) {
-            String exceptionMsg = String.format("处理入区核注清单[headGuid: %s]时发生异常", xmlName);
+            String exceptionMsg = String.format("处理入区核注清单报文[headGuid: %s]时异常", xmlName);
             this.logger.error(exceptionMsg, e);
         }
     }
@@ -224,7 +219,7 @@ public class EnterBondInvtThread implements Runnable {
         File sendWmsFile = new File(sendWmsFilePath);
         FileUtils.save(sendWmsFile, xmlByte);
         this.logger.info("入区核注清单发送完毕" + fileName);
-        this.logger.debug(String.format("出区核注清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+        this.logger.debug(String.format("入区核注清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, BondInvtBsc bondInvtBsc) {
@@ -239,7 +234,7 @@ public class EnterBondInvtThread implements Runnable {
         envelopInfo.setSender_id(this.enterInventoryMapper.getDxpId(bondInvtBsc.getCrt_ent_id()));
         envelopInfo.setReceiver_id("DXPEDCSAS0000001");
         envelopInfo.setSend_time(sdfXml.format(bondInvtBsc.getInvt_dcl_time()));
-        envelopInfo.setIc_Card(this.enterInventoryMapper.getDclEtpsIcCard(bondInvtBsc.getCrt_ent_id(),bondInvtBsc.getDcl_etpsno()));
+        envelopInfo.setIc_Card(this.enterInventoryMapper.getDclEtpsIcCard(bondInvtBsc.getCrt_ent_id(), bondInvtBsc.getDcl_etpsno()));
         return envelopInfo;
     }
 }

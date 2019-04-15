@@ -177,11 +177,11 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
     },
 
     createEnterEmpty: function () {
-        var url = "bondedIEnter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=0";
+        var url = "bondedienter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=0";
         sw.modelPopup(url, "创建入区空车核放单", false, 900, 400);
     },
     seeEnterPassportDetail: function (etps_preent_no) {
-        var url = "bondedIEnter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=" + etps_preent_no;
+        var url = "bondedienter/seeCreateEnterEmpty?type=RQKC&isEdit=true&etps_preent_no=" + etps_preent_no;
         sw.modelPopup(url, "查看入区空车核放单详情", false, 900, 400);
     },
     init: function () {

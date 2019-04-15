@@ -7,6 +7,7 @@ import com.xaeport.crossborder.convert.enterbondinvt.EnterBaseBondInvtXML;
 import com.xaeport.crossborder.convert.enterpassport.EnterBasePassPortXML;
 import com.xaeport.crossborder.convert.exitbondinvt.EBaseBondInvtXML;
 import com.xaeport.crossborder.convert.exitpassport.EBasePassPortXML;
+import com.xaeport.crossborder.convert.exitpassport.EEmptyPassportXML;
 import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
 import com.xaeport.crossborder.convert.logistics.BaseLogisticsXml;
 import com.xaeport.crossborder.convert.logstatus.BaseLogisticsStatusXml;
@@ -64,6 +65,8 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private EBondInvtThread eBondInvtThread;
     //出区核放单线程
     private EPassPortThread ePassPortThread;
+    //出区空车核放单线程
+    private EEmptyPassportThread eEmptyPassportThread;
 
     //生成清单的线程
     private BuilderDetailThread builderDetailThread;
@@ -104,6 +107,8 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区核放单
     @Autowired
     ExitManifestMapper exitManifestMapper;
+    @Autowired
+    EEmptyPassportMapper eEmptyPassportMapper;
 
     //生成清单
     @Autowired
@@ -148,6 +153,9 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区核放单报文
     @Autowired
     EBasePassPortXML eBasePassPortXML;
+    //出区空车核放单报文
+    @Autowired
+    EEmptyPassportXML eEmptyPassportXML;
 
     //系统配置文件参数
     @Autowired
@@ -205,16 +213,20 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         ePassPortThread = new EPassPortThread(this.exitManifestMapper, this.appConfiguration, this.eBasePassPortXML);
         executorService.execute(ePassPortThread);
 
+        this.logger.debug("进口出区空车核放单报文生成器初始化开始");
+        eEmptyPassportThread = new EEmptyPassportThread(this.eEmptyPassportMapper, this.appConfiguration, this.eEmptyPassportXML);
+        executorService.execute(eEmptyPassportThread);
+
         this.logger.debug("进口入区核注清单报文生成启动器初始化开始");
-        enterBondInvtThread = new EnterBondInvtThread(this.enterInventoryMapper,this.appConfiguration,this.enterBaseBondInvtXML);
+        enterBondInvtThread = new EnterBondInvtThread(this.enterInventoryMapper, this.appConfiguration, this.enterBaseBondInvtXML);
         executorService.execute(enterBondInvtThread);
 
         this.logger.debug("进口入区核放单报文生成启动器初始化开始");
-        enterPassPortThread = new EnterPassPortThread(this.enterManifestMapper,this.appConfiguration,this.enterBasePassPortXML);
+        enterPassPortThread = new EnterPassPortThread(this.enterManifestMapper, this.appConfiguration, this.enterBasePassPortXML);
         executorService.execute(enterPassPortThread);
 
         this.logger.debug("扫描生成清单启动器初始化开始");
-        builderDetailThread = new BuilderDetailThread(this.builderDetailMapper,this.enterpriseMapper,this.appConfiguration);
+        builderDetailThread = new BuilderDetailThread(this.builderDetailMapper, this.enterpriseMapper, this.appConfiguration);
         executorService.execute(builderDetailThread);
 
     }

@@ -34,7 +34,7 @@ function selecterInitDetail(selectId, value, data) {
 // 表头变化
 var headChangeKeyVal = {};
 
-sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] || {
+sw.page.modules["bondedienter/seeCreateEnterEmpty"] = sw.page.modules["bondedienter/seeCreateEnterEmpty"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
@@ -114,7 +114,7 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondedIEnter/seeCreateEnterEmpty"].cancel();
+                sw.page.modules["bondedienter/seeCreateEnterEmpty"].cancel();
             } else {
                 hasError(rsp.data.msg);
             }
@@ -209,7 +209,7 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
         listChangeKeyVals = {};
 
         //从路径上找参数
-        var param = sw.getPageParams("bondedIEnter/seeCreateEnterEmpty");
+        var param = sw.getPageParams("bondedienter/seeCreateEnterEmpty");
         var etps_preent_no = param.etps_preent_no;
 
         var data = {
@@ -221,7 +221,7 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondedIEnter/seeCreateEnterEmpty"];
+                    var entryModule = sw.page.modules["bondedienter/seeCreateEnterEmpty"];
                     var entryHead = data.data;
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillManifestInfo(entryHead);
@@ -260,7 +260,7 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
 
     init: function () {
         //从路径上获取参数
-        var param = sw.getPageParams("bondedIEnter/seeCreateEnterEmpty");
+        var param = sw.getPageParams("bondedienter/seeCreateEnterEmpty");
         var etps_preent_no = param.etps_preent_no;
         this.dclEtps();
         this.dclEtpsName();
@@ -286,11 +286,11 @@ sw.page.modules["bondedIEnter/seeCreateEnterEmpty"] = sw.page.modules["bondedIEn
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondedIEnter/seeCreateEnterEmpty"].saveEntryEmptyInfo();
+            sw.page.modules["bondedienter/seeCreateEnterEmpty"].saveEntryEmptyInfo();
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["bondedIEnter/seeCreateEnterEmpty"].cancel();
+            sw.page.modules["bondedienter/seeCreateEnterEmpty"].cancel();
         });
     }
 

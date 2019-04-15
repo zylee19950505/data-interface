@@ -58,7 +58,9 @@ sw.page.modules["bondediexit/crtExitEmptyPassport"] = sw.page.modules["bondediex
                     }
                 },
                 {
-                    data: "etps_preent_no", label: "企业内部编号"
+                    label: "企业内部编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/crtExitEmptyPassport').seeExitEmptyPassport('" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
+                }
                 },
                 {
                     data: "vehicle_no", label: "车牌号"
@@ -159,9 +161,15 @@ sw.page.modules["bondediexit/crtExitEmptyPassport"] = sw.page.modules["bondediex
     },
 
     createExitEmptyPassport: function () {
-        var url = "bondediexit/seeExitEmptyPassport?type=CQKC&isEdit=true";
+        var url = "bondediexit/seeExitEmptyPassport?type=CQKC&isEdit=true&etps_preent_no=0";
         sw.modelPopup(url, "创建出区空车核放单", false, 900, 400);
     },
+
+    seeExitEmptyPassport: function (etps_preent_no) {
+        var url = "bondediexit/seeExitEmptyPassport?type=CQKC&isEdit=true&etps_preent_no=" + etps_preent_no;
+        sw.modelPopup(url, "出区空车核放单", false, 900, 400);
+    },
+
     init: function () {
         $(".input-daterange").datepicker({
             language: "zh-CN",

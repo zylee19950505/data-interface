@@ -1,6 +1,7 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.PassPortHead;
+import com.xaeport.crossborder.data.provider.CrtEnterEmptySQLProvider;
 import com.xaeport.crossborder.data.provider.CrtExitEmptySQLProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -25,4 +26,10 @@ public interface CrtExitEmptyMapper {
     //更新修改出区核放单数据为申报中状态（提交海关）
     @UpdateProvider(type = CrtExitEmptySQLProvider.class, method = "updateSubmitCustom")
     void updateSubmitCustom(Map<String, String> paramMap) throws Exception;
+
+    @Select("select t.* from T_PASS_PORT_HEAD t where t.ETPS_PREENT_NO = #{etps_preent_no}")
+    PassPortHead queryPassportDetail(Map<String, String> paramMap);
+
+    @UpdateProvider(type = CrtExitEmptySQLProvider.class, method = "updatePassport")
+    void updatePassport(@Param("passPortHead") PassPortHead passPortHead);
 }

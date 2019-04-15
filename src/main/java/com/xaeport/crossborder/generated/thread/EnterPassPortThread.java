@@ -65,7 +65,7 @@ public class EnterPassPortThread implements Runnable {
                     // 如无待生成数据，则等待3s后重新确认
                     try {
                         Thread.sleep(3000);
-                        logger.debug("未发现需生成入区核放单报文的数据，中等待3秒");
+                        logger.debug("未发现需生成入区核放单报文的数据，等待3秒");
                     } catch (InterruptedException e) {
                         logger.error("入区核放单报文生成器暂停时发生异常", e);
                     }
@@ -138,27 +138,27 @@ public class EnterPassPortThread implements Runnable {
 
                         //开始生成报文
                         this.entryProcess(passPortMessage, xmlName, passPortHead);
-                        if ("6".equals(passPortHead.getPassport_typecd())){
+                        if ("6".equals(passPortHead.getPassport_typecd())) {
                             try {
                                 // 更新入区空车核放单状态为已申报
                                 this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
-                                this.logger.debug(String.format("更新入区空车核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
+                                this.logger.debug(String.format("成功更新入区空车核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
                             } catch (Exception e) {
-                                String exceptionMsg = String.format("更改入区空车核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
+                                String exceptionMsg = String.format("更新入区空车核放单[etpsPreentNo: %s]状态时异常", passportHeadXml.getEtpsPreentNo());
                                 this.logger.error(exceptionMsg, e);
                             }
-                        }else{
+                        } else {
                             try {
                                 // 更新入区核放单状态为已申报
                                 this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
-                                this.logger.debug(String.format("更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
+                                this.logger.debug(String.format("成功更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
                             } catch (Exception e) {
-                                String exceptionMsg = String.format("更改入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
+                                String exceptionMsg = String.format("更新入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
                                 this.logger.error(exceptionMsg, e);
                             }
                         }
                     } catch (Exception e) {
-                        String exceptionMsg = String.format("处理企业[etpsPreentNo: %s]入区核放单数据时发生异常", etpsPreentNo);
+                        String exceptionMsg = String.format("封装入区核放单报文数据[etpsPreentNo: %s]异常", etpsPreentNo);
                         this.logger.error(exceptionMsg, e);
                     }
                 }
@@ -182,9 +182,9 @@ public class EnterPassPortThread implements Runnable {
             EnvelopInfo envelopInfo = this.setEnvelopInfo(xmlName, passPortHead);
             byte[] xmlByte = this.enterBasePassPortXML.createXML(passPortMessage, "EnterPassPort", envelopInfo);//flag
             saveXmlFile(fileName, xmlByte);
-            this.logger.debug(String.format("完成生成入区核放单报文[fileName: %s]", fileName));
+            this.logger.debug(String.format("成功生成入区核放单报文[fileName: %s]", fileName));
         } catch (Exception e) {
-            String exceptionMsg = String.format("处理入区核放单[etpsPreentNo: %s]时发生异常", xmlName);
+            String exceptionMsg = String.format("处理入区核放单报文[etpsPreentNo: %s]时异常", xmlName);
             this.logger.error(exceptionMsg, e);
         }
     }
@@ -198,7 +198,7 @@ public class EnterPassPortThread implements Runnable {
         this.logger.debug(String.format("入区核放单报文发送文件[sascebPath: %s]", sendFilePath));
 
         String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
-        this.logger.debug(String.format("入区核注清单报文发送文件[sendWmsPath: %s]", sendWmsFilePath));
+        this.logger.debug(String.format("入区核放单报文发送文件[sendWmsPath: %s]", sendWmsFilePath));
 
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
@@ -211,8 +211,8 @@ public class EnterPassPortThread implements Runnable {
 
         File sendWmsFile = new File(sendWmsFilePath);
         FileUtils.save(sendWmsFile, xmlByte);
-        this.logger.info("入区核注清单发送完毕" + fileName);
-        this.logger.debug(String.format("入区核注清单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+        this.logger.info("入区核放单发送完毕" + fileName);
+        this.logger.debug(String.format("入区核放单报文发送文件[sendWmsPath: %s]生成完毕", sendWmsFilePath));
     }
 
     private EnvelopInfo setEnvelopInfo(String xmlName, PassPortHead passPortHead) {

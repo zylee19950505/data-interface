@@ -1,5 +1,5 @@
 //清单查询
-sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondedIExit/exitManifest"] || {
+sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondediexit/exitManifest"] || {
 
     query: function () {
         // 获取查询表单参数

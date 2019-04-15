@@ -42,20 +42,17 @@ public class EBondInvtThread implements Runnable {
     public void run() {
         Map<String, String> paramMap = new HashMap<String, String>();
         paramMap.put("status", StatusCode.CQHZQDSBZ);//在map中添加状态（dataStatus）为：出区核注清单申报中（BDDS20）
-
         InvtMessage invtMessage = new InvtMessage();
-
         List<BondInvtBsc> bondInvtBscList;
         List<BondInvtDt> bondInvtDtList;
         List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
         InvtHeadType invtHeadType;
         InvtListType invtListType;
         ExitInvtListType exitInvtListType;
-        List<ExitInvtListType> exitInvtListTypeList = null;
+        List<ExitInvtListType> exitInvtListTypeList;
         List<InvtListType> invtListTypeList;
         String headEtpsInnerInvtNo = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlName;
 
         while (true) {
@@ -78,9 +75,7 @@ public class EBondInvtThread implements Runnable {
                     try {
                         invtHeadType = new InvtHeadType();
                         invtListTypeList = new ArrayList<>();
-
                         xmlName = bondInvtBsc.getEtps_inner_invt_no();
-
                         headEtpsInnerInvtNo = bondInvtBsc.getEtps_inner_invt_no();
                         invtHeadType.setBondInvtNo(bondInvtBsc.getBond_invt_no());
                         invtHeadType.setPutrecNo(bondInvtBsc.getPutrec_no());
@@ -106,7 +101,6 @@ public class EBondInvtThread implements Runnable {
                         invtHeadType.setVrfdedMarkcd(bondInvtBsc.getVrfded_markcd());
                         invtHeadType.setInputCode(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setInputName(bondInvtBsc.getDcl_etps_nm());
-//                        invtHeadType.setInputTime("20181210");
                         invtHeadType.setListStat("");
                         invtHeadType.setCorrEntryDclEtpsNo(bondInvtBsc.getDcl_etpsno());
                         invtHeadType.setCorrEntryDclEtpsNm(bondInvtBsc.getDcl_etps_nm());
@@ -117,9 +111,9 @@ public class EBondInvtThread implements Runnable {
                         try {
                             // 更新清单状态
                             this.exitInventoryMapper.updateBondInvtBscStatus(headEtpsInnerInvtNo, StatusCode.CQHZQDYSB);
-                            this.logger.debug(String.format("更新出区核注清单[headEtpsInnerInvtNo: %s]状态为: %s", headEtpsInnerInvtNo, StatusCode.CQHZQDYSB));
+                            this.logger.debug(String.format("成功更新出区核注清单[headEtpsInnerInvtNo: %s]状态为: %s", headEtpsInnerInvtNo, StatusCode.CQHZQDYSB));
                         } catch (Exception e) {
-                            String exceptionMsg = String.format("更改出区核注清单[headEtpsInnerInvtNo: %s]状态时发生异常", invtHeadType.getEtpsInnerInvtNo());
+                            String exceptionMsg = String.format("更新出区核注清单[headEtpsInnerInvtNo: %s]状态时异常", headEtpsInnerInvtNo);
                             this.logger.error(exceptionMsg, e);
                         }
 
@@ -134,9 +128,7 @@ public class EBondInvtThread implements Runnable {
                         }
 
                         bondInvtDtList = this.exitInventoryMapper.queryExitInvtListType(headEtpsInnerInvtNo);
-
                         exitInvtListTypeList = new ArrayList<>();
-
                         for (BondInvtDt bondInvtDt : bondInvtDtList) {
                             exitInvtListType = new ExitInvtListType();
                             exitInvtListType.setGdsSeqno(String.valueOf(bondInvtDt.getGds_seqno()));
@@ -169,11 +161,10 @@ public class EBondInvtThread implements Runnable {
                         this.entryProcess(invtMessage, xmlName, bondInvtBsc);
 
                     } catch (Exception e) {
-                        String exceptionMsg = String.format("处理企业[headEtpsInnerInvtNo: %s]核注清单数据时发生异常", headEtpsInnerInvtNo);
+                        String exceptionMsg = String.format("封装出区核注清单报文数据[headEtpsInnerInvtNo: %s]异常", headEtpsInnerInvtNo);
                         this.logger.error(exceptionMsg, e);
                     }
                 }
-
             } catch (Exception e) {
                 try {
                     Thread.sleep(5000);
@@ -193,9 +184,9 @@ public class EBondInvtThread implements Runnable {
             EnvelopInfo envelopInfo = this.setEnvelopInfo(xmlName, bondInvtBsc);
             byte[] xmlByte = this.eBaseBondInvtXML.createXML(invtMessage, "EBondInvt", envelopInfo);//flag
             saveXmlFile(fileName, xmlByte);
-            this.logger.debug(String.format("完成出区核注清单清单报文[fileName: %s]", fileName));
+            this.logger.debug(String.format("成功生成出区核注清单清单报文[fileName: %s]", fileName));
         } catch (Exception e) {
-            String exceptionMsg = String.format("处理出区核注清单[headGuid: %s]时发生异常", xmlName);
+            String exceptionMsg = String.format("处理出区核注清单报文[headGuid: %s]异常", xmlName);
             this.logger.error(exceptionMsg, e);
         }
     }

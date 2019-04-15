@@ -9,7 +9,7 @@ import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.PassPortHead;
 import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.service.bondedIExit.CrtExitEmptyService;
+import com.xaeport.crossborder.service.bondediexit.CrtExitEmptyService;
 import com.xaeport.crossborder.tools.GetIpAddr;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +80,44 @@ public class CrtExitEmptyApi extends BaseApi {
             rtnMap.put("msg", "保存出区空车核放单时发生异常");
         }
         return new ResponseData(rtnMap);
+    }
+
+    //修改出区空车核放单数据
+    @RequestMapping(value = "updatepassport")
+    public ResponseData updatepassport(
+            @Param("entryJson") String entryJson
+    ) {
+        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+        Map<String, String> rtnMap = new HashMap<>();
+        Users users = this.getCurrentUsers();
+        try {
+            // 保存表头信息和关联单信息
+            rtnMap = crtExitEmptyService.updatePassport(object, users);
+        } catch (Exception e) {
+            this.logger.error("保存出区空车核放单时发生异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "保存出区空车核放单时发生异常");
+        }
+        return new ResponseData(rtnMap);
+    }
+
+
+    //查看出区空车核放单详情
+    @RequestMapping("/querypassportdetail")
+    public ResponseData querypassportdetail(
+            @RequestParam(required = false) String etps_preent_no//企业内部编号
+    ) {
+        this.logger.debug(String.format("出区空车核放单查询条件参数:[etps_preent_no:%s]", etps_preent_no));
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("etps_preent_no", etps_preent_no);
+        PassPortHead passPortHead;
+        try {
+            passPortHead = crtExitEmptyService.queryPassportDetail(paramMap);
+        } catch (Exception e) {
+            this.logger.error("查看出区空车核放单详情信息失败，etps_preent_no =" + etps_preent_no, e);
+            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(passPortHead);
     }
 
     /**

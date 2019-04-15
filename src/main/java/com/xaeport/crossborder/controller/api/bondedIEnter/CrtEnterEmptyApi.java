@@ -7,7 +7,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.status.StatusCode;
-import com.xaeport.crossborder.service.bondedIEnter.CrtEnterEmptyService;
+import com.xaeport.crossborder.service.bondedienter.CrtEnterEmptyService;
 import com.xaeport.crossborder.tools.GetIpAddr;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,9 @@ public class CrtEnterEmptyApi extends BaseApi {
      * 保存入区空车核放单
      */
     @RequestMapping(value = "updateEntryEmptyInfo")
-    public ResponseData updateEntryEmptyInfo(@Param("entryJson") String entryJson) {
+    public ResponseData updateEntryEmptyInfo(
+            @Param("entryJson") String entryJson
+    ) {
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
         Map<String, String> rtnMap = new HashMap<>();
         Users users = this.getCurrentUsers();
