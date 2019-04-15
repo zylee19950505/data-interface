@@ -15,6 +15,12 @@ public class ImpTradeVolumeService {
     @Autowired
     ImpTradeVolumeMapper impTradeVolumeMapper;
 
+    /**
+     * ImpTradeVolumeApi
+     * QueryEnterVolumeApi  公用
+     * @param paramMap
+     * @return
+     */
     public List<ImpTradeVolumeList> queryImpTradeVolumeList(Map<String, String> paramMap) {
         return this.impTradeVolumeMapper.queryImpTradeVolumeList(paramMap);
 
