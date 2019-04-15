@@ -20,6 +20,7 @@ logging:
     com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper: info
     com.xaeport.crossborder.data.mapper.ExitInventoryMapper: info
     com.xaeport.crossborder.data.mapper.ExitManifestMapper: info
+    com.xaeport.crossborder.data.mapper.EEmptyPassportMapper: info
     com.xaeport.crossborder.data.mapper.EnterInventoryMapper: info
     com.xaeport.crossborder.data.mapper.EnterManifestMapper: info
     com.xaeport.crossborder.data.mapper.BuilderDetailMapper: info
