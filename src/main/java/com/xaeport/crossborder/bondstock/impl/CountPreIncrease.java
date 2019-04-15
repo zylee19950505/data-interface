@@ -90,9 +90,10 @@ public class CountPreIncrease implements CountLoader {
         Double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
         bwlListType.setId(IdUtils.getUUId());
         bwlListType.setBws_no(emsNo);
-        if (!StringUtils.isEmpty(bondInvtDt.getPutrec_seqno())) {
-            bwlListType.setGds_seqno(String.valueOf(bondInvtDt.getPutrec_seqno()));
-        }
+//        if (!StringUtils.isEmpty(bondInvtDt.getPutrec_seqno())) {
+//            bwlListType.setGds_seqno(String.valueOf(bondInvtDt.getPutrec_seqno()));
+//        }
+        bwlListType.setGds_seqno(String.valueOf(bondInvtDt.getGds_seqno()));
         bwlListType.setGds_mtno(gds_mtno);
         bwlListType.setGdecd(bondInvtDt.getGdecd());
         bwlListType.setGds_nm(bondInvtDt.getGds_nm());
