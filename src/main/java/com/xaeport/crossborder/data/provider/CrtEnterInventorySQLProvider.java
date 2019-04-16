@@ -22,10 +22,7 @@ public class CrtEnterInventorySQLProvider {
                 if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getGds_seqno()))) {
                     VALUES("gds_seqno", "#{bondInvtDt.gds_seqno}");
                 }
-                /*if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))) {
-                    VALUES("putrec_seqno", "#{bondInvtDt.putrec_seqno}");
-                }*/
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno()))||bondInvtDt.getPutrec_seqno() !=0) {
+                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno())) && bondInvtDt.getPutrec_seqno() != 0) {
                     VALUES("putrec_seqno", "#{bondInvtDt.putrec_seqno}");
                 }
                 if (!StringUtils.isEmpty(bondInvtDt.getGds_mtno())) {
@@ -333,8 +330,8 @@ public class CrtEnterInventorySQLProvider {
     }
 
 
-    public  String  getMaxGdsSeqno(@Param("customs_code") String customs_code){
-        return new SQL(){
+    public String getMaxGdsSeqno(@Param("customs_code") String customs_code) {
+        return new SQL() {
             {
                 SELECT("MAX(t.GDS_SEQNO)");
                 FROM("T_BWL_LIST_TYPE t");
