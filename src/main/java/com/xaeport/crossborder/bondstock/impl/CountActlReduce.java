@@ -74,20 +74,20 @@ public class CountActlReduce implements CountLoader {
                     stockCount = StringUtils.isEmpty(bwlListType.getSurplus()) ? 0 : bwlListType.getSurplus();
                     //对比导入表体数量与仓库库存
                     if (qtySum > stockCount || stockCount <= 0) {
-                        this.logger.info("出区核注清单库存：实减库存量大于剩余库存量，或剩余库存小于等于零");
+                        this.logger.debug(String.format("出区核注清单库存：实减库存量大于剩余库存量，或剩余库存小于等于零[账册号: %s,料号: %s,数量: %s,库存: %s]", emsNo, item_no, qtySum, stockCount));
                         continue;
                     } else {
                         //计算数量是否符合
                         if ((bwlListType.getPrevdRedcQty() - qtySum) >= 0) {
                             this.receiptMapper.setPrevdRedcQty(qtySum, item_no, emsNo, bizopEtpsno);
-                            this.logger.info("出区核注清单库存：成功完成实减操作");
+                            this.logger.debug(String.format("出区核注清单库存：成功完成实减操作[账册号: %s,料号: %s,数量: %s]", emsNo, item_no, qtySum));
                         } else {
-                            this.logger.info("出区核注清单库存：实减操作计算数据为负");
+                            this.logger.debug(String.format("出区核注清单库存：实减操作计算数据为负[账册号: %s,料号: %s,数量: %s,库存: %s]", emsNo, item_no, qtySum, stockCount));
                             continue;
                         }
                     }
                 } else {
-                    this.logger.info("出区核注清单库存：查询无账册数据，无法进行实减");
+                    this.logger.debug(String.format("出区核注清单库存：查询无账册数据，无法进行实减[账册号: %s,料号: %s,海关编码: %s]", emsNo, item_no, bizopEtpsno));
                     continue;
                 }
             }

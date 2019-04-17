@@ -6,6 +6,7 @@ package com.xaeport.crossborder.data.status;
 * */
 public class StatusCode {
 
+	public final static String SJDBC = "INIT";
 	//解析入库报文标记
 	public final static String RKBW = "STOCK";//入库报文
 

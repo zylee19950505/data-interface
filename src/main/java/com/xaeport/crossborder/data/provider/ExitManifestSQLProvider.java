@@ -44,6 +44,8 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");
+                } else {
+                    WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
                     WHERE("t.return_status = #{return_status}");
@@ -86,6 +88,8 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(status)) {
                     WHERE("t.status = #{status}");
+                } else {
+                    WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
                     WHERE("t.return_status = #{return_status}");
@@ -118,13 +122,13 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryDataFull(Map<String, String> paramMap){
+    public String queryDataFull(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT("STATUS");
                 FROM("T_PASS_PORT_HEAD");
-                WHERE(splitJointIn("ETPS_PREENT_NO",submitKeys));
+                WHERE(splitJointIn("ETPS_PREENT_NO", submitKeys));
             }
         }.toString();
     }
@@ -194,91 +198,91 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
     public String updatePassPortHead(
             @Param("passPortHead") LinkedHashMap<String, String> passPortHead,
             @Param("userInfo") Users userInfo
-    ){
-        return new SQL(){
+    ) {
+        return new SQL() {
             {
                 UPDATE("T_PASS_PORT_HEAD t");
                 WHERE("ETPS_PREENT_NO = #{passPortHead.etps_preent_no}");
                 SET("t.STATUS = 'BDDS4'");
-                if(!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("rlt_tb_typecd"))) {
                     SET("rlt_tb_typecd = #{passPortHead.rlt_tb_typecd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("rlt_no"))){
+                if (!StringUtils.isEmpty(passPortHead.get("rlt_no"))) {
                     SET("rlt_no = #{passPortHead.rlt_no}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_typecd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_typecd"))) {
                     SET("dcl_typecd = #{passPortHead.dcl_typecd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("master_cuscd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("master_cuscd"))) {
                     SET("master_cuscd = #{passPortHead.master_cuscd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))) {
                     SET("dcl_etpsno = #{passPortHead.dcl_etpsno}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))) {
                     SET("dcl_etps_nm = #{passPortHead.dcl_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etpsno"))) {
                     SET("input_code = #{passPortHead.dcl_etpsno}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_etps_nm"))) {
                     SET("input_name = #{passPortHead.dcl_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("areain_oriact_no"))){
+                if (!StringUtils.isEmpty(passPortHead.get("areain_oriact_no"))) {
                     SET("areain_oriact_no = #{passPortHead.areain_oriact_no}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("io_typecd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("io_typecd"))) {
                     SET("io_typecd = #{passPortHead.io_typecd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("vehicle_no"))){
+                if (!StringUtils.isEmpty(passPortHead.get("vehicle_no"))) {
                     SET("vehicle_no = #{passPortHead.vehicle_no}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("vehicle_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("vehicle_wt"))) {
                     SET("vehicle_wt = #{passPortHead.vehicle_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("vehicle_frame_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("vehicle_frame_wt"))) {
                     SET("vehicle_frame_wt = #{passPortHead.vehicle_frame_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("container_type"))){
+                if (!StringUtils.isEmpty(passPortHead.get("container_type"))) {
                     SET("container_type = #{passPortHead.container_type}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("container_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("container_wt"))) {
                     SET("container_wt = #{passPortHead.container_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("total_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("total_wt"))) {
                     SET("total_wt = #{passPortHead.total_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("passport_typecd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("passport_typecd"))) {
                     SET("passport_typecd = #{passPortHead.passport_typecd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("bind_typecd"))){
+                if (!StringUtils.isEmpty(passPortHead.get("bind_typecd"))) {
                     SET("bind_typecd = #{passPortHead.bind_typecd}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("areain_etpsno"))){
+                if (!StringUtils.isEmpty(passPortHead.get("areain_etpsno"))) {
                     SET("areain_etpsno = #{passPortHead.areain_etpsno}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("areain_etps_nm"))){
+                if (!StringUtils.isEmpty(passPortHead.get("areain_etps_nm"))) {
                     SET("areain_etps_nm = #{passPortHead.areain_etps_nm}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("dcl_er_conc"))){
+                if (!StringUtils.isEmpty(passPortHead.get("dcl_er_conc"))) {
                     SET("dcl_er_conc = #{passPortHead.dcl_er_conc}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("total_gross_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("total_gross_wt"))) {
                     SET("total_gross_wt = #{passPortHead.total_gross_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("total_net_wt"))){
+                if (!StringUtils.isEmpty(passPortHead.get("total_net_wt"))) {
                     SET("total_net_wt = #{passPortHead.total_net_wt}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("vehicle_ic_no"))){
+                if (!StringUtils.isEmpty(passPortHead.get("vehicle_ic_no"))) {
                     SET("vehicle_ic_no = #{passPortHead.vehicle_ic_no}");
                 }
-                if(!StringUtils.isEmpty(passPortHead.get("rmk"))){
+                if (!StringUtils.isEmpty(passPortHead.get("rmk"))) {
                     SET("rmk = #{passPortHead.rmk}");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("upd_time = sysdate");
                 }
-                if(!StringUtils.isEmpty(userInfo.getId())){
+                if (!StringUtils.isEmpty(userInfo.getId())) {
                     SET("upd_user = #{userInfo.id}");
                 }
             }

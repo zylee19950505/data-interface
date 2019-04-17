@@ -10,7 +10,7 @@ import java.util.Map;
 public class EnterManifestSQLProvider extends BaseSQLProvider {
 
 
-    public String queryEnterManifest(Map<String, String> paramMap){
+    public String queryEnterManifest(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String bond_invt_no = paramMap.get("bond_invt_no");
         final String passport_declareStatus = paramMap.get("passport_declareStatus");
@@ -20,7 +20,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         final String length = paramMap.get("length");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
                         " SELECT " +
@@ -48,6 +48,8 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
                     WHERE("t.STATUS = #{passport_declareStatus}");
+                } else {
+                    WHERE(splitJointIn("t.STATUS", passport_declareStatus));
                 }
                 if (!StringUtils.isEmpty(passport_dataStatus)) {
                     WHERE("t.RETURN_STATUS = #{passport_dataStatus}");
@@ -65,7 +67,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
 
-    public String queryEnterManifestCount(Map<String, String> paramMap){
+    public String queryEnterManifestCount(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String bond_invt_no = paramMap.get("bond_invt_no");
         final String passport_declareStatus = paramMap.get("passport_declareStatus");
@@ -75,7 +77,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         final String length = paramMap.get("length");
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT("COUNT(1)");
                 FROM("T_PASS_PORT_HEAD t");
@@ -91,6 +93,8 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
                     WHERE("t.STATUS = #{passport_declareStatus}");
+                } else {
+                    WHERE(splitJointIn("t.STATUS", passport_declareStatus));
                 }
                 if (!StringUtils.isEmpty(passport_dataStatus)) {
                     WHERE("t.RETURN_STATUS = #{passport_dataStatus}");
@@ -102,7 +106,7 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String  updateSubmitCustom(Map<String, String> paramMap){
+    public String updateSubmitCustom(Map<String, String> paramMap) {
         final String submitKeys = paramMap.get("submitKeys");
         final String statusWhere = paramMap.get("statusWhere");
         final String status = paramMap.get("status");
@@ -120,8 +124,8 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryEnterManifestBindType(Map<String, String> paramMap){
-        return new SQL(){
+    public String queryEnterManifestBindType(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 SELECT("t.BIND_TYPECD");
                 SELECT("t.PASSPORT_NO");
@@ -135,10 +139,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
     /**
-     *查找关联单信息里的核注清单号
-     * */
-    public String queryEnterPassportAcmp(Map<String, String> paramMap){
-        return new SQL(){
+     * 查找关联单信息里的核注清单号
+     */
+    public String queryEnterPassportAcmp(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 SELECT("t.RTL_NO");
                 FROM("T_PASS_PORT_ACMP t");
@@ -149,14 +153,14 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
     /**
-     *恢复关联单里核注清单的表头信息
-     * */
-    public String updateEnterBondInvtBsc(Map<String, String> paramMap){
+     * 恢复关联单里核注清单的表头信息
+     */
+    public String updateEnterBondInvtBsc(Map<String, String> paramMap) {
         final String rtl_no = paramMap.get("rtl_no");
-        return new SQL(){
+        return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC t");
-                WHERE(splitJointIn("t.BOND_INVT_NO",rtl_no));
+                WHERE(splitJointIn("t.BOND_INVT_NO", rtl_no));
                 SET("t.USABLE_NM = t.ORIGINAL_NM");
                 SET("t.UPD_USER = #{userId}");
                 SET("t.UPD_TIME = sysdate");
@@ -164,25 +168,25 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-   /**
-   * 查找关联单里核注清单的ETPS_INNER_INVT_NO
-   * */
-   public String queryEnterBondInvtDtID(Map<String, String> paramMap){
-       final String rtl_no = paramMap.get("rtl_no");
-       return new SQL(){
-           {
-               SELECT("t.ETPS_INNER_INVT_NO");
-               FROM("T_BOND_INVT_BSC t");
-               WHERE(splitJointIn("t.BOND_INVT_NO",rtl_no));
-           }
-       }.toString();
-   }
+    /**
+     * 查找关联单里核注清单的ETPS_INNER_INVT_NO
+     */
+    public String queryEnterBondInvtDtID(Map<String, String> paramMap) {
+        final String rtl_no = paramMap.get("rtl_no");
+        return new SQL() {
+            {
+                SELECT("t.ETPS_INNER_INVT_NO");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE(splitJointIn("t.BOND_INVT_NO", rtl_no));
+            }
+        }.toString();
+    }
 
     /**
-     *恢复核注清单表体数据
-     * */
-    public String  updateEnterBondInvtDt(@Param("etps_invt_no") String etps_invt_no){
-        return new SQL(){
+     * 恢复核注清单表体数据
+     */
+    public String updateEnterBondInvtDt(@Param("etps_invt_no") String etps_invt_no) {
+        return new SQL() {
             {
                 UPDATE("T_BOND_INVT_DT t");
                 WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{etps_invt_no}");
@@ -194,10 +198,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 删除关联单信息
-     * */
-    public String deleteEnterPassportAcmp(Map<String, String> paramMap){
+     */
+    public String deleteEnterPassportAcmp(Map<String, String> paramMap) {
         final String etps_preent_no = paramMap.get("etps_preent_no");
-        return new SQL(){
+        return new SQL() {
             {
                 DELETE_FROM("T_PASS_PORT_ACMP t");
                 WHERE("t.HEAD_ETPS_PREENT_NO = #{etps_preent_no}");
@@ -208,22 +212,22 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 删除核放单信息
-     * */
-    public String  deleteEnterPassportHead(Map<String, String> paramMap){
+     */
+    public String deleteEnterPassportHead(Map<String, String> paramMap) {
         final String etps_preent_no = paramMap.get("etps_preent_no");
-        return new SQL(){
+        return new SQL() {
             {
                 DELETE_FROM("T_PASS_PORT_HEAD t");
-                WHERE(splitJointIn("t.ETPS_PREENT_NO",etps_preent_no));
+                WHERE(splitJointIn("t.ETPS_PREENT_NO", etps_preent_no));
             }
         }.toString();
     }
 
     /**
      * 查找一单多车的表体
-     * */
-    public String queryEnterPassportList(Map<String, String> paramMap){
-        return new SQL(){
+     */
+    public String queryEnterPassportList(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 //SELECT("t.PASSPORT_NO");
                 SELECT("t.GDS_MTNO");
@@ -235,11 +239,12 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     /**
-     *修改核注清单的表体信息(一票多车情况)
-     * */
-    public String updateEnterBondInvtDtMoreCar(@Param("passPortList") PassPortList passPortList){
-        return new SQL(){
+     * 修改核注清单的表体信息(一票多车情况)
+     */
+    public String updateEnterBondInvtDtMoreCar(@Param("passPortList") PassPortList passPortList) {
+        return new SQL() {
             {
                 UPDATE("T_BOND_INVT_DT t");
                 WHERE("exists(select ETPS_INNER_INVT_NO from T_BOND_INVT_BSC where BOND_INVT_NO = #{passPortList.bond_invt_no} and ETPS_INNER_INVT_NO = t.HEAD_ETPS_INNER_INVT_NO)");
@@ -253,10 +258,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 根据核放单去查找核注清单信息
-     *
-     * */
-    public String  queryEnterBondInvtBsc(Map<String, String> paramMap){
-        return new SQL(){
+     */
+    public String queryEnterBondInvtBsc(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 SELECT("t.BOND_INVT_NO");
                 FROM("T_PASS_PORT_HEAD t");
@@ -266,10 +270,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
     /**
-    * 修改核注清单表头信息(一票多车情况)
-    * */
-    public String updateEnterBondInvtBscMoreCar(Map<String, String> paramMap){
-        return new SQL(){
+     * 修改核注清单表头信息(一票多车情况)
+     */
+    public String updateEnterBondInvtBscMoreCar(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC t");
                 WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
@@ -279,10 +283,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
     /**
-    * 删除核放单表体
-    * */
-    public String  deleteEnterPassportList(Map<String, String> paramMap){
-        return new SQL(){
+     * 删除核放单表体
+     */
+    public String deleteEnterPassportList(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 DELETE_FROM("T_PASS_PORT_LIST t");
                 WHERE("t.HEAD_ID = #{head_id}");
@@ -292,9 +296,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 点击查看核放单详情(表头)
-     * */
-    public String getImpPassportHead(@Param("etps_preent_no") String etps_preent_no){
-        return new SQL(){
+     */
+    public String getImpPassportHead(@Param("etps_preent_no") String etps_preent_no) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_HEAD t");
@@ -305,9 +309,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 点击查看核放单详情(表体)
-     * */
-    public String getImpPassportList(@Param("head_id") String head_id){
-        return new SQL(){
+     */
+    public String getImpPassportList(@Param("head_id") String head_id) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_LIST t");
@@ -317,10 +321,10 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
     }
 
     /**
-    * 查找有无可生成报文的核放单
-    * */
-    public String findWaitGenerated(Map<String, String> paramMap){
-        return new SQL(){
+     * 查找有无可生成报文的核放单
+     */
+    public String findWaitGenerated(Map<String, String> paramMap) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_HEAD t");
@@ -331,9 +335,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 修改申报状态为已经申报
-     * */
-    public String updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("rqhfdysb") String rqhfdysb){
-        return new SQL(){
+     */
+    public String updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("rqhfdysb") String rqhfdysb) {
+        return new SQL() {
             {
                 UPDATE("T_PASS_PORT_HEAD t");
                 SET("t.STATUS = #{rqhfdysb}");
@@ -341,11 +345,12 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
             }
         }.toString();
     }
+
     /**
-    *一票一车和一车多票(查找关联单证)
-    * */
-    public String queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo){
-        return new SQL(){
+     * 一票一车和一车多票(查找关联单证)
+     */
+    public String queryPassPortAcmpByHeadNo(@Param("etpsPreentNo") String etpsPreentNo) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_PASS_PORT_ACMP t");
@@ -356,9 +361,9 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
 
     /**
      * 一票多车(查询核放单表体)
-     * */
-    public String queryPassPortListByHeadNo(@Param("etpsPreentNo") String etpsPreentNo){
-        return new SQL(){
+     */
+    public String queryPassPortListByHeadNo(@Param("etpsPreentNo") String etpsPreentNo) {
+        return new SQL() {
             {
                 SELECT("t.*");
                 FROM("t.PASSPORT_NO = #{etpsPreentNo}");

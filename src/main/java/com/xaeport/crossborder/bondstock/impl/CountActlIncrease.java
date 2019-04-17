@@ -20,7 +20,9 @@ public class CountActlIncrease implements CountLoader {
     private ReceiptMapper receiptMapper = SpringUtils.getBean(ReceiptMapper.class);
 
     @Override
-    public void count(BondInvtBsc bondInvtBsc) { }
+    public void count(BondInvtBsc bondInvtBsc) {
+    }
+
     @Override
     public int count(Map<String, Object> excelMap, Users users, String emsNo) {
         return 999;
@@ -83,9 +85,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核放单库存：成功完成一车一单实增操作");
+                    this.logger.debug(String.format("入区核放单库存：成功完成一车一单实增操作[账册号: %s,料号: %s,数量: %s]", emsNo, gds_mtno, qtySum));
                 } else {
-                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一车一单实增");
+                    this.logger.debug(String.format("入区核放单库存：查询无账册信息，无法进行一车一单实增[账册号: %s,料号: %s,海关编码: %s]", emsNo, gds_mtno, bizopEtpsno));
                     continue;
                 }
             }
@@ -128,9 +130,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核放单库存：成功完成一车多单实增操作");
+                    this.logger.debug(String.format("入区核放单库存：成功完成一车多单实增操作[账册号: %s,料号: %s,数量: %s]", emsNo, gds_mtno, qtySum));
                 } else {
-                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一车多单实增");
+                    this.logger.debug(String.format("入区核放单库存：查询无账册信息，无法进行一车多单实增[账册号: %s,料号: %s,海关编码: %s]", emsNo, gds_mtno, bizopEtpsno));
                     continue;
                 }
             }
@@ -171,9 +173,9 @@ public class CountActlIncrease implements CountLoader {
                     double qtySum = passPortLists.stream().mapToDouble(PassPortList::getQuantity).sum();
                     //进行实增数据库计算程序
                     this.receiptMapper.actlIncreaseBwlListType(qtySum, emsNo, gds_mtNo, bizopEtpsno);
-                    this.logger.info("入区核放单库存：成功完成一单多车实增操作");
+                    this.logger.debug(String.format("入区核放单库存：成功完成一单多车实增操作[账册号: %s,料号: %s,数量: %s]", emsNo, gds_mtNo, qtySum));
                 } else {
-                    this.logger.info("入区核放单库存：查询无账册信息，无法进行一单多车实增");
+                    this.logger.debug(String.format("入区核放单库存：查询无账册信息，无法进行一单多车实增[账册号: %s,料号: %s,海关编码: %s]", emsNo, gds_mtNo, bizopEtpsno));
                     continue;
                 }
             }

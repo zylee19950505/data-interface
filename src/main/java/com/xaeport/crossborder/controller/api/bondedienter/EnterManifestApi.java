@@ -53,13 +53,18 @@ public class EnterManifestApi extends BaseApi {
         //查询参数
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
         paramMap.put("bond_invt_no", bond_invt_no);
-        paramMap.put("passport_declareStatus", passport_declareStatus);
+//        paramMap.put("passport_declareStatus", passport_declareStatus);
         paramMap.put("passport_dataStatus", passport_dataStatus);
         paramMap.put("passport_no", passport_no);
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("start", String.valueOf(Integer.parseInt(start) + 1));
         paramMap.put("length", length);
+        if (!StringUtils.isEmpty(passport_declareStatus)) {
+            paramMap.put("passport_declareStatus", passport_declareStatus);
+        } else {
+            paramMap.put("passport_declareStatus", String.format("%s,%s,%s,%s,%s", StatusCode.RQHFDDSB, StatusCode.RQHFDSBZ, StatusCode.RQHFDYSB, StatusCode.RQHFDSBCG, StatusCode.RQHFDDZC));
+        }
 
         DataList<PassPortHead> dataList = new DataList<>();
         List<PassPortHead> resultList;

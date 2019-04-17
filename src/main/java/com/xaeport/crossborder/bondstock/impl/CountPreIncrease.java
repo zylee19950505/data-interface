@@ -67,14 +67,15 @@ public class CountPreIncrease implements CountLoader {
                 if (!StringUtils.isEmpty(bwlHeadType) && !StringUtils.isEmpty(bwlList)) {
                     double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     this.receiptMapper.addBwlListType(qtySum, emsNo, gds_mtno, bizopEtpsno);
-                    this.logger.info("入区核注清单库存：成功完成预增--叠加操作");
+                    this.logger.debug(String.format("入区核注清单库存：成功完成预增--叠加操作[账册号: %s,料号: %s,数量: %s]", emsNo, gds_mtno, qtySum));
                 } else if (!StringUtils.isEmpty(bwlHeadType) && StringUtils.isEmpty(bwlList)) {
                     BwlListType bwlListType = this.crtBwlListType(emsNo, gds_mtno, bondInvtDts, bizopEtpsno);
+                    Double qtySum = bondInvtDts.stream().mapToDouble(BondInvtDt::getQuantity).sum();
                     //插入入区账册表体的数据
                     this.receiptMapper.insertBwlListType(bwlListType);
-                    this.logger.info("入区核注清单库存：成功完成预增--添加新数据操作");
+                    this.logger.debug(String.format("入区核注清单库存：成功完成预增--添加新数据操作[账册号: %s,料号: %s,数量: %s]", emsNo, gds_mtno, qtySum));
                 } else {
-                    this.logger.info("入区核注清单库存：查询无账册信息，无法预增");
+                    this.logger.debug(String.format("入区核注清单库存：查询无账册信息，无法预增[账册号: %s,料号: %s,海关编码: %s]", emsNo, gds_mtno, bizopEtpsno));
                     continue;
                 }
 

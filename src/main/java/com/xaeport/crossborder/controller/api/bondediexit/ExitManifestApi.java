@@ -59,15 +59,19 @@ public class ExitManifestApi extends BaseApi {
         paramMap.put("length", length);
         paramMap.put("end", end);
         paramMap.put("extra_search", extra_search);
-
         paramMap.put("dcl_time", dcl_time);
-        paramMap.put("status", status);
+//        paramMap.put("status", status);
         paramMap.put("return_status", return_status);
         paramMap.put("passport_no", passport_no);
         paramMap.put("rlt_no", rlt_no);
-
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
+
+        if (!StringUtils.isEmpty(status)) {
+            paramMap.put("status", status);
+        } else {
+            paramMap.put("status", String.format("%s,%s,%s,%s,%s", StatusCode.CQHFDDSB, StatusCode.CQHFDSBZ, StatusCode.CQHFDYSB, StatusCode.CQHFDSBCG, StatusCode.SJDBC));
+        }
 
         DataList<PassPortHead> dataList = null;
         List<PassPortHead> resultList = null;
