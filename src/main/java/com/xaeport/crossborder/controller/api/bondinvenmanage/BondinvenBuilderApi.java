@@ -102,12 +102,9 @@ public class BondinvenBuilderApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("submitKeys", submitKeys);//订单编号
-        boolean flag = detailBuilderService.builderDetail(paramMap,currentUser);
-        if (flag) {
-            return rtnResponse("true", "生成清单成功！");
-        } else {
-            return rtnResponse("false", "生成清单失败！");
-        }
+        Map<String, String> rtnMap = new HashMap<>() ;
+        rtnMap = detailBuilderService.builderDetail(paramMap,currentUser);
+        return new ResponseData(rtnMap);
     }
 
 }

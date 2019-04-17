@@ -15,4 +15,6 @@ public interface CountLoader {
     void count(PassPortHead passPortHead);
 
     int count(List<ImpInventoryBody> impInventoryBodyList, Enterprise enterpriseDetail);
+
+    String countItemno(List<ImpInventoryBody> impOrderBodyList,Enterprise enterprise);
 }

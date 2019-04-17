@@ -33,6 +33,12 @@ public class CountPreReduce implements CountLoader {
     }
 
     @Override
+    public String countItemno(List<ImpInventoryBody> impOrderBodyList, Enterprise enterprise) {
+        return null;
+    }
+
+
+    @Override
     //检查对应库存余量是否大于导入商品数量
     public int count(Map<String, Object> excelMap, Users user, String emsNo) {
         //TODO 保税出区进行预减操作

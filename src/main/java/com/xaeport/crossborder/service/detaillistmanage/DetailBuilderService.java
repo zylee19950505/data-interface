@@ -36,13 +36,14 @@ public class DetailBuilderService {
         return detailBuilderMapper.queryBuilderDetailCount(paramMap);
     }
 
-    public boolean builderDetail(Map<String, String> paramMap, Users currentUser) {
+    public Map<String, String> builderDetail(Map<String, String> paramMap, Users currentUser) {
         String submitKeys = paramMap.get("submitKeys");
         String[] orders = submitKeys.split(",");
         List<ImpOrderBody> impOrderBodyList;
         List<ImpInventoryBody> impInventoryBodyList;
         //建一张缓存数据表,往表里插入数据,再启动一个单线程去扫描这个表;
         Map<String, String> map = new HashMap<>();
+        Map<String, String> rtnMap = new HashMap<>() ;
         try {
             for (String orderNo : orders) {
                 //先在这里进行库存检查
@@ -58,8 +59,8 @@ public class DetailBuilderService {
                 }
 
                 CountLoader countLoader = new CountBudDetail();
-                int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
-                if (flag == 0) {
+                String flag = countLoader.countItemno(impInventoryBodyList, enterpriseDetail);
+                if ("0".equals(flag)) {
                     String id = IdUtils.getShortUUId();
                     map.put("id", id);
                     map.put("orderNo", orderNo);
@@ -70,30 +71,31 @@ public class DetailBuilderService {
                     } else {
                         this.detailBuilderMapper.insertBuilderCache(map);
                     }
+                }else{
+                    rtnMap.put("result", "false");
+                    rtnMap.put("msg", "料号"+"["+flag+"]"+"库存不足或查找不到账册");
+                    return rtnMap;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "生成清单失败!");
+            return rtnMap;
         }
-        return true;
+        rtnMap.put("result", "true");
+        rtnMap.put("msg", "生成清单提交成功!");
+        return rtnMap;
     }
 
     private List<ImpInventoryBody> getInventoryBodyData(List<ImpOrderBody> impOrderBodyList, Enterprise enterpriseDetail) {
 
-        //查找账册信息里企业id是订单的企业id的情况
-        //String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getId(), enterpriseDetail.getEnt_name());
 
         //账册企业信息的企业信息
-        Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
-        int count = 0;
         for (ImpOrderBody impOrderBody : impOrderBodyList) {
-            count++;
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
             impInventoryBody.setQty(impOrderBody.getQty());//商品实际数量
             impInventoryBody.setItem_no(impOrderBody.getItem_No());//企业商品货号: 电商企业自定义的商品货号（SKU）。
             impInventoryBody.setItem_name(impOrderBody.getItem_Name());//企业商品品名: 交易平台销售商品的中文名称。
