@@ -8,9 +8,7 @@ import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpTradeVolumeList;
 import com.xaeport.crossborder.service.trade.statistics.ImpTradeVolumeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,6 +26,7 @@ public class QueryEnterVolumeApi extends BaseApi {
 	ImpTradeVolumeService impTradeVolumeService;
 
 
+	@CrossOrigin(origins = "http://cb.xaeport.com")
     @RequestMapping("/queryEnterVolume")
     public ResponseData QueryEnterVolume(
     ) {
