@@ -47,8 +47,6 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                     WHERE("t.BOND_INVT_NO = #{BOND_INVT_NO}");
                 }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
-                    WHERE("t.STATUS = #{passport_declareStatus}");
-                } else {
                     WHERE(splitJointIn("t.STATUS", passport_declareStatus));
                 }
                 if (!StringUtils.isEmpty(passport_dataStatus)) {
@@ -92,8 +90,6 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                     WHERE("t.BOND_INVT_NO = #{BOND_INVT_NO}");
                 }
                 if (!StringUtils.isEmpty(passport_declareStatus)) {
-                    WHERE("t.STATUS = #{passport_declareStatus}");
-                } else {
                     WHERE(splitJointIn("t.STATUS", passport_declareStatus));
                 }
                 if (!StringUtils.isEmpty(passport_dataStatus)) {

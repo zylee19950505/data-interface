@@ -43,8 +43,6 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
-                    WHERE("t.status = #{status}");
-                } else {
                     WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
@@ -87,8 +85,6 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
                     WHERE("t.dcl_time >= to_date(#{dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
-                    WHERE("t.status = #{status}");
-                } else {
                     WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
