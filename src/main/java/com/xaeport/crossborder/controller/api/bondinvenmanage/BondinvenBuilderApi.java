@@ -43,9 +43,10 @@ public class BondinvenBuilderApi extends BaseApi {
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String orderNo,
             @RequestParam(required = false) String logisticsNo,
+            @RequestParam(required = false) String dataStatus,
             HttpServletRequest request
     ) {
-        this.logger.debug(String.format("清单查询参数:[orderNo:%s,orderNo:%s,logisticsNo:%s]",orderNo,orderNo,logisticsNo));
+        this.logger.debug(String.format("清单查询参数:[orderNo:%s,orderNo:%s,logisticsNo:%s,dataStatus:%s]",orderNo,orderNo,logisticsNo,dataStatus));
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         String startStr = request.getParameter("start");
@@ -58,6 +59,7 @@ public class BondinvenBuilderApi extends BaseApi {
         paramMap.put("billNo", billNo);
         paramMap.put("orderNo", orderNo);
         paramMap.put("logisticsNo", logisticsNo);
+        paramMap.put("dataStatus", dataStatus);
         paramMap.put("business_type", "BONDORDER");
         //分页参数
         paramMap.put("start", start);
@@ -100,8 +102,7 @@ public class BondinvenBuilderApi extends BaseApi {
         Users currentUser = this.getCurrentUsers();
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("submitKeys", submitKeys);//订单编号
-
-        boolean flag = detailBuilderService.builderDetail(paramMap);
+        boolean flag = detailBuilderService.builderDetail(paramMap,currentUser);
         if (flag) {
             return rtnResponse("true", "生成清单成功！");
         } else {

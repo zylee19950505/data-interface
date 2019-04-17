@@ -44,6 +44,19 @@
                                        placeholder="请输入物流运单编号"/>
                             </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">清单生成状态：</span>
+                                    <select class="form-control" name="dataStatus">
+                                        <option value="QDKSC" selected="selected">清单可生成</option>
+                                        <option value="QDSCZ">清单生成中</option>
+                                        <option value="QDYSC">清单已生成</option>
+                                        <option value="QDSCSB">清单生成失败</option>
+                                        <option value="">全部</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <button class="btn btn-sm btn-info" type="button" ws-search="bill"
                                         data-toggle="tooltip-disabled"

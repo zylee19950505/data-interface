@@ -6,12 +6,13 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
         var billNo = $("[name='billNo']").val();
         var orderNo = $("[name='orderNo']").val();
         var logisticsNo = $("[name='logisticsNo']").val();
-
+        var dataStatus = $("[name='dataStatus']").val();
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/bondinvenmanage/queryDetailBuilder", {
             billNo: billNo,//提运单号
             orderNo: orderNo,//订单编号
             logisticsNo: logisticsNo,//物流运单编号
+            dataStatus:dataStatus
         });
 
         // 数据表
@@ -142,7 +143,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                     switch (row.dataStatus) {
                         case null://可生成清单
                             textColor = "text-yellow";
-                            value = "可生成清单";
+                            value = "清单可生成";
                             break;
                         case "QDSCZ"://清单生成中
                             textColor = "text-blue";
@@ -152,7 +153,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             textColor = "text-green";
                             value = "清单已生成";
                             break;
-                        case "QDSCSB"://清单已生成
+                        case "QDSCSB"://清单生成失败
                             textColor = "text-red";
                             value = "清单生成失败";
                             break;

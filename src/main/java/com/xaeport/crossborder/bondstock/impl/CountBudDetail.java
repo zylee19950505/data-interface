@@ -56,6 +56,7 @@ public class CountBudDetail implements CountLoader {
                     unit = impInventoryBody.getUnit();
                     //对比导入表体单位与仓库单位
                     if (!unit.equals(bwlListType.getDcl_unitcd())) {
+                        this.logger.debug(String.format("生成清单库存：与库存申报单位不一致[账册号: %s][料号: %s,导入单位: %s,库存单位: %s]", emsNo, item_no, unit, bwlListType.getDcl_unitcd()));
                         stockCount = 0;
                         flag = 3;
                         break;
@@ -63,10 +64,12 @@ public class CountBudDetail implements CountLoader {
                 }
                 //对比导入表体数量与仓库库存
                 if (qtySum > stockCount || stockCount == 0) {
+                    this.logger.debug(String.format("生成清单库存：预减库存量大于剩余库存量，或剩余库存等于零[账册号: %s,料号: %s,数量: %s,库存数量: %s]", emsNo, item_no, qtySum, stockCount));
                     flag = 3;
                     break;
                 }
             } else {
+                this.logger.debug(String.format("生成清单库存：查询无账册信息[账册号: %s,料号: %s,海关编码: %s]", emsNo, item_no, entCustomsCode));
                 flag = 3;
                 break;
             }

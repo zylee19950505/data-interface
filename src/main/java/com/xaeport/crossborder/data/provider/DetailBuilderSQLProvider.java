@@ -25,6 +25,23 @@ public class DetailBuilderSQLProvider extends BaseSQLProvider{
                 if (!roleId.equals("admin")) {
                     WHERE("tio.ent_id = #{entId}");
                 }
+                if (!StringUtils.isEmpty(paramMap.get("billNo"))){
+                    WHERE("til.BILL_NO = #{billNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("orderNo"))){
+                    WHERE("til.ORDER_NO = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("logisticsNo"))){
+                    WHERE("til.LOGISTICS_NO = #{logisticsNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("dataStatus"))){
+                    if ("QDKSC".equals(paramMap.get("dataStatus"))){
+                        WHERE("tb.DATASTATUS is null");
+
+                    }else{
+                        WHERE("tb.DATASTATUS = #{dataStatus}");
+                    }
+                }
                 if (!"-1".equals(length)) {
                     ORDER_BY("tio.UPD_TM desc ) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} ");
                 } else {
@@ -44,6 +61,23 @@ public class DetailBuilderSQLProvider extends BaseSQLProvider{
                 WHERE("til.logistics_no is not null");
                 if (!roleId.equals("admin")) {
                     WHERE("tio.ent_id = #{entId}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("billNo"))){
+                    WHERE("til.BILL_NO = #{billNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("orderNo"))){
+                    WHERE("til.ORDER_NO = #{orderNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("logisticsNo"))){
+                    WHERE("til.LOGISTICS_NO = #{logisticsNo}");
+                }
+                if (!StringUtils.isEmpty(paramMap.get("dataStatus"))){
+                    if ("QDKSC".equals(paramMap.get("dataStatus"))){
+                        WHERE("tb.DATASTATUS is null");
+
+                    }else{
+                        WHERE("tb.DATASTATUS = #{dataStatus}");
+                    }
                 }
             }
         }.toString();
