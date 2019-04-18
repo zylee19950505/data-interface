@@ -219,7 +219,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                     sw.alert("生成清单成功!", "提示", function () {
                     }, "modal-success");
                     $("#submitManifestBtn").prop("disabled", false);
-                    sw.page.modules["detailmanage/detailBuilder"].query();
+                    sw.page.modules["bondinvenmanage/bondinvenbuilder"].query();
                 } else {
                     sw.alert(rsp.data.msg);
                 }

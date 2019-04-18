@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.mapper.BuilderDetailMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.sysmanage.UserManageService;
+import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -84,12 +85,6 @@ public class BuilderDetailThread implements Runnable {
                         continue;
                     }
 
-                    //先在这里进行库存检查
-                    //CountLoader countLoader = new CountBudDetail();
-                    //int flag = countLoader.count(impInventoryBodyList, enterpriseDetail);
-
-                    //if (flag == 0) {}
-                    //信息整合完毕后,进行插入操作
                     this.builderDetailMapper.insertImpInventoryHead(impInventoryHead);
                     for (ImpInventoryBody impInventoryBody : impInventoryBodyList) {
                         this.builderDetailMapper.insertImpInventoryBody(impInventoryBody);
@@ -98,6 +93,12 @@ public class BuilderDetailThread implements Runnable {
                     String dataStatus = "QDYSC";//清单已生成
                     this.builderDetailMapper.updateBuilderCacheByOrderNo(orderNo, dataStatus);
 
+
+                    //进行库存预减
+                    Map<String, List<ImpInventoryBody>> itemNoData = BusinessUtils.classifyByGcode(impInventoryBodyList);
+                    Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
+                    String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
+                    this.setPrevdRedcQty(itemNoData,emsNo,enterprise.getCustoms_code());
                 }
             } catch (Exception e) {
                 try {
@@ -119,14 +120,14 @@ public class BuilderDetailThread implements Runnable {
 
         //账册企业信息的企业信息
         Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String emsNo = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
+        String bws_no = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
         List<ImpInventoryBody> impInventoryBodyList = new ArrayList<>();
         int count = 0;
         for (ImpOrderBody impOrderBody : impOrderBodyList) {
             count++;
             ImpInventoryBody impInventoryBody = new ImpInventoryBody();
             //根据账册号找账册表体信息,通过商品货号确定商品账册信息
-            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(emsNo, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
+            BwlListType bwlListType = this.builderDetailMapper.queryBwsListByEntBwsNo(bws_no, impOrderBody.getItem_No(), enterpriseDetail.getBrevity_code());
             impInventoryBody.setHead_guid(guid);
             impInventoryBody.setCurrency("142");//币制
             impInventoryBody.setG_num(impOrderBody.getG_num());//商品序号(从订单表体获取)
@@ -255,6 +256,19 @@ public class BuilderDetailThread implements Runnable {
             impInventoryHead.setData_status(StatusCode.BSQDDSB);//数据状态(暂存)
         }
         return impInventoryHead;
+    }
+
+    //确认保税清单库存无误后，设置账册表体预减数量
+    public void setPrevdRedcQty(Map<String, List<ImpInventoryBody>> itemNoData, String emsNo, String entCustomsCode) {
+        List<ImpInventoryBody> impBondInvenBodyList;
+        String item_no;
+        for (String itemNo : itemNoData.keySet()) {
+            impBondInvenBodyList = itemNoData.get(itemNo);
+            item_no = impBondInvenBodyList.get(0).getItem_no();
+            double qtySum = impBondInvenBodyList.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
+            this.builderDetailMapper.setPrevdRedcQty(qtySum, item_no, emsNo, entCustomsCode);
+            this.logger.debug(String.format("生成保税清单库存：成功完成预减操作[账册号: %s,料号: %s,数量: %s]", emsNo, item_no, qtySum));
+        }
     }
 }
 

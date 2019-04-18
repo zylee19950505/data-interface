@@ -44,6 +44,7 @@ public class DetailBuilderService {
         //建一张缓存数据表,往表里插入数据,再启动一个单线程去扫描这个表;
         Map<String, String> map = new HashMap<>();
         Map<String, String> rtnMap = new HashMap<>() ;
+        String flag = "";
         try {
             for (String orderNo : orders) {
                 //先在这里进行库存检查
@@ -59,8 +60,11 @@ public class DetailBuilderService {
                 }
 
                 CountLoader countLoader = new CountBudDetail();
-                String flag = countLoader.countItemno(impInventoryBodyList, enterpriseDetail);
-                if ("0".equals(flag)) {
+                flag = countLoader.countItemno(impInventoryBodyList, enterpriseDetail);
+
+            }
+            if ("0".equals(flag)) {
+                for (String orderNo : orders) {
                     String id = IdUtils.getShortUUId();
                     map.put("id", id);
                     map.put("orderNo", orderNo);
@@ -71,12 +75,13 @@ public class DetailBuilderService {
                     } else {
                         this.detailBuilderMapper.insertBuilderCache(map);
                     }
-                }else{
-                    rtnMap.put("result", "false");
-                    rtnMap.put("msg", "料号"+"["+flag+"]"+"库存不足或查找不到账册");
-                    return rtnMap;
                 }
+            }else{
+                rtnMap.put("result", "false");
+                rtnMap.put("msg", "料号"+"["+flag+"]"+"库存不足或查找不到账册");
+                return rtnMap;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             rtnMap.put("result", "false");

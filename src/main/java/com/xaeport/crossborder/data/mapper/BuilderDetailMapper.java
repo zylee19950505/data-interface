@@ -47,4 +47,8 @@ public interface BuilderDetailMapper {
 
     @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryAreaenterprise")
     Enterprise queryAreaenterprise(@Param("area_code") String area_code);
+
+    //确认保税清单库存无误后，设置账册表体预减数量
+    @UpdateProvider(type = BondinvenImportSQLProvider.class, method = "setPrevdRedcQty")
+    void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_no") String item_no, @Param("emsNo") String emsNo, @Param("entCustomsCode") String entCustomsCode);
 }
