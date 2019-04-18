@@ -78,9 +78,9 @@ public class CountActlReduce implements CountLoader {
                     qtySum = impBondInvenBody.stream().mapToDouble(ImpInventoryBody::getQuantity).sum();
                     //获取账册表体所剩余的库存量
                     stockCount = StringUtils.isEmpty(bwlListType.getSurplus()) ? -1 : bwlListType.getSurplus();
-                    //对比导入表体数量与仓库库存
-                    if (qtySum > stockCount || stockCount < 0) {
-                        this.logger.debug(String.format("出区核注清单库存：实减库存量大于剩余库存量，或剩余库存为空[账册号: %s,料号: %s,数量: %s,库存数量: %s]", emsNo, item_no, qtySum, stockCount));
+                    //对比导入表体数量与库存的预减数量
+                    if (qtySum > bwlListType.getPrevdRedcQty() || stockCount < 0) {
+                        this.logger.debug(String.format("出区核注清单库存：实减库存量大于预减值，或剩余库存小于零[账册号: %s,料号: %s,数量: %s,库存数量: %s]", emsNo, item_no, qtySum, stockCount));
                         continue;
                     } else {
                         //计算数量是否符合
