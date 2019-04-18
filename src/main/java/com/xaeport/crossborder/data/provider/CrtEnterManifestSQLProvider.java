@@ -457,6 +457,9 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 if (!StringUtils.isEmpty(passPortHead.getTotal_net_wt())){
                     SET("t.total_net_wt = #{passPortHead.total_net_wt}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getPassport_typecd())){
+                    SET("t.passport_typecd = #{passPortHead.passport_typecd}");
+                }
                 if (!StringUtils.isEmpty(passPortHead.getDcl_er_conc())){
                     SET("t.dcl_er_conc = #{passPortHead.dcl_er_conc}");
                 }
@@ -569,6 +572,7 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider{
                 SET("t.total_wt = #{total_wt}");
                 SET("t.total_gross_wt = #{total_gross_wt}");
                 SET("t.total_net_wt = #{total_net_wt}");
+                SET("t.passport_typecd = #{passport_typecd}");
                 SET("t.dcl_er_conc = #{dcl_er_conc}");
                 SET("t.dcl_etpsno = #{dcl_etpsno}");
                 SET("t.dcl_etps_nm = #{dcl_etps_nm}");
