@@ -253,8 +253,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
         $("#total_wt").val(entryHead.total_wt);
         $("#total_gross_wt").val(entryHead.total_gross_wt);
-
         $("#total_net_wt").val(entryHead.total_net_wt);
+
+        $("#passport_typecd").val(entryHead.passport_typecd);
         $("#dcl_er_conc").val(entryHead.dcl_er_conc);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
@@ -430,6 +431,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 total_net_wt: $("#total_net_wt").val(),
                 dcl_er_conc: $("#dcl_er_conc").val(),
 
+                passport_typecd:$("#passport_typecd").val(),
                 dcl_etpsno: $("#dcl_etpsno").val(),
                 dcl_etps_nm: $("#dcl_etps_nm").val(),
                 //input_code: $("#input_code").val(),
@@ -525,6 +527,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             "container_type":"集装箱箱型",
             "container_wt":"集装箱重",
             "total_wt":"总重量",
+            "passport_typecd":"核放单类型代码",
             "dcl_er_conc":"申请人及联系方式",
             "dcl_etpsno":"申报企业编号",
             "dcl_etps_nm":"申报企业名称",
