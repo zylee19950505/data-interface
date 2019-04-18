@@ -61,9 +61,12 @@ public class DetailBuilderService {
 
                 CountLoader countLoader = new CountBudDetail();
                 flag = countLoader.countItemno(impInventoryBodyList, enterpriseDetail);
-
+                if (!"false".equals(flag)){
+                    //当返回值不为false时,出错
+                    break;
+                }
             }
-            if ("0".equals(flag)) {
+            if ("false".equals(flag)) {
                 for (String orderNo : orders) {
                     String id = IdUtils.getShortUUId();
                     map.put("id", id);
@@ -78,7 +81,7 @@ public class DetailBuilderService {
                 }
             }else{
                 rtnMap.put("result", "false");
-                rtnMap.put("msg", "料号"+"["+flag+"]"+"库存不足或查找不到账册");
+                rtnMap.put("msg", "料号"+"["+flag.split(",")[0]+"]"+flag.split(",")[1]);
                 return rtnMap;
             }
 
