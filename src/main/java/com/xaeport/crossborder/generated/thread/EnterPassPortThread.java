@@ -150,8 +150,8 @@ public class EnterPassPortThread implements Runnable {
                         } else {
                             try {
                                 // 更新入区核放单状态为已申报
-                                this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
-                                this.logger.debug(String.format("成功更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
+                                this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQHFDYSB);
+                                this.logger.debug(String.format("成功更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQHFDYSB));
                             } catch (Exception e) {
                                 String exceptionMsg = String.format("更新入区核放单[etpsPreentNo: %s]状态时发生异常", passportHeadXml.getEtpsPreentNo());
                                 this.logger.error(exceptionMsg, e);
