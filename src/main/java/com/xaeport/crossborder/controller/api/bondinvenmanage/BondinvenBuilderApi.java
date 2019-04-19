@@ -106,5 +106,4 @@ public class BondinvenBuilderApi extends BaseApi {
         rtnMap = detailBuilderService.builderDetail(paramMap,currentUser);
         return new ResponseData(rtnMap);
     }
-
 }
