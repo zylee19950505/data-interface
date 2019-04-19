@@ -40,14 +40,14 @@ public class CountBudDetail implements CountLoader {
         //查找企业信息里的区内企业信息
         //再在账册表头里查找创建账册的创建人所属企业ID匹配账册信息
         Enterprise enterprise = this.bondinvenImportMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String emsNo = this.bondinvenImportMapper.queryBwlHeadType(enterprise.getId(),enterpriseDetail.getEnt_name());
+        String emsNo = this.bondinvenImportMapper.queryBwlHeadType(enterprise.getId());
         for (String itemNo : itemNoData.keySet()) {
             //获取按照料号划分的保税清单表体数据
             impBondInvenBodyList = itemNoData.get(itemNo);
             //获取料号
             item_no = impBondInvenBodyList.get(0).getItem_no();
             //根据料号，账册号查询是否存在账册表体数据
-            entCustomsCode = enterpriseDetail.getCustoms_code();
+            entCustomsCode = enterprise.getCustoms_code();
 
 
             BwlListType bwlListType = this.bondinvenImportMapper.checkStockSurplus(entCustomsCode, item_no, emsNo);

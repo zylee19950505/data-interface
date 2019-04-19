@@ -37,9 +37,9 @@ public interface BondinvenImportMapper {
     @UpdateProvider(type = BondinvenImportSQLProvider.class, method = "setPrevdRedcQty")
     void setPrevdRedcQty(@Param("qtySum") double qtySum, @Param("item_no") String item_no, @Param("emsNo") String emsNo, @Param("entCustomsCode") String entCustomsCode);
 
-    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryBwlHeadType")
-    String queryBwlHeadType(@Param("id") String id, @Param("ent_name") String ent_name);
+    @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryBwlHeadType")
+    String queryBwlHeadType(@Param("id") String id);
 
-    @SelectProvider(type = BondinvenImportSQLProvider.class,method = "queryAreaenterprise")
+    @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryAreaenterprise")
     Enterprise queryAreaenterprise(@Param("area_code") String area_code);
 }

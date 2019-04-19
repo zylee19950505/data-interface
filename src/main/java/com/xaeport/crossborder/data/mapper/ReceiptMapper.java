@@ -29,10 +29,10 @@ public interface ReceiptMapper {
 
 
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_ORDER_HEAD WHERE ORDER_NO = #{orderNo}")
-    String queryBusiTypeByOrderNo(@Param("orderNo") String orderNo);
+    List<String> queryBusiTypeByOrderNo(@Param("orderNo") String orderNo);
 
     @Select("SELECT BUSINESS_TYPE FROM T_IMP_INVENTORY_HEAD WHERE COP_NO = #{copNo}")
-    String queryBusiTypeByCopNo(@Param("copNo") String copNo);
+    List<String> queryBusiTypeByCopNo(@Param("copNo") String copNo);
 
     //插入核注清单处理成功回执数据
     @InsertProvider(type = ReceiptSQLProvider.class, method = "createInvtCommon")

@@ -771,8 +771,8 @@ public class ReceiptService {
         impOrderHead.setData_status(StatusCode.DDSBCG);
         impOrderHead.setUpd_tm(new Date());
 
-        String type = this.receiptMapper.queryBusiTypeByOrderNo(impRecOrder.getOrderNo());
-        switch (type) {
+        List<String> type = this.receiptMapper.queryBusiTypeByOrderNo(impRecOrder.getOrderNo());
+        switch (type.get(0)) {
             case SystemConstants.T_IMP_ORDER:
                 impOrderHead.setData_status(StatusCode.DDSBCG);
                 break;
@@ -1054,8 +1054,8 @@ public class ReceiptService {
         impInventoryHead.setReturn_time(impRecInventory.getReturn_time());//操作时间(格式：yyyyMMddHHmmssfff)
         impInventoryHead.setUpd_tm(new Date());
         //清单申报成功
-        String type = this.receiptMapper.queryBusiTypeByCopNo(impRecInventory.getCop_no());
-        if (type.equals(SystemConstants.T_IMP_BOND_INVEN)) {
+        List<String> type = this.receiptMapper.queryBusiTypeByCopNo(impRecInventory.getCop_no());
+        if (type.get(0).equals(SystemConstants.T_IMP_BOND_INVEN)) {
             impInventoryHead.setData_status(StatusCode.BSQDSBCG);
         } else {
             impInventoryHead.setData_status(StatusCode.QDSBCG);
