@@ -31,7 +31,7 @@ public class ExcelHeadBondInven {
     public final static String insuredFee = "保费";//head
     public final static String wrapType = "包装种类代码";//head
 
-    public final static String itemRecordNo = "账册备案料号";//list
+    public final static String itemNo = "账册备案料号";//list
     public final static String gCode = "商品编码";//list
     public final static String gName = "商品名称";//list
     public final static String gModel = "商品规格型号";//list

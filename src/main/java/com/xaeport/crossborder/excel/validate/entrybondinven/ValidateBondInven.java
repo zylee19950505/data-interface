@@ -34,7 +34,7 @@ public class ValidateBondInven extends ValidateBase {
     private int insuredFeeIndex; //"保费";//head
     private int wrapTypeIndex;//包装种类代码  head
 
-    private int itemRecordNoIndex; //"账册备案料号";//list
+    private int itemNoIndex; //"账册备案料号";//list
     private int gCodeIndex; //"商品编码";//list
     private int gNameIndex; //"商品名称";//list
     private int gModelIndex; //"商品规格型号";//list
@@ -72,7 +72,7 @@ public class ValidateBondInven extends ValidateBase {
         indexMap.put(insuredFeeIndex, "保费,19");
 //        indexMap.put(wrapTypeIndex, "包装种类,1");
 
-        indexMap.put(itemRecordNoIndex, "账册备案料号,30");
+        indexMap.put(itemNoIndex, "账册备案料号,30");
         indexMap.put(gCodeIndex, "商品编码,20");
         indexMap.put(gNameIndex, "商品名称,250");
         indexMap.put(gModelIndex, "商品规格型号,510");
@@ -158,7 +158,7 @@ public class ValidateBondInven extends ValidateBase {
         insuredFeeIndex = list.indexOf(ExcelHeadBondInven.insuredFee);
         wrapTypeIndex = list.indexOf(ExcelHeadBondInven.wrapType);
 
-        itemRecordNoIndex = list.indexOf(ExcelHeadBondInven.itemRecordNo);
+        itemNoIndex = list.indexOf(ExcelHeadBondInven.itemNo);
         gCodeIndex = list.indexOf(ExcelHeadBondInven.gCode);
         gNameIndex = list.indexOf(ExcelHeadBondInven.gName);
         gModelIndex = list.indexOf(ExcelHeadBondInven.gModel);

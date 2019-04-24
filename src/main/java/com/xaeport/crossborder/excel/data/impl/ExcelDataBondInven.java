@@ -34,7 +34,7 @@ public class ExcelDataBondInven implements ExcelData {
     private int insuredFeeIndex; //"保费";//head
     private int wrapTypeIndex; //包装种类 //head
 
-    private int itemRecordNoIndex; //"商品名称";//list
+    private int itemNoIndex; //"商品料号";//list
     private int gCodeIndex; //"商品编码";//list
     private int gNameIndex; //"商品名称";//list
     private int gModelIndex; //"商品规格型号";//list
@@ -119,7 +119,7 @@ public class ExcelDataBondInven implements ExcelData {
         DecimalFormat df = new DecimalFormat("0.00");
         impInventoryBody.setOrder_no(inventoryBodies.get(orderNoIndex));//清单编号
 
-        impInventoryBody.setItem_record_no(inventoryBodies.get(itemRecordNoIndex));//账册备案料号: 保税进口必填
+        impInventoryBody.setItem_no(inventoryBodies.get(itemNoIndex));//账册备案料号: 保税进口必填
         impInventoryBody.setG_code(inventoryBodies.get(gCodeIndex));//商品编码
         impInventoryBody.setG_name(inventoryBodies.get(gNameIndex));//商品名称
         impInventoryBody.setG_model(inventoryBodies.get(gModelIndex));//商品规格型号
@@ -173,7 +173,7 @@ public class ExcelDataBondInven implements ExcelData {
         insuredFeeIndex = bondInvenLists.indexOf(ExcelHeadBondInven.insuredFee);
         wrapTypeIndex = bondInvenLists.indexOf(ExcelHeadBondInven.wrapType);
 
-        itemRecordNoIndex = bondInvenLists.indexOf(ExcelHeadBondInven.itemRecordNo);
+        itemNoIndex = bondInvenLists.indexOf(ExcelHeadBondInven.itemNo);
         gCodeIndex = bondInvenLists.indexOf(ExcelHeadBondInven.gCode);
         gNameIndex = bondInvenLists.indexOf(ExcelHeadBondInven.gName);
         gModelIndex = bondInvenLists.indexOf(ExcelHeadBondInven.gModel);
