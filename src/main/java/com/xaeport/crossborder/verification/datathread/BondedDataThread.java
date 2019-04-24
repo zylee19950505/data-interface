@@ -35,7 +35,7 @@ public class BondedDataThread implements Runnable {
                 msg = "保税订单";
                 break;
             case SystemConstants.T_IMP_BOND_INVEN:
-                bondLoader = new BondOrderDataLoader();
+                bondLoader = new BondInvenDataLoader();
                 msg = "保税清单";
                 break;
             case SystemConstants.T_BOND_INVT + SystemConstants.BSRQ:
