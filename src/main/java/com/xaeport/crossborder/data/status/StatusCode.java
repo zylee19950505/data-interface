@@ -98,6 +98,8 @@ public class StatusCode {
 	public final static String FX = "800";//放行
 	public final static String JG = "899";//结关
 
+	public final static String BSYDR = "BDDS0"; //保税已导入状态,待逻辑校验
+
 	public final static String RQHZQDDSB = "BDDS1";//入区核注清单待申报
 	public final static String RQHZQDSBZ = "BDDS10";//入区核注清单申报中
 	public final static String RQHZQDYSB = "BDDS11";//入区核注清单已申报

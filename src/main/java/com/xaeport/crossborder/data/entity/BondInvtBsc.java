@@ -14,7 +14,6 @@ public class BondInvtBsc {
     private String bizop_etpsno;//经营企业编号 关联海关参数库
     private String bizop_etps_nm;//经营企业名称 关联海关参数库
     private String rvsngd_etps_sccd;//收发货企业社会信用代码
-
     private String rcvgd_etpsno;//收货企业编号 关联海关参数库
     private String rcvgd_etps_nm;//收货企业名称 关联海关参数库
     private String dcl_etps_sccd;//申报企业社会信用代码
@@ -25,7 +24,6 @@ public class BondInvtBsc {
     private String entry_no;//报关单编号 清单报关时使用。海关端报关单入库时，反填并反馈企业端
     private String rlt_invt_no;//关联清单编号 结转类专用，检控要求复杂，见需求文档
     private String rlt_putrec_no;//关联备案编号 结转类专用
-
     private String rlt_entry_no;//关联报关单编号 报关类型为关联报关时必填。二线取消报关的情况下使用，用于生成区外一般贸易报关单。暂未使用
     private String rlt_entry_bizop_etps_sccd;//关联报关单境内收发货人社会信用代码 报关类型为关联报关时必填。二线取消报关的情况下使用，用于生成区外一般贸易报关单。暂未使用
     private String rlt_entry_bizop_etpsno;//关联报关单境内收发货人编号 报关类型为关联报关时必填。二线取消报关的情况下使用，用于生成区外一般贸易报关单。暂未使用
@@ -36,7 +34,6 @@ public class BondInvtBsc {
     private String mtpck_endprd_markcd;//料件成品标记代码 I：料件,E：成品
     private String supv_modecd;//监管方式代码 关联海关参数库
     private String trsp_modecd;//运输方式代码 关联海关参数库
-
     private String apply_no;//申请编号 深加工结转用
     private String stship_trsarv_natcd;//起运/运抵国(地区) 参照国别代码表(COUNTRY)
     private String dclcus_flag;//是否报关标志 1.报关2.非报关。系统需需校验报关标志是否正确
@@ -47,7 +44,6 @@ public class BondInvtBsc {
     private String vrfded_markcd;//核扣标记代码 0-未核扣 1-预核扣 2-已核扣 3-已核销
     private String invt_stucd;//清单状态代码 1-申报 2-退单 3删单 0-审核通过
     private String vrfded_modecd;//核扣方式代码 D:正扣、F:反扣、N：不扣 NF：不扣但检查余量、E：保税仓扣减
-
     private String du_code;//核算代码 两位代码
     private String rmk;//备注
     private String bond_invt_typecd;//清单类型 标识清单类别，0：普通清单，1：集报清单，3：先入区后报关，4：简单加工，5：保税展示交易，6：区内流转，7：区港联动 8:保税电商,9：一纳成品内销默认为0：普通清单
@@ -58,10 +54,8 @@ public class BondInvtBsc {
     private String param3;//备用3 (SAS项目新增)
     private Date param4;//备用4 (SAS项目新增)
     private String need_entry_modified;//报关单同步修改标志 1：报关单未修改，其他情况为空 此标志用于标识清单修改后，报关单是否做过同步修改。
-
     private String levy_bl_amt;//计征金额 保税展示交易、一纳成品内销时，计算计征金额并反填此字段
     private String dcl_typecd;//申报类型 1-备案申请 2-变更申请 3-删除申请。备用字段，企业自主发起变更、删除功能转用，此功能明年上线。
-
     private String status;
     private String return_status;
     private Date return_time;
@@ -75,22 +69,23 @@ public class BondInvtBsc {
     private String flag;
     private String invt_no;
     private String sum;
-
-
     private Integer original_nm;//核注清单原有可绑定数量
     private Integer usable_nm;//核注清单可绑定数量
     private Integer bound_nm;//绑定数量
-
     private String ec_customs_code;//电商海关编码
     private String bill_no;
-
-    public String getBill_no() {
-        return bill_no;
-    }
     private String corr_entry_dcl_etps_sccd;//对应报关单申报单位社会统一信用代码
     private String corr_entry_dcl_etps_no;//对应报关单申报单位代码
     private String corr_entry_dcl_etps_nm;//对应报关单申报单位名称
     private String dec_type;//报关单类型
+
+    public String getBill_no() {
+        return bill_no;
+    }
+
+    public void setBill_no(String bill_no) {
+        this.bill_no = bill_no;
+    }
 
     public String getDec_type() {
         return dec_type;
@@ -100,17 +95,29 @@ public class BondInvtBsc {
         this.dec_type = dec_type;
     }
 
-    public void setBill_no(String bill_no) {
-        this.bill_no = bill_no;
+    public String getCorr_entry_dcl_etps_sccd() {
+        return corr_entry_dcl_etps_sccd;
     }
-    public String getCorr_entry_dcl_etps_sccd(){return corr_entry_dcl_etps_sccd;}
-    public void setCorr_entry_dcl_etps_sccd(String corr_entry_dcl_etps_sccd){this.corr_entry_dcl_etps_sccd = corr_entry_dcl_etps_sccd;}
 
-    public String getCorr_entry_dcl_etps_no(){return corr_entry_dcl_etps_no;}
-    public void setCorr_entry_dcl_etps_no(String corr_entry_dcl_etps_no){this.corr_entry_dcl_etps_no = corr_entry_dcl_etps_no;}
+    public void setCorr_entry_dcl_etps_sccd(String corr_entry_dcl_etps_sccd) {
+        this.corr_entry_dcl_etps_sccd = corr_entry_dcl_etps_sccd;
+    }
 
-    public String getCorr_entry_dcl_etps_nm(){return corr_entry_dcl_etps_nm;}
-    public void setCorr_entry_dcl_etps_nm(String corr_entry_dcl_etps_nm){this.corr_entry_dcl_etps_nm = corr_entry_dcl_etps_nm;}
+    public String getCorr_entry_dcl_etps_no() {
+        return corr_entry_dcl_etps_no;
+    }
+
+    public void setCorr_entry_dcl_etps_no(String corr_entry_dcl_etps_no) {
+        this.corr_entry_dcl_etps_no = corr_entry_dcl_etps_no;
+    }
+
+    public String getCorr_entry_dcl_etps_nm() {
+        return corr_entry_dcl_etps_nm;
+    }
+
+    public void setCorr_entry_dcl_etps_nm(String corr_entry_dcl_etps_nm) {
+        this.corr_entry_dcl_etps_nm = corr_entry_dcl_etps_nm;
+    }
 
     public String getEc_customs_code() {
         return ec_customs_code;

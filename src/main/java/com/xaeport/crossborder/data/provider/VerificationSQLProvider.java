@@ -2,7 +2,6 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.StatusRecord;
 import com.xaeport.crossborder.data.entity.Verify;
-import com.xaeport.crossborder.data.status.VerifyType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.StringUtils;
@@ -317,6 +316,194 @@ public class VerificationSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(status)) {
                     SET("t.data_status = #{status}");
                 }
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondOrderHead(@Param("status") String status) {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS,ORDER_TYPE,ORDER_NO");
+                SELECT("EBP_CODE,EBP_NAME,EBC_CODE,EBC_NAME");
+                SELECT("CURRENCY,BUYER_REG_NO,BUYER_NAME,BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_TELEPHONE");
+                SELECT("PAY_CODE,PAYNAME,PAY_TRANSACTION_ID,BATCH_NUMBERS");
+                SELECT("CONSIGNEE,CONSIGNEE_TELEPHONE,CONSIGNEE_ADDRESS,CONSIGNEE_DITRICT");
+                SELECT("BILL_NO,BUSINESS_TYPE");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
+                SELECT("to_char(GOODS_VALUE,'FM999999999990.00000') as GOODS_VALUE");
+                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
+                SELECT("to_char(DISCOUNT,'FM999999999990.00000') as DISCOUNT");
+                SELECT("to_char(TAX_TOTAL,'FM999999999990.00000') as TAX_TOTAL");
+                SELECT("to_char(ACTURAL_PAID,'FM999999999990.00000') as ACTURAL_PAID");
+                SELECT("ENT_ID crt_ent_id");
+                SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
+                SELECT("to_char(GROSS_WEIGHT,'FM999999999990.00000') as GROSS_WEIGHT");
+                SELECT("to_char(NET_WEIGHT,'FM999999999990.00000') as NET_WEIGHT");
+                FROM("T_IMP_ORDER_HEAD t");
+                WHERE("t.DATA_STATUS = #{status}");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondOrderBody(final Map<String, String> paramMap) {
+        final String headGuids = paramMap.get("headGuids");
+        return new SQL() {
+            {
+                SELECT("G_NUM");
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_NO");
+                SELECT("ITEM_NAME");
+                SELECT("ITEM_DESCRIBE");
+                SELECT("G_MODEL");
+                SELECT("BAR_CODE");
+                SELECT("UNIT");
+                SELECT("to_char(QTY,'FM999999999990.00000') as QTY");
+                SELECT("to_char(PRICE,'FM999999999990.00000') as PRICE");
+                SELECT("to_char(TOTAL_PRICE,'FM999999999990.00000') as TOTAL_PRICE");
+                SELECT("CURRENCY");
+                SELECT("COUNTRY");
+                SELECT("NOTE");
+                FROM("T_IMP_ORDER_BODY t");
+                WHERE(splitJointIn("t.HEAD_GUID", headGuids));
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondInvenHead(@Param("status") String status) {
+        return new SQL() {
+            {
+                SELECT("GUID,APP_TYPE,APP_STATUS,EBP_CODE,EBP_NAME,EBC_CODE,EBC_NAME");
+                SELECT("ORDER_NO,LOGISTICS_NO,COP_NO,PRE_NO,EMS_NO,INVT_NO");
+                SELECT("LOGISTICS_CODE,LOGISTICS_NAME,ASSURE_CODE,IE_FLAG");
+                SELECT("CUSTOMS_CODE,PORT_CODE,CONSIGNEE_ADDRESS");
+                SELECT("AGENT_CODE,AGENT_NAME,AREA_CODE,AREA_NAME,TRADE_MODE,TRAF_MODE,TRAF_NO");
+                SELECT("BILL_NO,VOYAGE_NO,BUSINESS_TYPE");
+                SELECT("LOCT_NO,LICENSE_NO,COUNTRY,CURRENCY,WRAP_TYPE,PACK_NO,NOTE");
+                SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
+                SELECT("BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_NAME,BUYER_TELEPHONE");
+                SELECT("APP_TIME,DECL_TIME,IE_DATE");
+                SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
+                SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
+                SELECT("to_char(GROSS_WEIGHT,'FM999999999990.00000') as GROSS_WEIGHT");
+                SELECT("to_char(NET_WEIGHT,'FM999999999990.00000') as NET_WEIGHT");
+                FROM("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.DATA_STATUS = #{status}");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ORDER_NO and vs.CB_HEAD_ID = t.GUID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TM asc,t.ORDER_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondInvenBody(final Map<String, String> paramMap) {
+        final String headGuids = paramMap.get("headGuids");
+        return new SQL() {
+            {
+                SELECT("G_NUM");
+                SELECT("HEAD_GUID");
+                SELECT("ORDER_NO");
+                SELECT("ITEM_RECORD_NO");
+                SELECT("ITEM_NO");
+                SELECT("ITEM_NAME");
+                SELECT("G_CODE");
+                SELECT("G_NAME");
+                SELECT("G_MODEL");
+                SELECT("BAR_CODE");
+                SELECT("COUNTRY");
+                SELECT("CURRENCY");
+                SELECT("to_char(QTY,'FM999999999990.00000') as QTY");
+                SELECT("to_char(QTY1,'FM999999999990.00000') as QTY1");
+                SELECT("to_char(QTY2,'FM999999999990.00000') as QTY2");
+                SELECT("UNIT");
+                SELECT("UNIT1");
+                SELECT("UNIT2");
+                SELECT("to_char(PRICE,'FM999999999990.00000') as PRICE");
+                SELECT("to_char(TOTAL_PRICE,'FM999999999990.00000') as TOTAL_PRICE");
+                SELECT("NOTE");
+                FROM("T_IMP_INVENTORY_BODY t");
+                WHERE(splitJointIn("t.HEAD_GUID", headGuids));
+            }
+        }.toString();
+    }
+
+
+    public String unverifiedByPassPort(@Param("status") String status) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_PASS_PORT_HEAD t");
+                WHERE("t.STATUS = #{status}");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ETPS_PREENT_NO and vs.CB_HEAD_ID = t.ID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TIME asc,t.ETPS_PREENT_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondInvtHead(@Param("status") String status) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_BOND_INVT_BSC t");
+                WHERE("t.STATUS = #{status}");
+                WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ETPS_INNER_INVT_NO and vs.CB_HEAD_ID = t.ID and vs.TYPE = 'LOGIC')");
+                WHERE("ROWNUM <= 500");
+                ORDER_BY("t.CRT_TIME asc,t.ETPS_INNER_INVT_NO asc");
+            }
+        }.toString();
+    }
+
+    public String unverifiedByBondInvtBody(final Map<String, String> paramMap) {
+        final String etpsInnerInvtNos = paramMap.get("etpsInnerInvtNos");
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_BOND_INVT_DT t");
+                WHERE(splitJointIn("t.HEAD_ETPS_INNER_INVT_NO", etpsInnerInvtNos));
+            }
+        }.toString();
+    }
+
+    public String updateBondOrderStatus(@Param("guid") String guid, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_ORDER_HEAD t");
+                WHERE("t.guid = #{guid}");
+                SET("t.data_status = #{status}");
+            }
+        }.toString();
+    }
+
+    public String updateBondInvenStatus(@Param("guid") String guid, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_IMP_INVENTORY_HEAD t");
+                WHERE("t.guid = #{guid}");
+                SET("t.data_status = #{status}");
+            }
+        }.toString();
+    }
+
+    public String updateBondInvtStatus(@Param("id") String id, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC t");
+                WHERE("t.ID = #{id}");
+                SET("t.STATUS = #{status}");
+            }
+        }.toString();
+    }
+
+    public String updatePassPortStatus(@Param("id") String id, @Param("status") String status) {
+        return new SQL() {
+            {
+                UPDATE("T_PASS_PORT_HEAD t");
+                WHERE("t.ID = #{id}");
+                SET("t.STATUS = #{status}");
             }
         }.toString();
     }

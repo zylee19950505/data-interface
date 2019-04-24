@@ -3,9 +3,9 @@ package com.xaeport.crossborder.verification.dataload.impl;
 
 import com.xaeport.crossborder.data.mapper.VerificationMapper;
 import com.xaeport.crossborder.tools.SpringUtils;
-import com.xaeport.crossborder.verification.dataload.InventoryLoader;
-import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
+import com.xaeport.crossborder.verification.dataload.CrossBorderLoader;
 import com.xaeport.crossborder.verification.entity.ImpCBBodyVer;
+import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * 数据库数据装载器
  */
-public class InventoryDataLoader implements InventoryLoader {
+public class InventoryDataLoader implements CrossBorderLoader {
 
     private VerificationMapper verificationMapper = SpringUtils.getBean(VerificationMapper.class);
 

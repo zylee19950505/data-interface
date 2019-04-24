@@ -2,14 +2,14 @@ package com.xaeport.crossborder.verification.dataload.impl;
 
 import com.xaeport.crossborder.data.mapper.VerificationMapper;
 import com.xaeport.crossborder.tools.SpringUtils;
-import com.xaeport.crossborder.verification.dataload.LogisticsLoader;
+import com.xaeport.crossborder.verification.dataload.CrossBorderLoader;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogisticsDataLoader implements LogisticsLoader{
+public class LogisticsDataLoader implements CrossBorderLoader {
 
     private VerificationMapper verificationMapper = SpringUtils.getBean(VerificationMapper.class);
 

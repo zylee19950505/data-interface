@@ -81,6 +81,11 @@ public class LoadData {
         entryTypeList.add(SystemConstants.T_IMP_PAYMENT);
         entryTypeList.add(SystemConstants.T_IMP_LOGISTICS);
         entryTypeList.add(SystemConstants.T_IMP_INVENTORY);
+
+        entryTypeList.add(SystemConstants.T_IMP_BOND_ORDER);
+        entryTypeList.add(SystemConstants.T_IMP_BOND_INVEN);
+        entryTypeList.add(SystemConstants.T_BOND_INVT);
+        entryTypeList.add(SystemConstants.T_PASS_PORT);
     }
 
     @PostConstruct

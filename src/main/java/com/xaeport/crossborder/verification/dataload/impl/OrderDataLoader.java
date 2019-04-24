@@ -2,7 +2,7 @@ package com.xaeport.crossborder.verification.dataload.impl;
 
 import com.xaeport.crossborder.data.mapper.VerificationMapper;
 import com.xaeport.crossborder.tools.SpringUtils;
-import com.xaeport.crossborder.verification.dataload.OrderLoader;
+import com.xaeport.crossborder.verification.dataload.CrossBorderLoader;
 import com.xaeport.crossborder.verification.entity.ImpCBBodyVer;
 import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 import org.springframework.util.CollectionUtils;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrderDataLoader implements OrderLoader {
+public class OrderDataLoader implements CrossBorderLoader {
 
     private VerificationMapper verificationMapper = SpringUtils.getBean(VerificationMapper.class);
 

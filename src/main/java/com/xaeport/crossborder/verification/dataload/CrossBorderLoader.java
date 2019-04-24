@@ -4,8 +4,6 @@ import com.xaeport.crossborder.verification.entity.ImpCBHeadVer;
 
 import java.util.List;
 
-public interface OrderLoader {
-
+public interface CrossBorderLoader {
     List<ImpCBHeadVer> loadingData();
-
 }

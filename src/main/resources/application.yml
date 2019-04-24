@@ -4,12 +4,10 @@ logging:
     org.springframework: info
     com.springboot: debug
     com.xaeport: debug
-    com.xaeport.crossborder.verification.datathread.InventoryDataThread: info
-    com.xaeport.crossborder.verification.datathread.LogisticsDataThread: info
-    com.xaeport.crossborder.verification.datathread.OrderDataThread: info
-    com.xaeport.crossborder.verification.datathread.PaymentDataThread: info
-    com.xaeport.crossborder.data.mapper.VerificationMapper: info
+#    com.xaeport.crossborder.verification.datathread.DirectPurchaseDataThread: info
+#    com.xaeport.crossborder.verification.datathread.BondedDataThread: info
     com.xaeport.crossborder.generated.thread: info
+    com.xaeport.crossborder.data.mapper.VerificationMapper: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
     com.xaeport.crossborder.data.mapper.WaybillImportMapper: info
