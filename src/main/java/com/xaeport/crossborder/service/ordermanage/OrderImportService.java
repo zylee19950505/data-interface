@@ -61,6 +61,7 @@ public class OrderImportService {
         for (ImpOrderHead anImpOrderHeadList : impOrderHeadList) {
             ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user, enterprise);
             impOrderHead.setBill_No(billNo);
+            impOrderHead.setBatch_Numbers(billNo);
             flag = this.orderImportMapper.isRepeatOrderNo(impOrderHead);
             if (flag > 0) {
                 return 0;

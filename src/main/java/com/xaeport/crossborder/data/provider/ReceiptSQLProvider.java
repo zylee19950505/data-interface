@@ -1493,6 +1493,7 @@ public class ReceiptSQLProvider extends BaseSQLProvider {
                 SELECT("GDS_MTNO");
                 SELECT("GDECD");
                 SELECT("GDS_NM");
+                SELECT("NATCD");
                 SELECT("DCL_UNITCD");
                 SELECT("LAWF_UNITCD");
                 SELECT("SECD_LAWF_UNITCD");

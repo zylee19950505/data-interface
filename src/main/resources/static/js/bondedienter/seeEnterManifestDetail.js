@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -29,7 +23,7 @@ function selecterInitDetail(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -52,10 +46,11 @@ function sumDeclTotal(dVal, qty, gno, listChangeKeyVal) {
     $("#total_price_" + gno).val(declTotal);
     listChangeKeyVal["total_price"] = $("#total_price_" + gno).val();
 }
+
 //计算表头总重量
-function sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt) {
-    console.log(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt)
-    var totalWt = parseFloat(parseFloat(vehicle_wt)+parseFloat(vehicle_frame_wt)+parseFloat(container_wt)+parseFloat(total_gross_wt)).toFixed(2);
+function sumTotalWt(vehicle_wt, vehicle_frame_wt, container_wt, total_gross_wt) {
+    console.log(vehicle_wt, vehicle_frame_wt, container_wt, total_gross_wt)
+    var totalWt = parseFloat(parseFloat(vehicle_wt) + parseFloat(vehicle_frame_wt) + parseFloat(container_wt) + parseFloat(total_gross_wt)).toFixed(2);
     console.log(totalWt);
     $("#total_wt").val(totalWt);
 }
@@ -92,13 +87,13 @@ function inputChange(id) {
             listChangeKeyVal["entryhead_guid"] = id;
             listChangeKeyVals[gno] = listChangeKeyVal;
         } else {
-            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key){
-                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
-                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
-                var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
-                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key) {
+                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val())) ? 0 : parseFloat($("#vehicle_wt").val());
+                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val())) ? 0 : parseFloat($("#vehicle_frame_wt").val());
+                var container_wt = isNaN(parseFloat($("#container_wt").val())) ? 0 : parseFloat($("#container_wt").val());
+                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val())) ? 0 : parseFloat($("#total_gross_wt").val());
                 //计算总重量
-                sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
+                sumTotalWt(vehicle_wt, vehicle_frame_wt, container_wt, total_gross_wt);
             }
             headChangeKeyVal[key] = val;
         }
@@ -164,41 +159,25 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#master_cuscds").append(option);
-            // $("#impexp_portcds").append(option);
-        }
-
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
-
         $("#master_cuscd").val(entryHead.master_cuscd);
-        // $("#bind_typecd").val(entryHead.bind_typecd);
-        selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
         $("#areain_etpsno").val(entryHead.areain_etpsno);
         $("#areain_etps_nm").val(entryHead.areain_etps_nm);
         $("#vehicle_no").val(entryHead.vehicle_no);
         $("#vehicle_wt").val(entryHead.vehicle_wt);
-
         $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt);
         $("#container_wt").val(entryHead.container_wt);
-
         $("#total_wt").val(entryHead.total_wt);
         $("#total_gross_wt").val(entryHead.total_gross_wt);
         $("#total_net_wt").val(entryHead.total_net_wt);
-
         $("#passport_typecd").val(entryHead.passport_typecd);
         $("#dcl_er_conc").val(entryHead.dcl_er_conc);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
-
-        //$("#input_code").val(entryHead.input_code);
-        //$("#input_name").val(entryHead.input_name);
         $("#rmk").val(entryHead.rmk);
-
+        selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
     },
 
 
@@ -242,7 +221,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
 
             total_gross_wt: $("#total_gross_wt").val(),
             total_net_wt: $("#total_net_wt").val(),
-            passport_typecd:$("#passport_typecd").val(),
+            passport_typecd: $("#passport_typecd").val(),
 
             dcl_er_conc: $("#dcl_er_conc").val(),
             dcl_etpsno: $("#dcl_etpsno").val(),
@@ -326,8 +305,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             "dcl_er_conc": "申请人及联系方式",
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
-            "vehicle_ic_no":"IC卡号(电子车牌)",
-           //"input_code": "录入单位代码",
+            "vehicle_ic_no": "IC卡号(电子车牌)",
+            //"input_code": "录入单位代码",
             //"input_name": "录入单位名称"
         };
 
@@ -350,7 +329,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         })

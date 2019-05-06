@@ -52,13 +52,34 @@ public class LoadService {
     }
 
     /**
-     * 获取关区代码信息集合
+     * 获取陕西省关区代码信息集合
      *
      * @return 关区代码信息集合
      */
     public List<Code> getCustomsList() {
         return this.loadMapper.getCustomsList();
     }
+
+
+    /**
+     * 获取全部关区代码信息集合
+     *
+     * @return 关区代码信息集合
+     */
+    public List<Code> getAllCustomsList() {
+        return this.loadMapper.getAllCustomsList();
+    }
+
+
+    /**
+     * 获取征减免税方式代码信息集合
+     *
+     * @return 征减免税方式代码信息集合
+     */
+    public List<Code> getTaxReliefsModeList() {
+        return this.loadMapper.getTaxReliefsModeList();
+    }
+
 
     /**
      * 获取币制信息集合

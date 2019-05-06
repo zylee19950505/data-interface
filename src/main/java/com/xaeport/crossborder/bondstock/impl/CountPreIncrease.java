@@ -104,6 +104,8 @@ public class CountPreIncrease implements CountLoader {
         bwlListType.setGds_mtno(gds_mtno);
         bwlListType.setGdecd(bondInvtDt.getGdecd());
         bwlListType.setGds_nm(bondInvtDt.getGds_nm());
+        bwlListType.setNatcd(bondInvtDt.getNatcd());
+
         bwlListType.setDcl_unitcd(bondInvtDt.getDcl_unitcd());
         bwlListType.setActl_inc_qty("0");
         bwlListType.setActl_redc_qty("0");

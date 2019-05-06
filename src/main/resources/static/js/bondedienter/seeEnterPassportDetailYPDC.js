@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -45,7 +39,6 @@ var listChangeKeyVals = {};
 
 // 表体ID匹配正则
 var pattern = /^.*_[0-9]+$/;
-
 
 //数据字典
 var supv_modecd = {
@@ -91,21 +84,10 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
-
-
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#master_cuscds").append(option);
-            // $("#impexp_portcds").append(option);
-        }
         $("#id").val(entryHead.id);
-
         $("#passport_no").val(entryHead.passport_no);
         $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
         $("#dcl_typecd").val(entryHead.dcl_typecd);
-
         $("#areain_oriact_no").val(entryHead.areain_oriact_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -115,7 +97,6 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
-
         $("#io_typecd").val(entryHead.io_typecd);
         $("#vehicle_no").val(entryHead.vehicle_no);
         $("#vehicle_wt").val(entryHead.vehicle_wt);
@@ -132,8 +113,7 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        //selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
-
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
     },
     //加载表体信息
     fillEntryListInfo: function (entryLists) {
@@ -156,7 +136,6 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
 
     // 查询订单详情
     query: function () {
-
         // 表头变化
         headChangeKeyVal = {};
         // 表体变化

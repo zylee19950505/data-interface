@@ -156,30 +156,13 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     },
 
     fillBondInvtBsc: function (entryHead) {
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#impexp_portcds").append(option);
-        }
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#dcl_plc_cuscds").append(option);
-        }
-        // $("#impexp_portcds").append(option);
-        //$("#dcl_plc_cuscds").append(option);
-
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
-
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
-        //$("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
         $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
         $("#impexp_portcd").val(entryHead.impexp_portcd);
         $("#impexp_markcd").val(entryHead.impexp_markcd);
@@ -194,28 +177,14 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
-
-        //selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        //selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
     },
 
     // 装载表头信息
     fillNewBondInvtBsc: function (entryHead) {
-
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#impexp_portcds").append(option);
-        }
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#dcl_plc_cuscds").append(option);
-        }
         $("#invt_no").val(entryHead.invt_no);
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
@@ -223,16 +192,11 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
-
         $("#putrec_no").val(entryHead.putrec_no);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
-        // $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
-        // $("#impexp_portcd").val(entryHead.impexp_portcd);
-
-
-        //selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        //selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
     },

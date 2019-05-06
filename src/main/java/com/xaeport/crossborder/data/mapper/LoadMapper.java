@@ -31,12 +31,28 @@ public interface LoadMapper {
             "from T_PORT")
     List<Code> getPortList();
 
-    // 查询关区代码
+    // 查询陕西省关区代码
     @Select("select " +
             "customs_code codeNo," +
             "customs_name codeName " +
-            "from T_CUSTOMS")
+            "from T_CUSTOMS " +
+            "where customs_code like '90%'")
     List<Code> getCustomsList();
+
+    // 查询全部关区代码
+    @Select("select " +
+            "customs_code codeNo," +
+            "customs_name codeName " +
+            "from T_CUSTOMS " +
+            "order by customs_code ")
+    List<Code> getAllCustomsList();
+
+    // 查询征减免税方式代码
+    @Select("select " +
+            "TR_CODE codeNo," +
+            "TR_NAME codeName " +
+            "from T_TAX_RELIEFS_MODE")
+    List<Code> getTaxReliefsModeList();
 
     // 查询币制
     @Select("select " +

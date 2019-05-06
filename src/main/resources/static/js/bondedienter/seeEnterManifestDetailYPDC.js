@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -29,7 +23,7 @@ function selecterInitDetail(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -96,13 +90,13 @@ function inputChangeManifestInventYPDC() {
             listChangeKeyVal["entryhead_guid"] = id;
             listChangeKeyVals[gno] = listChangeKeyVal;
         } else {
-            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key){
-                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
-                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
-                var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
-                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+            if ("vehicle_wt" == key || "vehicle_frame_wt" == key || "container_wt" == key || "total_gross_wt" == key) {
+                var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val())) ? 0 : parseFloat($("#vehicle_wt").val());
+                var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val())) ? 0 : parseFloat($("#vehicle_frame_wt").val());
+                var container_wt = isNaN(parseFloat($("#container_wt").val())) ? 0 : parseFloat($("#container_wt").val());
+                var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val())) ? 0 : parseFloat($("#total_gross_wt").val());
                 //计算总重量
-                sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
+                sumTotalWt(vehicle_wt, vehicle_frame_wt, container_wt, total_gross_wt);
             }
             headChangeKeyVal[key] = val;
         }
@@ -110,25 +104,25 @@ function inputChangeManifestInventYPDC() {
         clearError();
     });
 }
+
 function inputChangeManifestInvent() {
     $(".listDetail input[id^=surplus_nm]").change(function () {
         //当前输入框的id
         var surplus_nmId = $(this).attr("id");
-        var gno = surplus_nmId.substring(surplus_nmId.lastIndexOf("_")+1,surplus_nmId.length);
+        var gno = surplus_nmId.substring(surplus_nmId.lastIndexOf("_") + 1, surplus_nmId.length);
 
         //商品名称
-        var inputGdsName = $("#gds_nm_"+gno).val();
+        var inputGdsName = $("#gds_nm_" + gno).val();
         //商品料号
-        var inputGdsMtno = $("#gds_mtno_"+gno).val();
+        var inputGdsMtno = $("#gds_mtno_" + gno).val();
         var val = $(this).val();
         if (!isNotEmpty(val)) {
             return;
         }
 
-
         //需要更改entryLists的值
         for (var i = 0; i < entryLists.length; i++) {
-            if (entryLists[i].gds_mtno == inputGdsMtno && entryLists[i].gds_nm == inputGdsName){
+            if (entryLists[i].gds_mtno == inputGdsMtno && entryLists[i].gds_nm == inputGdsName) {
                 entryLists[i].surplus_nm = val
             }
         }
@@ -137,25 +131,25 @@ function inputChangeManifestInvent() {
         //总净重
         var totalNetWt = 0;
         for (var i = 0; i < entryLists.length; i++) {
-            totalGrossWt+=entryLists[i].surplus_nm*entryLists[i].gross_wt;
-            totalNetWt+=entryLists[i].surplus_nm*entryLists[i].net_wt;
+            totalGrossWt += entryLists[i].surplus_nm * entryLists[i].gross_wt;
+            totalNetWt += entryLists[i].surplus_nm * entryLists[i].net_wt;
         }
         $("#total_gross_wt").val(parseFloat(totalGrossWt).toFixed(2));
         $("#total_net_wt").val(parseFloat(totalNetWt).toFixed(2));
 
-        var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val()))  ? 0:parseFloat($("#vehicle_wt").val());
-        var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val()))  ? 0:parseFloat($("#vehicle_frame_wt").val());
-        var container_wt = isNaN(parseFloat($("#container_wt").val()))  ? 0:parseFloat($("#container_wt").val());
-        var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val()))  ? 0:parseFloat($("#total_gross_wt").val());
+        var vehicle_wt = isNaN(parseFloat($("#vehicle_wt").val())) ? 0 : parseFloat($("#vehicle_wt").val());
+        var vehicle_frame_wt = isNaN(parseFloat($("#vehicle_frame_wt").val())) ? 0 : parseFloat($("#vehicle_frame_wt").val());
+        var container_wt = isNaN(parseFloat($("#container_wt").val())) ? 0 : parseFloat($("#container_wt").val());
+        var total_gross_wt = isNaN(parseFloat($("#total_gross_wt").val())) ? 0 : parseFloat($("#total_gross_wt").val());
         //计算总重量
-        sumTotalWt(vehicle_wt,vehicle_frame_wt,container_wt,total_gross_wt);
+        sumTotalWt(vehicle_wt, vehicle_frame_wt, container_wt, total_gross_wt);
     })
 }
 
 //数据字典
 var supv_modecd = {
-    "1210":"保税电商",
-    "1239":"保税电商A"
+    "1210": "保税电商",
+    "1239": "保税电商A"
 };
 var gds_mtno = {};
 var gds_nm = {};
@@ -203,8 +197,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         //将此数据状态变更为入区核放单暂存
         var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var data = {
-            "etps_preent_no":param.etps_preent_no,
-            "bond_invt_no":param.bond_invt_no
+            "etps_preent_no": param.etps_preent_no,
+            "bond_invt_no": param.bond_invt_no
         };
         sw.ajax("api/crtEnterManifest/canelEnterManifestDetail", "PUT", data, function (rsp) {
             $("#dialog-popup").modal("hide");
@@ -228,45 +222,29 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
-
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#master_cuscds").append(option);
-            // $("#impexp_portcds").append(option);
-        }
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#head_id").val(entryHead.id);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
-
         $("#master_cuscd").val(entryHead.master_cuscd);
-        // $("#bind_typecd").val(entryHead.bind_typecd);
-        selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
         $("#areain_etpsno").val(entryHead.areain_etpsno);
         $("#areain_etps_nm").val(entryHead.areain_etps_nm);
         $("#vehicle_no").val(entryHead.vehicle_no);
         $("#vehicle_wt").val(entryHead.vehicle_wt);
-
         $("#vehicle_frame_wt").val(entryHead.vehicle_frame_wt);
         $("#container_wt").val(entryHead.container_wt);
-
         $("#total_wt").val(entryHead.total_wt);
         $("#total_gross_wt").val(entryHead.total_gross_wt);
         $("#total_net_wt").val(entryHead.total_net_wt);
-
         $("#passport_typecd").val(entryHead.passport_typecd);
         $("#dcl_er_conc").val(entryHead.dcl_er_conc);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
-
-        //$("#input_code").val(entryHead.input_code);
-        //$("#input_name").val(entryHead.input_name);
         $("#rmk").val(entryHead.rmk);
-
+        selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
     },
     // 装载复选框
-    fillListCode: function (gds_mtno,gds_nm) {
+    fillListCode: function (gds_mtno, gds_nm) {
         selecterInitDetail("gdsMtno", "", gds_mtno);
         selecterInitDetail("gdsName", "", gds_nm);
     },
@@ -286,7 +264,6 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             var id = entryLists[i].id;
             var g_num = i+1;
             var str =
-                //TODO
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='passport_seqno_" + g_num + "' value='" + g_num + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "":entryLists[i].gds_mtno) + "' /></td>" +
@@ -312,24 +289,23 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         //重新加载禁用框
         sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].disabledFieldInput();
         //重新加载select下拉框
-        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno, gds_nm);
 
 
     },
 
     //渲染表体数据
-    entryListsViem:function(entryLists){
+    entryListsViem: function (entryLists) {
         //清空表体,第一行除外
         $("#entryList tr:gt(0)").remove();
         for (var i = 0; i < entryLists.length; i++) {
             var id = entryLists[i].id;
-            var g_num = i+1;
+            var g_num = i + 1;
             var str =
-                //TODO
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='passport_seqno_" + g_num + "' value='" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "":entryLists[i].gds_mtno) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "":entryLists[i].gds_nm) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "" : entryLists[i].gds_mtno) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "" : entryLists[i].gds_nm) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gross_wt_" + g_num + "' value='" + parseFloat(entryLists[i].gross_wt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='net_wt_" + g_num + "' value='" + parseFloat(entryLists[i].net_wt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='surplus_nm_" + g_num + "' type='number' min='1' value='0' /></td>" +
@@ -351,15 +327,15 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     },
 
     //删除
-    deleteBondDtList:function(id){
+    deleteBondDtList: function (id) {
         //在entryLists里删除,将商品料号和商品名称加回去
-        for (var i = 0; i < entryLists.length ; i++) {
-            if (entryLists[i].id == id){
+        for (var i = 0; i < entryLists.length; i++) {
+            if (entryLists[i].id == id) {
                 // gds_mtno.push(entryLists[i].gds_mtno,entryLists[i].gds_mtno);
                 // gds_nm.push(entryLists[i].gds_nm,entryLists[i].gds_nm);
                 gds_mtno[entryLists[i].gds_mtno] = entryLists[i].gds_mtno;
                 gds_nm[entryLists[i].gds_nm] = entryLists[i].gds_nm;
-                entryLists.splice(i,1)
+                entryLists.splice(i, 1)
             }
         }
         //重新渲染表体
@@ -368,7 +344,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         //重新加载禁用框
         sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].disabledFieldInput();
         //重新加载select下拉框
-        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno,gds_nm);
+        sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].fillListCode(gds_mtno, gds_nm);
 
     },
 
@@ -397,13 +373,12 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         }
         //四舍五入的问题
 
-
         //判断申报的数量和表体申报数量之和是否相等
         var editNm = 0;
         for (var i = 0; i < entryLists.length; i++) {
             editNm += parseInt(entryLists[i].surplus_nm);
         }
-        if (editNm != editBoundNm){
+        if (editNm != editBoundNm) {
             hasError("申报数量不等于商品数量之和");
             return;
         }
@@ -431,7 +406,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 total_net_wt: $("#total_net_wt").val(),
                 dcl_er_conc: $("#dcl_er_conc").val(),
 
-                passport_typecd:$("#passport_typecd").val(),
+                passport_typecd: $("#passport_typecd").val(),
                 dcl_etpsno: $("#dcl_etpsno").val(),
                 dcl_etps_nm: $("#dcl_etps_nm").val(),
                 //input_code: $("#input_code").val(),
@@ -441,7 +416,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 rmk: $("#rmk").val(),
             },
             entryList: entryLists,
-            editBoundNm:editBoundNm
+            editBoundNm: editBoundNm
         };
 
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
@@ -473,9 +448,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         var editBoundNm = param.editBoundNm;
         var data = {
             bond_invt_no: bond_invt_no,
-            bind_typecd:bind_typecd,
-            etps_preent_no:etps_preent_no,
-            editBoundNm:editBoundNm
+            bind_typecd: bind_typecd,
+            etps_preent_no: etps_preent_no,
+            editBoundNm: editBoundNm
         };
         $.ajax({
             method: "GET",
@@ -494,8 +469,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
-                    if(isNotEmpty(gds_mtno)){
-                        entryModule.fillListCode(gds_mtno,gds_nm);
+                    if (isNotEmpty(gds_mtno)) {
+                        entryModule.fillListCode(gds_mtno, gds_nm);
                     }
                     /*if (isNotEmpty(entryLists)) {
                         entryModule.fillEntryListInfo(entryLists);
@@ -510,7 +485,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                     entryModule.disabledFieldInput();
                 }
             },
-            async:false
+            async: false
         });
     },
 
@@ -518,20 +493,20 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
     valiFieldInventory: function () {
         // 校验表头
         var validataHeadField = {
-            "master_cuscd":"主管关区代码",
-            "areain_etpsno":"区内企业编码",
-            "areain_etps_nm":"区内企业名称",
-            "vehicle_no":"承运车车牌号",
-            "vehicle_wt":"车自重",
-            "vehicle_frame_wt":"车架重",
-            "container_type":"集装箱箱型",
-            "container_wt":"集装箱重",
-            "total_wt":"总重量",
-            "passport_typecd":"核放单类型代码",
-            "dcl_er_conc":"申请人及联系方式",
-            "dcl_etpsno":"申报企业编号",
-            "dcl_etps_nm":"申报企业名称",
-            "vehicle_ic_no":"IC卡号(电子车牌)",
+            "master_cuscd": "主管关区代码",
+            "areain_etpsno": "区内企业编码",
+            "areain_etps_nm": "区内企业名称",
+            "vehicle_no": "承运车车牌号",
+            "vehicle_wt": "车自重",
+            "vehicle_frame_wt": "车架重",
+            "container_type": "集装箱箱型",
+            "container_wt": "集装箱重",
+            "total_wt": "总重量",
+            "passport_typecd": "核放单类型代码",
+            "dcl_er_conc": "申请人及联系方式",
+            "dcl_etpsno": "申报企业编号",
+            "dcl_etps_nm": "申报企业名称",
+            "vehicle_ic_no": "IC卡号(电子车牌)",
             //"input_code":"录入单位代码",
             //"input_name":"录入单位名称"
 
@@ -542,8 +517,8 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             "putrec_seqno": "备案序号",
             "gds_mtno": "商品料号",
             "gds_nm": "商品名称",
-            "gross_wt":"货物毛重",
-            "net_wt":"货物净重",
+            "gross_wt": "货物毛重",
+            "net_wt": "货物净重",
             "surplus_nm": "申报数量"
         };
 
@@ -575,19 +550,15 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         return true;
     },
 
-    createPassPortList :function(bond_invt_no,etps_preent_no){
+    createPassPortList: function (bond_invt_no, etps_preent_no) {
         //获取两个多选框的数据
         var selectGdsmtno = $("#gdsMtno").val();
         var selectGdsnm = $("#gdsName").val();
-
-
-        //console.log("selectbondDtList:"+selectbondDtList);
-
         var data = {
-            selectGdsmtno:selectGdsmtno.join(","),
-            selectGdsnm:selectGdsnm.join(","),
+            selectGdsmtno: selectGdsmtno.join(","),
+            selectGdsnm: selectGdsnm.join(","),
             bond_invt_no: bond_invt_no,
-            etps_preent_no:etps_preent_no
+            etps_preent_no: etps_preent_no
         };
         $.ajax({
             method: "GET",
@@ -613,7 +584,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         })
@@ -628,7 +599,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
 
     init: function () {
         //从路径上获取参数
-        entryLists=[];
+        entryLists = [];
 
         var param = sw.getPageParams("bondedienter/seeEnterManifestDetailYPDC");
         var bond_invt_no = param.bond_invt_no;
@@ -758,7 +729,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
             sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].cancel();
         });
         $("#ws-list-search").click(function () {
-            sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].createPassPortList(bond_invt_no,etps_preent_no);
+            sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"].createPassPortList(bond_invt_no, etps_preent_no);
         });
     }
 

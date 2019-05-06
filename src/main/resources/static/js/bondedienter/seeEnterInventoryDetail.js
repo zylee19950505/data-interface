@@ -157,20 +157,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#dcl_plc_cuscds").append(option);
-           // $("#impexp_portcds").append(option);
-        }
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            //$("#dcl_plc_cuscds").append(option);
-            $("#impexp_portcds").append(option);
-        }
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -178,29 +164,24 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#putrec_no").val(entryHead.putrec_no);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
-
         $("#impexp_markcd").val(entryHead.impexp_markcd);
         $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
         $("#dclcus_flag").val(entryHead.dclcus_flag);//是否报关是固定的
         $("#dclcus_typecd").val(entryHead.dclcus_typecd);//报关单类型代码
         $("#dec_type").val(entryHead.dec_type);//报关单类型
-
         $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
         $("#impexp_portcd").val(entryHead.impexp_portcd);
-
         $("#invt_type").val(entryHead.bond_invt_typecd);//保税电商
         $("#corr_entry_dcl_etps_sccd").val(entryHead.corr_entry_dcl_etps_sccd);//社会信用代码
         $("#corr_entry_dcl_etps_no").val(entryHead.corr_entry_dcl_etps_no);//代码
         $("#corr_entry_dcl_etps_nm").val(entryHead.corr_entry_dcl_etps_nm);//名称
         $("#dcl_typecd").val(entryHead.dcl_typecd);//备案申请
         $("#rmk").val(entryHead.rmk);
-
-        //selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        //selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
+        selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
+        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
         selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selecterInitDetail("supv_modecd", entryHead.supv_modecd, supv_modecd);
         selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
-
     },
 
     //加载表体信息

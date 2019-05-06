@@ -174,23 +174,8 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
     },
     // 装载表头信息
     fillBondInvenHead: function (entryHead) {
-
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#customs_codes").append(option);
-        }
-        for (var key in sw.dict.customs) {
-            var customsCode = key;
-            var name = sw.dict.customs[key];
-            var option = $("<option>").text(name).val(customsCode);
-            $("#port_codes").append(option);
-        }
-
         $("#customs_code").val(entryHead.customs_code);
         $("#port_code").val(entryHead.port_code);
-
         $("#order_no").val(entryHead.order_no);
         $("#cop_no").val(entryHead.cop_no);
         $("#logistics_no").val(entryHead.logistics_no);
@@ -201,29 +186,28 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        // selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
-        // selecterInitBondInven("port_code", entryHead.port_code, sw.dict.customs);
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
         $("#buyer_telephone").val(entryHead.buyer_telephone);
         $("#consignee_address").val(entryHead.consignee_address);
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitBondInven("wrap_type", entryHead.wrap_type, sw.dict.packType);
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        selecterInitBondInven("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
         $("#area_code").val(entryHead.area_code);
         $("#area_name").val(entryHead.area_name);
-        selecterInitBondInven("head_country", entryHead.country, sw.dict.countryArea);
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
+        $("#note").val(entryHead.note);
+        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.allCustoms);
+        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
+        selecterInitBondInven("wrap_type", entryHead.wrap_type, sw.dict.packType);
+        selecterInitBondInven("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
+        selecterInitBondInven("head_country", entryHead.country, sw.dict.countryArea);
         // $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
         // $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
         // $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
-        $("#note").val(entryHead.note);
-
     },
 
     //加载表体信息

@@ -31,7 +31,7 @@ public class BondOrderImpService {
     EnterpriseMapper enterpriseMapper;
 
     /*
-     * 订单导入
+     * 保税订单导入
      * @param importTime 申报时间
      */
     @Transactional
@@ -58,6 +58,7 @@ public class BondOrderImpService {
         for (ImpOrderHead anImpOrderHeadList : impOrderHeadList) {
             ImpOrderHead impOrderHead = this.impOrderHeadData(importTime, anImpOrderHeadList, user, enterprise);
             impOrderHead.setBill_No(billNo);
+            impOrderHead.setBatch_Numbers(billNo);
             flag = this.bondOrderImpMapper.isRepeatOrderNo(impOrderHead);
             if (flag > 0) {
                 return 0;
@@ -141,16 +142,16 @@ public class BondOrderImpService {
         return impOrderHead;
     }
 
-
     /**
      * 表体自生成信息
      */
     private ImpOrderBody impOrderGoodsListData(ImpOrderBody impOrderBody, String headGuid, Users user) throws Exception {
         String brevity_code = user.getBrevity_code();
-        String gds_seqno = this.bondOrderImpMapper.queryGdsSeqnoByItemNo(impOrderBody.getItem_No(), brevity_code);
+        BwlListType bwlListType = this.bondOrderImpMapper.queryBwlListTypeByItemNo(impOrderBody.getItem_No(), brevity_code);
 
-        impOrderBody.setHead_guid(headGuid);//
-        impOrderBody.setGds_seqno(StringUtils.isEmpty(gds_seqno) ? "0" : gds_seqno);
+        impOrderBody.setHead_guid(headGuid);//表头id
+        impOrderBody.setGds_seqno(bwlListType.getGds_seqno());//账册对应项号
+        impOrderBody.setCountry(bwlListType.getNatcd());//账册商品国别码
         impOrderBody.setCurrency("142");//币制
         impOrderBody.setBar_Code("无");//非必填项，没有必须写“无”
         return impOrderBody;

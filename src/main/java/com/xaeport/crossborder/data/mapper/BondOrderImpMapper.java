@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
+import com.xaeport.crossborder.data.entity.BwlListType;
 import com.xaeport.crossborder.data.entity.ImpOrderBody;
 import com.xaeport.crossborder.data.entity.ImpOrderHead;
 import com.xaeport.crossborder.data.entity.OrderNo;
@@ -47,8 +48,9 @@ public interface BondOrderImpMapper {
     @SelectProvider(type = BondOrderImpSQLProvider.class, method = "queryEntInfoByBrevityCode")
     Integer queryEntInfoByBrevityCode(String brevityCode);
 
-    @Select("SELECT GDS_SEQNO FROM T_BWL_LIST_TYPE t WHERE t.GDS_MTNO = #{gds_mtno} AND t.GDS_MTNO like #{brevity_code}||'%'")
-    String queryGdsSeqnoByItemNo(@Param("gds_mtno") String gds_mtno, @Param("brevity_code") String brevity_code);
+    //根据料号和简码查询账册表体数据
+    @Select("SELECT GDS_SEQNO,NATCD FROM T_BWL_LIST_TYPE t WHERE t.GDS_MTNO = #{gds_mtno} AND t.GDS_MTNO like #{brevity_code}||'%'")
+    BwlListType queryBwlListTypeByItemNo(@Param("gds_mtno") String gds_mtno, @Param("brevity_code") String brevity_code);
 
 
 }

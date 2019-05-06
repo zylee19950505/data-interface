@@ -44,8 +44,14 @@ public class LoadData {
     Map<String, String> portMap = new HashMap<>();
     // 包装类型map，key为包装类型代码，value为包装类型名称
     Map<String, String> packTypeMap = new HashMap<>();
-    // 关区代码map，key为关区代码，value为关区名称
+
+    // 陕西关区代码map，key为关区代码，value为关区名称
     Map<String, String> customsMap = new HashMap<>();
+    // 全部关区代码map，key为关区代码，value为关区名称
+    Map<String, String> allCustomsMap = new HashMap<>();
+    // 征减免税方式代码map，key为关区代码，value为关区名称
+    Map<String, String> taxReliefsModeMap = new HashMap<>();
+
     // 币制代码map，key为币制代码，value为币制名称
     Map<String, String> currencyMap = new HashMap<>();
     // 国家地区代码map，key为国家地区代码，value为国家地区名称
@@ -77,11 +83,12 @@ public class LoadData {
     public static List<String> entryTypeList = new ArrayList<String>();
 
     static {
+        //跨境直购
         entryTypeList.add(SystemConstants.T_IMP_ORDER);
         entryTypeList.add(SystemConstants.T_IMP_PAYMENT);
         entryTypeList.add(SystemConstants.T_IMP_LOGISTICS);
         entryTypeList.add(SystemConstants.T_IMP_INVENTORY);
-
+        //跨境保税
         entryTypeList.add(SystemConstants.T_IMP_BOND_ORDER);
         entryTypeList.add(SystemConstants.T_IMP_BOND_INVEN);
         entryTypeList.add(SystemConstants.T_BOND_INVT);
@@ -141,14 +148,34 @@ public class LoadData {
             this.log.debug("初始化包装类型代码数据map：" + packTypeList.size() + " 条，执行完毕");
         }
 
-        // 初始化关区代码map
+        // 初始化征减免税方式代码map
+        List<Code> taxReliefsModeList = this.loadService.getTaxReliefsModeList();
+        if (!CollectionUtils.isEmpty(taxReliefsModeList)) {
+            for (Code code : taxReliefsModeList) {
+                // key为征减免税方式代码，value为征减免税方式名称
+                this.setTaxReliefsMode(code.getCodeNo(), code.getCodeName());
+            }
+            this.log.debug("初始化征减免税方式代码数据map：" + taxReliefsModeList.size() + " 条，执行完毕");
+        }
+
+        // 初始化全部关区代码map
+        List<Code> allCustomsList = this.loadService.getAllCustomsList();
+        if (!CollectionUtils.isEmpty(allCustomsList)) {
+            for (Code code : allCustomsList) {
+                // key为关区编码，value为关区名称
+                this.setAllCustoms(code.getCodeNo(), code.getCodeName());
+            }
+            this.log.debug("初始化全部关区代码数据map：" + allCustomsList.size() + " 条，执行完毕");
+        }
+
+        // 初始化陕西省关区代码map
         List<Code> customsList = this.loadService.getCustomsList();
         if (!CollectionUtils.isEmpty(customsList)) {
             for (Code code : customsList) {
                 // key为关区编码，value为关区名称
                 this.setCustoms(code.getCodeNo(), code.getCodeName());
             }
-            this.log.debug("初始化关区代码数据map：" + customsList.size() + " 条，执行完毕");
+            this.log.debug("初始化陕西省关区代码数据map：" + customsList.size() + " 条，执行完毕");
         }
 
         // 初始化币制代码map
@@ -272,9 +299,10 @@ public class LoadData {
         this.postalRateMap.put(key, value);
     }
 
-    public void setPostPrice(String key,String value){
-        this.postalPtpriceMap.put(key,value);
+    public void setPostPrice(String key, String value) {
+        this.postalPtpriceMap.put(key, value);
     }
+
     private void setPostalUnit(String key, String value) {
         this.postalUnitMap.put(key, value);
     }
@@ -332,7 +360,18 @@ public class LoadData {
     }
 
 
-    // 关区代码
+    // 征减免税方式代码
+    public String getTaxReliefsMode(String key) {
+        String taxReliefsMode = "";
+        if (this.taxReliefsModeMap.containsKey(key)) taxReliefsMode = this.taxReliefsModeMap.get(key);
+        return taxReliefsMode;
+    }
+
+    public void setTaxReliefsMode(String key, String value) {
+        this.taxReliefsModeMap.put(key, value);
+    }
+
+    // 陕西关区代码
     public String getCustoms(String key) {
         String customs = "";
         if (this.customsMap.containsKey(key)) customs = this.customsMap.get(key);
@@ -341,6 +380,18 @@ public class LoadData {
 
     public void setCustoms(String key, String value) {
         this.customsMap.put(key, value);
+    }
+
+
+    // 全部关区代码
+    public String getAllCustoms(String key) {
+        String customs = "";
+        if (this.allCustomsMap.containsKey(key)) customs = this.allCustomsMap.get(key);
+        return customs;
+    }
+
+    public void setAllCustoms(String key, String value) {
+        this.allCustomsMap.put(key, value);
     }
 
 
@@ -470,6 +521,7 @@ public class LoadData {
         this.transModeMap.put(key, value);
     }
 
+
     // set get 方法
     public Map<String, Double> getPostalRateMap() {
         return postalRateMap;
@@ -515,12 +567,28 @@ public class LoadData {
         this.packTypeMap = packTypeMap;
     }
 
+    public Map<String, String> getTaxReliefsModeMap() {
+        return taxReliefsModeMap;
+    }
+
+    public void setTaxReliefsModeMap(Map<String, String> taxReliefsModeMap) {
+        this.taxReliefsModeMap = taxReliefsModeMap;
+    }
+
     public Map<String, String> getCustomsMap() {
         return customsMap;
     }
 
     public void setCustomsMap(Map<String, String> customsMap) {
         this.customsMap = customsMap;
+    }
+
+    public Map<String, String> getAllCustomsMap() {
+        return allCustomsMap;
+    }
+
+    public void setAllCustomsMap(Map<String, String> allCustomsMap) {
+        this.allCustomsMap = allCustomsMap;
     }
 
     public Map<String, String> getCurrencyMap() {
@@ -634,45 +702,6 @@ public class LoadData {
     public void setProductAddedTaxMap(Map<String, Double> productAddedTaxMap) {
         this.productAddedTaxMap = productAddedTaxMap;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

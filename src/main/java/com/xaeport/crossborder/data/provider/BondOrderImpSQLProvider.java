@@ -145,6 +145,12 @@ public class BondOrderImpSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
                     VALUES("net_weight", "#{impOrderHead.net_weight}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
+                    VALUES("trade_mode", "#{impOrderHead.trade_mode}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
+                    VALUES("customs_code", "#{impOrderHead.customs_code}");
+                }
             }
         }.toString();
     }
@@ -170,9 +176,6 @@ public class BondOrderImpSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getItem_Name())) {
                     VALUES("item_Name", "#{impOrderBody.item_Name}");
-                }
-                if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
-                    VALUES("g_Model", "#{impOrderBody.g_Model}");
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getItem_Describe())) {
                     VALUES("item_Describe", "#{impOrderBody.item_Describe}");
@@ -200,6 +203,9 @@ public class BondOrderImpSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getNote())) {
                     VALUES("note", "#{impOrderBody.note}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
+                    VALUES("g_Model", "#{impOrderBody.g_Model}");
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getGds_seqno())) {
                     VALUES("GDS_SEQNO", "#{impOrderBody.gds_seqno}");
