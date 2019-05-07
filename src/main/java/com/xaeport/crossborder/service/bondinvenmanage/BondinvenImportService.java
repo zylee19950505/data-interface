@@ -73,7 +73,6 @@ public class BondinvenImportService {
         return flag;
     }
 
-
     /*
      * 创建保税ImpOrderList信息
      */
@@ -115,27 +114,28 @@ public class BondinvenImportService {
      * 表头自生成信息
      */
     private ImpInventoryHead impBondInvenHeadData(String importTime, ImpInventoryHead impInventoryHead, Users user, Enterprise enterprise, String emsNo, String billNo) throws Exception {
+
         impInventoryHead.setGuid(IdUtils.getUUId());//企业系统生成36 位唯一序号（英文字母大写）
         impInventoryHead.setCop_no(enterprise.getCustoms_code() + IdUtils.getShortUUId().substring(0, 10));//保税清单企业内部编码
         impInventoryHead.setApp_type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
         impInventoryHead.setApp_status("2");//业务状态:1-暂存,2-申报,默认为2。
         impInventoryHead.setIe_flag("I");//电子订单类型：I进口
         impInventoryHead.setBuyer_id_type("1");//订购人证件类型
+        impInventoryHead.setPack_no("1");//件数
         impInventoryHead.setTrade_mode("1210");//贸易方式
         impInventoryHead.setCurrency("142");//币制
-        impInventoryHead.setPack_no("1");//件数
+        impInventoryHead.setCountry("142");
 
         impInventoryHead.setEms_no(emsNo);
         impInventoryHead.setIe_date(DateTools.shortDateTimeString(importTime));
         impInventoryHead.setBill_no(billNo.trim());
-
-        impInventoryHead.setCountry("142");
         impInventoryHead.setEbc_code(user.getEnt_Customs_Code());
         impInventoryHead.setEbc_name(user.getEnt_Name());
-        impInventoryHead.setEbp_code(user.getEnt_Customs_Code());
-        impInventoryHead.setEbp_name(user.getEnt_Name());
         impInventoryHead.setAgent_code(user.getEnt_Customs_Code());
         impInventoryHead.setAgent_name(user.getEnt_Name());
+        impInventoryHead.setArea_code(enterprise.getArea_code());
+        impInventoryHead.setArea_name(enterprise.getArea_name());
+        impInventoryHead.setAssure_code(enterprise.getAssure_ent_code());
 
         impInventoryHead.setData_status(StatusCode.BSQDDSB);//数据状态
         impInventoryHead.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
@@ -149,7 +149,6 @@ public class BondinvenImportService {
         return impInventoryHead;
     }
 
-
     /**
      * 表体自生成信息
      */
@@ -159,6 +158,5 @@ public class BondinvenImportService {
         impInventoryBody.setBar_code("无");//非必填项，没有必须写“无”
         return impInventoryBody;
     }
-
 
 }
