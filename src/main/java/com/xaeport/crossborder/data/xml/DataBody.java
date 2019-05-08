@@ -12,6 +12,21 @@ import com.xaeport.crossborder.tools.xml.XmlEntry;
 @RootXPath("List")
 public class DataBody implements XmlEntry {
 
+    @XPath("gnum")
+    private String gnum;
+    @XPath("itemName")
+    private String itemName;
+    @XPath("itemNo")
+    private String itemNo;
+    @XPath("gmodel")
+    private String gmodel;
+    @XPath("qty")
+    private String qty;
+    @XPath("unit")
+    private String unit;
+    @XPath("totalPrice")
+    private String totalPrice;
+
     @XPath("GdsSeqno")
     private String gdsSeqno;// “1”序号，由1递增的自然数
     @XPath("GdsMtno")
@@ -44,6 +59,62 @@ public class DataBody implements XmlEntry {
     private String lvyrlfModecd;// 征免方式代码
     @XPath("Rmk")
     private String rmk;// 备注,选填项
+
+    public String getGnum() {
+        return gnum;
+    }
+
+    public void setGnum(String gnum) {
+        this.gnum = gnum;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getItemNo() {
+        return itemNo;
+    }
+
+    public void setItemNo(String itemNo) {
+        this.itemNo = itemNo;
+    }
+
+    public String getGmodel() {
+        return gmodel;
+    }
+
+    public void setGmodel(String gmodel) {
+        this.gmodel = gmodel;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public String getGdsSeqno() {
         return gdsSeqno;

@@ -53,6 +53,15 @@ public class ImpOrderHead {
     private String net_weight;//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
     private String customs_code;//申报地海关
     private String trade_mode;//贸易方式
+    private String port_code;//口岸海关（进出境海关）
+
+    public String getPort_code() {
+        return port_code;
+    }
+
+    public void setPort_code(String port_code) {
+        this.port_code = port_code;
+    }
 
     public String getCustoms_code() {
         return customs_code;

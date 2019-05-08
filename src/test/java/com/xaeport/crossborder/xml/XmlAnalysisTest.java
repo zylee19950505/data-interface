@@ -1,6 +1,6 @@
 //package com.xaeport.crossborder.xml;
 //
-//import com.xaeport.crossborder.data.xml.EnvelopInfo;
+//import com.xaeport.crossborder.data.xml.PackageXml;
 //import com.xaeport.crossborder.tools.xml.AnalysisXmlUtils;
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
@@ -25,7 +25,7 @@
 //
 //    @Test
 //    public void xmlFileAnalysisTest() {
-//        List<EnvelopInfo> packageXmlList = AnalysisXmlUtils.convertXmlToType(xmlContent, EnvelopInfo.class);
+//        List<PackageXml> packageXmlList = AnalysisXmlUtils.convertXmlToType(xmlContent, PackageXml.class);
 //        log.debug(packageXmlList);
 //    }
 //

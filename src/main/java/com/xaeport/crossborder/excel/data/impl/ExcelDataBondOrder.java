@@ -21,7 +21,7 @@ public class ExcelDataBondOrder implements ExcelData {
     private int ebp_NameIndex; //电商平台名称
     private int ebc_CodeIndex; //电商企业代码
     private int ebc_NameIndex; //电商企业名称
-    private int customs_codeIndex; //申报地海关
+    private int port_codeIndex; //口岸海关代码
     private int buyer_Reg_NoIndex; //订购人注册号
     private int buyer_NameIndex; //订购人姓名
     private int buyer_Id_NumberIndex; //订购人身份证号码
@@ -83,7 +83,7 @@ public class ExcelDataBondOrder implements ExcelData {
             impOrderHead.setEbp_Name(value.get(ebp_NameIndex));//电商平台名称
             impOrderHead.setEbc_Code(value.get(ebc_CodeIndex));//电商企业代码
             impOrderHead.setEbc_Name(value.get(ebc_NameIndex));//电商企业名称
-            impOrderHead.setCustoms_code(value.get(customs_codeIndex));//申报地海关
+            impOrderHead.setPort_code(value.get(port_codeIndex));//口岸海关代码
 
             impOrderHead.setBuyer_Reg_No(value.get(buyer_Reg_NoIndex));//订购人注册号
             impOrderHead.setBuyer_Name(value.get(buyer_NameIndex));//订购人姓名
@@ -187,7 +187,7 @@ public class ExcelDataBondOrder implements ExcelData {
         ebp_NameIndex = orderLists.indexOf(ExcelHeadBondOrder.ebp_Name);//电商平台名称
         ebc_CodeIndex = orderLists.indexOf(ExcelHeadBondOrder.ebc_Code);//电商企业代码
         ebc_NameIndex = orderLists.indexOf(ExcelHeadBondOrder.ebc_Name);//电商企业名称
-        customs_codeIndex = orderLists.indexOf(ExcelHeadBondOrder.customs_code);//申报地海关
+        port_codeIndex = orderLists.indexOf(ExcelHeadBondOrder.port_code);//口岸海关代码
         buyer_Reg_NoIndex = orderLists.indexOf(ExcelHeadBondOrder.buyer_Reg_No);//订购人注册号
         buyer_NameIndex = orderLists.indexOf(ExcelHeadBondOrder.buyer_Name);//订购人姓名
         buyer_Id_NumberIndex = orderLists.indexOf(ExcelHeadBondOrder.buyer_Id_Number);//订购人身份证号码

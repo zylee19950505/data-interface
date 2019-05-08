@@ -43,6 +43,9 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     private String stockerrorFolder;
     private String backupFolder;
     private String errorFolder;
+    private String dockingFolder;
+    private String dockingBackupFolder;
+    private String dockingErrorFolder;
     private String senderId;
     private String receiverId;
     private String inputCompanyName;
@@ -50,6 +53,30 @@ public class AppConfiguration extends WebMvcConfigurerAdapter implements Applica
     private String inputno;
     private String account;
     private String password;
+
+    public String getDockingFolder() {
+        return dockingFolder;
+    }
+
+    public void setDockingFolder(String dockingFolder) {
+        this.dockingFolder = dockingFolder;
+    }
+
+    public String getDockingBackupFolder() {
+        return dockingBackupFolder;
+    }
+
+    public void setDockingBackupFolder(String dockingBackupFolder) {
+        this.dockingBackupFolder = dockingBackupFolder;
+    }
+
+    public String getDockingErrorFolder() {
+        return dockingErrorFolder;
+    }
+
+    public void setDockingErrorFolder(String dockingErrorFolder) {
+        this.dockingErrorFolder = dockingErrorFolder;
+    }
 
     public String getStockbackupFolder() {
         return stockbackupFolder;

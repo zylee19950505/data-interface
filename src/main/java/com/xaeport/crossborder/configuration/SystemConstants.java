@@ -34,39 +34,18 @@ public interface SystemConstants {
     //保税出区
     String BSCQ = "EXIT";
 
-    /** 系统用户状态 已删除 */
-    int SYSTEM_USER_STATUS_DEL = 0;
-    /** 系统用户状态 正常 */
-    int SYSTEM_USER_STATUS_NORMAL = 1;
-    /** 系统用户状态 锁定 */
-    int SYSTEM_USER_STATUS_LOCK = 2;
-    /** 系统用户类型 普通用户 */
-    String SYSTEM_USER_TYPE_NORMAL = "1";
-    /** 系统用户类型 设备编码 */
-    String SYSTEM_USER_TYPE_APP = "2";
-
-    String RESULT = "result";
-
     /** 字段名 */
     String ID = "ID";
     String DELETE = "1";
     String UPDATE = "2";
     String SELECT = "3";
 
-    int ENTRY_STATE_REGET = 2;
-    /** 通用状态 删除 */
-    int COMMON_STATE_DEL = 0;
-    /** 通用状态 正常 */
-    int COMMON_STATE_NORMAL = 1;
-    /** 通用状态 锁定 */
-    int COMMON_STATE_LOCK = 2;
-    /** 打印状态 未打印 */
-    int PRINT_STATE_NO = 0;
-    /** 打印状态 已打印 */
-    int PRINT_STATE_YES = 1;
-
     String HTTP_CONTENT_TYPE_EXCEL = "application/vnd.ms-excel";
     String HTTP_CONTENT_TYPE_EXE = "application/x-msdownload";
     String HTTP_CONTENT_TYPE_XML = "application/xml";
     String HTTP_CONTENT_TYPE_ZIP = "application/x-zip-compressed";
+
+    String DJ_DD = "CEB311";
+    String DJ_HZQD = "CEBINV101";
+
 }

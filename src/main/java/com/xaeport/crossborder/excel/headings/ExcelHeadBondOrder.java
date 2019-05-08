@@ -13,7 +13,7 @@ public class ExcelHeadBondOrder {
     public final static String ebp_Name = "电商平台名称";
     public final static String ebc_Code = "电商企业代码";
     public final static String ebc_Name = "电商企业名称";
-    public final static String customs_code = "申报地海关";
+    public final static String port_code = "口岸海关代码";
     public final static String buyer_Reg_No = "订购人注册号";
     public final static String buyer_Name = "订购人姓名";
     public final static String buyer_Id_Number = "订购人身份证号码";
@@ -46,7 +46,7 @@ public class ExcelHeadBondOrder {
         orderList.add("电商平台名称");
         orderList.add("电商企业代码");
         orderList.add("电商企业名称");
-        orderList.add("申报地海关");
+        orderList.add("口岸海关代码");
         orderList.add("订购人注册号");
         orderList.add("订购人姓名");
         orderList.add("订购人身份证号码");

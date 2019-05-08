@@ -10,7 +10,49 @@ import com.xaeport.crossborder.tools.xml.XmlEntry;
  * @Version 1.0
  */
 @RootXPath("Head")
-public class DataHead  implements XmlEntry {
+public class DataHead implements XmlEntry {
+
+    @XPath("orderid")
+    private String orderid;
+    @XPath("tradeMode")
+    private String tradeMode;
+    @XPath("orderNo")
+    private String orderNo;
+    @XPath("batchNumbers")
+    private String batchNumbers;
+    @XPath("ebpCode")
+    private String ebpCode;
+    @XPath("ebpName")
+    private String ebpName;
+    @XPath("portCode")
+    private String portCode;
+    @XPath("buyerRegNo")
+    private String buyerRegNo;
+    @XPath("buyerName")
+    private String buyerName;
+    @XPath("buyerIdNumber")
+    private String buyerIdNumber;
+    @XPath("buyerTelephone")
+    private String buyerTelephone;
+    @XPath("consignee")
+    private String consignee;
+    @XPath("consigneeTelephone")
+    private String consigneeTelephone;
+    @XPath("consigneeAddress")
+    private String consigneeAddress;
+    @XPath("insuredFee")
+    private String insuredFee;
+    @XPath("freight")
+    private String freight;
+    @XPath("discount")
+    private String discount;
+    @XPath("taxTotal")
+    private String taxTotal;
+    @XPath("grossWeight")
+    private String grossWeight;
+    @XPath("netWeight")
+    private String netWeight;
+
 
     @XPath("EtpsInnerInvtNo")
     private String etpsInnerInvtNo;// 必填项，企业内部编码:HZQD+海关十位+进出口标志（I
@@ -43,6 +85,166 @@ public class DataHead  implements XmlEntry {
     @XPath("CorrEntryDclEtpsNm")
     private String corrEntryDclEtpsNm;// 对应报关单申报企业
 
+
+    public String getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid) {
+        this.orderid = orderid;
+    }
+
+    public String getTradeMode() {
+        return tradeMode;
+    }
+
+    public void setTradeMode(String tradeMode) {
+        this.tradeMode = tradeMode;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public String getBatchNumbers() {
+        return batchNumbers;
+    }
+
+    public void setBatchNumbers(String batchNumbers) {
+        this.batchNumbers = batchNumbers;
+    }
+
+    public String getEbpCode() {
+        return ebpCode;
+    }
+
+    public void setEbpCode(String ebpCode) {
+        this.ebpCode = ebpCode;
+    }
+
+    public String getEbpName() {
+        return ebpName;
+    }
+
+    public void setEbpName(String ebpName) {
+        this.ebpName = ebpName;
+    }
+
+    public String getPortCode() {
+        return portCode;
+    }
+
+    public void setPortCode(String portCode) {
+        this.portCode = portCode;
+    }
+
+    public String getBuyerRegNo() {
+        return buyerRegNo;
+    }
+
+    public void setBuyerRegNo(String buyerRegNo) {
+        this.buyerRegNo = buyerRegNo;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
+    }
+
+    public String getBuyerIdNumber() {
+        return buyerIdNumber;
+    }
+
+    public void setBuyerIdNumber(String buyerIdNumber) {
+        this.buyerIdNumber = buyerIdNumber;
+    }
+
+    public String getBuyerTelephone() {
+        return buyerTelephone;
+    }
+
+    public void setBuyerTelephone(String buyerTelephone) {
+        this.buyerTelephone = buyerTelephone;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public String getConsigneeTelephone() {
+        return consigneeTelephone;
+    }
+
+    public void setConsigneeTelephone(String consigneeTelephone) {
+        this.consigneeTelephone = consigneeTelephone;
+    }
+
+    public String getConsigneeAddress() {
+        return consigneeAddress;
+    }
+
+    public void setConsigneeAddress(String consigneeAddress) {
+        this.consigneeAddress = consigneeAddress;
+    }
+
+    public String getInsuredFee() {
+        return insuredFee;
+    }
+
+    public void setInsuredFee(String insuredFee) {
+        this.insuredFee = insuredFee;
+    }
+
+    public String getFreight() {
+        return freight;
+    }
+
+    public void setFreight(String freight) {
+        this.freight = freight;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getTaxTotal() {
+        return taxTotal;
+    }
+
+    public void setTaxTotal(String taxTotal) {
+        this.taxTotal = taxTotal;
+    }
+
+    public String getGrossWeight() {
+        return grossWeight;
+    }
+
+    public void setGrossWeight(String grossWeight) {
+        this.grossWeight = grossWeight;
+    }
+
+    public String getNetWeight() {
+        return netWeight;
+    }
+
+    public void setNetWeight(String netWeight) {
+        this.netWeight = netWeight;
+    }
 
     public String getEtpsInnerInvtNo() {
         return etpsInnerInvtNo;

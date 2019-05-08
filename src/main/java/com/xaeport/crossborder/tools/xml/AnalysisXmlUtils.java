@@ -86,7 +86,7 @@ public class AnalysisXmlUtils {
                 }
                 // 查找节点
                 subNodePath = xPath.value();
-                log.debug("子路径为： " + subNodePath);
+//                log.debug("子路径为： " + subNodePath);
                 Node subNode = node.selectSingleNode(subNodePath);
                 if (StringUtils.isEmpty(subNode)) {
                     continue;

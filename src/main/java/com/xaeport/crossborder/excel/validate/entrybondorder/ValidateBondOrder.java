@@ -21,7 +21,7 @@ public class ValidateBondOrder extends ValidateBase {
     private int ebp_NameIndex; //电商平台名称
     private int ebc_CodeIndex; //电商企业代码
     private int ebc_NameIndex; //电商企业名称
-    private int customs_codeIndex; //申报地海关
+    private int port_codeIndex; //口岸海关代码
     private int buyer_Reg_NoIndex; //订购人注册号
     private int buyer_NameIndex; //订购人姓名
     private int buyer_Id_NumberIndex; //订购人身份证号码
@@ -55,7 +55,7 @@ public class ValidateBondOrder extends ValidateBase {
         ebp_NameIndex = list.indexOf(ExcelHeadBondOrder.ebp_Name);//电商平台名称
         ebc_CodeIndex = list.indexOf(ExcelHeadBondOrder.ebc_Code);//电商企业代码
         ebc_NameIndex = list.indexOf(ExcelHeadBondOrder.ebc_Name);//电商企业名称
-        customs_codeIndex = list.indexOf(ExcelHeadBondOrder.customs_code);//申报地海关
+        port_codeIndex = list.indexOf(ExcelHeadBondOrder.port_code);//口岸海关代码
         buyer_Reg_NoIndex = list.indexOf(ExcelHeadBondOrder.buyer_Reg_No);//订购人注册号
         buyer_NameIndex = list.indexOf(ExcelHeadBondOrder.buyer_Name);//订购人姓名
         buyer_Id_NumberIndex = list.indexOf(ExcelHeadBondOrder.buyer_Id_Number);//订购人身份证号码
@@ -88,7 +88,7 @@ public class ValidateBondOrder extends ValidateBase {
         indexMap.put(ebp_NameIndex, "电商平台名称,100");
         indexMap.put(ebc_CodeIndex, "电商企业代码,18");
         indexMap.put(ebc_NameIndex, "电商企业名称,100");
-        indexMap.put(customs_codeIndex, "申报地海关,4");
+        indexMap.put(port_codeIndex, "口岸海关代码,4");
         indexMap.put(buyer_Reg_NoIndex, "订购人注册号,60");
         indexMap.put(buyer_NameIndex, "订购人姓名,60");
         indexMap.put(buyer_Id_NumberIndex, "订购人身份证号码,18");

@@ -74,16 +74,22 @@ appConfig:
   receiptFolder: d:/app/receive
   #回执备份文件
   backupFolder: d:/app/backup
-   # 错误目录，可以使用相对路径和绝对路径
+  #回执错误目录，可以使用相对路径和绝对路径
   errorFolder: d:/app/error
   #入库报文预处理文件夹
   preprocessFolder: d:/app/preprocess
   #入库报文处理中文件夹
   processFolder: d:/app/process
-  #入库报文目录
+  #入库报文备份目录
   stockbackupFolder: d:/app/stockbackup
-  #错误入库报文目录
+  #入库报文错误目录
   stockerrorFolder: d:/app/stockerror
+  #对接报文接收目录
+  dockingFolder: d:/app/receivedocking
+  #对接报文备份目录
+  dockingBackupFolder: d:/app/backupdocking
+  #对接报文错误目录
+  dockingErrorFolder: d:/app/errordocking
 
 
 # 数据源配置
