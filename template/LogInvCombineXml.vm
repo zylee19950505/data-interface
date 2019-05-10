@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8">
+<Package>
+    <EnvelopInfo>
+        <msg_id>$!envelopInfo.message_id</msg_id>
+        <msg_type>$!envelopInfo.message_type</msg_type>
+        <sender_id>$!envelopInfo.sender_id</sender_id>
+        <recv_id>$!envelopInfo.receiver_id</recv_id>
+    </EnvelopInfo>
+#foreach($LogInvData in $LogInvDataList)
+        <data>
+            <Head>
+                <copNo>$!LogInvData.logInvHead.copNo</copNo>
+                <appTime>$!LogInvData.logInvHead.appTime</appTime>
+                <orderNo>$!LogInvData.logInvHead.orderNo</orderNo>
+                <logisticsNo>$!LogInvData.logInvHead.logisticsNo</logisticsNo>
+                <ebpCode>$!LogInvData.logInvHead.ebpCode</ebpCode>
+                <ebpName>$!LogInvData.logInvHead.ebpName</ebpName>
+                <logisticsCode>$!LogInvData.logInvHead.logisticsCode</logisticsCode>
+                <logisticsName>$!LogInvData.logInvHead.logisticsName</logisticsName>
+                <buyerName>$!LogInvData.logInvHead.buyerName</buyerName>
+                <consignee>$!LogInvData.logInvHead.consignee</consignee>
+                <consigneeAddress>$!LogInvData.logInvHead.consigneeAddress</consigneeAddress>
+                <consigneeTelephone>$!LogInvData.logInvHead.consigneeTelephone</consigneeTelephone>
+                <weight>$!LogInvData.logInvHead.weight</weight>
+            </Head>
+#foreach($LogInvList in $LogInvData.logInvLists)
+            <List>
+                 <itemNo>$!LogInvList.itemNo</itemNo>
+                 <qty>$!LogInvList.qty</qty>
+                 <unit>$!LogInvList.unit</unit>
+            </List>
+#end
+        </data>
+#end
+</Package>

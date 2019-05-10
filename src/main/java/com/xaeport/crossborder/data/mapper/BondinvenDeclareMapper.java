@@ -1,15 +1,8 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.BaseTransfer;
-import com.xaeport.crossborder.data.entity.ImpInventory;
-import com.xaeport.crossborder.data.entity.ImpInventoryBody;
-import com.xaeport.crossborder.data.entity.ImpInventoryHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.BondinvenDeclareSQLProvider;
-import com.xaeport.crossborder.data.provider.DetailDeclareSQLProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -67,5 +60,16 @@ public interface BondinvenDeclareMapper {
     @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "queryCompany")
     BaseTransfer queryCompany(@Param("ent_id") String ent_id);
 
+    //查询运单清单表
+    @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "queryLogInvCombine")
+    LogInvCombine queryLogInvCombine(@Param("billNo") String billNo, @Param("orderNo") String orderNo, @Param("logisticsNo") String logisticsNo);
+
+    //设置运单清单表数据值
+    @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateLogInvCombine")
+    void updateLogInvCombine(@Param("billNo") String billNo, @Param("orderNo") String orderNo, @Param("logisticsNo") String logisticsNo, @Param("mark") String mark);
+
+    //插入整合表
+    @InsertProvider(type = BondinvenDeclareSQLProvider.class, method = "insertLogInvCombine")
+    void insertLogInvCombine(@Param("logInvCombine") LogInvCombine logInvCombine);
 
 }

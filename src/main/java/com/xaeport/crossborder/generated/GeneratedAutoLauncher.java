@@ -9,6 +9,7 @@ import com.xaeport.crossborder.convert.exitbondinvt.EBaseBondInvtXML;
 import com.xaeport.crossborder.convert.exitpassport.EBasePassPortXML;
 import com.xaeport.crossborder.convert.exitpassport.EEmptyPassportXML;
 import com.xaeport.crossborder.convert.inventory.BaseDetailDeclareXML;
+import com.xaeport.crossborder.convert.loginvcombine.LogInvCombineXML;
 import com.xaeport.crossborder.convert.logistics.BaseLogisticsXml;
 import com.xaeport.crossborder.convert.logstatus.BaseLogisticsStatusXml;
 import com.xaeport.crossborder.convert.manifest.BaseManifestXML;
@@ -67,9 +68,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     private EPassPortThread ePassPortThread;
     //出区空车核放单线程
     private EEmptyPassportThread eEmptyPassportThread;
-
     //生成清单的线程
     private BuilderDetailThread builderDetailThread;
+    //生成清单运单整合线程
+    private LogInvCombineThread logInvCombineThread;
 
     //订单
     @Autowired
@@ -107,15 +109,15 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区核放单
     @Autowired
     ExitManifestMapper exitManifestMapper;
+    //空车核放单
     @Autowired
     EEmptyPassportMapper eEmptyPassportMapper;
-
     //生成清单
     @Autowired
     BuilderDetailMapper builderDetailMapper;
-
+    //生成清单运单整合数据
     @Autowired
-    EnterpriseMapper enterpriseMapper;
+    LogInvCombineMapper logInvCombineMapper;
 
     //订单报文
     @Autowired
@@ -156,11 +158,16 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
     //出区空车核放单报文
     @Autowired
     EEmptyPassportXML eEmptyPassportXML;
+    //运单清单整合报文
+    @Autowired
+    LogInvCombineXML logInvCombineXML;
 
     //系统配置文件参数
     @Autowired
     AppConfiguration appConfiguration;
-
+    //企业信息
+    @Autowired
+    EnterpriseMapper enterpriseMapper;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -228,6 +235,10 @@ public class GeneratedAutoLauncher implements ApplicationListener<ApplicationRea
         this.logger.debug("扫描生成清单启动器初始化开始");
         builderDetailThread = new BuilderDetailThread(this.builderDetailMapper, this.enterpriseMapper, this.appConfiguration);
         executorService.execute(builderDetailThread);
+
+        this.logger.debug("发送WMS运单清单整合数据启动器初始化开始");
+        logInvCombineThread = new LogInvCombineThread(this.logInvCombineMapper, this.appConfiguration, this.logInvCombineXML);
+        executorService.execute(logInvCombineThread);
 
     }
 }

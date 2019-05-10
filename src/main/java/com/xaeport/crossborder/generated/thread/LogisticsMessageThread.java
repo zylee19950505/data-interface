@@ -8,6 +8,7 @@ import com.xaeport.crossborder.data.mapper.WaybillDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
+import com.xaeport.crossborder.tools.IdUtils;
 import com.xaeport.crossborder.tools.SpringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,10 +53,11 @@ public class LogisticsMessageThread implements Runnable {
         List<LogisticsHead> logisticsHeadsLists;
         LogisticsHead logisticsHead;
         ImpLogistics impLogistics;
-        String guid;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String nameBillNo = null;
         String xmlHeadGuid = null;
+        String bill_No = null;
+        String guid;
 
         while (true) {
             try {
@@ -89,6 +91,7 @@ public class LogisticsMessageThread implements Runnable {
                             entId = logisticsLists.get(0).getEnt_id();
 
                             guid = impLogistics.getGuid();
+                            bill_No = impLogistics.getBill_no();
                             logisticsHead = new LogisticsHead();
                             logisticsHead.setGuid(guid);//企业系统生成36 位唯一序号（英文字母大写）
                             logisticsHead.setAppType(impLogistics.getApp_type());//企业报送类型。1-新增2-变更3-删除。默认为1。
@@ -118,8 +121,24 @@ public class LogisticsMessageThread implements Runnable {
                                 String exceptionMsg = String.format("更改运单[headGuid: %s]状态时发生异常", logisticsHead.getGuid());
                                 this.logger.error(exceptionMsg, e);
                             }
-
                             logisticsHeadsLists.add(logisticsHead);
+
+                            //判断运单清单整合表有无数据：有则赋值，无则插入
+                            if (!StringUtils.isEmpty(bill_No) && (bill_No.substring(0, 2).equals("EM"))) {
+                                LogInvCombine logInvCombine = this.waybillDeclareMapper.queryLogInvCombine(impLogistics.getBill_no(), impLogistics.getOrder_no(), impLogistics.getLogistics_no());
+                                if (!StringUtils.isEmpty(logInvCombine)) {
+                                    this.waybillDeclareMapper.updateLogInvCombine(impLogistics.getBill_no(), impLogistics.getOrder_no(), impLogistics.getLogistics_no(), StatusCode.YZR);
+                                } else {
+                                    logInvCombine = new LogInvCombine();
+                                    logInvCombine.setId(IdUtils.getUUId());
+                                    logInvCombine.setBill_no(impLogistics.getBill_no());
+                                    logInvCombine.setOrder_no(impLogistics.getOrder_no());
+                                    logInvCombine.setLogistics_no(impLogistics.getLogistics_no());
+                                    logInvCombine.setOrder_mark(StatusCode.WZR);
+                                    logInvCombine.setLogistics_mark(StatusCode.YZR);
+                                    this.waybillDeclareMapper.insertLogInvCombine(logInvCombine);
+                                }
+                            }
 
                         }
 
@@ -187,15 +206,15 @@ public class LogisticsMessageThread implements Runnable {
         this.logger.info("运单511发送完毕" + fileName);
         this.logger.debug(String.format("运单511申报报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
 
-        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
-            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
-            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
-
-            File sendWmsFile = new File(sendWmsFilePath);
-            FileUtils.save(sendWmsFile, xmlByte);
-            this.logger.info("运单511发送WMS完毕" + fileName);
-            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
-        }
+//        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
+//            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+//            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
+//
+//            File sendWmsFile = new File(sendWmsFilePath);
+//            FileUtils.save(sendWmsFile, xmlByte);
+//            this.logger.info("运单511发送WMS完毕" + fileName);
+//            this.logger.debug(String.format("运单511申报报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+//        }
 
     }
 

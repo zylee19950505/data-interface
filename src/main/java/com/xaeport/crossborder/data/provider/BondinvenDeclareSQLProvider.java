@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.data.provider;
 
+import com.xaeport.crossborder.data.entity.LogInvCombine;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
@@ -421,6 +422,59 @@ public class BondinvenDeclareSQLProvider extends BaseSQLProvider {
                 SELECT("t.note as note");
                 FROM("T_ENTERPRISE t");
                 WHERE("t.id = #{ent_id}");
+            }
+        }.toString();
+    }
+
+    public String queryLogInvCombine(@Param("billNo") String billNo, @Param("orderNo") String orderNo, @Param("logisticsNo") String logisticsNo) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_LOG_INV_COMBINE");
+                WHERE("BILL_NO = #{billNo}");
+                WHERE("ORDER_NO = #{orderNo}");
+                WHERE("LOGISTICS_NO = #{logisticsNo}");
+            }
+        }.toString();
+    }
+
+    public String updateLogInvCombine(@Param("billNo") String billNo, @Param("orderNo") String orderNo, @Param("logisticsNo") String logisticsNo, @Param("mark") String mark) {
+        return new SQL() {
+            {
+                UPDATE("T_LOG_INV_COMBINE");
+                SET("ORDER_MARK = #{mark}");
+                WHERE("BILL_NO = #{billNo}");
+                WHERE("ORDER_NO = #{orderNo}");
+                WHERE("LOGISTICS_NO = #{logisticsNo}");
+            }
+        }.toString();
+    }
+
+    public String insertLogInvCombine(@Param("logInvCombine") LogInvCombine logInvCombine) {
+        return new SQL() {
+            {
+                INSERT_INTO("T_LOG_INV_COMBINE");
+                if (!StringUtils.isEmpty(logInvCombine.getId())) {
+                    VALUES("ID", "#{logInvCombine.id}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getBill_no())) {
+                    VALUES("BILL_NO", "#{logInvCombine.bill_no}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getOrder_no())) {
+                    VALUES("ORDER_NO", "#{logInvCombine.order_no}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getLogistics_no())) {
+                    VALUES("LOGISTICS_NO", "#{logInvCombine.logistics_no}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getOrder_mark())) {
+                    VALUES("ORDER_MARK", "#{logInvCombine.order_mark}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getLogistics_mark())) {
+                    VALUES("LOGISTICS_MARK", "#{logInvCombine.logistics_mark}");
+                }
+                if (!StringUtils.isEmpty(logInvCombine.getId())) {
+                    VALUES("CRT_TM", "sysdate");
+                }
             }
         }.toString();
     }

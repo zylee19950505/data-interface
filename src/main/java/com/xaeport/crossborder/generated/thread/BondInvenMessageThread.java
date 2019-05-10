@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.mapper.BondinvenDeclareMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.BusinessUtils;
 import com.xaeport.crossborder.tools.FileUtils;
+import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -55,6 +56,7 @@ public class BondInvenMessageThread implements Runnable {
         ImpInventoryBody impInventoryBody;
         InventoryHead inventoryHead;
         String guid;
+        String bill_No;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat sdfSfm = new SimpleDateFormat("yyyyMMddHHmmss");
         String xmlHeadGuid = null;
@@ -95,6 +97,8 @@ public class BondInvenMessageThread implements Runnable {
                             entId = inventoryHeadLists.get(0).getEnt_id();
 
                             guid = impInventoryHead.getGuid();
+                            bill_No = impInventoryHead.getBill_no();
+
                             inventoryHead = new InventoryHead();
                             inventoryHead.setGuid(guid);
                             inventoryHead.setAppType(impInventoryHead.getApp_type());
@@ -160,6 +164,24 @@ public class BondInvenMessageThread implements Runnable {
                                 impInventoryBody = impInventoryBodyList.get(j);
                                 inventoryLists.add(impInventoryBody);
                             }
+
+                            //判断运单清单整合表有无数据：有则赋值，无则插入
+                            if (!StringUtils.isEmpty(bill_No) && (bill_No.substring(0, 2).equals("EM"))) {
+                                LogInvCombine logInvCombine = this.bondinvenDeclareMapper.queryLogInvCombine(impInventoryHead.getBill_no(), impInventoryHead.getOrder_no(), impInventoryHead.getLogistics_no());
+                                if (!StringUtils.isEmpty(logInvCombine)) {
+                                    this.bondinvenDeclareMapper.updateLogInvCombine(impInventoryHead.getBill_no(), impInventoryHead.getOrder_no(), impInventoryHead.getLogistics_no(), StatusCode.YZR);
+                                } else {
+                                    logInvCombine = new LogInvCombine();
+                                    logInvCombine.setId(IdUtils.getUUId());
+                                    logInvCombine.setBill_no(impInventoryHead.getBill_no());
+                                    logInvCombine.setOrder_no(impInventoryHead.getOrder_no());
+                                    logInvCombine.setLogistics_no(impInventoryHead.getLogistics_no());
+                                    logInvCombine.setOrder_mark(StatusCode.YZR);
+                                    logInvCombine.setLogistics_mark(StatusCode.WZR);
+                                    this.bondinvenDeclareMapper.insertLogInvCombine(logInvCombine);
+                                }
+                            }
+
                         }
 
                         ceb621Message.setInventoryHeadList(inventoryHeads);
@@ -210,16 +232,6 @@ public class BondInvenMessageThread implements Runnable {
         String sendFilePath = this.appConfiguration.getXmlPath().get("sendPath") + File.separator + fileName;
         this.logger.debug(String.format("保税清单报文发送文件[sendFilePath: %s]", sendFilePath));
 
-//        String sendFilePath = this.appConfiguration.getXmlPath().get("sendInventoryPath") + File.separator + fileName;
-//        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
-
-//        String wmsFilePath = this.appConfiguration.getXmlPath().get("wmsPath") + File.separator + fileName;
-//        this.logger.debug(String.format("清单621申报报文发送文件[sendFilePath: %s]", sendFilePath));
-//
-//        File wmsFile = new File(wmsFilePath);
-//        FileUtils.save(wmsFile, xmlByte);
-//        this.logger.debug(String.format("保税清单报文发送wms文件[backFilePath: %s]生成完毕", wmsFile));
-
         File backupFile = new File(backFilePath);
         FileUtils.save(backupFile, xmlByte);
         this.logger.debug(String.format("保税清单报文发送备份文件[backFilePath: %s]生成完毕", backFilePath));
@@ -229,15 +241,15 @@ public class BondInvenMessageThread implements Runnable {
         this.logger.info("保税清单发送完毕" + fileName);
         this.logger.debug(String.format("保税清单报文发送文件[sendFilePath: %s]生成完毕", sendFilePath));
 
-        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
-            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
-            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
-
-            File sendWmsFile = new File(sendWmsFilePath);
-            FileUtils.save(sendWmsFile, xmlByte);
-            this.logger.info("保税清单发送WMS完毕" + fileName);
-            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
-        }
+//        if (!StringUtils.isEmpty(billNo) && billNo.contains("EM")) {
+//            String sendWmsFilePath = this.appConfiguration.getXmlPath().get("sendWmsPath") + File.separator + fileName;
+//            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]", sendWmsFilePath));
+//
+//            File sendWmsFile = new File(sendWmsFilePath);
+//            FileUtils.save(sendWmsFile, xmlByte);
+//            this.logger.info("保税清单发送WMS完毕" + fileName);
+//            this.logger.debug(String.format("保税清单报文发送WMS[sendWmsPath: %s]生成完毕", sendWmsFilePath));
+//        }
 
     }
 }

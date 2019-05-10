@@ -187,8 +187,8 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setLogistics_code(impLogistics.getLogistics_code());//物流企业的海关注册登记编号。
         impInventoryHead.setLogistics_name(impLogistics.getLogistics_name());//物流企业在海关注册登记的名称。
         impInventoryHead.setAssure_code(enterpriseDetail.getAssure_ent_code());//担保扣税的企业海关注册登记编号，只限清单的电商平台企业、电商企业、物流企业。
-        impInventoryHead.setCustoms_code("");//接受清单申报的海关关区代码，参照JGS/T 18《海关关区代码》。
-        impInventoryHead.setPort_code("");//商品实际进出我国关境口岸海关的关区代码，参照JGS/T 18《海关关区代码》。
+        impInventoryHead.setCustoms_code(enterpriseDetail.getPort());//接受清单申报的海关关区代码，参照JGS/T 18《海关关区代码》。
+        impInventoryHead.setPort_code(imporderHead.getPort_code());//商品实际进出我国关境口岸海关的关区代码，参照JGS/T 18《海关关区代码》。
         impInventoryHead.setBuyer_id_number(imporderHead.getBuyer_Id_Number());//订购人的身份证件号码。
         impInventoryHead.setBuyer_name(imporderHead.getBuyer_Name());//订购人的真实姓名。
         impInventoryHead.setBuyer_telephone(imporderHead.getBuyer_TelePhone());//订购人电话。
