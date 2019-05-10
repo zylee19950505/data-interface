@@ -26,7 +26,7 @@ public class QueryEnterVolumeApi extends BaseApi {
 	ImpTradeVolumeService impTradeVolumeService;
 
 
-	@CrossOrigin(origins = "http://cb.xaeport.com")
+	@CrossOrigin(origins = "http://kj.xaeport.com")
     @RequestMapping("/queryEnterVolume")
     public ResponseData QueryEnterVolume(
     ) {
