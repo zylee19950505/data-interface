@@ -49,6 +49,15 @@ public class BondInvtDt {
     private double quantity;//申报数量
     private String Usecd;//用途代码
     private String ec_customs_code;//电商海关编码
+    private String writing_mode;//写入方式
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
 
     public String getEc_customs_code() {
         return ec_customs_code;

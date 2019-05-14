@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.bondedienter;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtEnterInventoryMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
@@ -76,6 +77,7 @@ public class CrtEnterInventoryService {
         //将企业信息和表头基本信息预存在bond_invt_bsc里
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         bondInvtBsc.setId(bscId);
+        bondInvtBsc.setBusiness_type(SystemConstants.T_BOND_INVT);
         bondInvtBsc.setEtps_inner_invt_no(etpsInnerInvtNo);
         bondInvtBsc.setCrt_ent_id(enterpriseDetail.getId());
         bondInvtBsc.setCrt_ent_name(enterpriseDetail.getEnt_name());

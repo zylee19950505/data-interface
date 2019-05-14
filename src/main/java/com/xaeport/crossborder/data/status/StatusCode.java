@@ -12,6 +12,8 @@ public class StatusCode {
     public final static String SJDBC = "INIT";
     //解析入库报文标记
     public final static String RKBW = "STOCK";//入库报文
+    //解析对接报文标记
+    public final static String DJBW = "DOCKING";//对接报文
 
     //通用数据状态（涉及导入及校验）
     public final static String EXPORT = "CBDS1";//已导入

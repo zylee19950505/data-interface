@@ -110,6 +110,9 @@ public class CrtEnterInventorySQLProvider {
             {
                 INSERT_INTO("T_BOND_INVT_BSC t");
                 VALUES("id", "#{bondInvtBsc.id}");
+                if (!StringUtils.isEmpty(bondInvtBsc.getBusiness_type())) {
+                    VALUES("BUSINESS_TYPE", "#{bondInvtBsc.business_type}");
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
                     VALUES("etps_inner_invt_no", "#{bondInvtBsc.etps_inner_invt_no}");
                 }

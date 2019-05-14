@@ -91,6 +91,9 @@ public class CrtExitEmptySQLProvider extends BaseSQLProvider {
             {
                 INSERT_INTO("T_PASS_PORT_HEAD t");
                 VALUES("t.crt_time", "sysdate");
+                if (!StringUtils.isEmpty(passPortHead.getBusiness_type())) {
+                    VALUES("t.business_type", "#{passPortHead.business_type}");
+                }
                 if (!StringUtils.isEmpty(passPortHead.getId())) {
                     VALUES("t.id", "#{passPortHead.id}");
                 }

@@ -1,6 +1,5 @@
 package com.xaeport.crossborder.data.provider;
 
-
 import com.xaeport.crossborder.data.status.StatusCode;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;

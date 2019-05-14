@@ -64,6 +64,15 @@ public class PassPortHead {
     private String crt_ent_name;
     private String bond_invt_no;
     private String return_info;
+    private String business_type;
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public String getFlag() {
         return flag;

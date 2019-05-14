@@ -12,6 +12,8 @@ import com.xaeport.crossborder.tools.xml.XmlEntry;
 @RootXPath("List")
 public class DataBody implements XmlEntry {
 
+    private Double priceSum;
+
     @XPath("gnum")
     private String gnum;
     @XPath("itemName")
@@ -59,6 +61,14 @@ public class DataBody implements XmlEntry {
     private String lvyrlfModecd;// 征免方式代码
     @XPath("Rmk")
     private String rmk;// 备注,选填项
+
+    public Double getPriceSum() {
+        return priceSum;
+    }
+
+    public void setPriceSum(Double priceSum) {
+        this.priceSum = priceSum;
+    }
 
     public String getGnum() {
         return gnum;

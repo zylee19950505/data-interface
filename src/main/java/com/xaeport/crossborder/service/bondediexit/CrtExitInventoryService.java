@@ -47,6 +47,7 @@ public class CrtExitInventoryService {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(paramMap.get("ent_id"));
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         bondInvtBsc.setId(IdUtils.getUUId());
+        bondInvtBsc.setBusiness_type(SystemConstants.T_BOND_INVT);
         bondInvtBsc.setEtps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
         bondInvtBsc.setBizop_etpsno("");
         bondInvtBsc.setBizop_etps_nm("");

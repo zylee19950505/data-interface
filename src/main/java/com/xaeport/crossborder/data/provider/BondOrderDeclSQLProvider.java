@@ -27,7 +27,7 @@ public class BondOrderDeclSQLProvider extends BaseSQLProvider {
                 SELECT("count(1) as count");
                 SELECT("t.data_status");
                 FROM("T_IMP_ORDER_HEAD t");
-                WHERE("t.WRITING_MODE IS NULL");
+                WHERE("(t.WRITING_MODE IS NULL OR t.WRITING_MODE = 'DOCKING')");
                 if (!roleId.equals("admin")) {
                     WHERE("t.ENT_ID = #{entId}");
                 }

@@ -5,7 +5,6 @@ import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.springframework.security.access.method.P;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
@@ -310,9 +309,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
             {
                 INSERT_INTO("T_BOND_INVT_BSC");
                 VALUES("flag", "'EXIT'");
-//                if (!StringUtils.isEmpty(BondInvtBsc.get("invt_no"))) {
-//                    VALUES("invt_no", "#{BondInvtBsc.invt_no}");
-//                }
+                VALUES("BUSINESS_TYPE", "'BONDINVT'");
                 if (!StringUtils.isEmpty(BondInvtBsc.get("id"))) {
                     VALUES("id", "#{BondInvtBsc.id}");
                 }

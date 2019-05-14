@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.bondedienter;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.BuilderDetailMapper;
 import com.xaeport.crossborder.data.mapper.CrtEnterManifestMapper;
@@ -52,6 +53,7 @@ public class CrtEnterManifestService {
         String etps_preent_no = "HFD" + customs_code + "I" + yMd + (IdUtils.getShortUUId()).substring(0, 4);
 
         passPortHead.setId(IdUtils.getUUId());
+        passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
         passPortHead.setEtps_preent_no(etps_preent_no);
         passPortHead.setBond_invt_no(paramMap.get("invtNo"));
         passPortHead.setMaster_cuscd(enterpriseDetail.getPort());
@@ -232,7 +234,7 @@ public class CrtEnterManifestService {
     public Map<String, String> createEnterManifestDetailOneCar(LinkedHashMap<String, Object> object, Users users) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
         passPortHead.setId(IdUtils.getUUId());
-
+        passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
         //模拟核放单编号
         String passPortNo = IdUtils.getShortUUId();
         passPortHead.setPassport_no(passPortNo);

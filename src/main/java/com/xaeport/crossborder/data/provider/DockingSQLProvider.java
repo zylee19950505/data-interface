@@ -17,14 +17,23 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getGuid())) {
                     VALUES("guid", "#{impOrderHead.guid}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getTrade_mode())) {
-                    VALUES("trade_mode", "#{impOrderHead.trade_mode}");
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Type())) {
+                    VALUES("app_Type", "#{impOrderHead.app_Type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Time())) {
+                    VALUES("app_Time", "#{impOrderHead.app_Time}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getApp_Status())) {
+                    VALUES("app_Status", "#{impOrderHead.app_Status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getOrder_Type())) {
+                    VALUES("order_Type", "#{impOrderHead.order_Type}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getOrder_No())) {
                     VALUES("order_No", "#{impOrderHead.order_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getBatch_Numbers())) {
-                    VALUES("batch_Numbers", "#{impOrderHead.batch_Numbers}");
+                if (!StringUtils.isEmpty(impOrderHead.getBill_No())) {
+                    VALUES("bill_No", "#{impOrderHead.bill_No}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getEbp_Code())) {
                     VALUES("ebp_Code", "#{impOrderHead.ebp_Code}");
@@ -32,32 +41,14 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getEbp_Name())) {
                     VALUES("ebp_Name", "#{impOrderHead.ebp_Name}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getPort_code())) {
-                    VALUES("port_code", "#{impOrderHead.port_code}");
+                if (!StringUtils.isEmpty(impOrderHead.getEbc_Code())) {
+                    VALUES("ebc_Code", "#{impOrderHead.ebc_Code}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Reg_No())) {
-                    VALUES("buyer_Reg_No", "#{impOrderHead.buyer_Reg_No}");
+                if (!StringUtils.isEmpty(impOrderHead.getEbc_Name())) {
+                    VALUES("ebc_Name", "#{impOrderHead.ebc_Name}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Name())) {
-                    VALUES("buyer_Name", "#{impOrderHead.buyer_Name}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Number())) {
-                    VALUES("buyer_Id_Number", "#{impOrderHead.buyer_Id_Number}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getBuyer_TelePhone())) {
-                    VALUES("buyer_TelePhone", "#{impOrderHead.buyer_TelePhone}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getConsignee())) {
-                    VALUES("consignee", "#{impOrderHead.consignee}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Telephone())) {
-                    VALUES("consignee_Telephone", "#{impOrderHead.consignee_Telephone}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Address())) {
-                    VALUES("consignee_Address", "#{impOrderHead.consignee_Address}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getInsured_fee())) {
-                    VALUES("insured_fee", "#{impOrderHead.insured_fee}");
+                if (!StringUtils.isEmpty(impOrderHead.getGoods_Value())) {
+                    VALUES("goods_Value", "#{impOrderHead.goods_Value}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getFreight())) {
                     VALUES("freight", "#{impOrderHead.freight}");
@@ -68,17 +59,98 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getTax_Total())) {
                     VALUES("tax_Total", "#{impOrderHead.tax_Total}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getActural_Paid())) {
+                    VALUES("actural_Paid", "#{impOrderHead.actural_Paid}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getCurrency())) {
+                    VALUES("currency", "#{impOrderHead.currency}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Reg_No())) {
+                    VALUES("buyer_Reg_No", "#{impOrderHead.buyer_Reg_No}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Name())) {
+                    VALUES("buyer_Name", "#{impOrderHead.buyer_Name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_TelePhone())) {
+                    VALUES("buyer_telePhone", "#{impOrderHead.buyer_TelePhone}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Type())) {
+                    VALUES("buyer_Id_Type", "#{impOrderHead.buyer_Id_Type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBuyer_Id_Number())) {
+                    VALUES("buyer_Id_Number", "#{impOrderHead.buyer_Id_Number}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPay_Code())) {
+                    VALUES("pay_Code", "#{impOrderHead.pay_Code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPayName())) {
+                    VALUES("payName", "#{impOrderHead.payName}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getPay_Transaction_Id())) {
+                    VALUES("pay_Transaction_Id", "#{impOrderHead.pay_Transaction_Id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBatch_Numbers())) {
+                    VALUES("batch_Numbers", "#{impOrderHead.batch_Numbers}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee())) {
+                    VALUES("consignee", "#{impOrderHead.consignee}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Telephone())) {
+                    VALUES("consignee_Telephone", "#{impOrderHead.consignee_Telephone}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Address())) {
+                    VALUES("consignee_Address", "#{impOrderHead.consignee_Address}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getConsignee_Ditrict())) {
+                    VALUES("consignee_Ditrict", "#{impOrderHead.consignee_Ditrict}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getNote())) {
+                    VALUES("note", "#{impOrderHead.note}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getCrt_id())) {
+                    VALUES("crt_id", "#{impOrderHead.crt_id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getCrt_tm())) {
+                    VALUES("crt_tm", "#{impOrderHead.crt_tm}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_id())) {
+                    VALUES("upd_id", "#{impOrderHead.upd_id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())) {
+                    VALUES("upd_tm", "#{impOrderHead.upd_tm}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
+                    VALUES("data_status", "#{impOrderHead.data_status}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_id())) {
+                    VALUES("ent_id", "#{impOrderHead.ent_id}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_name())) {
+                    VALUES("ent_name", "#{impOrderHead.ent_name}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getEnt_customs_code())) {
+                    VALUES("ent_customs_code", "#{impOrderHead.ent_customs_code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBusiness_type())) {
+                    VALUES("business_type", "#{impOrderHead.business_type}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getInsured_fee())) {
+                    VALUES("insured_fee", "#{impOrderHead.insured_fee}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getGross_weight())) {
                     VALUES("gross_weight", "#{impOrderHead.gross_weight}");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getNet_weight())) {
                     VALUES("net_weight", "#{impOrderHead.net_weight}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getGuid())) {
-                    VALUES("CRT_TM", "sysdate");
+                if (!StringUtils.isEmpty(impOrderHead.getTrade_mode())) {
+                    VALUES("trade_mode", "#{impOrderHead.trade_mode}");
                 }
-                if (!StringUtils.isEmpty(impOrderHead.getGuid())) {
-                    VALUES("UPD_TM", "sysdate");
+                if (!StringUtils.isEmpty(impOrderHead.getPort_code())) {
+                    VALUES("port_code", "#{impOrderHead.port_code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impOrderHead.writing_mode}");
                 }
             }
         }.toString();
@@ -94,23 +166,50 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderBody.getHead_guid())) {
                     VALUES("head_guid", "#{impOrderBody.head_guid}");
                 }
-                if (!StringUtils.isEmpty(impOrderBody.getItem_Name())) {
-                    VALUES("item_Name", "#{impOrderBody.item_Name}");
+                if (!StringUtils.isEmpty(impOrderBody.getOrder_No())) {
+                    VALUES("order_No", "#{impOrderBody.order_No}");
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getItem_No())) {
                     VALUES("item_No", "#{impOrderBody.item_No}");
                 }
-                if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
-                    VALUES("g_Model", "#{impOrderBody.g_Model}");
+                if (!StringUtils.isEmpty(impOrderBody.getItem_Name())) {
+                    VALUES("item_Name", "#{impOrderBody.item_Name}");
                 }
-                if (!StringUtils.isEmpty(impOrderBody.getQty())) {
-                    VALUES("qty", "#{impOrderBody.qty}");
+                if (!StringUtils.isEmpty(impOrderBody.getItem_Describe())) {
+                    VALUES("item_Describe", "#{impOrderBody.item_Describe}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getBar_Code())) {
+                    VALUES("bar_Code", "#{impOrderBody.bar_Code}");
                 }
                 if (!StringUtils.isEmpty(impOrderBody.getUnit())) {
                     VALUES("unit", "#{impOrderBody.unit}");
                 }
+                if (!StringUtils.isEmpty(impOrderBody.getQty())) {
+                    VALUES("qty", "#{impOrderBody.qty}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getPrice())) {
+                    VALUES("price", "#{impOrderBody.price}");
+                }
                 if (!StringUtils.isEmpty(impOrderBody.getTotal_Price())) {
                     VALUES("total_Price", "#{impOrderBody.total_Price}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getCurrency())) {
+                    VALUES("currency", "#{impOrderBody.currency}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getCountry())) {
+                    VALUES("country", "#{impOrderBody.country}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getNote())) {
+                    VALUES("note", "#{impOrderBody.note}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getG_Model())) {
+                    VALUES("g_Model", "#{impOrderBody.g_Model}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getGds_seqno())) {
+                    VALUES("gds_seqno", "#{impOrderBody.gds_seqno}");
+                }
+                if (!StringUtils.isEmpty(impOrderBody.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{impOrderBody.writing_mode}");
                 }
             }
         }.toString();
@@ -123,8 +222,17 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getId())) {
                     VALUES("ID", "#{bondInvtBsc.id}");
                 }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBond_invt_no())) {
+                    VALUES("BOND_INVT_NO", "#{bondInvtBsc.bond_invt_no}");
+                }
                 if (!StringUtils.isEmpty(bondInvtBsc.getEtps_inner_invt_no())) {
                     VALUES("ETPS_INNER_INVT_NO", "#{bondInvtBsc.etps_inner_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getChg_tms_cnt())) {
+                    VALUES("CHG_TMS_CNT", "#{bondInvtBsc.chg_tms_cnt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_preent_no())) {
+                    VALUES("INVT_PREENT_NO", "#{bondInvtBsc.invt_preent_no}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getPutrec_no())) {
                     VALUES("PUTREC_NO", "#{bondInvtBsc.putrec_no}");
@@ -168,10 +276,6 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getId())) {
                     VALUES("CRT_TIME", "sysdate");
                 }
-                if (!StringUtils.isEmpty(bondInvtBsc.getId())) {
-                    VALUES("UPD_TIME", "sysdate");
-                }
-
                 if (!StringUtils.isEmpty(bondInvtBsc.getCrt_ent_id())) {
                     VALUES("CRT_ENT_ID", "#{bondInvtBsc.crt_ent_id}");
                 }
@@ -183,6 +287,12 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getBizop_etps_nm())) {
                     VALUES("BIZOP_ETPS_NM", "#{bondInvtBsc.bizop_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBizop_etps_sccd())) {
+                    VALUES("BIZOP_ETPS_SCCD", "#{bondInvtBsc.bizop_etps_sccd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRvsngd_etps_sccd())) {
+                    VALUES("RVSNGD_ETPS_SCCD", "#{bondInvtBsc.rvsngd_etps_sccd}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getRcvgd_etpsno())) {
                     VALUES("RCVGD_ETPSNO", "#{bondInvtBsc.rcvgd_etpsno}");
@@ -220,6 +330,90 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getCrt_user())) {
                     VALUES("CRT_USER", "#{bondInvtBsc.crt_user}");
                 }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_dcl_time())) {
+                    VALUES("INVT_DCL_TIME", "#{bondInvtBsc.invt_dcl_time}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getEntry_dcl_time())) {
+                    VALUES("ENTRY_DCL_TIME", "#{bondInvtBsc.entry_dcl_time}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getEntry_no())) {
+                    VALUES("ENTRY_NO", "#{bondInvtBsc.entry_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_invt_no())) {
+                    VALUES("RLT_INVT_NO", "#{bondInvtBsc.rlt_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_putrec_no())) {
+                    VALUES("RLT_PUTREC_NO", "#{bondInvtBsc.rlt_putrec_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_entry_no())) {
+                    VALUES("RLT_ENTRY_NO", "#{bondInvtBsc.rlt_entry_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_entry_bizop_etps_sccd())) {
+                    VALUES("RLT_ENTRY_BIZOP_ETPS_SCCD", "#{bondInvtBsc.rlt_entry_bizop_etps_sccd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_entry_bizop_etpsno())) {
+                    VALUES("RLT_ENTRY_BIZOP_ETPSNO", "#{bondInvtBsc.rlt_entry_bizop_etpsno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRlt_entry_bizop_etps_nm())) {
+                    VALUES("RLT_ENTRY_BIZOP_ETPS_NM", "#{bondInvtBsc.rlt_entry_bizop_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getImpexp_portcd())) {
+                    VALUES("IMPEXP_PORTCD", "#{bondInvtBsc.impexp_portcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getApply_no())) {
+                    VALUES("APPLY_NO", "#{bondInvtBsc.apply_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getPrevd_time())) {
+                    VALUES("PREVD_TIME", "#{bondInvtBsc.prevd_time}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getFormal_vrfded_time())) {
+                    VALUES("FORMAL_VRFDED_TIME", "#{bondInvtBsc.formal_vrfded_time}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_iochkpt_stucd())) {
+                    VALUES("INVT_IOCHKPT_STUCD", "#{bondInvtBsc.invt_iochkpt_stucd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getVrfded_markcd())) {
+                    VALUES("VRFDED_MARKCD", "#{bondInvtBsc.vrfded_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_stucd())) {
+                    VALUES("INVT_STUCD", "#{bondInvtBsc.invt_stucd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getVrfded_modecd())) {
+                    VALUES("VRFDED_MODECD", "#{bondInvtBsc.vrfded_modecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getDu_code())) {
+                    VALUES("DU_CODE", "#{bondInvtBsc.du_code}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getRmk())) {
+                    VALUES("RMK", "#{bondInvtBsc.rmk}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getEntry_stucd())) {
+                    VALUES("ENTRY_STUCD", "#{bondInvtBsc.entry_stucd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getPassport_used_typecd())) {
+                    VALUES("PASSPORT_USED_TYPECD", "#{bondInvtBsc.passport_used_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getNeed_entry_modified())) {
+                    VALUES("NEED_ENTRY_MODIFIED", "#{bondInvtBsc.need_entry_modified}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getLevy_bl_amt())) {
+                    VALUES("LEVY_BL_AMT", "#{bondInvtBsc.levy_bl_amt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getStatus())) {
+                    VALUES("STATUS", "#{bondInvtBsc.status}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getFlag())) {
+                    VALUES("FLAG", "#{bondInvtBsc.flag}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getInvt_no())) {
+                    VALUES("INVT_NO", "#{bondInvtBsc.invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getBusiness_type())) {
+                    VALUES("BUSINESS_TYPE", "#{bondInvtBsc.business_type}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{bondInvtBsc.writing_mode}");
+                }
             }
         }.toString();
     }
@@ -230,6 +424,12 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 INSERT_INTO("T_BOND_INVT_DT t");
                 if (!StringUtils.isEmpty(bondInvtDt.getId())) {
                     VALUES("ID", "#{bondInvtDt.id}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getBond_invt_no())) {
+                    VALUES("BOND_INVT_NO", "#{bondInvtDt.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getChg_tms_cnt())) {
+                    VALUES("CHG_TMS_CNT", "#{bondInvtDt.chg_tms_cnt}");
                 }
                 if (!StringUtils.isEmpty(bondInvtDt.getHead_etps_inner_invt_no())) {
                     VALUES("HEAD_ETPS_INNER_INVT_NO", "#{bondInvtDt.head_etps_inner_invt_no}");
@@ -288,13 +488,12 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtDt.getRmk())) {
                     VALUES("RMK", "#{bondInvtDt.rmk}");
                 }
+                if (!StringUtils.isEmpty(bondInvtDt.getCrt_user())) {
+                    VALUES("CRT_USER", "#{bondInvtDt.crt_user}");
+                }
                 if (!StringUtils.isEmpty(bondInvtDt.getId())) {
                     VALUES("CRT_TIME", "sysdate");
                 }
-                if (!StringUtils.isEmpty(bondInvtDt.getId())) {
-                    VALUES("UPD_TIME", "sysdate");
-                }
-
                 if (!StringUtils.isEmpty(bondInvtDt.getGross_wt())) {
                     VALUES("GROSS_WT", "#{bondInvtDt.gross_wt}");
                 }
@@ -322,6 +521,37 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtDt.getEntry_gds_seqno())) {
                     VALUES("ENTRY_GDS_SEQNO", "#{bondInvtDt.entry_gds_seqno}");
                 }
+                if (!StringUtils.isEmpty(bondInvtDt.getWt_sf_val())) {
+                    VALUES("WT_SF_VAL", "#{bondInvtDt.wt_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getFst_sf_val())) {
+                    VALUES("FST_SF_VAL", "#{bondInvtDt.fst_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getSecd_sf_val())) {
+                    VALUES("SECD_SF_VAL", "#{bondInvtDt.secd_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getUcns_verno())) {
+                    VALUES("UCNS_VERNO", "#{bondInvtDt.ucns_verno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getApply_tb_seqno())) {
+                    VALUES("APPLY_TB_SEQNO", "#{bondInvtDt.apply_tb_seqno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getCly_markcd())) {
+                    VALUES("CLY_MARKCD", "#{bondInvtDt.cly_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.getWriting_mode())) {
+                    VALUES("WRITING_MODE", "#{bondInvtDt.writing_mode}");
+                }
+            }
+        }.toString();
+    }
+
+    public String queryEntInfoByDxpId(String DxpId) {
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("T_ENTERPRISE");
+                WHERE("DXP_ID = #{DxpId}");
             }
         }.toString();
     }

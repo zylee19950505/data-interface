@@ -1,13 +1,11 @@
 package com.xaeport.crossborder.data.mapper;
 
-import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.BondInvtDt;
-import com.xaeport.crossborder.data.entity.ImpOrderBody;
-import com.xaeport.crossborder.data.entity.ImpOrderHead;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.DockingSQLProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectProvider;
 
 @Mapper
 public interface DockingMapper {
@@ -23,5 +21,8 @@ public interface DockingMapper {
 
     @InsertProvider(type = DockingSQLProvider.class, method = "insertImpOrderBody")
     void insertImpOrderBody(@Param("impOrderBody") ImpOrderBody impOrderBody);
+
+    @SelectProvider(type = DockingSQLProvider.class, method = "queryEntInfoByDxpId")
+    Enterprise queryEntInfoByDxpId(String DxpId);
 
 }

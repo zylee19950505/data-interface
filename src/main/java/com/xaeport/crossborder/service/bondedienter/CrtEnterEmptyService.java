@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.service.bondedienter;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.Enterprise;
 import com.xaeport.crossborder.data.entity.PassPortHead;
 import com.xaeport.crossborder.data.entity.Users;
@@ -50,6 +51,7 @@ public class CrtEnterEmptyService {
 
 
         passPortHead.setId(IdUtils.getUUId());
+        passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
         passPortHead.setEtps_preent_no(etps_preent_no);
         passPortHead.setPassport_typecd("6");
         passPortHead.setRlt_tb_typecd("1");

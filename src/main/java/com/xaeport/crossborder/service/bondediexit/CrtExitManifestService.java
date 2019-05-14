@@ -2,6 +2,7 @@ package com.xaeport.crossborder.service.bondediexit;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtExitManifestMapper;
 import com.xaeport.crossborder.tools.IdUtils;
@@ -41,6 +42,7 @@ public class CrtExitManifestService {
         List<BondInvtBsc> bondInvtBscList = this.crtExitManifestMapper.queryBondInvtBscList(paramMap.get("bond_invt_no"));
         String BondInvtNo = paramMap.get("bond_invt_no").replaceAll(",", "/");
         passPortHead.setId(IdUtils.getUUId());
+        passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
         passPortHead.setAreain_oriact_no(bondInvtBscList.get(0).getPutrec_no());
         passPortHead.setMaster_cuscd(bondInvtBscList.get(0).getDcl_plc_cuscd());
         passPortHead.setEtps_preent_no(paramMap.get("etps_preent_no"));

@@ -78,6 +78,24 @@ public class BondInvtBsc {
     private String corr_entry_dcl_etps_no;//对应报关单申报单位代码
     private String corr_entry_dcl_etps_nm;//对应报关单申报单位名称
     private String dec_type;//报关单类型
+    private String business_type;//业务类型
+    private String writing_mode;//写入方式
+
+    public String getWriting_mode() {
+        return writing_mode;
+    }
+
+    public void setWriting_mode(String writing_mode) {
+        this.writing_mode = writing_mode;
+    }
+
+    public String getBusiness_type() {
+        return business_type;
+    }
+
+    public void setBusiness_type(String business_type) {
+        this.business_type = business_type;
+    }
 
     public String getBill_no() {
         return bill_no;

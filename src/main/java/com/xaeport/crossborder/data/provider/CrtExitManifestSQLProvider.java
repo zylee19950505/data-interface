@@ -136,6 +136,9 @@ public class CrtExitManifestSQLProvider extends BaseSQLProvider {
                 INSERT_INTO("T_PASS_PORT_HEAD");
                 VALUES("status", "'INIT'");
                 VALUES("FLAG", "'EXIT'");
+                if (!StringUtils.isEmpty(passPortHead.getBusiness_type())) {
+                    VALUES("business_type", "#{passPortHead.business_type}");
+                }
                 if (!StringUtils.isEmpty(passPortHead.getId())) {
                     VALUES("id", "#{passPortHead.id}");
                 }
