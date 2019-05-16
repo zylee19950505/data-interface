@@ -79,8 +79,15 @@ public class DockingService {
 
             List<DataInfo> dataInfoList = packageXml.getDataInfoList();
             for (DataInfo dataInfo : dataInfoList) {
+
                 DataHead dataHead = dataInfo.getDataHead();
                 List<DataBody> dataBodyList = dataInfo.getDataBodyList();
+
+                int count = this.dockingMapper.findRepeatOrder(dataHead.getOrderid(), dataHead.getOrderNo());
+                if (count > 0) {
+                    this.logger.debug(String.format("》》》》》》》》》》》对接订单报文重复数据:[guid：%s,orderNo：%s]", dataHead.getOrderid(), dataHead.getOrderNo()));
+                    continue;
+                }
 
                 impOrderHead = new ImpOrderHead();
                 impOrderHead.setApp_Type("1");//企业报送类型。1-新增2-变更3-删除。默认为1。
@@ -158,8 +165,26 @@ public class DockingService {
                     this.dockingMapper.insertImpOrderBody(impOrderBody);
                 }
 
+                //插入订单表
+                this.insertOrderNo(impOrderHead);
+                this.logger.debug(String.format("》》》》》》》》》》》对接订单报文入库成功:[guid：%s,orderNo：%s]", dataHead.getOrderid(), dataHead.getOrderNo()));
+
             }
 
+        }
+    }
+
+    private void insertOrderNo(ImpOrderHead impOrderHead) {
+        String billNo = impOrderHead.getBill_No();
+        String brevityCode = billNo.substring(0, 2);
+        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
+        if (sum > 0) {
+            OrderNo orderNo = new OrderNo();
+            orderNo.setId(IdUtils.getUUId());
+            orderNo.setOrder_no(impOrderHead.getOrder_No());
+            orderNo.setCrt_tm(new Date());
+            orderNo.setUsed("0");
+            this.bondOrderImpMapper.insertOrderNo(orderNo);
         }
     }
 
@@ -193,6 +218,13 @@ public class DockingService {
             for (DataInfo dataInfo : dataInfoList) {
                 DataHead dataHead = dataInfo.getDataHead();
                 List<DataBody> dataBodyList = dataInfo.getDataBodyList();
+
+                int count = this.dockingMapper.findRepeatBondInvt(dataHead.getEtpsInnerInvtNo());
+                if (count > 0) {
+                    this.logger.debug(String.format("》》》》》》》》》》》对接入区核注清单报文重复数据:[EtpsInnerInvtNo：%s]", dataHead.getEtpsInnerInvtNo()));
+                    continue;
+                }
+
                 bondInvtBsc = new BondInvtBsc();
                 int original_nm = 0;
                 for (DataBody dataBody : dataBodyList) {
@@ -266,6 +298,7 @@ public class DockingService {
 
                 this.dockingMapper.insertBondInvtBsc(bondInvtBsc);
 
+                this.logger.debug(String.format("》》》》》》》》》》》对接入区核注清单报文入库成功:[EtpsInnerInvtNo：%s]", dataHead.getEtpsInnerInvtNo()));
             }
 
         }

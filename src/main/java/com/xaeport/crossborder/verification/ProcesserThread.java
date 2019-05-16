@@ -74,10 +74,10 @@ public class ProcesserThread implements Runnable {
                 Thread thread = crossBorderDataFactory.newThread(new DirectPurchaseDataThread(CbBusinessType.get(i)));
                 thread.start();
             }
-//            for (int i = 0; i < BdBusinessType.size(); i++) {
-//                Thread thread = crossBorderDataFactory.newThread(new BondedDataThread(BdBusinessType.get(i)));
-//                thread.start();
-//            }
+            for (int i = 0; i < BdBusinessType.size(); i++) {
+                Thread thread = crossBorderDataFactory.newThread(new BondedDataThread(BdBusinessType.get(i)));
+                thread.start();
+            }
         } catch (Exception e) {
             this.logger.error("逻辑校验：数据加载过程中发生异常", e);
         }

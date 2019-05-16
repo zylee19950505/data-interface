@@ -25,4 +25,10 @@ public interface DockingMapper {
     @SelectProvider(type = DockingSQLProvider.class, method = "queryEntInfoByDxpId")
     Enterprise queryEntInfoByDxpId(String DxpId);
 
+    @SelectProvider(type = DockingSQLProvider.class, method = "findRepeatOrder")
+    int findRepeatOrder(@Param("orderId") String orderId, @Param("orderNo") String orderNo);
+
+    @SelectProvider(type = DockingSQLProvider.class, method = "findRepeatBondInvt")
+    int findRepeatBondInvt(@Param("etpsInnerInvtNo") String etpsInnerInvtNo);
+
 }

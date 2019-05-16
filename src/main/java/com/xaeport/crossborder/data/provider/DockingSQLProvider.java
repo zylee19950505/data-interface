@@ -556,4 +556,24 @@ public class DockingSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String findRepeatOrder(@Param("orderId") String orderId, @Param("orderNo") String orderNo) {
+        return new SQL() {
+            {
+                SELECT("COUNT(1)");
+                FROM("T_IMP_ORDER_HEAD");
+                WHERE("GUID = #{orderId} OR ORDER_NO = #{orderNo}");
+            }
+        }.toString();
+    }
+
+    public String findRepeatBondInvt(@Param("etpsInnerInvtNo") String etpsInnerInvtNo) {
+        return new SQL() {
+            {
+                SELECT("COUNT(1)");
+                FROM("T_BOND_INVT_BSC");
+                WHERE("ETPS_INNER_INVT_NO = #{etpsInnerInvtNo}");
+            }
+        }.toString();
+    }
+
 }
