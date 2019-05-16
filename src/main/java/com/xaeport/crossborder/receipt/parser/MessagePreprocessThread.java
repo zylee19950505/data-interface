@@ -63,7 +63,7 @@ public class MessagePreprocessThread extends ThreadBase {
                     this.loadFileToProcess(files);
                 } else {
                     // 待处理文件夹中是否存在文件，没有文件则等待3秒
-                    this.log.debug("待处理文件夹没有文件，等待3秒");
+                    this.log.info("待处理文件夹没有文件，等待3秒");
                     sleep(3000);
                 }
             } catch (Exception e) {
