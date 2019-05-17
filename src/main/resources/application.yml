@@ -11,7 +11,6 @@ logging:
     com.xaeport.crossborder.verification.datathread.BondedDataThread: info
     com.xaeport.crossborder.data.mapper.LogInvCombineMapper: info
     com.xaeport.crossborder.generated.thread: info
-    com.xaeport.crossborder.data.mapper.LogInvCombineMapper: info
     com.xaeport.crossborder.data.mapper.VerificationMapper: info
     com.xaeport.crossborder.data.mapper.OrderDeclareMapper: info
     com.xaeport.crossborder.data.mapper.PaymentDeclareMapper: info
