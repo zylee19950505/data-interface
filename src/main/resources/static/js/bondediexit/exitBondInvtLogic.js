@@ -33,7 +33,7 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
                 },
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitBondInvtLogic').seeOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitBondInvtLogic').seeExitInventoryDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {
@@ -96,7 +96,7 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
     },
 
     seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondediexit/seeOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCJ&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }
 

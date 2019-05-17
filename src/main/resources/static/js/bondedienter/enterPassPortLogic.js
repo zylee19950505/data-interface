@@ -1,7 +1,7 @@
 /**
  * 逻辑校验
  */
-sw.page.modules["bondedIEnter/enterPassPortLogic"] = sw.page.modules["bondedIEnter/enterPassPortLogic"] || {
+sw.page.modules["bondedienter/enterPassPortLogic"] = sw.page.modules["bondedienter/enterPassPortLogic"] || {
     //查询
     query: function () {
         var url = sw.serializeObjectToURL($("[ws-search]").attr("ws-search"), {
@@ -33,7 +33,7 @@ sw.page.modules["bondedIEnter/enterPassPortLogic"] = sw.page.modules["bondedIEnt
                 },
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedIEnter/enterPassPortLogic').seeOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterPassPortLogic').seeEnterPassportDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {
@@ -90,13 +90,13 @@ sw.page.modules["bondedIEnter/enterPassPortLogic"] = sw.page.modules["bondedIEnt
         };
         sw.confirm("确定删除该清单", "确认", function () {
             sw.ajax("api/bondorder/deleteLogical", "POST", postData, function (rsp) {
-                sw.pageModule("bondedIEnter/enterPassPortLogic").query();
+                sw.pageModule("bondedienter/enterPassPortLogic").query();
             });
         });
     },
 
     seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondedIEnter/seeOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        var url = "bondedienter/seeEnterPassportDetail?type=RQHFD&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }
 
