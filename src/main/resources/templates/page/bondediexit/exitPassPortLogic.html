@@ -25,20 +25,15 @@
 
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style="border-width: 1px;">提运单号：</span>
-                                    <input class="form-control" type="text" name="bill_no" placeholder="请输入提运单号"/>
+                                    <span class="input-group-addon" style="border-width: 1px;">核放单内部编码：</span>
+                                    <input class="form-control" type="text" name="etps_preent_no"
+                                           placeholder="请输入核放单内部编码"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="border-width: 1px;">订单编号：</span>
-                                    <input class="form-control" type="text" name="order_no" placeholder="请输入订单编号"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-sm btn-info" type="button" ws-search="bondorder/logical"
+                                <button class="btn btn-sm btn-info" type="button"
+                                        ws-search="exitpassport/exitpassportlog"
                                         data-toggle="tooltip-disabled"
                                         title="查询"><i class="fa fa-search"></i></button>
                             </div>

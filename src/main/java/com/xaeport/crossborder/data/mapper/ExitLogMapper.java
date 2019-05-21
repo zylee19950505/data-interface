@@ -14,4 +14,7 @@ public interface ExitLogMapper {
     @SelectProvider(type = ExitLogSQLProvider.class, method = "getLogicDataByExitBondInvt")
     List<VerifyBondHead> getLogicDataByExitBondInvt(Map<String, String> map);
 
+    @SelectProvider(type = ExitLogSQLProvider.class, method = "getLogicDataByExitPassPort")
+    List<VerifyBondHead> getLogicDataByExitPassPort(Map<String, String> map);
+
 }

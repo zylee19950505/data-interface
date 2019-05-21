@@ -23,4 +23,8 @@ public class ExitLogService {
         return exitLogMapper.getLogicDataByExitBondInvt(map);
     }
 
+    public List<VerifyBondHead> getLogicDataByExitPassPort(Map<String,String> map){
+        return exitLogMapper.getLogicDataByExitPassPort(map);
+    }
+
 }

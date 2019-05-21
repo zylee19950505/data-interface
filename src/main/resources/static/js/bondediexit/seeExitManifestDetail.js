@@ -205,21 +205,22 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         }
     },
 
-    // // 标记问题字段
-    // errorMessageShow: function (vertify) {
-    //     if (vertify) {
-    //         var result = JSON.parse(vertify.result);
-    //         var gno = result.gno;
-    //         var field = result.field;
-    //         if (isNotEmpty(gno)) {
-    //             $("#" + field + "_" + gno).addClass("bg-red");
-    //             $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
-    //         } else {
-    //             $("#" + field).addClass("bg-red");
-    //             $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
-    //         }
-    //     }
-    // },
+    // 标记问题字段
+    errorMessageShow: function (verify) {
+        if (verify) {
+            var result = JSON.parse(verify.result);
+            var gno = result.no;
+            var field = result.field;
+
+            if (isNotEmpty(gno)) {
+                $("#" + field + "_" + gno).addClass("bg-red");
+                $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
+            } else {
+                $("#" + field).addClass("bg-red");
+                $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
+            }
+        }
+    },
 
     // 保存订单编辑信息
     saveExitManifestInfo: function () {
@@ -369,8 +370,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                     }
                 }
             });
-        }
-        else if (mark == "upd") {
+        } else if (mark == "upd") {
             $.ajax({
                 method: "GET",
                 url: "api/bondediexit/exitmanifest",
@@ -380,12 +380,19 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         var entryModule = sw.page.modules["bondediexit/seeExitManifestDetail"];
                         var entryHead = data.data.passPortHead;
                         var entryLists = data.data.passPortAcmpList;
+                        var verify = data.data.verify;
+
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillPassPortHead(entryHead);
                         }
                         if (isNotEmpty(entryLists)) {
                             entryModule.fillNewPassPortAcmp(entryLists);
                         }
+                        // 根据错误字段中的值加高亮显示
+                        if (entryModule.detailParam.isShowError) {
+                            entryModule.errorMessageShow(verify);
+                        }
+
                         headChangeKeyValEManifest["etps_preent_no"] = param.submitKeys;
                         // 添加输入框内容变更事件，捕获数据变更信息
                         inputChangeEManifest(param.submitKeys);
@@ -394,6 +401,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 }
             });
         }
+
     },
     //校验
     valiFieldPassPort: function () {
@@ -545,6 +553,29 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "bondediexit/exitManifest";
                 this.detailParam.isShowError = false;
+                break;
+            }
+            //逻辑校验：出区核放单
+            case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "passport_no",
+                        "rlt_no",
+
+                        "body_id",
+                        "body_no",
+                        "body_rtlTbTypecd",
+                        "body_rtlNo",
+                        "body_headEtpsPreentNo"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/exitpassport/updateExitLogic";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitPassPortLogic";
+                this.detailParam.isShowError = true;
                 break;
             }
         } // 不可编辑状态
