@@ -42,13 +42,17 @@ public class BondedDataThread implements Runnable {
                 bondLoader = new EnterBondInvtDataLoader();
                 msg = "入区核注清单";
                 break;
-            case SystemConstants.T_BOND_INVT:
+            case SystemConstants.T_BOND_INVT + SystemConstants.BSCQ:
                 bondLoader = new BondInvtDataLoader();
                 msg = "出区核注清单";
                 break;
-            case SystemConstants.T_PASS_PORT:
-                bondLoader = new PassPortDataLoader();
-                msg = "保税核放单";
+            case SystemConstants.T_PASS_PORT + SystemConstants.BSRQ:
+                bondLoader = new EnterPassPortDataLoader();
+                msg = "入区保税核放单";
+                break;
+            case SystemConstants.T_PASS_PORT + SystemConstants.BSCQ:
+                bondLoader = new ExitPassPortDataLoader();
+                msg = "出区保税核放单";
                 break;
         }
         while (true) {

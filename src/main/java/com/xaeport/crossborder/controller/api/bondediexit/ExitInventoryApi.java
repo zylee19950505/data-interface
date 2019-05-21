@@ -60,7 +60,11 @@ public class ExitInventoryApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("invt_dcl_time", invt_dcl_time);
-        paramMap.put("status", status);
+        if (!StringUtils.isEmpty(status)) {
+            paramMap.put("status", status);
+        } else {
+            paramMap.put("status", String.format("%s,%s,%s,%s", StatusCode.CQHZQDDSB, StatusCode.CQHZQDYSB, StatusCode.CQHZQDSBZ, StatusCode.CQHZQDSBCG));
+        }
         paramMap.put("return_status", return_status);
         paramMap.put("bond_invt_no", bond_invt_no);
 
@@ -102,8 +106,10 @@ public class ExitInventoryApi extends BaseApi {
             for (int i = 0; i < nemsInvtCbecBillTypeList.size(); i++) {
                 nemsInvtCbecBillTypeList.get(i).setNo(i + 1);
             }
+            Verify verify = this.exitInventoryService.queryLogicVerify(paramMap);
             exitBondInvt.setBondInvtBsc(bondInvtBsc);
             exitBondInvt.setNemsInvtCbecBillTypeList(nemsInvtCbecBillTypeList);
+            exitBondInvt.setVerify(verify);
         } catch (Exception e) {
             this.logger.error("查询出区核注清单数据失败", e);
             return new ResponseData("查询出区核注清单数据错误", HttpStatus.BAD_REQUEST);
@@ -171,7 +177,7 @@ public class ExitInventoryApi extends BaseApi {
     public ResponseData deleteVerifyIdCard(
             String submitKeys
     ) {
-        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交出区核注清单数据", HttpStatus.FORBIDDEN);
         try {
             this.exitInventoryService.deleteExitInventory(submitKeys, this.getCurrentUserEntId());
         } catch (Exception e) {

@@ -8,6 +8,16 @@ public class ExitBondInvt {
 
     private List<NemsInvtCbecBillType> nemsInvtCbecBillTypeList;
 
+    private Verify verify;
+
+    public Verify getVerify() {
+        return verify;
+    }
+
+    public void setVerify(Verify verify) {
+        this.verify = verify;
+    }
+
     public BondInvtBsc getBondInvtBsc() {
         return bondInvtBsc;
     }

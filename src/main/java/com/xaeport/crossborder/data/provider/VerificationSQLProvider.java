@@ -431,12 +431,13 @@ public class VerificationSQLProvider extends BaseSQLProvider {
     }
 
 
-    public String unverifiedByPassPort(@Param("status") String status) {
+    public String unverifiedByPassPort(@Param("status") String status, @Param("flag") String flag) {
         return new SQL() {
             {
                 SELECT("*");
                 FROM("T_PASS_PORT_HEAD t");
                 WHERE("t.STATUS = #{status}");
+                WHERE("t.FLAG = #{flag}");
                 WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ETPS_PREENT_NO and vs.CB_HEAD_ID = t.ID and vs.TYPE = 'LOGIC')");
                 WHERE("ROWNUM <= 500");
                 ORDER_BY("t.CRT_TIME asc,t.ETPS_PREENT_NO asc");
@@ -444,12 +445,13 @@ public class VerificationSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String unverifiedByBondInvtHead(@Param("status") String status) {
+    public String unverifiedByBondInvtHead(@Param("status") String status, @Param("flag") String flag) {
         return new SQL() {
             {
                 SELECT("*");
                 FROM("T_BOND_INVT_BSC t");
                 WHERE("t.STATUS = #{status}");
+                WHERE("t.FLAG = #{flag}");
                 WHERE("not exists(SELECT vs.ORDER_NO from T_VERIFY_STATUS vs WHERE vs.ORDER_NO = t.ETPS_INNER_INVT_NO and vs.CB_HEAD_ID = t.ID and vs.TYPE = 'LOGIC')");
                 WHERE("ROWNUM <= 500");
                 ORDER_BY("t.CRT_TIME asc,t.ETPS_INNER_INVT_NO asc");

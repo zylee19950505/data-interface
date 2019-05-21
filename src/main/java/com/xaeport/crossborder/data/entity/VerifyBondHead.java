@@ -7,6 +7,8 @@ public class VerifyBondHead {
 
     //创建企业ID
     private String crt_ent_id;
+    //校验结果字段
+    private String vs_result;
 
     //订单数据
     private String guid;//企业系统生成36 位唯一序号（英文字母大写）
@@ -175,6 +177,14 @@ public class VerifyBondHead {
     private String input_code;
     private String input_name;
     private String areain_oriact_no;
+
+    public String getVs_result() {
+        return vs_result;
+    }
+
+    public void setVs_result(String vs_result) {
+        this.vs_result = vs_result;
+    }
 
     public String getLogistics_no() {
         return logistics_no;

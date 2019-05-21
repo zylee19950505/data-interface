@@ -11,6 +11,13 @@ import java.util.Map;
 @Mapper
 public interface ExitInventoryMapper {
 
+    @Delete("DELETE FROM T_VERIFY_STATUS WHERE ORDER_NO = #{etps_inner_invt_no}")
+    int deleteVerifyStatus(String etps_inner_invt_no);
+
+    //查询清单表头详情
+    @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryLogicVerify")
+    Verify queryLogicVerify(Map<String, String> paramMap);
+
     //查询出区核注清单数据
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "queryEInventoryList")
     List<BondInvtBsc> queryEInventoryList(Map<String, String> paramMap) throws Exception;
@@ -63,6 +70,10 @@ public interface ExitInventoryMapper {
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBsc")
     void updateBondInvtBsc(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
+    //修改核注清单表头信息
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscLog")
+    void updateBondInvtBscLog(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
+
     //修改核注清单表体信息
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateNemsInvtCbecBillType")
     void updateNemsInvtCbecBillType(@Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType, @Param("userInfo") Users userInfo);
@@ -70,6 +81,10 @@ public interface ExitInventoryMapper {
     //根据表体修改核注清单表头
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscByList")
     void updateBondInvtBscByList(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
+
+    //根据表体修改核注清单表头逻辑校验
+    @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscByListLog")
+    void updateBondInvtBscByListLog(@Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc, @Param("userInfo") Users userInfo);
 
     //查询状态出区核注清单申报中状态的数据
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "findWaitGenerated")

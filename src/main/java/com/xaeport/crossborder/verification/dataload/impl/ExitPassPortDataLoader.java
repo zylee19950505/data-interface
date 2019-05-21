@@ -11,14 +11,14 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BondInvtDataLoader implements BondLoader {
+public class ExitPassPortDataLoader implements BondLoader {
 
     private VerificationMapper verificationMapper = SpringUtils.getBean(VerificationMapper.class);
 
     @Override
     public List<ImpBDHeadVer> loadingData() {
         // 加载至多500条 状态为已导入且未校验过的数据
-        List<ImpBDHeadVer> impBDHeadVers = this.verificationMapper.unverifiedByBondInvtHead(StatusCode.BSYDR, SystemConstants.BSCQ);
+        List<ImpBDHeadVer> impBDHeadVers = this.verificationMapper.unverifiedByPassPort(StatusCode.BSYDR, SystemConstants.BSCQ);
 
         if (CollectionUtils.isEmpty(impBDHeadVers)) {
             return new ArrayList<ImpBDHeadVer>();

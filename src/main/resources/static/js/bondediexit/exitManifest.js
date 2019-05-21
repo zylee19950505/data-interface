@@ -80,7 +80,7 @@ sw.page.modules["bondediexit/exitManifest"] = sw.page.modules["bondediexit/exitM
                     data: "rlt_no", label: "核注清单编号"
                 },
                 {
-                    data: "status", label: "申报状态", render: function (data, type, row) {
+                    label: "申报状态", render: function (data, type, row) {
                     switch (row.status) {
                         case "INIT"://数据待补充
                             textColor = "text-red";

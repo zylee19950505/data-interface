@@ -5,6 +5,7 @@ import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
 import com.xaeport.crossborder.data.entity.Users;
+import com.xaeport.crossborder.data.entity.Verify;
 import com.xaeport.crossborder.data.mapper.ExitInventoryMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class ExitInventoryService {
 
     private Log logger = LogFactory.getLog(this.getClass());
 
+    //查询出区核注清单数据
+    public Verify queryLogicVerify(Map<String, String> paramMap) throws Exception {
+        return this.exitInventoryMapper.queryLogicVerify(paramMap);
+    }
 
     //查询出区核注清单数据
     public List<BondInvtBsc> queryEInventoryList(Map<String, String> paramMap) throws Exception {
@@ -130,8 +135,51 @@ public class ExitInventoryService {
                     exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
                 }
             }
+            this.exitInventoryMapper.updateBondInvtBscByListLog(BondInvtBsc, userInfo);
+        }
+        return false;
+    }
+
+
+    //修改核注清单数据
+    @Transactional
+    public Map<String, String> updateExitLogic(LinkedHashMap<String, String> BondInvtBsc, ArrayList<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList, Users userInfo) {
+        Map<String, String> rtnMap = new HashMap<String, String>();
+        if (saveExitLogic(BondInvtBsc, nemsInvtCbecBillTypeList, userInfo, rtnMap, "出区核注清单-编辑")) return rtnMap;
+
+        rtnMap.put("result", "true");
+        rtnMap.put("msg", "编辑信息成功，请到“出区核注清单”处重新进行申报！");
+        return rtnMap;
+
+    }
+
+    //修改及保存核注清单数据
+    public boolean saveExitLogic(
+            LinkedHashMap<String, String> BondInvtBsc,
+            List<LinkedHashMap<String, String>> nemsInvtCbecBillTypeList,
+            Users userInfo,
+            Map<String, String> rtnMap, String notes
+    ) {
+        if ((CollectionUtils.isEmpty(BondInvtBsc) && BondInvtBsc.size() < 1) && CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "未发现需要修改数据！");
+            return true;
+        }
+        String etps_inner_invt_no = BondInvtBsc.get("etps_inner_invt_no");
+        if (!CollectionUtils.isEmpty(BondInvtBsc) && BondInvtBsc.size() > 1) {
+            // 更新表头数据
+            this.exitInventoryMapper.updateBondInvtBscLog(BondInvtBsc, userInfo);
+        }
+        if (!CollectionUtils.isEmpty(nemsInvtCbecBillTypeList)) {
+            // 更新表体数据
+            for (LinkedHashMap<String, String> nemsInvtCbecBillType : nemsInvtCbecBillTypeList) {
+                if (!CollectionUtils.isEmpty(nemsInvtCbecBillType) && nemsInvtCbecBillType.size() > 2) {
+                    exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
+                }
+            }
             this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc, userInfo);
         }
+        exitInventoryMapper.deleteVerifyStatus(etps_inner_invt_no);
         return false;
     }
 

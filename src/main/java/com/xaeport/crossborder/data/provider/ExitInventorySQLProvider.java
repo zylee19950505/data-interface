@@ -10,6 +10,19 @@ import java.util.Map;
 
 public class ExitInventorySQLProvider extends BaseSQLProvider {
 
+    public String queryLogicVerify(Map<String, String> paramMap) {
+        final String etpsInnerInvtNo = paramMap.get("etpsInnerInvtNo");
+        return new SQL() {
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.ORDER_NO = #{etpsInnerInvtNo}");
+                WHERE("t.STATUS = 'N'");
+            }
+        }.toString();
+    }
 
     //查询出区核注清单数据
     public String queryEInventoryList(Map<String, String> paramMap) throws Exception {
@@ -45,7 +58,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                     WHERE("t.invt_dcl_time >= to_date( #{invt_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
-                    WHERE("t.status = #{status}");
+                    WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
                     WHERE("t.return_status = #{return_status}");
@@ -84,7 +97,7 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                     WHERE("t.invt_dcl_time >= to_date( #{invt_dcl_time} || '00:00:00','yyyy-MM-dd hh24:mi:ss')");
                 }
                 if (!StringUtils.isEmpty(status)) {
-                    WHERE("t.status = #{status}");
+                    WHERE(splitJointIn("t.status", status));
                 }
                 if (!StringUtils.isEmpty(return_status)) {
                     WHERE("t.return_status = #{return_status}");
@@ -258,6 +271,85 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
+    public String updateBondInvtBscLog(
+            @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc,
+            @Param("userInfo") Users userInfo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("ETPS_INNER_INVT_NO = #{BondInvtBsc.etps_inner_invt_no}");
+                SET("STATUS = 'BDDS0'");
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_no"))) {
+                    SET("BOND_INVT_NO = #{BondInvtBsc.bond_invt_no}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("invt_preent_no"))) {
+                    SET("INVT_PREENT_NO = #{BondInvtBsc.invt_preent_no}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("putrec_no"))) {
+                    SET("PUTREC_NO = #{BondInvtBsc.putrec_no}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bizop_etpsno"))) {
+                    SET("BIZOP_ETPSNO = #{BondInvtBsc.bizop_etpsno}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bizop_etps_nm"))) {
+                    SET("BIZOP_ETPS_NM = #{BondInvtBsc.bizop_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_etpsno"))) {
+                    SET("DCL_ETPSNO = #{BondInvtBsc.dcl_etpsno}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_etps_nm"))) {
+                    SET("DCL_ETPS_NM = #{BondInvtBsc.dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etpsno"))) {
+                    SET("RCVGD_ETPSNO = #{BondInvtBsc.rcvgd_etpsno}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rcvgd_etps_nm"))) {
+                    SET("RCVGD_ETPS_NM = #{BondInvtBsc.rcvgd_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("impexp_portcd"))) {
+                    SET("IMPEXP_PORTCD = #{BondInvtBsc.impexp_portcd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_plc_cuscd"))) {
+                    SET("DCL_PLC_CUSCD = #{BondInvtBsc.dcl_plc_cuscd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("impexp_markcd"))) {
+                    SET("IMPEXP_MARKCD = #{BondInvtBsc.impexp_markcd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("mtpck_endprd_markcd"))) {
+                    SET("MTPCK_ENDPRD_MARKCD = #{BondInvtBsc.mtpck_endprd_markcd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("supv_modecd"))) {
+                    SET("SUPV_MODECD = #{BondInvtBsc.supv_modecd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("trsp_modecd"))) {
+                    SET("TRSP_MODECD = #{BondInvtBsc.trsp_modecd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dclcus_flag"))) {
+                    SET("DCLCUS_FLAG = #{BondInvtBsc.dclcus_flag}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("stship_trsarv_natcd"))) {
+                    SET("STSHIP_TRSARV_NATCD = #{BondInvtBsc.stship_trsarv_natcd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("bond_invt_typecd"))) {
+                    SET("BOND_INVT_TYPECD = #{BondInvtBsc.bond_invt_typecd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_typecd"))) {
+                    SET("DCL_TYPECD = #{BondInvtBsc.dcl_typecd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("rmk"))) {
+                    SET("RMK = #{BondInvtBsc.rmk}");
+                }
+                if (!StringUtils.isEmpty(userInfo.getId())) {
+                    SET("UPD_TIME = sysdate");
+                }
+                if (!StringUtils.isEmpty(userInfo.getId())) {
+                    SET("UPD_USER = #{userInfo.id}");
+                }
+            }
+        }.toString();
+    }
+
     public String updateNemsInvtCbecBillType(
             @Param("nemsInvtCbecBillType") LinkedHashMap<String, String> nemsInvtCbecBillType,
             @Param("userInfo") Users userInfo
@@ -295,6 +387,21 @@ public class ExitInventorySQLProvider extends BaseSQLProvider {
                 UPDATE("T_BOND_INVT_BSC");
                 WHERE("ETPS_INNER_INVT_NO = #{BondInvtBsc.etps_inner_invt_no}");
                 SET("STATUS = 'BDDS2'");
+                SET("UPD_TIME = sysdate");
+                SET("UPD_USER = #{userInfo.id}");
+            }
+        }.toString();
+    }
+
+    public String updateBondInvtBscByListLog(
+            @Param("BondInvtBsc") LinkedHashMap<String, String> BondInvtBsc,
+            @Param("userInfo") Users userInfo
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_BSC");
+                WHERE("ETPS_INNER_INVT_NO = #{BondInvtBsc.etps_inner_invt_no}");
+                SET("STATUS = 'BDDS0'");
                 SET("UPD_TIME = sysdate");
                 SET("UPD_USER = #{userInfo.id}");
             }

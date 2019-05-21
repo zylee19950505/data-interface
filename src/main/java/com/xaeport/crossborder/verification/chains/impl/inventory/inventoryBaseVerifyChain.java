@@ -186,6 +186,7 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
                     }
                 }
             }
+
             if (!StringUtils.isEmpty(unit2)) {
                 // 第二(法定)数量
                 qty = Double.parseDouble(impCBBodyVer.getQty2());
@@ -194,6 +195,13 @@ public class inventoryBaseVerifyChain implements CrossBorderVerifyChain {
                     return verificationResult;
                 }
             }
+
+
+
+
+
+
+
 
         }
 

@@ -65,8 +65,9 @@ public class ProcesserThread implements Runnable {
             BdBusinessType.add(SystemConstants.T_IMP_BOND_ORDER);
             BdBusinessType.add(SystemConstants.T_IMP_BOND_INVEN);
             BdBusinessType.add(SystemConstants.T_BOND_INVT + SystemConstants.BSRQ);
-            BdBusinessType.add(SystemConstants.T_BOND_INVT);
-            BdBusinessType.add(SystemConstants.T_PASS_PORT);
+            BdBusinessType.add(SystemConstants.T_BOND_INVT + SystemConstants.BSCQ);
+            BdBusinessType.add(SystemConstants.T_PASS_PORT + SystemConstants.BSRQ);
+            BdBusinessType.add(SystemConstants.T_PASS_PORT + SystemConstants.BSCQ);
 
             // 初始化数据加载器（数据库数据加载器）
             CrossBorderDataFactory crossBorderDataFactory = new CrossBorderDataFactory();
