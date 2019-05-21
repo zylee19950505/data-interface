@@ -33,7 +33,7 @@ sw.page.modules["bondediexit/exitPassPortLogic"] = sw.page.modules["bondediexit/
                 },
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitPassPortLogic').seeOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitPassPortLogic').seeExitManifestDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {
@@ -96,7 +96,7 @@ sw.page.modules["bondediexit/exitPassPortLogic"] = sw.page.modules["bondediexit/
     },
 
     seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondediexit/seeOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        var url = "bondediexit/seeExitManifestDetail?type=CQHFDCJ&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }
 

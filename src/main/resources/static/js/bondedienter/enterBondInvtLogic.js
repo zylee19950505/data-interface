@@ -1,7 +1,7 @@
 /**
  * 逻辑校验
  */
-sw.page.modules["bondedIEnter/enterBondInvtLogic"] = sw.page.modules["bondedIEnter/enterBondInvtLogic"] || {
+sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedienter/enterBondInvtLogic"] || {
     //查询
     query: function () {
         var url = sw.serializeObjectToURL($("[ws-search]").attr("ws-search"), {
@@ -33,7 +33,7 @@ sw.page.modules["bondedIEnter/enterBondInvtLogic"] = sw.page.modules["bondedIEnt
                 },
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedIEnter/enterBondInvtLogic').seeOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterBondInvtLogic').seeEnterInventoryDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {
@@ -90,15 +90,15 @@ sw.page.modules["bondedIEnter/enterBondInvtLogic"] = sw.page.modules["bondedIEnt
         };
         sw.confirm("确定删除该清单", "确认", function () {
             sw.ajax("api/bondorder/deleteLogical", "POST", postData, function (rsp) {
-                sw.pageModule("bondedIEnter/enterBondInvtLogic").query();
+                sw.pageModule("bondedienter/enterBondInvtLogic").query();
             });
         });
     },
 
     seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondedIEnter/seeOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
-    }
+}
 
 
 };

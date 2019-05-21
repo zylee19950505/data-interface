@@ -8,7 +8,7 @@ import com.xaeport.crossborder.data.entity.ImpCrossBorderHead;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.data.status.VerifyType;
 import com.xaeport.crossborder.service.bondordermanage.BondOrderQueryService;
-import com.xaeport.crossborder.service.logic.LogicalService;
+import com.xaeport.crossborder.service.logic.BondLogicalService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -30,7 +30,7 @@ public class BondOrderLogApi extends BaseApi {
     private Log log = LogFactory.getLog(this.getClass());
 
     @Autowired
-    LogicalService logicalService;
+    BondLogicalService bondlogicalService;
     @Autowired
     BondOrderQueryService bondOrderQueryService;
     @Autowired
@@ -48,13 +48,13 @@ public class BondOrderLogApi extends BaseApi {
             Map<String, String> map = new HashMap<>();
             map.put("bill_no", bill_no);
             map.put("order_no", order_no);
-            map.put("data_status", StatusCode.EXPORT);
+            map.put("data_status", StatusCode.BSYDR);
             map.put("type", VerifyType.LOGIC);
             map.put("status", status);
             map.put("entId", this.getCurrentUserEntId());
             map.put("roleId", this.getCurrentUserRoleId());
 
-            List<ImpCrossBorderHead> orderLogicList = this.logicalService.getOrderLogicData(map);
+            List<ImpCrossBorderHead> orderLogicList = this.bondlogicalService.getOrderLogicData(map);
             return new ResponseData(orderLogicList);
         } catch (Exception e) {
             this.log.error("获取订单逻辑校验列表错误", e);
@@ -63,43 +63,43 @@ public class BondOrderLogApi extends BaseApi {
 
     }
 
-    //保存清单信息
-    @RequestMapping(value = "/bondorder/saveLogicalDetail")
-    public ResponseData saveLogicalDetail(@Param("entryJson") String entryJson) {
-        //订单json信息
-        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
-
-        // 订单表头
-        LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
-
-        // 订单表体
-        ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
-
-        Map<String, String> rtnMap = new HashMap<>();
-        try {
-            // 保存详情信息
-            rtnMap = bondOrderQueryService.saveLogicalDetail(entryHead, entryLists);
-        } catch (Exception e) {
-            log.error("保存订单详细信息时发生异常", e);
-            rtnMap.put("result", "false");
-            rtnMap.put("msg", "保存订单详细信息时发生异常");
-        }
-        return new ResponseData(rtnMap);
-    }
-
-    //逻辑校验删除运单
-    @RequestMapping(value = "/bondorder/deleteLogical", method = RequestMethod.POST)
-    public ResponseData deleteVerifyIdCard(String submitKeys) {
-        if (StringUtils.isEmpty(submitKeys))
-            return new ResponseData("未提交订单数据", HttpStatus.FORBIDDEN);
-        try {
-            this.logicalService.deleteLogicalByOrder(submitKeys, this.getCurrentUserEntId());
-        } catch (Exception e) {
-            this.log.error("逻辑校验删除订单失败，submitKeys=" + submitKeys, e);
-            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseData("");
-    }
+//    //保存清单信息
+//    @RequestMapping(value = "/bondorder/saveLogicalDetail")
+//    public ResponseData saveLogicalDetail(@Param("entryJson") String entryJson) {
+//        //订单json信息
+//        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+//
+//        // 订单表头
+//        LinkedHashMap<String, String> entryHead = (LinkedHashMap<String, String>) object.get("entryHead");
+//
+//        // 订单表体
+//        ArrayList<LinkedHashMap<String, String>> entryLists = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
+//
+//        Map<String, String> rtnMap = new HashMap<>();
+//        try {
+//            // 保存详情信息
+//            rtnMap = bondOrderQueryService.saveLogicalDetail(entryHead, entryLists);
+//        } catch (Exception e) {
+//            log.error("保存订单详细信息时发生异常", e);
+//            rtnMap.put("result", "false");
+//            rtnMap.put("msg", "保存订单详细信息时发生异常");
+//        }
+//        return new ResponseData(rtnMap);
+//    }
+//
+//    //逻辑校验删除运单
+//    @RequestMapping(value = "/bondorder/deleteLogical", method = RequestMethod.POST)
+//    public ResponseData deleteVerifyIdCard(String submitKeys) {
+//        if (StringUtils.isEmpty(submitKeys))
+//            return new ResponseData("未提交订单数据", HttpStatus.FORBIDDEN);
+//        try {
+//            this.logicalService.deleteLogicalByOrder(submitKeys, this.getCurrentUserEntId());
+//        } catch (Exception e) {
+//            this.log.error("逻辑校验删除订单失败，submitKeys=" + submitKeys, e);
+//            return new ResponseData("请求错误", HttpStatus.BAD_REQUEST);
+//        }
+//        return new ResponseData("");
+//    }
 
 
 }

@@ -130,7 +130,8 @@ public class BondOrderImpService {
         impOrderHead.setOrder_Type("I");//电子订单类型：I进口
         impOrderHead.setBuyer_Id_Type("1");//订购人证件类型
         impOrderHead.setCurrency("142");//币制
-        impOrderHead.setData_status(StatusCode.BSDDDSB);//数据状态
+        impOrderHead.setData_status(StatusCode.BSYDR);//数据状态
+//        impOrderHead.setData_status(StatusCode.BSDDDSB);//数据状态
         impOrderHead.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impOrderHead.setCrt_tm(new Date());//创建时间
         impOrderHead.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
