@@ -170,7 +170,7 @@ public class PaymentDeclareSQLProvider extends BaseSQLProvider {
     }
 
     /*
-     * 修改支付单状态为支付单已申报
+     * 修改支付单状态为支付单正在发往海关
      */
     public String updateImpPaymentStatus(@Param("guid") String guid, @Param("CBDS31") String CBDS31) {
         return new SQL() {

@@ -85,9 +85,9 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                             textColor = "text-green";
                             row.status = "核注清单申报中";
                             break;
-                        case "BDDS21"://出区核注清单已申报
+                        case "BDDS21"://出区核注清单正在发往海关
                             textColor = "text-green";
-                            row.status = "核注清单已申报";
+                            row.status = "核注清单正在发往海关";
                             break;
                         case "BDDS22"://出区核注清单申报成功
                             textColor = "text-green";

@@ -77,7 +77,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                             break;
                         case "CBDS81":
                             textColor = "text-green";
-                            value = "核放单已申报";
+                            value = "核放单正在发往海关";
                             break;
                         case "CBDS82":
                             textColor = "text-green";

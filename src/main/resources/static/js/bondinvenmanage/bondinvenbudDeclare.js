@@ -83,7 +83,7 @@ sw.page.modules["bondinvenmanage/bondinvenbudDeclare"] = sw.page.modules["bondin
                                 break;
                             case "BDDS51":
                                 textColor = "text-green";
-                                value = "保税清单已申报";
+                                value = "保税清单正在发往海关";
                                 break;
                             case "BDDS52":
                                 textColor = "text-green";

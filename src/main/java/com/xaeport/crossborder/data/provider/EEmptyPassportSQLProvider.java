@@ -20,7 +20,7 @@ public class EEmptyPassportSQLProvider {
         }.toString();
     }
 
-    //修改申报中数据为已申报
+    //修改申报中数据为正在发往海关
     public String updatePassportStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status) {
         return new SQL() {
             {

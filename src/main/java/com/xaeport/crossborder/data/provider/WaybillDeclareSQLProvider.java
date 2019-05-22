@@ -149,7 +149,7 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
     }
 
     /*
-     * 修改运单状态为运单已申报
+     * 修改运单状态为运单正在发往海关
      */
     public String updateImpLogisticsStatus(@Param("guid") String guid, @Param("CBDS41") String CBDS41) {
         return new SQL() {
@@ -231,13 +231,13 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
     }
 
     /*
-     * 修改运单状态为运单状态已申报
+     * 修改运单状态为运单状态正在发往海关
      */
     public String updateToLogisticsStatus(@Param("guid") String guid, @Param("CBDS51") String CBDS51) {
         return new SQL() {
             {
                 UPDATE("T_IMP_LOGISTICS_STATUS t");
-                //是否需要判断运单是否已申报
+                //是否需要判断运单是否正在发往海关
                 WHERE("t.GUID = #{guid}");
                 SET("t.DATA_STATUS = 'CBDS51'");
                 SET("t.upd_tm = sysdate");
@@ -246,13 +246,13 @@ public class WaybillDeclareSQLProvider extends BaseSQLProvider {
     }
 
     /*
-     * 修改运单为运单状态已申报
+     * 修改运单为运单状态正在发往海关
      */
     public String updateToLogistics(@Param("logisticsNo") String logisticsNo, @Param("CBDS51") String CBDS51) {
         return new SQL() {
             {
                 UPDATE("T_IMP_LOGISTICS t");
-                //是否需要判断运单是否已申报
+                //是否需要判断运单是否正在发往海关
                 WHERE("t.LOGISTICS_NO = #{logisticsNo}");
                 SET("t.DATA_STATUS = 'CBDS51'");
                 SET("t.upd_tm = sysdate");

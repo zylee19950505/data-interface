@@ -102,7 +102,7 @@ public class EPassPortThread implements Runnable {
                         passportHeadXml.setEtpsPreentNo(passPortHead.getEtps_preent_no());
 
                         try {
-                            // 更新出区核放单状态为已申报
+                            // 更新出区核放单状态为正在发往海关
                             this.exitManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.CQHFDYSB);
                             this.logger.debug(String.format("成功更新出区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.CQHFDYSB));
                         } catch (Exception e) {

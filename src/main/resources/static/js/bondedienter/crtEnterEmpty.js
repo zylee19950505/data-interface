@@ -79,7 +79,7 @@ sw.page.modules["bondedienter/crtEnterEmpty"] = sw.page.modules["bondedienter/cr
                             textColor = "text-green";
                             break;
                         case "BDDS71":
-                            value = "入区空车核放单已申报";
+                            value = "入区空车核放单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "BDDS72":

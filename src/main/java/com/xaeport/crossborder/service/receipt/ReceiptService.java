@@ -332,7 +332,7 @@ public class ReceiptService {
         List<Map<String, String>> checkinfolist = receipt.get("CheckInfo");
         List<Map<String, String>> dealflaglist = receipt.get("DealFlag");
 
-        if (!StringUtils.isEmpty(seqnolist) && !StringUtils.isEmpty(etpspreentnolist)) {
+        if (!StringUtils.isEmpty(etpspreentnolist)) {
             RecBondInvtCommon recBondInvtCommon;
             for (int i = 0; i < seqnolist.size(); i++) {
                 recBondInvtCommon = new RecBondInvtCommon();

@@ -81,7 +81,7 @@ sw.page.modules["bondordermanage/bondOrderDecl"] = sw.page.modules["bondorderman
                             textColor = "text-green";
                             break;
                         case "BDDS61":
-                            value = "保税订单已申报";
+                            value = "保税订单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "BDDS62":

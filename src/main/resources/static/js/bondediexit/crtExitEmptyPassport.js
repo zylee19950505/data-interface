@@ -79,7 +79,7 @@ sw.page.modules["bondediexit/crtExitEmptyPassport"] = sw.page.modules["bondediex
                             textColor = "text-green";
                             break;
                         case "BDDS81":
-                            value = "出区空车核放单已申报";
+                            value = "出区空车核放单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "BDDS82":

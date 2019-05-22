@@ -67,7 +67,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                     orderable: false,
                     data: null,
                     render: function (data, type, row) {
-                        //运单状态已申报(此界面不显示此条信息)
+                        //运单状态正在发往海关(此界面不显示此条信息)
                         if (row.data_status == "CBDS4") {
                             return '<input type="checkbox" class="submitKey" value="' +
                                 row.bill_no + '" />';
@@ -131,7 +131,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                             textColor = "text-green";
                             break;
                         case "CBDS41":
-                            value = "运单已申报";
+                            value = "运单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "CBDS42":
@@ -173,7 +173,7 @@ sw.page.modules["waybillmanage/waybillDeclare"] = sw.page.modules["waybillmanage
                             textColor = "text-yellow";
                             break;
                         case "CBDS51":
-                            value = "运单状态已申报";
+                            value = "运单状态正在发往海关";
                             textColor = "text-green";
                             break;
                         case "CBDS52":

@@ -94,7 +94,7 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                             textColor = "text-green";
                             break;
                         case "BDDS31":
-                            value = "核放单已申报";
+                            value = "核放单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "BDDS32":

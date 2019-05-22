@@ -79,7 +79,7 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
                                 break;
                             case "CBDS21":
                                 textColor = "text-yellow";
-                                value = "订单已申报";
+                                value = "订单正在发往海关";
                                 break;
                             case "CBDS22":
                                 textColor = "text-green";
@@ -112,7 +112,7 @@ sw.page.modules["detailmanage/detailBuilder"] = sw.page.modules["detailmanage/de
                                 break;
                             case "CBDS41":
                                 textColor = "text-yellow";
-                                value = "运单已申报";
+                                value = "运单正在发往海关";
                                 break;
                             case "CBDS42":
                                 textColor = "text-green";

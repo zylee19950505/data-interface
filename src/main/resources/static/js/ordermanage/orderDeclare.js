@@ -85,7 +85,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                             textColor = "text-green";
                             break;
                         case "CBDS21":
-                            value = "订单已申报";
+                            value = "订单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "CBDS22":

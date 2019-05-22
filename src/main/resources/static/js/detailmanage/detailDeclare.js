@@ -85,7 +85,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                             break;
                         case "CBDS61":
                             textColor = "text-green";
-                            value = "清单已申报";
+                            value = "清单正在发往海关";
                             break;
                         case "CBDS62":
                             textColor = "text-green";

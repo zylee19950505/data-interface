@@ -85,7 +85,7 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
                             break;
                         case "CBDS71":
                             textColor = "text-green";
-                            value = "入库明细单已申报";
+                            value = "入库明细单正在发往海关";
                             break;
                     }
 

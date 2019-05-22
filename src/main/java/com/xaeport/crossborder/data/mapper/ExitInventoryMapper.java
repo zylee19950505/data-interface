@@ -90,7 +90,7 @@ public interface ExitInventoryMapper {
     @SelectProvider(type = ExitInventorySQLProvider.class, method = "findWaitGenerated")
     List<BondInvtBsc> findWaitGenerated(Map<String, String> paramMap);
 
-    //更新核注清单数据为已申报状态
+    //更新核注清单数据为正在发往海关状态
     @UpdateProvider(type = ExitInventorySQLProvider.class, method = "updateBondInvtBscStatus")
     void updateBondInvtBscStatus(@Param("headEtpsInnerInvtNo") String headEtpsInnerInvtNo, @Param("status") String status);
 

@@ -89,7 +89,7 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                                 break;
                             case "BDDS11":
                                 textColor = "text-green";
-                                value = "核注清单已申报";
+                                value = "核注清单正在发往海关";
                                 break;
                             case "BDDS12":
                                 textColor = "text-green";

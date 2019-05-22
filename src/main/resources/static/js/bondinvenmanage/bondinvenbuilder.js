@@ -84,7 +84,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             break;
                         case "BDDS61":
                             textColor = "text-green";
-                            value = "保税订单已申报";
+                            value = "保税订单正在发往海关";
                             break;
                         case "BDDS62":
                             textColor = "text-green";
@@ -117,7 +117,7 @@ sw.page.modules["bondinvenmanage/bondinvenbuilder"] = sw.page.modules["bondinven
                             break;
                         case "CBDS41":
                             textColor = "text-green";
-                            value = "运单已申报";
+                            value = "运单正在发往海关";
                             break;
                         case "CBDS42":
                             textColor = "text-green";

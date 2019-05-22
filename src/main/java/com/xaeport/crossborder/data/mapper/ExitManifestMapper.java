@@ -61,7 +61,7 @@ public interface ExitManifestMapper {
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortAcmp")
     void updatePassPortAcmp(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("passPortAcmpList") LinkedHashMap<String, String> passPortAcmpList, @Param("userInfo") Users userInfo);
 
-    //查找可以生成报文的已申报状态表头数据
+    //查找可以生成报文的正在发往海关状态表头数据
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "findWaitGenerated")
     List<PassPortHead> findWaitGenerated(Map<String, String> paramMap);
 
@@ -69,7 +69,7 @@ public interface ExitManifestMapper {
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "queryDataFull")
     List<String> queryDataFull(Map<String, String> paramMap);
 
-    //更新出区核放单数据为已申报状态
+    //更新出区核放单数据为正在发往海关状态
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortHeadStatus")
     void updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status);
 

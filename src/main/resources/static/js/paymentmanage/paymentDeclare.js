@@ -112,9 +112,9 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                             textColor = "text-green";
                             row.data_status = "支付单申报中";
                             break;
-                        case "CBDS31"://支付单已申报
+                        case "CBDS31"://支付单正在发往海关
                             textColor = "text-green";
-                            row.data_status = "支付单已申报";
+                            row.data_status = "支付单正在发往海关";
                             break;
                         case "CBDS32"://支付单申报成功
                             textColor = "text-green";
