@@ -2,6 +2,7 @@ package com.xaeport.crossborder.controller.api.bondediexit;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.xaeport.crossborder.configuration.AppConfiguration;
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.Users;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ExitPassPortLogApi extends BaseApi{
+public class ExitPassPortLogApi extends BaseApi {
 
 
     private Log log = LogFactory.getLog(this.getClass());
@@ -43,21 +44,22 @@ public class ExitPassPortLogApi extends BaseApi{
     //逻辑校验列表查询
     @RequestMapping(value = "/exitpassport/exitpassportlog", method = RequestMethod.GET)
     public ResponseData getLogicalInventoryData(
-            @RequestParam String etps_inner_invt_no,
+            @RequestParam String etps_preent_no,
             @RequestParam String status,
             HttpServletRequest request
     ) {
         try {
             Map<String, String> map = new HashMap<>();
-            map.put("etps_inner_invt_no", etps_inner_invt_no);
+            map.put("etps_preent_no", etps_preent_no);
+            map.put("flag", SystemConstants.BSCQ);
             map.put("data_status", StatusCode.BSYDR);
             map.put("type", VerifyType.LOGIC);
             map.put("status", status);
             map.put("entId", this.getCurrentUserEntId());
             map.put("roleId", this.getCurrentUserRoleId());
 
-            List<VerifyBondHead> exitBondInvtLogicList = this.exitLogService.getLogicDataByExitBondInvt(map);
-            return new ResponseData(exitBondInvtLogicList);
+            List<VerifyBondHead> exitPassPortLogicList = this.exitLogService.getLogicDataByExitPassPort(map);
+            return new ResponseData(exitPassPortLogicList);
         } catch (Exception e) {
             this.log.error("获取出区核注清单逻辑校验数据错误", e);
             return new ResponseData("获取出区核注清单逻辑校验数据错误", HttpStatus.BAD_REQUEST);

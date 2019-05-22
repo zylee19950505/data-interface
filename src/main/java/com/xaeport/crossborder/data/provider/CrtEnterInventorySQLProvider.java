@@ -187,19 +187,36 @@ public class CrtEnterInventorySQLProvider {
         }.toString();
     }
 
+    //查询入区核注清单校验状态表数据
+    public String queryLogicVerify(Map<String, String> paramMap) {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
+        return new SQL() {
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.ORDER_NO = #{etps_inner_invt_no}");
+                WHERE("t.STATUS = 'N'");
+            }
+        }.toString();
+    }
+
     //查询预存的表头数据
     public String queryEnterInventoryBsc(Map<String, String> paramMap) {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
         return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.etps_inner_invt_no = #{inner_ivt_no}");
+                WHERE("t.etps_inner_invt_no = #{etps_inner_invt_no}");
             }
         }.toString();
     }
 
     //查询预存的表体数据
     public String queryEnterInventoryDt(Map<String, String> paramMap) throws Exception {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
         return new SQL() {
             {
                 SELECT("t.PUTREC_SEQNO");
@@ -214,9 +231,8 @@ public class CrtEnterInventorySQLProvider {
                 SELECT("t.DCL_TOTAL_AMT");
                 SELECT("t.DCL_CURRCD");
                 SELECT("t.USD_STAT_TOTAL_AMT");
-
                 FROM("T_BOND_INVT_DT t");
-                WHERE("t.head_etps_inner_invt_no = #{inner_ivt_no}");
+                WHERE("t.head_etps_inner_invt_no = #{etps_inner_invt_no}");
             }
         }.toString();
     }

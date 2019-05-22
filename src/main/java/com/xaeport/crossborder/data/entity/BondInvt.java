@@ -6,6 +6,15 @@ public class BondInvt {
 
     private BondInvtBsc bondInvtBsc;
     private List<BondInvtDt> bondInvtDtList;
+    private Verify verify;
+
+    public Verify getVerify() {
+        return verify;
+    }
+
+    public void setVerify(Verify verify) {
+        this.verify = verify;
+    }
 
     public BondInvtBsc getBondInvtBsc() {
         return bondInvtBsc;

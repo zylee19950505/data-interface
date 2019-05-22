@@ -24,6 +24,13 @@ public class passPortBaseChain implements BondVerifyChain {
             return verificationResult;
         }
 
+        // 申报类型
+        validateField = impBDHeadVer.getDcl_etps_nm();
+        if ("123".equals(validateField)) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 必须写123", "dcl_etps_nm");
+            return verificationResult;
+        }
+
         verificationResult.setErrorFlag(false);
         return verificationResult;
     }

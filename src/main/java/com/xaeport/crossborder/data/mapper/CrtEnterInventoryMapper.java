@@ -3,7 +3,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.BondInvtDt;
-
+import com.xaeport.crossborder.data.entity.Verify;
 import com.xaeport.crossborder.data.provider.CrtEnterInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -18,6 +18,9 @@ public interface CrtEnterInventoryMapper {
 
     @InsertProvider(type = CrtEnterInventorySQLProvider.class,method="insertEnterInventoryBsc")
     boolean insertEnterInventoryBsc(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc);
+
+    @SelectProvider(type = CrtEnterInventorySQLProvider.class, method = "queryLogicVerify")
+    Verify queryLogicVerify(Map<String, String> paramMap);
 
     @SelectProvider(type = CrtEnterInventorySQLProvider.class,method="queryEnterInventoryBsc")
     BondInvtBsc queryEnterInventoryBsc(Map<String, String> paramMap);

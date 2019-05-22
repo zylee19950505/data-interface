@@ -137,7 +137,7 @@ public class CrtEnterInventoryApi extends BaseApi {
         this.log.debug(String.format("新建入区核放清单条件参数:[etps_inner_invt_no:%s]", etps_inner_invt_no));
         BondInvt dataList;
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("inner_ivt_no", etps_inner_invt_no);
+        paramMap.put("etps_inner_invt_no", etps_inner_invt_no);
 
         try {
             dataList = this.crtEnterInventoryService.seeEnterInventoryDetail(paramMap);

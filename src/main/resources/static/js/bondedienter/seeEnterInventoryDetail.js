@@ -58,7 +58,7 @@ function sumDeclTotalInvent(dVal, qty, gno, listChangeKeyVal) {
     listChangeKeyVal["dcl_total_amt"] = $("#dcl_total_amt_" + gno).val();
 }
 
-function inputChangeEnterInventory(id) {
+function inputChangeEnterInventory(etpsInnerInvtNo) {
     $(".detailPage input,select").change(function () {
         var key = $(this).attr("id");
         var val = $(this).val();
@@ -92,7 +92,7 @@ function inputChangeEnterInventory(id) {
             // 记录变更信息
             listChangeKeyVal[keys] = val;
             listChangeKeyVal["gds_seqno"] = gds_seqno;
-            listChangeKeyVal["entryhead_guid"] = id;
+            listChangeKeyVal["head_etps_inner_invt_no"] = etpsInnerInvtNo;
             listChangeKeyVals[gds_seqno] = listChangeKeyVal;
         } else {
             headChangeKeyVal[key] = val;
@@ -107,7 +107,7 @@ function inputChangeEnterInventory(id) {
 var supv_modecd = {
     /*"1210":"保税电商",
     "1239":"保税电商A"*/
-    "0":"普通清单"
+    "0": "普通清单"
 };
 
 sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bondedienter/seeEnterInventoryDetail"] || {
@@ -191,24 +191,24 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             var str =
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='gds_seqno_" + g_num + "' value='" + entryLists[i].putrec_seqno + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "":entryLists[i].gds_mtno) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='gdecd_" + g_num + "' value='" + (isEmpty(entryLists[i].gdecd) ? "":entryLists[i].gdecd) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "":entryLists[i].gds_nm) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_spcf_model_desc_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_spcf_model_desc) ? "":entryLists[i].gds_spcf_model_desc) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='gds_mtno_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_mtno) ? "" : entryLists[i].gds_mtno) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='gdecd_" + g_num + "' value='" + (isEmpty(entryLists[i].gdecd) ? "" : entryLists[i].gdecd) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_nm_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_nm) ? "" : entryLists[i].gds_nm) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='gds_spcf_model_desc_" + g_num + "' value='" + (isEmpty(entryLists[i].gds_spcf_model_desc) ? "" : entryLists[i].gds_spcf_model_desc) + "' /></td>" +
                 /*"<td ><select class=\"form-control input-sm\" maxlength=\"510\" id='dcl_unitcd_" + g_num + "' value='" + entryLists[i].dcl_unitcd + "' /></td>" +*/
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='dcl_unitcd_" + g_num + "' value='" + entryLists[i].dcl_unitcd + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_qty_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_qty) ? "":entryLists[i].dcl_qty) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_qty_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_qty) ? "" : entryLists[i].dcl_qty) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_uprc_amt_" + g_num + "' value='" + parseFloat(entryLists[i].dcl_uprc_amt).toFixed(2) + "' /></td>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_total_amt_" + g_num + "' value='" + parseFloat(entryLists[i].dcl_total_amt).toFixed(2) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_currcd_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_currcd) ? "人民币":entryLists[i].dcl_currcd) + "' /></td>" +
+                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='dcl_currcd_" + g_num + "' value='" + (isEmpty(entryLists[i].dcl_currcd) ? "人民币" : entryLists[i].dcl_currcd) + "' /></td>" +
                 /*"<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='usd_stat_total_amt_" + g_num + "' value='" + parseFloat(entryLists[i].usd_stat_total_amt).toFixed(5) + "' /></td>" +*/
                 "</tr>";
             $("#table_body").append(str);
             selecterInitDetail("dcl_unitcd_" + g_num, entryLists[i].dcl_unitcd, sw.dict.unitCode);
-          /*  selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);*/
+            /*  selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
+              selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+              selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
+              selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);*/
         }
         this.enterPage(1, 5);
     },
@@ -280,10 +280,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
 
     // 标记问题字段
-    errorMessageShow: function (vertify) {
-        if (vertify) {
-            var result = JSON.parse(vertify.result);
-            var gno = result.g_num;
+    errorMessageShow: function (verify) {
+        if (verify) {
+            var result = JSON.parse(verify.result);
+            var gno = result.gds_seqno;
             var field = result.field;
 
             if (isNotEmpty(gno)) {
@@ -297,7 +297,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
 
     // 保存清单编辑信息
-    saveEntryInfo: function (invt_no, type, ieFlag) {
+    saveEntryInfo: function (etps_inner_invt_no) {
         if (!this.valiFieldInventory()) {
             return;
         }
@@ -305,7 +305,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         for (var key in listChangeKeyVals) {
             entryLists.push(listChangeKeyVals[key]);
         }
-        headChangeKeyVal["invt_no"] = invt_no;
+        headChangeKeyVal["etps_inner_invt_no"] = etps_inner_invt_no;
         var entryData = {
             entryHead: headChangeKeyVal,
             entryList: entryLists
@@ -327,7 +327,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
 
     // 查询订单详情
     query: function () {
-
         // 表头变化
         headChangeKeyVal = {};
         // 表体变化
@@ -349,7 +348,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     console.log(data.data.bondInvtDtList);
                     var entryHead = data.data.bondInvtBsc;
                     var entryLists = data.data.bondInvtDtList;
-                    var vertify = data.data.verify;
+                    var verify = data.data.verify;
                     if (isNotEmpty(entryHead)) {
                         entryModule.fillEntryHeadInfo(entryHead);
                     }
@@ -358,9 +357,9 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     }
                     // 根据错误字段中的值加高亮显示
                     if (entryModule.detailParam.isShowError) {
-                        entryModule.errorMessageShow(vertify);
+                        entryModule.errorMessageShow(verify);
                     }
-                    headChangeKeyVal["entryhead_guid"] = param.guid;
+                    headChangeKeyVal["etps_inner_invt_no"] = param.etps_inner_invt_no;
                     // 添加输入框内容变更事件，捕获数据变更信息
                     inputChangeEnterInventory(param.etps_inner_invt_no);
                     entryModule.disabledFieldInput();
@@ -392,9 +391,9 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             "stship_trsarv_natcd": "起运抵国别代码",
             "invt_type": "清单类型",
             "dcl_typecd": "申报类型",
-            "corr_entry_dcl_etps_sccd":"对应报关单申报单位社会统一信用代码",
-            "corr_entry_dcl_etps_no":"对应报关单申报单位代码",
-            "corr_entry_dcl_etps_nm":"对应报关单申报单位名称"
+            "corr_entry_dcl_etps_sccd": "对应报关单申报单位社会统一信用代码",
+            "corr_entry_dcl_etps_no": "对应报关单申报单位代码",
+            "corr_entry_dcl_etps_nm": "对应报关单申报单位名称"
 
         };
 
@@ -459,7 +458,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
             for (var idx in data) {
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name",dclEtpsName);
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
                 $("#dcl_etpsno").append(option);
             }
         })
@@ -496,64 +495,16 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                        /*"dec_type",
-                        "invt_type",
-                        "dcl_typecd",
-
-                        "putrec_seqno",
-                        "gds_mtno",
-                        "gdecd",
-                        "gds_nm",
-                        "gds_spcf_model_desc",
-                        "dcl_unitcd",
-                        "dcl_qty",
-                        "dcl_uprc_amt",
-                        "dcl_total_amt",
-                        "dcl_currcd",
-                        "usd_stat_total_amt"*/
-                    ];
-                }else{
-                    this.detailParam.disableField = [
-                        //当前禁用的字段,需要禁用的字段值在这里改
-                       /* "bizop_etpsno",
-                        "bizop_etps_nm",
-                        "dcl_etpsno",
-                        "dcl_etps_nm",
-                        "putrec_no",
-                        "rcvgd_etpsno",
-                        "rcvgd_etps_nm",
-                        "impexp_portcd",
-                        "dcl_plc_cuscd",
-                        "impexp_markcd",
-                        "mtpck_endprd_markcd",
-                        "supv_modecd",
-                        "trsp_modecd",
-                        "dclcus_flag",
-                        "dclcus_typecd",
-                        "dec_type",
-                        "stship_trsarv_natcd",
-                        "invt_type",
-                        "dcl_typecd",
-                        "rmk",
-
-                        "putrec_seqno",
-                        "gds_mtno",
-                        "gdecd",
-                        "gds_nm",
-                        "gds_spcf_model_desc",
-                        "dcl_unitcd",
-                        "dcl_qty",
-                        "dcl_uprc_amt",
-                        "dcl_total_amt",
-                        "dcl_currcd",
-                        "usd_stat_total_amt"*/
+                        // "dec_type",
+                        // "invt_type",
+                        // "dcl_typecd",
                     ];
                 }
                 //保存的路径
                 this.detailParam.url = "/api/crtEnterInven/saveInventoryDetail";
                 //返回之后的查询路径
-                //this.detailParam.callBackUrl = "detailmanage/detailQuery";
-                //this.detailParam.isShowError = false;
+                // this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                this.detailParam.isShowError = false;
                 //点击取消
                 $("#ws-page-back").click(function () {
                     sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
@@ -565,75 +516,43 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
-                       /* "dec_type",
-                        "invt_type",
-                        "dcl_typecd",
-
-                        "putrec_seqno",
-                        "gds_seqno",
-                        "gds_mtno",
-                        "gdecd",
-                        "gds_nm",
-                        "gds_spcf_model_desc",
-                        "dcl_unitcd",
-                        "dcl_qty",
-                        "dcl_uprc_amt",
-                        "dcl_total_amt",
-                        "dcl_currcd",
-                        "usd_stat_total_amt"*/
-                    ];
-                }else{
-                    this.detailParam.disableField = [
-                        //当前禁用的字段,需要禁用的字段值在这里改
-                        /*"bizop_etpsno",
-                        "bizop_etps_nm",
-                        "dcl_etpsno",
-                        "dcl_etps_nm",
-                        "putrec_no",
-                        "rcvgd_etpsno",
-                        "rcvgd_etps_nm",
-                        "impexp_portcd",
-                        "dcl_plc_cuscd",
-                        "impexp_markcd",
-                        "mtpck_endprd_markcd",
-                        "supv_modecd",
-                        "trsp_modecd",
-                        "dclcus_flag",
-                        "dclcus_typecd",
-                        "dec_type",
-                        "stship_trsarv_natcd",
-                        "invt_type",
-                        "dcl_typecd",
-                        "rmk",
-
-                        "putrec_seqno",
-                        "gds_mtno",
-                        "gdecd",
-                        "gds_nm",
-                        "gds_spcf_model_desc",
-                        "dcl_unitcd",
-                        "dcl_qty",
-                        "dcl_uprc_amt",
-                        "dcl_total_amt",
-                        "dcl_currcd",
-                        "usd_stat_total_amt"*/
+                        // "dec_type",
+                        // "invt_type",
+                        // "dcl_typecd",
                     ];
                 }
                 //保存的路径
                 this.detailParam.url = "/api/crtEnterInven/saveInventoryDetail";
                 //返回之后的查询路径
-                //this.detailParam.callBackUrl = "detailmanage/detailQuery";
-                //this.detailParam.isShowError = false;
+                // this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                this.detailParam.isShowError = false;
                 //点击取消
                 $("#ws-page-back").click(function () {
                     sw.page.modules["bondedienter/seeEnterInventoryDetail"].callBackQuery();
                 });
                 break;
             }
+            case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        // "dec_type",
+                        // "invt_type",
+                        // "dcl_typecd",
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/enterbondinvt/updateEnterLogic";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondedienter/enterBondInvtLogic";
+                this.detailParam.isShowError = true;
+                break;
+            }
 
         } // 不可编辑状态
         if (isEdit == "false") {
-          /*  this.detailParam.disableField = [
+            this.detailParam.disableField = [
 
                 "bizop_etpsno",
                 "bizop_etps_nm",
@@ -667,7 +586,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 "dcl_total_amt",
                 "dcl_currcd",
                 "usd_stat_total_amt"
-            ];*/
+            ];
             // 屏蔽保存取消按钮
             $("#btnDiv").addClass("hidden");
         } else {
@@ -679,12 +598,12 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondedienter/seeEnterInventoryDetail"].saveEntryInfo(etps_inner_invt_no, type, sw.ie);
+            sw.page.modules["bondedienter/seeEnterInventoryDetail"].saveEntryInfo(etps_inner_invt_no);
         });
-       /* //点击取消
-        $("#ws-page-back").click(function () {
-            sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
-        });*/
+        /* //点击取消
+         $("#ws-page-back").click(function () {
+             sw.page.modules["bondedienter/seeEnterInventoryDetail"].cancel(etps_inner_invt_no);
+         });*/
     }
 
 };

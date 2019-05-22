@@ -467,7 +467,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                     VALUES("dcl_typecd", "#{BondInvtBsc.dcl_typecd}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
-                    VALUES("status", "'BDDS0'");
+                    VALUES("status", "'BDDS2'");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("crt_time", "sysdate");

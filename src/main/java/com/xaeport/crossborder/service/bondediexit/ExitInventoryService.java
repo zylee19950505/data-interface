@@ -150,9 +150,7 @@ public class ExitInventoryService {
         rtnMap.put("result", "true");
         rtnMap.put("msg", "编辑信息成功，请到“出区核注清单”处重新进行申报！");
         return rtnMap;
-
     }
-
     //修改及保存核注清单数据
     public boolean saveExitLogic(
             LinkedHashMap<String, String> BondInvtBsc,
@@ -177,7 +175,7 @@ public class ExitInventoryService {
                     exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
                 }
             }
-            this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc, userInfo);
+            this.exitInventoryMapper.updateBondInvtBscByListLog(BondInvtBsc, userInfo);
         }
         exitInventoryMapper.deleteVerifyStatus(etps_inner_invt_no);
         return false;

@@ -53,11 +53,11 @@ public class CrtEnterInventoryService {
             //如果导入的备案序号大于企业的账册序号后几位,则为新增  备案序号置为空,序号置为新增的备案序号;
 
             //是否将新增的备案序号加入账册备案序号里
-            if (bondInvtDt.getPutrec_seqno() > Integer.parseInt(maxGdsSeqno)){
+            if (bondInvtDt.getPutrec_seqno() > Integer.parseInt(maxGdsSeqno)) {
                 //新增
                 bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
                 bondInvtDt.setPutrec_seqno(0);
-            }else{
+            } else {
                 //原有
                 bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
                 bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
@@ -69,7 +69,7 @@ public class CrtEnterInventoryService {
             bondInvtDt.setDcl_currcd("142");//币制
             bondInvtDt.setDestination_natcd("142");//最终目的国
             bondInvtDt.setModf_markcd("3");//最终目的国
-            bondInvtDt.setEntry_gds_seqno(i+1);
+            bondInvtDt.setEntry_gds_seqno(i + 1);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
         }
 
@@ -115,9 +115,11 @@ public class CrtEnterInventoryService {
     public BondInvt seeEnterInventoryDetail(Map<String, String> paramMap) throws Exception {
         BondInvtBsc bondInvtBsc = this.crtEnterInventoryMapper.queryEnterInventoryBsc(paramMap);
         List<BondInvtDt> bondInvtDtList = this.crtEnterInventoryMapper.queryEnterInventoryDt(paramMap);
+        Verify verify = this.crtEnterInventoryMapper.queryLogicVerify(paramMap);
         BondInvt bondInvt = new BondInvt();
         bondInvt.setBondInvtBsc(bondInvtBsc);
         bondInvt.setBondInvtDtList(bondInvtDtList);
+        bondInvt.setVerify(verify);
         return bondInvt;
     }
 
@@ -177,7 +179,6 @@ public class CrtEnterInventoryService {
         if (!StringUtils.isEmpty(entryHead.get("trsp_modecd"))) {
             bondInvtBsc.setTrsp_modecd(entryHead.get("trsp_modecd"));
         }
-
         if (!StringUtils.isEmpty(entryHead.get("supv_modecd"))) {
             bondInvtBsc.setSupv_modecd(entryHead.get("supv_modecd"));
         }
@@ -199,7 +200,6 @@ public class CrtEnterInventoryService {
         if (!StringUtils.isEmpty(entryHead.get("dcl_typecd"))) {
             bondInvtBsc.setDcl_typecd(entryHead.get("dcl_typecd"));
         }
-
         if (!StringUtils.isEmpty(entryHead.get("stship_trsarv_natcd"))) {
             bondInvtBsc.setStship_trsarv_natcd(entryHead.get("stship_trsarv_natcd"));
         }

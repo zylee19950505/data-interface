@@ -5,8 +5,7 @@ sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedient
     //查询
     query: function () {
         var url = sw.serializeObjectToURL($("[ws-search]").attr("ws-search"), {
-            bill_no: $("[name='bill_no']").val(),
-            order_no: $("[name='order_no']").val(),
+            etps_inner_invt_no: $("[name='etps_inner_invt_no']").val(),
             status: "N"
         });
         // 数据表
@@ -27,13 +26,8 @@ sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedient
                     }
                 },
                 {
-                    label: "主运单号", render: function (data, type, row) {
-                    return row.bill_no;
-                }
-                },
-                {
-                    label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterBondInvtLogic').seeEnterInventoryDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    label: "核注清单内部编码", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterBondInvtLogic').seeEnterBondInvtLogicDetail('" + row.id + "','" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
                 }
                 },
                 {
@@ -59,7 +53,6 @@ sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedient
         $("[ws-search]").unbind("click").click(this.query);
         $(".btn[ws-search]").click();
         $("[ws-delete]").unbind("click").click(this.deleteVerify);
-        // $("[ws-back]").unbind("click").click(this.back);
 
         $table = $("#query-logic-table");
         $table.on("change", ":checkbox", function () {
@@ -82,23 +75,23 @@ sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedient
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要删除清单信息！");
+            sw.alert("请先勾选要删除的入区核注清单信息！");
             return;
         }
         var postData = {
             submitKeys: submitKeys
         };
-        sw.confirm("确定删除该清单", "确认", function () {
-            sw.ajax("api/bondorder/deleteLogical", "POST", postData, function (rsp) {
+        sw.confirm("确定删除该入区核注清单", "确认", function () {
+            sw.ajax("api/enterbondinvt/deletelogicdata", "POST", postData, function (rsp) {
                 sw.pageModule("bondedienter/enterBondInvtLogic").query();
             });
         });
     },
 
-    seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        sw.modelPopup(url, "查看清单详情", false, 1000, 930);
-}
+    seeEnterBondInvtLogicDetail: function (id, etpsInnerInvtNo) {
+        var url = "bondedienter/seeEnterInventoryDetail?type=LJJY&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
+        sw.modelPopup(url, "查看入区核注清单详情", false, 1100, 930);
+    }
 
 
 };
