@@ -5,7 +5,7 @@
 sw.page.modules["bondinvenmanage/bondinvenimport"] = sw.page.modules["bondinvenmanage/bondinvenimport"] || {
     init: function () {
         //初始化时间
-        $("[name='importTime']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='importTime']").val(moment(new Date()).format("YYYY-MM-DD"));
 
         this.emsNo();
 
