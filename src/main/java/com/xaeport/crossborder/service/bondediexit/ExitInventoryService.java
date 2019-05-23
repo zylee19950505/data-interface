@@ -2,10 +2,7 @@ package com.xaeport.crossborder.service.bondediexit;
 
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
-import com.xaeport.crossborder.data.entity.BondInvtBsc;
-import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
-import com.xaeport.crossborder.data.entity.Users;
-import com.xaeport.crossborder.data.entity.Verify;
+import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.ExitInventoryMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,6 +148,7 @@ public class ExitInventoryService {
         rtnMap.put("msg", "编辑信息成功，请到“出区核注清单”处重新进行申报！");
         return rtnMap;
     }
+
     //修改及保存核注清单数据
     public boolean saveExitLogic(
             LinkedHashMap<String, String> BondInvtBsc,
@@ -179,6 +177,11 @@ public class ExitInventoryService {
         }
         exitInventoryMapper.deleteVerifyStatus(etps_inner_invt_no);
         return false;
+    }
+
+    public BondInvtBsc queryBondInvtRecInfo(String id, String etps_inner_invt_no) {
+        BondInvtBsc bondInvtBsc = exitInventoryMapper.queryBondInvtRecInfo(id, etps_inner_invt_no);
+        return bondInvtBsc;
     }
 
 }

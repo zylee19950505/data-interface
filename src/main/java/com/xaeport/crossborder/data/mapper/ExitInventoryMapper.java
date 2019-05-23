@@ -120,5 +120,7 @@ public interface ExitInventoryMapper {
     @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{entId} AND DCL_ETPS_CUSTOMS_CODE = #{customsCode}")
     String getDclEtpsIcCard(@Param("entId") String entId, @Param("customsCode") String customsCode);
 
+    @Select("SELECT INVT_PREENT_NO,BOND_INVT_NO,ETPS_INNER_INVT_NO,RETURN_STATUS,RETURN_TIME,RETURN_INFO FROM T_BOND_INVT_BSC t WHERE t.ID = #{id} and t.ETPS_INNER_INVT_NO = #{etps_inner_invt_no}")
+    BondInvtBsc queryBondInvtRecInfo(@Param("id") String id, @Param("etps_inner_invt_no") String etps_inner_invt_no);
 
 }

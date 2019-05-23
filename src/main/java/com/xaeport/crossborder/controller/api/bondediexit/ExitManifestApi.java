@@ -194,4 +194,23 @@ public class ExitManifestApi extends BaseApi {
         return new ResponseData("");
     }
 
+    @RequestMapping(value = "/seePassPortRec", method = RequestMethod.GET)
+    public ResponseData queryPassPortRecInfo(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String etps_preent_no
+    ) {
+        if (StringUtils.isEmpty(id)) return new ResponseData("核放单Id为空", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(etps_preent_no)) return new ResponseData("核放单内部编码为空", HttpStatus.FORBIDDEN);
+
+        this.logger.debug(String.format("查询核放单回执参数:[id:%s,etps_preent_no:%s]", id, etps_preent_no));
+        PassPortHead passPortHead;
+        try {
+            passPortHead = exitManifestService.queryPassPortRecInfo(id, etps_preent_no);
+        } catch (Exception e) {
+            this.logger.error("查询核放单回执失败，etps_preent_no=" + etps_preent_no, e);
+            return new ResponseData("查询核放单回执失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(passPortHead);
+    }
+
 }

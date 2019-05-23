@@ -33,6 +33,8 @@ public class EnterManifestSQLProvider extends BaseSQLProvider {
                         "t.STATUS," +
                         "t.DCL_TIME," +
                         "t.RETURN_STATUS," +
+                        "(SELECT s.STATUS_NAME FROM T_STATUS s " +
+                        "WHERE s.STATUS_CODE = t.RETURN_STATUS) return_status_name," +
                         "t.RETURN_DATE," +
                         "t.RETURN_INFO");
                 FROM("T_PASS_PORT_HEAD t");

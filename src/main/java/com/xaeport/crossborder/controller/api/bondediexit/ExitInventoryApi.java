@@ -187,4 +187,23 @@ public class ExitInventoryApi extends BaseApi {
         return new ResponseData("");
     }
 
+    @RequestMapping(value = "/seeBondInvtRec", method = RequestMethod.GET)
+    public ResponseData queryBondInvtRecInfo(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String etps_inner_invt_no
+    ) {
+        if (StringUtils.isEmpty(id)) return new ResponseData("核注清单Id为空", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(etps_inner_invt_no)) return new ResponseData("核注清单内部编码为空", HttpStatus.FORBIDDEN);
+
+        this.logger.debug(String.format("查询核注清单回执参数:[id:%s,etps_inner_invt_no:%s]", id, etps_inner_invt_no));
+        BondInvtBsc bondInvtBsc;
+        try {
+            bondInvtBsc = exitInventoryService.queryBondInvtRecInfo(id, etps_inner_invt_no);
+        } catch (Exception e) {
+            this.logger.error("查询核注清单回执失败，etps_inner_invt_no=" + etps_inner_invt_no, e);
+            return new ResponseData("查询核注清单回执失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(bondInvtBsc);
+    }
+
 }

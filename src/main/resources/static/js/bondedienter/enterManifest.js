@@ -67,18 +67,18 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     }
                 },
                 {
-                    label: "企业内部编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seeEnterPassportDetail('" + row.bind_typecd + "','" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
-                    }
+                    data: "sas_passport_preent_no", label: "预录入编号"
                 },
                 {
                     data: "passport_no", label: "核放单号"
                 },
                 {
-                    data: "sas_passport_preent_no", label: "预录入编号"
+                    data: "bond_invt_no", label: "核注清单编号"
                 },
                 {
-                    data: "bond_invt_no", label: "核注清单编号"
+                    label: "企业内部编号", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seeEnterPassportDetail('" + row.bind_typecd + "','" + row.etps_preent_no + "')" + '">' + row.etps_preent_no + '</a>'
+                }
                 },
                 {
                     label: "申报状态", render: function (data, type, row) {
@@ -121,16 +121,17 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
                     return "";
                 }
                 },
-                {data: "return_status", label: "回执状态"},
                 {
-                    label: "回执时间", render: function (data, type, row) {
-                    if (!isEmpty(row.return_date)) {
-                        return moment(row.return_date).format("YYYY-MM-DD HH:mm:ss");
+                    label: "回执状态", render: function (data, type, row) {
+                    var value = "";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = isEmpty(row.return_status) ? "" : row.return_status;
                     }
-                    return "";
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterManifest').seePassPortRec('" + row.id + "','" + row.etps_preent_no + "')" + '">' + value + '</a>'
                 }
-                },
-                {data: "return_info", label: "回执备注"}
+                }
             ]
         });
     },
@@ -218,7 +219,13 @@ sw.page.modules["bondedienter/enterManifest"] = sw.page.modules["bondedienter/en
             var url = "bondedienter/seeEnterPassportDetailYPDC?type=RQHFD&isEdit=true&etps_preent_no=" + etps_preent_no;
         }
         sw.modelPopup(url, "查看核放单详情", false, 1100, 930);
+    },
+
+    seePassPortRec: function (id, etps_preent_no) {
+        var url = "bondediexit/PassPortReturnInfo?id=" + id + "&etps_preent_no=" + etps_preent_no;
+        sw.modelPopup(url, "查看核放单回执详情", false, 800, 300);
     }
+
 
 };
 

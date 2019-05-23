@@ -13,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExitManifestService {
@@ -133,6 +136,11 @@ public class ExitManifestService {
             exitManifestMapper.updatePassPortAcmp(passPortHead, passPortAcmpList, userInfo);
         }
         return false;
+    }
+
+    public PassPortHead queryPassPortRecInfo(String id, String etps_preent_no) {
+        PassPortHead passPortHead = exitManifestMapper.queryPassPortRecInfo(id, etps_preent_no);
+        return passPortHead;
     }
 
 }

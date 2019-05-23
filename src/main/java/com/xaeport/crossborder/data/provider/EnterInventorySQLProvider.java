@@ -29,6 +29,8 @@ public class EnterInventorySQLProvider extends BaseSQLProvider{
                         "t.STATUS," +
                         "t.INVT_DCL_TIME," +
                         "t.RETURN_STATUS," +
+                        "(SELECT s.STATUS_NAME FROM T_STATUS s " +
+                        "WHERE s.STATUS_CODE = t.RETURN_STATUS) return_status_name," +
                         "t.RETURN_TIME," +
                         "t.RETURN_INFO");
                 FROM("T_BOND_INVT_BSC t");

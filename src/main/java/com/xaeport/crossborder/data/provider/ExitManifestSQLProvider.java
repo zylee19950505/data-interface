@@ -24,12 +24,15 @@ public class ExitManifestSQLProvider extends BaseSQLProvider {
             {
                 SELECT(" * from ( select rownum rn, f.* from ( " +
                         "SELECT " +
+                        "t.ID," +
                         "t.SAS_PASSPORT_PREENT_NO," +
                         "t.PASSPORT_NO," +
                         "t.RLT_NO," +
                         "t.STATUS," +
                         "t.DCL_TIME," +
                         "t.RETURN_STATUS," +
+                        "(SELECT s.STATUS_NAME FROM T_STATUS s " +
+                        "WHERE s.STATUS_CODE = t.RETURN_STATUS) return_status_name," +
                         "t.RETURN_DATE," +
                         "t.RETURN_INFO," +
                         "t.ETPS_PREENT_NO," +
