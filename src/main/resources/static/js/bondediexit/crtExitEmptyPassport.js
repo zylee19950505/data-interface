@@ -105,7 +105,6 @@ sw.page.modules["bondediexit/crtExitEmptyPassport"] = sw.page.modules["bondediex
 
     //删除出区空车核放单
     deleteEmptyEPassport: function () {
-        debugger;
         var submitKeys = "";
         $(".submitKey:checked").each(function () {
             submitKeys += "," + $(this).val();
@@ -116,7 +115,6 @@ sw.page.modules["bondediexit/crtExitEmptyPassport"] = sw.page.modules["bondediex
             sw.alert("请勾选要删除的核放单信息！");
             return;
         }
-        debugger;
         var postData = {
             submitKeys: submitKeys
         };

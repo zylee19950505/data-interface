@@ -94,7 +94,7 @@ public class bondInvtBaseChain implements BondVerifyChain {
 
                 // 最终目的国
                 validateField = impBDBodyVer.getDestination_natcd();
-                if ("142".equals(validateField)) {
+                if ("142" == validateField) {
                     VerificationResultUtil.setEntryListErrorResult(verificationResult, String.format("表体: [商品序号：%s]最终目的国不存在", gds_seqno), "destination_natcd", gds_seqno);
                     return verificationResult;
                 }
@@ -165,7 +165,6 @@ public class bondInvtBaseChain implements BondVerifyChain {
                         return verificationResult;
                     }
                 }
-
 
 
             }

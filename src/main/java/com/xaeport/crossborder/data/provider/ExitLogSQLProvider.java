@@ -77,7 +77,7 @@ public class ExitLogSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC");
-                WHERE("ETPS_INNER_INVT_NO = #{BondInvtBsc.etps_inner_invt_no}");
+                WHERE("ETPS_INNER_INVT_NO = #{bondInvtBsc.etps_inner_invt_no}");
                 SET("STATUS = 'BDDS0'");
                 if (!StringUtils.isEmpty(bondInvtBsc.get("bond_invt_no"))) {
                     SET("BOND_INVT_NO = #{bondInvtBsc.bond_invt_no}");
@@ -157,8 +157,8 @@ public class ExitLogSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_DT");
-                WHERE("HEAD_ETPS_INNER_INVT_NO = #{BondInvtDt.head_etps_inner_invt_no}");
-                WHERE("GDS_SEQNO = #{BondInvtDt.gds_seqno}");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtDt.head_etps_inner_invt_no}");
+                WHERE("GDS_SEQNO = #{bondInvtDt.gds_seqno}");
                 if (!StringUtils.isEmpty(bondInvtDt.get("putrec_seqno"))) {
                     SET("PUTREC_SEQNO = #{bondInvtDt.putrec_seqno}");
                 }

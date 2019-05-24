@@ -90,7 +90,7 @@ sw.page.modules["bondedienter/enterBondInvtLogic"] = sw.page.modules["bondedient
 
     seeEnterBondInvtLogicDetail: function (id, etpsInnerInvtNo) {
         var url = "bondedienter/seeEnterInventoryDetail?type=LJJY&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
-        sw.modelPopup(url, "查看入区核注清单详情", false, 1100, 930);
+        sw.modelPopup(url, "查看入区核注清单详情", false, 1250, 930);
     }
 
 

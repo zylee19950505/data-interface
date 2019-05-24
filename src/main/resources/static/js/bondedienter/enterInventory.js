@@ -211,7 +211,7 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
         } else {
             var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
         }
-        sw.modelPopup(url, "查看核注清单详情", false, 1100, 930);
+        sw.modelPopup(url, "查看核注清单详情", false, 1250, 930);
     },
 
     seeBondInvtRec: function (id, etps_inner_invt_no) {

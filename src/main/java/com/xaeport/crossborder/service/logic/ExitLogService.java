@@ -40,9 +40,8 @@ public class ExitLogService {
         if (updateEnterLogic(bondInvtBsc, bondInvtDts, users, rtnMap, "入区核注清单-编辑")) return rtnMap;
 
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功！");
+        rtnMap.put("msg", "修改信息成功！");
         return rtnMap;
-
     }
 
     public boolean updateEnterLogic(

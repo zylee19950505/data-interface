@@ -158,7 +158,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     fillBondInvtBsc: function (entryHead) {
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
-        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
@@ -167,7 +166,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#impexp_portcd").val(entryHead.impexp_portcd);
         $("#impexp_markcd").val(entryHead.impexp_markcd);
         $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
-        $("#supv_modecd").val(entryHead.supv_modecd);
         $("#trsp_modecd").val(entryHead.trsp_modecd);
         $("#dclcus_flag").val(entryHead.dclcus_flag);
         $("#stship_trsarv_natcd").val(entryHead.stship_trsarv_natcd);
@@ -181,6 +179,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selecterInitDetail("supv_modecd", entryHead.supv_modecd);
+        selecterInitDetail("dcl_etpsno", entryHead.dcl_etpsno);
+
     },
 
     // 装载表头信息
@@ -426,7 +427,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "bizop_etps_nm": "经营企业名称",
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
-            "putrec_no": "备案编号",
+            "putrec_no": "账册编号",
             "rcvgd_etpsno": "收货企业编号",
             "rcvgd_etps_nm": "收货企业名称",
             "impexp_portcd": "进境关别",
@@ -439,7 +440,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "stship_trsarv_natcd": "起运运抵国别代码",
             "bond_invt_typecd": "清单类型",
             "dcl_typecd": "申报类型"
-            // "rmk": "备注"
         };
 
         // 校验表体
@@ -535,6 +535,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
+                        "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
                         "body_id",
                         "body_no",
                         "body_seqNo",
@@ -559,6 +563,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                 if (isEdit == "true") {
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
+                        "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
                         "body_id",
                         "body_no",
                         "body_seqNo",
@@ -583,6 +591,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                     this.detailParam.disableField = [
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
                         "body_id",
                         "body_no",
                         "body_seqNo",

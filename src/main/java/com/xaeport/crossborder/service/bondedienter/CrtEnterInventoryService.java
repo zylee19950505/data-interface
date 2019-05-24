@@ -5,6 +5,7 @@ import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.mapper.CrtEnterInventoryMapper;
 import com.xaeport.crossborder.data.mapper.EnterpriseMapper;
 import com.xaeport.crossborder.data.mapper.UserMapper;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,34 +42,18 @@ public class CrtEnterInventoryService {
 
         //查找当前登录企业的区内企业信息
         Enterprise enterprise = enterpriseMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
-        String maxGdsSeqno = crtEnterInventoryMapper.getMaxGdsSeqno(enterprise.getCustoms_code());
         for (int i = 0; i < list.size(); i++) {
             String dtId = IdUtils.getUUId();
             BondInvtDt bondInvtDt = list.get(i);
             //设置表头原有数量
             original_nm += Double.parseDouble(bondInvtDt.getDcl_qty());
             bondInvtDt.setId(dtId);
-            //查找当前企业的账册备案序号的最大的一位;
 
-            //如果导入的备案序号大于企业的账册序号后几位,则为新增  备案序号置为空,序号置为新增的备案序号;
-
-            //是否将新增的备案序号加入账册备案序号里
-            if (bondInvtDt.getPutrec_seqno() > Integer.parseInt(maxGdsSeqno)) {
-                //新增
-                bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
-                bondInvtDt.setPutrec_seqno(0);
-            } else {
-                //原有
-                bondInvtDt.setGds_seqno(bondInvtDt.getPutrec_seqno());
-                bondInvtDt.setPutrec_seqno(bondInvtDt.getPutrec_seqno());
-            }
-
-            //bondInvtDt.setPutrec_seqno(count);
+            bondInvtDt.setGds_seqno(i + 1);
             bondInvtDt.setGdecd(bondInvtDt.getGdecd());
             bondInvtDt.setHead_etps_inner_invt_no(etpsInnerInvtNo);
-            bondInvtDt.setDcl_currcd("142");//币制
             bondInvtDt.setDestination_natcd("142");//最终目的国
-            bondInvtDt.setModf_markcd("3");//最终目的国
+            bondInvtDt.setModf_markcd("3");//修改标志位
             bondInvtDt.setEntry_gds_seqno(i + 1);
             this.crtEnterInventoryMapper.insertEnterInventoryDt(bondInvtDt);
         }
@@ -104,7 +89,7 @@ public class CrtEnterInventoryService {
         bondInvtBsc.setDclcus_flag("1");
 //        bondInvtBsc.setdclcus("3");
         bondInvtBsc.setBond_invt_typecd("0");
-        //bondInvtBsc.setDclcus_typecd("2");
+        bondInvtBsc.setDclcus_typecd("2");
         bondInvtBsc.setDcl_typecd("1");
 
         this.crtEnterInventoryMapper.insertEnterInventoryBsc(bondInvtBsc);
@@ -127,100 +112,117 @@ public class CrtEnterInventoryService {
      * 保存入库核放单的表头信息
      * */
     @Transactional
-    public Map<String, String> updateEnterInventoryDetail(LinkedHashMap<String, String> entryHead, Users users) {
+    public Map<String, String> updateEnterInventoryDetail(
+            LinkedHashMap<String, String> bondInvtHead,
+            ArrayList<LinkedHashMap<String, String>> bondInvtDts,
+            Users users
+    ) {
         Map<String, String> rtnMap = new HashMap<String, String>();
-        if (updateEnterInventoryDetail(entryHead, rtnMap, users)) return rtnMap;
+        if (updateEnterInvtHead(bondInvtHead, bondInvtDts, rtnMap, users)) return rtnMap;
+
         rtnMap.put("result", "true");
-        rtnMap.put("msg", "编辑信息成功");
+        rtnMap.put("msg", "保存信息成功");
         return rtnMap;
     }
 
-    private boolean updateEnterInventoryDetail(LinkedHashMap<String, String> entryHead, Map<String, String> rtnMap, Users users) {
-        if ((CollectionUtils.isEmpty(entryHead) && entryHead.size() < 1)) {
+    private boolean updateEnterInvtHead(
+            LinkedHashMap<String, String> bondInvtHead,
+            ArrayList<LinkedHashMap<String, String>> bondInvtDts,
+            Map<String, String> rtnMap,
+            Users users
+    ) {
+        if ((CollectionUtils.isEmpty(bondInvtHead) && bondInvtHead.size() < 1) && CollectionUtils.isEmpty(bondInvtDts)) {
             rtnMap.put("result", "false");
             rtnMap.put("msg", "未发现需要修改数据！");
             return true;
         }
-        String invt_no = entryHead.get("invt_no");
         //封装数据
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
-        bondInvtBsc.setEtps_inner_invt_no(invt_no);
+        bondInvtBsc.setEtps_inner_invt_no(bondInvtHead.get("etps_inner_invt_no"));
         bondInvtBsc.setChg_tms_cnt(0);
         bondInvtBsc.setUpd_user(users.getId());
-        bondInvtBsc.setStatus("BDDS1");
-        bondInvtBsc.setFlag("ENTER");//进出区数据标识
-        if (!StringUtils.isEmpty(entryHead.get("bizop_etpsno"))) {
-            bondInvtBsc.setBizop_etpsno(entryHead.get("bizop_etpsno"));
+        bondInvtBsc.setStatus(StatusCode.BSYDR);//数据状态
+        bondInvtBsc.setFlag(SystemConstants.BSRQ);//进出区数据标识
+        if (!StringUtils.isEmpty(bondInvtHead.get("bizop_etpsno"))) {
+            bondInvtBsc.setBizop_etpsno(bondInvtHead.get("bizop_etpsno"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("bizop_etps_nm"))) {
-            bondInvtBsc.setBizop_etps_nm(entryHead.get("bizop_etps_nm"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("bizop_etps_nm"))) {
+            bondInvtBsc.setBizop_etps_nm(bondInvtHead.get("bizop_etps_nm"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dcl_etpsno"))) {
-            bondInvtBsc.setDcl_etpsno(entryHead.get("dcl_etpsno"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dcl_etpsno"))) {
+            bondInvtBsc.setDcl_etpsno(bondInvtHead.get("dcl_etpsno"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dcl_etps_nm"))) {
-            bondInvtBsc.setDcl_etps_nm(entryHead.get("dcl_etps_nm"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dcl_etps_nm"))) {
+            bondInvtBsc.setDcl_etps_nm(bondInvtHead.get("dcl_etps_nm"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("putrec_no"))) {
-            bondInvtBsc.setPutrec_no(entryHead.get("putrec_no"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("putrec_no"))) {
+            bondInvtBsc.setPutrec_no(bondInvtHead.get("putrec_no"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("rcvgd_etpsno"))) {
-            bondInvtBsc.setRcvgd_etpsno(entryHead.get("rcvgd_etpsno"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("rcvgd_etpsno"))) {
+            bondInvtBsc.setRcvgd_etpsno(bondInvtHead.get("rcvgd_etpsno"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("rcvgd_etps_nm"))) {
-            bondInvtBsc.setRcvgd_etps_nm(entryHead.get("rcvgd_etps_nm"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("rcvgd_etps_nm"))) {
+            bondInvtBsc.setRcvgd_etps_nm(bondInvtHead.get("rcvgd_etps_nm"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("impexp_portcd"))) {
-            bondInvtBsc.setImpexp_portcd(entryHead.get("impexp_portcd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("impexp_portcd"))) {
+            bondInvtBsc.setImpexp_portcd(bondInvtHead.get("impexp_portcd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dcl_plc_cuscd"))) {
-            bondInvtBsc.setDcl_plc_cuscd(entryHead.get("dcl_plc_cuscd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dcl_plc_cuscd"))) {
+            bondInvtBsc.setDcl_plc_cuscd(bondInvtHead.get("dcl_plc_cuscd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("trsp_modecd"))) {
-            bondInvtBsc.setTrsp_modecd(entryHead.get("trsp_modecd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("trsp_modecd"))) {
+            bondInvtBsc.setTrsp_modecd(bondInvtHead.get("trsp_modecd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("supv_modecd"))) {
-            bondInvtBsc.setSupv_modecd(entryHead.get("supv_modecd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("supv_modecd"))) {
+            bondInvtBsc.setSupv_modecd(bondInvtHead.get("supv_modecd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("impexp_markcd"))) {
-            bondInvtBsc.setImpexp_markcd(entryHead.get("impexp_markcd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("impexp_markcd"))) {
+            bondInvtBsc.setImpexp_markcd(bondInvtHead.get("impexp_markcd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("mtpck_endprd_markcd"))) {
-            bondInvtBsc.setMtpck_endprd_markcd(entryHead.get("mtpck_endprd_markcd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("mtpck_endprd_markcd"))) {
+            bondInvtBsc.setMtpck_endprd_markcd(bondInvtHead.get("mtpck_endprd_markcd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dclcus_flag"))) {
-            bondInvtBsc.setDclcus_flag(entryHead.get("dclcus_flag"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dclcus_flag"))) {
+            bondInvtBsc.setDclcus_flag(bondInvtHead.get("dclcus_flag"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dclcus_typecd"))) {
-            bondInvtBsc.setDclcus_typecd(entryHead.get("dclcus_typecd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dclcus_typecd"))) {
+            bondInvtBsc.setDclcus_typecd(bondInvtHead.get("dclcus_typecd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("bond_invt_typecd"))) {
-            bondInvtBsc.setBond_invt_typecd(entryHead.get("bond_invt_typecd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("bond_invt_typecd"))) {
+            bondInvtBsc.setBond_invt_typecd(bondInvtHead.get("bond_invt_typecd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dcl_typecd"))) {
-            bondInvtBsc.setDcl_typecd(entryHead.get("dcl_typecd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dcl_typecd"))) {
+            bondInvtBsc.setDcl_typecd(bondInvtHead.get("dcl_typecd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("stship_trsarv_natcd"))) {
-            bondInvtBsc.setStship_trsarv_natcd(entryHead.get("stship_trsarv_natcd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("stship_trsarv_natcd"))) {
+            bondInvtBsc.setStship_trsarv_natcd(bondInvtHead.get("stship_trsarv_natcd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_sccd"))) {
-            bondInvtBsc.setCorr_entry_dcl_etps_sccd(entryHead.get("corr_entry_dcl_etps_sccd"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("corr_entry_dcl_etps_sccd"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_sccd(bondInvtHead.get("corr_entry_dcl_etps_sccd"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_no"))) {
-            bondInvtBsc.setCorr_entry_dcl_etps_no(entryHead.get("corr_entry_dcl_etps_no"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("corr_entry_dcl_etps_no"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_no(bondInvtHead.get("corr_entry_dcl_etps_no"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("corr_entry_dcl_etps_nm"))) {
-            bondInvtBsc.setCorr_entry_dcl_etps_nm(entryHead.get("corr_entry_dcl_etps_nm"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("corr_entry_dcl_etps_nm"))) {
+            bondInvtBsc.setCorr_entry_dcl_etps_nm(bondInvtHead.get("corr_entry_dcl_etps_nm"));
         }
-        if (!StringUtils.isEmpty(entryHead.get("dec_type"))) {
-            bondInvtBsc.setDec_type(entryHead.get("dec_type"));
+        if (!StringUtils.isEmpty(bondInvtHead.get("dec_type"))) {
+            bondInvtBsc.setDec_type(bondInvtHead.get("dec_type"));
         }
-        this.crtEnterInventoryMapper.updateEnterInventoryDetail(bondInvtBsc);
+        this.crtEnterInventoryMapper.updateEnterInvtHead(bondInvtBsc);
+        if (!CollectionUtils.isEmpty(bondInvtDts)) {
+            //更新表体数据
+            for (LinkedHashMap<String, String> bondInvtDt : bondInvtDts) {
+                if (!CollectionUtils.isEmpty(bondInvtDt) && bondInvtDt.size() > 2) {
+                    crtEnterInventoryMapper.updateEnterInvtBody(bondInvtDt, users);
+                }
+            }
+        }
         return false;
     }
 
-    public void deleteEnterInven(String invt_no) {
-        this.crtEnterInventoryMapper.deleteEnterInvenBsc(invt_no);
-        this.crtEnterInventoryMapper.deleteEnterInvenDt(invt_no);
+    public void deleteEnterInven(String etps_inner_invt_no) {
+        this.crtEnterInventoryMapper.deleteEnterInvenBsc(etps_inner_invt_no);
+        this.crtEnterInventoryMapper.deleteEnterInvenDt(etps_inner_invt_no);
     }
 }
