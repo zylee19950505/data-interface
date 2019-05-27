@@ -58,6 +58,7 @@ public class CrtExitInventoryService {
         bondInvtBsc.setInvt_no(paramMap.get("billNo"));
         bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
+        bondInvtBsc.setStship_trsarv_natcd("142");
         return bondInvtBsc;
     }
 

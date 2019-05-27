@@ -124,7 +124,7 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
             "vehicle_ic_no": "IC卡号(电子车牌)",
             "vehicle_frame_wt": "车架重",
             "vehicle_wt": "车自重",
-            "container_type": "集装箱箱型",
+            // "container_type": "集装箱箱型",
             "container_wt": "集装箱重",
             "total_gross_wt": "货物总毛重",
             "dcl_er_conc": "申请人及联系方式",

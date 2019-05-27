@@ -214,7 +214,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     errorMessageShow: function (verify) {
         if (verify) {
             var result = JSON.parse(verify.result);
-            var gno = result.gds_seqno;
+            var gno = result.g_num;
             var field = result.field;
 
             if (isNotEmpty(gno)) {

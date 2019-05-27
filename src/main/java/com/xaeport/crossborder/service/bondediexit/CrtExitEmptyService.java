@@ -13,6 +13,7 @@ import com.xaeport.crossborder.tools.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -87,7 +88,7 @@ public class CrtExitEmptyService {
         passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
         passPortHead.setVehicle_frame_wt(object.get("vehicle_frame_wt").toString());
         passPortHead.setVehicle_wt(object.get("vehicle_wt").toString());
-        passPortHead.setContainer_type(object.get("container_type").toString());
+        passPortHead.setContainer_type(StringUtils.isEmpty(object.get("container_type")) ? "" : object.get("container_type").toString());
         passPortHead.setContainer_wt(object.get("container_wt").toString());
         passPortHead.setTotal_gross_wt(object.get("total_gross_wt").toString());
         passPortHead.setTotal_net_wt("0");
@@ -118,7 +119,7 @@ public class CrtExitEmptyService {
         passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
         passPortHead.setVehicle_frame_wt(object.get("vehicle_frame_wt").toString());
         passPortHead.setVehicle_wt(object.get("vehicle_wt").toString());
-        passPortHead.setContainer_type(object.get("container_type").toString());
+        passPortHead.setContainer_type(StringUtils.isEmpty(object.get("container_type")) ? "" : object.get("container_type").toString());
         passPortHead.setContainer_wt(object.get("container_wt").toString());
         passPortHead.setTotal_gross_wt(object.get("total_gross_wt").toString());
         passPortHead.setDcl_er_conc(object.get("dcl_er_conc").toString());

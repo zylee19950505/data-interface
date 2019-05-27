@@ -538,26 +538,66 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider {
                 UPDATE("T_PASS_PORT_HEAD t");
                 WHERE("t.ETPS_PREENT_NO = #{etps_preent_no}");
                 WHERE("t.BOND_INVT_NO = #{bond_invt_no}");
-                SET("t.areain_etpsno = #{areain_etpsno}");
-                SET("t.areain_etps_nm = #{areain_etps_nm}");
-                SET("t.vehicle_no = #{vehicle_no}");
-                SET("t.vehicle_wt = #{vehicle_wt}");
-                SET("t.vehicle_frame_wt = #{vehicle_frame_wt}");
-                SET("t.container_wt = #{container_wt}");
-                SET("t.container_type = #{container_type}");
-                SET("t.total_wt = #{total_wt}");
-                SET("t.total_gross_wt = #{total_gross_wt}");
-                SET("t.total_net_wt = #{total_net_wt}");
-                SET("t.passport_typecd = #{passport_typecd}");
-                SET("t.dcl_er_conc = #{dcl_er_conc}");
-                SET("t.dcl_etpsno = #{dcl_etpsno}");
-                SET("t.dcl_etps_nm = #{dcl_etps_nm}");
-                SET("t.input_code = #{dcl_etpsno}");
-                SET("t.input_name = #{dcl_etps_nm}");
-                SET("t.vehicle_ic_no = #{vehicle_ic_no}");
-                SET("t.rmk = #{rmk}");
-                SET("t.UPD_USER = #{upd_user}");
-                SET("t.UPD_TIME = sysdate");
+                if (!StringUtils.isEmpty(entryHead.get("container_type"))) {
+                    SET("t.container_type = #{container_type}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("areain_etpsno"))) {
+                    SET("t.areain_etpsno = #{areain_etpsno}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("areain_etps_nm"))) {
+                    SET("t.areain_etps_nm = #{areain_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("vehicle_no"))) {
+                    SET("t.vehicle_no = #{vehicle_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("vehicle_wt"))) {
+                    SET("t.vehicle_wt = #{vehicle_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("vehicle_frame_wt"))) {
+                    SET("t.vehicle_frame_wt = #{vehicle_frame_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("container_wt"))) {
+                    SET("t.container_wt = #{container_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("total_wt"))) {
+                    SET("t.total_wt = #{total_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("total_gross_wt"))) {
+                    SET("t.total_gross_wt = #{total_gross_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("total_net_wt"))) {
+                    SET("t.total_net_wt = #{total_net_wt}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("passport_typecd"))) {
+                    SET("t.passport_typecd = #{passport_typecd}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("dcl_er_conc"))) {
+                    SET("t.dcl_er_conc = #{dcl_er_conc}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("dcl_etpsno"))) {
+                    SET("t.dcl_etpsno = #{dcl_etpsno}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("dcl_etps_nm"))) {
+                    SET("t.dcl_etps_nm = #{dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("dcl_etpsno"))) {
+                    SET("t.input_code = #{dcl_etpsno}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("dcl_etps_nm"))) {
+                    SET("t.input_name = #{dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("vehicle_ic_no"))) {
+                    SET("t.vehicle_ic_no = #{vehicle_ic_no}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("rmk"))) {
+                    SET("t.rmk = #{rmk}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("upd_user"))) {
+                    SET("t.upd_user = #{upd_user}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("upd_user"))) {
+                    SET("t.upd_time = sysdate");
+                }
             }
         }.toString();
     }

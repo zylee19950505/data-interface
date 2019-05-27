@@ -420,7 +420,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             "vehicle_no": "车牌号",
             "vehicle_wt": "车辆自重",
             "vehicle_frame_wt": "车架重",
-            "container_type": "集装箱箱型",
+            // "container_type": "集装箱箱型",
             "container_wt": "集装箱重",
             "total_wt": "总重量",
             "passport_typecd": "核放单类型代码",

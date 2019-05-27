@@ -223,7 +223,6 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
                         "total_wt",
                         "passport_typecd",
                         "bind_typecd",
-                        "container_type",
 
                         "body_id",
                         "body_no",

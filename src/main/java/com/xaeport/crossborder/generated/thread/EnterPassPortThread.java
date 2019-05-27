@@ -9,6 +9,7 @@ import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -93,7 +94,7 @@ public class EnterPassPortThread implements Runnable {
                         passportHeadXml.setVehicleWt(passPortHead.getVehicle_wt());
                         passportHeadXml.setVehicleFrameWt(passPortHead.getVehicle_frame_wt());
                         passportHeadXml.setContainerWt(passPortHead.getContainer_wt());
-                        passportHeadXml.setContainerType(passPortHead.getContainer_type());
+                        passportHeadXml.setContainerType(StringUtils.isEmpty(passPortHead.getContainer_type()) ? "" : passPortHead.getContainer_type());
                         passportHeadXml.setTotalWt(passPortHead.getTotal_wt());
                         passportHeadXml.setTotalGrossWt(passPortHead.getTotal_gross_wt());
                         passportHeadXml.setTotalNetWt(passPortHead.getTotal_net_wt());
