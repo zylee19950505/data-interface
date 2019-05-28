@@ -237,6 +237,8 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("t.INVT_NO");
                 SELECT("t.EBC_CODE");
                 SELECT("t.RETURN_STATUS");
+                SELECT("t.GROSS_WEIGHT");
+                SELECT("t.NET_WEIGHT");
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
@@ -465,6 +467,12 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(BondInvtBsc.get("dcl_typecd"))) {
                     VALUES("dcl_typecd", "#{BondInvtBsc.dcl_typecd}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("gross_wt"))) {
+                    VALUES("gross_wt", "#{BondInvtBsc.gross_wt}");
+                }
+                if (!StringUtils.isEmpty(BondInvtBsc.get("net_wt"))) {
+                    VALUES("net_wt", "#{BondInvtBsc.net_wt}");
                 }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("status", "'BDDS2'");

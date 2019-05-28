@@ -2,10 +2,11 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.BondInvtDt;
-import com.xaeport.crossborder.data.entity.NemsInvtCbecBillType;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.provider.EnterInventorySQLProvider;
 import org.apache.ibatis.annotations.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,4 +52,18 @@ public interface EnterInventoryMapper {
     //查询申报企业IcCard
     @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{crt_ent_id} AND DCL_ETPS_CUSTOMS_CODE = #{dcl_etpsno}")
     String getDclEtpsIcCard(@Param("crt_ent_id") String crt_ent_id, @Param("dcl_etpsno") String dcl_etpsno);
+
+    //修改入区核注清单表头信息
+    @UpdateProvider(type = EnterInventorySQLProvider.class, method = "updateEnterInvHead")
+    void updateEnterInvHead(@Param("bondInvtBsc") LinkedHashMap<String, String> bondInvtBsc, @Param("users") Users users);
+
+    //修改入区核注清单表体信息
+    @UpdateProvider(type = EnterInventorySQLProvider.class, method = "updateEnterInvBody")
+    void updateEnterInvBody(@Param("bondInvtDt") LinkedHashMap<String, String> bondInvtDt, @Param("users") Users users);
+
+    //修改入区核注清单表头状态
+    @UpdateProvider(type = EnterInventorySQLProvider.class, method = "updateEnterInvHeadByBody")
+    void updateEnterInvHeadByBody(@Param("bondInvtBsc") LinkedHashMap<String, String> bondInvtBsc, @Param("users") Users users);
+
+
 }

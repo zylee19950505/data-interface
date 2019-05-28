@@ -142,8 +142,8 @@ public class CrtEnterInventoryApi extends BaseApi {
     /**
      * 新建入区核注清单的保存
      */
-    @RequestMapping(value = "saveInventoryDetail")
-    public ResponseData saveInventoryDetail(
+    @RequestMapping(value = "saveEnterInvDetail")
+    public ResponseData saveEnterInvDetail(
             @Param("entryJson") String entryJson
     ) {
         //数据整体封装JSON
@@ -168,6 +168,8 @@ public class CrtEnterInventoryApi extends BaseApi {
         }
         return new ResponseData(rtnMap);
     }
+
+
 
     /**
      * 取消时返回并删除入区核注清单

@@ -81,6 +81,24 @@ public class BondInvtBsc {
     private String business_type;//业务类型
     private String writing_mode;//写入方式
     private String return_status_name;//回执中文名称
+    private String gross_wt;
+    private String net_wt;
+
+    public String getGross_wt() {
+        return gross_wt;
+    }
+
+    public void setGross_wt(String gross_wt) {
+        this.gross_wt = gross_wt;
+    }
+
+    public String getNet_wt() {
+        return net_wt;
+    }
+
+    public void setNet_wt(String net_wt) {
+        this.net_wt = net_wt;
+    }
 
     public String getReturn_status_name() {
         return return_status_name;

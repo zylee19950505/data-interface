@@ -129,7 +129,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
     // 保存成功时回调查询
     callBackQuery: function () {
-        $("#dialog-popup").modal("hide");
+        sw.page.modules[this.detailParam.callBackUrl].query();
     },
     // 取消返回
     cancel: function (etps_inner_invt_no) {
@@ -137,6 +137,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         sw.ajax("api/crtEnterInven/deleteEnterInven/" + etps_inner_invt_no, "DELETE", {}, function (rsp) {
             $("#dialog-popup").modal("hide");
         });
+    },
+    // 取消返回
+    onlyCancel: function () {
+        $("#dialog-popup").modal("hide");
     },
     // 禁用字段
     disabledFieldInput: function () {
@@ -147,6 +151,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
     },
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
+        $("#invt_preent_no").val(entryHead.invt_preent_no);
+        $("#bond_invt_no").val(entryHead.bond_invt_no);
+        $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
+
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
@@ -240,10 +248,12 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         var entryData = {
             entryHead: headChangeKeyVal,
             entryList: entryLists,
+            dcl_etps_nm: dcl_etps_nm
         };
 
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
+                $("#dialog-popup").modal("hide");
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
@@ -433,9 +443,8 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/crtEnterInven/saveInventoryDetail";
+                this.detailParam.url = "/api/crtEnterInven/saveEnterInvDetail";
                 //返回之后的查询路径
-                // this.detailParam.callBackUrl = "detailmanage/detailQuery";
                 this.detailParam.isShowError = false;
                 //点击取消
                 $("#ws-page-back").click(function () {
@@ -455,14 +464,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/crtEnterInven/saveInventoryDetail";
+                this.detailParam.url = "/api/enterInventory/updateEnterInvDetail";
                 //返回之后的查询路径
-                // this.detailParam.callBackUrl = "detailmanage/detailQuery";
+                this.detailParam.callBackUrl = "bondedienter/enterInventory";
                 this.detailParam.isShowError = false;
-                //点击取消
-                $("#ws-page-back").click(function () {
-                    sw.page.modules["bondedienter/seeEnterInventoryDetail"].callBackQuery();
-                });
                 break;
             }
             case "LJJY": {
@@ -507,6 +512,9 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 "invt_type",
                 "dcl_typecd",
                 "rmk",
+                "corr_entry_dcl_etps_sccd",
+                "corr_entry_dcl_etps_no",
+                "corr_entry_dcl_etps_nm",
 
                 "gds_seqno",
                 "putrec_seqno",

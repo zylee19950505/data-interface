@@ -146,14 +146,15 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
     //装在出区核放单真实数据
     fillPassPortHead: function (entryHead) {
         $("#id").val(entryHead.id);
+        $("#sas_passport_preent_no").val(entryHead.sas_passport_preent_no);
         $("#passport_no").val(entryHead.passport_no);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
         $("#dcl_typecd").val(entryHead.dcl_typecd);
         $("#areain_oriact_no").val(entryHead.areain_oriact_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
-        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
         $("#io_typecd").val(entryHead.io_typecd);
@@ -186,6 +187,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
+        $("#total_gross_wt").val(entryHead.total_gross_wt);
+        $("#total_net_wt").val(entryHead.total_net_wt);
         selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
     },
 
@@ -517,6 +520,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
                         "rlt_no",
+                        "areain_oriact_no",
 
                         "body_id",
                         "body_no",
@@ -540,6 +544,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
                         "rlt_no",
+                        "areain_oriact_no",
 
                         "body_id",
                         "body_no",
@@ -563,6 +568,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
                         "rlt_no",
+                        "areain_oriact_no",
 
                         "body_id",
                         "body_no",

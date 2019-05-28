@@ -133,7 +133,7 @@ public class CrtEnterInventoryService {
     ) {
         if ((CollectionUtils.isEmpty(bondInvtHead) && bondInvtHead.size() < 1) && CollectionUtils.isEmpty(bondInvtDts)) {
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "未发现需要修改数据！");
+            rtnMap.put("msg", "未发现需要修改的入区核注清单数据！");
             return true;
         }
         //封装数据

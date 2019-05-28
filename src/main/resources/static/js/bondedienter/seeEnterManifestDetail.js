@@ -159,8 +159,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
-        $("#etps_preent_no").val(entryHead.etps_preent_no);
+        $("#sas_passport_preent_no").val(entryHead.sas_passport_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#areain_etpsno").val(entryHead.areain_etpsno);
         $("#areain_etps_nm").val(entryHead.areain_etps_nm);

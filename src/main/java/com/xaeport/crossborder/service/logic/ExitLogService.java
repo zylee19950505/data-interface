@@ -53,7 +53,7 @@ public class ExitLogService {
     ) {
         if ((CollectionUtils.isEmpty(bondInvtBsc) && bondInvtBsc.size() < 1) && CollectionUtils.isEmpty(bondInvtDts)) {
             rtnMap.put("result", "false");
-            rtnMap.put("msg", "未发现要修改的入区核注清单数据数据！");
+            rtnMap.put("msg", "未发现要修改的入区核注清单数据！");
             return true;
         }
         String etps_inner_invt_no = bondInvtBsc.get("etps_inner_invt_no");

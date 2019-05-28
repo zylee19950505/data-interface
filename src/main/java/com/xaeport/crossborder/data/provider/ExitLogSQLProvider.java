@@ -139,6 +139,24 @@ public class ExitLogSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.get("rmk"))) {
                     SET("RMK = #{bondInvtBsc.rmk}");
                 }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("corr_entry_dcl_etps_sccd"))) {
+                    SET("CORR_ENTRY_DCL_ETPS_SCCD = #{bondInvtBsc.corr_entry_dcl_etps_sccd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("corr_entry_dcl_etps_no"))) {
+                    SET("CORR_ENTRY_DCL_ETPS_NO = #{bondInvtBsc.corr_entry_dcl_etps_no}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("corr_entry_dcl_etps_nm"))) {
+                    SET("CORR_ENTRY_DCL_ETPS_NM = #{bondInvtBsc.corr_entry_dcl_etps_nm}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("dec_type"))) {
+                    SET("DEC_TYPE = #{bondInvtBsc.dec_type}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("dclcus_typecd"))) {
+                    SET("DCLCUS_TYPECD = #{bondInvtBsc.dclcus_typecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtBsc.get("entry_stucd"))) {
+                    SET("ENTRY_STUCD = #{bondInvtBsc.entry_stucd}");
+                }
                 if (!StringUtils.isEmpty(users.getId())) {
                     SET("UPD_TIME = sysdate");
                 }

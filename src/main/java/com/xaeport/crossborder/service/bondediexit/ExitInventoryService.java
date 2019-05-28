@@ -132,7 +132,7 @@ public class ExitInventoryService {
                     exitInventoryMapper.updateNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
                 }
             }
-            this.exitInventoryMapper.updateBondInvtBscByListLog(BondInvtBsc, userInfo);
+            this.exitInventoryMapper.updateBondInvtBscByList(BondInvtBsc, userInfo);
         }
         return false;
     }

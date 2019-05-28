@@ -90,6 +90,9 @@ public class EnterBondInvtLogApi extends BaseApi {
         // 核注清单表体
         ArrayList<LinkedHashMap<String, String>> bondInvtDts = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
 
+        String dcl_etps_nm = (String) object.get("dcl_etps_nm");
+        bondInvtBsc.put("dcl_etps_nm", dcl_etps_nm);
+
         Map<String, String> rtnMap = new HashMap<>();
         Users users = this.getCurrentUsers();
         try {

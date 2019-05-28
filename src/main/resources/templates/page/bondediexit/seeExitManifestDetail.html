@@ -9,10 +9,20 @@
     </div>
     <table id="entryHead" class="headDetail" border="1px solid balck">
         <tr>
+            <td class="headTitle">预录入编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="sas_passport_preent_no" readonly="readonly"/>
+            </td>
             <td class="headTitle">核放单编号</td>
             <td>
-                <input class="form-control input-sm" maxlength="64" id="passport_no"/>
+                <input class="form-control input-sm" maxlength="64" id="passport_no" readonly="readonly"/>
             </td>
+            <td class="headTitle">企业内部编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="etps_preent_no" readonly="readonly"/>
+            </td>
+        </tr>
+        <tr>
             <td class="headTitle">关联单证类型代码</td>
             <td>
                 <select class="form-control input-sm" style="width:100%" id="rlt_tb_typecd">
@@ -25,8 +35,6 @@
             <td>
                 <input class="form-control input-sm" maxlength="512" id="rlt_no"/>
             </td>
-        </tr>
-        <tr>
             <td class="headTitle">申报类型代码</td>
             <td>
                 <select class="form-control input-sm" style="width:100%" id="dcl_typecd">
@@ -35,6 +43,9 @@
                     <!--<option value="3">作废</option>-->
                 </select>
             </td>
+
+        </tr>
+        <tr>
             <td class="headTitle">主管海关</td>
             <td>
                 <select class="form-control input-sm" style="width:100%" id="master_cuscd"/>
@@ -43,19 +54,17 @@
             <td>
                 <select class="form-control input-sm" style="width:100%" id="dcl_etpsno"/>
             </td>
-        </tr>
-        <tr>
             <td class="headTitle">申报企业名称</td>
-            <td colspan="5">
+            <td>
                 <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
             </td>
             <!--<td class="headTitle">录入单位代码</td>-->
             <!--<td>-->
-                <!--<input class="form-control input-sm" maxlength="10" id="input_code"/>-->
+            <!--<input class="form-control input-sm" maxlength="10" id="input_code"/>-->
             <!--</td>-->
             <!--<td class="headTitle">录入单位名称</td>-->
             <!--<td>-->
-                <!--<input class="form-control input-sm" maxlength="255" id="input_name"/>-->
+            <!--<input class="form-control input-sm" maxlength="255" id="input_name"/>-->
             <!--</td>-->
         </tr>
         <tr>
@@ -146,12 +155,8 @@
             <td>
                 <input class="form-control input-sm" maxlength="128" id="vehicle_ic_no"/>
             </td>
-            <td class="headTitle">企业内部编码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="64" id="etps_preent_no" readonly="readonly"/>
-            </td>
             <td class="headTitle">备注</td>
-            <td>
+            <td colspan="3">
                 <input class="form-control input-sm" maxlength="512" id="rmk"/>
             </td>
         </tr>

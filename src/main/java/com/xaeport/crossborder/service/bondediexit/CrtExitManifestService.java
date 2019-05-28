@@ -3,12 +3,16 @@ package com.xaeport.crossborder.service.bondediexit;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.SystemConstants;
-import com.xaeport.crossborder.data.entity.*;
+import com.xaeport.crossborder.data.entity.BondInvtBsc;
+import com.xaeport.crossborder.data.entity.PassPortAcmp;
+import com.xaeport.crossborder.data.entity.PassPortHead;
+import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.mapper.CrtExitManifestMapper;
 import com.xaeport.crossborder.tools.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -38,9 +42,16 @@ public class CrtExitManifestService {
     //获取出区核放单表头数据
     public PassPortHead queryPassPortHead(Map<String, String> paramMap) throws Exception {
         PassPortHead passPortHead = new PassPortHead();
-
+        double grossWt = 0;
+        double netWt = 0;
         List<BondInvtBsc> bondInvtBscList = this.crtExitManifestMapper.queryBondInvtBscList(paramMap.get("bond_invt_no"));
         String BondInvtNo = paramMap.get("bond_invt_no").replaceAll(",", "/");
+        for (BondInvtBsc bondInvtBsc : bondInvtBscList) {
+            grossWt += Double.valueOf(StringUtils.isEmpty(bondInvtBsc.getGross_wt()) ? "0" : bondInvtBsc.getGross_wt());
+            netWt += Double.valueOf(StringUtils.isEmpty(bondInvtBsc.getNet_wt()) ? "0" : bondInvtBsc.getNet_wt());
+        }
+        passPortHead.setTotal_gross_wt(String.valueOf(grossWt));
+        passPortHead.setTotal_net_wt(String.valueOf(netWt));
         passPortHead.setId(IdUtils.getUUId());
         passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
         passPortHead.setAreain_oriact_no(bondInvtBscList.get(0).getPutrec_no());
@@ -75,7 +86,6 @@ public class CrtExitManifestService {
     public void insertPassHeadData(PassPortHead passPortHead, List<PassPortAcmp> passPortAcmpList, Users userInfo, String bond_invt_no) {
         this.crtExitManifestMapper.updateBondInvt(bond_invt_no);
         this.crtExitManifestMapper.insertPassPortHead(passPortHead, userInfo);
-
         for (PassPortAcmp passPortAcmp : passPortAcmpList) {
             this.crtExitManifestMapper.insertPassPortAcmp(passPortAcmp, userInfo);
         }

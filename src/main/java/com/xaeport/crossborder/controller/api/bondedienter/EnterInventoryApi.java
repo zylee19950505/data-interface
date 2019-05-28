@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.controller.api.bondedienter;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.logging.Log;
 import com.alibaba.druid.support.logging.LogFactory;
 import com.xaeport.crossborder.configuration.AppConfiguration;
@@ -11,6 +12,7 @@ import com.xaeport.crossborder.data.entity.Users;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.bondedienter.EnterInventoryService;
 import com.xaeport.crossborder.tools.GetIpAddr;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -20,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -55,13 +54,17 @@ public class EnterInventoryApi extends BaseApi {
         Map<String, String> paramMap = new HashMap<String, String>();
         //查询参数
         paramMap.put("startFlightTimes", StringUtils.isEmpty(startFlightTimes) ? null : startFlightTimes);
-        paramMap.put("dataStatus", dataStatus);
+        if (!StringUtils.isEmpty(dataStatus)) {
+            paramMap.put("dataStatus", dataStatus);
+        } else {
+            paramMap.put("dataStatus", String.format("%s,%s,%s,%s", StatusCode.RQHZQDDSB, StatusCode.RQHZQDSBZ, StatusCode.RQHZQDYSB, StatusCode.RQHZQDSBCG));
+        }
         paramMap.put("returnDataStatus", returnDataStatus);
         paramMap.put("invtNo", invtNo);
         paramMap.put("entId", this.getCurrentUserEntId());
-        paramMap.put("roleId",this.getCurrentUserRoleId());
-        paramMap.put("start", String.valueOf(Integer.parseInt(start)+1));
-        paramMap.put("length",length);
+        paramMap.put("roleId", this.getCurrentUserRoleId());
+        paramMap.put("start", String.valueOf(Integer.parseInt(start) + 1));
+        paramMap.put("length", length);
 
         DataList<BondInvtBsc> dataList = new DataList<>();
         List<BondInvtBsc> resultList = new ArrayList<BondInvtBsc>();
@@ -96,6 +99,7 @@ public class EnterInventoryApi extends BaseApi {
         }
         return new ResponseData("");
     }
+
     /**
      * 清单申报-提交海关
      **/
@@ -122,4 +126,35 @@ public class EnterInventoryApi extends BaseApi {
             return rtnResponse("false", "入区核注清单申报海关提交失败！");
         }
     }
+
+    /**
+     * 修改入区核注清单的保存
+     */
+    @RequestMapping(value = "updateEnterInvDetail")
+    public ResponseData saveEnterInvDetail(
+            @Param("entryJson") String entryJson
+    ) {
+        //数据整体封装JSON
+        LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);
+        //入区核注清单表头信息
+        LinkedHashMap<String, String> bondInvtHead = (LinkedHashMap<String, String>) object.get("entryHead");
+        // 入区核注清单表体信息
+        ArrayList<LinkedHashMap<String, String>> bondInvtDts = (ArrayList<LinkedHashMap<String, String>>) object.get("entryList");
+
+        String dcl_etps_nm = (String) object.get("dcl_etps_nm");
+        bondInvtHead.put("dcl_etps_nm", dcl_etps_nm);
+
+        Map<String, String> rtnMap = new HashMap<>();
+        Users users = this.getCurrentUsers();
+        try {
+            // 保存表头信息
+            rtnMap = this.enterInventoryService.updateEnterInvData(bondInvtHead, bondInvtDts, users);
+        } catch (Exception e) {
+            this.logger.error("保存入区核注清单表头时异常", e);
+            rtnMap.put("result", "false");
+            rtnMap.put("msg", "保存入区核注清单表头时异常");
+        }
+        return new ResponseData(rtnMap);
+    }
+
 }
