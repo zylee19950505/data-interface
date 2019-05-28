@@ -290,6 +290,7 @@ public class DockingService {
                 bondInvtBsc.setDclcus_flag("1");
                 bondInvtBsc.setBond_invt_typecd("0");
                 bondInvtBsc.setDcl_typecd("1");
+                bondInvtBsc.setChg_tms_cnt(0);
 
                 bondInvtBsc.setFlag(SystemConstants.BSRQ);
                 bondInvtBsc.setWriting_mode(StatusCode.DJBW);

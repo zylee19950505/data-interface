@@ -48,9 +48,6 @@ public interface CrtEnterManifestMapper {
     @InsertProvider(type = CrtEnterManifestSQLProvider.class,method = "createEnterManifestList")
     void createEnterManifestList(@Param("passPortList") PassPortList passPortList);
 
-    @InsertProvider(type = CrtEnterManifestSQLProvider.class,method = "createEnterManifestDetailOneCar")
-    void createEnterManifestDetailOneCar(@Param("passPortHead") PassPortHead passPortHead);
-
     @SelectProvider(type = CrtEnterManifestSQLProvider.class,method = "querySelectBondDtList")
     List<BondInvtDt> querySelectBondDtList(Map<String, String> paramMap);
 
