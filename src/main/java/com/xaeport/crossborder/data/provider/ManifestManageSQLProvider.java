@@ -122,7 +122,7 @@ public class ManifestManageSQLProvider extends BaseSQLProvider {
     }
 
     /*
-    * 把核放单数据改为核放单已申报
+    * 把核放单数据改为核放单正在发往海关
     * */
     public String updateManifestManage(@Param("manifestNo") String manifestNo) {
         return new SQL() {

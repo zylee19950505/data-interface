@@ -1,5 +1,6 @@
 package com.xaeport.crossborder.verification.dataload.impl;
 
+import com.xaeport.crossborder.configuration.SystemConstants;
 import com.xaeport.crossborder.data.mapper.VerificationMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.tools.SpringUtils;
@@ -17,7 +18,7 @@ public class BondInvtDataLoader implements BondLoader {
     @Override
     public List<ImpBDHeadVer> loadingData() {
         // 加载至多500条 状态为已导入且未校验过的数据
-        List<ImpBDHeadVer> impBDHeadVers = this.verificationMapper.unverifiedByBondInvtHead(StatusCode.BSYDR);
+        List<ImpBDHeadVer> impBDHeadVers = this.verificationMapper.unverifiedByBondInvtHead(StatusCode.BSYDR, SystemConstants.BSCQ);
 
         if (CollectionUtils.isEmpty(impBDHeadVers)) {
             return new ArrayList<ImpBDHeadVer>();

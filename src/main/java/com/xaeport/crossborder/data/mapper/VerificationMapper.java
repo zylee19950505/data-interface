@@ -113,11 +113,11 @@ public interface VerificationMapper {
 
     //获取未逻辑校验核放单表头数据
     @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByPassPort")
-    List<ImpBDHeadVer> unverifiedByPassPort(@Param("status") String status);
+    List<ImpBDHeadVer> unverifiedByPassPort(@Param("status") String status, @Param("flag") String flag);
 
     //获取未逻辑校验核注清单表头数据
     @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByBondInvtHead")
-    List<ImpBDHeadVer> unverifiedByBondInvtHead(@Param("status") String status);
+    List<ImpBDHeadVer> unverifiedByBondInvtHead(@Param("status") String status, @Param("flag") String flag);
 
     //获取未逻辑校验核注清单表体数据
     @SelectProvider(type = VerificationSQLProvider.class, method = "unverifiedByBondInvtBody")

@@ -72,7 +72,7 @@ public class ManifestManageThread implements Runnable {
                     //修改核放单数据状态
                     try {
                         this.manifestManageMapper.updateManifestManage(manifestNo);
-                        this.logger.debug(String.format("更新核放单为已申报[: %s]状态为: %s",manifestNo,StatusCode.HFDYSB));
+                        this.logger.debug(String.format("更新核放单为正在发往海关[: %s]状态为: %s",manifestNo,StatusCode.HFDYSB));
                     } catch (Exception e) {
                         String exceptionMsg = String.format("更新核放单[manifestNo: %s]状态时发生异常", manifestNo);
                         this.logger.error(exceptionMsg, e);

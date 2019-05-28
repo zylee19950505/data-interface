@@ -7,6 +7,8 @@ public class VerifyBondHead {
 
     //创建企业ID
     private String crt_ent_id;
+    //校验结果字段
+    private String vs_result;
 
     //订单数据
     private String guid;//企业系统生成36 位唯一序号（英文字母大写）
@@ -101,7 +103,7 @@ public class VerifyBondHead {
     private String rlt_entry_bizop_etpsno;//关联报关单境内收发货人编号 报关类型为关联报关时必填。二线取消报关的情况下使用，用于生成区外一般贸易报关单。暂未使用
     private String rlt_entry_bizop_etps_nm;//关联报关单境内收发货人名称 报关类型为关联报关时必填。二线取消报关的情况下使用，用于生成区外一般贸易报关单。暂未使用
     private String impexp_portcd;//进出境关别 关联海关参数库
-    private String dcl_plc_cuscd;//申报地关区代码 关联海关参数库
+    private String dcl_plc_cuscd;//主管海关 关联海关参数库
     private String impexp_markcd;//进出口标记代码 I：进口,E：出口
     private String mtpck_endprd_markcd;//料件成品标记代码 I：料件,E：成品
     private String supv_modecd;//监管方式代码 关联海关参数库
@@ -175,6 +177,14 @@ public class VerifyBondHead {
     private String input_code;
     private String input_name;
     private String areain_oriact_no;
+
+    public String getVs_result() {
+        return vs_result;
+    }
+
+    public void setVs_result(String vs_result) {
+        this.vs_result = vs_result;
+    }
 
     public String getLogistics_no() {
         return logistics_no;

@@ -2,10 +2,12 @@ package com.xaeport.crossborder.data.provider;
 
 import com.xaeport.crossborder.data.entity.BondInvtBsc;
 import com.xaeport.crossborder.data.entity.BondInvtDt;
+import com.xaeport.crossborder.data.entity.Users;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CrtEnterInventorySQLProvider {
@@ -21,9 +23,6 @@ public class CrtEnterInventorySQLProvider {
                 }
                 if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getGds_seqno()))) {
                     VALUES("gds_seqno", "#{bondInvtDt.gds_seqno}");
-                }
-                if (!StringUtils.isEmpty(String.valueOf(bondInvtDt.getPutrec_seqno())) && bondInvtDt.getPutrec_seqno() != 0) {
-                    VALUES("putrec_seqno", "#{bondInvtDt.putrec_seqno}");
                 }
                 if (!StringUtils.isEmpty(bondInvtDt.getGds_mtno())) {
                     VALUES("gds_mtno", "#{bondInvtDt.gds_mtno}");
@@ -187,42 +186,64 @@ public class CrtEnterInventorySQLProvider {
         }.toString();
     }
 
+    //查询入区核注清单校验状态表数据
+    public String queryLogicVerify(Map<String, String> paramMap) {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
+        return new SQL() {
+            {
+                SELECT("t.CB_HEAD_ID");
+                SELECT("t.STATUS");
+                SELECT("t.RESULT");
+                FROM("T_VERIFY_STATUS t");
+                WHERE("t.ORDER_NO = #{etps_inner_invt_no}");
+                WHERE("t.STATUS = 'N'");
+            }
+        }.toString();
+    }
+
     //查询预存的表头数据
     public String queryEnterInventoryBsc(Map<String, String> paramMap) {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
         return new SQL() {
             {
                 SELECT("t.*");
                 FROM("T_BOND_INVT_BSC t");
-                WHERE("t.etps_inner_invt_no = #{inner_ivt_no}");
+                WHERE("t.etps_inner_invt_no = #{etps_inner_invt_no}");
             }
         }.toString();
     }
 
     //查询预存的表体数据
     public String queryEnterInventoryDt(Map<String, String> paramMap) throws Exception {
+        final String etps_inner_invt_no = paramMap.get("etps_inner_invt_no");
         return new SQL() {
             {
-                SELECT("t.PUTREC_SEQNO");
                 SELECT("t.GDS_SEQNO");
+                SELECT("t.PUTREC_SEQNO");
                 SELECT("t.GDS_MTNO");
                 SELECT("t.GDECD");
                 SELECT("t.GDS_NM");
                 SELECT("t.GDS_SPCF_MODEL_DESC");
-                SELECT("t.DCL_UNITCD");
                 SELECT("t.DCL_QTY");
+                SELECT("t.DCL_UNITCD");
+                SELECT("t.LAWF_QTY");
+                SELECT("t.LAWF_UNITCD");
+                SELECT("t.SECD_LAWF_QTY");
+                SELECT("t.SECD_LAWF_UNITCD");
                 SELECT("t.DCL_UPRC_AMT");
                 SELECT("t.DCL_TOTAL_AMT");
                 SELECT("t.DCL_CURRCD");
+                SELECT("t.NATCD");
+                SELECT("t.LVYRLF_MODECD");
                 SELECT("t.USD_STAT_TOTAL_AMT");
-
                 FROM("T_BOND_INVT_DT t");
-                WHERE("t.head_etps_inner_invt_no = #{inner_ivt_no}");
+                WHERE("t.head_etps_inner_invt_no = #{etps_inner_invt_no}");
             }
         }.toString();
     }
 
     //保存修改添加表头后的数据
-    public String updateEnterInventoryDetail(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
+    public String updateEnterInvtHead(@Param("bondInvtBsc") BondInvtBsc bondInvtBsc) {
         return new SQL() {
             {
                 UPDATE("T_BOND_INVT_BSC t");
@@ -314,20 +335,20 @@ public class CrtEnterInventorySQLProvider {
         }.toString();
     }
 
-    public String deleteEnterInvenBsc(@Param("invt_no") String invt_no) {
+    public String deleteEnterInvenBsc(@Param("etps_inner_invt_no") String etps_inner_invt_no) {
         return new SQL() {
             {
                 DELETE_FROM("T_BOND_INVT_BSC t");
-                WHERE("t.ETPS_INNER_INVT_NO = #{invt_no}");
+                WHERE("t.ETPS_INNER_INVT_NO = #{etps_inner_invt_no}");
             }
         }.toString();
     }
 
-    public String deleteEnterInvenDt(@Param("invt_no") String invt_no) {
+    public String deleteEnterInvenDt(@Param("etps_inner_invt_no") String etps_inner_invt_no) {
         return new SQL() {
             {
                 DELETE_FROM("T_BOND_INVT_DT t");
-                WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{invt_no}");
+                WHERE("t.HEAD_ETPS_INNER_INVT_NO = #{etps_inner_invt_no}");
             }
         }.toString();
     }
@@ -339,6 +360,112 @@ public class CrtEnterInventorySQLProvider {
                 SELECT("MAX(t.GDS_SEQNO)");
                 FROM("T_BWL_LIST_TYPE t");
                 WHERE("t.BIZOP_ETPSNO = #{customs_code}");
+            }
+        }.toString();
+    }
+
+    public String updateEnterInvtBody(
+            @Param("bondInvtDt") LinkedHashMap<String, String> bondInvtDt,
+            @Param("users") Users users
+    ) {
+        return new SQL() {
+            {
+                UPDATE("T_BOND_INVT_DT");
+                WHERE("HEAD_ETPS_INNER_INVT_NO = #{bondInvtDt.head_etps_inner_invt_no}");
+                WHERE("GDS_SEQNO = #{bondInvtDt.gds_seqno}");
+                if (!StringUtils.isEmpty(bondInvtDt.get("putrec_seqno"))) {
+                    SET("PUTREC_SEQNO = #{bondInvtDt.putrec_seqno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("gds_mtno"))) {
+                    SET("GDS_MTNO = #{bondInvtDt.gds_mtno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("gdecd"))) {
+                    SET("GDECD = #{bondInvtDt.gdecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("gds_nm"))) {
+                    SET("GDS_NM = #{bondInvtDt.gds_nm}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("gds_spcf_model_desc"))) {
+                    SET("GDS_SPCF_MODEL_DESC = #{bondInvtDt.gds_spcf_model_desc}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("dcl_unitcd"))) {
+                    SET("DCL_UNITCD = #{bondInvtDt.dcl_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("lawf_unitcd"))) {
+                    SET("LAWF_UNITCD = #{bondInvtDt.lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("secd_lawf_unitcd"))) {
+                    SET("SECD_LAWF_UNITCD = #{bondInvtDt.secd_lawf_unitcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("natcd"))) {
+                    SET("NATCD = #{bondInvtDt.natcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("dcl_uprc_amt"))) {
+                    SET("DCL_UPRC_AMT = #{bondInvtDt.dcl_uprc_amt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("dcl_total_amt"))) {
+                    SET("DCL_TOTAL_AMT = #{bondInvtDt.dcl_total_amt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("usd_stat_total_amt"))) {
+                    SET("USD_STAT_TOTAL_AMT = #{bondInvtDt.usd_stat_total_amt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("dcl_currcd"))) {
+                    SET("DCL_CURRCD = #{bondInvtDt.dcl_currcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("lawf_qty"))) {
+                    SET("LAWF_QTY = #{bondInvtDt.lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("secd_lawf_qty"))) {
+                    SET("SECD_LAWF_QTY = #{bondInvtDt.secd_lawf_qty}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("wt_sf_val"))) {
+                    SET("WT_SF_VAL = #{bondInvtDt.wt_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("fst_sf_val"))) {
+                    SET("FST_SF_VAL = #{bondInvtDt.fst_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("secd_sf_val"))) {
+                    SET("SECD_SF_VAL = #{bondInvtDt.secd_sf_val}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("dcl_qty"))) {
+                    SET("DCL_QTY = #{bondInvtDt.dcl_qty}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("gross_wt"))) {
+                    SET("GROSS_WT = #{bondInvtDt.gross_wt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("net_wt"))) {
+                    SET("NET_WT = #{bondInvtDt.net_wt}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("lvyrlf_modecd"))) {
+                    SET("LVYRLF_MODECD = #{bondInvtDt.lvyrlf_modecd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("ucns_verno"))) {
+                    SET("UCNS_VERNO = #{bondInvtDt.ucns_verno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("entry_gds_seqno"))) {
+                    SET("ENTRY_GDS_SEQNO = #{bondInvtDt.entry_gds_seqno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("apply_tb_seqno"))) {
+                    SET("APPLY_TB_SEQNO = #{bondInvtDt.apply_tb_seqno}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("cly_markcd"))) {
+                    SET("CLY_MARKCD = #{bondInvtDt.cly_markcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("rmk"))) {
+                    SET("RMK = #{bondInvtDt.rmk}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("destination_natcd"))) {
+                    SET("DESTINATION_NATCD = #{bondInvtDt.destination_natcd}");
+                }
+                if (!StringUtils.isEmpty(bondInvtDt.get("modf_markcd"))) {
+                    SET("MODF_MARKCD = #{bondInvtDt.modf_markcd}");
+                }
+                if (!StringUtils.isEmpty(users.getId())) {
+                    SET("UPD_TIME = sysdate");
+                }
+                if (!StringUtils.isEmpty(users.getId())) {
+                    SET("UPD_USER = #{users.id}");
+                }
             }
         }.toString();
     }

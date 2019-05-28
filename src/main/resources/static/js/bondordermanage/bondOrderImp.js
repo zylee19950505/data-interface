@@ -5,7 +5,7 @@
 sw.page.modules["bondordermanage/bondOrderImp"] = sw.page.modules["bondordermanage/bondOrderImp"] || {
     init: function () {
         //初始化时间
-        $("[name='importTime']").val(moment(new Date()).format("YYYYMMDD"));
+        $("[name='importTime']").val(moment(new Date()).format("YYYY-MM-DD"));
 
         $(".input-daterange").datepicker({
             language: "zh-CN",

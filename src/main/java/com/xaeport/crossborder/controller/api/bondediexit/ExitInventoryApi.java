@@ -60,7 +60,11 @@ public class ExitInventoryApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         paramMap.put("invt_dcl_time", invt_dcl_time);
-        paramMap.put("status", status);
+        if (!StringUtils.isEmpty(status)) {
+            paramMap.put("status", status);
+        } else {
+            paramMap.put("status", String.format("%s,%s,%s,%s", StatusCode.CQHZQDDSB, StatusCode.CQHZQDYSB, StatusCode.CQHZQDSBZ, StatusCode.CQHZQDSBCG));
+        }
         paramMap.put("return_status", return_status);
         paramMap.put("bond_invt_no", bond_invt_no);
 
@@ -102,8 +106,10 @@ public class ExitInventoryApi extends BaseApi {
             for (int i = 0; i < nemsInvtCbecBillTypeList.size(); i++) {
                 nemsInvtCbecBillTypeList.get(i).setNo(i + 1);
             }
+            Verify verify = this.exitInventoryService.queryLogicVerify(paramMap);
             exitBondInvt.setBondInvtBsc(bondInvtBsc);
             exitBondInvt.setNemsInvtCbecBillTypeList(nemsInvtCbecBillTypeList);
+            exitBondInvt.setVerify(verify);
         } catch (Exception e) {
             this.logger.error("查询出区核注清单数据失败", e);
             return new ResponseData("查询出区核注清单数据错误", HttpStatus.BAD_REQUEST);
@@ -171,7 +177,7 @@ public class ExitInventoryApi extends BaseApi {
     public ResponseData deleteVerifyIdCard(
             String submitKeys
     ) {
-        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交数据", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(submitKeys)) return new ResponseData("未提交出区核注清单数据", HttpStatus.FORBIDDEN);
         try {
             this.exitInventoryService.deleteExitInventory(submitKeys, this.getCurrentUserEntId());
         } catch (Exception e) {
@@ -179,6 +185,25 @@ public class ExitInventoryApi extends BaseApi {
             return new ResponseData("删除出区核注清单失败", HttpStatus.BAD_REQUEST);
         }
         return new ResponseData("");
+    }
+
+    @RequestMapping(value = "/seeBondInvtRec", method = RequestMethod.GET)
+    public ResponseData queryBondInvtRecInfo(
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String etps_inner_invt_no
+    ) {
+        if (StringUtils.isEmpty(id)) return new ResponseData("核注清单Id为空", HttpStatus.FORBIDDEN);
+        if (StringUtils.isEmpty(etps_inner_invt_no)) return new ResponseData("核注清单内部编码为空", HttpStatus.FORBIDDEN);
+
+        this.logger.debug(String.format("查询核注清单回执参数:[id:%s,etps_inner_invt_no:%s]", id, etps_inner_invt_no));
+        BondInvtBsc bondInvtBsc;
+        try {
+            bondInvtBsc = exitInventoryService.queryBondInvtRecInfo(id, etps_inner_invt_no);
+        } catch (Exception e) {
+            this.logger.error("查询核注清单回执失败，etps_inner_invt_no=" + etps_inner_invt_no, e);
+            return new ResponseData("查询核注清单回执失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(bondInvtBsc);
     }
 
 }

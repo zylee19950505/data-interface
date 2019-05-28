@@ -85,7 +85,9 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
     // 装载表头信息
     fillEntryHeadInfo: function (entryHead) {
         $("#id").val(entryHead.id);
+        $("#sas_passport_preent_no").val(entryHead.sas_passport_preent_no);
         $("#passport_no").val(entryHead.passport_no);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
         $("#dcl_typecd").val(entryHead.dcl_typecd);
         $("#areain_oriact_no").val(entryHead.areain_oriact_no);
@@ -94,7 +96,6 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#input_code").val(entryHead.input_code);
         $("#input_name").val(entryHead.input_name);
-        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
         $("#io_typecd").val(entryHead.io_typecd);
@@ -223,7 +224,6 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
                         "total_wt",
                         "passport_typecd",
                         "bind_typecd",
-                        "container_type",
 
                         "body_id",
                         "body_no",

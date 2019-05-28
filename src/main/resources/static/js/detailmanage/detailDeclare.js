@@ -85,7 +85,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
                             break;
                         case "CBDS61":
                             textColor = "text-green";
-                            value = "清单已申报";
+                            value = "清单正在发往海关";
                             break;
                         case "CBDS62":
                             textColor = "text-green";
@@ -188,7 +188,7 @@ sw.page.modules["detailmanage/detailDeclare"] = sw.page.modules["detailmanage/de
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).subtract('days',7).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",

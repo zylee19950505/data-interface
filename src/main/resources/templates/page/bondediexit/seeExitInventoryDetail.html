@@ -9,6 +9,20 @@
     </div>
     <table id="entryHead" class="headDetail" border="1px solid balck">
         <tr>
+            <td class="headTitle">预录入编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="invt_preent_no" readonly="readonly"/>
+            </td>
+            <td class="headTitle">核注清单号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="bond_invt_no" readonly="readonly"/>
+            </td>
+            <td class="headTitle">企业内部编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="etps_inner_invt_no" readonly="readonly"/>
+            </td>
+        </tr>
+        <tr>
             <td class="headTitle">经营企业编号</td>
             <td>
                 <input class="form-control input-sm" maxlength="10" id="bizop_etpsno"/>
@@ -19,7 +33,7 @@
             </td>
             <td class="headTitle">申报企业编号</td>
             <td>
-                <select class="form-control input-sm" maxlength="10" id="dcl_etpsno">
+                <select class="form-control input-sm" style="width:100%" id="dcl_etpsno">
                 </select>
             </td>
         </tr>
@@ -28,7 +42,7 @@
             <td>
                 <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
             </td>
-            <td class="headTitle">备案编号</td>
+            <td class="headTitle">账册编号</td>
             <td>
                 <input class="form-control input-sm" maxlength="64" id="putrec_no"/>
             </td>
@@ -44,30 +58,30 @@
             </td>
             <td class="headTitle">进境关别</td>
             <td>
-                <select class="form-control input-sm" id="impexp_portcd"/>
+                <select class="form-control input-sm" style="width:100%" id="impexp_portcd"/>
             </td>
             <td class="headTitle">主管海关</td>
             <td>
-                <select class="form-control input-sm" maxlength="20" id="dcl_plc_cuscd"/>
+                <select class="form-control input-sm" style="width:100%" id="dcl_plc_cuscd"/>
             </td>
         </tr>
         <tr>
             <td class="headTitle">进出口标记代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
+                <select class="form-control input-sm" style="width:100%" id="impexp_markcd">
                     <option value="E" selected="selected">出口（E）</option>
                 </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
+                <select class="form-control input-sm" style="width:100%" id="mtpck_endprd_markcd">
                     <!--<option value="E" selected="selected">成品（E）</option>-->
                     <option value="I" selected="selected">料件（I）</option>
                 </select>
             </td>
             <td class="headTitle">监管方式代码</td>
             <td>
-                <select class="form-control input-sm" id="supv_modecd">
+                <select class="form-control input-sm" style="width:100%" id="supv_modecd">
                     <option value="1210">保税电商（1210）</option>
                     <option value="1239">保税电商A（1239）</option>
                 </select>
@@ -76,17 +90,17 @@
         <tr>
             <td class="headTitle">运输方式代码</td>
             <td>
-                <select class="form-control input-sm" id="trsp_modecd"/>
+                <select class="form-control input-sm" style="width:100%" id="trsp_modecd"/>
             </td>
             <td class="headTitle">是否报关标志</td>
             <td>
-                <select class="form-control input-sm" id="dclcus_flag">
+                <select class="form-control input-sm" style="width:100%" id="dclcus_flag">
                     <option value="2" selected="selected">非报关（2）</option>
                 </select>
             </td>
             <td class="headTitle">报关类型代码</td>
             <td>
-                <select class="form-control input-sm" id="dclcus_typecd" readonly="readonly">
+                <select class="form-control input-sm" style="width:100%" id="dclcus_typecd" readonly="readonly">
                     <option value="1" selected="selected"></option>
                 </select>
             </td>
@@ -94,17 +108,17 @@
         <tr>
             <td class="headTitle">报关单类型</td>
             <td>
-                <select class="form-control input-sm" maxlength="18" id="x1" readonly="readonly">
+                <select class="form-control input-sm" style="width:100%" id="x1" readonly="readonly">
                     <option value="3" selected="selected"></option>
                 </select>
             </td>
             <td class="headTitle">起运运抵国别代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="60" id="stship_trsarv_natcd"/>
+                <select class="form-control input-sm" style="width:100%" id="stship_trsarv_natcd"/>
             </td>
             <td class="headTitle">清单类型</td>
             <td>
-                <select class="form-control input-sm" maxlength="30" id="bond_invt_typecd">
+                <select class="form-control input-sm" style="width:100%" id="bond_invt_typecd">
                     <option value="8" selected="selected">保税电商（8）</option>
                 </select>
             </td>
@@ -112,80 +126,18 @@
         <tr>
             <td class="headTitle">申报类型</td>
             <td>
-                <select class="form-control input-sm" name="dcl_typecd" id="dcl_typecd">
+                <select class="form-control input-sm" style="width:100%" name="dcl_typecd" id="dcl_typecd">
                     <option value="1" selected="selected">备案申请（1）</option>
                 </select>
             </td>
-            <td class="headTitle">企业内部编码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="64" id="etps_inner_invt_no" readonly="readonly"/>
-            </td>
-            <td class="headTitle">核注清单编码</td>
-            <td>
-                <input class="form-control input-sm" maxlength="64" id="bond_invt_no" readonly="readonly"/>
-            </td>
-        </tr>
-        <tr>
             <td class="headTitle">备注</td>
-            <td colspan="6">
+            <td colspan="3">
                 <input class="form-control input-sm" maxlength="2000" id="rmk"/>
             </td>
         </tr>
         <tr hidden="hidden">
-            <!--保税清单编号-->
-            <!--<input hidden="hidden" id="bond_invt_no"/>-->
-            <!--表头ID码-->
             <input hidden="hidden" id="id"/>
-            <!--企业内部清单编号-->
-            <!--<input hidden="hidden" id="etps_inner_invt_no"/>-->
-            <!--所绑定清单编号-->
             <input hidden="hidden" id="invt_no"/>
-            <!--经营企业社会信用代码-->
-            <!--<input hidden="hidden" id="bizop_etps_sccd"/>-->
-            <!--&lt;!&ndash;收发货企业社会信用代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rvsngd_etps_sccd"/>-->
-            <!--&lt;!&ndash;申报企业社会信用代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="dcl_etps_sccd"/>-->
-
-            <!--&lt;!&ndash;关联清单编号&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_invt_no"/>-->
-            <!--&lt;!&ndash;关联备案编号&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_putrec_no"/>-->
-            <!--&lt;!&ndash;关联报关单编号&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_entry_no"/>-->
-            <!--&lt;!&ndash;关联报关单境内收发货人社会信用代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_entry_bizop_etps_sccd"/>-->
-            <!--&lt;!&ndash;关联报关单境内收发货人编号&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_entry_bizop_etpsno"/>-->
-            <!--&lt;!&ndash;关联报关单境内收发货人名称&ndash;&gt;-->
-            <!--<input hidden="hidden" id="rlt_entry_bizop_etps_nm"/>-->
-
-            <!--&lt;!&ndash;进出境关别&ndash;&gt;-->
-            <!--<input hidden="hidden" id="impexp_portcd"/>-->
-            <!--&lt;!&ndash;申请编号&ndash;&gt;-->
-            <!--<input hidden="hidden" id="apply_no"/>-->
-            <!--&lt;!&ndash;预核扣时间&ndash;&gt;-->
-            <!--<input hidden="hidden" id="prevd_time"/>-->
-            <!--正式核扣时间-->
-            <!--<input hidden="hidden" id="formal_vrfded_time"/>-->
-            <!--&lt;!&ndash;清单进出卡口状态代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="invt_iochkpt_stucd"/>-->
-            <!--&lt;!&ndash;核扣标记代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="vrfded_markcd"/>-->
-            <!--&lt;!&ndash;清单状态代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="invt_stucd"/>-->
-            <!--&lt;!&ndash;核扣方式代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="vrfded_modecd"/>-->
-            <!--&lt;!&ndash;核算代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="du_code"/>-->
-            <!--&lt;!&ndash;报关状态&ndash;&gt;-->
-            <!--<input hidden="hidden" id="entry_stucd"/>-->
-            <!--&lt;!&ndash;核放单生成标志代码&ndash;&gt;-->
-            <!--<input hidden="hidden" id="passport_used_typecd"/>-->
-            <!--&lt;!&ndash;报关单同步修改标志&ndash;&gt;-->
-            <!--<input hidden="hidden" id="need_entry_modified"/>-->
-            <!--&lt;!&ndash;计征金额&ndash;&gt;-->
-            <!--<input hidden="hidden" id="levy_bl_amt"/>-->
         </tr>
     </table>
 

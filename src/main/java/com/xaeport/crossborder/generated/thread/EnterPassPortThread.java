@@ -9,6 +9,7 @@ import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -93,7 +94,7 @@ public class EnterPassPortThread implements Runnable {
                         passportHeadXml.setVehicleWt(passPortHead.getVehicle_wt());
                         passportHeadXml.setVehicleFrameWt(passPortHead.getVehicle_frame_wt());
                         passportHeadXml.setContainerWt(passPortHead.getContainer_wt());
-                        passportHeadXml.setContainerType(passPortHead.getContainer_type());
+                        passportHeadXml.setContainerType(StringUtils.isEmpty(passPortHead.getContainer_type()) ? "" : passPortHead.getContainer_type());
                         passportHeadXml.setTotalWt(passPortHead.getTotal_wt());
                         passportHeadXml.setTotalGrossWt(passPortHead.getTotal_gross_wt());
                         passportHeadXml.setTotalNetWt(passPortHead.getTotal_net_wt());
@@ -140,7 +141,7 @@ public class EnterPassPortThread implements Runnable {
                         this.entryProcess(passPortMessage, xmlName, passPortHead);
                         if ("6".equals(passPortHead.getPassport_typecd())) {
                             try {
-                                // 更新入区空车核放单状态为已申报
+                                // 更新入区空车核放单状态为正在发往海关
                                 this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQKCHFDYSB);
                                 this.logger.debug(String.format("成功更新入区空车核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQKCHFDYSB));
                             } catch (Exception e) {
@@ -149,7 +150,7 @@ public class EnterPassPortThread implements Runnable {
                             }
                         } else {
                             try {
-                                // 更新入区核放单状态为已申报
+                                // 更新入区核放单状态为正在发往海关
                                 this.enterManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.RQHFDYSB);
                                 this.logger.debug(String.format("成功更新入区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.RQHFDYSB));
                             } catch (Exception e) {

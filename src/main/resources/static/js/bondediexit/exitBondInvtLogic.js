@@ -5,8 +5,7 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
     //查询
     query: function () {
         var url = sw.serializeObjectToURL($("[ws-search]").attr("ws-search"), {
-            bill_no: $("[name='bill_no']").val(),
-            order_no: $("[name='order_no']").val(),
+            etps_inner_invt_no: $("[name='etps_inner_invt_no']").val(),
             status: "N"
         });
         // 数据表
@@ -23,17 +22,12 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
                         if (row.status == "ING" || row.status == "Y") {
                             return "";
                         }
-                        return '<input type="checkbox" class="submitKey" value="' + row.guid + '" />';
+                        return '<input type="checkbox" class="submitKey" value="' + row.etps_inner_invt_no + '" />';
                     }
                 },
                 {
-                    label: "主运单号", render: function (data, type, row) {
-                    return row.bill_no;
-                }
-                },
-                {
-                    label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitBondInvtLogic').seeExitInventoryDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    label: "核注清单内部编码", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitBondInvtLogic').seeExitBondInvtLogicDetail('" + row.id + "','" + row.etps_inner_invt_no + "')" + '">' + row.etps_inner_invt_no + '</a>'
                 }
                 },
                 {
@@ -59,7 +53,6 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
         $("[ws-search]").unbind("click").click(this.query);
         $(".btn[ws-search]").click();
         $("[ws-delete]").unbind("click").click(this.deleteVerify);
-        // $("[ws-back]").unbind("click").click(this.back);
 
         $table = $("#query-logic-table");
         $table.on("change", ":checkbox", function () {
@@ -82,22 +75,22 @@ sw.page.modules["bondediexit/exitBondInvtLogic"] = sw.page.modules["bondediexit/
         if (submitKeys.length > 0) {
             submitKeys = submitKeys.substring(1);
         } else {
-            sw.alert("请先勾选要删除清单信息！");
+            sw.alert("请先勾选要删除的出区核注清单信息！");
             return;
         }
         var postData = {
             submitKeys: submitKeys
         };
-        sw.confirm("确定删除该清单", "确认", function () {
-            sw.ajax("api/bondorder/deleteLogical", "POST", postData, function (rsp) {
+        sw.confirm("确定删除该出区核注清单", "确认", function () {
+            sw.ajax("api/exitbondinvt/deletelogicdata", "POST", postData, function (rsp) {
                 sw.pageModule("bondediexit/exitBondInvtLogic").query();
             });
         });
     },
 
-    seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDCJ&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        sw.modelPopup(url, "查看清单详情", false, 1000, 930);
+    seeExitBondInvtLogicDetail: function (id, etpsInnerInvtNo) {
+        var url = "bondediexit/seeExitInventoryDetail?type=LJJY&isEdit=true&mark=upd&submitKeys=" + etpsInnerInvtNo;
+        sw.modelPopup(url, "查看出区核注清单详情", false, 1100, 930);
     }
 
 

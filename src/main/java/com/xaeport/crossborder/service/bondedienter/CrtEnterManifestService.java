@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -107,7 +108,7 @@ public class CrtEnterManifestService {
                 gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
                 net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
             }
-        }else {
+        } else {
             for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
                 gross_wts += Double.parseDouble(bondInvtDt.getGross_wt());
                 net_wts += Double.parseDouble(bondInvtDt.getNet_wt());
@@ -121,8 +122,8 @@ public class CrtEnterManifestService {
             }
         }*/
         DecimalFormat df = new DecimalFormat("######0.00000");
-        passPortHead.setTotal_gross_wt(df.format(gross_wts));
-        passPortHead.setTotal_net_wt(df.format(net_wts));
+//        passPortHead.setTotal_gross_wt(df.format(gross_wts));
+//        passPortHead.setTotal_net_wt(df.format(net_wts));
         passPortHead.setDcl_typecd("1");
         passPortHead.setIo_typecd("I");
         passPortHead.setFlag("ENTER");
@@ -207,7 +208,7 @@ public class CrtEnterManifestService {
         passPortHead.setVehicle_wt(object.get("vehicle_wt").toString());
         passPortHead.setVehicle_frame_wt(object.get("vehicle_frame_wt").toString());
         passPortHead.setContainer_wt(object.get("container_wt").toString());
-        passPortHead.setContainer_type(object.get("container_type").toString());
+        passPortHead.setContainer_type(StringUtils.isEmpty(object.get("container_type")) ? "" : object.get("container_type").toString());
         passPortHead.setTotal_wt(object.get("total_wt").toString());
         passPortHead.setTotal_gross_wt(object.get("total_gross_wt").toString());
         passPortHead.setTotal_net_wt(object.get("total_net_wt").toString());

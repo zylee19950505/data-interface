@@ -158,7 +158,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
     fillBondInvtBsc: function (entryHead) {
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
-        $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
@@ -167,7 +166,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#impexp_portcd").val(entryHead.impexp_portcd);
         $("#impexp_markcd").val(entryHead.impexp_markcd);
         $("#mtpck_endprd_markcd").val(entryHead.mtpck_endprd_markcd);
-        $("#supv_modecd").val(entryHead.supv_modecd);
         $("#trsp_modecd").val(entryHead.trsp_modecd);
         $("#dclcus_flag").val(entryHead.dclcus_flag);
         $("#stship_trsarv_natcd").val(entryHead.stship_trsarv_natcd);
@@ -177,10 +175,14 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
+        $("#invt_preent_no").val(entryHead.invt_preent_no);
         selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
         selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selecterInitDetail("supv_modecd", entryHead.supv_modecd);
+        selecterInitDetail("dcl_etpsno", entryHead.dcl_etpsno);
+
     },
 
     // 装载表头信息
@@ -221,22 +223,22 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         this.goPage(1, 5);
     },
 
-    // // 标记问题字段
-    // errorMessageShow: function (vertify) {
-    //     if (vertify) {
-    //         var result = JSON.parse(vertify.result);
-    //         var gno = result.g_num;
-    //         var field = result.field;
-    //
-    //         if (isNotEmpty(gno)) {
-    //             $("#" + field + "_" + gno).addClass("bg-red");
-    //             $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
-    //         } else {
-    //             $("#" + field).addClass("bg-red");
-    //             $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
-    //         }
-    //     }
-    // },
+    // 标记问题字段
+    errorMessageShow: function (verify) {
+        if (verify) {
+            var result = JSON.parse(verify.result);
+            var gno = result.no;
+            var field = result.field;
+
+            if (isNotEmpty(gno)) {
+                $("#" + field + "_" + gno).addClass("bg-red");
+                $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
+            } else {
+                $("#" + field).addClass("bg-red");
+                $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
+            }
+        }
+    },
 
     // 保存清单编辑信息
     saveExitInventoryInfo: function (customsCode) {
@@ -377,8 +379,9 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         if (isNotEmpty(entryLists)) {
                             entryModule.fillNemsInvtCbecBillTypeList(entryLists);
                         }
+
                         // headChangeKeyValEInven["entryhead_guid"] = param.submitKeys;
-                        // 添加输入框内容变更事件，捕获数据变更信息
+                        // // 添加输入框内容变更事件，捕获数据变更信息
                         // inputChangeEInvent(param.guid);
                         entryModule.disabledFieldInput();
                     }
@@ -394,12 +397,19 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
                         var entryModule = sw.page.modules["bondediexit/seeExitInventoryDetail"];
                         var entryHead = data.data.bondInvtBsc;
                         var entryLists = data.data.nemsInvtCbecBillTypeList;
+                        var verify = data.data.verify;
+
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillBondInvtBsc(entryHead);
                         }
                         if (isNotEmpty(entryLists)) {
                             entryModule.fillNemsInvtCbecBillTypeList(entryLists);
                         }
+                        // 根据错误字段中的值加高亮显示
+                        if (entryModule.detailParam.isShowError) {
+                            entryModule.errorMessageShow(verify);
+                        }
+
                         headChangeKeyValEInven["etps_inner_invt_no"] = param.submitKeys;
                         // 添加输入框内容变更事件，捕获数据变更信息
                         inputChangeEInvent(param.submitKeys);
@@ -418,11 +428,11 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "bizop_etps_nm": "经营企业名称",
             "dcl_etpsno": "申报企业编号",
             "dcl_etps_nm": "申报企业名称",
-            "putrec_no": "备案编号",
+            "putrec_no": "账册编号",
             "rcvgd_etpsno": "收货企业编号",
             "rcvgd_etps_nm": "收货企业名称",
-            "impexp_portcd": "进出口口岸代码",
-            "dcl_plc_cuscd": "申报地关区代码",
+            "impexp_portcd": "进境关别",
+            "dcl_plc_cuscd": "主管海关",
             "impexp_markcd": "进出口标记代码",
             "mtpck_endprd_markcd": "料件成品标记代码",
             "supv_modecd": "监管方式代码",
@@ -431,7 +441,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "stship_trsarv_natcd": "起运运抵国别代码",
             "bond_invt_typecd": "清单类型",
             "dcl_typecd": "申报类型"
-            // "rmk": "备注"
         };
 
         // 校验表体
@@ -480,6 +489,187 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             }
         }
         return true;
+    },
+
+    dclEtps: function () {
+        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
+            var data = rsp.data;
+            for (var idx in data) {
+                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
+                var dclEtpsName = data[idx].dcl_etps_name;
+                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
+                $("#dcl_etpsno").append(option);
+            }
+        })
+    },
+
+    dclEtpsName: function () {
+        $("#dcl_etpsno").change(function () {
+            var name = $("#dcl_etpsno option:selected").attr("name");
+            $("#dcl_etps_nm").text(name).val(name);
+        })
+    },
+
+    init: function () {
+        //从路径上获取参数
+        var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
+        var dataInfo = param.submitKeys;
+        var type = param.type;
+        var isEdit = param.isEdit;
+        var mark = param.mark;
+        var customsCode = param.customsCode;
+
+        this.dclEtps();
+        this.dclEtpsName();
+
+        $(".input-daterange").datepicker({
+            language: "zh-CN",
+            todayHighlight: true,
+            format: "yyyy-mm-dd",
+            autoclose: true
+        });
+
+        switch (type) {
+            //出区核注清单查询
+            case "CQHZQDCJ": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
+                        "body_id",
+                        "body_no",
+                        "body_seqNo",
+                        "body_bondInvtNo",
+                        "body_cbecBillNo",
+                        "body_etpsInnerInvtNo",
+                        "body_billNo",
+                        "body_count"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondediexit/saveExitInventory";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/crtExitInventory";
+                this.detailParam.isShowError = false;
+                break;
+            }
+            //出区核注清单修改
+            case "CQHZQDXG": {
+
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
+                        "body_id",
+                        "body_no",
+                        "body_seqNo",
+                        "body_bondInvtNo",
+                        "body_cbecBillNo",
+                        "body_etpsInnerInvtNo",
+                        "body_billNo",
+                        "body_count"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondediexit/updateExitInventory";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitInventory";
+                this.detailParam.isShowError = false;
+                break;
+            }
+            //逻辑校验：出区核注清单修改
+            case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "dcl_plc_cuscd",
+                        "putrec_no",
+                        "stship_trsarv_natcd",
+
+                        "body_id",
+                        "body_no",
+                        "body_seqNo",
+                        "body_bondInvtNo",
+                        "body_cbecBillNo",
+                        "body_etpsInnerInvtNo",
+                        "body_billNo",
+                        "body_count"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/exitbondinvt/updateExitLogic";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitBondInvtLogic";
+                this.detailParam.isShowError = true;
+                break;
+            }
+        }
+        // 不可编辑状态
+        if (isEdit == "false") {
+            this.detailParam.disableField = [
+                "bizop_etpsno",
+                "bizop_etps_nm",
+                "dcl_etpsno",
+                "dcl_etps_nm",
+                "putrec_no",
+                "rcvgd_etpsno",
+                "rcvgd_etps_nm",
+                "impexp_portcd",
+                "dcl_plc_cuscd",
+                "impexp_markcd",
+                "mtpck_endprd_markcd",
+                "supv_modecd",
+                "trsp_modecd",
+                "dclcus_flag",
+                "stship_trsarv_natcd",
+                "bond_invt_typecd",
+                "dcl_typecd",
+                "rmk",
+                "etps_inner_invt_no",
+
+                "body_id",
+                "body_no",
+                "body_seqNo",
+                "body_bondInvtNo",
+                "body_cbecBillNo",
+                "body_etpsInnerInvtNo",
+                "body_billNo",
+                "body_count"
+            ];
+            // 屏蔽保存取消按钮
+            $("#btnDiv").addClass("hidden");
+        } else {
+            // 显示保存取消按钮
+            $("#btnDiv").removeClass("hidden");
+        }
+        // 查询详情
+
+        if (mark == "crt") {
+            this.query(mark, customsCode);
+            $("#ws-page-apply").click(function () {
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo(customsCode);
+            });
+        } else if (mark == "upd") {
+            this.query(mark, customsCode);
+            $("#ws-page-apply").click(function () {
+                sw.page.modules["bondediexit/seeExitInventoryDetail"].updateExitInventoryInfo();
+            });
+        }
+
+        //点击取消
+        $("#ws-page-back").click(function () {
+            sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
+        });
+
     },
 
     goPage: function (pno, psize) {
@@ -546,152 +736,6 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
         $("#listData").text("核注清单数据共计" + num + "条");
         document.getElementById("barcon").innerHTML = tempStr;
-    },
-
-    dclEtps: function () {
-        sw.ajax("api/getDclEtps", "GET", {}, function (rsp) {
-            var data = rsp.data;
-            for (var idx in data) {
-                var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
-                var dclEtpsName = data[idx].dcl_etps_name;
-                var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
-                $("#dcl_etpsno").append(option);
-            }
-        })
-    },
-
-    dclEtpsName: function () {
-        $("#dcl_etpsno").change(function () {
-            var name = $("#dcl_etpsno option:selected").attr("name");
-            $("#dcl_etps_nm").text(name).val(name);
-        })
-    },
-
-    init: function () {
-        //从路径上获取参数
-        var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
-        var dataInfo = param.submitKeys;
-        var type = param.type;
-        var isEdit = param.isEdit;
-        var mark = param.mark;
-        var customsCode = param.customsCode;
-
-        this.dclEtps();
-        this.dclEtpsName();
-
-        $(".input-daterange").datepicker({
-            language: "zh-CN",
-            todayHighlight: true,
-            format: "yyyy-mm-dd",
-            autoclose: true
-        });
-
-        switch (type) {
-            //出区核注清单查询
-            case "CQHZQDCJ": {
-                // 不可编辑状态
-                if (isEdit == "true") {
-                    this.detailParam.disableField = [
-                        //当前禁用的字段,需要禁用的字段值在这里改
-                        "body_id",
-                        "body_no",
-                        "body_seqNo",
-                        "body_bondInvtNo",
-                        "body_cbecBillNo",
-                        "body_etpsInnerInvtNo",
-                        "body_billNo",
-                        "body_count"
-                    ];
-                }
-                //保存的路径
-                this.detailParam.url = "/api/bondediexit/saveExitInventory";
-                //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondediexit/crtExitInventory";
-                this.detailParam.isShowError = false;
-                break;
-            }
-            //出区核注清单修改
-            case "CQHZQDXG": {
-
-                // 不可编辑状态
-                if (isEdit == "true") {
-                    this.detailParam.disableField = [
-                        //当前禁用的字段,需要禁用的字段值在这里改
-                        "body_id",
-                        "body_no",
-                        "body_seqNo",
-                        "body_bondInvtNo",
-                        "body_cbecBillNo",
-                        "body_etpsInnerInvtNo",
-                        "body_billNo",
-                        "body_count"
-                    ];
-                }
-                //保存的路径
-                this.detailParam.url = "/api/bondediexit/updateExitInventory";
-                //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondediexit/exitInventory";
-                this.detailParam.isShowError = false;
-                break;
-            }
-        } // 不可编辑状态
-        if (isEdit == "false") {
-            this.detailParam.disableField = [
-                "bizop_etpsno",
-                "bizop_etps_nm",
-                "dcl_etpsno",
-                "dcl_etps_nm",
-                "putrec_no",
-                "rcvgd_etpsno",
-                "rcvgd_etps_nm",
-                "impexp_portcd",
-                "dcl_plc_cuscd",
-                "impexp_markcd",
-                "mtpck_endprd_markcd",
-                "supv_modecd",
-                "trsp_modecd",
-                "dclcus_flag",
-                "stship_trsarv_natcd",
-                "bond_invt_typecd",
-                "dcl_typecd",
-                "rmk",
-                "etps_inner_invt_no",
-
-                "body_id",
-                "body_no",
-                "body_seqNo",
-                "body_bondInvtNo",
-                "body_cbecBillNo",
-                "body_etpsInnerInvtNo",
-                "body_billNo",
-                "body_count"
-            ];
-            // 屏蔽保存取消按钮
-            $("#btnDiv").addClass("hidden");
-        } else {
-            // 显示保存取消按钮
-            $("#btnDiv").removeClass("hidden");
-        }
-        // 查询详情
-
-        if (mark == "crt") {
-            this.query(mark, customsCode);
-            $("#ws-page-apply").click(function () {
-                sw.page.modules["bondediexit/seeExitInventoryDetail"].saveExitInventoryInfo(customsCode);
-            });
-        } else if (mark == "upd") {
-            this.query(mark, customsCode);
-            $("#ws-page-apply").click(function () {
-                sw.page.modules["bondediexit/seeExitInventoryDetail"].updateExitInventoryInfo();
-            });
-        }
-
-        //点击取消
-        $("#ws-page-back").click(function () {
-            sw.page.modules["bondediexit/seeExitInventoryDetail"].cancel();
-        });
-
     }
-
 
 };

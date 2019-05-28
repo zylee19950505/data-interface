@@ -63,7 +63,7 @@ public class VerificationThreadBond implements Runnable {
                 }
 
                 // 封装校验实体数据
-                verify = this.packageVerify(impBDHeadVer, verificationResult);
+                verify = this.packageBondVerify(impBDHeadVer, verificationResult);
                 try {
                     // 添加校验状态及记录
                     verificationMapper.insertVerifyRecordByVerify(verify);// 添加校验记录
@@ -106,7 +106,7 @@ public class VerificationThreadBond implements Runnable {
     }
 
     // Verify 校验实体数据封装
-    private Verify packageVerify(ImpBDHeadVer impBDHeadVer, VerificationResult verificationResult) throws JsonProcessingException {
+    private Verify packageBondVerify(ImpBDHeadVer impBDHeadVer, VerificationResult verificationResult) throws JsonProcessingException {
         Verify verify = new Verify();
         String code = null;
         String id = null;

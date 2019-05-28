@@ -8,18 +8,32 @@
         </small>
     </div>
     <!--<div class="form-group text-center margin" id="btnDiv">-->
-        <!--<button class="btn btn-sm btn-success" type="button" id="ws-page-apply"-->
-                <!--data-toggle="tooltip-disabled"-->
-                <!--title="提交保存">-->
-            <!--<i class="fa fa-check"></i>-->
-        <!--</button>-->
-        <!--<button class="btn btn-sm btn-warning" type="button" id="ws-page-back"-->
-                <!--data-toggle="tooltip-disabled"-->
-                <!--title="取消并返回">-->
-            <!--<i class="fa fa-reply"></i>-->
-        <!--</button>-->
+    <!--<button class="btn btn-sm btn-success" type="button" id="ws-page-apply"-->
+    <!--data-toggle="tooltip-disabled"-->
+    <!--title="提交保存">-->
+    <!--<i class="fa fa-check"></i>-->
+    <!--</button>-->
+    <!--<button class="btn btn-sm btn-warning" type="button" id="ws-page-back"-->
+    <!--data-toggle="tooltip-disabled"-->
+    <!--title="取消并返回">-->
+    <!--<i class="fa fa-reply"></i>-->
+    <!--</button>-->
     <!--</div>-->
     <table id="entryHead" class="headDetail" border="1px solid balck">
+        <tr>
+            <td class="headTitle">预录入编号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="invt_preent_no" readonly="readonly"/>
+            </td>
+            <td class="headTitle">核注清单号</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="bond_invt_no" readonly="readonly"/>
+            </td>
+            <td class="headTitle">企业内部编码</td>
+            <td>
+                <input class="form-control input-sm" maxlength="64" id="etps_inner_invt_no" readonly="readonly"/>
+            </td>
+        </tr>
         <tr>
             <td class="headTitle">经营企业编号</td>
             <td>
@@ -31,7 +45,7 @@
             </td>
             <td class="headTitle">申报企业编号</td>
             <td>
-                <select class="form-control input-sm" maxlength="10" id="dcl_etpsno"/>
+                <select class="form-control input-sm" style="width:100%" maxlength="10" id="dcl_etpsno"/>
             </td>
         </tr>
         <tr>
@@ -39,7 +53,7 @@
             <td>
                 <input class="form-control input-sm" maxlength="512" id="dcl_etps_nm"/>
             </td>
-            <td class="headTitle">备案编号</td>
+            <td class="headTitle">账册编号</td>
             <td>
                 <input class="form-control input-sm" maxlength="64" id="putrec_no"/>
             </td>
@@ -55,106 +69,106 @@
             </td>
             <td class="headTitle">进境关别</td>
             <td>
-                <select class="form-control input-sm" maxlength="100" id="impexp_portcd"/>
+                <select class="form-control input-sm" style="width:100%" id="impexp_portcd"/>
             </td>
             <td class="headTitle">主管海关</td>
             <td>
-                <select class="form-control input-sm" maxlength="100" id="dcl_plc_cuscd"/>
+                <select class="form-control input-sm" style="width:100%" id="dcl_plc_cuscd"/>
             </td>
 
         </tr>
         <tr>
             <td class="headTitle">进出口标记代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="1" id="impexp_markcd">
-                    <option value="I" selected="selected">进口（I）</option>
+                <select class="form-control input-sm" style="width:100%" id="impexp_markcd">
+                    <option value="I" selected="selected">进口(I)</option>
                 </select>
             </td>
             <td class="headTitle">料件成品标记代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="1" id="mtpck_endprd_markcd">
-                    <option value="I" selected="selected">料件（I）</option>
+                <select class="form-control input-sm" style="width:100%" id="mtpck_endprd_markcd">
+                    <option value="I" selected="selected">料件(I)</option>
                 </select>
             </td>
             <td class="headTitle">监管方式代码</td>
             <td>
-                <select class="form-control input-sm" id="supv_modecd">
-                    <option value="1210">保税电商（1210）</option>
-                    <option value="1239">保税电商A（1239）</option>
+                <select class="form-control input-sm" style="width:100%" id="supv_modecd">
+                    <option value="1210">保税电商(1210)</option>
+                    <option value="1239">保税电商A(1239)</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td class="headTitle">运输方式代码</td>
             <td>
-                <select class="form-control input-sm" id="trsp_modecd"/>
+                <select class="form-control input-sm" style="width:100%" id="trsp_modecd"/>
             </td>
             <td class="headTitle">是否报关标志</td>
             <td>
-                <select class="form-control input-sm" id="dclcus_flag">
-                    <option value="1" selected="selected">报关（1）</option>
+                <select class="form-control input-sm" style="width:100%" id="dclcus_flag">
+                    <option value="1" selected="selected">报关(1)</option>
                 </select>
             </td>
             <td class="headTitle">报关类型代码</td>
             <td>
-                <select class="form-control input-sm" id="dclcus_typecd">
-                    <option value="1" selected="selected">关联报关（1）</option>
-                    <option value="2" selected="selected">对应报关（2）</option>
+                <select class="form-control input-sm" style="width:100%" id="dclcus_typecd">
+                    <option value="1">关联报关(1)</option>
+                    <option value="2" selected="selected">对应报关(2)</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td class="headTitle">报关单类型</td>
             <td>
-                <select class="form-control input-sm" id="dec_type">
-                    <option value="1" selected="selected">进口报关单（1）</option>
-                    <option value="2" selected="selected">出口报关单（2）</option>
-                    <option value="3" selected="selected">进境备案清单（3）</option>
-                    <option value="4" selected="selected">出境备案清单（4）</option>
-                    <option value="5" selected="selected">进境两单一审备案清单（5）</option>
-                    <option value="6" selected="selected">出境两单一审备案清单（6）</option>
-                    <option value="B" selected="selected">转关提前进境备案清单（B）</option>
-                    <option value="C" selected="selected">转关提前出境备案清单（C）</option>
-                    <option value="F" selected="selected">出口二次转关单（F）</option>
-                    <option value="G" selected="selected">进口提前/工厂验放报关单（G）</option>
-                    <option value="H" selected="selected">出口提前/工厂验放报关单（H）</option>
-                    <option value="I" selected="selected">进口提前/暂时进口报关单（I）</option>
-                    <option value="J" selected="selected">出口提前/暂时出口报关单（J）</option>
-                    <option value="K" selected="selected">进口提前/中欧班列报关单（K）</option>
-                    <option value="L" selected="selected">出口提前/中欧班列报关单（L）</option>
-                    <option value="M" selected="selected">出口提前/市场采购报关单（M）</option>
-                    <option value="N" selected="selected">出口提前/空运联程报关单（N）</option>
-                    <option value="O" selected="selected">进口提前/工厂验放备案清单（O）</option>
-                    <option value="P" selected="selected">出口提前/工厂验放备案清单（P）</option>
-                    <option value="Q" selected="selected">进口提前/暂时进口备案清单（Q）</option>
-                    <option value="R" selected="selected">出口提前/暂时出口备案清单（R）</option>
-                    <option value="S" selected="selected">进口提前/中欧班列备案清单（S）</option>
-                    <option value="T" selected="selected">出口提前/中欧班列备案清单（T）</option>
-                    <option value="U" selected="selected">出口提前/市场采购备案清单（U）</option>
-                    <option value="V" selected="selected">出口提前/空运联程备案清单（V）</option>
+                <select class="form-control input-sm" style="width:100%" id="dec_type">
+                    <option value="1">进口报关单(1)</option>
+                    <option value="2">出口报关单(2)</option>
+                    <option value="3">进境备案清单(3)</option>
+                    <option value="4">出境备案清单(4)</option>
+                    <option value="5">进境两单一审备案清单(5)</option>
+                    <option value="6">出境两单一审备案清单(6)</option>
+                    <option value="B">转关提前进境备案清单(B)</option>
+                    <option value="C">转关提前出境备案清单(C)</option>
+                    <option value="F">出口二次转关单(F)</option>
+                    <option value="G">进口提前/工厂验放报关单(G)</option>
+                    <option value="H">出口提前/工厂验放报关单(H)</option>
+                    <option value="I">进口提前/暂时进口报关单(I)</option>
+                    <option value="J">出口提前/暂时出口报关单(J)</option>
+                    <option value="K">进口提前/中欧班列报关单(K)</option>
+                    <option value="L">出口提前/中欧班列报关单(L)</option>
+                    <option value="M">出口提前/市场采购报关单(M)</option>
+                    <option value="N">出口提前/空运联程报关单(N)</option>
+                    <option value="O">进口提前/工厂验放备案清单(O)</option>
+                    <option value="P">出口提前/工厂验放备案清单(P)</option>
+                    <option value="Q">进口提前/暂时进口备案清单(Q)</option>
+                    <option value="R">出口提前/暂时出口备案清单(R)</option>
+                    <option value="S">进口提前/中欧班列备案清单(S)</option>
+                    <option value="T">出口提前/中欧班列备案清单(T)</option>
+                    <option value="U">出口提前/市场采购备案清单(U)</option>
+                    <option value="V">出口提前/空运联程备案清单(V)</option>
                 </select>
             </td>
             <td class="headTitle">起运抵国别代码</td>
             <td>
-                <select class="form-control input-sm" maxlength="60" id="stship_trsarv_natcd"/>
+                <select class="form-control input-sm" style="width:100%" maxlength="60" id="stship_trsarv_natcd"/>
             </td>
             <td class="headTitle">清单类型</td>
             <td>
-                <select class="form-control input-sm" id="invt_type">
+                <select class="form-control input-sm" style="width:100%" id="invt_type">
                     <option value="0" selected="selected">普通清单(0)</option>
                 </select>
             </td>
         </tr>
         <tr>
-            <td class="headTitle">对应报关单申报单位社会统一信用代码</td>
+            <td class="headTitle">对应报关单<br/>申报单位社会信用代码</td>
             <td>
                 <input class="form-control input-sm" maxlength="18" id="corr_entry_dcl_etps_sccd"/>
             </td>
-            <td class="headTitle">对应报关单申报单位代码</td>
+            <td class="headTitle">对应报关单<br/>申报单位代码</td>
             <td>
                 <input class="form-control input-sm" maxlength="10" id="corr_entry_dcl_etps_no"/>
             </td>
-            <td class="headTitle">对应报关单申报单位名称</td>
+            <td class="headTitle">对应报关单<br/>申报单位名称</td>
             <td>
                 <input class="form-control input-sm" maxlength="512" id="corr_entry_dcl_etps_nm"/>
             </td>
@@ -162,8 +176,8 @@
         <tr>
             <td class="headTitle">申报类型</td>
             <td>
-                <select class="form-control input-sm" id="dcl_typecd">
-                    <option value="1" selected="selected">备案申请（1）</option>
+                <select class="form-control input-sm" style="width:100%" id="dcl_typecd">
+                    <option value="1" selected="selected">备案申请(1)</option>
                 </select>
             </td>
             <td class="headTitle">备注</td>
@@ -179,17 +193,23 @@
     <table id="entryList" class="listDetail" border="1px solid balck">
         <thead>
         <tr style="height: 30px">
-            <th>备案序号</th>
-            <th>商品料号</th>
-            <th>商品编码</th>
-            <th>商品名称</th>
-            <th>商品规格<br/>/型号</th>
-            <th>申报计量单位</th>
-            <th>申报数量</th>
-            <th>申报单价</th>
-            <th>申报总价</th>
+            <th width="3%">序号</th>
+            <th width="3%">备案<br/>序号</th>
+            <th width="5%">商品<br/>料号</th>
+            <th width="5%">商品<br/>编码</th>
+            <th width="5%">商品<br/>名称</th>
+            <th width="5%">规格<br/>型号</th>
+            <th width="5%">申报<br/>数量</th>
+            <th>申报<br/>单位</th>
+            <th width="5%">法定<br/>数量</th>
+            <th>法定单位</th>
+            <th width="5%">第二<br/>数量</th>
+            <th>第二<br/>单位</th>
+            <th width="5%">单价</th>
+            <th width="5%">商品<br/>总价</th>
             <th>币制</th>
-            <!-- <th>美元统计总金额</th>-->
+            <th>原产国</th>
+            <th>征免方式</th>
         </tr>
         </thead>
         <tbody id="table_body">

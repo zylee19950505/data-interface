@@ -85,7 +85,7 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
                             break;
                         case "CBDS71":
                             textColor = "text-green";
-                            value = "入库明细单已申报";
+                            value = "入库明细单正在发往海关";
                             break;
                     }
 
@@ -144,7 +144,7 @@ sw.page.modules["deliverymanage/deliveryDeclare"] = sw.page.modules["deliveryman
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).subtract('days',7).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",

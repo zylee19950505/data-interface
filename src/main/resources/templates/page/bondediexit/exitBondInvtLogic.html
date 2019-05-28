@@ -1,7 +1,7 @@
 <section class="content-header">
     <h1>逻辑校验</h1>
     <ol class="breadcrumb">
-        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i> 出区清单数据校验</a></li>
+        <li><a href="javascript:void(0);"><i class="fa fa-cubes"></i> 出区核注清单数据校验</a></li>
         <li class="active">逻辑校验</li>
     </ol>
 </section>
@@ -25,20 +25,13 @@
 
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" style="border-width: 1px;">提运单号：</span>
-                                    <input class="form-control" type="text" name="bill_no"  placeholder="请输入提运单号"/>
+                                    <span class="input-group-addon" style="border-width: 1px;">核注清单内部编码：</span>
+                                    <input class="form-control" type="text" name="etps_inner_invt_no" placeholder="请输入核注清单内部编码"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon" style="border-width: 1px;">订单编号：</span>
-                                    <input class="form-control" type="text" name="order_no" placeholder="请输入订单编号"/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-sm btn-info" type="button" ws-search="bondorder/logical"
+                                <button class="btn btn-sm btn-info" type="button" ws-search="exitbondinvt/exitbondinvtlog"
                                         data-toggle="tooltip-disabled"
                                         title="查询"><i class="fa fa-search"></i></button>
                             </div>

@@ -61,7 +61,7 @@ public interface ExitManifestMapper {
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortAcmp")
     void updatePassPortAcmp(@Param("passPortHead") LinkedHashMap<String, String> passPortHead, @Param("passPortAcmpList") LinkedHashMap<String, String> passPortAcmpList, @Param("userInfo") Users userInfo);
 
-    //查找可以生成报文的已申报状态表头数据
+    //查找可以生成报文的正在发往海关状态表头数据
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "findWaitGenerated")
     List<PassPortHead> findWaitGenerated(Map<String, String> paramMap);
 
@@ -69,7 +69,7 @@ public interface ExitManifestMapper {
     @SelectProvider(type = ExitManifestSQLProvider.class, method = "queryDataFull")
     List<String> queryDataFull(Map<String, String> paramMap);
 
-    //更新出区核放单数据为已申报状态
+    //更新出区核放单数据为正在发往海关状态
     @UpdateProvider(type = ExitManifestSQLProvider.class, method = "updatePassPortHeadStatus")
     void updatePassPortHeadStatus(@Param("etpsPreentNo") String etpsPreentNo, @Param("status") String status);
 
@@ -88,5 +88,8 @@ public interface ExitManifestMapper {
     //查询申报企业IcCard
     @Select("SELECT DCL_ETPS_IC_NO FROM T_DCL_ETPS WHERE ENT_ID = #{entId} AND DCL_ETPS_CUSTOMS_CODE = #{customsCode}")
     String getDclEtpsIcCard(@Param("entId") String entId, @Param("customsCode") String customsCode);
+
+    @Select("SELECT SAS_PASSPORT_PREENT_NO,PASSPORT_NO,ETPS_PREENT_NO,RETURN_STATUS,RETURN_DATE,RETURN_INFO FROM T_PASS_PORT_HEAD t WHERE t.ID = #{id} and t.ETPS_PREENT_NO = #{etps_preent_no}")
+    PassPortHead queryPassPortRecInfo(@Param("id") String id, @Param("etps_preent_no") String etps_preent_no);
 
 }

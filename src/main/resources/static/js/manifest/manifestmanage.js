@@ -77,7 +77,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
                             break;
                         case "CBDS81":
                             textColor = "text-green";
-                            value = "核放单已申报";
+                            value = "核放单正在发往海关";
                             break;
                         case "CBDS82":
                             textColor = "text-green";
@@ -111,7 +111,7 @@ sw.page.modules["manifest/manifestmanage"] = sw.page.modules["manifest/manifestm
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).subtract('days',7).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",

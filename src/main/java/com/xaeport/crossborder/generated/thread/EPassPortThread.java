@@ -9,6 +9,7 @@ import com.xaeport.crossborder.tools.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
@@ -90,7 +91,7 @@ public class EPassPortThread implements Runnable {
                         passportHeadXml.setVehicleWt(passPortHead.getVehicle_wt());
                         passportHeadXml.setVehicleFrameWt(passPortHead.getVehicle_frame_wt());
                         passportHeadXml.setContainerWt(passPortHead.getContainer_wt());
-                        passportHeadXml.setContainerType(passPortHead.getContainer_type());
+                        passportHeadXml.setContainerType(StringUtils.isEmpty(passPortHead.getContainer_type()) ? "" : passPortHead.getContainer_type());
                         passportHeadXml.setTotalWt(passPortHead.getTotal_wt());
                         passportHeadXml.setTotalGrossWt(passPortHead.getTotal_gross_wt());
                         passportHeadXml.setTotalNetWt(passPortHead.getTotal_net_wt());
@@ -102,7 +103,7 @@ public class EPassPortThread implements Runnable {
                         passportHeadXml.setEtpsPreentNo(passPortHead.getEtps_preent_no());
 
                         try {
-                            // 更新出区核放单状态为已申报
+                            // 更新出区核放单状态为正在发往海关
                             this.exitManifestMapper.updatePassPortHeadStatus(etpsPreentNo, StatusCode.CQHFDYSB);
                             this.logger.debug(String.format("成功更新出区核放单[etpsPreentNo: %s]状态为: %s", etpsPreentNo, StatusCode.CQHFDYSB));
                         } catch (Exception e) {

@@ -85,7 +85,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                             textColor = "text-green";
                             break;
                         case "CBDS21":
-                            value = "订单已申报";
+                            value = "订单正在发往海关";
                             textColor = "text-green";
                             break;
                         case "CBDS22":
@@ -184,7 +184,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
     },
 
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).subtract('days',7).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",

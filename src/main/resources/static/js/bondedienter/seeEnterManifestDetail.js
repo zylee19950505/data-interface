@@ -159,8 +159,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
     },
     // 装载表头信息
     fillManifestInfo: function (entryHead) {
-        $("#etps_preent_no").val(entryHead.etps_preent_no);
+        $("#sas_passport_preent_no").val(entryHead.sas_passport_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#areain_etpsno").val(entryHead.areain_etpsno);
         $("#areain_etps_nm").val(entryHead.areain_etps_nm);
@@ -298,7 +299,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
             "vehicle_no": "承运车车牌号",
             "vehicle_wt": "车自重",
             "vehicle_frame_wt": "车架重",
-            "container_type": "集装箱箱型",
+            // "container_type": "集装箱箱型",
             "container_wt": "集装箱重",
             "total_wt": "总重量",
             "passport_typecd": "核放单类型代码",
@@ -370,9 +371,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                         "etps_preent_no",//核放单编号
                         "bond_invt_no",//核注清单编号
                         "bind_typecd",//绑定类型代码
-                        "total_gross_wt",//总毛重
-                        "total_net_wt",//总净重
-                        "total_wt"//总重
+                        // "total_gross_wt",//总毛重
+                        // "total_net_wt",//总净重
+                        // "total_wt"//总重
                     ];
                 }
                 //保存的路径
@@ -391,9 +392,9 @@ sw.page.modules["bondedienter/seeEnterManifestDetail"] = sw.page.modules["bonded
                         "etps_preent_no",//核放单编号
                         "bond_invt_no",//核注清单编号
                         "bind_typecd",//绑定类型代码
-                        "total_gross_wt",//总毛重
-                        "total_net_wt",//总净重
-                        "total_wt",//总重
+                        // "total_gross_wt",//总毛重
+                        // "total_net_wt",//总净重
+                        // "total_wt",//总重
                     ];
                 }
                 //保存的路径

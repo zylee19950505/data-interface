@@ -64,63 +64,60 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
                     }
                 },
                 {
-                    label: "企业内部编码", render: function (data, type, row) {
-                        return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
-                    }
+                    data: "invt_preent_no", label: "预录入编号"
                 },
                 {
                     data: "bond_invt_no", label: "核注清单号"
                 },
                 {
-                    data: "invt_preent_no", label: "预录入编号"
+                    label: "企业内部编码", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeEnterInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
+                }
                 },
                 {
                     label: "申报状态", render: function (data, type, row) {
-                        var textColor = "";
-                        var value = "";
-                        switch (row.status) {
-                            case "BDDS1":
-                                textColor = "text-yellow";
-                                value = "核注清单待申报";
-                                break;
-                            case "BDDS10":
-                                textColor = "text-green";
-                                value = "核注清单申报中";
-                                break;
-                            case "BDDS11":
-                                textColor = "text-green";
-                                value = "核注清单已申报";
-                                break;
-                            case "BDDS12":
-                                textColor = "text-green";
-                                value = "核注清单申报成功";
-                                break;
-                        }
-
-                        return "<span class='" + textColor + "'>" + value + "</span>";
+                    var textColor = "";
+                    var value = "";
+                    switch (row.status) {
+                        case "BDDS1":
+                            textColor = "text-yellow";
+                            value = "核注清单待申报";
+                            break;
+                        case "BDDS10":
+                            textColor = "text-green";
+                            value = "核注清单申报中";
+                            break;
+                        case "BDDS11":
+                            textColor = "text-green";
+                            value = "核注清单正在发往海关";
+                            break;
+                        case "BDDS12":
+                            textColor = "text-green";
+                            value = "核注清单申报成功";
+                            break;
                     }
+
+                    return "<span class='" + textColor + "'>" + value + "</span>";
+                }
                 },
                 {
                     label: "申报时间", render: function (data, type, row) {
-                        if (!isEmpty(row.invt_dcl_time)) {
-                            return moment(row.invt_dcl_time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
+                    if (!isEmpty(row.invt_dcl_time)) {
+                        return moment(row.invt_dcl_time).format("YYYY-MM-DD HH:mm:ss");
                     }
+                    return "";
+                }
                 },
                 {
-                    data: "return_status", label: "回执状态"
-                },
-                {
-                    label: "回执时间", render: function (data, type, row) {
-                        if (!isEmpty(row.return_time)) {
-                            return moment(row.return_time).format("YYYY-MM-DD HH:mm:ss");
-                        }
-                        return "";
+                    label: "回执状态", render: function (data, type, row) {
+                    var value = "";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = isEmpty(row.return_status) ? "" : row.return_status;
                     }
-                },
-                {
-                    data: "return_info", label: "回执备注"
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondedienter/enterInventory').seeBondInvtRec('" + row.id + "','" + row.etps_inner_invt_no + "')" + '">' + value + '</a>'
+                }
                 }
             ]
         });
@@ -208,15 +205,19 @@ sw.page.modules["bondedienter/enterInventory"] = sw.page.modules["bondedienter/e
             }
         });
     },
-    seeEnterInventoryInfo: function (etpsInnerInvtNo,status) {
-        if ("BDDS10"==status || "BDDS11"==status || "BDDS12"==status){
+    seeEnterInventoryInfo: function (etpsInnerInvtNo, status) {
+        if ("BDDS10" == status || "BDDS11" == status || "BDDS12" == status) {
             var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=false&etps_inner_invt_no=" + etpsInnerInvtNo;
-        }else{
+        } else {
             var url = "bondedienter/seeEnterInventoryDetail?type=RQHZQD&isEdit=true&etps_inner_invt_no=" + etpsInnerInvtNo;
         }
-        sw.modelPopup(url, "查看清单详情", false, 1100, 930);
-    }
+        sw.modelPopup(url, "查看核注清单详情", false, 1250, 930);
+    },
 
+    seeBondInvtRec: function (id, etps_inner_invt_no) {
+        var url = "bondediexit/BondInvtReturnInfo?id=" + id + "&etps_inner_invt_no=" + etps_inner_invt_no;
+        sw.modelPopup(url, "查看核注清单回执详情", false, 800, 300);
+    }
 
 };
 

@@ -169,6 +169,12 @@ public class CrtExitManifestSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(passPortHead.getRlt_no())) {
                     VALUES("rlt_no", "#{passPortHead.rlt_no}");
                 }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_gross_wt())) {
+                    VALUES("total_gross_wt", "#{passPortHead.total_gross_wt}");
+                }
+                if (!StringUtils.isEmpty(passPortHead.getTotal_net_wt())) {
+                    VALUES("total_net_wt", "#{passPortHead.total_net_wt}");
+                }
                 if (!StringUtils.isEmpty(userInfo.getId())) {
                     VALUES("CRT_USER", "#{userInfo.id}");
                 }

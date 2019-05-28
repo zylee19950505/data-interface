@@ -107,7 +107,7 @@ public class PaymentMessageThread implements Runnable {
                             try {
                                 // 更新支付单状态
                                 this.paymentDeclareMapper.updateImpPaymentStatus(guid, StatusCode.ZFDYSB);
-                                this.logger.debug(String.format("更新支付单为已申报[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
+                                this.logger.debug(String.format("更新支付单为正在发往海关[guid: %s]状态为: %s", guid, StatusCode.ZFDYSB));
                             } catch (Exception e) {
                                 String exceptionMsg = String.format("更改支付单[headGuid: %s]状态时发生异常", paymentHead.getGuid());
                                 this.logger.error(exceptionMsg, e);

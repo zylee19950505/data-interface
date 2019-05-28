@@ -112,9 +112,9 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
                             textColor = "text-green";
                             row.data_status = "支付单申报中";
                             break;
-                        case "CBDS31"://支付单已申报
+                        case "CBDS31"://支付单正在发往海关
                             textColor = "text-green";
-                            row.data_status = "支付单已申报";
+                            row.data_status = "支付单正在发往海关";
                             break;
                         case "CBDS32"://支付单申报成功
                             textColor = "text-green";
@@ -160,7 +160,7 @@ sw.page.modules["paymentmanage/paymentDeclare"] = sw.page.modules["paymentmanage
         });
     },
     init: function () {
-        $("[name='startFlightTimes']").val(moment(new Date()).date(1).format("YYYY-MM-DD"));
+        $("[name='startFlightTimes']").val(moment(new Date()).subtract('days',7).format("YYYY-MM-DD"));
         $("[name='endFlightTimes']").val(moment(new Date()).format("YYYY-MM-DD"));
         $(".input-daterange").datepicker({
             language: "zh-CN",

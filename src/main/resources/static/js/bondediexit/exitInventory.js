@@ -64,15 +64,15 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                     }
                 },
                 {
-                    label: "企业内部编码", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
-                    }
+                    data: "invt_preent_no", label: "预录入编号"
                 },
                 {
                     data: "bond_invt_no", label: "核注清单号"
                 },
                 {
-                    data: "invt_preent_no", label: "预录入编号"
+                    label: "企业内部编码", render: function (data, type, row) {
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeExitInventoryInfo('" + row.etps_inner_invt_no + "','" + row.status + "')" + '">' + row.etps_inner_invt_no + '</a>'
+                }
                 },
                 {
                     label: "申报状态", render: function (data, type, row) {
@@ -85,9 +85,9 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                             textColor = "text-green";
                             row.status = "核注清单申报中";
                             break;
-                        case "BDDS21"://出区核注清单已申报
+                        case "BDDS21"://出区核注清单正在发往海关
                             textColor = "text-green";
-                            row.status = "核注清单已申报";
+                            row.status = "核注清单正在发往海关";
                             break;
                         case "BDDS22"://出区核注清单申报成功
                             textColor = "text-green";
@@ -106,18 +106,15 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
                 }
                 },
                 {
-                    data: "return_status", label: "回执状态"
-                },
-                {
-                    label: "回执时间", render: function (data, type, row) {
-                    if (!isEmpty(row.return_time)) {
-                        return moment(row.return_time).format("YYYY-MM-DD HH:mm:ss");
+                    label: "回执状态", render: function (data, type, row) {
+                    var value = "";
+                    if (!isEmpty(row.return_status_name)) {
+                        value = row.return_status_name
+                    } else {
+                        value = isEmpty(row.return_status) ? "" : row.return_status;
                     }
-                    return "";
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondediexit/exitInventory').seeBondInvtRec('" + row.id + "','" + row.etps_inner_invt_no + "')" + '">' + value + '</a>'
                 }
-                },
-                {
-                    data: "return_info", label: "回执备注"
                 }
             ]
         });
@@ -207,6 +204,11 @@ sw.page.modules["bondediexit/exitInventory"] = sw.page.modules["bondediexit/exit
             var url = "bondediexit/seeExitInventoryDetail?type=CQHZQDXG&isEdit=false&mark=upd&submitKeys=" + etpsInnerInvtNo;
         }
         sw.modelPopup(url, "查看出区核注清单详情", false, 1100, 930);
+    },
+
+    seeBondInvtRec: function (id, etps_inner_invt_no) {
+        var url = "bondediexit/BondInvtReturnInfo?id=" + id + "&etps_inner_invt_no=" + etps_inner_invt_no;
+        sw.modelPopup(url, "查看核注清单回执详情", false, 800, 300);
     }
 
 };

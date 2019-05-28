@@ -146,14 +146,15 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
     //装在出区核放单真实数据
     fillPassPortHead: function (entryHead) {
         $("#id").val(entryHead.id);
+        $("#sas_passport_preent_no").val(entryHead.sas_passport_preent_no);
         $("#passport_no").val(entryHead.passport_no);
+        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#rlt_tb_typecd").val(entryHead.rlt_tb_typecd);
         $("#dcl_typecd").val(entryHead.dcl_typecd);
         $("#areain_oriact_no").val(entryHead.areain_oriact_no);
         $("#master_cuscd").val(entryHead.master_cuscd);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
-        $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
         $("#io_typecd").val(entryHead.io_typecd);
@@ -186,6 +187,8 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#etps_preent_no").val(entryHead.etps_preent_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#rlt_no").val(entryHead.rlt_no);
+        $("#total_gross_wt").val(entryHead.total_gross_wt);
+        $("#total_net_wt").val(entryHead.total_net_wt);
         selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
     },
 
@@ -205,21 +208,22 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         }
     },
 
-    // // 标记问题字段
-    // errorMessageShow: function (vertify) {
-    //     if (vertify) {
-    //         var result = JSON.parse(vertify.result);
-    //         var gno = result.gno;
-    //         var field = result.field;
-    //         if (isNotEmpty(gno)) {
-    //             $("#" + field + "_" + gno).addClass("bg-red");
-    //             $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
-    //         } else {
-    //             $("#" + field).addClass("bg-red");
-    //             $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
-    //         }
-    //     }
-    // },
+    // 标记问题字段
+    errorMessageShow: function (verify) {
+        if (verify) {
+            var result = JSON.parse(verify.result);
+            var gno = result.no;
+            var field = result.field;
+
+            if (isNotEmpty(gno)) {
+                $("#" + field + "_" + gno).addClass("bg-red");
+                $("#" + field + "_" + gno).parent().find(".select2-selection--single").addClass("bg-red");
+            } else {
+                $("#" + field).addClass("bg-red");
+                $("#" + field).parent().find(".select2-selection--single").addClass("bg-red");
+            }
+        }
+    },
 
     // 保存订单编辑信息
     saveExitManifestInfo: function () {
@@ -369,8 +373,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                     }
                 }
             });
-        }
-        else if (mark == "upd") {
+        } else if (mark == "upd") {
             $.ajax({
                 method: "GET",
                 url: "api/bondediexit/exitmanifest",
@@ -380,12 +383,19 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         var entryModule = sw.page.modules["bondediexit/seeExitManifestDetail"];
                         var entryHead = data.data.passPortHead;
                         var entryLists = data.data.passPortAcmpList;
+                        var verify = data.data.verify;
+
                         if (isNotEmpty(entryHead)) {
                             entryModule.fillPassPortHead(entryHead);
                         }
                         if (isNotEmpty(entryLists)) {
                             entryModule.fillNewPassPortAcmp(entryLists);
                         }
+                        // 根据错误字段中的值加高亮显示
+                        if (entryModule.detailParam.isShowError) {
+                            entryModule.errorMessageShow(verify);
+                        }
+
                         headChangeKeyValEManifest["etps_preent_no"] = param.submitKeys;
                         // 添加输入框内容变更事件，捕获数据变更信息
                         inputChangeEManifest(param.submitKeys);
@@ -394,6 +404,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 }
             });
         }
+
     },
     //校验
     valiFieldPassPort: function () {
@@ -412,7 +423,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
             "vehicle_no": "车牌号",
             "vehicle_wt": "车辆自重",
             "vehicle_frame_wt": "车架重",
-            "container_type": "集装箱箱型",
+            // "container_type": "集装箱箱型",
             "container_wt": "集装箱重",
             "total_wt": "总重量",
             "passport_typecd": "核放单类型代码",
@@ -509,6 +520,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
                         "rlt_no",
+                        "areain_oriact_no",
 
                         "body_id",
                         "body_no",
@@ -532,6 +544,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                         //当前禁用的字段,需要禁用的字段值在这里改
                         "passport_no",
                         "rlt_no",
+                        "areain_oriact_no",
 
                         "body_id",
                         "body_no",
@@ -545,6 +558,30 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "bondediexit/exitManifest";
                 this.detailParam.isShowError = false;
+                break;
+            }
+            //逻辑校验：出区核放单
+            case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "passport_no",
+                        "rlt_no",
+                        "areain_oriact_no",
+
+                        "body_id",
+                        "body_no",
+                        "body_rtlTbTypecd",
+                        "body_rtlNo",
+                        "body_headEtpsPreentNo"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/exitpassport/updateExitLogic";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondediexit/exitPassPortLogic";
+                this.detailParam.isShowError = true;
                 break;
             }
         } // 不可编辑状态

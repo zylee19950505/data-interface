@@ -27,7 +27,7 @@ public interface ManifestManageMapper {
     @SelectProvider(type = ManifestManageSQLProvider.class, method = "findManifestManage")
     List<ManifestHead> findManifestManage(Map<String, String> paramMap);
 
-    //把核放单置为已申报状态
+    //把核放单置为正在发往海关状态
     @UpdateProvider(type = ManifestManageSQLProvider.class, method = "updateManifestManage")
     void updateManifestManage(@Param("manifestNo") String manifestNo);
 

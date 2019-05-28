@@ -32,6 +32,8 @@ public class ProductCodeSqlProvider {
                 }
                 if (!StringUtils.isEmpty(type)) {
                     WHERE("type = #{type}");
+                } else {
+                    WHERE("type in ('BONDED_I','CB_I')");
                 }
                 ORDER_BY("customs_code asc");
             }

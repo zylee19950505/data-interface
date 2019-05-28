@@ -10,6 +10,7 @@ import com.xaeport.crossborder.tools.IdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -58,6 +59,7 @@ public class CrtExitInventoryService {
         bondInvtBsc.setInvt_no(paramMap.get("billNo"));
         bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
+        bondInvtBsc.setStship_trsarv_natcd("142");
         return bondInvtBsc;
     }
 
@@ -94,7 +96,6 @@ public class CrtExitInventoryService {
             String ebcCode
     ) {
         Map<String, String> map = new HashMap<String, String>();
-        this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
         String billNostr = BondInvtBsc.get("invt_no");
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("roleId", userInfo.getRoleId());
@@ -106,6 +107,8 @@ public class CrtExitInventoryService {
 
         List<ImpInventory> impInventoryList = this.crtExitInventoryMapper.queryListByBillNos(paramMap);
         NemsInvtCbecBillType nemsInvtCbecBillType;
+        double grossWt = 0;
+        double netWt = 0;
         if (!CollectionUtils.isEmpty(impInventoryList)) {
             // 更新表体数据
             for (int i = 0; i < impInventoryList.size(); i++) {
@@ -118,6 +121,8 @@ public class CrtExitInventoryService {
                 nemsInvtCbecBillType.setHead_etps_inner_invt_no(BondInvtBsc.get("etps_inner_invt_no"));
                 nemsInvtCbecBillType.setBill_no(impInventoryList.get(i).getBill_no());
                 this.crtExitInventoryMapper.saveNemsInvtCbecBillType(nemsInvtCbecBillType, userInfo);
+                grossWt += Double.valueOf(StringUtils.isEmpty(impInventoryList.get(i).getGross_weight()) ? "0" : impInventoryList.get(i).getGross_weight());
+                netWt += Double.valueOf(StringUtils.isEmpty(impInventoryList.get(i).getNet_weight()) ? "0" : impInventoryList.get(i).getNet_weight());
             }
             String etpsInnerInvtNo = BondInvtBsc.get("etps_inner_invt_no");
             List<NemsInvtCbecBillType> NemsInvtCbecBillType = this.crtExitInventoryMapper.queryNemsInvtCbecBillList(etpsInnerInvtNo);
@@ -149,6 +154,9 @@ public class CrtExitInventoryService {
                     this.crtExitInventoryMapper.insertInvtListType(invtListType);
                 }
             }
+            BondInvtBsc.put("gross_wt", String.valueOf(grossWt));
+            BondInvtBsc.put("net_wt", String.valueOf(netWt));
+            this.crtExitInventoryMapper.saveBondInvtBsc(BondInvtBsc, userInfo);
         }
 
         this.crtExitInventoryMapper.updateInventoryDataByBondInvt(BondInvtBsc, ebcCode, userInfo);
