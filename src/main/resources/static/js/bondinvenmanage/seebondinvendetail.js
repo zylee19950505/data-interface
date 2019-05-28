@@ -305,7 +305,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         };
         $.ajax({
             method: "GET",
-            url: "api/bondinvenmanage/seebondinvendetail",
+            url: "/api/bondinvenmanage/seebondinvendetail",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
@@ -512,33 +512,33 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 //保存的路径
                 this.detailParam.url = "/api/bondinvenmanage/savebondinvenafter";
                 //返回之后的查询路径
-                this.detailParam.callBackUrl = "bondinvenmanage/bondinvenquery";
+                this.detailParam.callBackUrl = "bondinvenmanage/bondinvenlogicverify";
                 this.detailParam.isShowError = false;
                 break;
             }
             // //逻辑校验(预留)
-            // case "LJJY": {
-            //     // 不可编辑状态
-            //     if (isEdit == "true") {
-            //         this.detailParam.disableField = [
-            //             //当前禁用的字段,需要禁用的字段值在这里改
-            //             "cop_no",//企业内部编号
-            //             "invt_no",//海关清单编号
-            //             "pre_no",//电子口岸标识编号
-            //             "g_num",//表体序号
-            //             "total_sum",//商品总价
-            //             "customs_tax",
-            //             "value_added_tax",
-            //             "consumption_tax"
-            //         ];
-            //     }
-            //     //保存的路径
-            //     this.detailParam.url = "/api/inventory/saveLogicalDetail";
-            //     //返回之后的查询路径
-            //     this.detailParam.callBackUrl = "detailmanage/InventoryLogicVerify";
-            //     this.detailParam.isShowError = true;
-            //     break;
-            // }
+            case "LJJY": {
+                // 不可编辑状态
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        //当前禁用的字段,需要禁用的字段值在这里改
+                        "cop_no",//企业内部编号
+                        "invt_no",//海关清单编号
+                        "pre_no",//电子口岸标识编号
+                        "g_num",//表体序号
+                        "total_sum",//商品总价
+                        "customs_tax",
+                        "value_added_tax",
+                        "consumption_tax"
+                    ];
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondinven/saveLogicalDetail";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondinvenmanage/bondinvenlogicverify";
+                this.detailParam.isShowError = true;
+                break;
+            }
 
         } // 不可编辑状态
         if (isEdit == "false") {

@@ -63,9 +63,19 @@ public class bondinvenBaseChain implements BondVerifyChain {
             return verificationResult;
         }
 
-        // 校验表单内毛重小于净重
+        // 校验表单内毛重、净重大于0，并且净重小于毛重
         double gross_weight = Double.parseDouble(impBDHeadVer.getGross_weight());
         double net_weight = Double.parseDouble(impBDHeadVer.getNet_weight());
+        if (net_weight <= 0) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 净重必须大于0", "net_weight");
+            return verificationResult;
+        }
+
+        if (gross_weight <= 0) {
+            VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 毛重必须大于0", "gross_weight");
+            return verificationResult;
+        }
+
         if (net_weight > gross_weight) {
             VerificationResultUtil.setEntryHeadErrorResult(verificationResult, "表头: 净重不能大于毛重", "net_weight");
             return verificationResult;

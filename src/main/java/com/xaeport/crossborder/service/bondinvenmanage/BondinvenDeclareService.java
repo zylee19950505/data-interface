@@ -62,11 +62,12 @@ public class BondinvenDeclareService {
         paramMap.put("id", guid);
         ImpInventoryHead impInventoryHead = bondinvenDeclareMapper.queryImpBondInvenHead(paramMap);
         List<ImpInventoryBody> impInventoryBodies = bondinvenDeclareMapper.queryImpBondInvenBodies(paramMap);
-//        Verify verify = bondinvenDeclareMapper.queryVerifyDetail(paramMap);
+        //TODO 保税清单校验表数据
+        Verify verify = bondinvenDeclareMapper.queryVerifyDetail(paramMap);
         ImpInventoryDetail impInventoryDetail = new ImpInventoryDetail();
         impInventoryDetail.setImpInventoryHead(impInventoryHead);
         impInventoryDetail.setImpInventoryBodies(impInventoryBodies);
-//        impInventoryDetail.setVerify(verify);
+        impInventoryDetail.setVerify(verify);
         return impInventoryDetail;
     }
 

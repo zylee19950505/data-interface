@@ -107,14 +107,14 @@ sw.page.modules["bondinvenmanage/bondinvenlogicverify"] = sw.page.modules["bondi
             submitKeys: submitKeys
         };
         sw.confirm("确定删除该清单", "确认", function () {
-            sw.ajax("api/inventory/deleteLogical", "POST", postData, function (rsp) {
-                sw.pageModule("detailmanage/InventoryLogicVerify").query();
+            sw.ajax("api/bondinven/deleteLogical", "POST", postData, function (rsp) {
+                sw.pageModule("bondinvenmanage/bondinvenlogicverify").query();
             });
         });
     },
 
     seeInventoryLogicDetail: function (guid, order_no) {
-        var url = "detailmanage/seeInventoryDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        var url = "bondinvenmanage/seebondinvendetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1100, 930);
     }
 

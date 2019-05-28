@@ -95,7 +95,7 @@ sw.page.modules["bondedienter/enterPassPortLogic"] = sw.page.modules["bondedient
         });
     },
 
-    seeOrderLogicDetail: function (guid, order_no) {
+    seeEnterPassportDetail: function (guid, order_no) {
         var url = "bondedienter/seeEnterPassportDetail?type=RQHFD&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看清单详情", false, 1000, 930);
     }

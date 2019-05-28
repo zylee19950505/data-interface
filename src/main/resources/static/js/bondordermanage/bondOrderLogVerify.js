@@ -33,7 +33,7 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
                 },
                 {
                     label: "订单编号", render: function (data, type, row) {
-                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondordermanage/bondOrderLogVerify').seeOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
+                    return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondordermanage/bondOrderLogVerify').seeBondOrderLogicDetail('" + row.guid + "','" + row.order_no + "')" + '">' + row.order_no + '</a>'
                 }
                 },
                 {
@@ -49,6 +49,7 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
 
     //初始化
     init: function () {
+        debugger;
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -95,9 +96,10 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
         });
     },
 
-    seeOrderLogicDetail: function (guid, order_no) {
-        var url = "bondordermanage/seeOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
-        sw.modelPopup(url, "查看订单详情", false, 1000, 930);
+    seeBondOrderLogicDetail: function (guid, order_no) {
+        debugger;
+        var url = "bondordermanage/seeBondOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
+        sw.modelPopup(url, "查看保税订单详情", false, 1000, 930);
     }
 
 

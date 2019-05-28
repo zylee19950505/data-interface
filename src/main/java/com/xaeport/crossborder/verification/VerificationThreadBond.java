@@ -72,7 +72,7 @@ public class VerificationThreadBond implements Runnable {
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_BOND_ORDER.equals(impBDHeadVer.getBusiness_type())) {
                         verificationMapper.updateBondOrderStatus(verify.getCb_head_id(), StatusCode.BSDDDSB);
                     }
-                    //2.保税订单逻辑校验通过后，更新为保税清单待申报状态
+                    //2.保税清单逻辑校验通过后，更新为保税清单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_BOND_INVEN.equals(impBDHeadVer.getBusiness_type())) {
                         verificationMapper.updateBondInvenStatus(verify.getCb_head_id(), StatusCode.BSQDDSB);
                     }

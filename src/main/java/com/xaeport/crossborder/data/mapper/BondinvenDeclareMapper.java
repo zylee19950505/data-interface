@@ -2,6 +2,7 @@ package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.*;
 import com.xaeport.crossborder.data.provider.BondinvenDeclareSQLProvider;
+import com.xaeport.crossborder.data.provider.DetailQuerySQLProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.LinkedHashMap;
@@ -31,6 +32,10 @@ public interface BondinvenDeclareMapper {
     //查询保税清单表体详情
     @SelectProvider(type = BondinvenDeclareSQLProvider.class, method = "queryImpBondInvenBodies")
     List<ImpInventoryBody> queryImpBondInvenBodies(Map<String, String> paramMap);
+
+    //查询清单表头详情
+    @SelectProvider(type = DetailQuerySQLProvider.class, method = "queryVerifyDetail")
+    Verify queryVerifyDetail(Map<String, String> paramMap);
 
     //修改保税清单表头信息（保税清单申报）
     @UpdateProvider(type = BondinvenDeclareSQLProvider.class, method = "updateImpBondInvenHead")
