@@ -118,17 +118,17 @@ public class bondinvenRegularChain implements BondVerifyChain {
             return verificationResult;
         }
 
-        // 航班航次号
-        validateField = impBDHeadVer.getVoyage_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "航班航次号错误：仅能填写半角英文，数字及符号", "voyage_no")) {
-            return verificationResult;
-        }
+//        // 航班航次号
+//        validateField = impBDHeadVer.getVoyage_no();
+//        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "航班航次号错误：仅能填写半角英文，数字及符号", "voyage_no")) {
+//            return verificationResult;
+//        }
 
         // 运输工具编号
-        validateField = impBDHeadVer.getTraf_no();
-        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "运输工具编号错误：不能填写“空”，“无”，“/”字符", "traf_no")) {
-            return verificationResult;
-        }
+//        validateField = impBDHeadVer.getTraf_no();
+//        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "运输工具编号错误：不能填写“空”，“无”，“/”字符", "traf_no")) {
+//            return verificationResult;
+//        }
 
         // 提运单号
         validateField = impBDHeadVer.getBill_no();

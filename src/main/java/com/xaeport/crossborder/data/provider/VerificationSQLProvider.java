@@ -386,6 +386,7 @@ public class VerificationSQLProvider extends BaseSQLProvider {
                 SELECT("ENT_ID,ENT_NAME,ENT_CUSTOMS_CODE");
                 SELECT("BUYER_ID_TYPE,BUYER_ID_NUMBER,BUYER_NAME,BUYER_TELEPHONE");
                 SELECT("APP_TIME,DECL_TIME,IE_DATE");
+                SELECT("ENT_ID crt_ent_id");
                 SELECT("to_char(FREIGHT,'FM999999999990.00000') as FREIGHT");
                 SELECT("to_char(INSURED_FEE,'FM999999999990.00000') as INSURED_FEE");
                 SELECT("to_char(GROSS_WEIGHT,'FM999999999990.00000') as GROSS_WEIGHT");

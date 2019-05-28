@@ -103,7 +103,7 @@ function inputChanged(id) {
     });
 }
 
-sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondordermanage/seeOrderDetail"] || {
+sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondordermanage/seeBondOrderDetail"] || {
     detailParam: {
         url: "",
         callBackUrl: "",
@@ -162,7 +162,7 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
     },
     // 禁用字段
     disabledFieldInput: function () {
-        var disableField = sw.page.modules["bondordermanage/seeOrderDetail"].detailParam.disableField;
+        var disableField = sw.page.modules["bondordermanage/seeBondOrderDetail"].detailParam.disableField;
         for (i = 0; i < disableField.length; i++) {
             $(".detailPage input[id^=" + disableField[i] + "],select[id^=" + disableField[i] + "]").attr("disabled", "disabled");
         }
@@ -247,11 +247,11 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
         };
         sw.ajax(this.detailParam.url, "POST", "entryJson=" + encodeURIComponent(JSON.stringify(entryData)), function (rsp) {
             if (rsp.data.result) {
-                sw.page.modules["bondordermanage/seeOrderDetail"].cancel();
+                sw.page.modules["bondordermanage/seeBondOrderDetail"].cancel();
                 setTimeout(function () {
                     sw.alert(rsp.data.msg, "提示", null, "modal-info");
                 }, 500);
-                sw.page.modules["bondordermanage/seeOrderDetail"].callBackQuery(orderNo);
+                sw.page.modules["bondordermanage/seeBondOrderDetail"].callBackQuery(orderNo);
             } else {
                 hasError(rsp.data.msg);
             }
@@ -267,18 +267,18 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
         // 表体变化
         listChangeKeyValsB = {};
         //从路径上找参数
-        var param = sw.getPageParams("bondordermanage/seeOrderDetail");
+        var param = sw.getPageParams("bondordermanage/seeBondOrderDetail");
         var guid = param.guid;
         var data = {
             guid: guid
         };
         $.ajax({
             method: "GET",
-            url: "api/bondordermanage/queryOrder/seeOrderDetail",
+            url: "api/bondordermanage/queryOrder/seeBondOrderDetail",
             data: data,
             success: function (data, status, xhr) {
                 if (xhr.status == 200) {
-                    var entryModule = sw.page.modules["bondordermanage/seeOrderDetail"];
+                    var entryModule = sw.page.modules["bondordermanage/seeBondOrderDetail"];
 
                     var entryHead = data.data.impOrderHead;
                     var entryLists = data.data.impOrderLists;
@@ -379,8 +379,9 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
     },
 
     init: function () {
+        // debugger;
         //从路径上获取参数
-        var param = sw.getPageParams("bondordermanage/seeOrderDetail");
+        var param = sw.getPageParams("bondordermanage/seeBondOrderDetail");
         var guid = param.guid;
         var orderNo = param.order_No;
         var type = param.type;
@@ -408,29 +409,29 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
                     ];
                 }
                 //保存的路径
-                this.detailParam.url = "/api/bondordermanage/queryOrder/saveOrderDetail";
+                this.detailParam.url = "/api/bondordermanage/queryOrder/saveBondOrderDetail";
                 //返回之后的查询路径
                 this.detailParam.callBackUrl = "bondordermanage/bondOrderQuery";
                 this.detailParam.isShowError = false;
                 break;
             }
-            //逻辑校验(预留)
-            // case "LJJY": {
-            //     if (isEdit == "true") {
-            //         this.detailParam.disableField = [
-            //             "bill_No",
-            //             "goods_Value",
-            //             "total_Price",//商品总价，等于单价乘以数量。
-            //             "g_num"
-            //         ]
-            //     }
-            //     //保存的路径
-            //     this.detailParam.url = "/api/bondorder/saveLogicalDetail";
-            //     //返回之后的查询路径
-            //     this.detailParam.callBackUrl = "bondordermanage/bondOrderLogVerify";
-            //     this.detailParam.isShowError = true;
-            //     break;
-            // }
+            // 逻辑校验(预留)
+            case "LJJY": {
+                if (isEdit == "true") {
+                    this.detailParam.disableField = [
+                        "bill_No",
+                        "goods_Value",
+                        "total_Price",//商品总价，等于单价乘以数量。
+                        "g_num"
+                    ]
+                }
+                //保存的路径
+                this.detailParam.url = "/api/bondorder/saveLogicalDetail";
+                //返回之后的查询路径
+                this.detailParam.callBackUrl = "bondordermanage/bondOrderLogVerify";
+                this.detailParam.isShowError = true;
+                break;
+            }
 
         } // 不可编辑状态
         if (isEdit == "false") {
@@ -447,11 +448,11 @@ sw.page.modules["bondordermanage/seeOrderDetail"] = sw.page.modules["bondorderma
 
         //点击保存(未确认数据)
         $("#ws-page-apply").click(function () {
-            sw.page.modules["bondordermanage/seeOrderDetail"].saveEntryInfo(orderNo, type, sw.ie);
+            sw.page.modules["bondordermanage/seeBondOrderDetail"].saveEntryInfo(orderNo, type, sw.ie);
         });
         //点击取消
         $("#ws-page-back").click(function () {
-            sw.page.modules["bondordermanage/seeOrderDetail"].cancel();
+            sw.page.modules["bondordermanage/seeBondOrderDetail"].cancel();
         });
     }
 }

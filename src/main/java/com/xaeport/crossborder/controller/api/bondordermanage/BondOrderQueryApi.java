@@ -106,7 +106,7 @@ public class BondOrderQueryApi extends BaseApi {
     /*
     * 点击查看详情
     * */
-    @RequestMapping("/seeOrderDetail")
+    @RequestMapping("/seeBondOrderDetail")
     public ResponseData seeOrderDetail(
             @RequestParam(required = false) String guid
     ) {
@@ -126,7 +126,7 @@ public class BondOrderQueryApi extends BaseApi {
     * 保存编辑订单信息
     * saveOrderDetail
     * */
-    @RequestMapping("/saveOrderDetail")
+    @RequestMapping("/saveBondOrderDetail")
     public ResponseData saveOrderDetail(@Param("entryJson") String entryJson) {
         //订单信息json信息
         LinkedHashMap<String, Object> object = (LinkedHashMap<String, Object>) JSONUtils.parse(entryJson);

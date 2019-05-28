@@ -137,7 +137,7 @@ public class BondinvenImportService {
         impInventoryHead.setArea_name(enterprise.getArea_name());
         impInventoryHead.setAssure_code(enterprise.getAssure_ent_code());
 
-        impInventoryHead.setData_status(StatusCode.BSQDDSB);//数据状态
+        impInventoryHead.setData_status(StatusCode.BSYDR);//数据状态
         impInventoryHead.setCrt_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//创建人
         impInventoryHead.setCrt_tm(new Date());//创建时间
         impInventoryHead.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
