@@ -133,15 +133,16 @@ public class CrtEnterManifestService {
 
         //一车一单和一车多单 创建核放单关联单证 核放单编号和关联单证编号
         if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
-            PassPortAcmp passPortAcmp = new PassPortAcmp();
-            //查询核放单编号
-            passPortAcmp.setRtl_tb_typecd("1");
-            passPortAcmp.setRtl_no(paramMap.get("invtNo"));
-            passPortAcmp.setHead_etps_preent_no(etps_preent_no);
-            passPortAcmp.setId(IdUtils.getUUId());
-            passPortAcmp.setCrt_user(user.getId());
-            //创建关联单号
-            this.createPassPortAcmp(passPortAcmp);
+            List<String> invtNoss = Arrays.asList(paramMap.get("invtNo").split("/"));
+            for (String invtNo : invtNoss) {
+                PassPortAcmp passPortAcmp = new PassPortAcmp();
+                passPortAcmp.setRtl_tb_typecd("1");
+                passPortAcmp.setRtl_no(invtNo);
+                passPortAcmp.setHead_etps_preent_no(etps_preent_no);
+                passPortAcmp.setId(IdUtils.getUUId());
+                passPortAcmp.setCrt_user(user.getId());
+                this.createPassPortAcmp(passPortAcmp);
+            }
         }
 
         //将可绑定数量化为0(不是一票多车的时候)
@@ -226,68 +227,6 @@ public class CrtEnterManifestService {
         crtEnterManifestMapper.updateEnterManifestDetailOneCar(passPortHead);
         rtnMap.put("result", "true");
         rtnMap.put("msg", "保存入区核放单表头信息成功");
-        return rtnMap;
-    }
-
-    /**
-     * 保存核放单信息
-     */
-    public Map<String, String> createEnterManifestDetailOneCar(LinkedHashMap<String, Object> object, Users users) throws Exception {
-        PassPortHead passPortHead = new PassPortHead();
-        passPortHead.setId(IdUtils.getUUId());
-        passPortHead.setBusiness_type(SystemConstants.T_PASS_PORT);
-        //模拟核放单编号
-        String passPortNo = IdUtils.getShortUUId();
-        passPortHead.setPassport_no(passPortNo);
-
-        Map<String, String> rtnMap = new HashMap<>();
-        passPortHead.setEtps_preent_no(object.get("etps_preent_no").toString());
-        passPortHead.setBond_invt_no(object.get("bond_invt_no").toString());
-        passPortHead.setMaster_cuscd(object.get("master_cuscd").toString());
-        passPortHead.setBind_typecd(object.get("bind_typecd").toString());
-        passPortHead.setAreain_etpsno(object.get("areain_etpsno").toString());
-        passPortHead.setAreain_etps_nm(object.get("areain_etps_nm").toString());
-        passPortHead.setVehicle_no(object.get("vehicle_no").toString());
-        passPortHead.setVehicle_wt(object.get("vehicle_wt").toString());
-        passPortHead.setVehicle_frame_wt(object.get("vehicle_frame_wt").toString());
-        passPortHead.setContainer_wt(object.get("container_wt").toString());
-        passPortHead.setTotal_wt(object.get("total_wt").toString());
-        passPortHead.setTotal_gross_wt(object.get("total_gross_wt").toString());
-        passPortHead.setTotal_net_wt(object.get("total_net_wt").toString());
-        passPortHead.setDcl_er_conc(object.get("dcl_er_conc").toString());
-        passPortHead.setDcl_etpsno(object.get("dcl_etpsno").toString());
-        passPortHead.setDcl_etps_nm(object.get("dcl_etps_nm").toString());
-        passPortHead.setVehicle_ic_no(object.get("vehicle_ic_no").toString());
-        passPortHead.setInput_code(object.get("input_code").toString());
-        passPortHead.setInput_name(object.get("input_name").toString());
-        passPortHead.setUpd_user(users.getId());
-        //关联单证类型
-        passPortHead.setRlt_tb_typecd("1");
-        passPortHead.setRlt_no(object.get("bond_invt_no").toString());
-        //创建人
-        passPortHead.setCrt_user(users.getId());
-        passPortHead.setCrt_ent_id(users.getEnt_Id());
-        passPortHead.setCrt_ent_name(users.getEnt_Name());
-        this.crtEnterManifestMapper.createEnterManifestDetailOneCar(passPortHead);
-
-        PassPortAcmp passPortAcmp = new PassPortAcmp();
-        //查询核放单编号
-        passPortAcmp.setRtl_tb_typecd("1");
-        passPortAcmp.setPassport_no(passPortNo);
-        passPortAcmp.setRtl_no(object.get("bond_invt_no").toString());
-        passPortAcmp.setId(IdUtils.getUUId());
-        passPortAcmp.setHead_etps_preent_no(object.get("etps_preent_no").toString());
-        passPortAcmp.setCrt_user(users.getId());
-        //创建关联单号
-        this.crtEnterManifestMapper.createPassPortAcmp(passPortAcmp);
-
-        //将可绑定数量化为0
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("invtNo", passPortHead.getBond_invt_no());
-        this.updateEnterInventory(paramMap, users);
-
-        rtnMap.put("result", "true");
-        rtnMap.put("msg", "保存入区核放单信息成功");
         return rtnMap;
     }
 

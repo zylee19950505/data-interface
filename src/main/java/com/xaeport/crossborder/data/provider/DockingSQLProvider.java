@@ -109,15 +109,9 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getCrt_id())) {
                     VALUES("crt_id", "#{impOrderHead.crt_id}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getCrt_tm())) {
-                    VALUES("crt_tm", "#{impOrderHead.crt_tm}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getUpd_id())) {
-                    VALUES("upd_id", "#{impOrderHead.upd_id}");
-                }
-                if (!StringUtils.isEmpty(impOrderHead.getUpd_tm())) {
-                    VALUES("upd_tm", "#{impOrderHead.upd_tm}");
+                    VALUES("crt_tm", "sysdate");
+                    VALUES("upd_id", "#{impOrderHead.crt_id}");
+                    VALUES("upd_tm", "sysdate");
                 }
                 if (!StringUtils.isEmpty(impOrderHead.getData_status())) {
                     VALUES("data_status", "#{impOrderHead.data_status}");
@@ -273,8 +267,11 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(bondInvtBsc.getCorr_entry_dcl_etps_nm())) {
                     VALUES("CORR_ENTRY_DCL_ETPS_NM", "#{bondInvtBsc.corr_entry_dcl_etps_nm}");
                 }
-                if (!StringUtils.isEmpty(bondInvtBsc.getId())) {
+                if (!StringUtils.isEmpty(bondInvtBsc.getCrt_user())) {
+                    VALUES("CRT_USER", "#{bondInvtBsc.crt_user}");
                     VALUES("CRT_TIME", "sysdate");
+                    VALUES("UPD_USER", "#{bondInvtBsc.crt_user}");
+                    VALUES("UPD_TIME", "sysdate");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getCrt_ent_id())) {
                     VALUES("CRT_ENT_ID", "#{bondInvtBsc.crt_ent_id}");
@@ -326,9 +323,6 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getDcl_typecd())) {
                     VALUES("DCL_TYPECD", "#{bondInvtBsc.dcl_typecd}");
-                }
-                if (!StringUtils.isEmpty(bondInvtBsc.getCrt_user())) {
-                    VALUES("CRT_USER", "#{bondInvtBsc.crt_user}");
                 }
                 if (!StringUtils.isEmpty(bondInvtBsc.getInvt_dcl_time())) {
                     VALUES("INVT_DCL_TIME", "#{bondInvtBsc.invt_dcl_time}");

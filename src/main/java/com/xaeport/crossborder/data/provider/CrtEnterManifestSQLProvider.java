@@ -186,97 +186,6 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String createEnterManifestDetailOneCar(@Param("passPortHead") PassPortHead passPortHead) {
-        return new SQL() {
-            {
-                INSERT_INTO("T_PASS_PORT_HEAD t");
-                if (!StringUtils.isEmpty(passPortHead.getBusiness_type())) {
-                    VALUES("t.business_type", "#{passPortHead.business_type}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getId())) {
-                    VALUES("t.id", "#{passPortHead.id}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getPassport_no())) {
-                    VALUES("t.passport_no", "#{passPortHead.passport_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getEtps_preent_no())) {
-                    VALUES("t.etps_preent_no", "#{passPortHead.etps_preent_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getBond_invt_no())) {
-                    VALUES("t.bond_invt_no", "#{passPortHead.bond_invt_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getMaster_cuscd())) {
-                    VALUES("t.master_cuscd", "#{passPortHead.master_cuscd}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getBind_typecd())) {
-                    VALUES("t.bind_typecd", "#{passPortHead.bind_typecd}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getAreain_etpsno())) {
-                    VALUES("t.areain_etpsno", "#{passPortHead.areain_etpsno}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getAreain_etps_nm())) {
-                    VALUES("t.areain_etps_nm", "#{passPortHead.areain_etps_nm}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getAreain_oriact_no())) {
-                    VALUES("t.areain_oriact_no", "#{passPortHead.areain_oriact_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getVehicle_no())) {
-                    VALUES("t.vehicle_no", "#{passPortHead.vehicle_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getVehicle_wt())) {
-                    VALUES("t.vehicle_wt", "#{passPortHead.vehicle_wt}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getVehicle_frame_wt())) {
-                    VALUES("t.vehicle_frame_wt", "#{passPortHead.vehicle_frame_wt}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getContainer_wt())) {
-                    VALUES("t.container_wt", "#{passPortHead.container_wt}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getRlt_tb_typecd())) {
-                    VALUES("t.rlt_tb_typecd", "#{passPortHead.rlt_tb_typecd}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getRlt_no())) {
-                    VALUES("t.rlt_no", "#{passPortHead.rlt_no}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getDcl_etpsno())) {
-                    VALUES("t.dcl_etpsno", "#{passPortHead.dcl_etpsno}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getDcl_etps_nm())) {
-                    VALUES("t.dcl_etps_nm", "#{passPortHead.dcl_etps_nm}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getDcl_er_conc())) {
-                    VALUES("t.dcl_er_conc", "#{passPortHead.dcl_er_conc}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getInput_code())) {
-                    VALUES("t.input_code", "#{passPortHead.input_code}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getInput_name())) {
-                    VALUES("t.input_name", "#{passPortHead.input_name}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getCrt_user())) {
-                    VALUES("t.crt_user", "#{passPortHead.crt_user}");
-                }
-                VALUES("t.crt_time", "sysdate");
-                if (!StringUtils.isEmpty(passPortHead.getCrt_ent_id())) {
-                    VALUES("t.crt_ent_id", "#{passPortHead.crt_ent_id}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getCrt_ent_name())) {
-                    VALUES("t.crt_ent_name", "#{passPortHead.crt_ent_name}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getTotal_wt())) {
-                    VALUES("t.total_wt", "#{passPortHead.total_wt}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getTotal_gross_wt())) {
-                    VALUES("t.total_gross_wt", "#{passPortHead.total_gross_wt}");
-                }
-                if (!StringUtils.isEmpty(passPortHead.getTotal_net_wt())) {
-                    VALUES("t.total_net_wt", "#{passPortHead.total_net_wt}");
-                }
-            }
-        }.toString();
-    }
-
-
     public String queryEnterInvtory(@Param("invtNo") String invtNo) {
         return new SQL() {
             {
@@ -355,8 +264,8 @@ public class CrtEnterManifestSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(passPortAcmp.getCrt_user())) {
                     VALUES("t.crt_user", "#{passPortAcmp.crt_user}");
+                    VALUES("t.crt_time", "sysdate");
                 }
-                VALUES("t.crt_time", "sysdate");
             }
         }.toString();
     }
