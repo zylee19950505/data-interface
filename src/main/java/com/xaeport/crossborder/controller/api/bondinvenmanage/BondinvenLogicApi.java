@@ -12,6 +12,7 @@ import com.xaeport.crossborder.service.logic.BondLogicalService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,22 +90,22 @@ public class BondinvenLogicApi extends BaseApi {
         }
         return new ResponseData(rtnMap);
         }
+
+
+    //逻辑校验删除清单
+    @RequestMapping(value = "/bondinven/deleteLogical", method = RequestMethod.POST)
+    public ResponseData deleteVerifyIdCard(String submitKeys) {
+        if (StringUtils.isEmpty(submitKeys))
+            return new ResponseData("未提交保税清单数据", HttpStatus.FORBIDDEN);
+        try {
+            this.bondlogicalService.deleteLogicalByInventory(submitKeys, this.getCurrentUserEntId());
+        } catch (Exception e) {
+            this.log.error("保税清单逻辑校验删除清单失败，submitKeys=" + submitKeys, e);
+            return new ResponseData("保税清单逻辑校验删除清单失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData("");
     }
-//
-//    //逻辑校验删除清单
-//    @RequestMapping(value = "/bondinven/deleteLogical", method = RequestMethod.POST)
-//    public ResponseData deleteVerifyIdCard(String submitKeys) {
-//        if (StringUtils.isEmpty(submitKeys))
-//            return new ResponseData("未提交保税清单数据", HttpStatus.FORBIDDEN);
-//        try {
-//            this.bondlogicalService.deleteLogicalByInventory(submitKeys, this.getCurrentUserEntId());
-//        } catch (Exception e) {
-//            this.log.error("保税清单逻辑校验删除清单失败，submitKeys=" + submitKeys, e);
-//            return new ResponseData("保税清单逻辑校验删除清单失败", HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseData("");
-//    }
-//
-//
-//
-//}
+
+
+
+}
