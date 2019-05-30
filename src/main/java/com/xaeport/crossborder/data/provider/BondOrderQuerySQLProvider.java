@@ -103,7 +103,8 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                         WHERE("th.RETURN_STATUS like '%'||#{orderStatus}||'%' ");
                     } else {
                         WHERE("th.RETURN_STATUS = #{orderStatus}");
-                    }                }
+                    }
+                }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("th.DATA_STATUS = #{dataStatus}");
                 }
@@ -125,7 +126,7 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
     public String queryOrderBodyList(Map<String, String> paramMap) {
         final String guid = paramMap.get("guid");
         final String orderNo = paramMap.get("orderNo");
-	/*	final String start = paramMap.get("start");
+    /*	final String start = paramMap.get("start");
 		final String length = paramMap.get("length");*/
         return new SQL() {
             {
@@ -262,6 +263,18 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
                     SET("t.NET_WEIGHT = #{net_weight}");
                 }
+                if (!StringUtils.isEmpty(entryHead.get("actural_paid"))) {
+                    SET("t.ACTURAL_PAID = #{actural_paid}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("port_code"))) {
+                    SET("t.PORT_CODE = #{port_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("customs_code"))) {
+                    SET("t.CUSTOMS_CODE = #{customs_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("currency"))) {
+                    SET("t.CURRENCY = #{currency}");
+                }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.NOTE = #{note}");
                 }
@@ -302,6 +315,9 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(entryList.get("country"))) {
                     SET("t.COUNTRY = #{country}");
+                }
+                if (!StringUtils.isEmpty(entryList.get("currency"))) {
+                    SET("t.CURRENCY = #{currency}");
                 }
             }
         }.toString();
@@ -377,6 +393,18 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(entryHead.get("net_weight"))) {
                     SET("t.NET_WEIGHT = #{net_weight}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("actural_paid"))) {
+                    SET("t.ACTURAL_PAID = #{actural_paid}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("port_code"))) {
+                    SET("t.PORT_CODE = #{port_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("customs_code"))) {
+                    SET("t.CUSTOMS_CODE = #{customs_code}");
+                }
+                if (!StringUtils.isEmpty(entryHead.get("currency"))) {
+                    SET("t.CURRENCY = #{currency}");
                 }
                 if (!StringUtils.isEmpty(entryHead.get("note"))) {
                     SET("t.NOTE = #{note}");

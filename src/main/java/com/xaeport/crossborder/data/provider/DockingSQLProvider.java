@@ -143,6 +143,12 @@ public class DockingSQLProvider extends BaseSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getPort_code())) {
                     VALUES("port_code", "#{impOrderHead.port_code}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getCustoms_code())) {
+                    VALUES("customs_code", "#{impOrderHead.customs_code}");
+                }
+                if (!StringUtils.isEmpty(impOrderHead.getBws_no())) {
+                    VALUES("bws_no", "#{impOrderHead.bws_no}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getWriting_mode())) {
                     VALUES("WRITING_MODE", "#{impOrderHead.writing_mode}");
                 }
@@ -540,12 +546,12 @@ public class DockingSQLProvider extends BaseSQLProvider {
         }.toString();
     }
 
-    public String queryEntInfoByDxpId(String DxpId) {
+    public String queryEntInfoById(String id) {
         return new SQL() {
             {
                 SELECT("*");
                 FROM("T_ENTERPRISE");
-                WHERE("DXP_ID = #{DxpId}");
+                WHERE("id = #{id}");
             }
         }.toString();
     }

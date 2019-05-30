@@ -49,7 +49,6 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
 
     //初始化
     init: function () {
-        debugger;
         $(".input-daterange").datepicker({
             language: "zh-CN",
             todayHighlight: true,
@@ -97,7 +96,6 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
     },
 
     seeBondOrderLogicDetail: function (guid, order_no) {
-        debugger;
         var url = "bondordermanage/seeBondOrderDetail?type=LJJY&isEdit=true&guid=" + guid + "&orderNo=" + order_no;
         sw.modelPopup(url, "查看保税订单详情", false, 1000, 930);
     }

@@ -18,8 +18,8 @@ public class EnvelopInfo implements XmlEntry {
     private String msgIype;// CEBINV101
     @XPath("sender_id")
     private String senderId;// 企业ID
-    @XPath("recv_id")
-    private String recvId;// 9009000001
+    @XPath("receiver_id")
+    private String receiverId;// 9009000001
     @XPath("ic_card")
     private String icCard;// IC卡号
     @XPath("status")
@@ -50,12 +50,12 @@ public class EnvelopInfo implements XmlEntry {
         this.senderId = senderId;
     }
 
-    public String getRecvId() {
-        return recvId;
+    public String getReceiverId() {
+        return receiverId;
     }
 
-    public void setRecvId(String recvId) {
-        this.recvId = recvId;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getIcCard() {

@@ -65,24 +65,24 @@ public class BondOrderImpService {
             }
             this.bondOrderImpMapper.insertImpOrderHead(impOrderHead);//查询无订单号则插入ImpOrderHead数据
             this.createImpOrderList(excelMap, impOrderHead, user);//插入ImpOrderGoodsList
-            this.insertOrderNo(impOrderHead);
+//            this.insertOrderNo(impOrderHead);
         }
         return flag;
     }
 
-    private void insertOrderNo(ImpOrderHead impOrderHead) {
-        String billNo = impOrderHead.getBill_No();
-        String brevityCode = billNo.substring(0, 2);
-        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
-        if (sum > 0) {
-            OrderNo orderNo = new OrderNo();
-            orderNo.setId(IdUtils.getUUId());
-            orderNo.setOrder_no(impOrderHead.getOrder_No());
-            orderNo.setCrt_tm(new Date());
-            orderNo.setUsed("0");
-            this.bondOrderImpMapper.insertOrderNo(orderNo);
-        }
-    }
+//    private void insertOrderNo(ImpOrderHead impOrderHead) {
+//        String billNo = impOrderHead.getBill_No();
+//        String brevityCode = billNo.substring(0, 2);
+//        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
+//        if (sum > 0) {
+//            OrderNo orderNo = new OrderNo();
+//            orderNo.setId(IdUtils.getUUId());
+//            orderNo.setOrder_no(impOrderHead.getOrder_No());
+//            orderNo.setCrt_tm(new Date());
+//            orderNo.setUsed("0");
+//            this.bondOrderImpMapper.insertOrderNo(orderNo);
+//        }
+//    }
 
     /*
      * 创建ImpOrderList信息
@@ -148,11 +148,13 @@ public class BondOrderImpService {
      */
     private ImpOrderBody impOrderGoodsListData(ImpOrderBody impOrderBody, String headGuid, Users user) throws Exception {
         String brevity_code = user.getBrevity_code();
-        BwlListType bwlListType = this.bondOrderImpMapper.queryBwlListTypeByItemNo(impOrderBody.getItem_No(), brevity_code);
+        BwlListType bwlListType = this.bondOrderImpMapper.queryBwlListTypeByItemNo(impOrderBody.getItem_No());
 
         impOrderBody.setHead_guid(headGuid);//表头id
-        impOrderBody.setGds_seqno(bwlListType.getGds_seqno());//账册对应项号
-        impOrderBody.setCountry(bwlListType.getNatcd());//账册商品国别码
+        if (!StringUtils.isEmpty(bwlListType)) {
+            impOrderBody.setGds_seqno(StringUtils.isEmpty(bwlListType.getGds_seqno()) ? "" : bwlListType.getGds_seqno());//账册对应项号
+            impOrderBody.setCountry(StringUtils.isEmpty(bwlListType.getNatcd()) ? "" : bwlListType.getNatcd());//账册商品国别码
+        }
         impOrderBody.setCurrency("142");//币制
         impOrderBody.setBar_Code("无");//非必填项，没有必须写“无”
         return impOrderBody;

@@ -51,9 +51,18 @@ public class ImpOrderHead {
     private String insured_fee;//物流企业实际收取的商品保价费用。
     private String gross_weight;//货物及其包装材料的重量之和，计量单位为千克。
     private String net_weight;//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-    private String customs_code;//申报地海关
     private String trade_mode;//贸易方式
     private String port_code;//口岸海关（进出境海关）
+    private String customs_code;//申报地海关(主管海关)
+    private String bws_no;//仓库账册号
+
+    public String getBws_no() {
+        return bws_no;
+    }
+
+    public void setBws_no(String bws_no) {
+        this.bws_no = bws_no;
+    }
 
     public String getPort_code() {
         return port_code;

@@ -14,9 +14,9 @@ import java.util.List;
 @RootXPath("DataInfo/Data")
 public class DataInfo implements XmlEntry {
 
-    @XPath("Head")
+    @XPath("DataHead")
     private DataHead dataHead;
-    @XPath("List")
+    @XPath("DataList")
     private List<DataBody> dataBodyList;
 
     public DataHead getDataHead() {

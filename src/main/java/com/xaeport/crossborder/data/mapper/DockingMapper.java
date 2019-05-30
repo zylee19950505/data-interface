@@ -22,8 +22,8 @@ public interface DockingMapper {
     @InsertProvider(type = DockingSQLProvider.class, method = "insertImpOrderBody")
     void insertImpOrderBody(@Param("impOrderBody") ImpOrderBody impOrderBody);
 
-    @SelectProvider(type = DockingSQLProvider.class, method = "queryEntInfoByDxpId")
-    Enterprise queryEntInfoByDxpId(String DxpId);
+    @SelectProvider(type = DockingSQLProvider.class, method = "queryEntInfoById")
+    Enterprise queryEntInfoById(String id);
 
     @SelectProvider(type = DockingSQLProvider.class, method = "findRepeatOrder")
     int findRepeatOrder(@Param("orderId") String orderId, @Param("orderNo") String orderNo);

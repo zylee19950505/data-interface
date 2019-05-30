@@ -9,13 +9,15 @@ import com.xaeport.crossborder.tools.xml.XmlEntry;
  * @Date 2019-04-26
  * @Version 1.0
  */
-@RootXPath("Head")
+@RootXPath("DataHead")
 public class DataHead implements XmlEntry {
 
-    @XPath("orderid")
-    private String orderid;
+    @XPath("dataId")
+    private String dataId;
     @XPath("tradeMode")
     private String tradeMode;
+    @XPath("orderType")
+    private String orderType;
     @XPath("orderNo")
     private String orderNo;
     @XPath("batchNumbers")
@@ -24,6 +26,16 @@ public class DataHead implements XmlEntry {
     private String ebpCode;
     @XPath("ebpName")
     private String ebpName;
+    @XPath("ebcCode")
+    private String ebcCode;
+    @XPath("ebcName")
+    private String ebcName;
+
+    @XPath("bwsNo")
+    private String bwsNo;
+    @XPath("customsCode")
+    private String customsCode;
+
     @XPath("portCode")
     private String portCode;
     @XPath("buyerRegNo")
@@ -48,20 +60,35 @@ public class DataHead implements XmlEntry {
     private String discount;
     @XPath("taxTotal")
     private String taxTotal;
+    @XPath("currency")
+    private String currency;
     @XPath("grossWeight")
     private String grossWeight;
     @XPath("netWeight")
     private String netWeight;
+    @XPath("note")
+    private String note;
 
-
-    @XPath("EtpsInnerInvtNo")
-    private String etpsInnerInvtNo;// 必填项，企业内部编码:HZQD+海关十位+进出口标志（I
     @XPath("PutrecNo")
     private String putrecNo;// 必填项，账册编号
     @XPath("DclPlcCuscd")
     private String dclPlcCuscd;// 必填项，主管海关
     @XPath("ImpexpPortcd")
     private String impexpPortcd;// 进出境关别
+
+    @XPath("BizopEtpsSccd")
+    private String BizopEtpsSccd;
+    @XPath("BizopEtpsno")
+    private String BizopEtpsno;
+    @XPath("BizopEtpsNm")
+    private String BizopEtpsNm;
+    @XPath("RvsngdEtpsSccd")
+    private String RvsngdEtpsSccd;
+    @XPath("RcvgdEtpsno")
+    private String RcvgdEtpsno;
+    @XPath("RcvgdEtpsNm")
+    private String RcvgdEtpsNm;
+
     @XPath("DclEtpsSccd")
     private String dclEtpsSccd;// 申报企业社会信用代码
     @XPath("DclEtpsno")
@@ -74,6 +101,16 @@ public class DataHead implements XmlEntry {
     private String decType;// 报关单类型代码
     @XPath("ImpexpMarkcd")
     private String impexpMarkcd;// 入区为"I";出区为"E"
+
+    @XPath("MtpckEndprdMarkcd")
+    private String MtpckEndprdMarkcd;
+    @XPath("SupvModecd")
+    private String SupvModecd;
+    @XPath("DclcusFlag")
+    private String DclcusFlag;
+    @XPath("InvtType")
+    private String InvtType;
+
     @XPath("TrspModecd")
     private String trspModecd;// 运输方式代码
     @XPath("StshipTrsarvNatcd")
@@ -84,14 +121,160 @@ public class DataHead implements XmlEntry {
     private String corrEntryDclEtpsNo;// 对应报关单申报企业海关十位
     @XPath("CorrEntryDclEtpsNm")
     private String corrEntryDclEtpsNm;// 对应报关单申报企业
+    @XPath("Rmk")
+    private String Rmk;
 
 
-    public String getOrderid() {
-        return orderid;
+    public String getDataId() {
+        return dataId;
     }
 
-    public void setOrderid(String orderid) {
-        this.orderid = orderid;
+    public void setDataId(String dataId) {
+        this.dataId = dataId;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
+    public String getEbcCode() {
+        return ebcCode;
+    }
+
+    public void setEbcCode(String ebcCode) {
+        this.ebcCode = ebcCode;
+    }
+
+    public String getEbcName() {
+        return ebcName;
+    }
+
+    public void setEbcName(String ebcName) {
+        this.ebcName = ebcName;
+    }
+
+    public String getBwsNo() {
+        return bwsNo;
+    }
+
+    public void setBwsNo(String bwsNo) {
+        this.bwsNo = bwsNo;
+    }
+
+    public String getCustomsCode() {
+        return customsCode;
+    }
+
+    public void setCustomsCode(String customsCode) {
+        this.customsCode = customsCode;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getBizopEtpsSccd() {
+        return BizopEtpsSccd;
+    }
+
+    public void setBizopEtpsSccd(String bizopEtpsSccd) {
+        BizopEtpsSccd = bizopEtpsSccd;
+    }
+
+    public String getBizopEtpsno() {
+        return BizopEtpsno;
+    }
+
+    public void setBizopEtpsno(String bizopEtpsno) {
+        BizopEtpsno = bizopEtpsno;
+    }
+
+    public String getBizopEtpsNm() {
+        return BizopEtpsNm;
+    }
+
+    public void setBizopEtpsNm(String bizopEtpsNm) {
+        BizopEtpsNm = bizopEtpsNm;
+    }
+
+    public String getRvsngdEtpsSccd() {
+        return RvsngdEtpsSccd;
+    }
+
+    public void setRvsngdEtpsSccd(String rvsngdEtpsSccd) {
+        RvsngdEtpsSccd = rvsngdEtpsSccd;
+    }
+
+    public String getRcvgdEtpsno() {
+        return RcvgdEtpsno;
+    }
+
+    public void setRcvgdEtpsno(String rcvgdEtpsno) {
+        RcvgdEtpsno = rcvgdEtpsno;
+    }
+
+    public String getRcvgdEtpsNm() {
+        return RcvgdEtpsNm;
+    }
+
+    public void setRcvgdEtpsNm(String rcvgdEtpsNm) {
+        RcvgdEtpsNm = rcvgdEtpsNm;
+    }
+
+    public String getMtpckEndprdMarkcd() {
+        return MtpckEndprdMarkcd;
+    }
+
+    public void setMtpckEndprdMarkcd(String mtpckEndprdMarkcd) {
+        MtpckEndprdMarkcd = mtpckEndprdMarkcd;
+    }
+
+    public String getSupvModecd() {
+        return SupvModecd;
+    }
+
+    public void setSupvModecd(String supvModecd) {
+        SupvModecd = supvModecd;
+    }
+
+    public String getDclcusFlag() {
+        return DclcusFlag;
+    }
+
+    public void setDclcusFlag(String dclcusFlag) {
+        DclcusFlag = dclcusFlag;
+    }
+
+    public String getInvtType() {
+        return InvtType;
+    }
+
+    public void setInvtType(String invtType) {
+        InvtType = invtType;
+    }
+
+    public String getRmk() {
+        return Rmk;
+    }
+
+    public void setRmk(String rmk) {
+        Rmk = rmk;
     }
 
     public String getTradeMode() {
@@ -244,14 +427,6 @@ public class DataHead implements XmlEntry {
 
     public void setNetWeight(String netWeight) {
         this.netWeight = netWeight;
-    }
-
-    public String getEtpsInnerInvtNo() {
-        return etpsInnerInvtNo;
-    }
-
-    public void setEtpsInnerInvtNo(String etpsInnerInvtNo) {
-        this.etpsInnerInvtNo = etpsInnerInvtNo;
     }
 
     public String getPutrecNo() {

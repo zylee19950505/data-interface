@@ -3,7 +3,9 @@ package com.xaeport.crossborder.verification;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xaeport.crossborder.configuration.SystemConstants;
+import com.xaeport.crossborder.data.entity.OrderNo;
 import com.xaeport.crossborder.data.entity.Verify;
+import com.xaeport.crossborder.data.mapper.BondOrderImpMapper;
 import com.xaeport.crossborder.data.mapper.VerificationMapper;
 import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.data.status.VerifyType;
@@ -26,6 +28,7 @@ public class VerificationThreadBond implements Runnable {
 
     private VerificationProcessor verificationProcessor = new VerificationProcessor();
     private VerificationMapper verificationMapper = SpringUtils.getBean(VerificationMapper.class);
+    private BondOrderImpMapper bondOrderImpMapper = SpringUtils.getBean(BondOrderImpMapper.class);
 
     @Override
     public void run() {
@@ -71,6 +74,7 @@ public class VerificationThreadBond implements Runnable {
                     //1.保税订单逻辑校验通过后，更新为保税订单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_BOND_ORDER.equals(impBDHeadVer.getBusiness_type())) {
                         verificationMapper.updateBondOrderStatus(verify.getCb_head_id(), StatusCode.BSDDDSB);
+                        this.insertOrderNo(verify);
                     }
                     //2.保税清单逻辑校验通过后，更新为保税清单待申报状态
                     if (!verificationResult.hasError() && SystemConstants.T_IMP_BOND_INVEN.equals(impBDHeadVer.getBusiness_type())) {
@@ -105,27 +109,46 @@ public class VerificationThreadBond implements Runnable {
         }
     }
 
+    private void insertOrderNo(Verify verify) {
+        String billNo = verify.getBill_no();
+        String brevityCode = billNo.substring(0, 2);
+        Integer sum = this.bondOrderImpMapper.queryEntInfoByBrevityCode(brevityCode);
+        if (sum > 0) {
+            OrderNo orderNo = new OrderNo();
+            orderNo.setId(IdUtils.getUUId());
+            orderNo.setOrder_no(verify.getOrder_no());
+            orderNo.setCrt_tm(new Date());
+            orderNo.setUsed("0");
+            this.bondOrderImpMapper.insertOrderNo(orderNo);
+        }
+    }
+
     // Verify 校验实体数据封装
     private Verify packageBondVerify(ImpBDHeadVer impBDHeadVer, VerificationResult verificationResult) throws JsonProcessingException {
         Verify verify = new Verify();
         String code = null;
         String id = null;
+        String billNo = null;
         switch (impBDHeadVer.getBusiness_type()) {
             case SystemConstants.T_IMP_BOND_ORDER:
                 code = impBDHeadVer.getOrder_no();
                 id = impBDHeadVer.getGuid();
+                billNo = impBDHeadVer.getBill_no();
                 break;
             case SystemConstants.T_IMP_BOND_INVEN:
                 code = impBDHeadVer.getOrder_no();
                 id = impBDHeadVer.getGuid();
+                billNo = impBDHeadVer.getBill_no();
                 break;
             case SystemConstants.T_BOND_INVT:
                 code = impBDHeadVer.getEtps_inner_invt_no();
                 id = impBDHeadVer.getId();
+                billNo = "";
                 break;
             case SystemConstants.T_PASS_PORT:
                 code = impBDHeadVer.getEtps_preent_no();
                 id = impBDHeadVer.getId();
+                billNo = "";
                 break;
         }
         // 生成订单号：表头ID（36位）- 业务类型 - 业务数据编码（最长60位） - yyyymmddhhMMssSSS（17位）+r（1位随机数）
@@ -134,7 +157,7 @@ public class VerificationThreadBond implements Runnable {
         verify.setVr_id(IdUtils.getUUId());
         verify.setCb_verify_no(cb_verify_no);
         verify.setCb_head_id(id);
-        verify.setBill_no("");
+        verify.setBill_no(billNo);
         verify.setOrder_no(code);
         verify.setType(VerifyType.LOGIC);
         verify.setCode("SW001");

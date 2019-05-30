@@ -22,9 +22,33 @@ public class bondOrderRegularChain implements BondVerifyChain {
 
         String validateField = null;
 
+        // 商品批次号
+        validateField = impBDHeadVer.getBill_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "商品批次号错误：仅能填写半角英文，数字及符号", "bill_No")) {
+            return verificationResult;
+        }
+
+        // 订单编号
+        validateField = impBDHeadVer.getOrder_no();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号错误：仅能填写半角英文，数字及符号", "order_No")) {
+            return verificationResult;
+        }
+
+        // 电商平台代码
+        validateField = impBDHeadVer.getEbp_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商平台代码错误：仅能填写半角英文，数字及符号", "ebp_Code")) {
+            return verificationResult;
+        }
+
         // 电商平台名称
         validateField = impBDHeadVer.getEbp_name();
         if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "电商平台名称错误：不能填写“空”，“无”，“/”字符", "ebp_Name")) {
+            return verificationResult;
+        }
+
+        // 电商企业代码
+        validateField = impBDHeadVer.getEbc_code();
+        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商企业代码错误：仅能填写半角英文，数字及符号", "ebc_Code")) {
             return verificationResult;
         }
 
@@ -37,6 +61,12 @@ public class bondOrderRegularChain implements BondVerifyChain {
         // 订购人注册号
         validateField = impBDHeadVer.getBuyer_reg_no();
         if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "订购人注册号错误：不能填写“空”，“无”，“/”字符", "buyer_Reg_No")) {
+            return verificationResult;
+        }
+
+        // 订购人身份证号
+        validateField = impBDHeadVer.getBuyer_id_number();
+        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号错误：格式不符合规范", "buyer_Id_Number")) {
             return verificationResult;
         }
 
@@ -70,30 +100,6 @@ public class bondOrderRegularChain implements BondVerifyChain {
             return verificationResult;
         }
 
-        // 订单编号
-        validateField = impBDHeadVer.getOrder_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订单编号错误：仅能填写半角英文，数字及符号", "order_No")) {
-            return verificationResult;
-        }
-
-        // 电商平台代码
-        validateField = impBDHeadVer.getEbp_code();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商平台代码错误：仅能填写半角英文，数字及符号", "ebp_Code")) {
-            return verificationResult;
-        }
-
-        // 电商企业代码
-        validateField = impBDHeadVer.getEbc_code();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "电商企业代码错误：仅能填写半角英文，数字及符号", "ebc_Code")) {
-            return verificationResult;
-        }
-
-        // 提运单号
-        validateField = impBDHeadVer.getBill_no();
-        if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "提运单号错误：仅能填写半角英文，数字及符号", "bill_No")) {
-            return verificationResult;
-        }
-
         // 订购人电话
         validateField = impBDHeadVer.getBuyer_telephone();
         if (!FiledCheckTool.checkFiledEngSymbolNumRegx(verificationResult, validateField, "订购人电话错误：仅能填写半角英文，数字及符号", "buyer_TelePhone")) {
@@ -106,24 +112,81 @@ public class bondOrderRegularChain implements BondVerifyChain {
             return verificationResult;
         }
 
-        // 订购人身份证号
-        validateField = impBDHeadVer.getBuyer_id_number();
-        if (!FiledCheckTool.checkFiledIdCardRegx(verificationResult, validateField, "订购人身份证号错误：格式不符合规范", "buyer_Id_Number")) {
+        // 毛重
+        validateField = impBDHeadVer.getGross_weight();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "毛重错误：此项为必填项", "gross_weight")) {
+            return verificationResult;
+        }
+
+        // 净重
+        validateField = impBDHeadVer.getNet_weight();
+        if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, "净重错误：此项为必填项", "net_weight")) {
             return verificationResult;
         }
 
         String g_num;
         for (ImpBDBodyVer impBDBodyVer : impBDHeadVer.getImpBDBodyVerList()) {
             g_num = String.valueOf(impBDBodyVer.getG_num());
+
+            //序号
+            validateField = g_num;
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "序号错误：不能填写“空”，“无”，“/”字符", "g_num")) {
+                return verificationResult;
+            }
+
             // 商品名称
             validateField = impBDBodyVer.getItem_name();
             if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品名称错误：不能填写“空”，“无”，“/”字符", "item_Name")) {
                 return verificationResult;
             }
 
+            if (impBDHeadVer.getTrade_mode() == "1210") {
+                // 商品货号
+                validateField = impBDBodyVer.getItem_no();
+                if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品货号错误：不能填写“空”，“无”，“/”字符", "item_No")) {
+                    return verificationResult;
+                }
+            }
+
             //商品规格型号
             validateField = impBDBodyVer.getG_model();
             if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品规格型号错误：不能填写“空”，“无”，“/”字符", "g_Model")) {
+                return verificationResult;
+            }
+
+            //数量
+            validateField = impBDBodyVer.getQty();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "数量错误：不能填写“空”，“无”，“/”字符", "qty")) {
+                return verificationResult;
+            }
+
+            //计量单位
+            validateField = impBDBodyVer.getUnit();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "计量单位错误：不能填写“空”，“无”，“/”字符", "unit")) {
+                return verificationResult;
+            }
+
+            //币制
+            validateField = impBDBodyVer.getCurrency();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "币制错误：不能填写“空”，“无”，“/”字符", "currency")) {
+                return verificationResult;
+            }
+
+            //原产国
+            validateField = impBDBodyVer.getCountry();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "原产国错误：不能填写“空”，“无”，“/”字符", "country")) {
+                return verificationResult;
+            }
+
+            //商品单价
+            validateField = impBDBodyVer.getPrice();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品单价错误：不能填写“空”，“无”，“/”字符", "price")) {
+                return verificationResult;
+            }
+
+            //商品总价
+            validateField = impBDBodyVer.getTotal_price();
+            if (!FiledCheckTool.checkFiledByRegx(verificationResult, validateField, g_num, "商品总价错误：不能填写“空”，“无”，“/”字符", "total_Price")) {
                 return verificationResult;
             }
 

@@ -158,7 +158,6 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#bizop_etpsno").val(entryHead.bizop_etpsno);
         $("#bizop_etps_nm").val(entryHead.bizop_etps_nm);
         $("#dcl_etpsno").val(entryHead.dcl_etpsno);
-        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#putrec_no").val(entryHead.putrec_no);
         $("#rcvgd_etpsno").val(entryHead.rcvgd_etpsno);
         $("#rcvgd_etps_nm").val(entryHead.rcvgd_etps_nm);
@@ -180,7 +179,8 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         selecterInitDetail("supv_modecd", entryHead.supv_modecd);
         selecterInitDetail("dclcus_typecd", entryHead.dclcus_typecd);
         selecterInitDetail("dec_type", entryHead.dec_type);
-        selecterInitDetail("dcl_etpsno", entryHead.dcl_etpsno);
+        // selecterInitDetail("dcl_etpsno", entryHead.dcl_etpsno);
+        $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
     },
 
     //加载表体信息
@@ -399,14 +399,15 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
                 var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
-                $("#dcl_etpsno").append(option);
+                $("#dcl_etpsnos").append(option);
             }
         })
     },
 
     dclEtpsName: function () {
         $("#dcl_etpsno").change(function () {
-            var name = $("#dcl_etpsno option:selected").attr("name");
+            var value = $("#dcl_etpsno").val();
+            var name = $("option:contains('" + value + "')").attr("name");
             $("#dcl_etps_nm").text(name).val(name);
         })
     },

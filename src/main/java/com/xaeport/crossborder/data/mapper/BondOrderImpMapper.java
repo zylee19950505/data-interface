@@ -49,8 +49,8 @@ public interface BondOrderImpMapper {
     Integer queryEntInfoByBrevityCode(String brevityCode);
 
     //根据料号和简码查询账册表体数据
-    @Select("SELECT GDS_SEQNO,NATCD FROM T_BWL_LIST_TYPE t WHERE t.GDS_MTNO = #{gds_mtno} AND t.GDS_MTNO like #{brevity_code}||'%'")
-    BwlListType queryBwlListTypeByItemNo(@Param("gds_mtno") String gds_mtno, @Param("brevity_code") String brevity_code);
+    @Select("SELECT GDS_SEQNO,NATCD FROM T_BWL_LIST_TYPE t WHERE t.GDS_MTNO = #{gds_mtno}")
+    BwlListType queryBwlListTypeByItemNo(@Param("gds_mtno") String gds_mtno);
 
 
 }

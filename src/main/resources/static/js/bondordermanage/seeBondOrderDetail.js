@@ -23,7 +23,7 @@ function selecterInitB(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -39,6 +39,14 @@ var listChangeKeyValsB = {};
 
 // 表体ID匹配正则
 var patternB = /^.*_[0-9]+$/;
+
+//计算实际支付金额
+function countActuralPaid(discount, tax_Total, freight, insured_fee, goods_Value, actural_paid) {
+    debugger;
+    var actural_paid = parseFloat(parseFloat(goods_Value) + parseFloat(freight) + parseFloat(tax_Total) - parseFloat(discount)).toFixed(5);
+    $("#actural_paid").val(actural_paid);
+    headChangeKeyValB["actural_paid"] = $("#actural_paid").val();
+}
 
 // 计算表头总价值
 function sumTotalPriceB() {
@@ -58,8 +66,9 @@ function sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal) {
     listChangeKeyVal["total_Price"] = $("#total_Price_" + gno).val();
 }
 
-function inputChanged(id) {
+function inputChangedByBdOrder(id) {
     $(".detailPage input,select").change(function () {
+        debugger;
         var key = $(this).attr("id");
         var val = $(this).val();
         if (!isNotEmpty(val)) {
@@ -96,6 +105,16 @@ function inputChanged(id) {
             listChangeKeyVal["entryhead_guid"] = id;
             listChangeKeyValsB[gno] = listChangeKeyVal;
         } else {
+            if ("discount" == key || "tax_Total" == key || "freight" == key || "insured_fee" == key || "goods_Value" == key || "actural_paid" == key) {
+                var discount = isNaN(parseFloat($("#discount").val())) ? 0 : parseFloat($("#discount").val());
+                var tax_Total = isNaN(parseFloat($("#tax_Total").val())) ? 0 : parseFloat($("#tax_Total").val());
+                var freight = isNaN(parseFloat($("#freight").val())) ? 0 : parseFloat($("#freight").val());
+                var insured_fee = isNaN(parseFloat($("#insured_fee").val())) ? 0 : parseFloat($("#insured_fee").val());
+                var goods_Value = isNaN(parseFloat($("#goods_Value").val())) ? 0 : parseFloat($("#goods_Value").val());
+                var actural_paid = isNaN(parseFloat($("#actural_paid").val())) ? 0 : parseFloat($("#actural_paid").val());
+                //计算实际支付金额
+                countActuralPaid(discount, tax_Total, freight, insured_fee, goods_Value, actural_paid);
+            }
             headChangeKeyValB[key] = val;
         }
     }).focus(function () {
@@ -173,6 +192,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
         $("#order_No").val(entryHead.order_No);
         $("#bill_No").val(entryHead.bill_No);
         $("#goods_Value").val(parseFloat(entryHead.goods_Value).toFixed(5));
+        $("#actural_paid").val(parseFloat(entryHead.actural_Paid).toFixed(5));
         $("#ebp_Code").val(entryHead.ebp_Code);
         $("#ebp_Name").val(entryHead.ebp_Name);
         $("#ebc_Code").val(entryHead.ebc_Code);
@@ -191,6 +211,9 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#note").val(entryHead.note);
+        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.allCustoms);
+        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
+        selecterInitBondInven("currency", entryHead.currency, sw.dict.currency);
     },
 
     //加载表体信息
@@ -204,6 +227,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
                 "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='item_Name_" + g_num + "' value='" + entryLists[i].item_Name + "' /></td>" +//商品名称
                 "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_Model_" + g_num + "' value='" + entryLists[i].g_Model + "' /></td>" +//商品规格型号
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +//原产国
+                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='currency_" + g_num + "' value='" + entryLists[i].currency + "' /></td>" +//币制
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +//商品数量
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"50\" id='unit_" + g_num + "' value='" + entryLists[i].unit + "' /></td>" +//商品单位
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +//商品单价
@@ -211,8 +235,9 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='note_" + g_num + "' value='" + (isEmpty(entryLists[i].note) ? "" : entryLists[i].note) + "' /></td>" +//促销活动
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
             selecterInitDetail("unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
+            selecterInitDetail("currency_" + g_num, entryLists[i].currency, sw.dict.currency);
         }
     },
 
@@ -296,7 +321,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
                     }
                     headChangeKeyValB["entryhead_guid"] = param.guid;
                     // 添加输入框内容变更事件，捕获数据变更信息
-                    inputChanged(param.guid);
+                    inputChangedByBdOrder(param.guid);
                     entryModule.disabledFieldInput();
                 }
             }
@@ -307,26 +332,30 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
     valiField: function () {
         // 校验表头
         var validataHeadField = {
-            "bill_No": "提运单号",
+            "bill_No": "商品批次号",
             "order_No": "订单编号",
             "goods_Value": "商品总价",
-            "ebp_Code": "电商平台编号",
+            "customs_code": "申报海关代码",
+            "port_code": "口岸海关代码",
+            "actural_paid": "实际支付金额",
+            "ebp_Code": "电商平台代码",
             "ebp_Name": "电商平台名称",
-            "ebc_Code": "电商编号",
-            "ebc_Name": "电商名称",
+            "ebc_Code": "电商企业代码",
+            "ebc_Name": "电商企业名称",
             "buyer_Reg_No": "订购人注册号",
-            "buyer_Id_Number": "证件号码",
+            "buyer_Id_Number": "订购人证件号码",
             "buyer_Name": "订购人姓名",
             "buyer_TelePhone": "订购人电话",
             "consignee": "收货人姓名",
-            "consignee_Address": "收货地址",
             "consignee_Telephone": "收货人电话",
+            "consignee_Address": "收货地址",
             "discount": "非现金支付金额",
             "tax_Total": "代扣税款",
             "freight": "运杂费",
             "insured_fee": "保价费",
             "gross_weight": "毛重",
-            "net_weight": "净重"
+            "net_weight": "净重",
+            "currency": "币制"
         };
         // 校验表体
         var validataListField = {
@@ -335,6 +364,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
             "item_No": "商品货号",
             "item_Name": "企业商品名称",
             "country": "原产国",
+            "currency": "币制",
             "qty": "数量",
             "g_Model": "商品规格型号",
             "price": "单价",
@@ -455,7 +485,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
             sw.page.modules["bondordermanage/seeBondOrderDetail"].cancel();
         });
     }
-}
+};
 
 
 

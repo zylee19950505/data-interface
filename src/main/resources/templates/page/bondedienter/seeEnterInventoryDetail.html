@@ -45,7 +45,12 @@
             </td>
             <td class="headTitle">申报企业编号</td>
             <td>
-                <select class="form-control input-sm" style="width:100%" maxlength="10" id="dcl_etpsno"/>
+                <!--<select class="form-control input-sm" style="width:100%" maxlength="10" id="dcl_etpsno"/>-->
+
+                <input type="text" id="dcl_etpsno" list="dcl_etpsnos" style="width:100%"/>
+                <datalist id="dcl_etpsnos" name="dcl_etpsno" style="display: none;">
+                    <option value="">全部</option>
+                </datalist>
             </td>
         </tr>
         <tr>

@@ -9,7 +9,7 @@ import com.xaeport.crossborder.tools.xml.XmlEntry;
  * @Date 2019-04-26
  * @Version 1.0
  */
-@RootXPath("List")
+@RootXPath("DataList")
 public class DataBody implements XmlEntry {
 
     private Double priceSum;
@@ -28,6 +28,10 @@ public class DataBody implements XmlEntry {
     private String unit;
     @XPath("totalPrice")
     private String totalPrice;
+    @XPath("currency")
+    private String currency;
+    @XPath("country")
+    private String country;
 
     @XPath("GdsSeqno")
     private String gdsSeqno;// “1”序号，由1递增的自然数
@@ -61,6 +65,22 @@ public class DataBody implements XmlEntry {
     private String lvyrlfModecd;// 征免方式代码
     @XPath("Rmk")
     private String rmk;// 备注,选填项
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
     public Double getPriceSum() {
         return priceSum;

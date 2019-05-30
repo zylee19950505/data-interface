@@ -23,6 +23,20 @@
             </td>
         </tr>
         <tr>
+            <td class="headTitle">申报海关代码</td>
+            <td>
+                <select class="form-control input-sm" style="width: 100%" id="customs_code"/>
+            </td>
+            <td class="headTitle">口岸海关代码</td>
+            <td>
+                <select class="form-control input-sm" style="width: 100%" id="port_code"/>
+            </td>
+            <td class="headTitle">实际支付金额</td>
+            <td>
+                <input class="form-control input-sm" maxlength="19" id="actural_paid"/>
+            </td>
+        </tr>
+        <tr>
             <td class="headTitle">电商平台代码</td>
             <td>
                 <input class="form-control input-sm" maxlength="18" id="ebp_Code"/>
@@ -103,8 +117,14 @@
             <td>
                 <input class="form-control input-sm" maxlength="19" id="net_weight"/>
             </td>
-            <td class="headTitle">备注</td>
+            <td class="headTitle">币制</td>
             <td>
+                <select class="form-control input-sm" style="width: 100%" id="currency"/>
+            </td>
+        </tr>
+        <tr>
+            <td class="headTitle">备注</td>
+            <td colspan="5">
                 <input class="form-control input-sm" maxlength="1000" id="note"/>
             </td>
         </tr>
@@ -116,16 +136,17 @@
     <table id="entryList" class="listDetail" border="1px solid balck">
         <tr style="height: 30px">
             <th width="3%">序号</th>
-            <th width="8%">订单编号</th>
-            <th width="8%">商品货号</th>
-            <th width="8%">商品名称</th>
-            <th width="8%">商品规格<br/>型号</th>
+            <th width="8%">订单<br/>编号</th>
+            <th width="8%">商品<br/>货号</th>
+            <th width="8%">商品<br/>名称</th>
+            <th width="8%">规格<br/>型号</th>
             <th>原产国</th>
-            <th width="5%">数量</th>
-            <th>单位</th>
+            <th>币制</th>
+            <th width="5%">申报<br/>数量</th>
+            <th>申报<br/>单位</th>
             <th width="8%">单价</th>
             <th width="8%">总价</th>
-            <th>促销活动</th>
+            <th>促销<br/>活动</th>
         </tr>
     </table>
     <div class="text-center">
