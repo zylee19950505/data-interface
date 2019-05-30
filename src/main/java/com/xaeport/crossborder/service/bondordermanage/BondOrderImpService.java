@@ -136,6 +136,7 @@ public class BondOrderImpService {
         impOrderHead.setCrt_tm(new Date());//创建时间
         impOrderHead.setUpd_id(StringUtils.isEmpty(user.getId()) ? "" : user.getId());//更新人
         impOrderHead.setUpd_tm(new Date());//更新时间
+        impOrderHead.setCustoms_code(enterprise.getPort());
         impOrderHead.setEnt_id(enterprise.getId());
         impOrderHead.setEnt_name(enterprise.getEnt_name());
         impOrderHead.setEnt_customs_code(enterprise.getCustoms_code());

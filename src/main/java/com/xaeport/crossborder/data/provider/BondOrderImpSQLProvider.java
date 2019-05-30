@@ -148,6 +148,9 @@ public class BondOrderImpSQLProvider {
                 if (!StringUtils.isEmpty(impOrderHead.getTrade_mode())) {
                     VALUES("trade_mode", "#{impOrderHead.trade_mode}");
                 }
+                if (!StringUtils.isEmpty(impOrderHead.getCustoms_code())) {
+                    VALUES("customs_code", "#{impOrderHead.customs_code}");
+                }
                 if (!StringUtils.isEmpty(impOrderHead.getPort_code())) {
                     VALUES("port_code", "#{impOrderHead.port_code}");
                 }
