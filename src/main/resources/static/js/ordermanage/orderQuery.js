@@ -49,7 +49,7 @@ sw.page.modules["ordermanage/orderQuery"] = sw.page.modules["ordermanage/orderQu
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "bill_No", label: "提运单号"},
+                {data: "bill_No", label: "商品批次号"},
                 {
                     label: "订单编号", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('ordermanage/orderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'

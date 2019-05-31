@@ -49,7 +49,7 @@ sw.page.modules["bondordermanage/bondOrderQuery"] = sw.page.modules["bondorderma
             lengthMenu: [[50, 100, 1000, -1], [50, 100, 1000, "所有"]],
             searching: false,//开启本地搜索
             columns: [
-                {data: "bill_No", label: "提运单号"},
+                {data: "bill_No", label: "商品批次号"},
                 {
                     label: "订单编号", render: function (data, type, row) {
                     return '<a href="javascript:void(0)"  onclick="' + "javascript:sw.pageModule('bondordermanage/bondOrderQuery').seeOrderNoDetail('" + row.guid + "','" + row.order_No + "')" + '">' + row.order_No + '</a>'
@@ -95,13 +95,13 @@ sw.page.modules["bondordermanage/bondOrderQuery"] = sw.page.modules["bondorderma
         $("[ws-search]").unbind("click").click(this.query).click();
     },
     seeOrderNoDetail: function (guid, order_No) {
-        var url = "bondordermanage/seeOrderDetail?type=DDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_No;
+        var url = "bondordermanage/seeBondOrderDetail?type=DDCX&isEdit=true&guid=" + guid + "&orderNo=" + order_No;
         sw.modelPopup(url, "查看订单详情", false, 1000, 930);
     },
     returnOrderDetails: function (guid, order_No) {
         var url = "bondordermanage/returnOrderDetail?guid=" + guid + "&order_no=" + order_No;
         sw.modelPopup(url, "回执备注详情", false, 900, 300);
     },
-}
+};
 
 

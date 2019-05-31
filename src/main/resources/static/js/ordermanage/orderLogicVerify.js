@@ -27,7 +27,7 @@ sw.page.modules["ordermanage/orderLogicVerify"] = sw.page.modules["ordermanage/o
                     }
                 },
                 {
-                    label: "主运单号", render: function (data, type, row) {
+                    label: "商品批次号", render: function (data, type, row) {
                     return row.bill_no;
                 }
                 },

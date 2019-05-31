@@ -1,25 +1,19 @@
 // 非空判断
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 
 // Select2初始化
@@ -29,7 +23,7 @@ function selecterInitB(selectId, value, data) {
             var obj = {
                 id: key,
                 text: val + "[" + key + "]"
-            }
+            };
             return obj;
         }),
         placeholder: value,
@@ -313,7 +307,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
     valiField: function () {
         // 校验表头
         var validataHeadField = {
-            "bill_No": "提运单号",
+            "bill_No": "商品批次号",
             "order_No": "订单编号",
             "goods_Value": "商品总价",
             "ebp_Code": "电商平台编号",
@@ -451,7 +445,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
             sw.page.modules["ordermanage/seeOrderDetail"].cancel();
         });
     }
-}
+};
 
 
 

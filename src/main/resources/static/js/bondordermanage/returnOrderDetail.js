@@ -15,24 +15,18 @@ function sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal) {
     listChangeKeyVal["total_Price"] = $("#total_Price_" + gno).val();
 }
 function isNotEmpty(obj) {
-    /*<![CDATA[*/
     if (typeof(obj) == "undefined" || null == obj || "" == obj) {
         return false;
     }
-    /*]]>*/
     return true;
 }
 // 错误提示
 function hasError(errorMsg) {
-    /*<![CDATA[*/
     $("#errorMsg").html(errorMsg).removeClass("hidden");
-    /*]]>*/
 }
 // 清楚错误提示
 function clearError() {
-    /*<![CDATA[*/
     $("#errorMsg").html("").addClass("hidden");
-    /*]]>*/
 }
 // Select2初始化
 function selecterInitB(selectId, value, data) {
@@ -170,7 +164,7 @@ sw.page.modules["bondordermanage/returnOrderDetail"] = sw.page.modules["bondorde
         // 查询详情
         this.query();
     }
-}
+};
 
 
 

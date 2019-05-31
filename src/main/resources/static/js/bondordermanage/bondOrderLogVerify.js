@@ -27,7 +27,7 @@ sw.page.modules["bondordermanage/bondOrderLogVerify"] = sw.page.modules["bondord
                     }
                 },
                 {
-                    label: "主运单号", render: function (data, type, row) {
+                    label: "商品批次号", render: function (data, type, row) {
                     return row.bill_no;
                 }
                 },

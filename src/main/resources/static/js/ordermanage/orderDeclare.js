@@ -41,7 +41,7 @@ sw.page.modules["ordermanage/orderDeclare"] = sw.page.modules["ordermanage/order
                     }
                 },
                 {
-                    label: "提运单号", render: function (data, type, row) {
+                    label: "商品批次号", render: function (data, type, row) {
                     if (row.no == "1") {
                         return row.bill_no;
                     } else {
