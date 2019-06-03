@@ -44,7 +44,7 @@ public class CountryStatisticsApi extends BaseApi {
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("ieFlag", ieFlag);
         paramMap.put("customCode", customCode);
-        paramMap.put("dataStatus", StatusCode.QDSBCG);
+//        paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 
         List<ImpInventory> resultList;

@@ -76,7 +76,7 @@ public class DetailQueryApi extends BaseApi {
         paramMap.put("entId", this.getCurrentUserEntId());
         paramMap.put("roleId", this.getCurrentUserRoleId());
         //类型参数
-        paramMap.put("dataStatus", StatusCode.QDSBCG);
+//        paramMap.put("dataStatus", StatusCode.QDSBCG);
         if (!StringUtils.isEmpty(returnStatus)) {
             paramMap.put("returnStatus", returnStatus);
         } else {
