@@ -72,7 +72,7 @@ public class InventoryQueryApi extends BaseApi {
         paramMap.put("billNo", billNo);
         paramMap.put("invtNo", invtNo);
         paramMap.put("gName", gName);
-        paramMap.put("dataStatus", StatusCode.QDSBCG);
+//        paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 
         //分页参数
