@@ -59,6 +59,7 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("entId", users.getEnt_Id());
         paramMap.put("roleId", users.getRoleId());
         paramMap.put("port", users.getPort());
+        paramMap.put("entCustomsCode", users.getEnt_Customs_Code());
 
         paramMap.put("billNo", billNo);
         paramMap.put("returnStatus", returnStatus);
@@ -164,6 +165,7 @@ public class CrtExitInventoryApi extends BaseApi {
 
         paramMap.put("port", users.getPort());
         paramMap.put("roleId", users.getRoleId());
+        paramMap.put("entCustomsCode", users.getEnt_Customs_Code());
         try {
             enterpriseList = this.crtExitInventoryService.queryEbusinessEnt(paramMap);
         } catch (Exception e) {

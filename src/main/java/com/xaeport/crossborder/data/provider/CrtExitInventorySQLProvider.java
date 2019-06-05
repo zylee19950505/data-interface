@@ -29,6 +29,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
         final String port = paramMap.get("port");
         final String roleId = paramMap.get("roleId");
+        final String entCustomsCode = paramMap.get("entCustomsCode");
 
         return new SQL() {
             {
@@ -37,12 +38,13 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_ENTERPRISE t");
                 WHERE("t.ENT_BUSINESS_TYPE = 'E-business'");
                 if (!roleId.equals("admin")) {
-                    if (port.equals("9007")) {
-                        WHERE("t.PORT = '9009'");
-                    }
-                    if (port.equals("9013")) {
-                        WHERE("t.PORT = '9013'");
-                    }
+                    WHERE("t.AREA_CODE = #{entCustomsCode}");
+//                    if (port.equals("9007")) {
+//                        WHERE("t.PORT = '9009'");
+//                    }
+//                    if (port.equals("9013")) {
+//                        WHERE("t.PORT = '9013'");
+//                    }
                 }
             }
         }.toString();
@@ -53,6 +55,8 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
         final String entId = paramMap.get("entId");
         final String roleId = paramMap.get("roleId");
+        final String entCustomsCode = paramMap.get("entCustomsCode");
+
         final String returnStatus = paramMap.get("returnStatus");
         final String businessType = paramMap.get("businessType");
         final String port = paramMap.get("port");
@@ -76,12 +80,13 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                     WHERE("t.RETURN_STATUS = #{returnStatus}");
                 }
                 if (!roleId.equals("admin")) {
-                    if (port.equals("9013")) {
-                        WHERE("t.CUSTOMS_CODE = '9013'");
-                    }
-                    if (port.equals("9007")) {
-                        WHERE("t.CUSTOMS_CODE = '9009'");
-                    }
+                    WHERE("t.AREA_CODE = #{entCustomsCode}");
+//                    if (port.equals("9013")) {
+//                        WHERE("t.CUSTOMS_CODE = '9013'");
+//                    }
+//                    if (port.equals("9007")) {
+//                        WHERE("t.CUSTOMS_CODE = '9009'");
+//                    }
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");

@@ -184,7 +184,7 @@ public class LogInvCombineThread implements Runnable {
     private EnvelopInfo setEnvelopInfo() {
         EnvelopInfo envelopInfo = new EnvelopInfo();
         envelopInfo.setMessage_id(IdUtils.getUUId());
-        envelopInfo.setMessage_type("cebsign");
+        envelopInfo.setMessage_type("WMSCEB");
         envelopInfo.setSender_id("9009000001");
         envelopInfo.setReceiver_id("DXPENT0000021945");
         return envelopInfo;
