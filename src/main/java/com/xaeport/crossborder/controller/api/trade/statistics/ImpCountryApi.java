@@ -77,6 +77,7 @@ public class ImpCountryApi extends BaseApi {
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
+		paramMap.put("returnStatus", StatusCode.FX);
 
 		List<ImpCountryList> impCountryLists = new ArrayList<ImpCountryList>();
 
