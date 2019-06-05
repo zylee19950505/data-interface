@@ -73,7 +73,6 @@ public class BuilderDetailThread implements Runnable {
                     //根据订单的商品料号去查账册备案清单,找出法定数量,法定计量单位
                     //封装订单和运单里的数据
                     String ent_id = imporderHead.getEnt_id();
-                    //Enterprise enterpriseDetail = enterpriseMapper.getEnterpriseDetail(ent_id);
                     Enterprise enterpriseDetail = builderDetailMapper.getEnterpriseDetail(ent_id);
                     try {
                         impInventoryHead = this.getInventoryData(imporderHead, impOrderBodyList, impLogistics, enterpriseDetail);
@@ -226,30 +225,35 @@ public class BuilderDetailThread implements Runnable {
         impInventoryHead.setEnt_customs_code(enterpriseDetail.getCustoms_code());
         if ("ORDER".equals(imporderHead.getBusiness_type())) {
             impInventoryHead.setTrade_mode("9610");//贸易方式
+            impInventoryHead.setTraf_mode("5");//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
             impInventoryHead.setCountry(impOrderBodyList.get(0).getCountry());//直购进口填写起始发出国家（地区）代码，参照《JGS-20 海关业务代码集》的国家（地区）代码表；
             //直购的毛重和净重从运单里获取
-            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight()) / 1.1));//货物及其包装材料的重量之和，计量单位为千克。
+            impInventoryHead.setGross_weight(Double.toString(Double.parseDouble(impLogistics.getWeight()) / 1.1));//货物及其包装材料的重量之和
             impInventoryHead.setNet_weight(impLogistics.getWeight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
             impInventoryHead.setVoyage_no(StringUtils.isEmpty(impLogistics.getVoyage_no()) ? "" : impLogistics.getVoyage_no());
-            impInventoryHead.setTraf_mode("");//填写海关标准的参数代码，参照《JGS-20 海关业务代码集》- 运输方式代码。直购进口指跨境段物流运输方式，保税进口指二线出区物流运输方式。
-            impInventoryHead.setTraf_no("");//直购进口必填。货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。保税进口免填。
+            impInventoryHead.setTraf_no("");//直购进口必填。货物进出境的运输工具的名称或运输工具编号
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_INVENTORY);
             impInventoryHead.setData_status(StatusCode.QDDSB);//数据状态(暂存)
         } else if ("BONDORDER".equals(imporderHead.getBusiness_type())) {
             impInventoryHead.setTrade_mode("1210");//贸易方式
+            if(impInventoryHead.getCustoms_code() == "9007"){
+                impInventoryHead.setTraf_mode("7");
+            }
+            if(impInventoryHead.getCustoms_code() == "9013"){
+                impInventoryHead.setTraf_mode("W");
+            }
             impInventoryHead.setCountry("142");//保税进口填写代码“142”。
             //保税的毛重和净重从订单获取
             impInventoryHead.setGross_weight(imporderHead.getGross_weight());//货物及其包装材料的重量之和，计量单位为千克。
             impInventoryHead.setNet_weight(imporderHead.getNet_weight());//货物的毛重减去外包装材料后的重量，即货物本身的实际重量，计量单位为千克。
-
             //查找企业信息里的区内企业信息
             //再在账册表头里查找创建账册的创建人所属企业ID匹配账册信息
             Enterprise enterprise = this.builderDetailMapper.queryAreaenterprise(enterpriseDetail.getArea_code());
             String bws_no = this.builderDetailMapper.queryBwlHeadType(enterprise.getId());
-            //String bws_no = this.builderDetailMapper.queryBwsNoByEntId(enterpriseDetail.getEnt_code(), enterpriseDetail.getEnt_name());
-
             //账册编号通过查找企业信息的区内企业名称和区内企业编码,去账册信息里查找
             impInventoryHead.setEms_no(bws_no);//保税模式必填，填写区内仓储企业在海关备案的账册编号，用于保税进口业务在特殊区域辅助系统记账（二线出区核减）。
+            impInventoryHead.setAgent_code(enterpriseDetail.getDeclare_ent_code());
+            impInventoryHead.setAgent_name(enterpriseDetail.getDeclare_ent_name());
             impInventoryHead.setArea_code(enterprise.getArea_code());//保税模式必填，区内仓储企业的海关注册登记编号。(企业信息里有)
             impInventoryHead.setArea_name(enterprise.getArea_name());//保税模式必填，区内仓储企业在海关注册登记的名称。(企业信息里有)
             impInventoryHead.setBusiness_type(SystemConstants.T_IMP_BOND_INVEN);

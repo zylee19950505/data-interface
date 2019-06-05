@@ -217,24 +217,24 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
             var str =
                 "<tr>" +
                 "<td ><input class=\"form-control input-sm\" maxlength=\"4\" id='g_num_" + g_num + "' value='" + entryLists[i].g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"30\" id='g_itemRecordNo_" + g_num + "' value='" + entryLists[i].item_record_no + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_itemNo_" + g_num + "' value='" + entryLists[i].item_no + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='g_unit_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_1_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + (isEmpty(entryLists[i].qty2) ? "" : parseFloat(entryLists[i].qty2).toFixed(5)) + "' /></td>" +
-                "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
-                "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
-                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
-                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
-                // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
-                "</tr>";
+                "<td ><input class=\"form-control input-sm\" maxlength=\"30\" id='g_itemRecordNo_" + g_num + "' value='" + (isEmpty(entryLists[i].item_record_no) ? "" : entryLists[i].item_record_no) + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_itemNo_" + g_num + "' value='" + entryLists[i].item_no + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"250\" id='g_name_" + g_num + "' value='" + entryLists[i].g_name + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"10\" id='g_code_" + g_num + "' value='" + entryLists[i].g_code + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"510\" id='g_model_" + g_num + "' value='" + entryLists[i].g_model + "' /></td>" +
+                    "<td ><select class=\"form-control input-sm\" style=\"width:100%\"  maxlength=\"100\" id='country_" + g_num + "' value='" + entryLists[i].country + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='g_qty_" + g_num + "' value='" + parseFloat(entryLists[i].qty).toFixed(5) + "' /></td>" +
+                    "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='g_unit_" + g_num + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_1_" + g_num + "' value='" + parseFloat(entryLists[i].qty1).toFixed(5) + "' /></td>" +
+                    "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_1_" + g_num + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='qty_2_" + g_num + "' value='" + (isEmpty(entryLists[i].qty2) ? "" : parseFloat(entryLists[i].qty2).toFixed(5)) + "' /></td>" +
+                    "<td ><select class=\"form-control input-sm\"  style=\"width:100%\" maxlength=\"50\" id='unit_2_" + g_num + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='price_" + g_num + "' value='" + parseFloat(entryLists[i].price).toFixed(5) + "' /></td>" +
+                    "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='total_price_" + g_num + "' value='" + parseFloat(entryLists[i].total_price).toFixed(5) + "' /></td>" +
+                    // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='customs_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].customs_tax) ? "" : parseFloat(entryLists[i].customs_tax).toFixed(5)) + "' /></td>" +
+                    // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='value_added_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].value_added_tax) ? "" : parseFloat(entryLists[i].value_added_tax).toFixed(5)) + "' /></td>" +
+                    // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
+                    "</tr>";
             $("#entryList").append(str);
             selecterInitBondInven("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
             selecterInitBondInven("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
@@ -433,14 +433,16 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                 var dclEtpsCustomsCode = data[idx].dcl_etps_customs_code;
                 var dclEtpsName = data[idx].dcl_etps_name;
                 var option = $("<option>").text(dclEtpsCustomsCode).val(dclEtpsCustomsCode).attr("name", dclEtpsName);
-                $("#agent_code").append(option);
+                $("#agent_codes").append(option);
             }
         })
     },
 
     dclEtpsName: function () {
         $("#agent_code").change(function () {
-            var name = $("#agent_code option:selected").attr("name");
+            var value = $("#agent_code").val();
+            var name = $("option:contains('" + value + "')").attr("name");
+            // var name = $("#agent_code option:selected").attr("name");
             $("#agent_name").text(name).val(name);
         })
     },

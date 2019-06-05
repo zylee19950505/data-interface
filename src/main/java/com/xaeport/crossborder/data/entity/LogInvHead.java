@@ -8,6 +8,8 @@ public class LogInvHead {
     private String logisticsNo;
     private String ebpCode;
     private String ebpName;
+    private String ebcCode;
+    private String ebcName;
     private String logisticsCode;
     private String logisticsName;
     private String buyerName;
@@ -118,5 +120,21 @@ public class LogInvHead {
 
     public void setWeight(String weight) {
         this.weight = weight;
+    }
+
+    public String getEbcCode() {
+        return ebcCode;
+    }
+
+    public void setEbcCode(String ebcCode) {
+        this.ebcCode = ebcCode;
+    }
+
+    public String getEbcName() {
+        return ebcName;
+    }
+
+    public void setEbcName(String ebcName) {
+        this.ebcName = ebcName;
     }
 }

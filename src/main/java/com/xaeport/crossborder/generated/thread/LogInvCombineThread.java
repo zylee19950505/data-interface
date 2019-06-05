@@ -94,8 +94,8 @@ public class LogInvCombineThread implements Runnable {
                         logInvHead.setAppTime(sdf.format(impInventoryHead.getApp_time()));
                         logInvHead.setOrderNo(impInventoryHead.getOrder_no());
                         logInvHead.setLogisticsNo(impInventoryHead.getLogistics_no());
-                        logInvHead.setEbpCode(impInventoryHead.getEbp_code());
-                        logInvHead.setEbpName(impInventoryHead.getEbp_name());
+                        logInvHead.setEbcCode(impInventoryHead.getEbc_code());
+                        logInvHead.setEbcName(impInventoryHead.getEbc_name());
                         logInvHead.setLogisticsCode(impInventoryHead.getLogistics_code());
                         logInvHead.setLogisticsName(impInventoryHead.getLogistics_name());
                         logInvHead.setBuyerName(impInventoryHead.getBuyer_name());

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8">
+<?xml version="1.0" encoding="utf-8"?>
 <Package>
     <EnvelopInfo>
         <msg_id>$!envelopInfo.message_id</msg_id>
@@ -13,8 +13,8 @@
                 <appTime>$!LogInvData.logInvHead.appTime</appTime>
                 <orderNo>$!LogInvData.logInvHead.orderNo</orderNo>
                 <logisticsNo>$!LogInvData.logInvHead.logisticsNo</logisticsNo>
-                <ebpCode>$!LogInvData.logInvHead.ebpCode</ebpCode>
-                <ebpName>$!LogInvData.logInvHead.ebpName</ebpName>
+                <ebcCode>$!LogInvData.logInvHead.ebcCode</ebcCode>
+                <ebcName>$!LogInvData.logInvHead.ebcName</ebcName>
                 <logisticsCode>$!LogInvData.logInvHead.logisticsCode</logisticsCode>
                 <logisticsName>$!LogInvData.logInvHead.logisticsName</logisticsName>
                 <buyerName>$!LogInvData.logInvHead.buyerName</buyerName>

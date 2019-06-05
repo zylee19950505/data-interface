@@ -69,6 +69,8 @@ public class LogInvCombineSQLProvider extends BaseSQLProvider {
                 SELECT("APP_TIME");
                 SELECT("ORDER_NO");
                 SELECT("LOGISTICS_NO");
+                SELECT("EBC_CODE");
+                SELECT("EBC_NAME");
                 SELECT("EBP_CODE");
                 SELECT("EBP_NAME");
                 SELECT("LOGISTICS_CODE");
