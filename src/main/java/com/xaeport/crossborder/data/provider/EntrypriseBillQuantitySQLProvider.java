@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class EntrypriseBillQuantitySQLProvider {
 
-    public String queryEnterpriseBillQuantityList(Map<String, String> paramMap){
+    public String queryEnterpriseBillQuantityList(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
@@ -16,9 +16,10 @@ public class EntrypriseBillQuantitySQLProvider {
         final String entCustomsCode = paramMap.get("entCustomsCode");
         final String creditCode = paramMap.get("creditCode");
         final String length = paramMap.get("length");
+        final String returnStatus = paramMap.get("returnStatus");
         final String start = paramMap.get("start");
 
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT(" * from ( select w.*, ROWNUM AS rn from ( " +
                         "SELECT iih.ENT_NAME entName, iih.ENT_CUSTOMS_CODE entCustomsCode, (select CREDIT_CODE" +
@@ -26,10 +27,10 @@ public class EntrypriseBillQuantitySQLProvider {
                         " WHERE en.ENT_NAME = iih.ENT_NAME) creditCode, count(decode(ie_flag, 'I', 1, null)) as iInventoryValue," +
                         " count(decode(ie_flag, 'E', 1, null)) as eInventoryValue, count(1) inventoryValue");
                 FROM("T_IMP_INVENTORY_HEAD iih");
-                if (!StringUtils.isEmpty(customsCode)){
+                if (!StringUtils.isEmpty(customsCode)) {
                     WHERE("iih.CUSTOMS_CODE = #{customsCode}");
                 }
-                if (!StringUtils.isEmpty(tradeMode)){
+                if (!StringUtils.isEmpty(tradeMode)) {
                     WHERE("iih.TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
@@ -38,14 +39,17 @@ public class EntrypriseBillQuantitySQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("iih.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!StringUtils.isEmpty(entName)){
+                if (!StringUtils.isEmpty(entName)) {
                     WHERE("iih.ENT_NAME = #{entName}");
                 }
-                if (!StringUtils.isEmpty(entCustomsCode)){
+                if (!StringUtils.isEmpty(entCustomsCode)) {
                     WHERE("iih.ENT_CUSTOMS_CODE = #{entCustomsCode}");
                 }
-                if (!StringUtils.isEmpty(creditCode)){
+                if (!StringUtils.isEmpty(creditCode)) {
                     WHERE("exists(select id from t_enterprise te where te.id = iih.ent_id and te.CREDIT_CODE = #{creditCode})");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("iih.RETURN_STATUS = #{returnStatus}");
                 }
 
                 GROUP_BY("iih.ENT_NAME,iih.ENT_CUSTOMS_CODE");
@@ -58,7 +62,7 @@ public class EntrypriseBillQuantitySQLProvider {
         }.toString();
     }
 
-    public String queryEnterpriseBillQuantityCount(Map<String, String> paramMap){
+    public String queryEnterpriseBillQuantityCount(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
@@ -67,16 +71,17 @@ public class EntrypriseBillQuantitySQLProvider {
         final String entCustomsCode = paramMap.get("entCustomsCode");
         final String creditCode = paramMap.get("creditCode");
         final String length = paramMap.get("length");
+        final String returnStatus = paramMap.get("returnStatus");
         final String start = paramMap.get("start");
-        return new SQL(){
+        return new SQL() {
             {
                 SELECT(" count(1) from ( select w.*, ROWNUM AS rn from ( " +
                         "SELECT count(1) inventoryValue");
                 FROM("T_IMP_INVENTORY_HEAD iih");
-                if (!StringUtils.isEmpty(customsCode)){
+                if (!StringUtils.isEmpty(customsCode)) {
                     WHERE("iih.CUSTOMS_CODE = #{customsCode}");
                 }
-                if (!StringUtils.isEmpty(tradeMode)){
+                if (!StringUtils.isEmpty(tradeMode)) {
                     WHERE("iih.TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
@@ -85,14 +90,17 @@ public class EntrypriseBillQuantitySQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("iih.APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
-                if (!StringUtils.isEmpty(entName)){
+                if (!StringUtils.isEmpty(entName)) {
                     WHERE("iih.ENT_NAME = #{entName}");
                 }
-                if (!StringUtils.isEmpty(entCustomsCode)){
+                if (!StringUtils.isEmpty(entCustomsCode)) {
                     WHERE("iih.ENT_CUSTOMS_CODE = #{entCustomsCode}");
                 }
-                if (!StringUtils.isEmpty(creditCode)){
+                if (!StringUtils.isEmpty(creditCode)) {
                     WHERE("exists(select id from t_enterprise te where te.id = iih.ent_id and te.CREDIT_CODE = #{creditCode})");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("iih.RETURN_STATUS = #{returnStatus}");
                 }
 
                 GROUP_BY("iih.ENT_NAME,iih.ENT_CUSTOMS_CODE");

@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpCountryList;
 import com.xaeport.crossborder.data.entity.ImpTradeVolumeList;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.trade.statistics.ImpCountryService;
 import com.xaeport.crossborder.service.trade.statistics.ImpTradeVolumeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ public class ImpCountryApi extends BaseApi {
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
+		paramMap.put("returnStatus", StatusCode.FX);
 
 		List<ImpCountryList> impCountryLists = new ArrayList<ImpCountryList>();
 
@@ -75,6 +77,7 @@ public class ImpCountryApi extends BaseApi {
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
+		paramMap.put("returnStatus", StatusCode.FX);
 
 		List<ImpCountryList> impCountryLists = new ArrayList<ImpCountryList>();
 

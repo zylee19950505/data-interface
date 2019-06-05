@@ -6,6 +6,7 @@ import com.xaeport.crossborder.controller.api.BaseApi;
 import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.ImpTradeVolumeList;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.trade.statistics.ImpTradeVolumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +45,7 @@ public class ImpTradeVolumeApi extends BaseApi {
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
+        paramMap.put("returnStatus", StatusCode.FX);
 
 		List<ImpTradeVolumeList> impTradeVolumeListList = new ArrayList<ImpTradeVolumeList>();
 		try {
@@ -70,6 +72,7 @@ public class ImpTradeVolumeApi extends BaseApi {
         paramMap.put("endFlightTimes",endFlightTimes);
         paramMap.put("customsCode",customsCode);
         paramMap.put("tradeMode",tradeMode);
+        paramMap.put("returnStatus", StatusCode.FX);
 
         List<ImpTradeVolumeList> impTradeVolumeListList = new ArrayList<ImpTradeVolumeList>();
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
