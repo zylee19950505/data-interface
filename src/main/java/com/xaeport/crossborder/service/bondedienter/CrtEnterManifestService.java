@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -103,32 +102,11 @@ public class CrtEnterManifestService {
             List<BondInvtDt> bondInvtDtList = this.crtEnterManifestMapper.queryEnterInvtory(invtNo);
             bondInvtDtListAll.addAll(bondInvtDtList);
         }
-        if ("YPDC".equals(paramMap.get("bind_typecd"))) {
-            for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
-                gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
-                net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty()) / Double.parseDouble(paramMap.get("editBoundNm"));
-            }
-        } else {
-            for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
-                gross_wts += Double.parseDouble(bondInvtDt.getGross_wt());
-                net_wts += Double.parseDouble(bondInvtDt.getNet_wt());
-            }
-        }
 
-        /*if (!"YPDC".equals(paramMap.get("bind_typecd"))) {
-            for (BondInvtDt bondInvtDt : bondInvtDtListAll) {
-                gross_wts += Double.parseDouble(bondInvtDt.getGross_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
-                net_wts += Double.parseDouble(bondInvtDt.getNet_wt()) * Double.parseDouble(bondInvtDt.getDcl_qty());
-            }
-        }*/
-        DecimalFormat df = new DecimalFormat("######0.00000");
-//        passPortHead.setTotal_gross_wt(df.format(gross_wts));
-//        passPortHead.setTotal_net_wt(df.format(net_wts));
         passPortHead.setDcl_typecd("1");
         passPortHead.setIo_typecd("I");
         passPortHead.setFlag("ENTER");
         passPortHead.setStatus(StatusCode.RQHFDDSB);
-        passPortHead.setTotal_wt(df.format(gross_wts));
         crtEnterManifestMapper.createEnterManifest(passPortHead);
 
         //一车一单和一车多单 创建核放单关联单证 核放单编号和关联单证编号

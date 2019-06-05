@@ -29,7 +29,7 @@ public interface EnterManifestMapper {
     void deleteEnterPassportAcmp(Map<String, String> paramMap);
 
     @SelectProvider(type = EnterManifestSQLProvider.class,method = "queryEnterPassportAcmp")
-    String queryEnterPassportAcmp(Map<String, String> paramMap);
+    List<String> queryEnterPassportAcmp(Map<String, String> paramMap);
 
     @UpdateProvider(type = EnterManifestSQLProvider.class,method = "updateEnterBondInvtBsc")
     void updateEnterBondInvtBsc(Map<String, String> paramMap);
