@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xaeport</groupId>
-    <artifactId>springboot_crossborder</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>cross-border</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>springboot_crossborder</name>
+    <name>cross-border</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
