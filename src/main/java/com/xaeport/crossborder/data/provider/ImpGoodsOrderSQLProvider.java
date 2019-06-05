@@ -14,7 +14,7 @@ public class ImpGoodsOrderSQLProvider {
         final String tradeMode = paramMap.get("tradeMode");
         final String start = paramMap.get("start");
         final String length = paramMap.get("length");
-
+        final String returnStatus = paramMap.get("returnStatus");
 
         return new SQL(){
             {
@@ -39,6 +39,9 @@ public class ImpGoodsOrderSQLProvider {
                 if (!StringUtils.isEmpty(tradeMode)){
                     WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.TRADE_MODE = #{tradeMode})");
                 }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.RETURN_STATUS = #{returnStatus})");
+                }
                 GROUP_BY("iib.G_CODE");
                 if (!"-1".equals(length)) {
                     ORDER_BY("iib.G_CODE) w  )   WHERE rn >= #{start} AND rn < #{start} + #{length} AND rn <= 1000");
@@ -54,6 +57,7 @@ public class ImpGoodsOrderSQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
         final String tradeMode = paramMap.get("tradeMode");
+        final String returnStatus = paramMap.get("returnStatus");
         return new SQL(){
             {
                 SELECT(" count(1) from ( select w.*, ROWNUM AS rn from ( " +
@@ -73,6 +77,9 @@ public class ImpGoodsOrderSQLProvider {
                 }
                 if (!StringUtils.isEmpty(tradeMode)){
                     WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.TRADE_MODE = #{tradeMode})");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("exists(select GUID from T_IMP_INVENTORY_HEAD iih where iih.guid = iib.HEAD_GUID and iih.RETURN_STATUS = #{returnStatus})");
                 }
                 GROUP_BY("iib.G_CODE");
                 ORDER_BY("iib.G_CODE) w  )   WHERE rn <= 1000");

@@ -8,12 +8,13 @@ import java.util.Map;
 public class ImpCountrySQLProvider {
 
 
-    public String queryImpCountryList(Map<String, String> paramMap){
+    public String queryImpCountryList(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
         final String tradeMode = paramMap.get("tradeMode");
-        return new SQL(){
+        final String returnStatus = paramMap.get("returnStatus");
+        return new SQL() {
             {
                 SELECT("w.* from " +
                         " (SELECT " +
@@ -22,10 +23,10 @@ public class ImpCountrySQLProvider {
                         " sum(t.TOTAL_PRICES)/10000 cargoValue," +
                         " count(1) detailedCount");
                 FROM("T_IMP_INVENTORY_HEAD t ");
-                if (!StringUtils.isEmpty(customsCode)){
+                if (!StringUtils.isEmpty(customsCode)) {
                     WHERE("CUSTOMS_CODE = #{customsCode}");
                 }
-                if (!StringUtils.isEmpty(tradeMode)){
+                if (!StringUtils.isEmpty(tradeMode)) {
                     WHERE("TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
@@ -34,17 +35,22 @@ public class ImpCountrySQLProvider {
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
                 }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("RETURN_STATUS = #{returnStatus}");
+                }
                 GROUP_BY("t.COUNTRY");
                 ORDER_BY("cargoValue desc)w");
             }
         }.toString();
     }
-    public String queryImpCountryEChart(Map<String, String> paramMap){
+
+    public String queryImpCountryEChart(Map<String, String> paramMap) {
         final String startFlightTimes = paramMap.get("startFlightTimes");
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
         final String tradeMode = paramMap.get("tradeMode");
-        return new SQL(){
+        final String returnStatus = paramMap.get("returnStatus");
+        return new SQL() {
             {
                 SELECT("w.*,rownum from " +
                         " (SELECT " +
@@ -53,10 +59,10 @@ public class ImpCountrySQLProvider {
                         " sum(t.TOTAL_PRICES)/10000 cargoValue," +
                         " count(1) detailedCount");
                 FROM("T_IMP_INVENTORY_HEAD t ");
-                if (!StringUtils.isEmpty(customsCode)){
+                if (!StringUtils.isEmpty(customsCode)) {
                     WHERE("CUSTOMS_CODE = #{customsCode}");
                 }
-                if (!StringUtils.isEmpty(tradeMode)){
+                if (!StringUtils.isEmpty(tradeMode)) {
                     WHERE("TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(startFlightTimes)) {
@@ -64,6 +70,9 @@ public class ImpCountrySQLProvider {
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("RETURN_STATUS = #{returnStatus}");
                 }
                 GROUP_BY("t.COUNTRY");
                 ORDER_BY("cargoValue desc)w where rownum<6");

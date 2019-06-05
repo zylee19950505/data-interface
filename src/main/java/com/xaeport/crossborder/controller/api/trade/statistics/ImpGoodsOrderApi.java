@@ -7,6 +7,7 @@ import com.xaeport.crossborder.data.ResponseData;
 import com.xaeport.crossborder.data.entity.DataList;
 import com.xaeport.crossborder.data.entity.EnterpriseBillQuantity;
 import com.xaeport.crossborder.data.entity.ImpGoodsOrder;
+import com.xaeport.crossborder.data.status.StatusCode;
 import com.xaeport.crossborder.service.trade.statistics.EntrypriseBillQuantityService;
 import com.xaeport.crossborder.service.trade.statistics.ImpGoodsOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class ImpGoodsOrderApi extends BaseApi {
 		paramMap.put("endFlightTimes",endFlightTimes);
 		paramMap.put("customsCode",customsCode);
 		paramMap.put("tradeMode",tradeMode);
+		paramMap.put("returnStatus", StatusCode.FX);
 		paramMap.put("draw",draw);
 		paramMap.put("start",start);
 		paramMap.put("length",length);

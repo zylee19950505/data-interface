@@ -12,6 +12,7 @@ public class ImpTradeVolumeSQLProvider extends BaseSQLProvider{
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String customsCode = paramMap.get("customsCode");
         final String tradeMode = paramMap.get("tradeMode");
+        final String returnStatus = paramMap.get("returnStatus");
 
         return new SQL(){
             {
@@ -28,6 +29,9 @@ public class ImpTradeVolumeSQLProvider extends BaseSQLProvider{
                 }
                 if (!StringUtils.isEmpty(endFlightTimes)) {
                     WHERE("APP_TIME <= to_date(#{endFlightTimes}||'23:59:59','yyyy-MM-dd hh24:mi:ss')");
+                }
+                if (!StringUtils.isEmpty(returnStatus)) {
+                    WHERE("RETURN_STATUS = #{returnStatus}");
                 }
                 GROUP_BY("to_char(APP_TIME,'yyyy-MM')");
                 ORDER_BY("to_char(APP_TIME,'yyyy-MM')");
