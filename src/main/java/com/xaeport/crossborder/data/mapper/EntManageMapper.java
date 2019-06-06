@@ -1,7 +1,6 @@
 package com.xaeport.crossborder.data.mapper;
 
 import com.xaeport.crossborder.data.entity.Enterprise;
-import com.xaeport.crossborder.data.entity.SysLog;
 import com.xaeport.crossborder.data.provider.EntManageProvider;
 import org.apache.ibatis.annotations.*;
 
@@ -30,7 +29,7 @@ public interface EntManageMapper {
     @Select("select t.AGENT_CODE as value,t.AGENT_NAME as name from T_AGENT_CODE t")
     List<Map<String, String>> getAgentCode();
 
-    @Select("select t.CUSTOMS_CODE as value,t.CUSTOMS_NAME as name from T_CUSTOMS t")
+    @Select("select t.CUSTOMS_CODE as value,t.CUSTOMS_NAME as name from T_CUSTOMS t where t.CUSTOMS_CODE like '90%'")
     List<Map<String, String>> getCustomsCode();
 
     @Select("select t.AGENT_CODE as value,t.AGENT_NAME as name from T_AGENT_TYPE t")

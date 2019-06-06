@@ -44,7 +44,25 @@ public interface LoadMapper {
             "customs_code codeNo," +
             "customs_name codeName " +
             "from T_CUSTOMS " +
-            "order by customs_code ")
+            "order by decode(" +
+            "CUSTOMS_CODE," +
+            "'9000',1," +
+            "'9001',2," +
+            "'9002',3," +
+            "'9003',4," +
+            "'9004',5," +
+            "'9005',6," +
+            "'9006',7," +
+            "'9007',8," +
+            "'9008',9," +
+            "'9009',10," +
+            "'9010',11," +
+            "'9011',12," +
+            "'9012',13," +
+            "'9013',14," +
+            "'9014',15," +
+            "'9015',16," +
+            "'9016',17) ")
     List<Code> getAllCustomsList();
 
     // 查询征减免税方式代码
