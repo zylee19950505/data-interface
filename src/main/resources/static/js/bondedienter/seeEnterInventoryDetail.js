@@ -173,7 +173,7 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#dcl_typecd").val(entryHead.dcl_typecd);//备案申请
         $("#rmk").val(entryHead.rmk);
         selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
+        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
         selecterInitDetail("supv_modecd", entryHead.supv_modecd);

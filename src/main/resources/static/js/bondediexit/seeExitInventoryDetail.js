@@ -177,7 +177,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#invt_preent_no").val(entryHead.invt_preent_no);
         selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
         selecterInitDetail("supv_modecd", entryHead.supv_modecd);
@@ -198,7 +198,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
         selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
         selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
     },

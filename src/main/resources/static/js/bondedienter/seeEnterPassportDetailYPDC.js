@@ -113,7 +113,7 @@ sw.page.modules["bondedienter/seeEnterPassportDetailYPDC"] = sw.page.modules["bo
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
     //加载表体信息
     fillEntryListInfo: function (entryLists) {

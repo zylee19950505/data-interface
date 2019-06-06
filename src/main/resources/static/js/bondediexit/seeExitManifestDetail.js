@@ -173,7 +173,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
 
     // 装载出区核放单新数据
@@ -189,7 +189,7 @@ sw.page.modules["bondediexit/seeExitManifestDetail"] = sw.page.modules["bondedie
         $("#rlt_no").val(entryHead.rlt_no);
         $("#total_gross_wt").val(entryHead.total_gross_wt);
         $("#total_net_wt").val(entryHead.total_net_wt);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
 
     //加载表体信息

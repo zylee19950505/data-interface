@@ -200,7 +200,7 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
         $("#note").val(entryHead.note);
-        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.allCustoms);
+        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
         selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
         selecterInitBondInven("wrap_type", entryHead.wrap_type, sw.dict.packType);
         selecterInitBondInven("traf_mode", entryHead.traf_mode, sw.dict.trafMode);

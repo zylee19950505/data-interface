@@ -241,7 +241,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#rmk").val(entryHead.rmk);
         selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.allCustoms);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
     },
     // 装载复选框
     fillListCode: function (gds_mtno, gds_nm) {

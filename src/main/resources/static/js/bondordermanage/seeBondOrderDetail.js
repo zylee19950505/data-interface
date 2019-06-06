@@ -211,7 +211,7 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#note").val(entryHead.note);
-        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.allCustoms);
+        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
         selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
         selecterInitBondInven("currency", entryHead.currency, sw.dict.currency);
     },
