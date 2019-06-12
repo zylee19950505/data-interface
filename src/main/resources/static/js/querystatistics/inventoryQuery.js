@@ -10,6 +10,8 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         var billNo = $("[name='billNo']").val();
         var invtNo = $("[name='invtNo']").val();
         var gName = $("[name='gName']").val();
+        var customsCode = $('[name="customsCode"]').val();//贸易关区
+        var tradeMode = $("[name = 'tradeMode']").val();//贸易方式
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("api/querystatistics/queryInventory", {
@@ -19,7 +21,9 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
             customCode: customCode,//企业海关十位
             billNo: billNo,//提运单号
             invtNo: invtNo,//清单编号
-            gName: gName//商品名称
+            gName: gName,//商品名称
+            customsCode: customsCode,
+            tradeMode: tradeMode
         });
 
         // 数据表
@@ -135,10 +139,10 @@ sw.page.modules["querystatistics/inventoryQuery"] = sw.page.modules["querystatis
         sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
             for (var idx in result) {
-                var customsCode = result[idx].customs_code;
+                var customCodes = result[idx].customs_code;
                 var name = result[idx].ent_name;
-                var option = $("<option>").text(name).val(customsCode);
-                $("#customsCode").append(option);
+                var option = $("<option>").text(name).val(customCodes);
+                $("#customCodes").append(option);
             }
         });
     },

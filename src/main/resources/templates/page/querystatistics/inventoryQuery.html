@@ -46,16 +46,38 @@
 
                             <div class="form-group">
                                 <div class="input-group">
+                                    <span class="input-group-addon">贸易关区：</span>
+                                    <select class="form-control" name="customsCode">
+                                        <option value="" selected="selected">全部</option>
+                                        <option value="9013">空港</option>
+                                        <option value="9007">港务区</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">贸易方式：</span>
+                                    <select class="form-control" name="tradeMode">
+                                        <option value="" selected="selected">全部</option>
+                                        <option value="9610" >直邮进口</option>
+                                        <option value="1210" >保税进口</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group">
                                     <span class="input-group-addon">电商企业：</span>
 
-                                    <input class="form-control" type="text" list="customsCode" placeholder="请选择、输入海关十位或企业名称" style="width: 300px;"
+                                    <input class="form-control" type="text" list="customCodes" placeholder="请选择、输入海关十位或企业名称" style="width: 300px;"
                                            id="customCode" name="customCode"/>
 
-                                    <datalist id="customsCode" name="customsCode" style="display: none;">
+                                    <datalist id="customCodes" name="customCodes" style="display: none;">
                                         <option value="" selected="selected">全部</option>
                                     </datalist>
 
-                                    <!--<select class="form-control" name="customsCode" id="customsCode">-->
+                                    <!--<select class="form-control" name="customCodes" id="customCodes">-->
                                         <!--<option value="" selected = "selected" >全部</option>-->
                                     <!--</select>-->
 

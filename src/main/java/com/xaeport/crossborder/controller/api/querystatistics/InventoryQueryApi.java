@@ -53,6 +53,8 @@ public class InventoryQueryApi extends BaseApi {
             @RequestParam(required = false) String billNo,
             @RequestParam(required = false) String invtNo,
             @RequestParam(required = false) String gName,
+            @RequestParam(required = false) String customsCode,//贸易关区
+            @RequestParam(required = false) String tradeMode,//贸易方式
             HttpServletRequest request
     ) {
         this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,invtNo:%s]", startFlightTimes, endFlightTimes, invtNo));
@@ -72,6 +74,8 @@ public class InventoryQueryApi extends BaseApi {
         paramMap.put("billNo", billNo);
         paramMap.put("invtNo", invtNo);
         paramMap.put("gName", gName);
+        paramMap.put("customsCode",customsCode);
+        paramMap.put("tradeMode",tradeMode);
 //        paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 
