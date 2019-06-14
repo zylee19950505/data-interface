@@ -35,7 +35,9 @@ public class CustomsStatisticsApi extends BaseApi {
             @RequestParam(required = false) String startFlightTimes,
             @RequestParam(required = false) String endFlightTimes,
             @RequestParam(required = false) String ieFlag,
-            @RequestParam(required = false) String customCode
+            @RequestParam(required = false) String customCode,
+            @RequestParam(required = false) String customsCode,//贸易关区
+            @RequestParam(required = false) String tradeMode//贸易方式
     ) {
         this.logger.debug(String.format("查询邮件申报条件参数:[startFlightTimes:%s,endFlightTimes:%s,customsCode:%s]", startFlightTimes, endFlightTimes, customCode));
         Map<String, String> paramMap = new HashMap<String, String>();
@@ -44,6 +46,8 @@ public class CustomsStatisticsApi extends BaseApi {
         paramMap.put("endFlightTimes", endFlightTimes);
         paramMap.put("ieFlag", ieFlag);
         paramMap.put("customCode", customCode);
+        paramMap.put("customsCode",customsCode);
+        paramMap.put("tradeMode",tradeMode);
 //        paramMap.put("dataStatus", StatusCode.QDSBCG);
         paramMap.put("returnStatus", StatusCode.FX);
 

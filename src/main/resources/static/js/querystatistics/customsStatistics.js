@@ -7,13 +7,17 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
         var endFlightTimes = $("[name='endFlightTimes']").val();
         var ieFlag = $("[name='ieFlag']").val();
         var customCode = $("[name='customCode']").val();
+        var customsCode = $('[name="customsCode"]').val();//贸易关区
+        var tradeMode = $("[name = 'tradeMode']").val();//贸易方式
 
         // 拼接URL及参数
         var url = sw.serializeObjectToURL("customs/queryCustoms", {
             startFlightTimes: startFlightTimes,//申报开始时间
             endFlightTimes: endFlightTimes,//申报结束时间
             ieFlag: ieFlag,//进出口标识
-            customCode: customCode//企业海关十位
+            customCode: customCode,//企业海关十位
+            customsCode: customsCode,
+            tradeMode: tradeMode
         });
 
         // 数据表
@@ -76,10 +80,10 @@ sw.page.modules["querystatistics/customsStatistics"] = sw.page.modules["querysta
         sw.ajax("api/querystatistics/EbusinessEnt", "GET", "", function (rsp) {
             var result = rsp.data;
             for (var idx in result) {
-                var customsCode = result[idx].customs_code;
+                var customCodes = result[idx].customs_code;
                 var name = result[idx].ent_name;
-                var option = $("<option>").text(name).val(customsCode);
-                $("#customsCode").append(option);
+                var option = $("<option>").text(name).val(customCodes);
+                $("#customCodes").append(option);
             }
         });
     },

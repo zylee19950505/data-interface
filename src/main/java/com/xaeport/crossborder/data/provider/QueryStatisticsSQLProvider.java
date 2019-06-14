@@ -70,6 +70,8 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String endFlightTimes = paramMap.get("endFlightTimes");
         final String ieFlag = paramMap.get("ieFlag");
         final String customCode = paramMap.get("customCode");
+        final String customsCode = paramMap.get("customsCode");
+        final String tradeMode = paramMap.get("tradeMode");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
 
@@ -91,6 +93,12 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                     WHERE("(t.EBC_CODE like '%'||#{customCode}||'%' OR t.EBC_NAME like '%'||#{customCode}||'%')");
                 } else {
                     WHERE("(t.EBC_CODE in (SELECT tt.CUSTOMS_CODE FROM T_ENTERPRISE tt WHERE tt.ENT_BUSINESS_TYPE = 'E-business') OR t.WRITING_MODE = 'STOCK')");
+                }
+                if (!StringUtils.isEmpty(customsCode)){
+                    WHERE("t.CUSTOMS_CODE = #{customsCode}");
+                }
+                if (!StringUtils.isEmpty(tradeMode)){
+                    WHERE("t.TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
@@ -166,6 +174,8 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
         final String billNo = paramMap.get("billNo");
         final String invtNo = paramMap.get("invtNo");
         final String gName = paramMap.get("gName");
+        final String customsCode = paramMap.get("customsCode");
+        final String tradeMode = paramMap.get("tradeMode");
         final String dataStatus = paramMap.get("dataStatus");
         final String returnStatus = paramMap.get("returnStatus");
 
@@ -200,6 +210,12 @@ public class QueryStatisticsSQLProvider extends BaseSQLProvider {
                 }
                 if (!StringUtils.isEmpty(gName)) {
                     WHERE("t.guid in ( select tt.HEAD_GUID from T_IMP_INVENTORY_BODY tt where tt.g_name like '%'||#{gName}||'%' )");
+                }
+                if (!StringUtils.isEmpty(customsCode)){
+                    WHERE("t.CUSTOMS_CODE = #{customsCode}");
+                }
+                if (!StringUtils.isEmpty(tradeMode)){
+                    WHERE("t.TRADE_MODE = #{tradeMode}");
                 }
                 if (!StringUtils.isEmpty(dataStatus)) {
                     WHERE("t.DATA_STATUS = #{dataStatus}");
