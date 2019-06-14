@@ -70,9 +70,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("t.RETURN_STATUS");
                 SELECT("COUNT(t.ORDER_NO) asscount");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE("t.BILL_NO = #{billNo}");
                 }
@@ -81,12 +79,8 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 }
                 if (!roleId.equals("admin")) {
                     WHERE("t.AREA_CODE = #{entCustomsCode}");
-//                    if (port.equals("9013")) {
-//                        WHERE("t.CUSTOMS_CODE = '9013'");
-//                    }
-//                    if (port.equals("9007")) {
-//                        WHERE("t.CUSTOMS_CODE = '9009'");
-//                    }
+                }else {
+                    WHERE("t.TRADE_MODE = '1210'");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");
@@ -188,6 +182,8 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
 
         final String entId = paramMap.get("ent_id");
         final String roleId = paramMap.get("roleId");
+        final String ent_customs_code = paramMap.get("ent_customs_code");
+
         final String returnStatus = paramMap.get("returnStatus");
         final String businessType = paramMap.get("businessType");
         final String port = paramMap.get("port");
@@ -201,9 +197,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 SELECT("t.RETURN_STATUS");
                 SELECT("COUNT(t.ORDER_NO) asscount");
                 FROM("T_IMP_INVENTORY_HEAD t");
-                WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE(splitJointIn("t.BILL_NO", billNo));
                 }
@@ -211,12 +205,9 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                     WHERE("t.RETURN_STATUS = #{returnStatus}");
                 }
                 if (!roleId.equals("admin")) {
-                    if (port.equals("9013")) {
-                        WHERE("t.CUSTOMS_CODE = '9013'");
-                    }
-                    if (port.equals("9007")) {
-                        WHERE("t.CUSTOMS_CODE = '9009'");
-                    }
+                    WHERE("t.AREA_CODE = #{ent_customs_code}");
+                }else {
+                    WHERE("t.TRADE_MODE = '1210'");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");
