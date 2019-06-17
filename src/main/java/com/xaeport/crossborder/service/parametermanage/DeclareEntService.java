@@ -19,6 +19,11 @@ public class DeclareEntService {
         return this.declareEntMapper.queryDclEtpsList(map);
     }
 
+    public void dcletpsSetDefault(String id, String ent_id) throws Exception {
+        this.declareEntMapper.dcletpsSetOther(ent_id);
+        this.declareEntMapper.dcletpsSetDefault(id);
+    }
+
     public void deleteDcletps(String id) throws Exception {
         this.declareEntMapper.deleteDcletps(id);
     }

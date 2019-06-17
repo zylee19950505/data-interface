@@ -42,7 +42,6 @@ var patternB = /^.*_[0-9]+$/;
 
 //计算实际支付金额
 function countActuralPaid(discount, tax_Total, freight, insured_fee, goods_Value, actural_paid) {
-    debugger;
     var actural_paid = parseFloat(parseFloat(goods_Value) + parseFloat(freight) + parseFloat(tax_Total) - parseFloat(discount)).toFixed(5);
     $("#actural_paid").val(actural_paid);
     headChangeKeyValB["actural_paid"] = $("#actural_paid").val();
@@ -68,7 +67,6 @@ function sumDeclTotalB(dVal, g_qty, gno, listChangeKeyVal) {
 
 function inputChangedByBdOrder(id) {
     $(".detailPage input,select").change(function () {
-        debugger;
         var key = $(this).attr("id");
         var val = $(this).val();
         if (!isNotEmpty(val)) {
@@ -409,7 +407,6 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
     },
 
     init: function () {
-        // debugger;
         //从路径上获取参数
         var param = sw.getPageParams("bondordermanage/seeBondOrderDetail");
         var guid = param.guid;

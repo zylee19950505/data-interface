@@ -11,6 +11,15 @@ sw.page.modules["parametermanage/declareEnt"] = sw.page.modules["parametermanage
             searching: false,
             columns: [
                 {
+                    label: "优先取值项", render: function (data, type, row) {
+                    var defaultValue = "";
+                    if (row.select_priority == "1") {
+                        defaultValue = "默认此项";
+                    }
+                    return defaultValue;
+                }
+                },
+                {
                     label: "企业名称", render: function (data, type, row) {
                     return (row.dcl_etps_name).replace(/\ /g, "&nbsp;");
                 }
@@ -38,10 +47,23 @@ sw.page.modules["parametermanage/declareEnt"] = sw.page.modules["parametermanage
                 {
                     label: "操作",
                     render: function (data, type, row) {
-                        return '<button class="btn btn-sm btn-danger" title="用户删除" onclick="' + "javascript:sw.page.modules['parametermanage/declareEnt'].delete('" + row.id + "', '" + row.dcl_etps_customs_code + "')" + '"><i class="fa fa-remove"></i> </button>';
+                        return '<button class="btn btn-sm btn-info" title="置为默认值" onclick="' + "javascript:sw.page.modules['parametermanage/declareEnt'].setDefault('" + row.id + "', '" + row.dcl_etps_customs_code + "', '" + row.ent_id + "')" + '"><i class="fa fa-arrow-up"></i> </button> ' +
+                            '<button class="btn btn-sm btn-danger" title="用户删除" onclick="' + "javascript:sw.page.modules['parametermanage/declareEnt'].delete('" + row.id + "', '" + row.dcl_etps_customs_code + "')" + '"><i class="fa fa-remove"></i> </button>';
                     }
                 }
             ]
+        });
+    },
+
+    setDefault: function (id, dcl_etps_customs_code, ent_id) {
+        sw.confirm("确定删除该企业信息 " + dcl_etps_customs_code + "为默认值", "确认", function () {
+            var params = {
+                id: id,
+                ent_id: ent_id
+            };
+            sw.ajax("api/dcletpsSetDefault/{id}", "POST", params, function (rsp) {
+                sw.page.modules['parametermanage/declareEnt'].query();
+            });
         });
     },
 

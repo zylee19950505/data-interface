@@ -431,7 +431,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
             "putrec_no": "账册编号",
             "rcvgd_etpsno": "收货企业编号",
             "rcvgd_etps_nm": "收货企业名称",
-            "impexp_portcd": "进境关别",
+            "impexp_portcd": "出境关别",
             "dcl_plc_cuscd": "主管海关",
             "impexp_markcd": "进出口标记代码",
             "mtpck_endprd_markcd": "料件成品标记代码",

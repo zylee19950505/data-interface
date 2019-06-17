@@ -13,6 +13,15 @@ public class DclEtps {
     private String ent_id;//创建企业ID
     private String ent_customs_code;//创建企业海关编码
     private Date create_time;//创建时间
+    private String select_priority;//选择优先级
+
+    public String getSelect_priority() {
+        return select_priority;
+    }
+
+    public void setSelect_priority(String select_priority) {
+        this.select_priority = select_priority;
+    }
 
     public String getId() {
         return id;

@@ -79,7 +79,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 }
                 if (!roleId.equals("admin")) {
                     WHERE("t.AREA_CODE = #{entCustomsCode}");
-                }else {
+                } else {
                     WHERE("t.TRADE_MODE = '1210'");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
@@ -206,7 +206,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 }
                 if (!roleId.equals("admin")) {
                     WHERE("t.AREA_CODE = #{ent_customs_code}");
-                }else {
+                } else {
                     WHERE("t.TRADE_MODE = '1210'");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
@@ -238,7 +238,6 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 FROM("T_IMP_INVENTORY_HEAD t");
                 WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = #{businessType}");
                 if (!StringUtils.isEmpty(billNo)) {
                     WHERE(splitJointIn("t.BILL_NO", billNo));
                 }
@@ -246,12 +245,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                     WHERE("t.RETURN_STATUS = #{returnStatus}");
                 }
                 if (!roleId.equals("admin")) {
-                    if (port.equals("9013")) {
-                        WHERE("t.CUSTOMS_CODE = '9013'");
-                    }
-                    if (port.equals("9007")) {
-                        WHERE("t.CUSTOMS_CODE = '9009'");
-                    }
+                    WHERE("t.CUSTOMS_CODE = #{port}");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");
@@ -281,15 +275,9 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 WHERE(splitJointIn("t.BILL_NO", BondInvtBsc.get("invt_no")));
                 WHERE("t.TRADE_MODE = '1210'");
                 WHERE("t.IS_BOND_INVT_EXIT is null");
-                WHERE("t.BUSINESS_TYPE = 'BONDINVEN'");
                 WHERE("t.RETURN_STATUS = '800'");
                 if (!(userInfo.getRoleId()).equals("admin")) {
-                    if ((userInfo.getPort()).equals("9013")) {
-                        WHERE("t.CUSTOMS_CODE = '9013'");
-                    }
-                    if ((userInfo.getPort()).equals("9007")) {
-                        WHERE("t.CUSTOMS_CODE = '9009'");
-                    }
+                    WHERE("t.CUSTOMS_CODE = #{userInfo.port})");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");

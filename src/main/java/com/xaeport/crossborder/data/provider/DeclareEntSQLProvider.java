@@ -23,7 +23,7 @@ public class DeclareEntSQLProvider extends BaseSQLProvider {
                 if (!"admin".equals(role_id)) {
                     WHERE("t.ENT_ID = #{ent_id}");
                 }
-                ORDER_BY("DCL_ETPS_NAME");
+                ORDER_BY("SELECT_PRIORITY,DCL_ETPS_NAME");
             }
         }.toString();
     }
@@ -32,6 +32,27 @@ public class DeclareEntSQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 DELETE_FROM("T_DCL_ETPS t");
+                WHERE("t.id = #{id}");
+            }
+        }.toString();
+    }
+
+    public String dcletpsSetOther(String ent_id) {
+        return new SQL() {
+            {
+                UPDATE("T_DCL_ETPS t");
+                SET("t.SELECT_PRIORITY = ''");
+                WHERE("t.ent_id = #{ent_id}");
+                WHERE("SELECT_PRIORITY = '1'");
+            }
+        }.toString();
+    }
+
+    public String dcletpsSetDefault(String id) {
+        return new SQL() {
+            {
+                UPDATE("T_DCL_ETPS t");
+                SET("t.SELECT_PRIORITY = '1'");
                 WHERE("t.id = #{id}");
             }
         }.toString();

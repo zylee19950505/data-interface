@@ -13,6 +13,12 @@ public interface DeclareEntMapper {
     @SelectProvider(type = DeclareEntSQLProvider.class, method = "queryDclEtpsList")
     List<DclEtps> queryDclEtpsList(Map<String, String> map) throws Exception;
 
+    @DeleteProvider(type = DeclareEntSQLProvider.class, method = "dcletpsSetOther")
+    void dcletpsSetOther(String ent_id) throws Exception;
+
+    @DeleteProvider(type = DeclareEntSQLProvider.class, method = "dcletpsSetDefault")
+    void dcletpsSetDefault(String id) throws Exception;
+
     @DeleteProvider(type = DeclareEntSQLProvider.class, method = "deleteDcletps")
     void deleteDcletps(String id) throws Exception;
 

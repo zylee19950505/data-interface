@@ -35,6 +35,10 @@ public interface CrtExitInventoryMapper {
     @SelectProvider(type = CrtExitInventorySQLProvider.class, method = "queryCrtEInventoryCount")
     Integer queryCrtEInventoryCount(Map<String, String> paramMap) throws Exception;
 
+    //查询默认申报企业数据
+    @Select("SELECT * FROM T_DCL_ETPS t WHERE t.ENT_ID = #{entId} and t.SELECT_PRIORITY = '1'")
+    DclEtps queryPriorityEnt(String entId);
+
     //查询账册表头海关编码
     @Select("SELECT * FROM ( " +
             "SELECT t.MASTER_CUSCD FROM T_BWL_HEAD_TYPE t WHERE t.CRT_ENT_ID = #{ent_id} ORDER BY t.CRT_TIME ASC " +

@@ -17,7 +17,6 @@ public interface EnterpriseMapper {
     Enterprise getEnterpriseDetail(@Param("entId") String entId);
 
 
-
     @SelectProvider(type = BondinvenImportSQLProvider.class, method = "queryAreaenterprise")
     Enterprise queryAreaenterprise(@Param("area_code") String area_code);
 }

@@ -46,20 +46,30 @@ public class CrtExitInventoryService {
     //获取出区核注清单表头数据
     public BondInvtBsc queryBondInvtBsc(Map<String, String> paramMap) throws Exception {
         Enterprise enterprise = enterpriseMapper.getEnterpriseDetail(paramMap.get("ent_id"));
+        DclEtps etps = crtExitInventoryMapper.queryPriorityEnt(enterprise.getId());
         BondInvtBsc bondInvtBsc = new BondInvtBsc();
         bondInvtBsc.setId(IdUtils.getUUId());
         bondInvtBsc.setBusiness_type(SystemConstants.T_BOND_INVT);
         bondInvtBsc.setEtps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
-        bondInvtBsc.setBizop_etpsno("");
-        bondInvtBsc.setBizop_etps_nm("");
-//        bondInvtBsc.setDcl_etpsno(enterprise.getDeclare_ent_code());
-//        bondInvtBsc.setDcl_etps_nm(enterprise.getDeclare_ent_name());
+        bondInvtBsc.setBizop_etpsno(enterprise.getCustoms_code());
+        bondInvtBsc.setBizop_etps_nm(enterprise.getEnt_name());
+        bondInvtBsc.setDcl_etpsno(StringUtils.isEmpty(etps.getDcl_etps_customs_code()) ? "" : etps.getDcl_etps_customs_code());
+        bondInvtBsc.setDcl_etps_nm(StringUtils.isEmpty(etps.getDcl_etps_name()) ? "" : etps.getDcl_etps_name());
         bondInvtBsc.setRcvgd_etpsno(enterprise.getCustoms_code());
         bondInvtBsc.setRcvgd_etps_nm(enterprise.getEnt_name());
         bondInvtBsc.setInvt_no(paramMap.get("billNo"));
         bondInvtBsc.setDcl_plc_cuscd(this.crtExitInventoryMapper.queryDcl_plc_cuscd(paramMap.get("ent_id")));
+        bondInvtBsc.setImpexp_portcd(bondInvtBsc.getDcl_plc_cuscd());//IMPEXP_PORTCD
         bondInvtBsc.setPutrec_no(this.crtExitInventoryMapper.queryBws_no(paramMap.get("ent_id")));
         bondInvtBsc.setStship_trsarv_natcd("142");
+        switch (bondInvtBsc.getDcl_plc_cuscd()) {
+            case "9007":
+                bondInvtBsc.setTrsp_modecd("7");
+                break;
+            case "9013":
+                bondInvtBsc.setTrsp_modecd("W");
+                break;
+        }
         return bondInvtBsc;
     }
 

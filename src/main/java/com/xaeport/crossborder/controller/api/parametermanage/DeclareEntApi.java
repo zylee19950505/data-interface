@@ -32,7 +32,7 @@ public class DeclareEntApi extends BaseApi {
     @Autowired
     DeclareEntService declareEntService;
 
-    // 发件人信息查询
+    // 申报企业信息查询
     @RequestMapping(value = "/dcletpsQuery", method = RequestMethod.GET)
     public ResponseData getTrafList(
             @RequestParam String dcl_etps_name
@@ -52,9 +52,26 @@ public class DeclareEntApi extends BaseApi {
         return new ResponseData(dclEtpsList);
     }
 
+    // 设置企业信息为默认值
+    @RequestMapping(value = "/dcletpsSetDefault/{id}", method = RequestMethod.POST)
+    public ResponseData dcletpsSetDefault(
+            @RequestParam String id,
+            @RequestParam String ent_id
+    ) {
+        try {
+            this.declareEntService.dcletpsSetDefault(id, ent_id);
+        } catch (Exception e) {
+            this.log.error("设置默认申报企业信息失败，id=" + id, e);
+            return new ResponseData("设置默认申报企业信息失败", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseData(1);
+    }
+
     // 申报企业删除
     @RequestMapping(value = "/dcletpsDelete/{id}", method = RequestMethod.DELETE)
-    public ResponseData deleteTraf(@PathVariable(name = "id") String id) {
+    public ResponseData deleteTraf(
+            @PathVariable(name = "id") String id
+    ) {
         try {
             this.declareEntService.deleteDcletps(id);
         } catch (Exception e) {

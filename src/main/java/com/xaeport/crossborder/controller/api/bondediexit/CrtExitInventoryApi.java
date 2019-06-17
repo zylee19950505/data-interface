@@ -111,6 +111,7 @@ public class CrtExitInventoryApi extends BaseApi {
         paramMap.put("billNo", dataInfo);
 
         paramMap.put("ent_id", users.getEnt_Id());
+        paramMap.put("ent_name",users.getEnt_Name());
         paramMap.put("ent_customs_code", users.getEnt_Customs_Code());
         paramMap.put("credit_code", users.getCredit_code());
         paramMap.put("etps_inner_invt_no", "HZQD" + users.getEnt_Customs_Code() + "E" + dateNowStr + (IdUtils.getShortUUId()).substring(0, 4));
