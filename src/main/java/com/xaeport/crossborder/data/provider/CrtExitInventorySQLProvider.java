@@ -277,7 +277,7 @@ public class CrtExitInventorySQLProvider extends BaseSQLProvider {
                 WHERE("t.IS_BOND_INVT_EXIT is null");
                 WHERE("t.RETURN_STATUS = '800'");
                 if (!(userInfo.getRoleId()).equals("admin")) {
-                    WHERE("t.CUSTOMS_CODE = #{userInfo.port})");
+                    WHERE("t.CUSTOMS_CODE = #{userInfo.port}");
                 }
                 if (!StringUtils.isEmpty(ebcCode)) {
                     WHERE("t.EBC_CODE = #{ebcCode}");

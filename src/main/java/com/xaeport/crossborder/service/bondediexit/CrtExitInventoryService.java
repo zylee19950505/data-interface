@@ -53,8 +53,13 @@ public class CrtExitInventoryService {
         bondInvtBsc.setEtps_inner_invt_no(paramMap.get("etps_inner_invt_no"));
         bondInvtBsc.setBizop_etpsno(enterprise.getCustoms_code());
         bondInvtBsc.setBizop_etps_nm(enterprise.getEnt_name());
-        bondInvtBsc.setDcl_etpsno(StringUtils.isEmpty(etps.getDcl_etps_customs_code()) ? "" : etps.getDcl_etps_customs_code());
-        bondInvtBsc.setDcl_etps_nm(StringUtils.isEmpty(etps.getDcl_etps_name()) ? "" : etps.getDcl_etps_name());
+        if (etps == null) {
+            bondInvtBsc.setDcl_etpsno("");
+            bondInvtBsc.setDcl_etps_nm("");
+        } else {
+            bondInvtBsc.setDcl_etpsno(etps.getDcl_etps_customs_code());
+            bondInvtBsc.setDcl_etps_nm(etps.getDcl_etps_name());
+        }
         bondInvtBsc.setRcvgd_etpsno(enterprise.getCustoms_code());
         bondInvtBsc.setRcvgd_etps_nm(enterprise.getEnt_name());
         bondInvtBsc.setInvt_no(paramMap.get("billNo"));
