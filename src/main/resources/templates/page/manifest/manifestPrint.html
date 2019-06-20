@@ -150,7 +150,6 @@
 
         // 加载字典数据方法
         function loadDictData() {
-            debugger;
             sw.ajax("api/loadData", "GET", {}, function (rsp) {
                 if (rsp.status == 200) {
                     if (typeof(rsp.data) == "undefined" || rsp.data == null || rsp.data == "") return;
@@ -178,7 +177,6 @@
 
         // 打印预览方法
         function showPrintPreview() {
-            debugger;
             var assBillParam = localStorage.getItem("assbill_inquiry_param");
 
             sw.ajax("api/manifestManage/preview", "GET", JSON.parse(assBillParam), function (rsp) {

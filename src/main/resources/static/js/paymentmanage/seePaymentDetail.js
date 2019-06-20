@@ -101,7 +101,7 @@ sw.page.modules["paymentmanage/seePaymentDetail"] = sw.page.modules["paymentmana
         $("#ebp_code").val(entryHead.ebp_code);
         $("#ebp_name").val(entryHead.ebp_name);
         $("#amount_paid").val(parseFloat(entryHead.amount_paid).toFixed(5));
-        selecterInitPayment("payer_id_type", entryHead.payer_id_type, sw.dict.certificateType);
+        selecterInitPayment("payer_id_type", entryHead.payer_id_type, crossBorder.dicts.certificateType);
         $("#payer_id_number").val(entryHead.payer_id_number);
         $("#payer_name").val(entryHead.payer_name);
         // $("#pay_time").val(moment(entryHead.pay_time).format("YYYY-MM-DD HH:mm:ss"));

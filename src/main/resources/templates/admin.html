@@ -32,37 +32,45 @@
     sw.serverPort =/*[[${serverPort}]]*/;
     /*]]>*/
 
+    var crossBorder = {};
     $(document).ready(function () {
-        // 加载字典数据
-        sw.ajax("api/loadData", "GET", {}, function (rsp) {
-            if (rsp.status == 200) {
-                if (typeof(rsp.data) == "undefined" || rsp.data == null || rsp.data == "") return;
-                sw.dict.unitCode = rsp.data.unitCodeMap;
-                sw.dict.unitCodes = rsp.data.unitCodesMap;
-                sw.dict.trafMode = rsp.data.trafModeMap;
-                sw.dict.port = rsp.data.portMap;
-                sw.dict.packType = rsp.data.packTypeMap;
-
-                sw.dict.customs = rsp.data.customsMap;
-                sw.dict.allCustoms = rsp.data.allCustomsMap;
-                sw.dict.taxReliefsMode = rsp.data.taxReliefsModeMap;
-
-                sw.dict.currency = rsp.data.currencyMap;
-                sw.dict.countryArea = rsp.data.countryAreaMap;
+        var data = window.sessionStorage.getItem("cbDicts");
+        if (typeof(data) == "undefined" || (data) == null || (data) == "") {
+            sw.ajax("api/loadData", "GET", {}, function (rsp) {
+                // 加载字典数据
+                if (rsp.status == 200) {
+                    if (typeof(rsp.data) == "undefined" || rsp.data == null || rsp.data == "") return;
+                    sw.dict.unitCode = rsp.data.unitCodeMap;
+                    sw.dict.unitCodes = rsp.data.unitCodesMap;
+                    sw.dict.trafMode = rsp.data.trafModeMap;
+                    sw.dict.port = rsp.data.portMap;
+                    sw.dict.packType = rsp.data.packTypeMap;
+                    sw.dict.customs = rsp.data.customsMap;
+                    sw.dict.allCustoms = rsp.data.allCustomsMap;
+                    sw.dict.taxReliefsMode = rsp.data.taxReliefsModeMap;
+                    sw.dict.currency = rsp.data.currencyMap;
+                    sw.dict.countryArea = rsp.data.countryAreaMap;
 //                sw.dict.chineseDistricts = rsp.data.chineseDistrictsMap;
-                sw.dict.certificateType = rsp.data.certificateTypeMap;
-                sw.dict.agentType = rsp.data.agentTypeMap;
-                sw.dict.agentNature = rsp.data.agentNatureMap;
-                sw.dict.agentClassify = rsp.data.agentClassifyMap;
-                sw.dict.status = rsp.data.statusMap;
-                sw.dict.productCodeUnit1 = rsp.data.productCodeUnit1Map;
-                sw.dict.productCodeUnit2 = rsp.data.productCodeUnit2Map;
-                sw.dict.tradeMode = rsp.data.tradeModeMap;
-                sw.dict.transMode = rsp.data.transModeMap;
-                sw.dict.productCode = rsp.data.productCodeMap;
-                sw.dict.productCodeAddedTax = rsp.data.productAddedTaxMap;
-            }
-        });
+                    sw.dict.certificateType = rsp.data.certificateTypeMap;
+                    sw.dict.agentType = rsp.data.agentTypeMap;
+                    sw.dict.agentNature = rsp.data.agentNatureMap;
+                    sw.dict.agentClassify = rsp.data.agentClassifyMap;
+                    sw.dict.status = rsp.data.statusMap;
+                    sw.dict.productCodeUnit1 = rsp.data.productCodeUnit1Map;
+                    sw.dict.productCodeUnit2 = rsp.data.productCodeUnit2Map;
+                    sw.dict.tradeMode = rsp.data.tradeModeMap;
+                    sw.dict.transMode = rsp.data.transModeMap;
+                    sw.dict.productCode = rsp.data.productCodeMap;
+                    sw.dict.productCodeAddedTax = rsp.data.productAddedTaxMap;
+                    sw.page.modules["dictsCache"].setDictsData(sw.dict);
+                    crossBorder = sw.page.modules["dictsCache"].getDictsData();
+                }
+            });
+        } else {
+            crossBorder = sw.page.modules["dictsCache"].getDictsData();
+            return;
+        }
+
         // 检查ic卡绑定
 //        sw.checkUserIc();
     });

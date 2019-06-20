@@ -241,7 +241,7 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
         $("#dcl_etps_nm").val(entryHead.dcl_etps_nm);
         $("#rmk").val(entryHead.rmk);
         selecterInitDetail("bind_typecd", entryHead.bind_typecd, bind_typecdList);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, crossBorder.dicts.customs);
     },
     // 装载复选框
     fillListCode: function (gds_mtno, gds_nm) {
@@ -274,10 +274,10 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedienter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
                 "</tr>";
             $("#entryList").append(str);
-            /!*selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-              selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-              selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-              selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);*!/
+            /!*selecterInitDetail("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+              selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
+              selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, crossBorder.dicts.unitCodes);
+              selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, crossBorder.dicts.unitCodes);*!/
 
             //删除select2 中相同的商品料号和商品名称数据
             delete(gds_mtno[entryLists[i].gds_mtno]);
@@ -313,10 +313,10 @@ sw.page.modules["bondedienter/seeEnterManifestDetailYPDC"] = sw.page.modules["bo
                 "<td ><button class=\"btn btn-sm \"  id='" + id + "' onclick='sw.page.modules[\"bondedienter/seeEnterManifestDetailYPDC\"].deleteBondDtList(id)' type='button'><i class=\"fa fa-fw fa-minus-circle\" style='color: red'>删除</i></button></td>" +
                 "</tr>";
             $("#entryList").append(str);
-            /*selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-              selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-              selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-              selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);*/
+            /*selecterInitDetail("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+              selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
+              selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, crossBorder.dicts.unitCodes);
+              selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, crossBorder.dicts.unitCodes);*/
 
             //删除select2 中相同的商品料号和商品名称数据
             delete(gds_mtno[entryLists[i].gds_mtno]);

@@ -37,7 +37,6 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
                         " (select ss.status_name from t_status ss " +
                         " where ss.status_code = th.return_status ) return_status_name");
                 FROM("T_IMP_ORDER_HEAD th");
-                WHERE("th.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("th.ent_id = #{entId}");
                 }
@@ -88,7 +87,6 @@ public class BondOrderQuerySQLProvider extends BaseSQLProvider {
         return new SQL() {
             {
                 SELECT(" count(*) count from T_IMP_ORDER_HEAD th ");
-                WHERE("th.WRITING_MODE IS NULL");
                 if (!roleId.equals("admin")) {
                     WHERE("th.ent_id = #{entId}");
                 }

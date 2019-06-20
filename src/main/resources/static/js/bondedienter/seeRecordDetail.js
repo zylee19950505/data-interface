@@ -185,22 +185,22 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
         $("#ebc_code").val(entryHead.ebc_code);
         $("#ebc_name").val(entryHead.ebc_name);
         $("#assure_code").val(entryHead.assure_code);
-        selecterInitDetail("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitDetail("port_code", entryHead.port_code, sw.dict.customs);
+        selecterInitDetail("customs_code", entryHead.customs_code, crossBorder.dicts.customs);
+        selecterInitDetail("port_code", entryHead.port_code, crossBorder.dicts.customs);
         $("#ie_date").val(moment(entryHead.ie_date).format("YYYY-MM-DD"));
         $("#buyer_id_number").val(entryHead.buyer_id_number);
         $("#buyer_name").val(entryHead.buyer_name);
         $("#buyer_telephone").val(entryHead.buyer_telephone);
         $("#consignee_address").val(entryHead.consignee_address);
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        selecterInitDetail("wrap_type", entryHead.wrap_type, sw.dict.packType);
+        selecterInitDetail("wrap_type", entryHead.wrap_type, crossBorder.dicts.packType);
         $("#agent_code").val(entryHead.agent_code);
         $("#agent_name").val(entryHead.agent_name);
-        selecterInitDetail("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
+        selecterInitDetail("traf_mode", entryHead.traf_mode, crossBorder.dicts.trafMode);
         $("#traf_no").val(entryHead.traf_no);
         $("#voyage_no").val(entryHead.voyage_no);
         $("#bill_no").val(entryHead.bill_no);
-        selecterInitDetail("country", entryHead.country, sw.dict.countryArea);
+        selecterInitDetail("country", entryHead.country, crossBorder.dicts.countryArea);
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
@@ -235,10 +235,10 @@ sw.page.modules["detailmanage/seeInventoryDetail"] = sw.page.modules["detailmana
                 "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+            selecterInitDetail("g_unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
+            selecterInitDetail("unit_1_" + g_num, entryLists[i].unit1, crossBorder.dicts.unitCodes);
+            selecterInitDetail("unit_2_" + g_num, entryLists[i].unit2, crossBorder.dicts.unitCodes);
         }
     },
 

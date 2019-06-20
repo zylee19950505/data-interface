@@ -175,10 +175,10 @@ sw.page.modules["deliverymanage/seeDeliveryDetail"] = sw.page.modules["deliverym
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
 
-        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, crossBorder.dicts.customs);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, crossBorder.dicts.customs);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, crossBorder.dicts.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, crossBorder.dicts.countryArea);
 
     },
 
@@ -194,10 +194,10 @@ sw.page.modules["deliverymanage/seeDeliveryDetail"] = sw.page.modules["deliverym
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#dcl_plc_cuscd").val(entryHead.dcl_plc_cuscd);
 
-        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.customs);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, crossBorder.dicts.customs);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, crossBorder.dicts.customs);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, crossBorder.dicts.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, crossBorder.dicts.countryArea);
 
     },
 

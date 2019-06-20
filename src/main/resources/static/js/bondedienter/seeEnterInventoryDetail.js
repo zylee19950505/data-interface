@@ -99,6 +99,7 @@ function inputChangeEnterInventory(etpsInnerInvtNo) {
     });
 }
 
+
 //数据字典
 var supv_modecd = {};
 
@@ -172,10 +173,10 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
         $("#corr_entry_dcl_etps_nm").val(entryHead.corr_entry_dcl_etps_nm);//名称
         $("#dcl_typecd").val(entryHead.dcl_typecd);//备案申请
         $("#rmk").val(entryHead.rmk);
-        selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selecterInitDetail("impexp_portcd", entryHead.impexp_portcd, crossBorder.dicts.allCustoms);
+        selecterInitDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, crossBorder.dicts.customs);
+        selecterInitDetail("trsp_modecd", entryHead.trsp_modecd, crossBorder.dicts.trafMode);
+        selecterInitDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, crossBorder.dicts.countryArea);
         selecterInitDetail("supv_modecd", entryHead.supv_modecd);
         selecterInitDetail("dclcus_typecd", entryHead.dclcus_typecd);
         selecterInitDetail("dec_type", entryHead.dec_type);
@@ -208,12 +209,12 @@ sw.page.modules["bondedienter/seeEnterInventoryDetail"] = sw.page.modules["bonde
                 "<td ><select class=\"form-control input-sm\" style=\"width:100%\" maxlength=\"20\" id='lvyrlf_modecd_" + g_num + "' value='" + entryLists[i].lvyrlf_modecd + "' /></td>" +
                 "</tr>";
             $("#table_body").append(str);
-            selecterInitDetail("dcl_unitcd_" + g_num, entryLists[i].dcl_unitcd, sw.dict.unitCode);
-            selecterInitDetail("lawf_unitcd_" + g_num, entryLists[i].lawf_unitcd, sw.dict.unitCode);
-            selecterInitDetail("secd_lawf_unitcd_" + g_num, entryLists[i].secd_lawf_unitcd, sw.dict.unitCode);
-            selecterInitDetail("dcl_currcd_" + g_num, entryLists[i].dcl_currcd, sw.dict.currency);
-            selecterInitDetail("natcd_" + g_num, entryLists[i].natcd, sw.dict.countryArea);
-            selecterInitDetail("lvyrlf_modecd_" + g_num, entryLists[i].lvyrlf_modecd, sw.dict.taxReliefsMode);
+            selecterInitDetail("dcl_unitcd_" + g_num, entryLists[i].dcl_unitcd, crossBorder.dicts.unitCode);
+            selecterInitDetail("lawf_unitcd_" + g_num, entryLists[i].lawf_unitcd, crossBorder.dicts.unitCode);
+            selecterInitDetail("secd_lawf_unitcd_" + g_num, entryLists[i].secd_lawf_unitcd, crossBorder.dicts.unitCode);
+            selecterInitDetail("dcl_currcd_" + g_num, entryLists[i].dcl_currcd, crossBorder.dicts.currency);
+            selecterInitDetail("natcd_" + g_num, entryLists[i].natcd, crossBorder.dicts.countryArea);
+            selecterInitDetail("lvyrlf_modecd_" + g_num, entryLists[i].lvyrlf_modecd, crossBorder.dicts.taxReliefsMode);
         }
         this.enterPage(1, 5);
     },

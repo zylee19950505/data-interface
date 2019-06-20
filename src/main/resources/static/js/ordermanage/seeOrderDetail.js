@@ -185,7 +185,7 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
         $("#discount").val(parseFloat(entryHead.discount).toFixed(5));
         $("#tax_Total").val(parseFloat(entryHead.tax_Total).toFixed(5));
         $("#freight").val(parseFloat(entryHead.freight).toFixed(5));
-        // selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,sw.dict.countryArea);
+        // selecterInitDetail("consignee_Ditrict",entryHead.consignee_Ditrict,crossBorder.dicts.countryArea);
         $("#note").val(entryHead.note);
 
     },
@@ -207,8 +207,8 @@ sw.page.modules["ordermanage/seeOrderDetail"] = sw.page.modules["ordermanage/see
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='note_" + g_num + "' value='" + (isEmpty(entryLists[i].note) ? "" : entryLists[i].note) + "' /></td>" +//促销活动
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+            selecterInitDetail("unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
         }
     },
 

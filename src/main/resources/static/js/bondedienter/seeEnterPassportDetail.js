@@ -114,7 +114,7 @@ sw.page.modules["bondedienter/seeEnterPassportDetail"] = sw.page.modules["bonded
         $("#total_net_wt").val(entryHead.total_net_wt);
         $("#vehicle_ic_no").val(entryHead.vehicle_ic_no);
         $("#rmk").val(entryHead.rmk);
-        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, sw.dict.customs);
+        selecterEManifestDetail("master_cuscd", entryHead.master_cuscd, crossBorder.dicts.customs);
     },
 
     // 查询订单详情

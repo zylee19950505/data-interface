@@ -48,9 +48,9 @@ sw.page.modules["bondediexit/seeExitEmptyPassport"] = sw.page.modules["bondediex
     },
     // 装载表头信息
     fillEntryEmptyInfo: function () {
-        for (var key in sw.dict.customs) {
+        for (var key in crossBorder.dicts.customs) {
             var customsCode = key;
-            var name = sw.dict.customs[key];
+            var name = crossBorder.dicts.customs[key];
             var option = $("<option>").text(name).val(customsCode);
             $("#master_cuscds").append(option);
         }

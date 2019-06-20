@@ -209,9 +209,9 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#net_weight").val(parseFloat(entryHead.net_weight).toFixed(5));
         $("#note").val(entryHead.note);
-        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
-        selecterInitBondInven("currency", entryHead.currency, sw.dict.currency);
+        selecterInitBondInven("customs_code", entryHead.customs_code, crossBorder.dicts.customs);
+        selecterInitBondInven("port_code", entryHead.port_code, crossBorder.dicts.allCustoms);
+        selecterInitBondInven("currency", entryHead.currency, crossBorder.dicts.currency);
     },
 
     //加载表体信息
@@ -233,9 +233,9 @@ sw.page.modules["bondordermanage/seeBondOrderDetail"] = sw.page.modules["bondord
                 "<td ><input class=\"form-control input-sm\" maxlength=\"1000\" id='note_" + g_num + "' value='" + (isEmpty(entryLists[i].note) ? "" : entryLists[i].note) + "' /></td>" +//促销活动
                 "</tr>";
             $("#entryList").append(str);
-            selecterInitDetail("unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitDetail("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitDetail("currency_" + g_num, entryLists[i].currency, sw.dict.currency);
+            selecterInitDetail("unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
+            selecterInitDetail("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+            selecterInitDetail("currency_" + g_num, entryLists[i].currency, crossBorder.dicts.currency);
         }
     },
 

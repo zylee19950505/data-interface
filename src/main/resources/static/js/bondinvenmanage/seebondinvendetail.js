@@ -200,11 +200,11 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
         $("#gross_weight").val(parseFloat(entryHead.gross_weight).toFixed(5));
         $("#total_sum").val(parseFloat(entryHead.total_prices).toFixed(5));
         $("#note").val(entryHead.note);
-        selecterInitBondInven("customs_code", entryHead.customs_code, sw.dict.customs);
-        selecterInitBondInven("port_code", entryHead.port_code, sw.dict.allCustoms);
-        selecterInitBondInven("wrap_type", entryHead.wrap_type, sw.dict.packType);
-        selecterInitBondInven("traf_mode", entryHead.traf_mode, sw.dict.trafMode);
-        selecterInitBondInven("head_country", entryHead.country, sw.dict.countryArea);
+        selecterInitBondInven("customs_code", entryHead.customs_code, crossBorder.dicts.customs);
+        selecterInitBondInven("port_code", entryHead.port_code, crossBorder.dicts.allCustoms);
+        selecterInitBondInven("wrap_type", entryHead.wrap_type, crossBorder.dicts.packType);
+        selecterInitBondInven("traf_mode", entryHead.traf_mode, crossBorder.dicts.trafMode);
+        selecterInitBondInven("head_country", entryHead.country, crossBorder.dicts.countryArea);
         // $("#customs_tax").val(isEmpty(entryHead.customs_tax) ? "" : parseFloat(entryHead.customs_tax).toFixed(5));
         // $("#value_added_tax").val(isEmpty(entryHead.value_added_tax) ? "" : parseFloat(entryHead.value_added_tax).toFixed(5));
         // $("#consumption_tax").val(isEmpty(entryHead.consumption_tax) ? "" : parseFloat(entryHead.consumption_tax).toFixed(5));
@@ -236,10 +236,10 @@ sw.page.modules["bondinvenmanage/seebondinvendetail"] = sw.page.modules["bondinv
                     // "<td ><input class=\"form-control input-sm\" maxlength=\"19\" id='consumption_tax_" + g_num + "' value='" + (isEmpty(entryLists[i].consumption_tax) ? "" : parseFloat(entryLists[i].consumption_tax).toFixed(5)) + "' /></td>" +
                     "</tr>";
             $("#entryList").append(str);
-            selecterInitBondInven("country_" + g_num, entryLists[i].country, sw.dict.countryArea);
-            selecterInitBondInven("g_unit_" + g_num, entryLists[i].unit, sw.dict.unitCodes);
-            selecterInitBondInven("unit_1_" + g_num, entryLists[i].unit1, sw.dict.unitCodes);
-            selecterInitBondInven("unit_2_" + g_num, entryLists[i].unit2, sw.dict.unitCodes);
+            selecterInitBondInven("country_" + g_num, entryLists[i].country, crossBorder.dicts.countryArea);
+            selecterInitBondInven("g_unit_" + g_num, entryLists[i].unit, crossBorder.dicts.unitCodes);
+            selecterInitBondInven("unit_1_" + g_num, entryLists[i].unit1, crossBorder.dicts.unitCodes);
+            selecterInitBondInven("unit_2_" + g_num, entryLists[i].unit2, crossBorder.dicts.unitCodes);
         }
     },
 

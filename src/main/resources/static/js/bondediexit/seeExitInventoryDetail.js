@@ -176,10 +176,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
         $("#bond_invt_no").val(entryHead.bond_invt_no);
         $("#invt_preent_no").val(entryHead.invt_preent_no);
-        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, crossBorder.dicts.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, crossBorder.dicts.customs);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, crossBorder.dicts.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, crossBorder.dicts.countryArea);
         selecterInitDetail("supv_modecd", entryHead.supv_modecd);
         selecterInitDetail("dcl_etpsno", entryHead.dcl_etpsno);
 
@@ -197,10 +197,10 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
         $("#putrec_no").val(entryHead.putrec_no);
         $("#id").val(entryHead.id);
         $("#etps_inner_invt_no").val(entryHead.etps_inner_invt_no);
-        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, sw.dict.allCustoms);
-        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, sw.dict.customs);
-        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, sw.dict.trafMode);
-        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, sw.dict.countryArea);
+        selectEInvenDetail("impexp_portcd", entryHead.impexp_portcd, crossBorder.dicts.allCustoms);
+        selectEInvenDetail("dcl_plc_cuscd", entryHead.dcl_plc_cuscd, crossBorder.dicts.customs);
+        selectEInvenDetail("trsp_modecd", entryHead.trsp_modecd, crossBorder.dicts.trafMode);
+        selectEInvenDetail("stship_trsarv_natcd", entryHead.stship_trsarv_natcd, crossBorder.dicts.countryArea);
     },
 
     //加载表体信息
@@ -512,6 +512,7 @@ sw.page.modules["bondediexit/seeExitInventoryDetail"] = sw.page.modules["bondedi
 
     init: function () {
         //从路径上获取参数
+
         var param = sw.getPageParams("bondediexit/seeExitInventoryDetail");
         var dataInfo = param.submitKeys;
         var type = param.type;
