@@ -26,11 +26,9 @@
 <div th:replace="fragments/dialogs :: dialog-icCheck"></div>
 <div th:replace="fragments/dialogs :: dialog-checkinfo"></div>
 <script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
     sw.user = /*[[${user}]]*/;
     sw.serverHost =/*[[${serverHost}]]*/;
     sw.serverPort =/*[[${serverPort}]]*/;
-    /*]]>*/
 
     var crossBorder = {};
     $(document).ready(function () {

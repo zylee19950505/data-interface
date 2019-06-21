@@ -29,7 +29,7 @@ webFrame.confirm = function (message, title, method) {
 webFrame.serialize=function(selector,data){
     data=$("#selector").serialize();
     return data;
-}
+};
 
 
 
