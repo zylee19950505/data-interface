@@ -1,6 +1,6 @@
 sw.page.modules["dictsCache"] = sw.page.modules["dictsCache"] || {
     init: function () {
-        console.log("进入数据字典缓存");
+        console.log("加载进入数据字典缓存");
     },
 
     setDictsData(dicts) {
